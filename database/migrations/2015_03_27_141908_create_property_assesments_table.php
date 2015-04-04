@@ -37,6 +37,8 @@ class CreatePropertyAssesmentsTable extends Migration {
 	 */
 	public function down()
 	{
+
+
 		Schema::drop('property_assesments');
 	}
 

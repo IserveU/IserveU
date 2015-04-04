@@ -17,8 +17,15 @@ class CreateVotesTable extends Migration {
             $table->tinyInteger('position');
             $table->integer('motion')->unsigned();
             $table->integer('user')->unsigned();
-            $table->integer('delegation')->unsigned();
+        //v2    $table->integer('delegation')->unsigned();
             $table->timestamps();
+        });
+
+
+
+        Schema::table('votes', function($table){
+        	$table->foreign('motion')->references('id')->on('motions');
+ 			$table->foreign('user')->references('id')->on('users');
         });
 	}
 

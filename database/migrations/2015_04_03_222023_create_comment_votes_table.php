@@ -19,6 +19,9 @@ class CreateCommentVotesTable extends Migration {
             $table->integer('vote')->unsigned();
             $table->timestamps();
         });
+
+
+        
 	}
 
 	/**

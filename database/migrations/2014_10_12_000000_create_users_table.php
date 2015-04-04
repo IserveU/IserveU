@@ -19,7 +19,9 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
 			$table->string('hash');
-			$table->date('verified_till');
+			$table->integer('ethnicity')->unsigned();
+			$table->date('verified_until');
+			$table->date('date_of_birth');
 			$table->boolean('intrepid');
 			$table->boolean('public');
 			$table->boolean('administration');

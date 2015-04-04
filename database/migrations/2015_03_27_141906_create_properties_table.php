@@ -50,11 +50,12 @@ class CreatePropertiesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('properties');
-
         Schema::table('users',function($table){
             $table->dropForeign('users_property_foreign');
         });
+
+		Schema::drop('properties');
+
 	}
 
 }
