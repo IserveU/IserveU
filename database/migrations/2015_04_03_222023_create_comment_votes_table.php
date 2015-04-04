@@ -20,7 +20,10 @@ class CreateCommentVotesTable extends Migration {
             $table->timestamps();
         });
 
-
+        Schema::table('comment_votes', function($table){
+ 			$table->foreign('comment')->references('id')->on('comments');
+ 			$table->foreign('vote')->references('id')->on('votes');
+        });
         
 	}
 

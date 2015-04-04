@@ -19,6 +19,12 @@ class CreateCommentsTable extends Migration {
             $table->integer('user')->unsigned();
             $table->timestamps();
         });
+
+
+        Schema::table('comments', function($table){
+ 			$table->foreign('motion')->references('id')->on('motions');
+ 			$table->foreign('user')->references('id')->on('users');
+        });
 	}
 
 	/**
