@@ -12,6 +12,12 @@ use App\PropertyPlan;
 use App\Property;
 use App\PropertyZoning;
 use App\PropertyDescription;
+use App\EthnicOrigin;
+use App\User;
+use App\Motions;
+use App\Comment;
+use App\Vote;
+use App\CommentVote;
 
 class DatabaseSeeder extends Seeder {
 
@@ -24,7 +30,10 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		$this->call('PropertySeeder');
+//		$this->call('PropertySeeder');
+
+		$this->call('StaticSeeder'); //The fixed items in the table
+
 
 		$this->command->info('seeding of property completed');
 	}
@@ -153,8 +162,37 @@ class PropertySeeder extends Seeder{
 			}
 		
 		}
+	}
+}
+
+class StaticSeeder extends Seeder{
+
+	public function run(){
 
 
+
+		$directory = getcwd();
+		$directory .="/database/seeds/ethnic_origins.csv";
+
+		$csv = Reader::createFromPath($directory);
+
+		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
+
+		foreach($allrows as $row){
+			$ethnicOrigin = new EthnicOrigin; //http://millenniumindicators.un.org/unsd/methods/m49/m49regin.htm
+
+			$ethnicOrigin->name = "test";
+echo $row[1];
+
+	//		$ethnicOrigin->description 	= $row[1];
+	//		$ethnicOrigin->name 			= $row[0];
+			
+		//	$ethnicOrigin->save();
+		} 
+
+
+
+		
 
 	}
 

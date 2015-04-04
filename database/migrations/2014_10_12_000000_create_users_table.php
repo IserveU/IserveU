@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
 			$table->string('hash');
-			$table->integer('ethnicity')->unsigned();
+			$table->integer('ethnic_origin')->unsigned()->nullable();
 			$table->date('verified_until');
 			$table->date('date_of_birth');
 			$table->boolean('intrepid');
