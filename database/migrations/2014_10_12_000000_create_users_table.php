@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
 			$table->string('hash');
+			$table->string('first_name');
+			$table->string('middle_name');
+			$table->string('last_name');
 			$table->integer('ethnic_origin')->unsigned()->nullable();
 			$table->date('verified_until');
 			$table->date('date_of_birth');
@@ -28,7 +31,6 @@ class CreateUsersTable extends Migration {
 			$table->integer('property')->unsigned();
 			$table->rememberToken();
 			$table->timestamps();
-
 		});
 	}
 
