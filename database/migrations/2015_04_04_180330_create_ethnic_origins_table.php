@@ -14,7 +14,7 @@ class CreateEthnicOriginsTable extends Migration {
 	{
 		Schema::create('ethnic_origins', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('region');
             $table->string('description');
             $table->timestamps();
         });

@@ -30,12 +30,17 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-//		$this->call('PropertySeeder');
+		$this->call('PropertySeeder');
+		$this->command->info('seeding of property completed');
 
 		$this->call('StaticSeeder'); //The fixed items in the table
+		$this->command->info('Ethnic origin seeded'); 
+
+		$this->call('DefaultUser');
+		$this->command->info('Default users seeded'); 
 
 
-		$this->command->info('seeding of property completed');
+
 	}
 
 }
@@ -181,19 +186,38 @@ class StaticSeeder extends Seeder{
 		foreach($allrows as $row){
 			$ethnicOrigin = new EthnicOrigin; //http://millenniumindicators.un.org/unsd/methods/m49/m49regin.htm
 
-			$ethnicOrigin->name = "test";
-echo $row[1];
-
-	//		$ethnicOrigin->description 	= $row[1];
-	//		$ethnicOrigin->name 			= $row[0];
+			$ethnicOrigin->description 	= $row[1];
+			$ethnicOrigin->region 			= $row[0];
 			
-		//	$ethnicOrigin->save();
+			$ethnicOrigin->save();
 		} 
-
-
-
-		
 
 	}
 
 }
+
+class DefaultUser extends Seeder{
+
+	public function run(){
+
+		$defaultUser = new User;
+		$random_pass = str_random(8);
+		$this->command->info("\n\nADMIN LOGIN WITH: Password: ($random_pass) Email: info@iserveu.com \n\n");
+		$defaultUser->first_name = "Change";
+		$defaultUser->middle_name = "";
+		$defaultUser->last_name = "Name";
+		$defaultUser->email = "info@iserveu.ca";
+		$defaultUser->public = 1;
+		$defaultUser->administration = 1;
+		$defaultUser->date_of_birth = "1987-04-01";
+		$date = new DateTime;
+		$date->add(new DateInterval('P3Y'));
+		$defaultUser->verified_until = $date->format('Y-m-d');
+		$defaultUser->ethnic_origin = 1;
+		$defaultUser->password = Hash::make($random_pass);
+		$defaultUser->property = 1;
+		$defaultUser->save();
+
+	}
+}
+
