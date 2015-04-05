@@ -26,6 +26,7 @@ class CreateVotesTable extends Migration {
         Schema::table('votes', function($table){
         	$table->foreign('motion')->references('id')->on('motions');
  			$table->foreign('user')->references('id')->on('users');
+ 			$table->unique(array('motion','user'));
         });
 	}
 
