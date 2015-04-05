@@ -53,6 +53,12 @@ class TestController extends Controller {
 	public function index()
 	{
 
+			$user = User::find(6);
+
+			foreach($user->comments as $comment){
+				echo $comment;
+			}
+
 
 	}
 }

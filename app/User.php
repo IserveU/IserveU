@@ -49,11 +49,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	public function comments(){
-		return $this->hasMany('App\Comment');
+		return $this->hasManyThrough('App\Comment','App\Vote');
 	}
 
-	public function commentVotes(){
-		//hasmanythrough votes
-	}
+	
 
 }
