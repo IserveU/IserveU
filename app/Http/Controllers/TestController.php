@@ -2,6 +2,23 @@
 
 use League\Csv\Reader;
 
+use App\PropertyBlock;
+/*
+
+use App\PropertyPollDivision;
+use App\PropertyAssesment;
+use App\PropertyCoordinate;
+use App\PropertyPlan;
+use App\Property;
+use App\PropertyZoning;
+use App\PropertyDescription;
+use App\EthnicOrigin;
+use App\User;
+use App\Motion;
+use App\Comment;
+use App\Vote;
+use App\CommentVote */
+
 
 
 
@@ -37,6 +54,15 @@ class TestController extends Controller {
 	{
 
 
+
+			$block = PropertyBlock::find(1);
+
+			$properties = $block->properties;
+
+
+			foreach ($block->properties as $property){
+				echo $property->roll_number;
+			}
 
 	}
 }

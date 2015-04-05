@@ -20,7 +20,7 @@ class CreateEthnicOriginsTable extends Migration {
         });
 
         Schema::table('users', function($table){
-        	$table->foreign('ethnic_origin')->references('id')->on('ethnic_origins');
+        	$table->foreign('ethnic_origin_id')->references('id')->on('ethnic_origins');
         });
 	}
 
@@ -32,7 +32,7 @@ class CreateEthnicOriginsTable extends Migration {
 	public function down()
 	{
 		Schema::table('users',function($table){
-            $table->dropForeign('users_ethnic_origin_foreign');
+            $table->dropForeign('users_ethnic_origin_id_foreign');
         });
 		
 		Schema::drop('ethnic_origins');

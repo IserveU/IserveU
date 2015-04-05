@@ -18,12 +18,12 @@ class CreatePropertyAssesmentsTable extends Migration {
             $table->integer('improvement_value')->unsigned();
             $table->integer('other_value')->unsigned();
             $table->integer('year')->unsigned();
-            $table->integer('property')->unsigned();
+            $table->integer('property_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('property_assesments', function($table){
- 			$table->foreign('property')->references('id')->on('properties');
+ 			$table->foreign('property_id')->references('id')->on('properties');
         });
 
 

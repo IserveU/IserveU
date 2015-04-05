@@ -133,7 +133,7 @@ class PropertySeeder extends Seeder{
 					$coordinate = new PropertyCoordinate;
 					$coordinate->latitude 	= 	$row[17];
 					$coordinate->longitude 	= 	$row[18];
-					$coordinate->block 		= 	$block->id;
+					$coordinate->block_id 		= 	$block->id;
 					$coordinate->save();
 				}
 
@@ -143,12 +143,12 @@ class PropertySeeder extends Seeder{
 				$property->street 		= 	strtolower($row[5]);
 				$property->unit 		= 	strtolower($row[3]);
 
-				$property->property_block 				= 	$block->id;
-				$property->property_coordinate 			= 	$coordinate->id;
-				$property->property_poll_division 				= 	$poll->id;
-				$property->property_zoning 				= 	$zone->id;
-				$property->property_description = 	$propertyDescription->id;
-				$property->property_plan = 	$plan->id;
+				$property->property_block_id 			= 	$block->id;
+				$property->property_coordinate_id 		= 	$coordinate->id;
+				$property->property_poll_division_id 	= 	$poll->id;
+				$property->property_zoning_id 			= 	$zone->id;
+				$property->property_description_id		= 	$propertyDescription->id;
+				$property->property_plan_id				= 	$plan->id;
 
 				$property->save();
 
@@ -160,14 +160,14 @@ class PropertySeeder extends Seeder{
 			$row[11] = intval(str_replace(",","",$row[11]));
    			$propertyId = $property->id;
 
-			$assessment = PropertyAssesment::whereRaw("improvement_value = $row[9] AND land_value = $row[10] AND other_value = $row[11] AND property = $propertyId")->first();
+			$assessment = PropertyAssesment::whereRaw("improvement_value = $row[9] AND land_value = $row[10] AND other_value = $row[11] AND property_id = $propertyId")->first();
 			if($assessment==null){
 				$assessment = new PropertyAssesment;
   				$assessment->land_value			= $row[10];
   				$assessment->improvement_value	= $row[9];
   				$assessment->other_value		= $row[11];
   				$assessment->year				= $row[12];
-  				$assessment->property			= $propertyId;
+  				$assessment->property_id			= $propertyId;
   				$assessment->save();
 			}
 		
@@ -219,9 +219,9 @@ class DefaultUser extends Seeder{
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
 		$defaultUser->verified_until = $date->format('Y-m-d');
-		$defaultUser->ethnic_origin = 1;
+		$defaultUser->ethnic_origin_id = 1;
 		$defaultUser->password = Hash::make($random_pass);
-		$defaultUser->property = 1;
+		$defaultUser->property_id = 1;
 		$defaultUser->save();
 
 	}
@@ -246,10 +246,10 @@ class SampleData extends Seeder{
 		$date->add(new DateInterval('P3Y'));
 		$ike->verified_until = $date->format('Y-m-d');
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
-		$ike->ethnic_origin = $ethnicOrigin->id;
+		$ike->ethnic_origin_id = $ethnicOrigin->id;
 		$ike->password = Hash::make($this->password);
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
-		$ike->property = $property->id;
+		$ike->property_id = $property->id;
 		$ike->save();
 
 		//Jeremy Flatt (Foreign national who can't vote, no verified until)
@@ -262,10 +262,10 @@ class SampleData extends Seeder{
 		$jeremy->administration = 0;
 		$jeremy->date_of_birth = "1985-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Southern Europe')->firstOrFail();
-		$jeremy->ethnic_origin = $ethnicOrigin->id;
+		$jeremy->ethnic_origin_id = $ethnicOrigin->id;
 		$jeremy->password = Hash::make($this->password);
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
-		$jeremy->property = $property->id;
+		$jeremy->property_id = $property->id;
 		$jeremy->save();
 
 		//Dane Mason
@@ -281,10 +281,10 @@ class SampleData extends Seeder{
 		$date->add(new DateInterval('P3Y'));
 		$dane->verified_until = $date->format('Y-m-d');
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
-		$dane->ethnic_origin = $ethnicOrigin->id;
+		$dane->ethnic_origin_id = $ethnicOrigin->id;
 		$dane->password = Hash::make($this->password);
 		$property = Property::where('roll_number','0039002300')->firstOrFail(); //5105 52nd Street
-		$dane->property = $property->id;
+		$dane->property_id = $property->id;
 		$dane->save();
 
 		//Shinsaku Shiga (Another Foreign National)
@@ -297,10 +297,10 @@ class SampleData extends Seeder{
 		$shin->administration = 0;
 		$shin->date_of_birth = "1984-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Eastern Asia')->firstOrFail();
-		$shin->ethnic_origin = $ethnicOrigin->id;
+		$shin->ethnic_origin_id = $ethnicOrigin->id;
 		$shin->password = Hash::make($this->password);
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
-		$shin->property = $property->id;
+		$shin->property_id = $property->id;
 		$shin->save();
 
 		//Robin Young
@@ -313,10 +313,10 @@ class SampleData extends Seeder{
 		$robin->administration = 0;
 		$robin->date_of_birth = "1984-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
-		$robin->ethnic_origin = $ethnicOrigin->id;
+		$robin->ethnic_origin_id = $ethnicOrigin->id;
 		$robin->password = Hash::make($this->password);
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
-		$robin->property = $property->id;
+		$robin->property_id = $property->id;
 		$robin->save();
 
 
@@ -328,68 +328,68 @@ class SampleData extends Seeder{
 		$date = new DateTime;
 		$date->add(new DateInterval('P1M'));
 		$motionA->closing_date = $date->format('Y-m-d');
-		$motionA->user = $jeremy->id;
+		$motionA->user_id = $jeremy->id;
 		$motionA->save();
 
 			//Votes for it
 				$voteA1 = new Vote;
-				$voteA1->motion = $motionA->id;
+				$voteA1->motion_id = $motionA->id;
 				$voteA1->position = 1;
-				$voteA1->user = $ike->id; //Ike
+				$voteA1->user_id = $ike->id; //Ike
 				$voteA1->save();
 
 				$voteA2 = new Vote;
-				$voteA2->motion = $motionA->id;
+				$voteA2->motion_id = $motionA->id;
 				$voteA2->position = 1;
-				$voteA2->user = $dane->id; //Danes 
+				$voteA2->user_id = $dane->id; //Danes 
 				$voteA2->save();
 
 				$voteA3 = new Vote;
-				$voteA3->motion = $motionA->id;
+				$voteA3->motion_id = $motionA->id;
 				$voteA3->position = 1;
-				$voteA3->user = $robin->id; //Robin
+				$voteA3->user_id = $robin->id; //Robin
 				$voteA3->save();
 
 			//Comments for it	
 				$commentA1 = new Comment;
-				$commentA1->motion = $motionA->id;
+				$commentA1->motion_id = $motionA->id;
 				$commentA1->text = "I, Ike Saunders, support this vote. 2 Other people have upvoted this and one has downvoted it";
-				$commentA1->user = $ike->id;
+				$commentA1->user_id = $ike->id;
 				$commentA1->save();
 					$commentVotesA1 = new CommentVote;
-					$commentVotesA1->vote = $voteA1->id; //Ikes vote
-					$commentVotesA1->comment = $commentA1->id;
+					$commentVotesA1->vote_id = $voteA1->id; //Ikes vote
+					$commentVotesA1->comment_id = $commentA1->id;
 					$commentVotesA1->position = 1;
 					$commentVotesA1->save();
 
 					$commentVotesA1 = new CommentVote;
-					$commentVotesA1->vote = $voteA2->id; //Danes vote
-					$commentVotesA1->comment = $commentA1->id;
+					$commentVotesA1->vote_id = $voteA2->id; //Danes vote
+					$commentVotesA1->comment_id = $commentA1->id;
 					$commentVotesA1->position = 1;
 					$commentVotesA1->save();
 
 					$commentVotesA1 = new CommentVote;
-					$commentVotesA1->vote = $voteA3->id; //Robins vote
-					$commentVotesA1->comment = $commentA1->id;
+					$commentVotesA1->vote_id = $voteA3->id; //Robins vote
+					$commentVotesA1->comment_id = $commentA1->id;
 					$commentVotesA1->position = -1;
 					$commentVotesA1->save();
 
 				$commentA2 = new Comment;
-				$commentA2->motion = $motionA->id;
+				$commentA2->motion_id = $motionA->id;
 				$commentA2->text = "I, Robin Young, support this vote";
-				$commentA2->user = $robin->id;
+				$commentA2->user_id = $robin->id;
 				$commentA2->save();
 				
 
 				$commentA3 = new Comment;
-				$commentA3->motion = $motionA->id;
+				$commentA3->motion_id = $motionA->id;
 				$commentA3->text = "I, Dane, support this vote";
-				$commentA3->user = $dane->id;
+				$commentA3->user_id = $dane->id;
 				$commentA3->save();
 
 					$commentVotesA3 = new CommentVote;
-					$commentVotesA3->vote = $voteA2->id;
-					$commentVotesA3->comment = $commentA3->id;
+					$commentVotesA3->vote_id = $voteA2->id;
+					$commentVotesA3->comment_id = $commentA3->id;
 					$commentVotesA3->position = -1;
 					$commentVotesA3->save();
 
@@ -403,27 +403,27 @@ class SampleData extends Seeder{
 		$date = new DateTime;
 		$date->sub(new DateInterval('P1M'));
 		$motionB->closing_date = $date->format('Y-m-d');
-		$motionB->user = $ike->id;
+		$motionB->user_id = $ike->id;
 		$motionB->save();
 
 
 		//Votes for it
 			$voteB1 = new Vote;
-			$voteB1->motion = $motionB->id;
+			$voteB1->motion_id = $motionB->id;
 			$voteB1->position = 1;
-			$voteB1->user = $ike->id; //Ike
+			$voteB1->user_id = $ike->id; //Ike
 			$voteB1->save();
 
 			$voteB2 = new Vote;
-			$voteB2->motion = $motionB->id;
+			$voteB2->motion_id = $motionB->id;
 			$voteB2->position = 1;
-			$voteB2->user = $dane->id; //Dane
+			$voteB2->user_id = $dane->id; //Dane
 			$voteB2->save();
 
 			$voteB3 = new Vote;
-			$voteB3->motion = $motionB->id;
+			$voteB3->motion_id = $motionB->id;
 			$voteB3->position = 1;
-			$voteB3->user = $robin->id; //Robin
+			$voteB3->user_id = $robin->id; //Robin
 			$voteB3->save();
 
 
@@ -434,45 +434,45 @@ class SampleData extends Seeder{
 		$date = new DateTime;
 		$date->add(new DateInterval('P1M'));
 		$motionC->closing_date = $date->format('Y-m-d');
-		$motionC->user = $shin->id;
+		$motionC->user_id = $shin->id;
 		$motionC->save();
 
 		//Votes for it
 			$voteC1 = new Vote;
-			$voteC1->motion = $motionC->id;
+			$voteC1->motion_id = $motionC->id;
 			$voteC1->position = 1;
-			$voteC1->user = $ike->id; //Ike
+			$voteC1->user_id = $ike->id; //Ike
 			$voteC1->save();
 
 				$commentC3 = new Comment;
-				$commentC3->motion = $motionC->id;
+				$commentC3->motion_id = $motionC->id;
 				$commentC3->text = "I, Robin, do not support this motion";
-				$commentC3->user = $robin->id;
+				$commentC3->user_id = $robin->id;
 				$commentA3->save();
 
 			$voteC2 = new Vote;
-			$voteC2->motion = $motionC->id;
+			$voteC2->motion_id = $motionC->id;
 			$voteC2->position = 0;
-			$voteC2->user = $dane->id; //Dane
+			$voteC2->user_id = $dane->id; //Dane
 			$voteC2->save();
 
 				$commentC2 = new Comment;
-				$commentC2->motion = $motionC->id;
+				$commentC2->motion_id = $motionC->id;
 				$commentC2->text = "I, Dane, do not support this motion";
-				$commentC2->user = $dane->id;
+				$commentC2->user_id = $dane->id;
 				$commentC2->save();
 
 			$voteC3 = new Vote;
-			$voteC3->motion = $motionC->id;
+			$voteC3->motion_id = $motionC->id;
 			$voteC3->position = -1;
-			$voteC3->user = $robin->id; //Robin
+			$voteC3->user_id = $robin->id; //Robin
 			$voteC3->save();
 
 
 				$commentC3 = new Comment;
-				$commentC3->motion = $motionC->id;
+				$commentC3->motion_id = $motionC->id;
 				$commentC3->text = "I, Robin, do not support this motion";
-				$commentC3->user = $robin->id;
+				$commentC3->user_id = $robin->id;
 				$commentA3->save();
 		
 

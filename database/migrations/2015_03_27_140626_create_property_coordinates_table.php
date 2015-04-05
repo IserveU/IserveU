@@ -16,13 +16,13 @@ class CreatePropertyCoordinatesTable extends Migration {
             $table->increments('id');
             $table->double('latitude');
             $table->double('longitude');
-            $table->integer('block')->unsigned();
-            $table->integer('last_coordinate')->unsigned()->nullable();
+            $table->integer('block_id')->unsigned();
+            $table->integer('last_coordinate_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
        	Schema::table('property_coordinates', function($table){
- 			$table->foreign('block')->references('id')->on('property_blocks');
+ 			$table->foreign('block_id')->references('id')->on('property_blocks');
         });
 	}
 

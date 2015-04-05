@@ -17,13 +17,13 @@ class CreateMotionsTable extends Migration {
             $table->string('title');
         //v2    $table->integer('department')->nullable();
             $table->date('closing_date');
-            $table->integer('user')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->text('text');
             $table->timestamps();
         });
 
         Schema::table('motions', function($table){
- 			$table->foreign('user')->references('id')->on('users');
+ 			$table->foreign('user_id')->references('id')->on('users');
         });
 	}
 

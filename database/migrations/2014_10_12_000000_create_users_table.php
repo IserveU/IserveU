@@ -21,13 +21,13 @@ class CreateUsersTable extends Migration {
 			$table->string('first_name');
 			$table->string('middle_name')->nullable();
 			$table->string('last_name');
-			$table->integer('ethnic_origin')->unsigned()->nullable();
+			$table->integer('ethnic_origin_id')->unsigned()->nullable();
 			$table->date('verified_until');
 			$table->date('date_of_birth');
 			$table->boolean('intrepid');
 			$table->boolean('public');
 			$table->boolean('administration');
-			$table->integer('property')->unsigned();
+			$table->integer('property_id')->unsigned();
 			$table->rememberToken();
 			$table->timestamps();
 		});

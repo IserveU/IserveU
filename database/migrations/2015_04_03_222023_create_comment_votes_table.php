@@ -15,15 +15,15 @@ class CreateCommentVotesTable extends Migration {
 		Schema::create('comment_votes', function(Blueprint $table) {
             $table->increments('id');
             $table->tinyInteger('position');
-            $table->integer('comment')->unsigned();
-            $table->integer('vote')->unsigned();
+            $table->integer('comment_id')->unsigned();
+            $table->integer('vote_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('comment_votes', function($table){
- 			$table->foreign('comment')->references('id')->on('comments');
- 			$table->foreign('vote')->references('id')->on('votes');
- 			$table->unique(array('comment','vote')); //On a particular comment you can only vote once
+ 			$table->foreign('comment_id')->references('id')->on('comments');
+ 			$table->foreign('vote_id')->references('id')->on('votes');
+ 			$table->unique(array('comment_id','vote_id')); //On a particular comment you can only vote once
         });
         
 	}

@@ -15,8 +15,8 @@ class CreateVotesTable extends Migration {
 		Schema::create('votes', function(Blueprint $table) {
             $table->increments('id');
             $table->tinyInteger('position');
-            $table->integer('motion')->unsigned();
-            $table->integer('user')->unsigned();
+            $table->integer('motion_id')->unsigned();
+            $table->integer('user_id')->unsigned();
         //v2    $table->integer('delegation')->unsigned();
             $table->timestamps();
         });
@@ -24,9 +24,9 @@ class CreateVotesTable extends Migration {
 
 
         Schema::table('votes', function($table){
-        	$table->foreign('motion')->references('id')->on('motions');
- 			$table->foreign('user')->references('id')->on('users');
- 			$table->unique(array('motion','user'));
+        	$table->foreign('motion_id')->references('id')->on('motions');
+ 			$table->foreign('user_id')->references('id')->on('users');
+ 			$table->unique(array('motion_id','user_id'));
         });
 	}
 
