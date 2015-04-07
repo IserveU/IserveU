@@ -1,0 +1,31 @@
+<div>
+	<h1>{{motion.motionDetail[0].title}}</h1>
+	<h3>Closing Date: {{motion.motionDetail[0].closing_date | date:'longDate'}}</h3>
+	<div ng-bind-html="motion.motionDetail[0].text"></div>	
+	<hr>
+	<h3>Comments</h3>
+	<div class="panel panel-default" ng-repeat="comment in motion.motionDetail[0].comments">
+	    <div class="panel-body">
+	    	<span>Date: {{comment.created_at | date:'longDate'}}</span>
+	    	<div>{{comment.text}}</div>
+	    </div>
+	</div>
+	<hr>
+	<h3>Votes</h3>
+	<div class="col-sm-6">
+		<div class="panel panel-success">
+			<div class="panel-heading">Votes For</div>
+		    <div class="panel-body" ng-repeat="vote in motion.motionDetail[0].votes">
+		    	
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-danger">
+			<div class="panel-heading">Votes Against</div>
+		    <div class="panel-body" ng-repeat="vote in motion.motionDetail[0].votes">
+		    	
+		    </div>
+		</div>
+	</div>
+</div>

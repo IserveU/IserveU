@@ -4,7 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Motion extends Model {
 
-	public function motion(){
+	protected $table = 'motions';
+
+	public function user(){
 		return $this->belongsTo('App\User');
 	}
 

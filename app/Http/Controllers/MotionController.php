@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Motion;
 use Illuminate\Http\Request;
 
 class MotionController extends Controller {
@@ -14,7 +14,9 @@ class MotionController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$motions = Motion::all();
+
+		return $motions;
 	}
 
 	/**
@@ -45,7 +47,9 @@ class MotionController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		$motion = Motion::where('id', '=', $id)->with('user', 'comments', 'votes')->get();
+
+		return $motion;
 	}
 
 	/**

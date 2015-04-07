@@ -22,3 +22,13 @@ Route::controllers([
 
 
 Route::resource('block', 'BlockController');
+
+Route::get('/', function()
+{
+	return view('index');
+});
+
+Route::group(array('prefix' => 'api'), function()
+{
+	Route::resource('motions', 'MotionController');
+});
