@@ -8,5 +8,7 @@ class PropertyZoning extends Model {
 		return $this->hasMany('App\Property');
 	}
 
-
+	public function users(){
+		return $this->hasManyThrough('App\User','App\Property');
+	}
 }

@@ -16,13 +16,13 @@ class CreateCommentsTable extends Migration {
             $table->increments('id');
             $table->integer('motion_id')->unsigned();
             $table->text('text');
-            $table->integer('user_id')->unsigned();
+            $table->integer('vote_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('comments', function($table){
  			$table->foreign('motion_id')->references('id')->on('motions');
- 			$table->foreign('user_id')->references('id')->on('users');
+ 			$table->foreign('vote_id')->references('id')->on('votes'); //The user votes and can then make a comment
         });
 	}
 

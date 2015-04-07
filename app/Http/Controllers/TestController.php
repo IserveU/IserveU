@@ -53,6 +53,12 @@ class TestController extends Controller {
 	public function index()
 	{
 
+			$user = PropertyPollDivision::find(1);
+
+			foreach($user->users as $thing){
+				echo $thing;
+			}
+
 
 	}
 }

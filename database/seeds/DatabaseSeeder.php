@@ -354,7 +354,7 @@ class SampleData extends Seeder{
 				$commentA1 = new Comment;
 				$commentA1->motion_id = $motionA->id;
 				$commentA1->text = "I, Ike Saunders, support this vote. 2 Other people have upvoted this and one has downvoted it";
-				$commentA1->user_id = $ike->id;
+				$commentA1->vote_id = $voteA1->id;
 				$commentA1->save();
 					$commentVotesA1 = new CommentVote;
 					$commentVotesA1->vote_id = $voteA1->id; //Ikes vote
@@ -377,14 +377,14 @@ class SampleData extends Seeder{
 				$commentA2 = new Comment;
 				$commentA2->motion_id = $motionA->id;
 				$commentA2->text = "I, Robin Young, support this vote";
-				$commentA2->user_id = $robin->id;
+				$commentA2->vote_id = $voteA3->id;
 				$commentA2->save();
 				
 
 				$commentA3 = new Comment;
 				$commentA3->motion_id = $motionA->id;
 				$commentA3->text = "I, Dane, support this vote";
-				$commentA3->user_id = $dane->id;
+				$commentA3->vote_id = $voteA2->id;
 				$commentA3->save();
 
 					$commentVotesA3 = new CommentVote;
@@ -392,9 +392,6 @@ class SampleData extends Seeder{
 					$commentVotesA3->comment_id = $commentA3->id;
 					$commentVotesA3->position = -1;
 					$commentVotesA3->save();
-
-
-
 
 		//Popular expired (passed) motion created by Ike
 		$motionB = new Motion;
@@ -444,11 +441,7 @@ class SampleData extends Seeder{
 			$voteC1->user_id = $ike->id; //Ike
 			$voteC1->save();
 
-				$commentC3 = new Comment;
-				$commentC3->motion_id = $motionC->id;
-				$commentC3->text = "I, Robin, do not support this motion";
-				$commentC3->user_id = $robin->id;
-				$commentA3->save();
+
 
 			$voteC2 = new Vote;
 			$voteC2->motion_id = $motionC->id;
@@ -456,11 +449,6 @@ class SampleData extends Seeder{
 			$voteC2->user_id = $dane->id; //Dane
 			$voteC2->save();
 
-				$commentC2 = new Comment;
-				$commentC2->motion_id = $motionC->id;
-				$commentC2->text = "I, Dane, do not support this motion";
-				$commentC2->user_id = $dane->id;
-				$commentC2->save();
 
 			$voteC3 = new Vote;
 			$voteC3->motion_id = $motionC->id;
@@ -468,12 +456,21 @@ class SampleData extends Seeder{
 			$voteC3->user_id = $robin->id; //Robin
 			$voteC3->save();
 
+				$commentC1 = new Comment;
+				$commentC1->motion_id = $motionC->id;
+				$commentC1->text = "I, Ike, support this motion";
+				$commentC1->vote_id = $voteC1->id;
+				$commentC1->save();
 
 				$commentC3 = new Comment;
 				$commentC3->motion_id = $motionC->id;
 				$commentC3->text = "I, Robin, do not support this motion";
-				$commentC3->user_id = $robin->id;
-				$commentA3->save();
+				$commentC3->vote_id = $voteC3->id;
+				$commentC3->save();
+
+	
+
+		
 		
 
 
