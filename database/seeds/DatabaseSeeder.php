@@ -214,7 +214,7 @@ class DefaultUser extends Seeder{
 		$defaultUser->last_name = "Name";
 		$defaultUser->email = "info@iserveu.ca";
 		$defaultUser->public = 1;
-		$defaultUser->administration = 1;
+		$defaultUser->administrator = 1;
 		$defaultUser->date_of_birth = "1987-04-01";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
@@ -240,7 +240,7 @@ class SampleData extends Seeder{
 		$ike->last_name = "Saunders";
 		$ike->email = "saunders.ike@gmail.com";
 		$ike->public = 0;
-		$ike->administration = 0;
+		$ike->administrator = 0;
 		$ike->date_of_birth = "1995-11-09";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
@@ -259,7 +259,7 @@ class SampleData extends Seeder{
 		$jeremy->last_name = "Flatt";
 		$jeremy->email = "jflatt@sosnewmedia.com";
 		$jeremy->public = 0;
-		$jeremy->administration = 0;
+		$jeremy->administrator = 0;
 		$jeremy->date_of_birth = "1985-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Southern Europe')->firstOrFail();
 		$jeremy->ethnic_origin_id = $ethnicOrigin->id;
@@ -275,7 +275,7 @@ class SampleData extends Seeder{
 		$dane->last_name = "Mason";
 		$dane->email = "mason.dane@gmail.com";
 		$dane->public = 0;
-		$dane->administration = 0;
+		$dane->administrator = 0;
 		$dane->date_of_birth = "1985-01-01";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
@@ -294,7 +294,7 @@ class SampleData extends Seeder{
 		$shin->last_name = "Shiga";
 		$shin->email = "s.shiga@gmail.com";
 		$shin->public = 0;
-		$shin->administration = 0;
+		$shin->administrator = 0;
 		$shin->date_of_birth = "1984-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Eastern Asia')->firstOrFail();
 		$shin->ethnic_origin_id = $ethnicOrigin->id;
@@ -310,7 +310,7 @@ class SampleData extends Seeder{
 		$robin->last_name = "Young";
 		$robin->email = "joshua.robin.young@gmail.com";
 		$robin->public = 0;
-		$robin->administration = 0;
+		$robin->administrator = 0;
 		$robin->date_of_birth = "1984-01-01";
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$robin->ethnic_origin_id = $ethnicOrigin->id;
