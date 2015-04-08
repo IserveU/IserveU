@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/test', 'TestController@index');
+Route::resource('test','TestController');
+
+
 
 Route::get('home', 'HomeController@index');
 
@@ -20,8 +22,8 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-
-Route::resource('block', 'BlockController');
+Route::resource('users', 'UserController');
+Route::resource('blocks', 'BlockController');
 
 Route::get('/', function()
 {
@@ -30,5 +32,6 @@ Route::get('/', function()
 
 Route::group(array('prefix' => 'api'), function()
 {
-	Route::resource('motions', 'MotionController');
+	Route::resource('motion', 'MotionController');
+	Route::resource('user', 'UserController');
 });
