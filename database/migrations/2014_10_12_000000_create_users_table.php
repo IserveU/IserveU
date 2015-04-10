@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration {
 			$table->datetime('locked_until')->nullable();
 			$table->boolean('intrepid')->default(0);
 			$table->boolean('public')->default(0);
-			$table->boolean('administrator')->default(0);
 			$table->integer('property_id')->unsigned();
 			$table->softDeletes();
 			$table->rememberToken();
