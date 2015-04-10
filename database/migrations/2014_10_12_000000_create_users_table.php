@@ -20,11 +20,9 @@ class CreateUsersTable extends Migration {
 			$table->string('middle_name')->nullable();
 			$table->string('last_name');
 			$table->integer('ethnic_origin_id')->unsigned()->nullable();
-			$table->date('verified_until')->nullable();
 			$table->date('date_of_birth');
 			$table->integer('login_attempts')->default(0);
 			$table->datetime('locked_until')->nullable();
-			$table->boolean('intrepid')->default(0);
 			$table->boolean('public')->default(0);
 			$table->integer('property_id')->unsigned();
 			$table->softDeletes();

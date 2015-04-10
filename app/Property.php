@@ -33,6 +33,10 @@ class Property extends Model {
 		return $this->hasMany('App\User');
 	}
 
+	public function verifications(){
+		return $this->hasMany('App\Verification');
+	}
+
 
 
 }

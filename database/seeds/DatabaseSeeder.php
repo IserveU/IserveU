@@ -19,6 +19,7 @@ use App\Comment;
 use App\Vote;
 use App\CommentVote;
 use App\Role;
+use App\Verification;
 
 class DatabaseSeeder extends Seeder {
 
@@ -194,7 +195,8 @@ class StaticSeeder extends Seeder{
 		Role::create(['name'		=> 	'User Editor'	, 		'description'	=> 'Able to edit and verify other users addresses and identities']);
 		Role::create(['name'		=> 	'Motion Creator', 		'description'	=> 'Able to create and edit own motions']);
 		Role::create(['name'		=> 	'Voter'	, 				'description'	=> 'Able to cast votes']);
-		Role::create(['name'		=> 	'Property Editor'	,	'description'	=> 'Able to adjust the property related section']);
+		Role::create(['name'		=> 	'Property Editor',		'description'	=> 'Able to adjust the property related section']);
+		Role::create(['name'		=> 	'Intrepid'	,			'description'	=> 'Able to cast votes from the uncast pool, unable to be hidden']);
 	}
 }
 
@@ -214,7 +216,6 @@ class DefaultUser extends Seeder{
 		$defaultUser->date_of_birth = "1987-04-01";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
-		$defaultUser->verified_until = $date->format('Y-m-d');
 		$defaultUser->ethnic_origin_id = 1;
 		$defaultUser->password = Hash::make($random_pass);
 		$defaultUser->property_id = 1;
@@ -243,7 +244,6 @@ class SampleData extends Seeder{
 		$ike->date_of_birth = "1995-11-09";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
-		$ike->verified_until = $date->format('Y-m-d');
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$ike->ethnic_origin_id = $ethnicOrigin->id;
 		$ike->password = Hash::make($this->password);
@@ -276,7 +276,6 @@ class SampleData extends Seeder{
 		$dane->date_of_birth = "1985-01-01";
 		$date = new DateTime;
 		$date->add(new DateInterval('P3Y'));
-		$dane->verified_until = $date->format('Y-m-d');
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$dane->ethnic_origin_id = $ethnicOrigin->id;
 		$dane->password = Hash::make($this->password);
