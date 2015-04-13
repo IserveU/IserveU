@@ -22,7 +22,13 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
+
+Route::get('users/rules','UserController@rules');
 Route::resource('users', 'UserController');
+
+
+
+
 Route::resource('blocks', 'BlockController');
 
 Route::get('/', function()
