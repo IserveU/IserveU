@@ -23,7 +23,10 @@
             <div class="col-sm-9">
                 <div ui-view></div>
             </div>
-        </div>    
+        </div>
+
+
+        <a href="/auth/login">Login</a> | <a href="/auth/logout">Logout</a>
 
     </body>
 

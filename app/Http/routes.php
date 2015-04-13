@@ -11,25 +11,19 @@
 |
 */
 
-Route::resource('test','TestController');
-
-
-
-Route::get('home', 'HomeController@index');
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
 
 
+Route::resource('test','TestController');
+
+
 Route::get('users/rules','UserController@rules');
 Route::resource('users', 'UserController');
 
 
-
-
-Route::resource('blocks', 'BlockController');
 
 Route::get('/', function()
 {
@@ -41,3 +35,6 @@ Route::group(array('prefix' => 'api'), function()
 	Route::resource('motion', 'MotionController');
 	Route::resource('user', 'UserController');
 });
+
+
+//Entrust::routeNeedsPermission('users/edit');

@@ -4,12 +4,13 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
-	use Authenticatable, CanResetPassword, SoftDeletes;
+	use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait;
 
 	/**
 	 * The database table used by the model.
@@ -60,10 +61,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany('App\Verification');
 	}
 
-	public function roles(){
-		return $this->belongsToMany('App\Role');
-	}
 
-	
 
 }

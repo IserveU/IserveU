@@ -5,9 +5,11 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Request;
 use Illuminate\Support\Facades\Validator;
-use AuthController;
+use Auth;
 use App\Services\Registrar;
-use Hash; 
+use Hash;
+use Zizaco\Entrust\Entrust;
+
 
 class UserController extends Controller {
 
@@ -29,6 +31,14 @@ class UserController extends Controller {
 	//What the a user can see/edit in their own profile (Populate an edit form)
 	protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public','property_id'];
 
+
+	public function __construct()
+	{
+		$this->middleware('auth',['except'=>['create']]); //Should be logged in 
+	}
+
+
+
 	public function rules(){
 		return $this->rules;
     }
@@ -41,7 +51,12 @@ class UserController extends Controller {
 	 */
 	public function index()
 	{
-		$users = User::where('public',1)->get();
+		$canShowUsers =	Auth::user()->can('show-user');
+		if($canShowUsers){
+			$users = User::all();
+		} else {
+			$users = User::where('public',1)->get();
+		}
 		return $users;
 	}
 

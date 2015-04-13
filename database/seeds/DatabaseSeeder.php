@@ -19,11 +19,11 @@ use App\Comment;
 use App\Vote;
 use App\CommentVote;
 use App\Role;
+use App\Permission;
 use App\Verification;
 
 class DatabaseSeeder extends Seeder {
 
-	
 
 	/**
 	 * Run the database seeds.
@@ -40,8 +40,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StaticSeeder'); //The fixed items in the table
 		$this->command->info('Ethnic origins seeded'); 
 
-		$this->call('DefaultUser');
-		$this->command->info('Default users seeded'); 
+		$this->call('DefaultUsers');
+		$this->command->info('Default user/roles seeded'); 
 
 		$this->call('SampleData');
 		$this->command->info('SampleData'); 
@@ -53,8 +53,6 @@ class DatabaseSeeder extends Seeder {
 
 
 class PropertySeeder extends Seeder{
-
-
 
 	public function run(){
 
@@ -191,23 +189,54 @@ class StaticSeeder extends Seeder{
 			$ethnicOrigin->region 			= $row[0];
 			$ethnicOrigin->save();
 		} 
-		
-		Role::create(['name'		=> 	'User Editor'	, 		'description'	=> 'Able to edit and verify other users addresses and identities']);
-		Role::create(['name'		=> 	'Motion Creator', 		'description'	=> 'Able to create and edit own motions']);
-		Role::create(['name'		=> 	'Voter'	, 				'description'	=> 'Able to cast votes']);
-		Role::create(['name'		=> 	'Property Editor',		'description'	=> 'Able to adjust the property related section']);
-		Role::create(['name'		=> 	'Intrepid'	,			'description'	=> 'Able to cast votes from the uncast pool, unable to be hidden']);
+
 	}
 }
 
-class DefaultUser extends Seeder{
+class DefaultUsers extends Seeder{
 
 	public function run(){
+
+				/*
+		Role::create(['id'	=> 	1,	'name'		=> 	'User Editor'	, 		'description'	=> 'Able to edit and verify other users addresses and identities']);
+		Role::create(['id'	=>	2,	'name'		=> 	'Motion Creator', 		'description'	=> 'Able to create and edit own motions']);
+		Role::create(['id'	=>	3,	'name'		=> 	'Voter'	, 				'description'	=> 'Able to cast votes']);
+		Role::create(['id'	=>	4,	'name'		=> 	'Property Editor',		'description'	=> 'Able to adjust the property related section']);
+		Role::create(['id'	=>	5,	'name'		=> 	'Intrepid'	,			'description'	=> 'Able to cast votes from the uncast pool, unable to be hidden']);
+		*/
+
+		$admin = new Role();
+		$admin->name         = 'administrator';
+		$admin->display_name = 'Full Administrator';
+		$admin->description  = 'User is able to perform all database functions';
+		$admin->save();
+
+		$editUser				= 	new Permission();
+		$editUser->name				=	'edit-user';
+		$editUser->display_name = 	'Edit Users';
+		$editUser->description 	=	'Edit existing users';
+		$editUser->save();
+		$admin->attachPermission($editUser);
+
+		$showUser				= 	new Permission();
+		$showUser->name			=	'show-user';
+		$showUser->display_name = 	'Show Users';
+		$showUser->description 	=	'See full existing (non-public) user profiles';
+		$showUser->save();
+		$admin->attachPermission($showUser);
+
+		$deleteUser					= 	new Permission();
+		$deleteUser->name			=	'delete-user';
+		$deleteUser->display_name 	= 	'Delete Users';
+		$deleteUser->description 	=	'Able to delete users';
+		$deleteUser->save();
+		$admin->attachPermission($deleteUser);
+
 
 		$random_pass = str_random(8);
 
 		$defaultUser = new User;
-		$this->command->info("\n\nADMIN LOGIN WITH: Password: (".$random_pass.") Email: info@iserveu.com \n\n");
+		$this->command->info("\n\nADMIN LOGIN WITH: Password: (".$random_pass.") Email: info@iserveu.ca \n\n");
 		$defaultUser->first_name = "Change";
 		$defaultUser->middle_name = "";
 		$defaultUser->last_name = "Name";
@@ -221,10 +250,12 @@ class DefaultUser extends Seeder{
 		$defaultUser->property_id = 1;
 		$defaultUser->save();
 
-		$roles = Role::all();
-		foreach($roles as $role){
-			$defaultUser->roles()->attach($role->id);
-		}
+
+	
+
+		$defaultUser->attachRole($admin);
+
+
 	}
 }
 
