@@ -197,43 +197,118 @@ class DefaultUsers extends Seeder{
 
 	public function run(){
 
-				/*
-		Role::create(['id'	=> 	1,	'name'		=> 	'User Editor'	, 		'description'	=> 'Able to edit and verify other users addresses and identities']);
-		Role::create(['id'	=>	2,	'name'		=> 	'Motion Creator', 		'description'	=> 'Able to create and edit own motions']);
-		Role::create(['id'	=>	3,	'name'		=> 	'Voter'	, 				'description'	=> 'Able to cast votes']);
-		Role::create(['id'	=>	4,	'name'		=> 	'Property Editor',		'description'	=> 'Able to adjust the property related section']);
-		Role::create(['id'	=>	5,	'name'		=> 	'Intrepid'	,			'description'	=> 'Able to cast votes from the uncast pool, unable to be hidden']);
-		*/
-
 		$admin = new Role();
-		$admin->name         = 'administrator';
-		$admin->display_name = 'Full Administrator';
-		$admin->description  = 'User is able to perform all database functions';
+		$admin->name         			= 'administrator';
+		$admin->display_name 			= 'Full Administrator';
+		$admin->description  			= 'User is able to perform all database functions';
 		$admin->save();
 
-		$editUser				= 	new Permission();
-		$editUser->name				=	'edit-user';
-		$editUser->display_name = 	'Edit Users';
-		$editUser->description 	=	'Edit existing users';
+		$userManager = new Role();
+		$userManager->name         		= 'user-admin';
+		$userManager->display_name 		= 'User Administrator';
+		$userManager->description  		= 'User is able to update, verify and delete users';
+		$userManager->save();
+
+		$motionManager = new Role();
+		$motionManager->name         	= 'motion-admin';
+		$motionManager->display_name 	= 'Motion Administrator';
+		$motionManager->description  	= 'User is able to edit, translate and delete motions';
+		$motionManager->save();
+
+		$citizen = new Role();
+		$citizen->name         			= 'citizen';
+		$citizen->display_name 			= 'Citizen';
+		$citizen->description  			= 'A verified citizen';
+		$citizen->save();
+
+		$unverified = new Role();
+		$unverified->name         		= 'unverified';
+		$unverified->display_name 		= 'Unverified Citizen';
+		$unverified->description  		= 'A person who is not verified';
+		$unverified->save();
+
+		$councilor = new Role();
+		$councilor->name         		= 'councilor';
+		$councilor->display_name 		= 'City Councilor';
+		$councilor->description  		= 'A City Councilor';
+		$councilor->save();
+
+		$editUser						= 	new Permission();
+		$editUser->name					=	'edit-user';
+		$editUser->display_name 		= 	'Edit Users';
+		$editUser->description 			=	'Edit existing users, verify them';
 		$editUser->save();
-		$admin->attachPermission($editUser);
 
-		$showUser				= 	new Permission();
-		$showUser->name			=	'show-user';
-		$showUser->display_name = 	'Show Users';
-		$showUser->description 	=	'See full existing (non-public) user profiles';
+		$showUser						= 	new Permission();
+		$showUser->name					=	'show-user';
+		$showUser->display_name 		= 	'Show Users';
+		$showUser->description 			=	'See full existing (non-public) user profiles and their full details';
 		$showUser->save();
-		$admin->attachPermission($showUser);
 
-		$deleteUser					= 	new Permission();
-		$deleteUser->name			=	'delete-user';
-		$deleteUser->display_name 	= 	'Delete Users';
-		$deleteUser->description 	=	'Able to delete users';
+		$deleteUser						= 	new Permission();
+		$deleteUser->name				=	'delete-user';
+		$deleteUser->display_name 		= 	'Delete Users';
+		$deleteUser->description 		=	'Able to delete users';
 		$deleteUser->save();
-		$admin->attachPermission($deleteUser);
+
+		$createMotion					= 	new Permission();
+		$createMotion->name				=	'create-motion';
+		$createMotion->display_name 	= 	'Create Motion';
+		$createMotion->description 		=	'Create and edit own motions';
+		$createMotion->save();
+
+		$editMotion						= 	new Permission();
+		$editMotion->name				=	"edit-motion";
+		$editMotion->display_name 		= 	'Edit Motion';
+		$editMotion->description 		=	'Edit existing motions, enable them';
+		$editMotion->save();
+
+		$showMotion						= 	new Permission();
+		$showMotion->name				=	"show-motion";
+		$showMotion->display_name 		= 	'Show Motion';
+		$showMotion->description 		=	'Show all non-active motions';
+		$showMotion->save();
+
+		$deleteMotion					= 	new Permission();
+		$deleteMotion->name				=	"delete-motion";
+		$deleteMotion->display_name		= 	'Delete Motion';
+		$deleteMotion->description 		=	'Delete motions';
+		$deleteMotion->save();
+
+		$createComment					= 	new Permission();
+		$createComment->name			=	"create-comment";
+		$createComment->display_name	= 	'Create a comment';
+		$createComment->description 	=	'Create and edit own comment';
+		$createComment->save();
+
+		$createVote						= 	new Permission();
+		$createVote->name				=	"create-vote";
+		$createVote->display_name		= 	'Can vote (Create a vote)';
+		$createVote->description 		=	'Can vote, vote on a comment, can edit';
+		$createVote->save();
+
+		$createProperty					= 	new Permission();
+		$createProperty->name			=	"create-property";
+		$createProperty->display_name	= 	'Create Property';
+		$createProperty->description 	=	'Can create a property';
+		$createProperty->save();
+
+		$editProperty					= 	new Permission();
+		$editProperty->name				=	"edit-property";
+		$editProperty->display_name		= 	'Edit Property';
+		$editProperty->description 		=	'Can edit/delete a property';
+		$editProperty->save();
+
+		$councilor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion));
+		$citizen->attachPermissions(array($createComment,$createVote));
+		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty));
+		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 
 
-		$random_pass = str_random(8);
+
+
+
+		$random_pass = 'password'; //str_random(8);
 
 		$defaultUser = new User;
 		$this->command->info("\n\nADMIN LOGIN WITH: Password: (".$random_pass.") Email: info@iserveu.ca \n\n");
