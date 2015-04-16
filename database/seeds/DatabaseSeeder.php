@@ -152,9 +152,7 @@ class PropertySeeder extends Seeder{
 				$property->property_plan_id				= 	$plan->id;
 
 				$property->save();
-
 			}
-
 
 			$row[9] = intval(str_replace(",","",$row[9]));
 			$row[10] = intval(str_replace(",","",$row[10]));
@@ -305,10 +303,7 @@ class DefaultUsers extends Seeder{
 		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 
 
-
-
-
-		$random_pass = 'password'; //str_random(8);
+		$random_pass = 'abcd1234'; //str_random(8);
 
 		$defaultUser = new User;
 		$this->command->info("\n\nADMIN LOGIN WITH: Password: (".$random_pass.") Email: info@iserveu.ca \n\n");
@@ -318,18 +313,17 @@ class DefaultUsers extends Seeder{
 		$defaultUser->email = "info@iserveu.ca";
 		$defaultUser->public = 1;
 		$defaultUser->date_of_birth = "1987-04-01";
-		$date = new DateTime;
-		$date->add(new DateInterval('P3Y'));
+
 		$defaultUser->ethnic_origin_id = 1;
 		$defaultUser->password = Hash::make($random_pass);
-		$defaultUser->property_id = 1;
+	
 		$defaultUser->save();
 
-
-	
+		$date = new DateTime;
+		$date->add(new DateInterval('P3Y'));
+		$defaultUser->properties()->attach(1, ['verified_until'=>$date]);
 
 		$defaultUser->attachRole($admin);
-
 
 	}
 }
@@ -339,6 +333,8 @@ class SampleData extends Seeder{
 	private $password = "abcd1234";
 
 	public function run(){
+		$date = new DateTime;
+		$date->add(new DateInterval('P3Y')); //Using to set verification
 
 		//Issac Saunders 
 		$ike = new User;	
@@ -348,14 +344,14 @@ class SampleData extends Seeder{
 		$ike->email = "saunders.ike@gmail.com";
 		$ike->public = 0;
 		$ike->date_of_birth = "1995-11-09";
-		$date = new DateTime;
-		$date->add(new DateInterval('P3Y'));
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$ike->ethnic_origin_id = $ethnicOrigin->id;
 		$ike->password = Hash::make($this->password);
-		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
-		$ike->property_id = $property->id;
 		$ike->save();
+
+		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
+		$ike->properties()->attach($property->id, ['verified_until'=>$date]);
+
 
 		//Jeremy Flatt (Foreign national who can't vote, no verified until)
 		$jeremy = new User;
@@ -368,9 +364,11 @@ class SampleData extends Seeder{
 		$ethnicOrigin = EthnicOrigin::where('region','like','Southern Europe')->firstOrFail();
 		$jeremy->ethnic_origin_id = $ethnicOrigin->id;
 		$jeremy->password = Hash::make($this->password);
-		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
-		$jeremy->property_id = $property->id;
+
 		$jeremy->save();
+
+		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
+		$jeremy->properties()->attach($property->id);
 
 		//Dane Mason
 		$dane = new User;
@@ -385,9 +383,11 @@ class SampleData extends Seeder{
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$dane->ethnic_origin_id = $ethnicOrigin->id;
 		$dane->password = Hash::make($this->password);
-		$property = Property::where('roll_number','0039002300')->firstOrFail(); //5105 52nd Street
-		$dane->property_id = $property->id;
+	
 		$dane->save();
+
+		$property = Property::where('roll_number','0039002300')->firstOrFail(); //5105 52nd Street
+		$dane->properties()->attach($property->id);
 
 		//Shinsaku Shiga (Another Foreign National)
 		$shin = new User;
@@ -400,9 +400,11 @@ class SampleData extends Seeder{
 		$ethnicOrigin = EthnicOrigin::where('region','like','Eastern Asia')->firstOrFail();
 		$shin->ethnic_origin_id = $ethnicOrigin->id;
 		$shin->password = Hash::make($this->password);
-		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
-		$shin->property_id = $property->id;
 		$shin->save();
+
+		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
+		$shin->properties()->attach($property->id);
+
 
 		//Robin Young
 		$robin = new User;
@@ -415,10 +417,10 @@ class SampleData extends Seeder{
 		$ethnicOrigin = EthnicOrigin::where('region','like','Northern Europe')->firstOrFail();
 		$robin->ethnic_origin_id = $ethnicOrigin->id;
 		$robin->password = Hash::make($this->password);
-		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
-		$robin->property_id = $property->id;
 		$robin->save();
 
+		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
+		$ike->properties()->attach($property->id, ['verified_until'=>$date]);
 
 
 		//Popular and Unexpired Motion created by Jeremy Flatt

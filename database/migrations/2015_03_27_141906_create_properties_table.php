@@ -38,9 +38,7 @@ class CreatePropertiesTable extends Migration {
             $table->foreign('property_description_id')->references('id')->on('property_descriptions');
         });
 
-        Schema::table('users',function($table){
-            $table->foreign('property_id')->references('id')->on('properties');
-        });
+   
 	}
 
 	/**
@@ -48,14 +46,8 @@ class CreatePropertiesTable extends Migration {
 	 *
 	 * @return void
 	 */
-	public function down()
-	{
-        Schema::table('users',function($table){
-            $table->dropForeign('users_property_id_foreign');
-        });
-
+	public function down(){
 		Schema::drop('properties');
-
 	}
 
 }

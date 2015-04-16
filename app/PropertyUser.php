@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Verification extends Model {
+class PropertyUser extends Model {
 
 	public function user(){
 		return $this->belongsTo('App\User');

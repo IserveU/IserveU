@@ -37,9 +37,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $hidden = ['created_at', 'updated_at', 'password', 'remember_token','verified_until','administrator','property_id','email','ethnic_origin_id','login_attempts','locked_until'];
 
 
-	public function property(){
-		return $this->belongsTo('App\Property');
-	}
 
 	public function ethnicOrigin(){
 		return $this->belongsTo('App\EthnicOrigin');
@@ -57,8 +54,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasManyThrough('App\Comment','App\Vote');
 	}
 
-	public function verifications(){
-		return $this->hasMany('App\Verification');
+	public function properties(){
+		return $this->belongsToMany('App\Property');
 	}
 
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVerificationsTable extends Migration {
+class CreatePropertyUserTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,21 @@ class CreateVerificationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('verifications', function(Blueprint $table)
-		{
+		Schema::create('property_user', function(Blueprint $table){
 			$table->increments('id');
-			$table->date('until');
+			$table->date('verified_until')->nullable();
 			$table->integer('property_id')->unsigned();
-			$table->foreign('property_id')->references('id')->on('properties');
+			$table->integer('user_id')->unsigned();
 			$table->timestamps();
+
+			$table->foreign('property_id')->references('id')->on('properties');
+			$table->foreign('user_id')->references('id')->on('users');
+
 		});
+
+	
 	}
+
 
 	/**
 	 * Reverse the migrations.
@@ -29,7 +35,7 @@ class CreateVerificationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('verifications');
+		Schema::drop('property_user');
 	}
 
 }

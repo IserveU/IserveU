@@ -35,9 +35,7 @@ class UserController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth',['except'=>['create']]); //Should be logged in 
-	}
-
-
+	} 
 
 	public function rules(){
 		return $this->rules;
@@ -49,15 +47,12 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$canShowUsers =	Auth::user()->can('show-user');
-		if($canShowUsers){
-			$users = User::all();
-		} else {
-			$users = User::where('public',1)->get();
-		}
-		return $users;
+	public function index(){
+		if (Auth::check() && Auth::user()->can('show-user')){ //An admin able to see all users
+			return User::all();
+		} else { //Other people can see a list of the public users
+			return User::where('public',1)->get();
+		}	
 	}
 
 	/**
@@ -81,14 +76,6 @@ class UserController extends Controller {
 			return $validator->messages();
 		} else {
 			$newUser = User::create($input); //Does the fields specified as fillable in the model
-			if(false/* $isadmin */){ // To add, administrator authentication
-				//It HAS to be 1
-				$newUser->administrator 	= Request::get('administrator')=="1"?1:0; 
-				//Empty dates should be NULL. If a date has been set, then that means it was once valid. Don't populate this with 0000-00-00 or we'll think that we only have to verify their address and not their identity
-				$newUser->verified_until	= Request::get('verified_until')==""?NULL:Request::get('verified_until'); 
-				//It HAS to be 1
-				$newUser->intrepid			= Request::get('administrator')=="1"?1:0; 
-			}
 			$newUser->password = Hash::make(Request::get('password'));
 			$newUser->save();
 			return $input;
@@ -104,12 +91,11 @@ class UserController extends Controller {
 	public function show($id)
 	{
 		$user = User::find($id);
-		if(true /*$user->id == $loggedinid*/){ //Logged in user id = this user ID $user->id == $loggedinid
-			$user = User::find($id);
- 			return $user; //Showing the user what the general public would see (just with an edit button below it) 
-		} else if(false /* $isadmin */){ //You are the site administrator
+		if(Auth::user()->can('show-user')){ //User admin looking at an account
 			$user->setHidden(['password']); // Admin shows every field
 			return $user;
+		} else if(Auth::user()->id==$user->id){ //Current user looking at their own account
+			return $user; //Showing the user what the general public would see (just with an edit button below it) 
 		} else if($user->public){ //Returns basic information, name, DOB and if they are an intrepid
 			return $user;
 		} else { //Not a public profile, or logged in as a person who can override that
@@ -125,13 +111,12 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
+	public function edit($id){
 		$user = User::findOrFail($id);
-		if(true /*$user->id == $loggedinid*/){ //Authentication of user ID $user->id == $loggedinid	
+		if(Auth::user()->id==$user->id){ //Authentication of user ID $user->id == $loggedinid	
 			$user->setVisible($this->userVisible); // If the user is logged in they can edit
  			return $user;
-		} else if(false /* $isadmin */ ){ //Site administrator
+		} else if(Auth::user()->id==$user->id){ //Site administrator, should also show a "address verified" box
 			$user->setHidden('password');
 			return $user;
 		} else {
@@ -145,40 +130,34 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+	public function update($id){
 		$user = User::findOrFail($id);
-		if(true /*!$isadmin || $isuser */){  // $user->id == $loggedinid || $isadmin
+		if(Auth::user()->id == $user->id || Auth::user()->can('edit-user')){  // $user->id == $loggedinid || $isadmin
 			$validator = Validator::make($input,$this->rules);
 			if($validator->fails()){
 				return $validator->messages();
 			} else {
-				if($user->property_id != Request::get('property_id')){ //They moved
-					$yesterday = new \DateTime('Yesterday');
-					$user->verified_until = $yesterday->format('Y-m-d');
-				}
-
-				if(true /*!$isadmin */){ // To add, administrator authentication
-					//It HAS to be 1
-					$user->administrator 	= Request::get('administrator')=="1"?1:0; 
-					//Empty dates should be NULL. If a date has been set, then that means it was once valid. Don't populate this with 0000-00-00 or we'll think that we only have to verify their address and not their identity
-					$user->verified_until	= Request::get('verified_until')==""?NULL:Request::get('verified_until'); 
-					//It HAS to be 1
-					$user->intrepid			= Request::get('intrepid')=="1"?1:0; 
-				}
-
 				$user->password = Hash::make(Request::get('password'));
 				$user->date_of_birth = Request::get('date_of_birth');
 				$user->first_name = Request::get('first_name');
 				$user->middle_name = Request::get('middle_name');
 				$user->last_name = Request::get('last_name');
 
+				$propertyId = Request::get('property_id');
+
+				if($propertyId){
+					$propertyUser = $user->properties()->where('id',$propertyId)->count();
+					if(!$propertyUser){
+						$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
+					}
+				}
+
 				//If any of the fundamental fields have changed, they need to start verification at the beginning
 				$dirty = $user->getDirty();
 				foreach ($dirty as $field => $newdata){
 					 $olddata = $record->getOriginal($field);
-					 if($olddata != $newdata && true/*!$isadmin */){ //TODO let the admin change this without causing this to reset
-					 	$user->verified_until = NULL;
+					 if($olddata != $newdata && !Auth::user()->can('edit-user')){ // let the admin change this without causing it to reset
+						$user->detachRoles($use->roles); //Remove all roles
 					 }
 				}
 
@@ -197,7 +176,7 @@ class UserController extends Controller {
 	public function destroy($id)
 	{
 		$user = User::findOrFail($id);
-		if(true /* $isuser || $isadmin*/){
+		if(Auth::user()->id==$user->id || Auth::user()->can('delete-user')){
 			$votes 		= 	Vote::where('user_id',$id)->get();
 			$motions 	= 	Motion::where('user_id',$id)->get();
 			if($votes->count() && $motions->count()){ //Has made motions/votes

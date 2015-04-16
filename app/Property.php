@@ -28,13 +28,8 @@ class Property extends Model {
 		return $this->hasMany('App\PropertyAssesment');
 	}
 
-
 	public function users(){
-		return $this->hasMany('App\User');
-	}
-
-	public function verifications(){
-		return $this->hasMany('App\Verification');
+		return $this->belongsToMany('App\User');
 	}
 
 
