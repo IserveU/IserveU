@@ -21,11 +21,9 @@ class UserController extends Controller {
         'email'    			=>	'required|email|max:127|unique:users',
         'password' 			=>	'required|between:8,30|confirmed',
         'ethnic_origin_id'	=>	'integer',
-        'public'			=>	'required|boolean',
-        'property_id'		=>	'integer|required', /*We might have a problem with this, if people stuggle with our property database */
-        'verified_until'	=>	'date', /*Not immediately required, this field MUST be set by a site administrator */ 
-        'administrator'		=>	'boolean', /* this MUST be set by a site administrator */ 
-        'intrepid'			=>	'boolean'
+        'public'			=>	'boolean',
+        'property_id'		=>	'integer|required' /*We might have a problem with this, if people stuggle with our property database */
+     
 	];
 
 	//What the a user can see/edit in their own profile (Populate an edit form)
@@ -78,6 +76,10 @@ class UserController extends Controller {
 			$newUser = User::create($input); //Does the fields specified as fillable in the model
 			$newUser->password = Hash::make(Request::get('password'));
 			$newUser->save();
+			$propertyId = Request::get('property_id');
+			if($propertyId){ //A property ID field has been submitted
+				$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
+			}
 			return $input;
 		}
 	}
@@ -144,10 +146,9 @@ class UserController extends Controller {
 				$user->last_name = Request::get('last_name');
 
 				$propertyId = Request::get('property_id');
-
-				if($propertyId){
-					$propertyUser = $user->properties()->where('id',$propertyId)->count();
-					if(!$propertyUser){
+				if($propertyId){ //A property ID field has been submitted
+					$propertyExists = $user->properties()->where('id',$propertyId)->first(); //The latest 
+					if(!$propertyExists){
 						$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
 					}
 				}
@@ -173,8 +174,7 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
+	public function destroy($id){
 		$user = User::findOrFail($id);
 		if(Auth::user()->id==$user->id || Auth::user()->can('delete-user')){
 			$votes 		= 	Vote::where('user_id',$id)->get();
