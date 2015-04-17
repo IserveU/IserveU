@@ -13,17 +13,6 @@ use Zizaco\Entrust\Entrust;
 
 class UserController extends Controller {
 
-	protected $rules = [
-		'first_name' 		=>	'required|alpha|max:127',
-        'middle_name'		=>	'alpha|max:127',
-        'last_name' 		=>	'required|alpha|max:127',
-        'date_of_birth'		=>	'required|date',
-        'email'    			=>	'required|email|max:127|unique:users',
-        'password' 			=>	'required|between:8,30|confirmed',
-        'ethnic_origin_id'	=>	'integer',
-        'public'			=>	'boolean',
-        'property_id'		=>	'integer' /*We might have a problem with this, if people stuggle with our property database */
-	];
 
 	//What the a user can see/edit in their own profile (Populate an edit form)
 	protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public'];
@@ -114,12 +103,12 @@ class UserController extends Controller {
 	 */
 	public function edit($id){
 		$user = User::findOrFail($id);
-		if(Auth::user()->id==$user->id){ //Authentication of user ID $user->id == $loggedinid	
-			$user->setVisible($this->userVisible); // If the user is logged in they can edit
- 			return $user;
-		} else if(Auth::user()->can('edit-user')){ //Site administrator, should also show a "address verified" box
+		if(Auth::user()->can('edit-user')){ //Site administrator, do whatever they want
 			$user->setHidden('password');
 			return $user; //User-edit admin can get all fields
+		} else if(Auth::user()->id==$user->id){ // This user, can edit some of their own details
+			$user->setVisible($this->userVisible); // If the user is logged in they can edit
+ 			return $user;
 		} else {
 			return array('message'=>'Permission Denied'); 
 		}
