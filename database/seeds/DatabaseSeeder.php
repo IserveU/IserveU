@@ -429,7 +429,7 @@ class SampleData extends Seeder{
 		$motionA->text = "<p>This is a motion that is both <strong>popular</strong> and <strong>unexpired</strong> at the time of seeding the database</p><p>This motion was created by Jeremy Flatt, but he can not vote on it because he is a resident of Canada but not a citizen</p>";
 		$date = new DateTime;
 		$date->add(new DateInterval('P1M'));
-		$motionA->closing_date = $date->format('Y-m-d');
+		$motionA->closing = $date->format('Y-m-d');
 		$motionA->user_id = $jeremy->id;
 		$motionA->save();
 
@@ -501,7 +501,7 @@ class SampleData extends Seeder{
 		$motionB->text = "<p>This is a motion that was <strong>popular</strong> and has <strong>expired</strong> at the time of seeding the database</p><p>This motion was created by Ike Saunders</p>";
 		$date = new DateTime;
 		$date->sub(new DateInterval('P1M'));
-		$motionB->closing_date = $date->format('Y-m-d');
+		$motionB->closing = $date->format('Y-m-d');
 		$motionB->user_id = $ike->id;
 		$motionB->save();
 
@@ -532,7 +532,7 @@ class SampleData extends Seeder{
 		$motionC->text = "<p>This is a motion that is <strong>mixed</strong> and <strong>current</strong> at the time of seeding the database</p><p>This motion was created by Shin</p>";
 		$date = new DateTime;
 		$date->add(new DateInterval('P1M'));
-		$motionC->closing_date = $date->format('Y-m-d');
+		$motionC->closing = $date->format('Y-m-d');
 		$motionC->user_id = $shin->id;
 		$motionC->save();
 

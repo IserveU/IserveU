@@ -17,9 +17,11 @@ class CreateMotionsTable extends Migration {
             $table->string('title');
             $table->boolean('active')->default(0);
         //v2    $table->integer('department')->nullable();
-            $table->date('closing_date');
+            $table->dateTime('closing');
             $table->integer('user_id')->unsigned();
             $table->text('text');
+            $table->integer('pro_tally')->nullable(); //Votes are totaled and put in this field
+            $table->integer('con_tally')->nullable(); //Votes are totaled and put in this field
             $table->timestamps();
         });
 
