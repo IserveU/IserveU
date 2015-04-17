@@ -12,7 +12,7 @@ class Motion extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','active','text'];
+	protected $fillable = ['title','text'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -22,18 +22,16 @@ class Motion extends Model {
 	protected $hidden = ['created_at','updated_at'];
 
 
-
-
 	public function user(){
 		return $this->belongsTo('App\User');
 	}
 
 	public function comments(){
-		return $this->hasMany('App\Comment');
+		return $this->hasMany('App\Comment')->select(['id','text','motion_id']); //Trying to hide the userid
 	}
 
 	public function votes(){
-		return $this->hasMany('App\Vote');
+		return $this->hasMany('App\Vote')->select(['id','motion_id','position']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
 	}
 
 	
@@ -50,12 +48,15 @@ class Motion extends Model {
 	}
 
 	public function scopePassing($query){
-		return $query->where('pro_tally','>','con_tally');
+		return $query->votes->where('position',1);
 	}
 
 	public function scopeFailing($query){
-		return $query->where('pro_tally','<=','con_tally');
+		return $query->votes->where('position',-1);
+	}
 
+	public function scopeAbstaining($query){
+		return $query->votes->where('position',0);
 	}
 
 }

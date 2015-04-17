@@ -7,6 +7,16 @@ class Comment extends Model {
 	
 	use SoftDeletes;
 
+
+	/**
+	 * The attributes excluded from the model's JSON form. The general pubilc shouldn't be able to see non-public users names
+	 *
+	 * @var array
+	 */
+	protected $hidden = ['user_id','created_at','deleted_at','updated_at'];
+
+
+
 	public function commentVotes(){
 		return $this->hasMany('App\CommentVote');
 	}

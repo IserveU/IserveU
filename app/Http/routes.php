@@ -23,7 +23,8 @@ Route::resource('test','TestController');
 Route::get('users/rules','UserController@rules');
 Route::resource('users', 'UserController');
 
-
+Route::get('motions/rules','MotionController@rules');
+Route::resource('motions', 'MotionController');
 
 Route::get('/', function()
 {

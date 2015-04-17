@@ -17,6 +17,7 @@ class CreateCommentsTable extends Migration {
             $table->integer('motion_id')->unsigned();
             $table->text('text');
             $table->integer('vote_id')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
 

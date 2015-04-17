@@ -18,6 +18,7 @@ class CreateVotesTable extends Migration {
             $table->integer('motion_id')->unsigned();
             $table->integer('user_id')->unsigned();
         //v2    $table->integer('delegation')->unsigned();
+   			$table->softDeletes();
             $table->timestamps();
         });
 
