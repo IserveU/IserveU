@@ -58,6 +58,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->belongsToMany('App\Property');
 	}
 
-
-
+   public function scopeArePublic($query){
+        return $query->where('public',1);
+    }
 }

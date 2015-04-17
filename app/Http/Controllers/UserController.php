@@ -48,7 +48,7 @@ class UserController extends Controller {
 		if (Auth::check() && Auth::user()->can('show-user')){ //An admin able to see all users
 			return User::all();
 		} else { //Other people can see a list of the public users
-			return User::where('public',1)->get();
+			return User::arePublic()->get();
 		}	
 	}
 
