@@ -22,12 +22,11 @@ class UserController extends Controller {
         'password' 			=>	'required|between:8,30|confirmed',
         'ethnic_origin_id'	=>	'integer',
         'public'			=>	'boolean',
-        'property_id'		=>	'integer|required' /*We might have a problem with this, if people stuggle with our property database */
-     
+        'property_id'		=>	'integer' /*We might have a problem with this, if people stuggle with our property database */
 	];
 
 	//What the a user can see/edit in their own profile (Populate an edit form)
-	protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public','property_id'];
+	protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public'];
 
 
 	public function __construct()
@@ -63,7 +62,7 @@ class UserController extends Controller {
 	}
 
 	/**
-	 * Store a newly created resource in storage, this will be created by the user
+	 * Store a newly created resource in storage, this will be created by the user (not an admin)
 	 *
 	 * @return Response
 	 */
@@ -78,7 +77,7 @@ class UserController extends Controller {
 			$newUser->save();
 			$propertyId = Request::get('property_id');
 			if($propertyId){ //A property ID field has been submitted
-				$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
+				$user->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
 			}
 			return $input;
 		}
@@ -94,7 +93,7 @@ class UserController extends Controller {
 	{
 		$user = User::find($id);
 		if(Auth::user()->can('show-user')){ //User admin looking at an account
-			$user->setHidden(['password']); // Admin shows every field
+			$user->setHidden(['password']); // Admin account sees every field apart from password
 			return $user;
 		} else if(Auth::user()->id==$user->id){ //Current user looking at their own account
 			return $user; //Showing the user what the general public would see (just with an edit button below it) 
@@ -118,9 +117,9 @@ class UserController extends Controller {
 		if(Auth::user()->id==$user->id){ //Authentication of user ID $user->id == $loggedinid	
 			$user->setVisible($this->userVisible); // If the user is logged in they can edit
  			return $user;
-		} else if(Auth::user()->id==$user->id){ //Site administrator, should also show a "address verified" box
+		} else if(Auth::user()->can('edit-user')){ //Site administrator, should also show a "address verified" box
 			$user->setHidden('password');
-			return $user;
+			return $user; //User-edit admin can get all fields
 		} else {
 			return array('message'=>'Permission Denied'); 
 		}
@@ -134,7 +133,7 @@ class UserController extends Controller {
 	 */
 	public function update($id){
 		$user = User::findOrFail($id);
-		if(Auth::user()->id == $user->id || Auth::user()->can('edit-user')){  // $user->id == $loggedinid || $isadmin
+		if(Auth::user()->id == $user->id || Auth::user()->can('edit-user')){
 			$validator = Validator::make($input,$this->rules);
 			if($validator->fails()){
 				return $validator->messages();
@@ -147,7 +146,7 @@ class UserController extends Controller {
 
 				$propertyId = Request::get('property_id');
 				if($propertyId){ //A property ID field has been submitted
-					$propertyExists = $user->properties()->where('id',$propertyId)->first(); //The latest 
+					$propertyExists = $user->properties()->where('id',$propertyId)->count(); //This property record 
 					if(!$propertyExists){
 						$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
 					}
@@ -165,6 +164,8 @@ class UserController extends Controller {
 				$user->save();
 				return $input;
 			}
+		} else {
+			return array("message"=>"Permission denied to store a record");
 		}
 	}
 
