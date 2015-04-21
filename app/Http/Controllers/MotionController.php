@@ -79,7 +79,7 @@ class MotionController extends Controller {
 	 */
 	public function show($id)
 	{
-		$motion = Motion::with('user', 'comments', 'votes')->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously unless they have the pubilc boolean set. Would you rework this data OR use AJAX to load each of the motion, the votes and the comments.
+		$motion = Motion::with('user', 'comments', 'votes')->find($id)->get(); // HEY RYAN, we want people commenting to be able to do so anonomoously unless they have the pubilc boolean set. Would you rework this data OR use AJAX to load each of the motion, the votes and the comments.
 		return $motion;
 	}
 

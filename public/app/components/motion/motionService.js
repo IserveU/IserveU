@@ -8,7 +8,7 @@
 
 	function motion($resource) {
 
-		var Motion = $resource('api/motions/:id');
+		var Motion = $resource('api/motion/:id');
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {

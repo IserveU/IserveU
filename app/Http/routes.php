@@ -33,6 +33,7 @@ Route::get('/', function()
 
 Route::group(array('prefix' => 'api'), function()
 {
+	Route::get('user/loggedin', 'UserController@checkLogin');
 	Route::resource('motion', 'MotionController');
 	Route::resource('user', 'UserController');
 });

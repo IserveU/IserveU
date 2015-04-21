@@ -9,6 +9,7 @@ use Auth;
 use App\Services\Registrar;
 use Hash;
 use Zizaco\Entrust\Entrust;
+use Illuminate\Http\Response;
 
 
 class UserController extends Controller {
@@ -20,7 +21,7 @@ class UserController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except'=>['create']]); //Should be logged in 
+		$this->middleware('auth',['except'=>['create', 'checkLogin']]); //Should be logged in 
 	} 
 
 	public function rules(){
@@ -81,12 +82,12 @@ class UserController extends Controller {
 	public function show($id)
 	{
 		$user = User::find($id);
-		if(Auth::user()->can('show-user')){ //User admin looking at an account
+		if(Auth::user()->can('show-user')) { //User admin looking at an account
 			$user->setHidden(['password']); // Admin account sees every field apart from password
 			return $user;
-		} else if(Auth::user()->id==$user->id){ //Current user looking at their own account
+		} else if(Auth::user()->id == $user->id) { //Current user looking at their own account
 			return $user; //Showing the user what the general public would see (just with an edit button below it) 
-		} else if($user->public){ //Returns basic information, name, DOB and if they are an intrepid
+		} else if($user->public) { //Returns basic information, name, DOB and if they are an intrepid
 			return $user;
 		} else { //Not a public profile, or logged in as a person who can override that
 			return array('message'=>'this is not a public profile'); //Not sure what format angular messages need
@@ -177,5 +178,14 @@ class UserController extends Controller {
 				$user->forceDelete();
 			}
 		}		
+	}
+
+	public function checkLogin() {
+		if(Auth::check()) {
+			return Auth::user();
+		}
+		else {
+			return response('not logged in', 404);
+		}
 	}
 }

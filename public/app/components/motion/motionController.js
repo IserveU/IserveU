@@ -6,14 +6,27 @@
 		.module('iserveu')
 		.controller('motionController', motion);
 
-	function motion(motion, $stateParams, $sce) {
+	function motion(motion, $stateParams, $sce, auth) {
 
 		var vm = this;
 
+		vm.motionDetail = [];
+		vm.loggedInUser;
+
 		function getMotion(id) {
-			vm.motionDetail = motion.getMotion(id);
+			vm.motionDetail = motion.getMotion(id);		
+		}
+
+		function getLoggedInUser(id) {
+			auth.getLoggedInUser(id).then(function(result) {
+				vm.loggedInUser = result;
+				console.log("Logged in user is: " + vm.loggedInUser);
+			});
+			
 		}		
 
 		getMotion($stateParams.motionId);
+		
 	}
+
 })();

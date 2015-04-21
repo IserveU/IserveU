@@ -8,7 +8,7 @@
 
 	function sidebar($resource) {
 
-		var Motion = $resource('api/motions');
+		var Motion = $resource('api/motion');
 
 		function getMotions() {
 			Motion.query().$promise.then(function(results) {
