@@ -185,7 +185,7 @@ class UserController extends Controller {
 			return Auth::user();
 		}
 		else {
-			return response('not logged in', 404);
+			return response('not logged in');
 		}
 	}
 }
