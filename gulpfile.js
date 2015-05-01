@@ -24,7 +24,10 @@ elixir(function(mix) {
 		'../bower/moment/moment.js'
     ],'public/js/dependencies.js');
 
-    mix.scriptsIn("resources/js",'public/js/iserveu-app.js'); 
+    mix.scriptsIn("resources/js",'public/js/scripts.js');
+
+ 	mix.scriptsIn("public/app",'public/js/iserveu-app.js'); 
+
  
 /* The above should handle it automatically
     mix.scripts([
