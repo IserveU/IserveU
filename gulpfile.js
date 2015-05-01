@@ -12,5 +12,39 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.less('app.less');
+    mix.scripts([
+    	'../bower/angular/angular.js',
+    	'../bower/jquery/dist/jquery.js',
+    	'../bower/bootstrap/dist/js/bootstrap.js',
+		'../bower/angular-bootstrap/ui-bootstrap.js',
+		'../bower/angular-bootstrap/ui-bootstrap-tpls.js',
+		'../bower/angular-resource/angular-resource.js',
+		'../bower/angular-ui-router/release/angular-ui-router.min.js',
+		'../bower/angular-sanitize/angular-sanitize.min.js',
+		'../bower/moment/moment.js'
+    ],'public/js/dependencies.js');
+
+    mix.scriptsIn("resources/js",'public/js/iserveu-app.js'); 
+ 
+/* The above should handle it automatically
+    mix.scripts([
+    	'app.js',
+    	'components/sidebar/sidebarController.js',
+		'components/motion/motionController.js',
+		'components/motion/motionService.js',
+		'components/login/loginController.js',
+		'components/auth/authService.js',
+		'components/session/sessionService.js',
+		'components/loginModal/loginModalService.js',
+		'components/loginModal/loginModalController.js',
+		'components/home/homeController.js',
+		'components/user/userController.js'
+    ],'public/js/iserveu-app.js');
+*/
+    mix.styles([
+      	'../bower/bootstrap/dist/css/bootstrap.css'
+    ],'public/css/dependencies.css');
+   
+    mix.stylesIn("resources/css",'public/css/style.css');
+
 });

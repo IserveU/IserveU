@@ -2,7 +2,8 @@
 <html>
     <head>
         <title>IserveU</title>
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  
+        <link rel="stylesheet" href="css/dependencies.css">
         <link rel="stylesheet" href="css/style.css">
         
     </head>
@@ -45,20 +46,21 @@
 
     </body>
 
-    <!-- Application Dependencies -->
-    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<!--  Application Dependencies -->
+ <!--   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- <script type="text/javascript" src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script> -->
+
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+    <script type="text/javascript" src="bower_components/moment/moment.js"></script> -->
+    <script src="/js/dependencies.js"></script>
 
     <!-- Application Scripts -->
+    <!--
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/components/sidebar/sidebarController.js"></script>
     <script type="text/javascript" src="app/components/motion/motionController.js"></script>
@@ -69,7 +71,8 @@
     <script type="text/javascript" src="app/components/loginModal/loginModalService.js"></script>
     <script type="text/javascript" src="app/components/loginModal/loginModalController.js"></script>
     <script type="text/javascript" src="app/components/home/homeController.js"></script>
-    <script type="text/javascript" src="app/components/user/userController.js"></script>
+    <script type="text/javascript" src="app/components/user/userController.js"></script> -->
+     <script src="/js/iserveu-app.js"></script>
 
     <script>
         angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');

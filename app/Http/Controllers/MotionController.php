@@ -26,6 +26,9 @@ class MotionController extends Controller {
 	 */
 	public function index()
 	{
+
+				return array('message'=>'You do not have permission to create a motion',401);
+
 		$motions = Motion::all();
 		return $motions;
 	}
