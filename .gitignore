@@ -1,6 +1,7 @@
 /vendor
 /node_modules
-/public/css
-/public/js
+/public/css/*
+/public/js/*
+/resources/bower/*
 
 .env
