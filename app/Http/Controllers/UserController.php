@@ -16,12 +16,22 @@ class UserController extends Controller {
 
 
 	//What the a user can see/edit in their own profile (Populate an edit form)
-	protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public'];
-
+	//protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public'];
+	
+	protected $rules = [
+		'email' 			=>	'email|unique',
+        'password'			=>	'min:8',
+        'first_name'		=>	'alpha',
+        'middle_name'		=>	'alpha',
+        'last_name'			=>	'alpha',
+        'ethnic_origin_id'	=>	'integer',
+        'date_of_birth'		=>	'date',
+        'public'			=>	'boolean'        
+	];
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except'=>['create', 'checkLogin']]); //Should be logged in 
+		$this->middleware('auth',['except'=>['create', 'checkLogin','rules']]); //Should be logged in 
 	} 
 
 	public function rules(){
@@ -48,7 +58,7 @@ class UserController extends Controller {
 	 * @return Response
 	 */
 	public function create(){
-		return view('test',array('data'=>$this->rules)); //Just some BS right now that Paige used to test the form
+	
 	}
 
 	/**

@@ -3,5 +3,6 @@
 /public/css
 /public/js
 /resources/bower
+/storage/logs/*
 
 .env

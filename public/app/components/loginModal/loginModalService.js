@@ -21,6 +21,6 @@
 			});
 
 			return instance.result.then(assignCurrentUser);
-		}
+		} 
 	}
 })();

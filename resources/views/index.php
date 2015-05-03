@@ -37,7 +37,7 @@
             <md-toolbar class="md-whiteframe-glow-z2">
                 <div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
                 <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu">
-                  <md-icon md-svg-src="{{ there is a way to use an angular icon repository }}"></md-icon>
+                  <md-icon md-svg-src="{{  }}"></md-icon> <!-- there is a way to use an angular icon repository -->
                 </md-button>
                     <div layout="row" flex class="fill-height">
                         <h2 class="md-toolbar-item md-breadcrumb">
@@ -85,8 +85,8 @@
     <script type="text/javascript" src="app/components/loginModal/loginModalService.js"></script>
     <script type="text/javascript" src="app/components/loginModal/loginModalController.js"></script>
     <script type="text/javascript" src="app/components/home/homeController.js"></script>
-    <script type="text/javascript" src="app/components/user/userController.js"></script> -->
-     <script src="/js/iserveu-app.js"></script>
+    <script type="text/javascript" src="app/components/user/userController.js"></script>  -->
+    <script src="/js/iserveu-app.js"></script> 
 
     <script>
         angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');

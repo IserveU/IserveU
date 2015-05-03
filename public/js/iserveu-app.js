@@ -45,7 +45,7 @@
 			    // this trick must be done so that we don't receive
 			    // `Uncaught Error: [$injector:cdep] Circular dependency found`
 			    $timeout(function () {
-			      loginModal = $injector.get('loginModal');
+			     // loginModal = $injector.get('loginModal'); switch to a non modal login
 			      $http = $injector.get('$http');
 			      $state = $injector.get('$state');
 			    });
@@ -58,14 +58,14 @@
 
 			        var deferred = $q.defer();
 
-			        loginModal()
+			    /*	loginModal()
 			          .then(function () {
 			          	deferred.resolve( $http(rejection.config) );
 			          })
 			          .catch(function () {
 			            $state.go('welcome');
 			            deferred.reject(rejection);
-			          });
+			          }); */
 
 			        return deferred.promise;
 			      }
@@ -73,7 +73,7 @@
 			  });
 			
 		})
-		.run(function($rootScope, $state, loginModal, auth) {
+		.run(function($rootScope, $state, /*loginModal,*/ auth) {
 
 			auth.isLoggedIn().success(function(user) {
 				if(user != "not logged in") {
@@ -92,12 +92,12 @@
 				if(requireLogin && typeof $rootScope.currentUser === 'undefined') {
 					event.preventDefault();
 
-					loginModal().then(function() {
+				/*	loginModal().then(function() {
 						return $state.go(toState.name, toParams);
 					})
 					.catch(function() {
 						return $state.go('home');
-					});
+					}); */
 				}
 			})
 		});
@@ -268,7 +268,7 @@
 			});
 
 			return instance.result.then(assignCurrentUser);
-		}
+		} 
 	}
 })();
 (function() {
