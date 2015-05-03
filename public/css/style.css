@@ -1,4 +1,12 @@
-.navbar-logo img {
-	width: 50% !important;
+.isu-logo md-icon{
+	height: 40px;
+  	margin: 0;
+  	width: 40px;
 }
+
+.isu-logotype{
+	line-height: 40px;
+	text-indent: 15px;
+}
+
 /*# sourceMappingURL=style.css.map */

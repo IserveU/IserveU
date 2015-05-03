@@ -26,6 +26,11 @@ class Motion extends Model {
 		return $this->belongsTo('App\User');
 	}
 
+	public function department(){
+		return $this->belongsTo('App\Department');
+	}
+
+
 	public function comments(){
 		return $this->hasMany('App\Comment')->select(['id','text','motion_id']); //Trying to hide the userid
 	}

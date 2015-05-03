@@ -4,7 +4,29 @@
 
 	angular
 		.module('iserveu', ['ngResource', 'ngMaterial', 'ui.router', 'ngSanitize'])
-		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider) {
+		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider,$mdThemingProvider) {
+
+			$mdThemingProvider.definePalette('amazingPaletteName', {
+			    '50': 'ffffff',
+			    '100': '99949D',
+			    '200': '99949D',
+			    '300': '99949D',
+			    '400': '38353B',
+			    '500': '38353B',
+			    '600': '38353B',
+			    '700': '1C1126',
+			    '800': '1C1126',
+			    '900': '1C1126',
+			    'A100': 'ff0000',
+			    'A200': 'ff0000',
+			    'A400': 'ff0000',
+			    'A700': 'ff0000',
+			    'contrastDefaultColor': 'light',    
+			    'contrastDarkColors': ['50', '100', '200', '300', '400', 'A100'],
+			    'contrastLightColors': undefined    // could also specify this if default was 'dark'
+			});
+			$mdThemingProvider.theme('default').primaryPalette('amazingPaletteName');
+			
 
 			$urlRouterProvider.otherwise('/home');
 			

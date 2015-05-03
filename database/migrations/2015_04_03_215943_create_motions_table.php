@@ -16,7 +16,7 @@ class CreateMotionsTable extends Migration {
             $table->increments('id');
             $table->string('title');
             $table->boolean('active')->default(0);
-        //v2    $table->integer('department')->nullable();
+        	$table->integer('department_id')->unsigned()->default(1);
             $table->dateTime('closing');
             $table->integer('user_id')->unsigned();
             $table->text('text');

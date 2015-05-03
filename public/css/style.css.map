@@ -1,1 +1,1 @@
-{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA;AACA;AACA","file":"style.css","sourcesContent":[".navbar-logo img {\n\twidth: 50% !important;\n}"],"sourceRoot":"/source/"}
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"style.css","sourcesContent":[".isu-logo md-icon{\n\theight: 40px;\n  \tmargin: 0;\n  \twidth: 40px;\n}\n\n.isu-logotype{\n\tline-height: 40px;\n\ttext-indent: 15px;\n}\n"],"sourceRoot":"/source/"}
