@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('iserveu', ['ngResource', 'ui.bootstrap', 'ui.router', 'ngSanitize'])
+		.module('iserveu', ['ngResource', 'ngMaterial', 'ui.router', 'ngSanitize'])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider) {
 
 			$urlRouterProvider.otherwise('/home');

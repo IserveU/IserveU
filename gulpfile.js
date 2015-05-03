@@ -15,9 +15,9 @@ elixir(function(mix) {
     mix.scripts([
     	'../bower/angular/angular.js',
     	'../bower/jquery/dist/jquery.js',
-    	'../bower/bootstrap/dist/js/bootstrap.js',
-		'../bower/angular-bootstrap/ui-bootstrap.js',
-		'../bower/angular-bootstrap/ui-bootstrap-tpls.js',
+        '../bower/angular-animate/angular-animate.min.js',
+        '../bower/angular-aria/angular-aria.min.js',
+        '../bower/angular-material/angular-material.min.js',        
 		'../bower/angular-resource/angular-resource.js',
 		'../bower/angular-ui-router/release/angular-ui-router.min.js',
 		'../bower/angular-sanitize/angular-sanitize.min.js',
@@ -30,7 +30,7 @@ elixir(function(mix) {
 
  
     mix.styles([
-      	'../bower/bootstrap/dist/css/bootstrap.css'
+      	'../bower/angular-material/angular-material.css'
     ],'public/css/dependencies.css');
    
     mix.stylesIn("resources/css",'public/css/style.css');
