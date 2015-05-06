@@ -27,14 +27,11 @@
                 <md-list>
 
                      <md-list-item class="md-3-line" ng-repeat="motion in sidebar.motions">
-                    
-                   
-
-                        <img ng-src="{{motion.category.icon}}?{{$index}}" class="md-avatar" title="{{motion.title}}" />
+                        <md-icon id="testicon" md-svg-src="/img/departments/{{motion.department_id}}.svg"  title="{{motion.title}}" /></md-icon>
                         <div class="md-list-item-text">
                             <h3><a ui-sref="motion({motionId: motion.id})">{{ motion.title }}</a></h3>
                             
-                            <p>Short description</p>
+                            <p>{{motion.summary}}</p>
                         </div>
                     </md-list-item>
                 </md-list>

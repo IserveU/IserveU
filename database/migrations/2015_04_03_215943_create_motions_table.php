@@ -15,6 +15,7 @@ class CreateMotionsTable extends Migration {
 		Schema::create('motions', function(Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('summary');
             $table->boolean('active')->default(0);
         	$table->integer('department_id')->unsigned()->default(1);
             $table->dateTime('closing');

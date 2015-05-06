@@ -12,7 +12,7 @@ class Motion extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title','text'];
+	protected $fillable = ['title','text','summary'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

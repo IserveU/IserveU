@@ -27,6 +27,7 @@ class MotionController extends Controller {
 	public function index()
 	{
 		$motions = Motion::all();
+
 		return $motions;
 	}
 
