@@ -21,6 +21,7 @@ use App\CommentVote;
 use App\Role;
 use App\Permission;
 use App\Verification;
+use App\Department;
 
 class DatabaseSeeder extends Seeder {
 
@@ -186,7 +187,28 @@ class StaticSeeder extends Seeder{
 			$ethnicOrigin->description 	= $row[1];
 			$ethnicOrigin->region 			= $row[0];
 			$ethnicOrigin->save();
-		} 
+		}
+
+
+		$departments[1] = 'Unknown';
+		$departments[2] = 'Local Agriculture';
+		$departments[3] = 'Harvesting';
+		$departments[4] = 'Tourism Economy';
+		$departments[5] = 'Environmental Stewardship';
+		$departments[6] = 'Solar Power';
+		$departments[7] = 'Biomass Energy';
+		$departments[8] = 'Skills Development';
+		$departments[9] = 'Community Governance';
+		$departments[10] = 'Community Quality of Life';
+
+		foreach($departments as $key => $value){
+			$department = new Department;
+			$department->id 	= 	$key;
+			$department->name 	= 	$value;
+			$department->save();
+		}
+
+
 
 	}
 }
