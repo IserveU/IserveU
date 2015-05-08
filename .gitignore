@@ -2,7 +2,7 @@
 /node_modules
 /public/css
 /public/js
-/resources/bower
+/resources/bower/*
 /storage/logs/*
 
 .env

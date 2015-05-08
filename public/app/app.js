@@ -1,22 +1,23 @@
 (function() {
 
+  
 	'use strict';
 
-	angular
+	var app = angular
 		.module('iserveu', ['ngResource', 'ngMaterial', 'ui.router', 'ngSanitize'])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider,$mdThemingProvider) {
 
 			$mdThemingProvider.definePalette('iServeUPalette', {
-			    '50': 'ffffff',
-			    '100': '99949D',
-			    '200': '99949D',
-			    '300': '99949D',
-			    '400': '38353B',
-			    '500': '38353B',
-			    '600': '38353B',
-			    '700': '1C1126',
-			    '800': '1C1126',
-			    '900': '1C1126',
+			    '50': '006e73',
+			    '100': '006e73',
+			    '200': '006e73',
+			    '300': '006e73',
+			    '400': '00acb1',
+			    '500': '00acb1',
+			    '600': '00acb1',
+			    '700': 'ff7600',
+			    '800': 'ff7600',
+			    '900': 'ff7600',
 			    'A100': 'ff0000',
 			    'A200': 'ff0000',
 			    'A400': 'ff0000',
@@ -25,7 +26,7 @@
 			    'contrastDarkColors': ['50', '100', '200', '300', '400', 'A100'],
 			    'contrastLightColors': undefined    
 			});
-			$mdThemingProvider.theme('default').primaryPalette('iServeUPalette');
+			$mdThemingProvider.theme('default').primaryPalette('iServeUPalette').accentPalette('grey');
 			
 
 			$urlRouterProvider.otherwise('/home');
@@ -123,4 +124,12 @@
 				}
 			})
 		});
+
+	app.filter('debug', function() {
+	  return function(input) {
+	    if (input === '') return 'empty string';
+	    return input ? input : ('' + input);
+	  };
+	}); <!-- {{ value | debug }} -->
+
 })();
