@@ -12,6 +12,7 @@
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {
+				console.log('p2');
 				return results
 			}, function(error) {
 				console.log(error);
@@ -19,7 +20,8 @@
 		}
 
 		function getMotion(id) {
-			return Motion.query({id:id}, function(result) {
+			return Motion.get({id:id}, function(result) {
+				console.log(result);
 				return result;
 			});
 		}

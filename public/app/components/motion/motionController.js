@@ -10,11 +10,13 @@
 
 		var vm = this;
 
-		vm.motionDetail = [];
+		vm.motionDetail;
 		vm.loggedInUser;
 
 		function getMotion(id) {
-			vm.motionDetail = motion.getMotion(id);		
+			vm.motionDetail = motion.getMotion(id); //Is not actually there
+			//console.log(vm.motionDetail);
+
 		}
 
 		function getLoggedInUser(id) {
