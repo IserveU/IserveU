@@ -8,6 +8,8 @@
 
 	function sidebar(motion, $stateParams) {
 
+	
+
 		var vm = this;
 
 		vm.motions = [];
@@ -19,6 +21,7 @@
 				console.log(error);
 			});
 		}
+
 
 		getMotions();
 	}

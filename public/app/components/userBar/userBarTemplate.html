@@ -1,7 +1,6 @@
-<div class="modal-header">
-    <h3 class="modal-title">Login</h3>
-</div>
-<div class="modal-body" ng-controller="loginModalController as login">
+<h3>Login</h3>
+
+<div ng-controller="userBarController as login">
 	<p class="login-error" style="color:red" ng-if="login.showLoginError">Invalid Email or Password</p>
 	<form>
   		<p ng-show="login.loginError === true" style="color: red;">Incorrect email or password</p>

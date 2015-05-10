@@ -32,14 +32,14 @@
 			$urlRouterProvider.otherwise('/home');
 			
 			$stateProvider
-				.state('home', {
+			/* PS: I commented this out because I can't get it to fire? Confused!	.state('home', {
 					url: 'home',
 					templateUrl: 'app/components/home/homeView.html',
 					controller: 'homeController as home',
 					data: {
 						requireLogin: false
 					}
-				})
+				}) */
 				.state('motion', {
 					url: 'motion/:motionId',
 					templateUrl: 'app/components/motion/motionView.detail.html',
@@ -63,7 +63,7 @@
 				});
 
 			$httpProvider.interceptors.push(function ($timeout, $q, $injector) {
-			    var loginModal, $http, $state;
+			    var userBar, $http, $state;
 
 			    // this trick must be done so that we don't receive
 			    // `Uncaught Error: [$injector:cdep] Circular dependency found`
