@@ -10,9 +10,8 @@
         <link rel="icon shortcut" type="image/png" href="/img/symbol.png" />
         
     </head>
-    <body ng-app="iserveu">
+    <body ng-app="iserveu" layout="rows">
 
- <div ng-app="iserveu" layout="row">
 
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left-nav" md-is-locked-open="$mdMedia('gt-sm')">
            
@@ -110,7 +109,6 @@
             </md-content>
             
         </md-sidenav>
-    </div>
 
     </body>
 
