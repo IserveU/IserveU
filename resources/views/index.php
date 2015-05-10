@@ -98,13 +98,32 @@
         <md-sidenav class="site-sidenav md-sidenav-right md-whiteframe-z2" md-component-id="user-bar" >
             <md-toolbar class="md-whiteframe-glow-z2">
                 <div class="md-toolbar-tools">
-                <h2>Login</h2>
+                    <h2>Login</h2>
                    
                 </div>
             </md-toolbar>
                
-            <md-content flex role="navigation"> 
-                
+            <md-content layout-padding flex role="menu"> 
+                                
+                <div  ng-controller="userBarController as login">
+                    <p class="login-error" style="color:red" ng-if="login.showLoginError">Invalid Email or Password</p>
+                    <form>
+                        <p ng-show="login.loginError === true" style="color: red;">Incorrect email or password</p> <!-- to upgrade -->
+                        <md-input-container flex>
+                            <label>Email</label>
+                            <input ng-model="_email" >
+                        </md-input-container>
+                     
+                        <md-input-container flex>
+                            <label>Password</label>
+                            <input type="password" ng-model="_password" >
+                        </md-input-container>
+
+                        <md-button class="btn btn-sm btn-primary" ng-click="login.submit(_email, _password)">Login</button>
+                        <!--    <button class="btn btn-sm btn-danger" ng-click="login.cancel()">Close</button> -->
+                        
+                    </form>         
+                </div>
               
             </md-content>
             
