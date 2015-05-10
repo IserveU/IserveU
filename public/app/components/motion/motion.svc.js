@@ -12,7 +12,6 @@
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {
-				console.log('p2');
 				return results
 			}, function(error) {
 				console.log(error);

@@ -1,38 +1,40 @@
 (function() {
 	
-	'use strict';
+	var module = {
+		name: 'iserveu.home',
+		dependencies: [],
+		config: {
+			providers: ['$stateProvider', '$urlRouterProvider']
+		},
+		homeController: {
+			name: 'HomeController',
+			injectables: []
+		}
+	};
+	 
+	var HomeConfig = function($stateProvider, $urlRouterProvider) {
+	 $stateProvider
+	 .state( 'app.home', {
+	 url: '/home',
+	 templateUrl: 'app/components/home/home.tpl.html',
+	 controller: module.homeController.name + ' as home'
+	 });
+	};
+	HomeConfig.$provide = module.config.providers;
+	 
+	 
+	var HomeController = function() {
+	 
+	 var self = this;
+	 self.message = 'Hello World!';
 
-	angular
-		.module('iserveu')
-		.controller('homeController', home);
+	};
+	HomeController.$inject = module.homeController.injectables;
+	 
+	 
+	angular.module(module.name, module.dependencies)
+	.config(HomeConfig)
+	.controller(module.homeController.name, HomeController);
+	
+}());
 
-	function home($scope, $timeout, $mdSidenav, $mdUtil, $log) {
-
-		var vm = this;
-
-
-		$scope.toggleSidebar = buildToggler('left-nav');
-    	
-    	$scope.toggleUserbar = buildToggler('user-bar');
-
-		/**
-	     * PS: Maybe this should go somewhere else?
-	     * Build handler to open/close a SideNav; when animation finishes
-	     * report completion in console. 
-	     */
-	    function buildToggler(navID) {
-	    	console.log(navID);
-
-	      var debounceFn =  $mdUtil.debounce(function(){
-	            $mdSidenav(navID)
-	              .toggle()
-	              .then(function () {
-	                $log.debug("toggle " + navID + " is done");
-	              });
-	          },300);
-	      return debounceFn;
-	    }
-
-	}
-
-})();
