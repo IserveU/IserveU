@@ -14,9 +14,12 @@ var module = {
 var MotionConfig = function($stateProvider) {
     $stateProvider
         .state( 'app.motion', {
-            url: '/motion',
+            url: '/app/motion/:motionId',
             templateUrl: 'app/components/motion/motion.tpl.html',
-            controller: module.motionController.name + ' as motion'
+            controller: module.motionController.name + ' as motion',
+            data: {
+            	MotionId: 1
+            }
     });
 };
 
@@ -30,9 +33,11 @@ var MotionController = function($stateParams, $sce, auth, $stateProvider, $urlRo
 	vm.motionDetail;
 	vm.loggedInUser;
 
+	
+
 	function getMotion(id) {
 		vm.motionDetail = motion.getMotion(id); //Is not actually there
-		//console.log(vm.motionDetail);
+//$stateParams.motionId = id;		
 
 	}
 
@@ -45,6 +50,7 @@ var MotionController = function($stateParams, $sce, auth, $stateProvider, $urlRo
 		});
 		
 	}		
+
 
 	getMotion($stateParams.motionId);
 };
