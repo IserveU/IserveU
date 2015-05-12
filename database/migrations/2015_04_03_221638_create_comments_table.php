@@ -16,6 +16,7 @@ class CreateCommentsTable extends Migration {
             $table->increments('id');
             $table->integer('motion_id')->unsigned();
             $table->text('text');
+            $table->boolean('approved')->default(0); //Just for the conference
             $table->integer('vote_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
