@@ -27,3 +27,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
     width: 85vw !important;
     max-width: 400px !important;
 } 
+
+.sidebar-list {
+	cursor: pointer;
+}

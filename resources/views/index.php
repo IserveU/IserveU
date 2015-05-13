@@ -16,8 +16,8 @@
 
     </body>
 
-    
-        <script src="/js/dependencies.js"></script>
+        
+        <script src="/js/dependencies.js"></script>        
         <script src="/js/iserveu-app.js"></script> 
 
         <script>

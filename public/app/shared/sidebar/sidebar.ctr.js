@@ -17,7 +17,6 @@
 	        $scope.$state = $state;
 	        var navItems = [];
 	        var motions = [];
-
 	 
         	motion.getMotions().then(function(results) {
 				motions = results;

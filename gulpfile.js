@@ -13,27 +13,27 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.scripts([
-    	'../bower/angular/angular.js',
-    	'../bower/jquery/dist/jquery.js',
-        '../bower/angular-animate/angular-animate.min.js',
-        '../bower/angular-aria/angular-aria.min.js',
-        '../bower/angular-material/angular-material.min.js',        
-		'../bower/angular-resource/angular-resource.js',
-		'../bower/angular-ui-router/release/angular-ui-router.min.js',
-		'../bower/angular-sanitize/angular-sanitize.min.js',
-		'../bower/moment/moment.js'
-    ],'public/js/dependencies.js');
+    	'/bower/angular/angular.js',
+    	'/bower/jquery/dist/jquery.js',
+        '/bower/angular-animate/angular-animate.min.js',
+        '/bower/angular-aria/angular-aria.min.js',
+        '/bower/angular-material/angular-material.min.js',        
+		'/bower/angular-resource/angular-resource.js',
+		'/bower/angular-ui-router/release/angular-ui-router.min.js',
+		'/bower/angular-sanitize/angular-sanitize.min.js',
+		'/bower/moment/moment.js'
+    ],'public/js/dependencies.js', './resources'); // added resources as third argument to point directly to the resources directory and not have /js in there
 
 /*    mix.scriptsIn("resources/js",'public/js/scripts.js'); */
 
  	mix.scriptsIn("public/app",'public/js/iserveu-app.js'); 
 
-    mix.copy('resources/bower/material-design-icons', 'public/img/icons');
+    //mix.copy('./resources/bower/material-design-icons', './public/img/icons');
 
     mix.styles([
-      	'../bower/angular-material/angular-material.css'
+      	'/bower/angular-material/angular-material.css'
         
-    ],'public/css/dependencies.css');
+    ],'public/css/dependencies.css', './resources'); // added resources as third argument to point directly to the resources directory and not have /css in there
    
     mix.stylesIn("resources/css",'public/css/style.css');
 
