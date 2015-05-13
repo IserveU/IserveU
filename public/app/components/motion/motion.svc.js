@@ -19,8 +19,7 @@
 		}
 
 		function getMotion(id) {
-			return Motion.get({id:id}, function(result) {
-				console.log(result);
+			return Motion.get({id:id}).$promise.then(function(result) {
 				return result;
 			});
 		}

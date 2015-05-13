@@ -7,17 +7,17 @@
 
 <md-list>
 
-	<md-list-item ng-repeat="motion in sidebar.motions">
-	<!-- how do we mark what they have read/not read? -->
-	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_check_18px.svg" ui-sref="motion({motionId: motion.id})" ng-click="$scope.do" ></md-icon>
-	<p ui-sref="app.motion({motionId: motion.id})" >{{ motion.title }}</p>
+	<md-list-item ng-repeat="motion in sidebar.motions" class="sidebar-list">
+		<!-- how do we mark what they have read/not read? -->
+		<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_check_18px.svg"></md-icon>
+		<p ui-sref="app.motion({id:motion.id})" >{{ motion.title }}</p>
 
-	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
-             <!-- 
-            md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" Have voted for
-            md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" Have voted against
-            md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" Have abstained
-        -->
+		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
+	             <!-- 
+	            md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" Have voted for
+	            md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" Have voted against
+	            md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" Have abstained
+	        -->
     </md-list-item>
 </md-list>
 
