@@ -7,6 +7,13 @@ class Comment extends Model {
 	
 	use SoftDeletes;
 
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = ['motion_id','text','vote_id','created_at'];
+
 
 	/**
 	 * The attributes excluded from the model's JSON form. The general pubilc shouldn't be able to see non-public users names
@@ -15,6 +22,8 @@ class Comment extends Model {
 	 */
 	protected $hidden = ['user_id','created_at','deleted_at','updated_at'];
 
+
+	protected $table = 'comments';
 
 
 	public function commentVotes(){

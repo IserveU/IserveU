@@ -19,7 +19,7 @@ class Vote extends Model {
 	 *
 	 * @var array
 	 */
-	protected $hidden = [];
+	protected $hidden = ['user_id']; //If comments gets pulled we don't want people to figure out that the comment is the vote, and the vote is the user
 
 
 	protected $table = 'votes';

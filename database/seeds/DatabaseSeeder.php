@@ -303,17 +303,23 @@ class DefaultUsers extends Seeder{
 		$createComment->description 	=	'Create and edit own comment';
 		$createComment->save();
 
+		$viewComment					= 	new Permission();
+		$viewComment->name				=	"view-comment";
+		$viewComment->display_name		= 	'View Comments';
+		$viewComment->description 		=	'View the comments and owners of comments that are not public';
+		$viewComment->save();
+
 		$createVote						= 	new Permission();
 		$createVote->name				=	"create-vote";
 		$createVote->display_name		= 	'Can vote (Create a vote)';
 		$createVote->description 		=	'Can vote, vote on a comment, can edit';
 		$createVote->save();
 
-		$createVote						= 	new Permission();
-		$createVote->name				=	"show-vote";
-		$createVote->display_name		= 	'Can see other users votes';
-		$createVote->description 		=	'Can see who placed a vote and a detailed record of all votes cast (like most recent vote)';
-		$createVote->save();
+		$showVote						= 	new Permission();
+		$showVote->name					=	"show-vote";
+		$showVote->display_name			= 	'Can see other users votes';
+		$showVote->description 			=	'Can see who placed a vote and a detailed record of all votes cast (like most recent vote)';
+		$showVote->save();
 
 		$createProperty					= 	new Permission();
 		$createProperty->name			=	"create-property";
@@ -329,7 +335,7 @@ class DefaultUsers extends Seeder{
 
 		$councilor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion));
 		$citizen->attachPermissions(array($createComment,$createVote));
-		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty));
+		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,showVote));
 		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 
 
