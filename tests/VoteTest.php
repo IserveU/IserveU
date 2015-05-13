@@ -44,7 +44,7 @@ class VoteTest extends TestCase {
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
 		$user->properties()->attach($property->id);
 
-		$citizen = Role::where('name','citizen');
+		$citizen = Role::where('name','citizen')->firstOrFail();
 
 		$user->attachRole($citizen);
 

@@ -23,6 +23,8 @@ use App\Permission;
 use App\Verification;
 use App\Department;
 
+use Hash;
+
 class DatabaseSeeder extends Seeder {
 
 
@@ -305,6 +307,12 @@ class DefaultUsers extends Seeder{
 		$createVote->name				=	"create-vote";
 		$createVote->display_name		= 	'Can vote (Create a vote)';
 		$createVote->description 		=	'Can vote, vote on a comment, can edit';
+		$createVote->save();
+
+		$createVote						= 	new Permission();
+		$createVote->name				=	"show-vote";
+		$createVote->display_name		= 	'Can see other users votes';
+		$createVote->description 		=	'Can see who placed a vote and a detailed record of all votes cast (like most recent vote)';
 		$createVote->save();
 
 		$createProperty					= 	new Permission();
