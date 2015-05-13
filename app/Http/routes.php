@@ -26,6 +26,9 @@ Route::resource('users', 'UserController');
 Route::get('motions/rules','MotionController@rules');
 Route::resource('motions', 'MotionController');
 
+Route::get('votes/rules','VoteController@rules');
+Route::resource('votes', 'VoteController');
+
 Route::get('/', function()
 {
 	return view('index');

@@ -44,11 +44,12 @@ class VoteTest extends TestCase {
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //Trails End
 		$user->properties()->attach($property->id);
 
-		
-		
+		$citizen = Role::where('name','citizen');
+
+		$user->attachRole($citizen);
+
 		$this->be($user);
-		$response = $this->call('GET', '/motions/');
-		//$response = $this->call('POST', '/votes/create',['motion_id'=>1,'position'=>1]);
+		$response = $this->call('GET', '/votes/create',['motion_id'=>1,'position'=>1]);
 
 		echo $response->getContent();
 		$this->assertEquals(200, $response->getStatusCode()); 
