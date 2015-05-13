@@ -17,17 +17,6 @@ Route::controllers([
 ]);
 
 
-Route::resource('test','TestController');
-
-
-Route::get('users/rules','UserController@rules');
-Route::resource('users', 'UserController');
-
-Route::get('motions/rules','MotionController@rules');
-Route::resource('motions', 'MotionController');
-
-Route::get('votes/rules','VoteController@rules');
-Route::resource('votes', 'VoteController');
 
 Route::get('/', function()
 {
@@ -36,9 +25,15 @@ Route::get('/', function()
 
 Route::group(array('prefix' => 'api'), function()
 {
+	Route::get('motion/rules','MotionController@rules');
+	Route::resource('motions', 'MotionController');
+
 	Route::get('user/loggedin', 'UserController@checkLogin');
-	Route::resource('motion', 'MotionController');
+	Route::get('user/rules','UserController@rules');
 	Route::resource('user', 'UserController');
+	
+	Route::get('vote/rules','VoteController@rules');
+	Route::resource('vote', 'VoteController');
 });
 
 
