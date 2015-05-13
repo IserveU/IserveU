@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Motion;
+use Auth;
 use Illuminate\Http\Request;
 
 class MotionController extends Controller {
@@ -27,7 +28,6 @@ class MotionController extends Controller {
 	public function index()
 	{
 		$motions = Motion::all();
-
 		return $motions;
 	}
 
