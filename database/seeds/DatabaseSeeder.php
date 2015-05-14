@@ -58,14 +58,14 @@ class DatabaseSeeder extends Seeder {
 class PropertySeeder extends Seeder{
 
 	public function run(){
-
+/*
 		$directory = getcwd();
 		$directory .="/database/seeds/allykproperties.csv";
 
 		$csv = Reader::createFromPath($directory);
 
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
-				
+				*/
 		/* csv format
 		    [0] => Roll Number
 		    [1] => Block
@@ -88,6 +88,7 @@ class PropertySeeder extends Seeder{
 		    [18] => Longitude
 		*/
 
+/*
 		foreach($allrows as $row){
 		
 
@@ -173,13 +174,14 @@ class PropertySeeder extends Seeder{
   				$assessment->save();
 			}
 		
-		}
-	}
+		}*/
+	} 
 }
 
 class StaticSeeder extends Seeder{
 
 	public function run(){
+		/* Commenting out because of issue on Jessicas Mac reading CSVS
 		$directory = getcwd();
 		$directory .="/database/seeds/ethnic_origins.csv";
 		$csv = Reader::createFromPath($directory);
@@ -189,7 +191,41 @@ class StaticSeeder extends Seeder{
 			$ethnicOrigin->description 	= $row[1];
 			$ethnicOrigin->region 			= $row[0];
 			$ethnicOrigin->save();
-		}
+		} */
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "No predominant or known ancestry";
+		$unknown->region = "Unknown";
+		$unknown->save();
+
+		/*
+"Eastern Africa","Kenya, Rwanda, Zimbabwe, South Sudan"
+"Middle Africa","Angola, Cameroon, Chad, Congo"
+"Northern Africa","Algeria, Tunisian, Libya, Western Sahara"
+"Southern Africa","Botswana, Namibia, Swaziland"
+"Western Africa","Burkina Faso, Niger, Senegal" */
+
+/*
+Caribbean,"Cuba, Haiti, Trinidad"
+Central America,"Mexico, Panama, Costa Rica"
+South America,"Argentina, Brazuk, Venezuela"
+Northern America,"Canada, Greenland, United States of America"
+Central Asia,"Kazakhstan, Tajikistan"
+Eastern Asia,"China, Japan, Korea"
+Southern Asia,"Afghanistan, India, Sri Lanka, Nepal"
+South-Eastern Asia,"Philippines, Thailand, Indonesia, Vietnam"
+Western Asia,"Turkey, Iraq, Yemen"
+Eastern Europe,"Belarus, Poland, Russia"
+Northern Europe,"UK, Iceland, Finland, Norway"
+Southern Europe,"Italy, Greece, Spain"
+Western Europe,"Germany, Netherlands, Belgium, France"
+Australasia,"Australia, New Zealand"
+Melanesia,"Fiji, Vanuatu, Solomon Islands"
+Micronesia,"Guam, Kiribati, Nauru"
+Polynesia,"Cook Islands, Samoa, Tonga" */
+
+
+
 
 
 		$departments[1] = 'Unknown';
