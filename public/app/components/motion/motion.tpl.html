@@ -19,52 +19,41 @@
     	</div>
 	</div>
 </md-toolbar>
-<md-content id="maincontent" layout="row" layout-padding ng-view md-scroll-y flex>
-	<div layout="column"  flex="90" flex-sm="100" flex-order-sm="2" layout-padding>
-	    <div ng-bind-html="motion.motionDetail.text"></div>
-	    <div layout="row">
+<md-content id="maincontent" layout="row" layout-sm="column" layout-padding  >
+	<div layout="column"  flex="90" flex-sm="100" flex-order-sm="2" layout-padding layout-fill >
+	    <div ng-bind-html="motion.motionDetail.text">
+
+	    </div>
+
+
+
+	    <div layout="row" class="voting">
 	        <!--Pro Side-->
-	        <div>
-	            <md-button class="md-fab" aria-label="Yes">
-	            <md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-	            </md-button>
+	        <div flex layout-align="center">
+	             <md-button class="md-primary md-raised agree" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>	
+	        </div>
+
+	        <div flex>
+	       		 <md-button class="md-raised abstain" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
+
 	        </div>
 	        <!--Con Side-->
-	        <div>
-	            <md-button class="md-fab" aria-label="Yes">
-	            <md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
-	            </md-button>
+	        <div flex layout-align="center" >
+ 				<md-button class="md-raised md-accent" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
 	        </div>
 	    </div>
 
-	    <md-divider ng-if="!$last"></md-divider>
-	    <h3>Comments</h3>
-	    <div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
-	        <div class="panel-body">
-	            <span>Date: {{comment.created_at | date:'longDate'}}</span>
-	            <div>{{comment.text}}</div>
-	        </div>
-	    </div>
-	    <md-divider ng-if="!$last"></md-divider>
-	    <h3>Votes</h3>
-	    <div class="col-sm-6">
-	        <div class="panel panel-success">
-	            <div class="panel-heading">Votes For</div>
-	            <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
-
-	            </div>
-	        </div>
-	    </div>
-	    <div class="col-sm-6">
-	        <div class="panel panel-danger">
-	            <div class="panel-heading">Votes Against</div>
-	            <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
-
-	            </div>
-	        </div>
+	    <div layout="row">
+		    <h3>Comments</h3>
+		    <div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
+		        <div class="panel-body">
+		            <span>Date: {{comment.created_at | date:'longDate'}}</span>
+		            <div>{{comment.text}}</div>
+		        </div>
+		    </div>
 	    </div>
 	</div>
-	<div layout="column" flex="10" flex-sm="100" flex-order-sm="1" layout-padding>
+	<div layout="column" flex="10" flex-sm="100" flex-order-sm="1" layout-padding layout-fill>
 	    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="15px" md-gutter-gt-sm="8px">
 		    <md-grid-tile>
 			    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>

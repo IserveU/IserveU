@@ -4,7 +4,7 @@
   	width: 40px;
 }
 
-.isu-logotype{
+{
 	line-height: 40px;
 	text-indent: 15px;
 }
@@ -40,6 +40,28 @@ md-grid-tile md-icon{
 	height: 80%;
 		
 }
+
+.voting button{
+	margin: 0px;
+	border-radius: 0px !important ;
+}
+/*
+.voting button.agree{
+	background-color: #00acb1;
+}
+
+
+.voting button.abstain{
+	background-color: #99949d;
+}
+
+
+.voting button.disagree{
+	background-color: #ff7600;
+} */
+
+
+
 
 .sidebar-list {
 	cursor: pointer;
