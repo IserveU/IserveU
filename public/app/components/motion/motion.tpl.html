@@ -19,31 +19,45 @@
     	</div>
 	</div>
 </md-toolbar>
-<md-content id="maincontent" layout="row" layout-sm="column" layout-padding  >
-	<div layout="column"  flex="90" flex-sm="100" flex-order-sm="2" layout-padding layout-fill >
-	    <div ng-bind-html="motion.motionDetail.text">
+<md-content id="maincontent" layout="row" layout-wrap>
 
-	    </div>
+		<div flex="90" flex-sm="100" flex-order-sm="2"  layout="row" layout-padding  >
+	  	  <md-whiteframe class="md-whiteframe-z1"  ng-bind-html="motion.motionDetail.text" layout-padding layout-fill ></md-whiteframe>
+		</div>
+		<div flex="10" flex-sm="100" flex-order-sm="1" layout-padding class="listgird">
+		    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="10px" md-gutter-gt-sm="20px">
+			    <md-grid-tile class="md-whiteframe-z1">
+				    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>
+				    <md-grid-tile-footer><h3>{{motion.motionDetail.closing | dateToISO | date:'shortDate' }} </h3></md-grid-tile-footer>
+			    </md-grid-tile>
+			    <md-grid-tile class="md-whiteframe-z1">
+				    <md-icon md-svg-icon="/img/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon>
+				    <md-grid-tile-footer><h3>Department </h3></md-grid-tile-footer>
+			    </md-grid-tile>
+			    <md-grid-tile class="md-whiteframe-z1">
+				    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+				    <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer>
+			    </md-grid-tile>
+		    </md-grid-list>
+		</div>	
 
-
-
-	    <div layout="row" class="voting">
+	    <div flex-order-sm="3" flex="100" layout="row" class="voting"  >
 	        <!--Pro Side-->
-	        <div flex layout-align="center">
-	             <md-button class="md-primary md-raised agree" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>	
+	        <div layout-padding flex>
+	             <md-button class="md-primary md-raised agree" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
 	        </div>
 
-	        <div flex>
+	        <div layout-padding flex>
 	       		 <md-button class="md-raised abstain" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
 
 	        </div>
 	        <!--Con Side-->
-	        <div flex layout-align="center" >
+	        <div layout-padding flex >
  				<md-button class="md-raised md-accent" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
 	        </div>
 	    </div>
 
-	    <div layout="row">
+	    <div flex-order-sm="4" layout="row">
 		    <h3>Comments</h3>
 		    <div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
 		        <div class="panel-body">
@@ -53,21 +67,6 @@
 		    </div>
 	    </div>
 	</div>
-	<div layout="column" flex="10" flex-sm="100" flex-order-sm="1" layout-padding layout-fill>
-	    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="15px" md-gutter-gt-sm="8px">
-		    <md-grid-tile>
-			    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>
-			    <md-grid-tile-footer><h3>{{motion.motionDetail.closing | dateToISO | date:'shortDate' }} </h3></md-grid-tile-footer>
-		    </md-grid-tile>
-		    <md-grid-tile>
-			    <md-icon md-svg-icon="/img/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon>
-			    <md-grid-tile-footer><h3>Department </h3></md-grid-tile-footer>
-		    </md-grid-tile>
-		    <md-grid-tile>
-			    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-			    <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer>
-		    </md-grid-tile>
-	    </md-grid-list>
-	</div>	
+	 
 </md-content>
 
