@@ -64,4 +64,5 @@ class Motion extends Model {
 		return $query->votes->where('position',0);
 	}
 
+
 }

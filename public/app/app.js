@@ -83,7 +83,6 @@
 			    };
 			  });
 
-
 	};
 
 	AppConfig.$provide = module.config.providers;
@@ -116,8 +115,17 @@
 
 	angular.module(module.name, module.dependencies)
 		.config(AppConfig)
-		.controller(module.controller.name, AppController);
-	}());
+		.controller(module.controller.name, AppController)
+		.filter('dateToISO', function() {
+		  	return function(input) {
+		  		if(typeof input !== "undefined"){
+		    		input = new Date(input).toISOString();
+		    		return input;
+		    	}
+	  	};
+	});	
+
+}());
 
 
 	

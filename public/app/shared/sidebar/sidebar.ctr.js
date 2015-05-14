@@ -15,7 +15,6 @@
 
 	    controllerMethod = function(motion, $scope, $location, $state) {
 	        $scope.$state = $state;
-	        var navItems = [];
 	        var motions = [];
 	 
         	motion.getMotions().then(function(results) {
@@ -32,7 +31,6 @@
 
 
 	        $scope.sidebar = {
-	            navItems: navItems,
 	            motions: motions
 	        };
 	        	       

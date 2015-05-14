@@ -1,77 +1,30 @@
-<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="sidebar" md-is-locked-open="$mdMedia('gt-sm')">
-    <sidebar></sidebar>
+<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="sidebar" md-is-locked-open="$mdMedia('gt-md')">
+<sidebar></sidebar>
 </md-sidenav>
-
-
-<div layout="column" tabIndex="-1" role="main" flex>
-    <md-toolbar class="md-whiteframe-glow-z2">
-        <div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
-            <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu">
-              <md-icon md-svg-src="{{  }}"></md-icon> <!-- there is a way to use an angular icon repository -->
-            </md-button>
-            <div layout="row" flex class="fill-height">
-                <h2 class="md-toolbar-item md-breadcrumb">
-                    <span class="md-breadcrumb-page"><!-- {{(menu.currentPage | humanizeDoc) || 'IserveU' }} --></span>
-                </h2>
-                <span flex></span> <!-- use up the empty space -->                 
-            </div>
-
-            <h1 class="md-toolbar-tools">
-            <a ng-href="#/" layout="row" flex class="isu-logo">
-                <md-icon md-svg-src="img/symbol_mono.svg"/></md-icon>
-                <div class="isu-logotype">Motions</div>
-                
-            </a>
-            </h1>
-
-            <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row"  >
-<!-- ng-show="userIsLoggedIn === false" ui-sref="profile" -->                         <md-button ng-click="toggleUserbar()">Login</md-button>
-        <!--        <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()" ng-click="toggleRight()">Logout</md-button>
-                <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button> -->
-            </div>
-        </div>
-
-        
-
-    </md-toolbar>
-
-    <md-content layout-padding ng-view md-scroll-y flex layout-padding ui-view>
-
-    </md-content>
-
-</div>
-
+<div layout="column" tabIndex="-1" role="main" flex ui-view></div>
 <!-- this nav will be hidden by default, but pops out to login or navigate user settings -->
 <md-sidenav class="site-sidenav md-sidenav-right md-whiteframe-z2" md-component-id="user-bar" >
-    <md-toolbar class="md-whiteframe-glow-z2">
-        <div class="md-toolbar-tools">
-            <h2>Login</h2>
-           
-        </div>
-    </md-toolbar>
-       
-    <md-content layout-padding flex role="menu"> 
-                        
-        <div  ng-controller="userBarController as login">
-            <p class="login-error" style="color:red" ng-if="login.showLoginError">Invalid Email or Password</p>
-            <form>
-                <p ng-show="login.loginError === true" style="color: red;">Incorrect email or password</p> <!-- to upgrade -->
-                <md-input-container flex>
-                    <label>Email</label>
-                    <input ng-model="_email" >
-                </md-input-container>
-             
-                <md-input-container flex>
-                    <label>Password</label>
-                    <input type="password" ng-model="_password" >
-                </md-input-container>
-
-                <md-button class="btn btn-sm btn-primary" ng-click="login.submit(_email, _password)">Login</button>
-                <!--    <button class="btn btn-sm btn-danger" ng-click="login.cancel()">Close</button> -->
-                
-            </form>         
-        </div>
-      
-    </md-content>
-    
+<md-toolbar class="md-whiteframe-glow-z2">
+<div class="md-toolbar-tools">
+    <h2>Login</h2>
+</div>
+</md-toolbar>
+<md-content layout-padding flex role="menu">
+<div ng-controller="userBarController as login">
+    <p class="login-error" style="color:red" ng-if="login.showLoginError">Invalid Email or Password</p>
+    <form>
+        <p ng-show="login.loginError === true" style="color: red;">Incorrect email or password</p> <!-- to upgrade -->
+        <md-input-container flex>
+        <label>Email</label>
+        <input ng-model="_email" >
+        </md-input-container>
+        <md-input-container flex>
+        <label>Password</label>
+        <input type="password" ng-model="_password" >
+        </md-input-container>
+        <md-button class="btn btn-sm btn-primary" ng-click="login.submit(_email, _password)">Login</md-button>
+        <!--    <button class="btn btn-sm btn-danger" ng-click="login.cancel()">Close</button> -->
+    </form>
+</div>
+</md-content>
 </md-sidenav>

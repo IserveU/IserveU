@@ -1,31 +1,82 @@
-<div>
-	<h1>{{motion.motionDetail.title}}</h1>
-	<h3>Closing Date:{{motion.title}} {{motion.motionDetail.closing_date | date:'longDate'}}</h3>
-	<div ng-bind-html="motion.motionDetail.text"></div>	
-	<hr>
-	<h3>Comments</h3>
-	<div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
-	    <div class="panel-body">
-	    	<span>Date: {{comment.created_at | date:'longDate'}}</span>
-	    	<div>{{comment.text}}</div>
+<md-toolbar class="md-whiteframe-glow-z2">
+	<div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
+	    <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu">
+	    	<md-icon md-svg-src="{{  }}"></md-icon> <!-- there is a way to use an angular icon repository -->
+	    </md-button>
+	    <div layout="row" flex class="fill-height">
+	        <h2>
+	        {{motion.motionDetail.title}}
+	        </h2>
+	        <span flex></span> <!-- use up the empty space -->
+	    </div>
+
+	    <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row"  >
+	        <!-- ng-show="userIsLoggedIn === false" ui-sref="profile" -->                         <md-button ng-click="toggleUserbar()">Login</md-button>
+	        <!--        <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()" ng-click="toggleRight()">Logout</md-button>
+	        <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button> -->
 	    </div>
 	</div>
-	<hr>
-	<h3>Votes</h3>
-	<div class="col-sm-6">
-		<div class="panel panel-success">
-			<div class="panel-heading">Votes For</div>
-		    <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
-		    	
-		    </div>
-		</div>
+</md-toolbar>
+<md-content id="maincontent" layout="row" layout-padding ng-view md-scroll-y flex>
+	<div layout="column"  flex="90" flex-sm="100" flex-order-sm="2" layout-padding>
+	    <div ng-bind-html="motion.motionDetail.text"></div>
+	    <div layout="row">
+	        <!--Pro Side-->
+	        <div>
+	            <md-button class="md-fab" aria-label="Yes">
+	            <md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+	            </md-button>
+	        </div>
+	        <!--Con Side-->
+	        <div>
+	            <md-button class="md-fab" aria-label="Yes">
+	            <md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+	            </md-button>
+	        </div>
+	    </div>
+
+	    <md-divider ng-if="!$last"></md-divider>
+	    <h3>Comments</h3>
+	    <div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
+	        <div class="panel-body">
+	            <span>Date: {{comment.created_at | date:'longDate'}}</span>
+	            <div>{{comment.text}}</div>
+	        </div>
+	    </div>
+	    <md-divider ng-if="!$last"></md-divider>
+	    <h3>Votes</h3>
+	    <div class="col-sm-6">
+	        <div class="panel panel-success">
+	            <div class="panel-heading">Votes For</div>
+	            <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
+
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-sm-6">
+	        <div class="panel panel-danger">
+	            <div class="panel-heading">Votes Against</div>
+	            <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
+
+	            </div>
+	        </div>
+	    </div>
 	</div>
-	<div class="col-sm-6">
-		<div class="panel panel-danger">
-			<div class="panel-heading">Votes Against</div>
-		    <div class="panel-body" ng-repeat="vote in motion.motionDetail.votes">
-		    	
-		    </div>
-		</div>
-	</div>
-</div>
+	<div layout="column" flex="10" flex-sm="100" flex-order-sm="1" layout-padding>
+	    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="15px" md-gutter-gt-sm="8px">
+		    <md-grid-tile>
+			    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>
+			    <md-grid-tile-footer><h3>{{motion.motionDetail.closing | dateToISO | date:'shortDate' }} </h3></md-grid-tile-footer>
+		    </md-grid-tile>
+		    <md-grid-tile>
+			    <md-icon md-svg-icon="/img/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon>
+			    <md-grid-tile-footer><h3>Department </h3></md-grid-tile-footer>
+		    </md-grid-tile>
+		    <md-grid-tile>
+			    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+			    <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer>
+		    </md-grid-tile>
+	    </md-grid-list>
+	</div>	
+</md-content>
+

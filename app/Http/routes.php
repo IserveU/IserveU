@@ -16,8 +16,6 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-
-
 Route::get('/', function()
 {
 	return view('index');
@@ -26,7 +24,7 @@ Route::get('/', function()
 Route::group(array('prefix' => 'api'), function()
 {
 	Route::get('motion/rules','MotionController@rules');
-	Route::resource('motions', 'MotionController');
+	Route::resource('motion', 'MotionController');
 
 	Route::get('user/loggedin', 'UserController@checkLogin');
 	Route::get('user/rules','UserController@rules');

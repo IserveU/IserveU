@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Motion;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class MotionController extends Controller {
@@ -27,7 +28,31 @@ class MotionController extends Controller {
 	 */
 	public function index()
 	{
-		$motions = Motion::all();
+		if(Auth::check() && Auth::user()->can('create-vote')){ //Logged in user will want to see if they voted on these things
+		 	$motions = Motion::all();
+		} else {
+
+				$motions = Motion::all();
+			/*
+			$motions = Motion::with('votes')->get();
+		
+
+			$userVotes = $motions->filter(function($votes){
+
+
+				/*dd($motion->votes->id);
+
+		        if ($motion->vot == 2) {
+		            return true;
+		        }
+			}); */
+		//	DB::enableQueryLog();
+
+			//$motions = DB::table('motions')->leftJoin('votes','motions.id','=','votes.motion_id')->where('votes.user_id','=',1)->get();
+
+		//	print_r(DB::getQueryLog());
+		}
+
 		return $motions;
 	}
 
