@@ -10,11 +10,13 @@
 	        <span flex></span> <!-- use up the empty space -->
 	    </div>
 
-	    <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row"  >
-	        <!-- ng-show="userIsLoggedIn === false" ui-sref="profile" -->                         <md-button ng-click="toggleUserbar()">Login</md-button>
-	        <!--        <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()" ng-click="toggleRight()">Logout</md-button>
-	        <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button> -->
-	    </div>
+	    <div ng-controller="userBarController as login">
+         	<div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row"  >
+	            <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()">Logout</md-button>
+	            <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button>
+	            <md-button ng-click="toggleUserbar()" ng-click="userIsLoggedIn === false">Login</md-button>
+        	</div>
+    	</div>
 	</div>
 </md-toolbar>
 <md-content id="maincontent" layout="row" layout-padding ng-view md-scroll-y flex>

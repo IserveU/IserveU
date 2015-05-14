@@ -1,7 +1,7 @@
-<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="sidebar" md-is-locked-open="$mdMedia('gt-md')">
-<sidebar></sidebar>
+<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="sidebar" md-is-locked-open="$mdMedia('gt-sm')">
+    <sidebar></sidebar>
 </md-sidenav>
-<div layout="column" tabIndex="-1" role="main" flex ui-view></div>
+<div layout="column" tabIndex="-1" role="main" flex ui-view></div> 
 <!-- this nav will be hidden by default, but pops out to login or navigate user settings -->
 <md-sidenav class="site-sidenav md-sidenav-right md-whiteframe-z2" md-component-id="user-bar" >
 <md-toolbar class="md-whiteframe-glow-z2">
@@ -23,7 +23,7 @@
         <input type="password" ng-model="_password" >
         </md-input-container>
         <md-button class="btn btn-sm btn-primary" ng-click="login.submit(_email, _password)">Login</md-button>
-        <!--    <button class="btn btn-sm btn-danger" ng-click="login.cancel()">Close</button> -->
+        <md-button class="btn btn-sm btn-danger" ng-click="login.close()">Close</md-button>
     </form>
 </div>
 </md-content>

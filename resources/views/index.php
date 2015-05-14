@@ -10,7 +10,7 @@
         <link rel="icon shortcut" type="image/png" href="/img/symbol.png" />
         
     </head>
-    <body ui-view="body" layout="rows">
+    <body ui-view="body" layout="rows" ng-controller="AppController">
 
 
 
