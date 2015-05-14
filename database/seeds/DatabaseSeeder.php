@@ -23,7 +23,6 @@ use App\Permission;
 use App\Verification;
 use App\Department;
 
-use Hash;
 
 class DatabaseSeeder extends Seeder {
 
@@ -37,6 +36,7 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
+		$this->command->info("Reading in and seeding property data");
 		$this->call('PropertySeeder');
 		$this->command->info('seeding of property completed');
 
@@ -335,7 +335,7 @@ class DefaultUsers extends Seeder{
 
 		$councilor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion));
 		$citizen->attachPermissions(array($createComment,$createVote));
-		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,showVote));
+		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote));
 		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 
 
