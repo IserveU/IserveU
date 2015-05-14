@@ -17,7 +17,10 @@
             .state( 'app.motion', {
                 url: '/motion/:id',
                 templateUrl: 'app/components/motion/motion.tpl.html',
-                controller: module.motionController.name + ' as motion'
+                controller: module.motionController.name + ' as motion',
+                data: {
+                    requireLogin: true
+                }
         });
     };
 
