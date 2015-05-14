@@ -1,7 +1,7 @@
 <md-toolbar class="md-whiteframe-glow-z2">
 	<div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
-	    <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu">
-	    	<md-icon md-svg-src="{{  }}"></md-icon> <!-- there is a way to use an angular icon repository -->
+	    <md-button class="md-icon-button" ng-click="toggleSidebar()" hide-gt-sm aria-label="Toggle Menu">
+	    	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_menu_18px.svg"></md-icon> <!-- there is a way to use an angular icon repository -->
 	    </md-button>
 	    <div layout="row" flex class="fill-height">
 	        <h2>
@@ -49,7 +49,6 @@
 
 	        <div layout-padding flex>
 	       		 <md-button class="md-raised abstain" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
-
 	        </div>
 	        <!--Con Side-->
 	        <div layout-padding flex >

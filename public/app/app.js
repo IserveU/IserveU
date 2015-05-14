@@ -104,7 +104,7 @@
 
 	var AppController = function($scope, $mdUtil, $mdSidenav, $log) {
 
-		$scope.toggleSidebar = buildToggler('left-nav');
+		$scope.toggleSidebar = buildToggler('sidebar');
     	
     	$scope.toggleUserbar = buildToggler('user-bar');
 	    
