@@ -58,7 +58,127 @@ class DatabaseSeeder extends Seeder {
 class PropertySeeder extends Seeder{
 
 	public function run(){
-/*
+
+		$property = new Property;
+		$block = new PropertyBlock;
+		$block->name = "77";
+		$block->save();
+		$poll = new PropertyPollDivision;
+		$poll->name = "Weledeh";
+		$poll->voting_station = "St. Patrick High School";
+		$poll->save();
+		$zone = new PropertyZoning;
+		$zone->type = "";
+		$zone->save();
+		$propertyDescription = new PropertyDescription;
+		$propertyDescription->description_code = "101";
+		$propertyDescription->description = "Residential";
+		$propertyDescription->save();
+		$plan = new PropertyPlan;
+		$plan->name = "C4576";
+		$plan->save();
+		$coordinate = new PropertyCoordinate;
+		$coordinate->latitude = "62.45969223";
+		$coordinate->longitude = "-114.3534692";
+		$coordinate->block_id = $block->id;
+		$coordinate->save();
+		$property->roll_number = "77000903";
+		$property->address = "5209";
+		$property->street = "BROCK DR";
+		$property->unit = "UNIT 3";
+		$property->property_block_id 			= 	$block->id;
+		$property->property_coordinate_id 		= 	$coordinate->id;
+		$property->property_description_id		= 	$propertyDescription->id;
+		$property->property_plan_id				= 	$plan->id;
+		$property->property_poll_division_id 	= 	$poll->id;
+		$property->property_zoning_id 			= 	$zone->id;
+		$property->save();
+				$propertyId = $property->id;
+		$assessment = new PropertyAssesment;
+		$assessment->land_value			= 28690;
+		$assessment->improvement_value	= 72400;
+		$assessment->other_value		= 0;
+		$assessment->year				= "2015";
+		$assessment->property_id		= $property->id;
+		$assessment->save();
+
+		$property1 = new Property;
+		$block1 = new PropertyBlock;
+		$block1->name = "169";
+		$block1->save();
+		$poll1 = $poll;				
+		$zone1 = new PropertyZoning;
+		$zone1->type = "";
+		$zone1->save();
+		$propertyDescription1 = $propertyDescription;
+		$plan1 = new PropertyPlan;
+		$plan1->name = "C2595";
+		$plan1->save();
+		$coordinate1 = new PropertyCoordinate;
+		$coordinate1->latitude = "62.45933214";
+		$coordinate1->longitude = "-114.3628542";
+		$coordinate1->block_id = $block1->id;
+		$coordinate1->save();
+		$property1->roll_number = "0169000310";
+		$property1->address = "19";
+		$property1->street = "TRAILS END CRES";
+		$property1->unit = "10";
+		$property1->property_block_id 			= 	$block1->id;
+		$property1->property_coordinate_id 		= 	$coordinate1->id;
+		$property1->property_description_id		= 	$propertyDescription1->id;
+		$property1->property_plan_id				= 	$plan1->id;
+		$property1->property_poll_division_id 	= 	$poll1->id;
+		$property1->property_zoning_id 			= 	$zone1->id;
+		$property1->save();
+		$propertyId1 = $property1->id;
+		$assessment1 = new PropertyAssesment;
+		$assessment1->land_value			= 96260;
+		$assessment1->improvement_value	= 248300;
+		$assessment1->other_value		= "0";
+		$assessment1->year				= "2015";
+		$assessment1->property_id		= $propertyId1;
+		$assessment1->save();
+
+		$property2 = new Property;
+		$block2 = new PropertyBlock;
+		$block2->name = "39";
+		$block2->save();
+		$poll2 = new PropertyPollDivision;
+		$poll2->name = "YK Centre";
+		$poll2->voting_station = "Northern United Place";
+		$poll2->save();
+		$zone2 = new PropertyZoning;
+		$zone2->type = "DT";
+		$zone2->save();
+		$propertyDescription2 = $propertyDescription;
+		$plan2 = new PropertyPlan;
+		$plan2->name = "2389";
+		$plan2->save();
+		$coordinate2 = new PropertyCoordinate;
+		$coordinate2->latitude = "62.45160061";
+		$coordinate2->longitude = "-114.3705402";
+		$coordinate2->block_id = $block2->id;
+		$coordinate2->save();
+		$property2->roll_number = "0039002300";
+		$property2->address = "5105";
+		$property2->street = "52 ST";
+		$property2->unit = "65";
+		$property2->property_block_id 			= 	$block2->id;
+		$property2->property_coordinate_id 		= 	$coordinate2->id;
+		$property2->property_description_id		= 	$propertyDescription2->id;
+		$property2->property_plan_id				= 	$plan2->id;
+		$property2->property_poll_division_id 	= 	$poll2->id;
+		$property2->property_zoning_id 			= 	$zone2->id;
+		$property2->save();
+		$propertyId2 = $property2->id;
+		$assessment2 = new PropertyAssesment;
+		$assessment2->land_value			= 95740;
+		$assessment2->improvement_value	= 126420;
+		$assessment2->other_value		= "0";
+		$assessment2->year				= "2015";
+		$assessment2->property_id		= $propertyId2;
+		$assessment2->save();
+
 		$directory = getcwd();
 		$directory .="/database/seeds/allykproperties.csv";
 
@@ -90,7 +210,6 @@ class PropertySeeder extends Seeder{
 
 /*
 		foreach($allrows as $row){
-		
 
 			$property = Property::where('roll_number',trim($row[0]))->first();
 			
@@ -198,31 +317,115 @@ class StaticSeeder extends Seeder{
 		$unknown->region = "Unknown";
 		$unknown->save();
 
-		/*
-"Eastern Africa","Kenya, Rwanda, Zimbabwe, South Sudan"
-"Middle Africa","Angola, Cameroon, Chad, Congo"
-"Northern Africa","Algeria, Tunisian, Libya, Western Sahara"
-"Southern Africa","Botswana, Namibia, Swaziland"
-"Western Africa","Burkina Faso, Niger, Senegal" */
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Kenya, Rwanda, Zimbabwe, South Sudan";
+		$unknown->region = "Eastern Africa";
+		$unknown->save();
 
-/*
-Caribbean,"Cuba, Haiti, Trinidad"
-Central America,"Mexico, Panama, Costa Rica"
-South America,"Argentina, Brazuk, Venezuela"
-Northern America,"Canada, Greenland, United States of America"
-Central Asia,"Kazakhstan, Tajikistan"
-Eastern Asia,"China, Japan, Korea"
-Southern Asia,"Afghanistan, India, Sri Lanka, Nepal"
-South-Eastern Asia,"Philippines, Thailand, Indonesia, Vietnam"
-Western Asia,"Turkey, Iraq, Yemen"
-Eastern Europe,"Belarus, Poland, Russia"
-Northern Europe,"UK, Iceland, Finland, Norway"
-Southern Europe,"Italy, Greece, Spain"
-Western Europe,"Germany, Netherlands, Belgium, France"
-Australasia,"Australia, New Zealand"
-Melanesia,"Fiji, Vanuatu, Solomon Islands"
-Micronesia,"Guam, Kiribati, Nauru"
-Polynesia,"Cook Islands, Samoa, Tonga" */
+		$unkown = new EthnicOrigin;
+		$unknown->description = "Angola, Cameroon, Chad, Congo";
+		$unknown->region = "Middle Africa";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Algeria, Tunisian, Libya, Western Sahara";
+		$unknown->region = "Northern Africa";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Botswana, Namibia, Swaziland";
+		$unknown->region = "Southern Africa";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Burkina Faso, Niger, Senegal";
+		$unknown->region = "Western Africa"; 
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Cuba, Haiti, Trinidad";
+		$unknown->region = "Caribbean";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Mexico, Panama, Costa Rica";
+		$unknown->region = "Central America";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Argentina, Brazuk, Venezuela";
+		$unknown->region = "South America";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Canada, Greenland, United States of America"; 
+		$unknown->region = "Northern America";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Kazakhstan, Tajikistan";
+		$unknown->region = "Central Asia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "China, Japan, Korea";
+		$unknown->region = "Eastern Asia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Afghanistan, India, Sri Lanka, Nepal";
+		$unknown->region = "Southern Asia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Philippines, Thailand, Indonesia, Vietnam";
+		$unknown->region = "South-Eastern Asia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Turkey, Iraq, Yemen";
+		$unknown->region = "Western Asia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Belarus, Poland, Russia";
+		$unknown->region = "Eastern Europe";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "UK, Iceland, Finland, Norway";
+		$unknown->region = "Northern Europe";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Italy, Greece, Spain";
+		$unknown->region = "Southern Europe";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Germany, Netherlands, Belgium, France";
+		$unknown->region = "Western Europe";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Australia, New Zealand";
+		$unknown->region = "Australasia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Fiji, Vanuatu, Solomon Islands";
+		$unknown->region = "Melanesia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Guam, Kiribati, Nauru";
+		$unknown->region = "Micronesia";
+		$unknown->save();
+
+		$unknown = new EthnicOrigin;
+		$unknown->description = "Cook Islands, Samoa, Tonga";
+		$unknown->region = "Polynesia";
+		$unknown->save(); 
 
 
 
@@ -242,9 +445,10 @@ Polynesia,"Cook Islands, Samoa, Tonga" */
 		foreach($departments as $key => $value){
 			$department = new Department;
 			$department->id 	= 	$key;
+			$department->enabled = true;
 			$department->name 	= 	$value;
 			$department->save();
-		}
+		} 	
 
 
 
@@ -420,10 +624,9 @@ class SampleData extends Seeder{
 		$ike->ethnic_origin_id = $ethnicOrigin->id;
 		$ike->password = Hash::make($this->password);
 		$ike->save();
-
 		$property = Property::where('roll_number','0169000310')->firstOrFail(); //19 Trails End
 		$ike->properties()->attach($property->id, ['verified_until'=>$date]);
-
+		
 
 		//Jeremy Flatt (Foreign national who can't vote, no verified until)
 		$jeremy = new User;
