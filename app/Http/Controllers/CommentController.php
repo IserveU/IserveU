@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Comment;
+use App\User;
 
 class CommentController extends Controller {
 
@@ -44,7 +45,7 @@ class CommentController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**
@@ -52,17 +53,24 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
+	public function store(){
 		if(Auth::user()->can('create-comment')){
 			$input = Request::all();
 			$validator = Validator::make($input,$this->rules);
 			if($validator->fails()){
 				return $validator->messages();
 			} else {
-				$newComment = Motion::create($input); //Does the fields specified as fillable in the model
-				$newComment->user_id = Auth::user()->id;
-				return $input; //Need to add more
+				$newComment = Comment::create($input); //Does the fields specified as fillable in the model
+
+				$vote = Vote::where('user_id',Auth::user()->id)
+								->where('motion_id',$input['motion_id'])
+								->get();
+
+				$newComment->vote_id = $vote->id;
+
+				$newComment->save();
+
+				return $newComment; 
 			}
 		} else {
 			return array('message'=>'You do not have permission to write a comment');

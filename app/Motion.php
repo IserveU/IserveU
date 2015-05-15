@@ -30,7 +30,6 @@ class Motion extends Model {
 		return $this->belongsTo('App\Event');
 	}
 
-
 	public function department(){
 		return $this->belongsTo('App\Department');
 	}

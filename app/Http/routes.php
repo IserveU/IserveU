@@ -35,6 +35,9 @@ Route::group(array('prefix' => 'api'), function()
 	
 	Route::get('vote/rules','VoteController@rules');
 	Route::resource('vote', 'VoteController');
+
+	Route::get('comment/rules','CommentController@rules');
+	Route::resource('comment', 'CommentController');
 });
 
 
