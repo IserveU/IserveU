@@ -23,10 +23,14 @@
 
 		return {
 			login: function(credentials) {
+
+				console.log(credentials);
 		    	var login = $http.post("/auth/login", sanitizeCredentials(credentials));
+
 		    	return login;
 		  	},
 		  	logout: function() {
+		  		console.log('logout');
 		    	var logout = $http.get("/auth/logout");
 		    	return logout;
 		  	},

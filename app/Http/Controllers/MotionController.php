@@ -28,6 +28,9 @@ class MotionController extends Controller {
 	 */
 	public function index()
 	{
+	
+	Auth::loginUsingId(1); //Need to login and can't right now
+
 		if(Auth::check() && Auth::user()->can('create-vote')){ //Logged in user will want to see if they voted on these things
 		 	$motions = Motion::all();
 		} else {

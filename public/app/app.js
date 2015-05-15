@@ -35,7 +35,7 @@
 	            controller: module.controller.name + ' as app'
 	    });	          
 
-		$mdThemingProvider.definePalette('isuAqua', {
+		/* $mdThemingProvider.definePalette('isuAqua', {
 		    '50': '61d3d8',
 		    '100': '61d3d8',
 		    '200': '61d3d8',
@@ -68,8 +68,44 @@
 		    'A400': 'ff7600',
 		    'A700': 'a64d00',
 		    'contrastDefaultColor': 'light',    
+		}); */
 
+
+		$mdThemingProvider.definePalette('isuAqua', {
+		    '50': '4E6829',
+		    '100': '4E6829',
+		    '200': '4E6829',
+		    '300': '4E6829',
+		    '400': '4E6829',
+		    '500': '4E6829',
+		    '600': '4E6829',
+		    '700': '4E6829',
+		    '800': '4E6829',
+		    '900': '4E6829',
+		    'A100': 'ff0000',
+		    'A200': 'ff0000',
+		    'A400': 'ff0000',
+		    'A700': 'ff0000',
+		    'contrastDefaultColor': 'light',    
 		});
+		$mdThemingProvider.definePalette('isuOrange', {
+		    '50': '5F2640',
+		    '100': '5F2640',
+		    '200': '5F2640',
+		    '300': '5F2640',
+		    '400': '5F2640',
+		    '500': '5F2640',
+		    '600': '5F2640',
+		    '700': '5F2640',
+		    '800': '5F2640',
+		    '900': '5F2640',
+		    'A100': 'ffb473',
+		    'A200': 'ff7600',
+		    'A400': 'ff7600',
+		    'A700': 'a64d00',
+		    'contrastDefaultColor': 'light',    
+		});
+
 		$mdThemingProvider.theme('default').primaryPalette('isuAqua').accentPalette('isuOrange');
 
 		$httpProvider.interceptors.push(function ($timeout, $q, $injector) {

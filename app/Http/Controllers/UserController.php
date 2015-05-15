@@ -76,7 +76,11 @@ class UserController extends Controller {
 			return $validator->messages();
 		} else {
 			$newUser = User::create($input); //Does the fields specified as fillable in the model
+
 			$newUser->password = Hash::make(Request::get('password'));
+			if(!isset($input['email'])) {
+				$newUser->email = $input['first_name']."_".$input['last_name']."@localizedeconomies.ca";
+			}
 			$newUser->save();
 
 			$newUser->addUserRoleByName('citizen'); //FOR THE CONFERENCE

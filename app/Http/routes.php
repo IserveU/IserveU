@@ -23,6 +23,8 @@ Route::get('/', function()
 
 Route::group(array('prefix' => 'api'), function()
 {
+
+
 	Route::get('motion/rules','MotionController@rules');
 	Route::resource('motion', 'MotionController');
 
@@ -39,6 +41,3 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('comment/rules','CommentController@rules');
 	Route::resource('comment', 'CommentController');
 });
-
-
-//Entrust::routeNeedsPermission('users/edit');
