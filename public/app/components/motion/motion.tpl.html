@@ -1,7 +1,7 @@
 <md-toolbar class="md-whiteframe-glow-z2">
 	<div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
 	    <md-button class="md-icon-button" ng-click="toggleSidebar()" hide-gt-sm aria-label="Toggle Menu">
-	    	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_menu_18px.svg"></md-icon> <!-- there is a way to use an angular icon repository -->
+	    	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_menu_18px.svg"></md-icon>
 	    </md-button>
 	    <div layout="row" flex class="fill-height">
 	        <h2>
@@ -44,15 +44,15 @@
 	    <div flex-order-sm="3" flex="100" layout="row" class="voting"  >
 	        <!--Pro Side-->
 	        <div layout-padding flex>
-	             <md-button md-no-ink class="<!--md-primary-->  md-raised agree" aria-label="Agree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
+	             <md-button class="<--agree-->" aria-label="Agree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
 	        </div>
 
 	        <div layout-padding flex>
-	       		 <md-button class="md-raised abstain" aria-label="Abstain" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
+	       		 <md-button class="<--abstain-->" aria-label="Abstain" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
 	        </div>
 	        <!--Con Side-->
 	        <div layout-padding flex >
- 				<md-button class="<!-- md-accent --> md-raised disagree" aria-label="Disagree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
+ 				<md-button class="disagree" aria-label="Disagree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
 	        </div>
 	    </div>
 
@@ -101,7 +101,7 @@
 						    </md-input-container>
 					    </div>
 					    <div layout="row" layout-align="end center">
-					    	<md-button class="md-primary md-raised ">Submit Comment</md-button>
+					    	<md-button class="btn btn-sm btn-primary">Submit Comment</md-button>
 					    </div>
 			        </form>
 				
@@ -109,7 +109,23 @@
 
 
 				<md-whiteframe class="md-whiteframe-z1" layout-fill >
-	  			 						
+	  			 	<div layout-padding>
+				        <h3>Bob Bromley</h3>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <div layout="row" layout-align="end center"> 
+					        <md-button class="md-icon-button md-primary" aria-label="Agree"> <!-- Ready to be clicked -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+								<md-tooltip>Agree With Comment</md-tooltip>
+							</md-button>	        					         
+								<md-button class="md-icon-button" aria-label="Disagree"> <!-- Ready to be clicked -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+								<md-tooltip>Disagree With Comment</md-tooltip>
+							</md-button>	        					         
+						</div>
+					</div>				
 					<md-divider class="md-default-theme"></md-divider>
 					<div layout-padding>
 				        <h3>Bob Bromley</h3>
@@ -118,7 +134,7 @@
 				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
 				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
 				        <div layout="row" layout-align="end center"> 
-					        <md-button class="md-icon-button md-primary" aria-label="Agree"> <!-- Ready to be clicked -->
+					        <md-button class="md-icon-button" aria-label="Agree"> <!-- Ready to be clicked -->
 								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
 								<md-tooltip>Agree With Comment</md-tooltip>
 							</md-button>	        					         

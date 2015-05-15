@@ -26,6 +26,9 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('motion/rules','MotionController@rules');
 	Route::resource('motion', 'MotionController');
 
+	Route::get('event/rules','EventController@rules');
+	Route::resource('event', 'EventController');
+
 	Route::get('user/loggedin', 'UserController@checkLogin');
 	Route::get('user/rules','UserController@rules');
 	Route::resource('user', 'UserController');

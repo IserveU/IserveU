@@ -185,7 +185,7 @@ class PropertySeeder extends Seeder{
 		$csv = Reader::createFromPath($directory);
 
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
-				*/
+				
 		/* csv format
 		    [0] => Roll Number
 		    [1] => Block

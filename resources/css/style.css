@@ -43,7 +43,13 @@ md-grid-tile md-icon{
 
 .voting button{
 	margin: 0px;
-	
+	height: 150px;
+}
+
+.voting md-icon{
+	height: 80%;
+	width: 25%;
+
 }
 
 .voting .agree md-icon{
@@ -53,6 +59,8 @@ md-grid-tile md-icon{
 .voting .disagree md-icon{
 	color: rgb(255,118,0);
 }
+
+
 
 /*
 .voting button.agree{
