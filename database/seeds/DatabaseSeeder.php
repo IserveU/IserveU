@@ -23,6 +23,7 @@ use App\Permission;
 use App\Verification;
 use App\Department;
 
+use App\Event;
 
 class DatabaseSeeder extends Seeder {
 
@@ -850,14 +851,156 @@ class SampleData extends Seeder{
 				$commentC3->text = "I, Robin, do not support this motion";
 				$commentC3->vote_id = $voteC3->id;
 				$commentC3->save();
-
-	
-
-		
-		
-
+/*
 
 	}
 
-}
+Function is not compiling correctly, don't understand error, merged with 
+Sample Data for hardcode purposes. 
+class EventSeeder{
+
+	public function run(){
+*/
+		$event = new Event;
+		$event->title = "FRIDAY, MAY 22, 2015";
+		$event->text = "<p class='md-title'>8:30 am Opening Blessing, Welcome and Opening Comments</p>
+		<p class='md-body-1'>Bob Bromley, Weledeh MLA</p><p class='md-body-1'>Dennis Bevington, MP Northwest Territories</p>";
+		$event->time = date("Y-m-d H:i:s", strtotime("2015/05/22 8:30 AM"));
+		$event->save();
+
+		$event1 = new Event;
+		$event1->title = "FOOD, THE HEART OF LOCALIZED ECONOMIES";
+		$event1->text = "<p class='md-body-1'><strong>Jackie Milne</strong>, President, Northern Farm Training Institute (NFTI) will provide the context for the two subsequent panels, through an exploration of the central role of food production, harvesting, processing, storage, and distribution in building local economies and reducing environmental and social costs.</p>";
+		$event1->time = date("Y-m-d H:i:s", strtotime("2015/05/22 8:50 AM"));
+		$event1->save();
+
+		$event2 = new Event;
+		$event2->title = "PANEL 1: FOOD PRODUCTION AND HARVESTING";
+		$event2->text = "<p class='md-body-1'>Four panel members will share their experiences, challenges, and successes as well as their forecasts for ways that food production and harvesting can build and transform local economies and have positive economic impacts.</p>
+			<p class='md-body-1'><strong>Danny Beaulieu</strong>, GNWT Environment and Renewable Resources, is a life-long harvester and champion of the NWT’s rich renewable resources. He’ll share his experiences and vision for the sector as a central element of local economies.</p>
+			<p class='md-body-1'><strong>Bobby Drygeese</strong>, Yellowknives Dene First Nation, lives close to the land and sees country food playing an important role in building a strong local economy. He’ll tell us why.</p>
+			<p class='md-body-1'><strong>Doug Whiteman</strong>, Green Enterprises Northwest Territories (G.E.N.T.), Norman Wells, is a northern farmer who will share his experiences, lessons, and prospects for local food production.<p>
+			<p class='md-body-1'><strong>France Benoit</strong>, President, Yellowknife Farmers’ Market (YFM) will share personal experiences as a local food grower and vendor, and as an local food systems advocate through the YFM and Territorial Farmers’ Association.</p>
+			<p class='md-title'>10:10 am - Q & A<p>
+			<p class='md-title'>Break</p>";
+		$event2->time = date("Y-m-d H:i:s", strtotime("2015/05/22 9:10 AM"));
+		$event2->save();
+
+		$event3 = new Event;
+		$event3->title = "PANEL 2: FOOD PROCESSING, STORAGE, AND DISTRIBUTION";
+		$event3->text = "<p class='md-body-1'>Three panel members will uncover the economic, social, and environmental benefits and costs of local food processing, storage, and distribution methods and systems.</p>
+<p class='md-body-1'><strong>Jackie Milne</strong>, President, NFTI will explore the costs and benefits of processing, storage, and distribution systems being put in place and the ways they are transforming our economies.</p>
+<p class='md-body-1'><strong>Sam Bullock</strong>, co-owner of Bullocks Bistro, will examine the challenges and opportunities for northerners to benefit from our wild fishery which is increasing a more valuable and scarce resource in the global marketplace.</p>
+<p class='md-body-1'><strong>Craig Scott</strong>, Ecology North, will share his experiences harvesting the wild with a focus on processing and distributing birch syrup products. He’ll tell us about the triumphs, challenges, and possibilities.</p>
+<p class='md-title'>11:45 am - Q & AM</p><p class='md-title'>12:00 pm - Lunch</p>
+<p class='md-body-1'><strong>Honourable Michael Miltenberger</strong>, GNWT Minister of Finance and Environment and Natural Resources and Minister Responsible for the Northwest Territories Power Corporation will describe the economic impact of building localized economies in the NWT.</p>";
+		$event3->time = date("Y-m-d H:i:s", strtotime("2015/05/22 10:45 AM"));
+		$event3->save();
+
+		$event4 = new Event;
+		$event4->title = "GENERATING OUR OWN ENERGY";
+		$event4->text = "<p class='md-body-1'><strong>Dave Thompson</strong>, PolicyLink Research and Consulting, will provide the context for the two subsequent panels in an overview of the global and national movement to localize energy generation in ways that build local economies and diminish environmental and social costs.</p>";
+		$event4->time = date("Y-m-d H:i:s", strtotime("2015/05/22 1:00 PM"));
+		$event4->save();
+
+		$event5 = new Event;
+		$event5->title = "PANEL 3: WAYS TO MEET OUR PERSONAL AND COMMUNITY ENERGY NEEDS";
+		$event5->text = "<p class='md-body-1'>Three panel members will share their experiences drawing on local/natural sources to meet our personal and community energy needs while building and transforming local economies.</p>
+<p class='md-body-1'><strong>David Krutko</strong>, community advisor, will share experiences and lessons from the Fort McPherson biomass project.</p>
+<p class='md-body-1'><strong>Agatha Laboucan</strong>, Lutsel K’e Dene First Nation, will describe the work leading up to and the future for the community’s award winning solar project.</p>
+<p class='md-body-1'><strong>Remi Gervais</strong>, Energy Specialist, City of Yellowknife, will describe the City’s Community Energy Plan, evolving renewable energies, and efforts to reduce greenhouse gases and the ways that local efforts to manage climate change are actually building local economies.</p>
+<p class='md-title'>2:30 pm - Q & A</p><p class='md-title'>Break</p>";
+		$event5->time = date("Y-m-d H:i:s", strtotime("2015/05/22 1:30 PM"));
+		$event5->save();
+
+		$event6 = new Event;
+		$event6->title = "PANEL 4: UNDERSTANDING THE MARKET, TECHNOLOGIES, COSTS, AND BENEFITS OF GENERATING OUR OWN ENERGY";
+		$event6->text = "<p class='md-body-1'>Four panel members will share their knowledge about the market potential, technologies, costs, and benefits of tapping natural resources to generate our own energy.</p>
+<p class='md-body-1'><strong>Mitch Dentinger</strong>, NWT Solar, will speak about on-grid systems with the view to illuminating solar energy opportunities for NWT communities.</p>
+<p class='md-body-1'>Jack VanCamp</strong>, Stand Alone Energy, will focus on hybrid power systems as the pathway to energy abundance.</p>
+<p class='md-body-1'><strong>Nina Larsson</strong>, Energy North, will share knowledge about the biomass field, innovative initiatives, the market, and work accomplished in the different regions to reduce the cost of heat.</p>
+<p class='md-body-1'><strong>John Carr</strong>, Arctic Energy Alliance will share research and experience in providing for the energy requirements of NWT communities with renewable energy sources.</p>
+<p class='md-title'>4:00 pm - Q & A</p>
+<p class='md-title'>4:30 pm Wrap-up and Closing</p>";
+		$event6->time = date("Y-m-d H:i:s", strtotime("2015/05/22 3:00 PM"));
+		$event6->save();
+
+		$event7 = new Event;
+		$event7->title = "MAY 23, 2015";
+		$event7->text = "<p class='md-title'>8:30 am - Opening</p>";
+		$event7->time = date("Y-m-d H:i:s", strtotime("2015/05/23 8:30 AM"));
+		$event7->save();
+
+		$event8 = new Event;
+		$event8->title = "TAKING OUR POWER BACK";
+		$event8->text = "<p class='md-body-1'><strong>Diana Gibson</strong>, PolicyLink Research and Consulting, will provide the context for the two subsequent panels through a discussion of the interdependent relationship of community governance, local economies, and well-being.</p>";
+		$event8->time = date("Y-m-d H:i:s", strtotime("2015/05/23 8:45 AM"));
+		$event8->save();
+
+		$event9 = new Event;
+		$event9->title = "PANEL 5: GOVERNANCE FOR COMMUNITY EMPOWERMENT AND CONTROL";
+		$event9->text = "<p class='md-body-1'>Four panel members will share their experiences about the role that local governments in the NWT do and can play to inspire, build, and support local economies.</p>
+<p class='md-body-1'><strong>Chief Leonard Kenny</strong>, Délı̨nę First Nation, will share information about work that land claim organizations in his community are doing to build a thriving local economy that truly benefits community members.</p>
+<p class='md-body-1'><strong>Mayor Andrew Cassidy</strong>, Town of Hay River, will describe the Town’s work to stimulate and support the local agricultural and small business sectors and the results being reaped locally and territorially.</p>
+<p class='md-body-1'><strong>Arthur Tobac</strong>, Ne’rahten Development Ltd. will discuss the role that the Yamoga Land Corporation in Fort Good Hope has played in stimulating use of renewable energy technologies, local food processing, and small business development.</p>
+<p class='md-body-1'><strong>Mayor Mark Heyck</strong>, City of Yellowknife, will explain the many ways that the City works to encourage and support a localized economy, the results of these efforts, and plans for the future.</p>
+<p class='md-title'>10:15 am - Q & A</p>
+<p class='md-title'>Break</p>";
+		$event9->time = date("Y-m-d H:i:s", strtotime("2015/05/23 9:15 AM"));
+		$event9->save();
+
+		$event10 = new Event;
+		$event10->title = "PANEL 6: COMMUNITY EMPOWERMENT THROUGH SOCIO-ECONOMIC WELL-BEING";
+		$event10->text = "<p class='md-body-1'>Four panel members will share their experiences building local economies through collective efforts that engender and inspire social well-being.</p>
+		<p class='md-body-1'><strong>Suzette Montreuil</strong>, Anti-Poverty Coalition, will explain the work of the Coalition to look at how reducing and eliminating poverty can contribute to local economies.</p>
+<p class='md-body-1'><strong>Paul Cressman</strong>, Cressman Consulting, will describe efforts in the Tlicho Region to encourage and support community-based economic development through land-based education and skill development.</p>
+<p class='md-body-1'><strong>A member of Dene Nahjo</strong> will share information about ways that young people are regenerating indigenous culture and identity and influencing personal and territorial political, environmental, economic and social circumstances.</p>
+<p class='md-body-1'><strong>Rosalind Mercredi</strong>, Down to Earth Gallery, is an artist and champion of the arts and cultural sector, and the intrinsic role it plays in the health and well-being of local communities and economies.</p>
+<p class='md-title'>11:45 am - Q & A</p>
+<p class='md-title'>12:00 pm - Lunch sponsored by Arctic Green Energy</p>
+<p class='md-body-1'>Arctic Green Energy’s AJ Sanders will give a presentation on the company’s vision for the future of biomass energy in the north.</p>";
+		$event10->time = date("Y-m-d H:i:s", strtotime("2015/05/23 10:45 AM"));
+		$event10->save();
+
+		$event11 = new Event;
+		$event11->title = "BREAKING THE MOULD";
+		$event11->text = "<p class='md-body-1'><strong>Dennis Bevington<strong>, MP Northwest Territories and <strong>Bob Bromley</strong>, Weledeh MLA will provide the context for the two subsequent panels through an examination of how communities and organizations are breaking the mould to reshape the economy, reclaim citizenship, and control the Commons.</p>";
+		$event11->time = date("Y-m-d H:i:s", strtotime("2015/05/23 1:00 PM"));
+		$event11->save();
+
+		$event12 = new Event;
+		$event12->title = "PANEL 7: LOCALIZED ECONOMY TRAIL BLAZERS";
+		$event12->text = "<p class='md-body-1'>Four panel members will share their triumphs to build local businesses that truly contribute to local economies. They’ll focus on what it takes to be successful and how to manage around challenges.</p>
+<p class='md-body-1'><strong>Bruce Elliott</strong>, owner, Arctic Green Energy, has successfully advocated for and pioneered green energy for several years. He’ll share the triumphs and how they are contributing to local economies.</p>
+<p class='md-body-1'><strong>Paige Saunders</strong>, SOS /ZJYK Academy/EDGE, will share experiences on how to build a business that is successful locally and internationally.</p>
+<p class='md-body-1'><strong>Giselle Marion</strong>, manager of Tlicho Online Store, will describe the region’s innovative approach for stimulating and supporting a vibrant arts and crafts industry.</p>
+<p class='md-body-1'><strong>Steve Ellis</strong>, Tides Canada, will describe key ingredients for success evident in a range of community-based initiatives supported by his organization that are helping to build local economies.</p>
+<p class='md-title'>2:30 pm - Q & A</p>
+<p class='md-title'>Break</p>";
+		$event12->time = date("Y-m-d H:i:s", strtotime("2015/05/23 1:30 PM"));
+		$event12->save();
+
+		$event13 = new Event;
+		$event13->title = "PANEL 8: RECLAIMING THE COMMONS – ADAPTATION AND CHANGE";
+		$event13->text = "<p class='md-body-1'>Four panel members will describe their efforts to reinvigorate relationships with the land and honour public spaces to strengthen collective action and build local economies. The panelists will also consider the need to move forward with the knowledge of past generations to adapt and manage change in light of uncertain circumstances created by climate change.</p>
+<p class='md-body-1'><strong>Joe Hanlon</strong>, Sahtu Renewable Resources Board will explain how the Best of Both Worlds project really does enable people to be strong like two people and what this means for the future.</p>
+<p class='md-body-1'><strong>Stephanie Poole</strong>, Lutsel K’e First Nation, will share the community’s work on Thaidene Nene as a way to reinvigorate culture, place, and relationships with the land while building a healthy tourism industry and thriving local economy.</p>
+<p class='md-body-1'><strong>Dahti Tsetso</strong>, Dehcho First Nations, will describe Dehcho K’ehodi or keepers of the Dehcho, a conservation initiative that not only strengthens environmental stewardship but local land and culture based economies.</p>
+<p class='md-body-1'><strong>Larry Innes</strong>, Indigenous Leadership Initiative, International Boreal Conservation Campaign, will describe how environmental stewardship and a truly northern environmental regulatory regime can positively impact local economies.</p>
+<p class='md-title'>4:00 pm - Q & A</p>
+<p class='md-title'>4:30 pm - Closing Remarks</p>
+<p class='md-title'>Closing Prayer</p>";
+		$event13->time = date("Y-m-d H:i:s", strtotime("2015/05/23 3:00 PM"));
+		$event13->save();
+
+		$event14 = new Event;
+		$event14->title = "EVENING BBQ AT SOMBA K’E PARK FEATURING NORTHERN FOODS";
+		$event14->text = "";
+		$event14->time = date("Y-m-d H:i:s", strtotime("2015/05/23"));
+		$event14->save();
+
+		}
+	}
+
+
 
