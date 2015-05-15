@@ -44,26 +44,79 @@
 	    <div flex-order-sm="3" flex="100" layout="row" class="voting"  >
 	        <!--Pro Side-->
 	        <div layout-padding flex>
-	             <md-button class="md-primary md-raised agree" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
+	             <md-button md-no-ink class="<!--md-primary-->  md-raised agree" aria-label="Agree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
 	        </div>
 
 	        <div layout-padding flex>
-	       		 <md-button class="md-raised abstain" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
+	       		 <md-button class="md-raised abstain" aria-label="Abstain" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>	
 	        </div>
 	        <!--Con Side-->
 	        <div layout-padding flex >
- 				<md-button class="md-raised md-accent" aria-label="No" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
+ 				<md-button class="<!-- md-accent --> md-raised disagree" aria-label="Disagree" layout-fill><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>	   
 	        </div>
 	    </div>
 
-	    <div flex-order-sm="4" layout="row">
-		    <h3>Comments</h3>
-		    <div class="panel panel-default" ng-repeat="comment in motion.motionDetail.comments">
-		        <div class="panel-body">
-		            <span>Date: {{comment.created_at | date:'longDate'}}</span>
-		            <div>{{comment.text}}</div>
-		        </div>
-		    </div>
+
+
+	    <div flex-order-sm="4" flex="100" layout="column" layout-gt-md="row"  >
+	    	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
+	  			<md-whiteframe class="md-whiteframe-z1" layout-fill >
+	  			 	<div layout-padding>
+				        <h3>Bob Bromley's Dog</h3>
+				        <p>Best idea ever</p>
+				       
+					</div>				    					
+					<md-divider class="md-default-theme"></md-divider>
+					<div layout-padding>
+				        <h3>Bob Bromley's Dog</h3>
+				        <p>I really do love this idea</p>
+				   
+					</div>		
+	  			</md-whiteframe>
+
+	    	</div>
+	    	<div layout-padding layout="row" flex class="disagee comments" flex="50" flex-sm="100">
+				<md-whiteframe class="md-whiteframe-z1" layout-fill >
+	  			 	<div layout-padding>
+				        <h3>Bob Bromley</h3>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <div layout="row" layout-align="end center"> 
+					        <md-button class="md-icon-button md-primary" aria-label="Agree"> <!-- Deselected agree by removing md-raised -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+								<md-tooltip>Agree With Comment</md-tooltip>
+							</md-button>	        					         
+								<md-button class="md-icon-button md-raised md-accent" aria-label="Disagree"> <!-- Selected disagree by adding md-raised -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+								<md-tooltip>Disagree With Comment</md-tooltip>
+							</md-button>	        					         
+						</div>
+					</div>				    					
+					<md-divider class="md-default-theme"></md-divider>
+					<div layout-padding>
+				        <h3>Bob Bromley</h3>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
+				        <div layout="row" layout-align="end center"> 
+					        <md-button class="md-icon-button md-primary" aria-label="Agree"> <!-- Ready to be clicked -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+								<md-tooltip>Agree With Comment</md-tooltip>
+							</md-button>	        					         
+								<md-button class="md-icon-button md-accent" aria-label="Disagree"> <!-- Ready to be clicked -->
+								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+								<md-tooltip>Disagree With Comment</md-tooltip>
+							</md-button>	        					         
+						</div>
+					</div>		
+	  			</md-whiteframe>
+
+	    	</div>
+
+
 	    </div>
 	</div>
 	 

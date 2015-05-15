@@ -32,7 +32,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 
 md-grid-tile{
-	background-color: #ff7600;
+	background-color: #aaaaaa;
 }
 
 md-grid-tile md-icon{
@@ -45,6 +45,15 @@ md-grid-tile md-icon{
 	margin: 0px;
 	
 }
+
+.voting .agree md-icon{
+	color: rgb(0,172,177);
+}
+
+.voting .disagree md-icon{
+	color: rgb(255,118,0);
+}
+
 /*
 .voting button.agree{
 	background-color: #00acb1;
@@ -80,8 +89,9 @@ md-grid-tile md-icon{
 	
 }
 
-
-
+.comments md-list-item.md-no-proxy{
+	padding: 0px;
+}
 
 
 .sidebar-list {
