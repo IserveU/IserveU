@@ -19,7 +19,7 @@ class UserController extends Controller {
 	//protected $userVisible = ['first_name', 'middle_name', 'last_name','date_of_birth','email','ethnic_origin_id','public'];
 	
 	protected $rules = [
-		'email' 			=>	'email|unique',
+		'email' 			=>	'email',
         'password'			=>	'min:8',
         'first_name'		=>	'alpha',
         'middle_name'		=>	'alpha',
@@ -31,7 +31,7 @@ class UserController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except'=>['create', 'checkLogin','rules']]); //Should be logged in 
+		$this->middleware('auth',['except'=>['create','store', 'checkLogin','rules']]);
 	} 
 
 	public function rules(){
@@ -67,19 +67,26 @@ class UserController extends Controller {
 	 * @return Response
 	 */
 	public function store(){
+
 		$input = Request::all();
 		$validator = Validator::make($input,$this->rules);
+		
 		if($validator->fails()){
+				dd($this->rules);
 			return $validator->messages();
 		} else {
 			$newUser = User::create($input); //Does the fields specified as fillable in the model
 			$newUser->password = Hash::make(Request::get('password'));
 			$newUser->save();
+
+			$newUser->addUserRoleByName('citizen'); //FOR THE CONFERENCE
+			Auth::loginUsingId($newUser->id);	//FOR THE CONFERENCE
+
 			$propertyId = Request::get('property_id');
 			if($propertyId){ //A property ID field has been submitted
 				$user->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
 			}
-			return $input;
+			return $newUser;
 		}
 	}
 

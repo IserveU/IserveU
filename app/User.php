@@ -7,6 +7,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Role;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -37,7 +38,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $hidden = ['created_at', 'updated_at', 'password', 'remember_token','email','ethnic_origin_id','login_attempts','locked_until'];
 
 
-
 	public function ethnicOrigin(){
 		return $this->belongsTo('App\EthnicOrigin');
 	}
@@ -60,5 +60,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
    public function scopeArePublic($query){
         return $query->where('public',1);
+    }
+
+    public function addUserRoleByName($name){
+	    $userRole = Role::where('name', '=', $name)->firstOrFail();
+	    $this->roles()->attach($userRole->id);
     }
 }
