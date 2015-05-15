@@ -75,25 +75,41 @@
 	  			</md-whiteframe>
 
 	    	</div>
-	    	<div layout-padding layout="row" flex class="disagee comments" flex="50" flex-sm="100">
+	    	<div layout-padding layout="column" flex class="disagee comments" flex="50" flex-sm="100">
+	    		
+	    			<form style="padding-bottom:20px">
+			     		<div layout="column" layout-gt-lg="row"  >
+				            <md-input-container flex>
+						      <label>First Name</label>
+						      <input ng-model="user.first_name">
+						    </md-input-container>
+
+						    <md-input-container flex>
+						      <label>Last Name</label>
+						      <input ng-model="user.last_name">
+						    </md-input-container>
+
+						    <md-input-container flex>
+						      <label>Email</label>
+						      <input ng-model="user.email" type="email">
+						    </md-input-container>
+					    </div>
+					    <div layout="row">
+						    <md-input-container flex>
+								<label>Comment</label>
+								<textarea ng-model="comment.text" columns="1" ></textarea>
+						    </md-input-container>
+					    </div>
+					    <div layout="row" layout-align="end center">
+					    	<md-button class="md-primary md-raised ">Submit Comment</md-button>
+					    </div>
+			        </form>
+				
+						    
+
+
 				<md-whiteframe class="md-whiteframe-z1" layout-fill >
-	  			 	<div layout-padding>
-				        <h3>Bob Bromley</h3>
-				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
-				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
-				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
-				        <p>What a shitty idea! Why don't you kill youself. My dog has better ideas and stuff. Wow. Such loser!</p>
-				        <div layout="row" layout-align="end center"> 
-					        <md-button class="md-icon-button md-primary" aria-label="Agree"> <!-- Deselected agree by removing md-raised -->
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-								<md-tooltip>Agree With Comment</md-tooltip>
-							</md-button>	        					         
-								<md-button class="md-icon-button md-raised md-accent" aria-label="Disagree"> <!-- Selected disagree by adding md-raised -->
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
-								<md-tooltip>Disagree With Comment</md-tooltip>
-							</md-button>	        					         
-						</div>
-					</div>				    					
+	  			 						
 					<md-divider class="md-default-theme"></md-divider>
 					<div layout-padding>
 				        <h3>Bob Bromley</h3>
