@@ -190,17 +190,17 @@
 
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
 
-				auth.isLoggedIn().success(function(user) {
-					if(user === "not logged in") {
-						$rootScope.userIsLoggedIn = false;
-						$rootScope.currentUser = undefined;
-						$location.path('/login');
-					}
-					else {
-						$rootScope.userIsLoggedIn = true;
-						$rootScope.currentUser = user;
-					}
-				});
+				// auth.isLoggedIn().success(function(user) {
+				// 	if(user === "not logged in") {
+				// 		$rootScope.userIsLoggedIn = false;
+				// 		$rootScope.currentUser = undefined;
+				// 		$location.path('/login');
+				// 	}
+				// 	else {
+				// 		$rootScope.userIsLoggedIn = true;
+				// 		$rootScope.currentUser = user;
+				// 	}
+				// });
 				
 				var requireLogin = toState.data.requireLogin;
 
@@ -209,9 +209,6 @@
 					
 				}
 			});
-
-			console.log('Current user is: ' + $rootScope.currentUser);
-			console.log('Is the user logged in?: ' + $rootScope.userIsLoggedIn);
 
 
 		})

@@ -2,38 +2,26 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\Validator;
-use Request;
+use Illuminate\Support\Facades\Request;
 use Auth;
 use App\Comment;
 use App\User;
-use App\Motion;
 use App\Vote;
+use App\Motion;
 use DB;
-
-use App\Services\Registrar;
-use Hash;
-use Zizaco\Entrust\Entrust;
-use Illuminate\Http\Response;
-
+use Validator;
 
 
 class CommentController extends Controller {
-
 	protected $rules = [
 		'approved'		=>	'boolean',
-        'motion_id' 	=>	'integer|required',
-        'text'			=>	'required',
+        'motion_id' 	=>	'integer',
+        //'text'			=>	'alpha_dash', //Do we need validation on the text input? It doesn't like spaces and returns an error
         'vote_id'		=>	'integer'
 	];
-
 	public function rules(){
 		return $this->rules;
     }
-
-
-
 	/**
 	 * Display a listing of comments, be sure to hide the user_id or identifying features if this person is not logged in
 	 *
@@ -47,7 +35,6 @@ class CommentController extends Controller {
 		}
 		return $comments;
 	}
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -55,19 +42,19 @@ class CommentController extends Controller {
 	 */
 	public function create()
 	{
-
 	}
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
 	public function store(){
-			Auth::loginUsingId(1);
+
+		
 		if(!Auth::user()->can('create-comment')){ //For the conference
 			Auth::user()->addUserRoleByName('citizen');
 		}
+
 
 		if(Auth::user()->can('create-comment')){
 			$input = Request::all();
@@ -95,7 +82,6 @@ class CommentController extends Controller {
 			return array('message'=>'You do not have permission to write a comment');
 		}
 	}
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -103,19 +89,15 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function show($id)
-	{	
-
-
-
+	{
 		if(Auth::user()->can('view-comment')){ // Full deal
-			$comment = Comment::with('vote','user')->where('comments.id',$id)->get();
+			$comment = Comment::with('vote.user')->find($id)->get();
 		} else {
 			$comment = Comment::find($id); // Sees anomous comments, need to get the data of the public profiles as OK
 		}
 		
 		return $comment;
 	}
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -126,7 +108,6 @@ class CommentController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -137,7 +118,6 @@ class CommentController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -148,7 +128,4 @@ class CommentController extends Controller {
 	{
 		//
 	}
-
-
-
 }
