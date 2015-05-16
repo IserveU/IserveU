@@ -8,8 +8,8 @@
         <link rel="icon shortcut" type="image/png" href="/img/symbol.png" />        
     </head>
     <body>
-        <div ui-view="body" layout="rows" ng-controller="AppController"></div>
-        <div ui-view="login"></div>
+        <div ui-view="body" layout="row" ng-controller="AppController"></div>
+        <div ui-view="login" layout="row" class="loginwall" layout-align="center center" layout-fill></div>
     </body>        
         <script src="/js/dependencies.js"></script>        
         <script src="/js/iserveu-app.js"></script>

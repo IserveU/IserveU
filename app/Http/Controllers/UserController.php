@@ -72,25 +72,38 @@ class UserController extends Controller {
 		$validator = Validator::make($input,$this->rules);
 		
 		if($validator->fails()){
-				dd($this->rules);
 			return $validator->messages();
 		} else {
-			$newUser = User::create($input); //Does the fields specified as fillable in the model
 
-			$newUser->password = Hash::make(Request::get('password'));
 			if(!isset($input['email'])) {
-				$newUser->email = $input['first_name']."_".$input['last_name']."@localizedeconomies.ca";
+				$email = $input['first_name']."_".$input['last_name']."@localizedeconomies.ca";
+			} else {
+				$email = trim($input['email']);
 			}
-			$newUser->save();
 
-			$newUser->addUserRoleByName('citizen'); //FOR THE CONFERENCE
-			Auth::loginUsingId($newUser->id);	//FOR THE CONFERENCE
+			$user = User::where('email',$email)->first();
 
-			$propertyId = Request::get('property_id');
-			if($propertyId){ //A property ID field has been submitted
-				$user->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
+			if($user){
+
+				Auth::loginUsingId($user->id);	//FOR THE CONFERENCE
+				return $user;
+			} else {
+
+				$newUser = User::create($input); //Does the fields specified as fillable in the model
+
+				$newUser->password = Hash::make(Request::get('password'));
+			
+				$newUser->save();
+
+				$newUser->addUserRoleByName('citizen'); //FOR THE CONFERENCE
+				Auth::loginUsingId($newUser->id);	//FOR THE CONFERENCE
+
+				$propertyId = Request::get('property_id');
+				if($propertyId){ //A property ID field has been submitted
+					$user->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
+				}
+				return $newUser;
 			}
-			return $newUser;
 		}
 	}
 
