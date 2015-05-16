@@ -3,19 +3,28 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Request;
 use Auth;
 use App\Comment;
 use App\User;
 use App\Motion;
+use App\Vote;
 use DB;
+
+use App\Services\Registrar;
+use Hash;
+use Zizaco\Entrust\Entrust;
+use Illuminate\Http\Response;
+
+
 
 class CommentController extends Controller {
 
 	protected $rules = [
 		'approved'		=>	'boolean',
-        'motion_id' 	=>	'integer',
-        'text'			=>	'alpha_dash',
+        'motion_id' 	=>	'integer|required',
+        'text'			=>	'required',
         'vote_id'		=>	'integer'
 	];
 
@@ -55,6 +64,7 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function store(){
+			Auth::loginUsingId(1);
 		if(!Auth::user()->can('create-comment')){ //For the conference
 			Auth::user()->addUserRoleByName('citizen');
 		}
@@ -65,15 +75,19 @@ class CommentController extends Controller {
 			if($validator->fails()){
 				return $validator->messages();
 			} else {
-				$newComment = Comment::create($input); //Does the fields specified as fillable in the model
 
 				$vote = Vote::where('user_id',Auth::user()->id)
 								->where('motion_id',$input['motion_id'])
-								->get();
+								->first();		
 
-				$newComment->vote_id = $vote->id;
-
-				$newComment->save();
+				if($vote){
+					$input['vote_id'] = $vote->id;
+					$newComment = Comment::create($input); //Does the fields specified as fillable in the model
+					$newComment->vote_id = $vote->id;
+					$newComment->save();
+				} else {
+					abort(401,'User must vote before posting comment');
+				}
 
 				return $newComment; 
 			}
@@ -89,9 +103,12 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function show($id)
-	{
+	{	
+
+
+
 		if(Auth::user()->can('view-comment')){ // Full deal
-			$comment = Comment::with('vote.user')->find($id)->get();
+			$comment = Comment::with('vote','user')->where('comments.id',$id)->get();
 		} else {
 			$comment = Comment::find($id); // Sees anomous comments, need to get the data of the public profiles as OK
 		}
