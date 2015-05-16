@@ -19,7 +19,7 @@
 	var AppConfig = function($provide, $stateProvider, $urlRouterProvider, $httpProvider,$mdThemingProvider) {
 
 	    // the overall default route for the app. If no matching route is found, then go here
-	    $urlRouterProvider.otherwise('/login');
+	    $urlRouterProvider.otherwise('/app/home');
 
 	    $stateProvider
 	        .state('app', {
@@ -35,18 +35,20 @@
 	            },
 	            controller: module.controller.name + ' as app'
 	    	})
+
+	    	/*
 	    	.state('login', {
                 url: '/login',
-                controller: 'userBarController as user',
+            	controller: 'loginController as login',
                 views: {
-                	'login': {
-                		templateUrl: 'app/shared/login/blank.tpl.html'
-                	}
+	                'body': {
+	                    templateUrl: 'app/fullscreen.tpl.html'
+	                }
                 },
                 data: {
                     requireLogin: false
-                }
-        	});	          
+                } 
+        	});	     */      
 
 		/* $mdThemingProvider.definePalette('isuAqua', {
 		    '50': '61d3d8',

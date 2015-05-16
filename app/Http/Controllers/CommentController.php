@@ -40,8 +40,8 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
+	public function create(){
+		
 	}
 	/**
 	 * Store a newly created resource in storage.
@@ -49,12 +49,9 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function store(){
-
-		
 		if(!Auth::user()->can('create-comment')){ //For the conference
 			Auth::user()->addUserRoleByName('citizen');
 		}
-
 
 		if(Auth::user()->can('create-comment')){
 			$input = Request::all();
@@ -91,7 +88,7 @@ class CommentController extends Controller {
 	public function show($id)
 	{
 		if(Auth::user()->can('view-comment')){ // Full deal
-			$comment = Comment::with('vote.user')->find($id)->get();
+			$comment = Comment::with('vote.user')->find($id);
 		} else {
 			$comment = Comment::find($id); // Sees anomous comments, need to get the data of the public profiles as OK
 		}

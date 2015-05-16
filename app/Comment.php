@@ -42,8 +42,8 @@ class Comment extends Model {
 	}
 
 /*	public function user(){
-	 	return $this->vote->user; Can't get this to work, need belongsToManyThough but it d
-	} */
+	 	return $this->vote->user; // Can't get this to work, need belongsToManyThough but it d
+	}  */
 
 
 }

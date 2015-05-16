@@ -11,33 +11,40 @@
 |
 */
 
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::get('/', function()
-{
-	return view('index');
-});
+Route::post('user/conferencelogin','UserController@conferenceLogin');
 
-Route::group(array('prefix' => 'api'), function()
-{
 
-	Route::get('motion/getcomments/{motionid}','MotionController@getComments');
-	Route::get('motion/rules','MotionController@rules');
-	Route::resource('motion', 'MotionController');
+Route::group(['middleware' => 'auth'], function(){
 
-	Route::get('event/rules','EventController@rules');
-	Route::resource('event', 'EventController');
+	Route::get('/', function(){
+		return view('index');
+	});
 
-	Route::get('user/loggedin', 'UserController@checkLogin');
-	Route::get('user/rules','UserController@rules');
-	Route::resource('user', 'UserController');
-	
-	Route::get('vote/rules','VoteController@rules');
-	Route::resource('vote', 'VoteController');
 
-	Route::get('comment/rules','CommentController@rules');
-	Route::resource('comment', 'CommentController');
+	Route::group(array('prefix' => 'api'), function()
+	{
+
+		Route::get('motion/getcomments/{motionid}','MotionController@getComments');
+		Route::get('motion/rules','MotionController@rules');
+		Route::resource('motion', 'MotionController');
+
+		Route::get('event/rules','EventController@rules');
+		Route::resource('event', 'EventController');
+
+		Route::get('user/loggedin', 'UserController@checkLogin');
+		Route::get('user/rules','UserController@rules');
+		Route::resource('user', 'UserController');
+		
+		Route::get('vote/rules','VoteController@rules');
+		Route::resource('vote', 'VoteController');
+
+		Route::get('comment/rules','CommentController@rules');
+		Route::resource('comment', 'CommentController');
+	});
 });

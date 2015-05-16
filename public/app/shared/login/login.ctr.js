@@ -62,10 +62,11 @@
 			$state.go('home');
 		}
 
+
 		//vm.initalizeForm = function(){
-	        $mdDialog.show({
-	        	templateUrl: '/app/shared/login/form.tpl.html'
-	        });
+	       $mdDialog.show({
+	        	templateUrl: '/app/shared/login/login.tpl.html'
+	        }); 
     //	}
         
        

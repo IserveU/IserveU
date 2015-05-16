@@ -9,10 +9,14 @@
     </head>
     <body>
         <div ui-view="body" layout="row" ng-controller="AppController"></div>
-        <div ui-view="login" layout="row" class="loginwall" layout-align="center center" layout-fill></div>
+
+      <!--  <div role="main" ui-view="login" layout="row" class="fullscreen" layout-align="center center" layout-fill></div> -->
+
+
+        
     </body>        
         <script src="/js/dependencies.js"></script>        
-        <script src="/js/iserveu-app.js"></script>
+    <script src="/js/iserveu-app.js"></script> 
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
         </script>  

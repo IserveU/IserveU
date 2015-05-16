@@ -31,7 +31,7 @@ class UserController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except'=>['create','store', 'checkLogin','rules']]);
+		$this->middleware('auth',['except'=>['create','store', 'checkLogin','rules','conferenceLogin']]);
 	} 
 
 	public function rules(){
@@ -220,6 +220,51 @@ class UserController extends Controller {
 		}
 		else {
 			return response('not logged in');
+		}
+	}
+
+	public function conferenceLogin(){
+
+		
+
+		$input = Request::all();
+
+		$validator = Validator::make($input,$this->rules);
+		
+		if($validator->fails()){
+			return $validator->messages();
+		} else {
+		
+
+			if(isset($input['email']) && !empty(trim($input['email']))) {
+				$input['email'] = trim($input['email']);
+			} else {
+				$input['email'] = $input['first_name']."_".$input['last_name']."@localizedeconomies.ca";
+			}
+	
+			$user = User::where('email',$input['email'])->first();
+
+			if($user){
+
+				Auth::loginUsingId($user->id);	//FOR THE CONFERENCE
+				return redirect('/');
+			} else {
+
+				$newUser = User::create($input); //Does the fields specified as fillable in the model
+
+				$newUser->password = Hash::make(Request::get('password'));
+			
+				$newUser->save();
+
+				$newUser->addUserRoleByName('citizen'); //FOR THE CONFERENCE
+				Auth::loginUsingId($newUser->id);	//FOR THE CONFERENCE
+
+				$propertyId = Request::get('property_id');
+				if($propertyId){ //A property ID field has been submitted
+					$user->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
+				}
+				return redirect('/');
+			}
 		}
 	}
 }

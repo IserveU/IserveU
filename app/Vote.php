@@ -25,7 +25,6 @@ class Vote extends Model {
 	protected $table = 'votes';
 
 
-
 	public function user(){
 		return $this->belongsTo('App\User');
 	}
@@ -34,7 +33,7 @@ class Vote extends Model {
 		return $this->belongsTo('App\Motion');
 	}
 
-	public function vote(){
+	public function comments(){
 		return $this->hasMany('App\Comment');
 	}
 
