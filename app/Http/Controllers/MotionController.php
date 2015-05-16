@@ -170,9 +170,6 @@ class MotionController extends Controller {
 
 	public function getComments($id){
 
-		Auth::loginUsingId(2);
-
-
 		$comments = DB::table('comments')->join('votes','comments.vote_id','=','votes.id')->join('users','votes.user_id','=','users.id')
 						->select('user_id','text','first_name','last_name','position','public')->where('comments.motion_id',$id)->get();
 
