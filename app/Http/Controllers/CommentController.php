@@ -3,19 +3,20 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Auth;
 use App\Comment;
 use App\User;
 use App\Motion;
 use DB;
+use Validator;
 
 class CommentController extends Controller {
 
 	protected $rules = [
 		'approved'		=>	'boolean',
         'motion_id' 	=>	'integer',
-        'text'			=>	'alpha_dash',
+        //'text'			=>	'alpha_dash', //Do we need validation on the text input? It doesn't like spaces and returns an error
         'vote_id'		=>	'integer'
 	];
 
@@ -67,7 +68,7 @@ class CommentController extends Controller {
 			} else {
 				$newComment = Comment::create($input); //Does the fields specified as fillable in the model
 
-				$vote = Vote::where('user_id',Auth::user()->id)
+				$vote = Vote::where('user_id', Auth::user()->id)
 								->where('motion_id',$input['motion_id'])
 								->get();
 
