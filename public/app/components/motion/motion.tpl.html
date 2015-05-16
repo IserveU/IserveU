@@ -60,18 +60,12 @@
 
 	    <div flex-order-sm="4" flex="100" layout="column" layout-gt-md="row"  >
 	    	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
-	  			<md-whiteframe class="md-whiteframe-z1" layout-fill >
-	  			 	<div layout-padding>
+	  			<md-whiteframe class="md-whiteframe-z1" layout-fill>
+	  			 	<div layout-padding ng-repeat="comment in motion.motionComments | proComment">
 				        <h3>Person Name</h3>
-				        <p>Best idea ever</p>
-				       
-					</div>				    					
-					<md-divider class="md-default-theme"></md-divider>
-					<div layout-padding>
-				        <h3>Person Name</h3>
-				        <p>I really do love this idea</p>
-				   
-					</div>		
+				        <p>{{comment.text}}</p>
+				        <md-divider class="md-default-theme"></md-divider>				       
+					</div>
 	  			</md-whiteframe>
 
 	    	</div>
@@ -109,9 +103,9 @@
 
 
 				<md-whiteframe class="md-whiteframe-z1" layout-fill >
-	  			 	<div layout-padding>
+	  			 	<div layout-padding ng-repeat="comment in motion.motionComments | conComment">
 				        <h3>Name</h3>
-				        <p>Comment text</p>
+				        <p>{{comment.text}}</p>
 				       
 				    <!-- later   <div layout="row" layout-align="end center"> 
 					        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
@@ -123,23 +117,9 @@
 								<md-tooltip>Disagree With Comment</md-tooltip>
 							</md-button>	        					         
 						</div> -->
+						<md-divider class="md-default-theme"></md-divider>
 					</div>				
-					<md-divider class="md-default-theme"></md-divider>
-						<div layout-padding>
-				        <h3>Name</h3>
-				        <p>Comment text</p>
-				       
-				    <!-- later   <div layout="row" layout-align="end center"> 
-					        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-								<md-tooltip>Agree With Comment</md-tooltip>
-							</md-button>	        					         
-								<md-button class="md-icon-button" aria-label="Disagree">
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
-								<md-tooltip>Disagree With Comment</md-tooltip>
-							</md-button>	        					         
-						</div> -->
-					</div>			
+					<md-divider class="md-default-theme"></md-divider>		
 	  			</md-whiteframe>
 
 	    	</div>

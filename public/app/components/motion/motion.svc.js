@@ -9,6 +9,7 @@
 	function motion($resource) {
 
 		var Motion = $resource('api/motion/:id');
+		var MotionComments = $resource('api/motion/getcomments/:id');
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {
@@ -24,9 +25,16 @@
 			});
 		}
 
+		function getMotionComments(id) {
+			return MotionComments.query({id:id}).$promise.then(function(result) {
+				return result;
+			});
+		}
+
 		return {
 			getMotions: getMotions,
-			getMotion: getMotion
+			getMotion: getMotion,
+			getMotionComments: getMotionComments
 		}
 	}
 })();

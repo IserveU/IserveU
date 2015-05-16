@@ -222,6 +222,28 @@
 		    		return input;
 		    	}
 	  		};
+		})
+		.filter('proComment', function() {
+			return function(input) {
+				var out = [];
+				for(var i = 0; i < input.length; i++) {
+					if(input[i].position === "1") {
+						out.push(input[i])
+					}				
+				}
+				return out; 
+			}
+		})
+		.filter('conComment', function() {
+			return function(input) {
+				var out = [];
+				for(var i = 0; i < input.length; i++) {
+					if(input[i].position === "0" || input[i].position === "-1") {
+						out.push(input[i])
+					}				
+				}
+				return out; 
+			}
 		});	
 
 

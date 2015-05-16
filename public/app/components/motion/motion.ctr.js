@@ -31,11 +31,19 @@
         var vm = this;
 
     	vm.motionDetail = [];
+        vm.motionComments = [];
     	vm.loggedInUser;
 
         function getMotion(id) {
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
+            });
+        }
+
+        function getMotionComments(id) {
+            motion.getMotionComments(id).then(function(result) {
+                vm.motionComments = result;
+                console.log(vm.motionComments);
             });
         }
 
@@ -49,6 +57,7 @@
         }
 
         getMotion($stateParams.id);
+        getMotionComments($stateParams.id);
     };
 
     MotionController.$inject = module.motionController.injectables;
