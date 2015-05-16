@@ -40,7 +40,7 @@
                 controller: 'userBarController as user',
                 views: {
                 	'login': {
-                		templateUrl: 'app/shared/login/loginView.html'
+                		templateUrl: 'app/shared/login/blank.tpl.html'
                 	}
                 },
                 data: {

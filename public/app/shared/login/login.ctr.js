@@ -6,7 +6,9 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $location, auth) {
+	function login($scope, $http, $rootScope, $location, auth, $mdDialog) {
+
+		
 
 		var vm = this;
 
@@ -59,6 +61,14 @@
 			$scope.$dismiss();
 			$state.go('home');
 		}
+
+		//vm.initalizeForm = function(){
+	        $mdDialog.show({
+	        	templateUrl: '/app/shared/login/form.tpl.html'
+	        });
+    //	}
+        
+       
 		
 	}
 

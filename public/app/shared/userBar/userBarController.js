@@ -50,6 +50,8 @@
 			});
 		}
 
+		console.log('hey');
+
 	}
 
 	// function LoginConfig($stateProvider) {

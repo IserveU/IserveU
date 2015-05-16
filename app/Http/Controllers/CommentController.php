@@ -55,6 +55,10 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function store(){
+		if(!Auth::user()->can('create-comment')){ //For the conference
+			Auth::user()->addUserRoleByName('citizen');
+		}
+
 		if(Auth::user()->can('create-comment')){
 			$input = Request::all();
 			$validator = Validator::make($input,$this->rules);
