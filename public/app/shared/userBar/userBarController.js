@@ -4,7 +4,8 @@
 
 	angular
 		.module('iserveu')
-		.controller('userBarController', userBarController);
+		.controller('userBarController', userBarController)
+		// .config(LoginConfig);
 
 	function userBarController($scope, auth, $rootScope, $state, $timeout, $mdSidenav, $log) {
 
@@ -39,7 +40,6 @@
 						$rootScope.userIsLoggedIn = true;
 						$rootScope.currentUser = user;
 						vm.close(user);
-						console.log('user is logged in! ' + data)
 					}
 					else {
 						$rootScope.userIsLoggedIn = false;
@@ -51,4 +51,15 @@
 		}
 
 	}
+
+	// function LoginConfig($stateProvider) {
+ //        $stateProvider
+ //            .state( 'app.login', {
+ //                url: '/login',
+ //                templateUrl: 'app/shared/login/loginView.html',
+ //                data: {
+ //                    requireLogin: false
+ //                }
+ //        	});
+ //    };
 })();

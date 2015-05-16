@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $location, auth, $modal, loginModal, $state) {
+	function login($scope, $http, $rootScope, $location, auth) {
 
 		var vm = this;
 
@@ -19,27 +19,21 @@
 			auth.login(credentials).success(function(data) {
 				vm.loginError = false;
 				$rootScope.userIsLoggedIn = true;
+				$location.url('/app/home')
 			}).error(function(data) {
 				console.log('There was an error logging in');
-			});			
+			});		
 		}
 
 		vm.logUserOut = function() {
 
 			auth.logout().success(function() {
 				$rootScope.userIsLoggedIn = false;
-				$state.go('home');
+				$state.go('app.home');
 				$rootScope.currentUser = undefined;
 
 			});			
-		}
-
-	/*	vm.openModal = function() {
-			$modal.open({
-				templateUrl: 'app/components/login/loginModalTemplate.html'
-			});
-		} */
-
+		}	
 
 		vm.submit = function(email, password) {
 

@@ -17,8 +17,9 @@
 	};
 
 	var AppConfig = function($provide, $stateProvider, $urlRouterProvider, $httpProvider,$mdThemingProvider) {
+
 	    // the overall default route for the app. If no matching route is found, then go here
-	    $urlRouterProvider.otherwise('/app/home');
+	    $urlRouterProvider.otherwise('/login');
 
 	    $stateProvider
 	        .state('app', {
@@ -33,7 +34,19 @@
 	            	requireLogin: false
 	            },
 	            controller: module.controller.name + ' as app'
-	    });	          
+	    	})
+	    	.state('login', {
+                url: '/login',
+                controller: 'userBarController as user',
+                views: {
+                	'login': {
+                		templateUrl: 'app/shared/login/loginView.html'
+                	}
+                },
+                data: {
+                    requireLogin: false
+                }
+        	});	          
 
 		/* $mdThemingProvider.definePalette('isuAqua', {
 		    '50': '61d3d8',
@@ -162,28 +175,45 @@
 	angular.module(module.name, module.dependencies)
 		.config(AppConfig)		
 		.controller(module.controller.name, AppController)
-		.run(function($rootScope, $state, auth) {
+		.run(function($rootScope, $state, auth, $location) {
 
 			auth.isLoggedIn().success(function(user) {
-				if(user != "not logged in") {
-					$rootScope.userIsLoggedIn = true;
-					$rootScope.currentUser = user;
-				}
-				else {
+				if(user === "not logged in") {
 					$rootScope.userIsLoggedIn = false;
 					$rootScope.currentUser = undefined;
+				}
+				else {
+					$rootScope.userIsLoggedIn = true;
+					$rootScope.currentUser = user;
 				}
 			});
 
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+
+				auth.isLoggedIn().success(function(user) {
+					if(user === "not logged in") {
+						$rootScope.userIsLoggedIn = false;
+						$rootScope.currentUser = undefined;
+						$location.path('/login');
+					}
+					else {
+						$rootScope.userIsLoggedIn = true;
+						$rootScope.currentUser = user;
+					}
+				});
+				
 				var requireLogin = toState.data.requireLogin;
 
-				if(requireLogin && typeof $rootScope.currentUser === 'undefined') {
+				if(requireLogin && typeof $rootScope.currentUser === 'undefined') {					
 					
-					$state.go('app.home');
-
+					
 				}
-			})
+			});
+
+			console.log('Current user is: ' + $rootScope.currentUser);
+			console.log('Is the user logged in?: ' + $rootScope.userIsLoggedIn);
+
+
 		})
 		.filter('dateToISO', function() {
 		  	return function(input) {

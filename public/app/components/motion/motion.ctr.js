@@ -8,7 +8,7 @@
         },
         motionController: {
             name: 'MotionController',
-            injectables: ['$stateParams', 'auth', 'motion']
+            injectables: ['$rootScope', '$stateParams', 'auth', 'motion']
         }
     };        
 
@@ -21,12 +21,12 @@
                 data: {
                     requireLogin: true
                 }
-        });
+            });
     };
 
     MotionConfig.$provide = module.config.providers;
 
-    var MotionController = function($stateParams, auth, motion) {
+    var MotionController = function($rootScope, $stateParams, auth, motion) {
 
         var vm = this;
 
