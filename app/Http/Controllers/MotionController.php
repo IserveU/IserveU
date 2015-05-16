@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Motion;
+use App\Comment;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -29,31 +30,12 @@ class MotionController extends Controller {
 	public function index()
 	{
 	
-	Auth::loginUsingId(1); //Need to login and can't right now
-
 		if(Auth::check() && Auth::user()->can('create-vote')){ //Logged in user will want to see if they voted on these things
 		 	$motions = Motion::all();
 		} else {
 
-				$motions = Motion::all();
-			/*
-			$motions = Motion::with('votes')->get();
+			$motions = Motion::all();
 		
-
-			$userVotes = $motions->filter(function($votes){
-
-
-				/*dd($motion->votes->id);
-
-		        if ($motion->vot == 2) {
-		            return true;
-		        }
-			}); */
-		//	DB::enableQueryLog();
-
-			//$motions = DB::table('motions')->leftJoin('votes','motions.id','=','votes.motion_id')->where('votes.user_id','=',1)->get();
-
-		//	print_r(DB::getQueryLog());
 		}
 
 		return $motions;
@@ -108,8 +90,7 @@ class MotionController extends Controller {
 	 */
 	public function show($id)
 	{
-		$motion = Motion::with('user', 'comments', 'votes')->get()->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously unless they have the pubilc boolean set. Would you rework this data OR use AJAX to load each of the motion, the votes and the comments.
-		//	$motion = Motion::with('user', 'comments', 'votes')->find($id)->get(); // HEY RYAN, we want people commenting to be able to do so anonomoously unless they have the pubilc boolean set. Would you rework this data OR use AJAX to load each of the motion, the votes and the comments.
+		$motion = Motion::with('user', 'comments', 'votes')->get()->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously
 		
 		return $motion;
 	}
@@ -187,4 +168,25 @@ class MotionController extends Controller {
 		}	
 	}
 
+	public function getComments($id){
+		$comments = DB::table('comments')->join('votes','comments.vote_id','=','votes.id')->join('users','votes.user_id','=','users.id')
+						->select('user_id','text','first_name','last_name','position','public')->get();
+
+		if(Auth::user()->can('view-comment')){ //A full admin who can see whatever
+			return $comments;
+		} else {
+			$redactedComments = array();
+			foreach($comments as $comment){
+				$redactedComment['text'] = $comment->text;
+				$redactedComment['position'] = $comment->position;
+				if($comment->public){
+					$redactedComment['first_name'] = $comment->text;
+					$redactedComment['last_name'] = $comment->position;
+					$redactedComment['user_id'] = $comment->user_id;
+				}
+				$redactedComments[] = $redactedComment;
+			}
+			return $redactedComments;
+		}
+	}
 }

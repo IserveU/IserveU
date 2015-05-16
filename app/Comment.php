@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class Comment extends Model {
 	
@@ -31,16 +32,18 @@ class Comment extends Model {
 	}
 
 	public function vote(){	//The user who cast a vote that then was allowed to comment on that side
+
 		return $this->belongsTo('App\Vote');
+
 	}
 
 	public function motion(){	//The motion that this comment is attached to
 		return $this->belongsTo('App\Motion');
 	}
 
-	public function user(){
-		//has through vote
-	}
+/*	public function user(){
+	 	return $this->vote->user; Can't get this to work, need belongsToManyThough but it d
+	} */
 
 
 }

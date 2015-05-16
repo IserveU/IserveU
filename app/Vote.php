@@ -34,5 +34,9 @@ class Vote extends Model {
 		return $this->belongsTo('App\Motion');
 	}
 
+	public function vote(){
+		return $this->hasMany('App\Comment');
+	}
+
 
 }

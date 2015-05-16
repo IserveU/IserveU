@@ -87,7 +87,7 @@ class VoteController extends Controller {
 			$vote = Vote::find($id);
 			return($vote);
 		} else {	//This is the person who cast the vote
-			$vote = Vote::where('id',$id)->where('user_id',Auth::user()->id)->firstOrFail(); //This person has no right to see this vote
+			$vote = Vote::where('id',$id)->where('user_id',Auth::user()->id)->get(); //This person has no right to see this vote
 			return($vote);
 		}	
 	}
@@ -100,7 +100,8 @@ class VoteController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$vote = Vote::where('id',$id)->where('user_id',Auth::user()->id)->firstOrFail(); //This person has no right to edit their own vote
+		$vote = Vote::where('id',$id)->where('user_id',Auth::user()->id)->get(); //This person has no right to edit their own vote
+		
 		return($vote);
 	}
 
@@ -136,7 +137,20 @@ class VoteController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		if(Auth::user()->can('create-vote')){
+			$input = Request::all();
+			$validator = Validator::make($input,$this->rules);
+			if($validator->fails()){
+				return $validator->messages();
+			} else {
+				$vote = Vote::firstOrNew(['motion_id'=>$input['motion_id'],'user_id'=>Auth::user()->id]);
+				$vote->position = 0;
+				$vote->save();
+				return $vote;
+			}
+		} else {
+			return array('message'=>'You do not have permission to abstain a vote');
+		}
 	}
 
 }

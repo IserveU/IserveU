@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Comment;
 use App\User;
+use App\Motion;
+use DB;
 
 class CommentController extends Controller {
 
@@ -34,7 +36,6 @@ class CommentController extends Controller {
 		} else {
 			$comments = Comment::all(); // Sees anomous comments, need to get the data of the public profiles as OK
 		}
-		
 		return $comments;
 	}
 
@@ -126,5 +127,7 @@ class CommentController extends Controller {
 	{
 		//
 	}
+
+
 
 }

@@ -24,7 +24,7 @@ Route::get('/', function()
 Route::group(array('prefix' => 'api'), function()
 {
 
-
+	Route::get('motion/getcomments/{motionid}','MotionController@getComments');
 	Route::get('motion/rules','MotionController@rules');
 	Route::resource('motion', 'MotionController');
 
