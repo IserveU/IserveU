@@ -45,9 +45,10 @@ class VoteController extends Controller {
 	 * @return Response
 	 */
 	public function create(){
+
 		if(!Auth::user()->can('create-vote')){
 			return array('message'=>'You do not have permission to place a vote');
-		}
+		} 
 	}
 
 	/**
@@ -57,6 +58,7 @@ class VoteController extends Controller {
 	 */
 	public function store()
 	{
+
 		if(Auth::user()->can('create-vote')){
 			$input = Request::all();
 			$validator = Validator::make($input,$this->rules);
@@ -66,7 +68,7 @@ class VoteController extends Controller {
 				$vote = Vote::firstOrNew(['motion_id'=>$input['motion_id'],'user_id'=>Auth::user()->id]);
 				$vote->position = $input['position'];
 				$vote->save();
-
+				return $vote;
 			}
 		} else {
 			return array('message'=>'You do not have permission to place a vote');
@@ -119,7 +121,7 @@ class VoteController extends Controller {
 				$vote = Vote::firstOrNew(['motion_id'=>$input['motion_id'],'user_id'=>Auth::user()->id]);
 				$vote->position = $input['position'];
 				$vote->save();
-
+				return $vote;
 			}
 		} else {
 			return array('message'=>'You do not have permission to update a vote');
