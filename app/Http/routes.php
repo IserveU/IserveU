@@ -19,6 +19,8 @@ Route::controllers([
 
 Route::post('user/conferencelogin','UserController@conferenceLogin');
 
+Route::get('api/user/loggedin', 'UserController@checkLogin');
+
 
 Route::group(['middleware' => 'auth'], function(){
 
@@ -37,7 +39,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('event/rules','EventController@rules');
 		Route::resource('event', 'EventController');
 
-		Route::get('user/loggedin', 'UserController@checkLogin');
 		Route::get('user/rules','UserController@rules');
 		Route::resource('user', 'UserController');
 		
