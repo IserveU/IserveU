@@ -10,7 +10,7 @@
 
 	    <div ng-controller="userBarController as login">
          	<div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row" >
-	            <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()">Logout</md-button>
+	            <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()">Logout</md-button> <!-- ng-click="login.logUserOut()" -->
 	            <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button>
 	            <md-button ng-show="userIsLoggedIn === false" ng-click="toggleUserbar()">Login</md-button>
         	</div>
