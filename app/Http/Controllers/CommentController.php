@@ -144,11 +144,17 @@ class CommentController extends Controller {
 	 */
 	public function destroy($id)
 	{
+
+		$comment = Comment::find($id);
+		if($comment==null){
+			abort(401,"Comment does not exist");
+		}
+
 		if(Auth::user()->can('delete-comment')){ //Administrator able to delete any comment they want
-			$comment = Comment::find($id);
 			$comment->delete();
 		} else if(Auth::user()->can('create-comment')){
 			$comment = Comment::with('vote.user')->find($id);
+			
 			if($comment->vote->user->id == Auth::user()->id){
 				$comment->delete();
 				return array('message'=>'You deleted your comment');
