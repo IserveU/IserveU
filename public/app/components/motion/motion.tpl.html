@@ -102,8 +102,16 @@
     	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
   			<md-whiteframe class="md-whiteframe-z1" layout-fill>
   			 	<div layout-padding ng-repeat="comment in motion.motionComments | proComment">
-			        <h3>Person Name</h3>
-			        <p>{{comment.text}}</p>
+			        <h3>{{comment.first_name + ' ' + comment.last_name}}</h3>
+			        <p ng-if="!comment.editCommentDialog">{{comment.text}}</p>
+			        <md-input-container flex ng-if="comment.editCommentDialog">
+						<label>Edit Comment</label>
+						<textarea ng-model="comment.text" columns="1"></textarea>
+				    </md-input-container>
+			        <md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
+					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Save Comment</md-button>
+					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog">Delete</md-button>
+					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 			        <md-divider class="md-default-theme"></md-divider>				       
 				</div>
   			</md-whiteframe>
@@ -111,8 +119,12 @@
 	    <div flex="50" layout="row" layout-gt-md="row" layout-padding layout="row" flex class="agree comments" flexsm="100">
 			<md-whiteframe class="md-whiteframe-z1" layout-fill >
   			 	<div layout-padding ng-repeat="comment in motion.motionComments | conComment">
-			        <h3>Name</h3>
-			        <p>{{comment.text}}</p>
+			        <h3>{{comment.first_name + ' ' + comment.last_name}}</h3>
+			        <p ng-if="!comment.editCommentDialog">{{comment.text}}</p>
+			        <md-input-container flex ng-if="comment.editCommentDialog">
+						<label>Edit Comment</label>
+						<textarea ng-model="comment.text" columns="1"></textarea>
+				    </md-input-container>
 			       
 			    <!-- later   <div layout="row" layout-align="end center"> 
 				        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
@@ -124,9 +136,12 @@
 							<md-tooltip>Disagree With Comment</md-tooltip>
 						</md-button>	        					         
 					</div> -->
+					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
+					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Save Comment</md-button>
+					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog">Delete</md-button>
+					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 					<md-divider class="md-default-theme"></md-divider>
-				</div>				
-				<md-divider class="md-default-theme"></md-divider>		
+				</div>	
   			</md-whiteframe>
   		</div>
 	</div>

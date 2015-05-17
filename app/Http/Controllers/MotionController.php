@@ -190,7 +190,7 @@ class MotionController extends Controller {
 				}
 				$redactedComments[] = $redactedComment;
 			}
-			return $redactedComments;
+			return $comments;
 		}
 	}
 }
