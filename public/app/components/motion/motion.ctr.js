@@ -98,11 +98,12 @@
         }
 
         vm.deleteComment = function(id) {
-            comment.deleteComment(id).then(function(result) {
-                console.log('Controller says: Success message from the service, although the delete might night have gone through.');
-            }, function(error) {
-                console.log('Controller says: Comment delete error');
-            });
+            // comment.deleteComment(id).then(function(result) {
+            //     console.log('Controller says: Success message from the service, although the delete might night have gone through.');
+            // }, function(error) {
+            //     console.log('Controller says: Comment delete error');
+            // });
+            console.log(id);
             
         }
 
