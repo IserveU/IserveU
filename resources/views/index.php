@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="iserveu">
     <head>
-        <title>IserveU</title>
+        <title>Building Localized Economies</title>
         <meta name="viewport" content="initial-scale=1" />  
         <link rel="stylesheet" href="css/dependencies.css">
         <link rel="stylesheet" href="css/style.css">
