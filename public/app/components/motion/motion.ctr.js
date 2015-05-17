@@ -62,7 +62,6 @@
                 vm.first_name = result.first_name;
                 vm.last_name = result.last_name;
                 vm.email = result.email;
-                console.log("Logged in user is: " + vm.loggedInUser);
             },function(error){
                 // a 404 error
             });        
@@ -95,8 +94,15 @@
                 
             }, function(error) {
                 console.log(error);
-            });
+            });            
+        }
 
+        vm.deleteComment = function(id) {
+            comment.deleteComment(id).then(function(result) {
+                console.log('Controller says: Success message from the service, although the delete might night have gone through.');
+            }, function(error) {
+                console.log('Controller says: Comment delete error');
+            });
             
         }
 

@@ -24,7 +24,8 @@
 		};
 
 		var getLoggedInUser = function() {
-			return Auth.get().$promise.then(function(result) {
+			return Auth.get().$promise.then(function(result, status) {
+				console.log("The status is: " + status);
 				return result;
 			}, function(error) {
 				return error;
