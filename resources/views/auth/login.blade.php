@@ -3,11 +3,9 @@
 @section('content')
 <div style="height:100%" class="darken" layout="row" layout-align="center center" fill-layout>
 	<div flex-sm="100" flex-md="30" flex-lg="25" flex-gt-lg="20"  >
-		<div class="loginlogo"  layout-padding >
-				<img src="/img/logo_conference.png" />
-		</div>
-		<md-whiteframe  class="md-whiteframe-z5 loginbox" layout-padding  layout="row" >
-			
+
+		<md-whiteframe  class="md-whiteframe-z5 loginbox" layout-padding  layout="column" >
+						<div layout-padding> <img  style="display: block; width:30%; margin:auto"  src="/img/logo_conference.png" /></div>
 			@if (count($errors) > 0)
 				<div class="alert alert-danger">
 					<strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -19,7 +17,7 @@
 				</div>
 			@endif
 
-			<form flex="100"  method="POST" action="{{ url('/user/conferencelogin') }}" layout="column">
+			<form flex="100"  method="POST" action="{{ url('/user/conferencelogin') }}" >
 
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -41,7 +39,7 @@
 			      <input  name="email" type="email">
 			    </md-input-container>
 
-				<md-button type="submit" class="btn btn-primary">Login</md-button>
+				<md-button type="submit" class="btn btn-primary">Login</md-button><md-button type="submit" class="btn btn-primary">Login Without Email</md-button>
 				
 			</form>
 		
