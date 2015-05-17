@@ -1,0 +1,27 @@
+
+
+  <md-content layout="row" layout-fill>
+      <form name="loginPopoverForm">
+          <p ng-show="login.loginError === true" style="color: red;">Incorrect email or password</p>
+        <md-input-container>
+          <input placeholder="First Name" ng-model="login.first_name" />
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Last Name" ng-model="login.last_name" />
+        </md-input-container>
+
+        <md-input-container>
+          <input placeholder="Email" ng-model="login.email" />
+        </md-input-container>
+        <md-input-container>
+        </md-input-container>
+
+        <div class="form-actions">
+          <button class="btn btn-sm btn-primary" ng-click="login.logUserIn(login.email, login.password)">Login</button>
+          <button class="btn btn-sm btn-danger" ng-click="$hide()">Close</button>
+        </div>
+      </form>
+  
+  </md-content>
+
