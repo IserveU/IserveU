@@ -65,76 +65,70 @@
 	        </div>
 	    </div>
 
+	    <div layout-padding layout="row" flex="100" flex class="disagee comments">
+	    
 
+			<form style="padding-bottom:20px">
+	     		<div layout="column" layout-gt-lg="row"> 
+		            <md-input-container flex>
+				      <label>First Name</label>
+				      <input ng-model="user.first_name">
+				    </md-input-container>
 
-	    <div flex-order-sm="4" flex="100" layout="column" layout-gt-md="row"  >
-	    	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
-	  			<md-whiteframe class="md-whiteframe-z1" layout-fill>
-	  			 	<div layout-padding ng-repeat="comment in motion.motionComments | proComment">
-				        <h3>Person Name</h3>
-				        <p>{{comment.text}}</p>
-				        <md-divider class="md-default-theme"></md-divider>				       
-					</div>
-	  			</md-whiteframe>
+				    <md-input-container flex>
+				      <label>Last Name</label>
+				      <input ng-model="user.last_name">
+				    </md-input-container>
 
-	    	</div>
-	    	<div layout-padding layout="column" flex class="disagee comments" flex="50" flex-sm="100">
-	    		
-	    			<form style="padding-bottom:20px">
-			     		<div layout="column" layout-gt-lg="row"  >
-				            <md-input-container flex>
-						      <label>First Name</label>
-						      <input ng-model="user.first_name">
-						    </md-input-container>
+				    <md-input-container flex>
+				      <label>Email</label>
+				      <input ng-model="user.email" type="email">
+				    </md-input-container>
+			    </div>
+			    <div layout="row">
+				    <md-input-container flex>
+						<label>Comment</label>
+						<textarea ng-model="motion.commenttext" columns="1" ></textarea>
+				    </md-input-container>
+			    </div>
+			    <div layout="row" layout-align="end center">
+			    	<md-button ng-click="motion.submitComment(motion.commenttext)" class="btn btn-sm btn-primary">Submit Comment</md-button>
+			    </div>
+	        </form>
+	    
 
-						    <md-input-container flex>
-						      <label>Last Name</label>
-						      <input ng-model="user.last_name">
-						    </md-input-container>
+		</div>
 
-						    <md-input-container flex>
-						      <label>Email</label>
-						      <input ng-model="user.email" type="email">
-						    </md-input-container>
-					    </div>
-					    <div layout="row">
-						    <md-input-container flex>
-								<label>Comment</label>
-								<textarea ng-model="comment.text" columns="1" ></textarea>
-						    </md-input-container>
-					    </div>
-					    <div layout="row" layout-align="end center">
-					    	<md-button class="btn btn-sm btn-primary">Submit Comment</md-button>
-					    </div>
-			        </form>
-				
-						    
-
-
-				<md-whiteframe class="md-whiteframe-z1" layout-fill >
-	  			 	<div layout-padding ng-repeat="comment in motion.motionComments | conComment">
-				        <h3>Name</h3>
-				        <p>{{comment.text}}</p>
-				       
-				    <!-- later   <div layout="row" layout-align="end center"> 
-					        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-								<md-tooltip>Agree With Comment</md-tooltip>
-							</md-button>	        					         
-								<md-button class="md-icon-button" aria-label="Disagree">
-								<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
-								<md-tooltip>Disagree With Comment</md-tooltip>
-							</md-button>	        					         
-						</div> -->
-						<md-divider class="md-default-theme"></md-divider>
-					</div>				
-					<md-divider class="md-default-theme"></md-divider>		
-	  			</md-whiteframe>
-
-	    	</div>
-
-
-	    </div>
+    	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
+  			<md-whiteframe class="md-whiteframe-z1" layout-fill>
+  			 	<div layout-padding ng-repeat="comment in motion.motionComments | proComment">
+			        <h3>Person Name</h3>
+			        <p>{{comment.text}}</p>
+			        <md-divider class="md-default-theme"></md-divider>				       
+				</div>
+  			</md-whiteframe>
+    	</div>
+	    <div flex="50" layout="row" layout-gt-md="row" layout-padding layout="row" flex class="agree comments" flexsm="100">
+			<md-whiteframe class="md-whiteframe-z1" layout-fill >
+  			 	<div layout-padding ng-repeat="comment in motion.motionComments | conComment">
+			        <h3>Name</h3>
+			        <p>{{comment.text}}</p>
+			       
+			    <!-- later   <div layout="row" layout-align="end center"> 
+				        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
+							<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+							<md-tooltip>Agree With Comment</md-tooltip>
+						</md-button>	        					         
+							<md-button class="md-icon-button" aria-label="Disagree">
+							<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+							<md-tooltip>Disagree With Comment</md-tooltip>
+						</md-button>	        					         
+					</div> -->
+					<md-divider class="md-default-theme"></md-divider>
+				</div>				
+				<md-divider class="md-default-theme"></md-divider>		
+  			</md-whiteframe>
+  		</div>
 	</div>
 	 
 </md-content>

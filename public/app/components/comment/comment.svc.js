@@ -11,8 +11,8 @@
 		var Comment = $resource('api/comment/:id');
 
 		function saveComment(data) {
-			return Comment.save(data).then(function(success) {
-				return sucess;
+			return Comment.save(data).$promise.then(function(success) {
+				return success;
 			}, function(error) {
 				return error;
 			});

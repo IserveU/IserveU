@@ -8,7 +8,7 @@
         },
         motionController: {
             name: 'MotionController',
-            injectables: ['$rootScope', '$stateParams', 'auth', 'motion']
+            injectables: ['$rootScope', '$stateParams', 'auth', 'motion', 'comment']
         }
     };        
 
@@ -26,7 +26,7 @@
 
     MotionConfig.$provide = module.config.providers;
 
-    var MotionController = function($rootScope, $stateParams, auth, motion) {
+    var MotionController = function($rootScope, $stateParams, auth, motion, comment) {
 
         var vm = this;
 
@@ -36,6 +36,7 @@
         vm.voteFor;
         vm.voteAgainst;
         vm.voteNeutral;
+        vm.commenttext;
     	vm.loggedInUser;
 
         function getMotion(id) {
@@ -65,13 +66,31 @@
                 motion_id:$stateParams.id,
                 position:position
             }
-            
+
             motion.castVote(data).then(function(result) {
                 getUsersVotes();
                 console.log(result);
             }, function(error) {
                 console.log(error);
             });
+        }
+
+        vm.submitComment = function(text) {
+            var data = {
+                motion_id:$stateParams.id,
+                approved: 0,
+                text: text
+            }
+            comment.saveComment(data).then(function(result) {
+                vm.commenttext = '';
+                getMotionComments($stateParams.id);
+                console.log(result);
+                
+            }, function(error) {
+                console.log(error);
+            });
+
+            
         }
 
         function getUsersVotes() {
