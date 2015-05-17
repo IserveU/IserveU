@@ -32,12 +32,16 @@
 
     	vm.motionDetail = [];
         vm.motionComments = [];
+        vm.usersVote;
+        vm.voteFor;
+        vm.voteAgainst;
+        vm.voteNeutral;
     	vm.loggedInUser;
 
         function getMotion(id) {
             motion.getMotion(id).then(function(result) {
-                vm.motionDetail = result;
-            });
+                vm.motionDetail = result;                
+            });            
         }
 
         function getMotionComments(id) {
@@ -56,8 +60,34 @@
             });        
         }
 
+        vm.castVote = function(position) {
+            var data = {
+                motion_id:$stateParams.id,
+                position:position
+            }
+            
+            motion.castVote(data).then(function(result) {
+                getUsersVotes();
+                console.log(result);
+            }, function(error) {
+                console.log(error);
+            });
+        }
+
+        function getUsersVotes() {
+            motion.getUsersVotes().then(function(result) {
+                angular.forEach(result, function(value, key) {
+                    if(value.motion_id === $stateParams.id) {
+                        vm.usersVote = parseInt(value.position);
+                    }
+                });
+            });
+        }        
+
         getMotion($stateParams.id);
         getMotionComments($stateParams.id);
+        getUsersVotes();
+
     };
 
     MotionController.$inject = module.motionController.injectables;

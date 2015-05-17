@@ -9,7 +9,8 @@
 	function motion($resource) {
 
 		var Motion = $resource('api/motion/:id');
-		var MotionComments = $resource('api/motion/getcomments/:id');
+		var Comment = $resource('api/motion/getcomments/:id');
+		var Vote = $resource('api/vote/:id')
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {
@@ -26,15 +27,33 @@
 		}
 
 		function getMotionComments(id) {
-			return MotionComments.query({id:id}).$promise.then(function(result) {
+			return Comment.query({id:id}).$promise.then(function(result) {
 				return result;
+			});
+		}
+
+		function castVote(data) {
+			return Vote.save(data).$promise.then(function(success) {
+				console.log(success);
+			}, function(error) {
+				console.log(error);
+			});
+		}
+
+		function getUsersVotes() {
+			return Vote.query().$promise.then(function(result) {
+				return result;
+			}, function(error) {
+				return error;
 			});
 		}
 
 		return {
 			getMotions: getMotions,
 			getMotion: getMotion,
-			getMotionComments: getMotionComments
+			getMotionComments: getMotionComments,
+			castVote: castVote,
+			getUsersVotes: getUsersVotes
 		}
 	}
 })();

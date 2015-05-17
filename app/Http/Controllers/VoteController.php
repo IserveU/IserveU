@@ -30,12 +30,11 @@ class VoteController extends Controller {
 	 */
 	public function index()
 	{
-		if(Auth::user()->can('show-vote')){ //Tracking a vote
-			$vote = Vote::find($id);
-			return($vote);
-		} else{
-			$vote = Vote::where('id',$id)->where('user_id',Auth::user()->id)->firstOrFail(); //This person has no right to see this vote
-			return($vote);
+		if(Auth::user()) { //Tracking a vote
+			$vote = Vote::where('user_id', Auth::user()->id)->get(); //This person has no right to see this vote
+			return $vote;
+		} else {
+			return "no votes!";
 		}
 	}
 

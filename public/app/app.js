@@ -230,7 +230,7 @@
 						out.push(input[i])
 					}				
 				}
-				return out; 
+				return out;
 			}
 		})
 		.filter('conComment', function() {
@@ -241,7 +241,7 @@
 						out.push(input[i])
 					}				
 				}
-				return out; 
+				return out;
 			}
 		});	
 
