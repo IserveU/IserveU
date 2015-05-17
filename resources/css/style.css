@@ -1,8 +1,21 @@
-.fullscreen{
-	background-image: url('/img/photos/large/01.jpg');
+.loginbox{
+	background: rgba(255,255,255,0.75);
+}
+
+form {
+  margin-bottom: 0em;
+}
+
+.darken{
 
 }
 
+.loginlogo img{
+	display: block;
+	width: 50%;
+	margin: auto;
+
+}
 
 
 .isu-logo md-icon{

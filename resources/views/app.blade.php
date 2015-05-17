@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="/css/style.css">   
         <meta name="viewport" content="initial-scale=1" />
   </head>
-  <body back-img layout="row" ng-controller="AppCtrl" layout-align="center center">
+  <body back-img ng-controller="AppCtrl" layout-align="center center">
 
 
     
