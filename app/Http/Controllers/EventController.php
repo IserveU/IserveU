@@ -6,6 +6,7 @@ use App\Motion;
 use App\Event;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventController extends Controller {
@@ -17,9 +18,16 @@ class EventController extends Controller {
 	 */
 	public function index()
 	{
-		$events = Event::all();
-
+		$events = Event::oldest('time')->get();
 		return $events;
+		$reindexed;
+	
+		echo Carbon::now();
+		foreach($events as $event){
+
+			$reindexed[] = $event;
+		}
+		//return $reindexed;
 	}
 
 	/**
