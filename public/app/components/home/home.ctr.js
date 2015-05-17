@@ -8,7 +8,7 @@
 		},
 		homeController: {
 			name: 'HomeController',
-			injectables: []
+			injectables: ['motion']
 		}
 	};
 	 
@@ -23,12 +23,17 @@
 	HomeConfig.$provide = module.config.providers;
 	 
 	 
-	var HomeController = function() {
-	 
-	 var self = this;
-	 self.message = 'Hello World!';
+	var HomeController = function(motion) {
+		 var vm = this;
 
+        function getRandomMotion() {
+            motion.getMotion('rand').then(function(result) {
+                vm.randomMotionId = result.id;                   
+            });            
+        }
+        getRandomMotion();
 	};
+
 	HomeController.$inject = module.homeController.injectables;
 	 
 	 

@@ -38,7 +38,7 @@
 
 		 		<md-input-container flex>
 			      <label>Email</label>
-			      <input required name="email" type="email">
+			      <input  name="email" type="email">
 			    </md-input-container>
 
 				<md-button type="submit" class="btn btn-primary">Login</md-button>

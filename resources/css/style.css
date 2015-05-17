@@ -105,8 +105,11 @@ md-grid-tile md-icon{
 
 
 [layout-padding]{
-	padding: 20px;
+	padding: 16px;
+}
 
+md-card{
+	margin: 16px;
 }
 
 @media (max-width: 599px){

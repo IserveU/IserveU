@@ -1,1 +1,34 @@
-<h1 class="md-display-4">Welcome to IserveU</h1>
+<md-toolbar class="md-whiteframe-glow-z2">
+	<div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
+	    <md-button class="md-icon-button" ng-click="toggleSidebar()" hide-gt-sm aria-label="Toggle Menu">
+	    	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_menu_18px.svg"></md-icon>
+	    </md-button>
+	    <div layout="row" flex class="fill-height">
+	        <h2>Building Localized Economies Conference </h2>
+	        <span flex></span> <!-- use up the empty space -->
+	    </div>
+
+	    <div ng-controller="userBarController as login">
+         	<div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row" >
+	            <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()">Logout</md-button>
+	            <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button>
+	            <md-button ng-show="userIsLoggedIn === false" ng-click="toggleUserbar()">Login</md-button>
+        	</div>
+    	</div>
+	</div>
+</md-toolbar>
+<md-content id="maincontent" layout="column" layout-wrap>
+	
+<md-card>
+      <img ng-src="/img/photos/banner/04.jpg" class="md-card-image" alt="Washed Out">
+      <md-card-content>
+        <h2 class="md-title">Motions</h2>
+        <p>Vote and comment on the motions at the conference, unless you're chicken or something. Are you chicken?</p>
+      </md-card-content>
+      <div class="md-actions" layout="row" layout-align="end center">
+        <md-button ui-sref="app.motion({id:home.randomMotionId})">View A Random Motion</md-button>
+      </div>
+    </md-card>
+	 
+</md-content>
+

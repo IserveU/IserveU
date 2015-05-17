@@ -90,8 +90,11 @@ class MotionController extends Controller {
 	 */
 	public function show($id)
 	{
-		$motion = Motion::with('user', 'comments', 'votes')->get()->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously
-		
+		if($id=='rand'){
+			$motion = Motion::orderByRaw('RAND()')->first();
+		} else {
+			$motion = Motion::with('user', 'comments', 'votes')->get()->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously
+		}
 		return $motion;
 	}
 
