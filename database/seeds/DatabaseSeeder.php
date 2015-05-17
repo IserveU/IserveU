@@ -550,6 +550,12 @@ class DefaultUsers extends Seeder{
 		$viewComment->description 		=	'View the comments and owners of comments that are not public';
 		$viewComment->save();
 
+		$deleteComment					= 	new Permission();
+		$deleteComment->name				=	"delete-comment";
+		$deleteComment->display_name		= 	'Delete Comment';
+		$deleteComment->description 		=	'Delete other peoples comments';
+		$deleteComment->save();
+
 		$createVote						= 	new Permission();
 		$createVote->name				=	"create-vote";
 		$createVote->display_name		= 	'Can vote (Create a vote)';

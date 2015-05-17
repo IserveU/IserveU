@@ -103,7 +103,8 @@ class CommentController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$comment = Comment::find($id);
+		return $comment;
 	}
 	/**
 	 * Update the specified resource in storage.
@@ -113,7 +114,27 @@ class CommentController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		if(Auth::user()->can('create-comment')){
+			$input = Request::all();
+			$validator = Validator::make($input,$this->rules);
+			if($validator->fails()){
+				return $validator->messages();
+			} else {
+
+				$comment = Comment::find($id); 
+
+				if($comment->vote->user->id == Auth::user()->id){
+					$comment->text = $input['text'];
+					$comment->save();
+				} else {
+					abort(401,'User must vote before posting comment');
+				}
+
+				return $comment; 
+			}
+		} else {
+			abort(401,'You do not have permission to update a comment');
+		}
 	}
 	/**
 	 * Remove the specified resource from storage.
@@ -123,6 +144,19 @@ class CommentController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		if(Auth::user()->can('delete-comment')){ //Administrator able to delete any comment they want
+			$comment = Comment::find($id);
+			$comment->delete();
+		} else if(Auth::user()->can('create-comment')){
+			$comment = Comment::with('vote.user')->find($id);
+			if($comment->vote->user->id == Auth::user()->id){
+				$comment->delete();
+				return array('message'=>'You deleted your comment');
+			} else {
+				abort(401,"You do not have permission to delete other users comments, even if you really want to");
+			}
+		} else {
+			return array('message'=>'You do not have permission to delete comments');
+		}
 	}
 }

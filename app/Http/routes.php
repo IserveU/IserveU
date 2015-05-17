@@ -47,5 +47,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('comment/rules','CommentController@rules');
 		Route::resource('comment', 'CommentController');
+
+		Route::get('comment_vote/rules','CommentVotesController@rules');
+		Route::resource('comment_vote', 'CommentVotesController');
 	});
 });
