@@ -8,6 +8,8 @@
 
 	function auth($resource, $http, $sanitize, session, CSRF_TOKEN) {
 
+		var Auth = $resource('api/user/loggedin');
+
 		var loginError = function(response) {
 			
 			console.log(response);
@@ -20,6 +22,14 @@
 		    	csrf_token: CSRF_TOKEN
 		  	};
 		};
+
+		var getLoggedInUser = function() {
+			return Auth.get().$promise.then(function(result) {
+				return result;
+			}, function(error) {
+				return error;
+			});
+		}
 
 		return {
 			login: function(credentials) {
@@ -37,7 +47,8 @@
 		  	isLoggedIn: function() {
 		    	var isLoggedIn = $http.get("api/user/loggedin");
 		    	return isLoggedIn;
-		  	}
+		  	},
+		  	getLoggedInUser: getLoggedInUser
 		};
 	}
 

@@ -35,7 +35,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['created_at', 'updated_at', 'password', 'remember_token','email','ethnic_origin_id','login_attempts','locked_until'];
+	protected $hidden = ['created_at', 'updated_at', 'password', 'remember_token','ethnic_origin_id','login_attempts','locked_until'];
 
 
 	public function ethnicOrigin(){

@@ -37,7 +37,11 @@
         vm.voteAgainst;
         vm.voteNeutral;
         vm.commenttext;
-    	vm.loggedInUser;
+        vm.first_name;
+        vm.last_name;
+        vm.email;
+
+        console.log(vm.loggedInUser)
 
         function getMotion(id) {
             motion.getMotion(id).then(function(result) {
@@ -52,9 +56,12 @@
             });
         }
 
-        function getLoggedInUser(id) {
-            auth.getLoggedInUser(id).then(function(result) {
+        function getLoggedInUser() {
+            auth.getLoggedInUser().then(function(result) {
                 vm.loggedInUser = result;
+                vm.first_name = result.first_name;
+                vm.last_name = result.last_name;
+                vm.email = result.email;
                 console.log("Logged in user is: " + vm.loggedInUser);
             },function(error){
                 // a 404 error
@@ -105,6 +112,7 @@
 
         getMotion($stateParams.id);
         getMotionComments($stateParams.id);
+        getLoggedInUser();
         getUsersVotes();
 
     };
