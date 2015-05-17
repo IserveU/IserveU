@@ -1,0 +1,29 @@
+<md-toolbar class="md-whiteframe-glow-z2">
+	<div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
+	    <md-button class="md-icon-button" ng-click="toggleSidebar()" hide-gt-sm aria-label="Toggle Menu">
+	    	<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_menu_18px.svg"></md-icon>
+	    </md-button>
+	    <div layout="row" flex class="fill-height">
+	        <h2>
+	        Events : {{event.eventDetail.title}}
+	        </h2>
+	        <span flex></span> <!-- use up the empty space -->
+	    </div>
+
+	    <div ng-controller="userBarController as login">
+         	<div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row" >
+	            <md-button ng-show="userIsLoggedIn === true" ng-click="login.logUserOut()">Logout</md-button>
+	            <md-button ng-show="userIsLoggedIn === true" ui-sref="profile" ng-click="toggleRight()">{{currentUser.first_name}}</md-button>
+	            <md-button ng-show="userIsLoggedIn === false" ng-click="toggleUserbar()">Login</md-button>
+        	</div>
+    	</div>
+	</div>
+</md-toolbar>
+<md-content id="maincontent" layout="row" layout-wrap>
+
+		<div flex="100" flex-sm="100" flex-order-sm="2"  layout="row" layout-padding  >
+	  	  <md-whiteframe class="md-whiteframe-z1"  ng-bind-html="event.eventDetail.text" layout-padding layout-fill ></md-whiteframe>
+		</div>
+	
+</md-content>
+

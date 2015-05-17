@@ -26,7 +26,17 @@
 			<h2>Events</h2>
 		</div>
 	</md-toolbar>
-	<div flex layout="column">
-	    <p>Will hard code these in for upcoming conference</p>
-	</div>
+	<md-list>
+		<md-list-item ng-repeat="event in sidebar.events" class="sidebar-list" ng-click="$scope.do">
+		<!-- how do we mark what they have read/not read? -->
+			<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_check_18px.svg"></md-icon>
+			<p ui-sref="app.event({id:event.id})" >{{ event.title }}</p>
+			<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
+		<!--
+		        md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" Have voted for
+		        md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" Have voted against
+		        md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" Have abstained
+		-->
+		</md-list-item>
+	</md-list>
 </md-content>

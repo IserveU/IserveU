@@ -5,7 +5,7 @@
   	var module = {
 	    name: 'iserveu',
 	    dependencies: [
-	        'ngResource', 'ngMaterial', 'ui.router', 'ngSanitize','iserveu.home','iserveu.sidebar', 'iserveu.motion'
+	        'ngResource', 'ngMaterial', 'ui.router', 'ngSanitize','iserveu.home','iserveu.sidebar', 'iserveu.motion', 'iserveu.event'
 	    ],
 	    config: {
 	        providers: ['$provide', '$stateProvider', '$urlRouterProvider', '$httpProvider','$mdThemingProvider']

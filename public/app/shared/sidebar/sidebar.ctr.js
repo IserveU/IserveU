@@ -13,26 +13,42 @@
 	    linkMethod = function(scope, element, attributes) {
 	    };
 
-	    controllerMethod = function(motion, $scope, $location, $state) {
-	        $scope.$state = $state;
-	        var motions = [];
-	 
-        	motion.getMotions().then(function(results) {
-				motions = results;
-
-				$scope.sidebar = {
-					motions: motions /*This is probably retarded, the data isn't bound */
-				}
-
-			}, function(error) {
-				console.log(error);
-			});
-		
-
+	    controllerMethod = function(motion, event, $scope, $location, $state) {
+	      
+	        var vm = this;
+	        vm.motions;
+	        vm.events;
 
 	        $scope.sidebar = {
-	            motions: motions
-	        };
+				events: null,
+				motions: null
+			}
+	 
+	 		function getMotions(){
+	        	motion.getMotions().then(function(results) {
+					$scope.sidebar.motions = results;
+				}, function(error) {
+					console.log(error);
+				});
+	        }
+
+	        function getEvents(){
+
+				event.getEvents().then(function(results) {
+				
+
+					$scope.sidebar.events = results;
+					
+
+				}, function(error) {
+					console.log(error);
+				});
+			}
+
+
+			getMotions();
+			getEvents();
+
 	        	       
 	    };
 
