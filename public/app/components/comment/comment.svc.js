@@ -8,7 +8,9 @@
 
 	function comment($resource) {
 
-		var Comment = $resource('api/comment/:id');
+		var Comment = $resource('api/comment/:id', null, {
+	        'update': { method:'PUT' }
+	    });
 
 		function saveComment(data) {
 			return Comment.save(data).$promise.then(function(success) {
@@ -18,16 +20,25 @@
 			});
 		}
 
+		function updateComment(id, text) {
+			return Comment.update({id:id, text:text}).$promise.then(function(success) {
+
+			}, function(error) {
+
+			});
+		}
+
 		function deleteComment(id) {
 			return Comment.delete({id:id}).$promise.then(function(success) {
-				console.log('Service says: Success message from the service, although the delete might night have gone through.');
+				
 			}, function(error) {
-				console.log('Service says: Comment delete error');
+				
 			});
 		}
 
 		return {
 			saveComment: saveComment,
+			updateComment: updateComment,
 			deleteComment: deleteComment
 		}
 	}

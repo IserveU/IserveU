@@ -97,14 +97,20 @@
             });            
         }
 
+        vm.updateComment = function(id, text) {
+            comment.updateComment(id, text).then(function(result) {
+                getMotionComments($stateParams.id);
+            }, function(error) {
+
+            });
+        }
+
         vm.deleteComment = function(id) {
             comment.deleteComment(id).then(function(result) {
                 getMotionComments($stateParams.id);
             }, function(error) {
                 
-            });
-
-            
+            });           
         }
 
         function getUsersVotes() {

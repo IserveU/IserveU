@@ -132,6 +132,7 @@ class CommentController extends Controller {
 
 				return $comment; 
 			}
+			
 		} else {
 			abort(401,'You do not have permission to update a comment');
 		}
