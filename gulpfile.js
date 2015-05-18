@@ -29,6 +29,7 @@ elixir(function(mix) {
  	mix.scriptsIn("public/app",'public/js/iserveu-app.js'); 
 
     mix.copy('./resources/bower/material-design-icons', './public/img/icons');
+    mix.copy('./resources/img/icons/spinner', './public/img/icons/spinner');
 
     mix.styles([
       	'/bower/angular-material/angular-material.css'
