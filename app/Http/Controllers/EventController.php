@@ -60,7 +60,7 @@ class EventController extends Controller {
 	 */
 	public function store()
 	{
-		//
+	
 	}
 
 	/**
@@ -71,7 +71,7 @@ class EventController extends Controller {
 	 */
 	public function show($id)
 	{
-		$event = Event::find($id);
+		$event = Event::with('motions')->find($id);
 		return $event;
 	}
 

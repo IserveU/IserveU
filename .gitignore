@@ -5,4 +5,5 @@
 /resources/bower/*
 /storage/logs/*
 
+_ide_helper.php
 .env

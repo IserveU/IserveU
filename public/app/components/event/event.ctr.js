@@ -32,6 +32,7 @@
 
         function getEvent(id) {
             event.getEvent(id).then(function(result) {
+                console.log(result);
                 vm.eventDetail = result;               
             });            
         }
