@@ -19,15 +19,28 @@ class EventController extends Controller {
 	public function index()
 	{
 		$events = Event::oldest('time')->get();
-		return $events;
+		
 		$reindexed;
 	
-		echo Carbon::now();
-		foreach($events as $event){
+		$now = Carbon::now();
 
+
+		foreach($events as $event){
+			if($event->time <= $now){
+				$event = array(
+					'record' => $event,
+					'icon'	=> 'check'
+				);				
+			} else {
+				$event = array(
+					'record' => $event,
+					'icon'	=> 'close'
+				);
+			}
 			$reindexed[] = $event;
+
 		}
-		//return $reindexed;
+		return $reindexed;
 	}
 
 	/**

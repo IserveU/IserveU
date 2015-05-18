@@ -174,7 +174,7 @@ class MotionController extends Controller {
 	public function getComments($id){
 
 		$comments = DB::table('comments')->join('votes','comments.vote_id','=','votes.id')->join('users','votes.user_id','=','users.id')
-						->select('user_id','text','first_name','last_name','position','public')->where('comments.motion_id',$id)->get();
+						->select('user_id','text','first_name','last_name','position','public','comments.id')->where('comments.motion_id',$id)->whereNull('comments.deleted_at')->get();
 
 		if(Auth::user()->can('view-comment')){ //A full admin who can see whatever
 			return $comments;

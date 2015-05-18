@@ -50,7 +50,7 @@
 			});
 		}
 
-		console.log('hey');
+
 
 	}
 
