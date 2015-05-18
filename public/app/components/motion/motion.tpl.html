@@ -110,7 +110,7 @@
 				    </md-input-container>
 			        <md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
 					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Save Comment</md-button>
-					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment)">Delete</md-button>
+					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment.id)">Delete</md-button>
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 			        <md-divider class="md-default-theme"></md-divider>				       
 				</div>
