@@ -45,20 +45,22 @@
 	        <!--Pro Side-->
 	        <div layout-padding flex>
 	            <md-button ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote === 1}" aria-label="Agree" layout-fill>
-	            	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-	            
+	            	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" ng-show="!motion.agreeVoting"></md-icon>
+	            	<md-icon md-svg-src="/img/icons/spinner/svg-loaders/ball-triangle.svg" ng-show="motion.agreeVoting"></md-icon>
 	            </md-button>
 	        </div>
 
 	        <div layout-padding flex>
 	       		 <md-button ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote === 0}" aria-label="Abstain" layout-fill>
-	       		 	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon>
+	       		 	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-show="!motion.abstainVoting"></md-icon>
+	       		 	<md-icon md-svg-src="/img/icons/spinner/svg-loaders/ball-triangle.svg" ng-show="motion.abstainVoting"></md-icon>	       		 	
 	       		 </md-button>	
 	        </div>
 	        <!--Con Side-->
 	        <div layout-padding flex >
  				<md-button ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote === -1}" aria-label="Disagree" layout-fill>
- 					<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+ 					<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-show="!motion.disagreeVoting"></md-icon>
+ 					<md-icon md-svg-src="/img/icons/spinner/svg-loaders/ball-triangle.svg" ng-show="motion.disagreeVoting"></md-icon>
  				</md-button>	   
 	        </div>
 	    </div>
@@ -107,7 +109,7 @@
 						<textarea ng-model="comment.text" columns="1"></textarea>
 				    </md-input-container>
 			        <md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
-					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment.id, comment.text); comment.editCommentDialog = true">Save Comment</md-button>
+					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment); comment.editCommentDialog = true">Save Comment</md-button>
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment.id)">Delete</md-button>
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 			        <md-divider class="md-default-theme"></md-divider>				       
@@ -135,7 +137,7 @@
 						</md-button>	        					         
 					</div> -->
 					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
-					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment.id, comment.text); comment.editCommentDialog = true">Save Comment</md-button>
+					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment); comment.editCommentDialog = true">Save Comment</md-button>
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment.id)">Delete</md-button>
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 					<md-divider class="md-default-theme"></md-divider>

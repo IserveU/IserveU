@@ -8,7 +8,7 @@
 
 	function comment($resource) {
 
-		var Comment = $resource('api/comment/:id', null, {
+		var Comment = $resource('api/comment/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
 
@@ -20,8 +20,8 @@
 			});
 		}
 
-		function updateComment(id, text) {
-			return Comment.update({id:id, text:text}).$promise.then(function(success) {
+		function updateComment(data) {
+			return Comment.update({id:data.id}, data).$promise.then(function(success) {
 
 			}, function(error) {
 

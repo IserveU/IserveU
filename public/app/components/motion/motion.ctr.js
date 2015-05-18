@@ -40,6 +40,9 @@
         vm.first_name;
         vm.last_name;
         vm.email;
+        vm.agreeVoting = false;
+        vm.abstainVoting = false;
+        vm.disagreeVoting = false;
 
         console.log(vm.loggedInUser)
 
@@ -70,16 +73,18 @@
         vm.castVote = function(position) {
             var message = "You";
             switch(position) {
-                    case -1: 
+                case -1: 
                     message = message+" disagree with this motion";
+                    vm.disagreeVoting = true;
                     break;
                 case 1:
                     message = message+" agreed with this motion";
+                    vm.agreeVoting = true;
                     break;
                 default:
                     message = message+" abstained from voting on this motion";
+                    vm.abstainVoting = true;
             }
-
 
             var data = {
                 motion_id:$stateParams.id,
@@ -89,7 +94,9 @@
 
             motion.castVote(data).then(function(result) {
                 getUsersVotes();
-
+                vm.agreeVoting = false;
+                vm.abstainVoting = false;
+                vm.disagreeVoting = false;
                 $mdToast.show(
                   $mdToast.simple()
                     .content(message)
@@ -98,6 +105,9 @@
                 );
                 console.log(result);
             }, function(error) {
+                vm.agreeVoting = false;
+                vm.abstainVoting = false;
+                vm.disagreeVoting = false;
                 console.log(error);
             });
         }
@@ -118,8 +128,8 @@
             });            
         }
 
-        vm.updateComment = function(id, text) {
-            comment.updateComment(id, text).then(function(result) {
+        vm.updateComment = function(data) {
+            comment.updateComment(data).then(function(result) {
                 getMotionComments($stateParams.id);
             }, function(error) {
 
