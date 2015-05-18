@@ -29,15 +29,17 @@ class MotionController extends Controller {
 	 */
 	public function index()
 	{
-	
-		if(Auth::check() && Auth::user()->can('create-vote')){ //Logged in user will want to see if they voted on these things
-		 	$motions = Motion::all();
-		} else {
-
-			$motions = Motion::all();
-		
+		if(!Auth::user()->can('create-vote')){
+			Auth::user()->addUserRoleByName('citizen'); //FOR THE CONFERENCE
 		}
-
+			
+		if(Auth::check() && Auth::user()->can('create-vote')){ //Logged in user will want to see if they voted on these things
+			$motions = Motion::with(['votes'=>function($query){
+				$query->where('user_id',Auth::user()->id);
+			}])->get();
+		} else {
+			$motions = Motion::all();
+		}
 		return $motions;
 	}
 
@@ -48,9 +50,6 @@ class MotionController extends Controller {
 	 */
 	public function create()
 	{
-		
-
-
 		
 	}
 

@@ -26,6 +26,7 @@
 	 
 	 		function getMotions(){
 	        	motion.getMotions().then(function(results) {
+	        		console.log(results);
 					$scope.sidebar.motions = results;
 				}, function(error) {
 					console.log(error);
