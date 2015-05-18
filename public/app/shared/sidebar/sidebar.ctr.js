@@ -25,11 +25,10 @@
 			}
 	 
 	 		function getMotions(){
-	        	motion.getMotions().then(function(results) {
-	        		console.log(results);
+	        	motion.getMotions().then(function(results) {	        		
 					$scope.sidebar.motions = results;
 				}, function(error) {
-					console.log(error);
+					
 				});
 	        }
 
@@ -49,6 +48,10 @@
 
 			getMotions();
 			getEvents();
+
+			$scope.$watch('sidebar.motions', function() {
+				getMotions();
+			});
 
 	        	       
 	    };
