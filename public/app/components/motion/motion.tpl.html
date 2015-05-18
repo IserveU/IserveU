@@ -46,21 +46,19 @@
 	        <div layout-padding flex>
 	            <md-button ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote === 1}" aria-label="Agree" layout-fill>
 	            	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-	            	<span ng-show="motion.usersVote === 1" class="vote-description-text">You agree with this motion</span>
+	            
 	            </md-button>
 	        </div>
 
 	        <div layout-padding flex>
 	       		 <md-button ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote === 0}" aria-label="Abstain" layout-fill>
 	       		 	<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon>
-	       		 	<span ng-show="motion.usersVote === 0" class="vote-description-text">You have abstained from voting</span>
 	       		 </md-button>	
 	        </div>
 	        <!--Con Side-->
 	        <div layout-padding flex >
  				<md-button ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote === -1}" aria-label="Disagree" layout-fill>
  					<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
- 					<span ng-show="motion.usersVote === -1" class="vote-description-text">You disagree with this motion</span>
  				</md-button>	   
 	        </div>
 	    </div>
