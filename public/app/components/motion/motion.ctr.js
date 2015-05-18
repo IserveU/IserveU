@@ -8,7 +8,7 @@
         },
         motionController: {
             name: 'MotionController',
-            injectables: ['$rootScope', '$stateParams', 'auth', 'motion', 'comment']
+            injectables: ['$rootScope', '$stateParams', 'auth', 'motion', 'comment', '$mdToast', '$animate']
         }
     };        
 
@@ -26,7 +26,7 @@
 
     MotionConfig.$provide = module.config.providers;
 
-    var MotionController = function($rootScope, $stateParams, auth, motion, comment) {
+    var MotionController = function($rootScope, $stateParams, auth, motion, comment, $mdToast, $animate) {
 
         var vm = this;
 
@@ -68,13 +68,34 @@
         }
 
         vm.castVote = function(position) {
+            var message = "You";
+            switch(position) {
+                    case -1: 
+                    message = message+" disagree with this motion";
+                    break;
+                case 1:
+                    message = message+" agreed with this motion";
+                    break;
+                default:
+                    message = message+" abstained from voting on this motion";
+            }
+
+
             var data = {
                 motion_id:$stateParams.id,
-                position:position
+                position:position,
+                message:message
             }
 
             motion.castVote(data).then(function(result) {
                 getUsersVotes();
+
+                $mdToast.show(
+                  $mdToast.simple()
+                    .content(message)
+                    .position('bottom right')
+                    .hideDelay(3000)
+                );
                 console.log(result);
             }, function(error) {
                 console.log(error);
