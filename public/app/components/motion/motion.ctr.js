@@ -8,7 +8,7 @@
         },
         motionController: {
             name: 'MotionController',
-            injectables: ['$rootScope', '$stateParams', 'auth', 'motion', 'comment', '$mdToast', '$animate']
+            injectables: ['$rootScope', '$scope', '$stateParams', 'auth', 'motion', 'comment', '$mdToast', '$animate']
         }
     };        
 
@@ -26,7 +26,7 @@
 
     MotionConfig.$provide = module.config.providers;
 
-    var MotionController = function($rootScope, $stateParams, auth, motion, comment, $mdToast, $animate) {
+    var MotionController = function($rootScope, $scope, $stateParams, auth, motion, comment, $mdToast, $animate) {
 
         var vm = this;
 
@@ -110,6 +110,9 @@
                 vm.disagreeVoting = false;
                 console.log(error);
             });
+
+            $scope.$emit('voteCast', {position:position, id:$stateParams.id});
+
         }
 
         vm.submitComment = function(text) {
