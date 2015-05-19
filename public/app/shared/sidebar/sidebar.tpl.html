@@ -8,10 +8,10 @@
 		</div>
 	</md-toolbar>
 	<md-list>
-		<md-list-item ng-repeat="motion in sidebar.motions" class="sidebar-list" ng-click="$scope.do">
+		<md-list-item ng-repeat="motion in sidebar.motions" class="sidebar-list">
 		<!-- how do we mark what they have read/not read? -->
 			<md-icon md-svg-src="/img/icons/navigation/svg/production/ic_check_18px.svg"></md-icon>
-			<p ui-sref="app.motion({id:motion.id})" >{{ motion.title }} {{motion.id}}</p>
+			<p ui-sref="app.motion({id:motion.id})" >{{ motion.title }}</p>
 
 			<div ng-switch="{{ motion.votes[0].position}}">
 				<md-icon ng-switch-when="1" md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" ng-click="cycleVote($event)" aria-label="Open Chat"></md-icon>
