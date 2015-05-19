@@ -28,9 +28,7 @@
 		        		<h3>Description</h3>
 		           	</div>
 				</md-toolbar>
-
-				
-			  	  <div ng-bind-html="motion.motionDetail.text" flex="100" layout-fill ></div>
+				<div ng-bind-html="motion.motionDetail.text" flex="100" layout-fill ></div>
 			</section>
 		
 
@@ -53,7 +51,7 @@
 		</div>	-->
 
 
-			<section class="md-whiteframe-z1"  class="voting"  layout-margin flex>
+			<section class="md-whiteframe-z1"  class="voting"  layout-margin>
 				<md-toolbar class="section-toolbar">
 		        	<div class="md-toolbar-tools">
 		        		<h3>Voting</h3>
@@ -85,8 +83,7 @@
 			    </div>
 
 
-		        <div class="votebar"> 
-		  	  		<md-whiteframe class="md-whiteframe-z1" layout="row">
+		        <div class="votebar" layout="row" layout-align="center center"> 
 		  	  		  	<md-button style="width:{{ motion.motionVotes.agree.roundedPercentage }}%" class="agree md-raised md-primary">
 		  	  		  		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
 		  	  		  	 	<md-tooltip>{{ motion.motionVotes.agree.count }} Agree</md-tooltip>
@@ -99,13 +96,12 @@
 				  	  		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
 				  	  		<md-tooltip>{{ motion.motionVotes.disagree.count }} Disagree</md-tooltip>			  	  		
 				  	  	</md-button>
-				  	</md-whiteframe>
 				</div>
 			</section>
 		
 
 		
-			<section class="md-whiteframe-z1 comments"  ng-if="motion.usersVote || motion.usersVote === 0" flex layout-margin>
+			<section class="md-whiteframe-z1 comments"  ng-if="motion.usersVote || motion.usersVote === 0"  layout-margin>
 				<md-toolbar class="section-toolbar">
 		        	<div class="md-toolbar-tools">
 		        		<h3>Post Comment</h3>

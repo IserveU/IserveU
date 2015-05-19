@@ -77,6 +77,16 @@ md-grid-tile md-icon{
 }
 */
 
+.votebar{
+	
+
+}
+
+.votebar button.md-raised.md-button.md-default-theme{
+	border-radius: 0px;
+	margin: 0;
+	display: block !important;
+}
 
 
 .voting button.agree{
