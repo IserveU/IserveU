@@ -14,30 +14,20 @@ md-toolbar.section-toolbar.md-default-theme h3{
 	color: rgb(97, 97, 97);
 }
 
-/*
-.loginlogo img{
-	display: block;
-	width: 50%;
-	margin: auto;
-
+#maincontent{
+	padding: 8px;
 }
 
 
-.isu-logo md-icon{
-	height: 40px;
-  	margin: 0;
-  	width: 40px;
-}
 
-{
-	line-height: 40px;
-	text-indent: 15px;
-}
 
 
 md-sidenav md-list{
 	padding: 0;
 }
+
+
+
 
 md-sidenav, 
 md-sidenav.md-locked-open, 
@@ -55,6 +45,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
 	margin-right: 32px;
 	margin-top: 12px;
 }
+
 
 md-grid-tile{
 	background-color: #aaaaaa;
@@ -76,7 +67,7 @@ md-grid-tile md-icon{
 	width: 25%;
 
 }
-
+/*
 .voting .agree md-icon{
 	color: rgb(0,172,177);
 }
@@ -84,10 +75,10 @@ md-grid-tile md-icon{
 .voting .disagree md-icon{
 	color: rgb(255,118,0);
 }
+*/
 
 
 
-/*
 .voting button.agree{
 	background-color: #00acb1;
 }
@@ -100,15 +91,12 @@ md-grid-tile md-icon{
 
 .voting button.disagree{
 	background-color: #ff7600;
-} */
-/*
+}
 
 .listgird{
 	padding-left:0px !important;
 
 }
-
-
 
 
 @media (max-width: 599px){
@@ -128,8 +116,10 @@ md-grid-tile md-icon{
 	cursor: pointer;
 }
 
-*/
 
+[layout-margin]{
+	margin: 8px;
+}
 
 [layout-padding]{
 	padding: 16px;
