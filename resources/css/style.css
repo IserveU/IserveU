@@ -6,10 +6,15 @@ form {
   margin-bottom: 0em;
 }
 
-.darken{
-
+md-toolbar.section-toolbar.md-default-theme{
+	background-color: rgb(242, 242, 242);
 }
 
+md-toolbar.section-toolbar.md-default-theme h3{
+	color: rgb(97, 97, 97);
+}
+
+/*
 .loginlogo img{
 	display: block;
 	width: 50%;
@@ -96,7 +101,7 @@ md-grid-tile md-icon{
 .voting button.disagree{
 	background-color: #ff7600;
 } */
-
+/*
 
 .listgird{
 	padding-left:0px !important;
@@ -104,13 +109,7 @@ md-grid-tile md-icon{
 }
 
 
-[layout-padding]{
-	padding: 16px;
-}
 
-md-card{
-	margin: 16px;
-}
 
 @media (max-width: 599px){
 
@@ -129,3 +128,15 @@ md-card{
 	cursor: pointer;
 }
 
+*/
+
+
+[layout-padding]{
+	padding: 16px;
+}
+
+md-card{
+	margin: 16px;
+}
+
+img {max-width:100%;}

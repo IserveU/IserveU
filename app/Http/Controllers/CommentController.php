@@ -7,6 +7,7 @@ use Auth;
 use App\Comment;
 use App\User;
 use App\Vote;
+use Mail;
 use App\Motion;
 use DB;
 use Validator;
@@ -41,6 +42,11 @@ class CommentController extends Controller {
 	 * @return Response
 	 */
 	public function create(){
+		echo 'here';
+		Mail::send('emails.welcome', ['key' => 'value'], function($message)
+		{
+		    $message->to('foo@example.com', 'John Smith')->subject('Welcome!');
+		});
 		
 	}
 	/**
@@ -166,4 +172,14 @@ class CommentController extends Controller {
 			return array('message'=>'You do not have permission to delete comments');
 		}
 	}
+
+	public function approve($id){
+		$comment = Comment::find($id);
+		$comment->approved = 1;
+		$comment->save();
+
+		return "comment approved: ".$comment->text;
+	}
+
+
 }

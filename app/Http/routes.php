@@ -21,6 +21,9 @@ Route::post('user/conferencelogin','UserController@conferenceLogin');
 
 Route::get('api/user/loggedin', 'UserController@checkLogin');
 
+Route::get('comment/approve/{id}', 'CommentController@approve');
+
+
 
 Route::group(['middleware' => 'auth'], function(){
 

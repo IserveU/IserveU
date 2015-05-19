@@ -19,9 +19,9 @@
     	</div>
 	</div>
 </md-toolbar>
-<md-content id="maincontent" layout="column" >
+<md-content id="maincontent" layout="column" fill-layout >
 
-		<section flex="100" class="md-whiteframe-z1" class="voting" layout-margin>
+		<section class="md-whiteframe-z1" class="voting" layout-margin>
 			<md-toolbar class="section-toolbar">
 	        	<div class="md-toolbar-tools">
 	        		<h3>Description</h3>
@@ -51,7 +51,7 @@
 		</div>	-->
 
 
-		<section class="md-whiteframe-z1"  class="voting" flex="100" layout-margin>
+		<section class="md-whiteframe-z1"  class="voting"  layout-margin>
 			<md-toolbar class="section-toolbar">
 	        	<div class="md-toolbar-tools">
 	        		<h3>Voting</h3>
@@ -99,44 +99,54 @@
 			  	  	</md-button>
 			</div>
 		</section>
+
+		<section class="md-whiteframe-z1 comments"  ng-if="motion.usersVote || motion.usersVote === 0" layout-margin>
+			<md-toolbar class="section-toolbar">
+	        	<div class="md-toolbar-tools">
+	        		<h3>Post Comment</h3>
+	           	</div>
+			</md-toolbar>
+			
+ 			<div layout-padding layout="row" flex="100" flex class="disagee comments">
+				<form flex style="padding-bottom:20px">
+		     		<div layout="column" layout-gt-lg="row"> 
+			            <md-input-container flex>
+					      <label>First Name</label>
+					      <input ng-model="motion.first_name">
+					    </md-input-container>
+
+					    <md-input-container flex>
+					      <label>Last Name</label>
+					      <input ng-model="motion.last_name">
+					    </md-input-container>
+
+					    <md-input-container flex>
+					      <label>Email</label>
+					      <input ng-model="motion.email" type="email">
+					    </md-input-container>
+				    </div>
+				    <div layout="row">
+					    <md-input-container flex>
+							<label>Comment</label>
+							<textarea ng-model="motion.commenttext" columns="1" ></textarea>
+					    </md-input-container>
+				    </div>
+				    <div layout="row" layout-align="end center">
+				    	<md-button ng-click="motion.submitComment(motion.commenttext)" class="btn btn-sm btn-primary">Submit Comment</md-button>
+				    </div>
+		        </form>
+			</div>
+		</section>
 	   
 
-	    <div layout-padding layout="row" flex="100" flex class="disagee comments" ng-if="motion.usersVote || motion.usersVote === 0">
-	    
 
-			<form flex style="padding-bottom:20px">
-	     		<div layout="column" layout-gt-lg="row"> 
-		            <md-input-container flex>
-				      <label>First Name</label>
-				      <input ng-model="motion.first_name">
-				    </md-input-container>
-
-				    <md-input-container flex>
-				      <label>Last Name</label>
-				      <input ng-model="motion.last_name">
-				    </md-input-container>
-
-				    <md-input-container flex>
-				      <label>Email</label>
-				      <input ng-model="motion.email" type="email">
-				    </md-input-container>
-			    </div>
-			    <div layout="row">
-				    <md-input-container flex>
-						<label>Comment</label>
-						<textarea ng-model="motion.commenttext" columns="1" ></textarea>
-				    </md-input-container>
-			    </div>
-			    <div layout="row" layout-align="end center">
-			    	<md-button ng-click="motion.submitComment(motion.commenttext)" class="btn btn-sm btn-primary">Submit Comment</md-button>
-			    </div>
-	        </form>
-	    
-
-		</div>
-
-    	<div layout-padding layout="row" flex class="agree comments" flex="50" flex-sm="100">
-  			<md-whiteframe class="md-whiteframe-z1" layout-fill>
+		<section class="md-whiteframe-z1 comments" layout-margin>
+			<md-toolbar class="section-toolbar">
+	        	<div class="md-toolbar-tools">
+	        		<h3>Agree</h3>
+	           	</div>
+			</md-toolbar>
+ 			<div layout-fill   class="agree comments">
   			 	<div layout-padding ng-repeat="comment in motion.motionComments | proComment">
 			        <h3>{{comment.first_name + ' ' + comment.last_name}}</h3>
 			        <p ng-if="!comment.editCommentDialog">{{comment.text}}</p>
@@ -150,37 +160,47 @@
 					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
 			        <md-divider class="md-default-theme"></md-divider>				       
 				</div>
-  			</md-whiteframe>
-    	</div>
-	    <div flex="50" layout="row" layout-gt-md="row" layout-padding layout="row" flex class="agree comments" flexsm="100">
-			<md-whiteframe class="md-whiteframe-z1" layout-fill >
+ 			</div>
+		</section>
+
+
+		<section class="md-whiteframe-z1 comments"  layout-margin>
+			<md-toolbar class="section-toolbar">
+	        	<div class="md-toolbar-tools">
+	        		<h3>Disagree</h3>
+	           	</div>
+			</md-toolbar>
+ 			<div class="agree comments" layout-fill >
   			 	<div layout-padding ng-repeat="comment in motion.motionComments | conComment">
-			        <h3>{{comment.first_name + ' ' + comment.last_name}}</h3>
-			        <p ng-if="!comment.editCommentDialog">{{comment.text}}</p>
-			        <md-input-container flex ng-if="comment.editCommentDialog">
-						<label>Edit Comment</label>
-						<textarea ng-model="comment.text" columns="1"></textarea>
-				    </md-input-container>
-			       
-			    <!-- later   <div layout="row" layout-align="end center"> 
-				        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
-							<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
-							<md-tooltip>Agree With Comment</md-tooltip>
-						</md-button>	        					         
-							<md-button class="md-icon-button" aria-label="Disagree">
-							<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
-							<md-tooltip>Disagree With Comment</md-tooltip>
-						</md-button>	        					         
-					</div> -->
-					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
-					<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment); comment.editCommentDialog = true">Save Comment</md-button>
-					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment.id)">Delete</md-button>
-					<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
-					<md-divider class="md-default-theme"></md-divider>
+		        <h3>{{comment.first_name + ' ' + comment.last_name}}</h3>
+		        <p ng-if="!comment.editCommentDialog">{{comment.text}}</p>
+		        <md-input-container flex ng-if="comment.editCommentDialog">
+					<label>Edit Comment</label>
+					<textarea ng-model="comment.text" columns="1"></textarea>
+			    </md-input-container>
+		       
+		    <!-- later   <div layout="row" layout-align="end center"> 
+			        <md-button class="md-icon-button md-primary" aria-label="Agree"> 
+						<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+						<md-tooltip>Agree With Comment</md-tooltip>
+					</md-button>	        					         
+						<md-button class="md-icon-button" aria-label="Disagree">
+						<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+						<md-tooltip>Disagree With Comment</md-tooltip>
+					</md-button>	        					         
+				</div> -->
+				<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="comment.editCommentDialog = true">Edit</md-button>
+				<md-button class="md-primary" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="motion.updateComment(comment); comment.editCommentDialog = true">Save Comment</md-button>
+				<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && !comment.editCommentDialog" ng-click="motion.deleteComment(comment.id)">Delete</md-button>
+				<md-button class="md-warn" ng-if="comment.user_id === motion.loggedInUser.id && comment.editCommentDialog" ng-click="comment.editCommentDialog = false">Close</md-button>
+				<md-divider class="md-default-theme"></md-divider>
 				</div>	
-  			</md-whiteframe>
-  		</div>
-	</div>
+ 			</div>
+		</section>
+
+		   
+
+	
 	 
 </md-content>
 
