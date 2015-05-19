@@ -85,9 +85,18 @@
 
 	        <div class="votebar"> 
 	  	  		<md-whiteframe class="md-whiteframe-z1" layout="row">
-	  	  		  	<md-button style="width:{{ motion.motionVotes.agree.roundedPercentage }}%" class="agree md-raised md-primary"><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon></md-button>
-			  	  	<md-button style="width:{{ motion.motionVotes.abstain.roundedPercentage }}%"  class="abstain md-raised md-grey"><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon></md-button>
-			  	  	<md-button style="width:{{ motion.motionVotes.disagree.roundedPercentage }}%" class="disagree md-raised md-accent"><md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon></md-button>
+	  	  		  	<md-button style="width:{{ motion.motionVotes.agree.roundedPercentage }}%" class="agree md-raised md-primary">
+	  	  		  		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg"></md-icon>
+	  	  		  	 	<md-tooltip>{{ motion.motionVotes.agree.count }} Agree</md-tooltip>
+	  	  		  	</md-button>
+			  	  	<md-button style="width:{{ motion.motionVotes.abstain.roundedPercentage }}%"  class="abstain md-raised md-grey">
+			  	  		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg"></md-icon>
+			  	  		<md-tooltip>{{ motion.motionVotes.abstain.count }} Abstain</md-tooltip>
+			  	  	</md-button>
+			  	  	<md-button style="width:{{ motion.motionVotes.disagree.roundedPercentage }}%" class="disagree md-raised md-accent">
+			  	  		<md-icon md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg"></md-icon>
+			  	  		<md-tooltip>{{ motion.motionVotes.disagree.count }} Disagree</md-tooltip>			  	  		
+			  	  	</md-button>
 			</div>
 		</section>
 	   
