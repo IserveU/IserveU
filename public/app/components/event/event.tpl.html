@@ -5,7 +5,7 @@
 	    </md-button>
 	    <div layout="row" flex class="fill-height">
 	        <h2>
-	        Events : {{event.eventDetail.title}}
+	        Event : {{event.eventDetail.title}}
 	        </h2>
 	        <span flex></span> <!-- use up the empty space -->
 	    </div>
@@ -19,14 +19,9 @@
     	</div>
 	</div>
 </md-toolbar>
-<md-content id="maincontent" layout="row" layout-wrap>
-	<div  flex="100" flex-sm="100" >
-		
-			<img style="width:100%; padding: 0px !important; margin:0px !important" src="/img/photos/banner/01.jpg" />
-	
-	</div>
+<md-content id="maincontent" layout="row" class="event_page" layout-wrap style="background-image: url('/img/photos/banner/01.jpg');">
 
-	<div flex="100" flex-sm="100" flex-order-sm="2"  layout="row" layout-padding  >
+	<div flex="100" flex-sm="100" flex-order-sm="2"  layout="row" layout-padding >
   		<section class="md-whiteframe-z1" layout-fill>
 		  		<md-toolbar class="section-toolbar">
 	        		<div class="md-toolbar-tools">

@@ -77,6 +77,16 @@ md-grid-tile md-icon{
 }
 */
 
+.event_page{
+
+	 background-size:100%; background-repeat:no-repeat
+}
+
+.event_page .md-whiteframe-z1{
+	background-color: #fff;
+	margin-top: 150px;
+}
+
 .votebar{
 	
 
