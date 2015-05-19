@@ -92,7 +92,13 @@ class MotionController extends Controller {
 		if($id=='rand'){
 			$motion = Motion::orderByRaw('RAND()')->first();
 		} else {
-			$motion = Motion::with('user', 'comments', 'votes')->get()->find($id); // HEY RYAN, we want people commenting to be able to do so anonomoously
+			$motion  = Motion::with(['votes' => function($q) {
+	                // The post_id foreign key is needed, 
+	                // so Eloquent could rearrange the relationship between them
+	                $q->select(array(DB::raw("count(*) as count, position"),"motion_id"))
+	                  ->groupBy("position");
+	            }])
+		        ->find($id);
 		}
 		return $motion;
 	}

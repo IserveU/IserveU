@@ -24,6 +24,8 @@
 		<div flex="100" flex-sm="100" flex-order-sm="2"  layout="row" layout-padding  >
 	  	  <md-whiteframe class="md-whiteframe-z1"  ng-bind-html="motion.motionDetail.text" layout-padding layout-fill ></md-whiteframe>
 		</div>
+
+		
 	<!-- later change flex grid above to 90	<div flex="10" flex-sm="100" flex-order-sm="1" layout-padding class="listgird">
 		    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="10px" md-gutter-gt-sm="20px">
 			    <md-grid-tile class="md-whiteframe-z1">
@@ -41,7 +43,7 @@
 		    </md-grid-list>
 		</div>	-->
 
-	    <div flex-order-sm="3" flex="100" layout="row" class="voting"  >
+	    <div flex-order-sm="4" flex="100" layout="row" class="voting"  >
 	        <!--Pro Side-->
 	        <div layout-padding flex>
 	            <md-button ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote === 1}" aria-label="Agree" layout-fill>
@@ -63,6 +65,14 @@
  					<md-icon md-svg-src="/img/icons/spinner/svg-loaders/ball-triangle.svg" ng-show="motion.disagreeVoting"></md-icon>
  				</md-button>	   
 	        </div>
+
+	        <div flex="100" flex-order-sm="3"  layout-padding> 
+	  	  		<md-whiteframe class="md-whiteframe-z1" layout="row">
+	  	  	<div style="width:{{ motion.motionVotes.agree.roundedPercentage }}%"  class="agree">agree</div>
+	  	  	<div style="width:{{ motion.motionVotes.abstain.roundedPercentage }}%"  class="abstain">abstain</div>
+	  	  	<div style="width:{{ motion.motionVotes.disagree.roundedPercentage }}%" class="disagree">disagree</div>
+		  	  </md-whiteframe>
+			</div>
 	    </div>
 
 	    <div layout-padding layout="row" flex="100" flex class="disagee comments" ng-if="motion.usersVote || motion.usersVote === 0">
