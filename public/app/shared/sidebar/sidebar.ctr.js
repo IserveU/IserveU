@@ -27,33 +27,26 @@
 	 		function getMotions(){
 	        	motion.getMotions().then(function(results) {	        		
 					$scope.sidebar.motions = results;
+					console.log("results " + results);
 				}, function(error) {
 					
 				});
 	        }
 
-	        function getEvents(){
-
+	        function getEvents() {
 				event.getEvents().then(function(results) {
-				
-
 					$scope.sidebar.events = results;
-					
-
 				}, function(error) {
 					console.log(error);
 				});
 			}
 
-
 			getMotions();
 			getEvents();
 
-			$scope.$watch('sidebar.motions', function() {
+			$scope.$on('voteCast', function(events, data) {
 				getMotions();
-			});
-
-	        	       
+			});	        	       
 	    };
 
 	    return {
