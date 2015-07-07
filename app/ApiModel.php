@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Role;
 use Auth;
 use Illuminate\Support\Facades\Validator;
+use Request;
 
 
 class ApiModel extends Model

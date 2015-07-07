@@ -57,7 +57,7 @@ class Vote extends ApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = [];
+    protected $appends = ['user'];
 
     /**
      * The rules for all the variables
@@ -133,9 +133,11 @@ class Vote extends ApiModel {
 			return true;
 		} 
 
-		if($this->user->public){
-			$this->setVisible($this->publicVisible);
-			return false;
+		if($this->user){
+			if($this->user->public){
+				$this->setVisible($this->publicVisible);
+				return false;
+			}
 		}
 
 		parent::getVisibleAttribute();
