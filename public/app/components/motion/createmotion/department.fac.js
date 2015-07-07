@@ -26,9 +26,18 @@
 			});
 		}
 
+		function deleteDepartment(id){
+			return Department.delete({id:id}).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return error;
+			});
+		}
+
 	return {
 			getDepartments: getDepartments,
 			addDepartment: addDepartment,
+			deleteDepartment: deleteDepartment
 		}
 
 

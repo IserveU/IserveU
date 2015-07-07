@@ -64,7 +64,7 @@
 		    	.state( 'createmotion', {
 		    	    url: '/createmotion',
 		    	    templateUrl: 'app/components/motion/createmotion/createmotion.tpl.html',
-		    	    controller: 'CreateMotionController as motion',
+		    	    controller: 'CreateMotionController as createmotion',
 		    	    data: {
 		    	        requireLogin: true
 		    	    }

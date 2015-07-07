@@ -12,8 +12,10 @@
     	var vm = this;
 
         vm.newmotionisactive = false;
-        vm.motiondepartment;
+        vm.departmentInput = false;
+        vm.newdepartment = "New Department";
         vm.departments = [];
+        vm.showDepartmentInput = showDepartmentInput;
 
     	vm.createNewMotion = function(title, text, summary, closingdate, isactive, departmentname){
             if(isactive){
@@ -41,6 +43,26 @@
             });
         } 
 
+
+        vm.addDepartment = function(){
+            var data = {
+                name: vm.newdepartment
+            }
+            department.addDepartment(data).then(function(result){
+                showDepartmentInput();
+            })
+        }
+
+        vm.deleteDepartment = function(id){
+            console.log(id);
+            department.deleteDepartment(id).then(function(result){
+                console.log(result);
+            })
+        }
+
+        function showDepartmentInput(){
+            vm.departmentInput = !vm.departmentInput;
+        }
 
 	}
 }());

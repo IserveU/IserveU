@@ -16,6 +16,7 @@ class CreateDepartmentsTable extends Migration {
             $table->increments('id');
             $table->string('name')->unique();
             $table->boolean('enabled')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
 

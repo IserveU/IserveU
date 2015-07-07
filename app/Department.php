@@ -1,11 +1,16 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use StandardModelTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
+use DB;
+use Illuminate\Support\Facades\Validator;
+use Request;
 
 class Department extends ApiModel {
 
-	
+	use SoftDeletes, Eloquence, Mappable;
 	/**
 	 * The database table used by the model.
 	 *
@@ -36,6 +41,10 @@ class Department extends ApiModel {
 		'name' 				=>	'string|unique:departments',
 	    'enabled'			=>	'boolean'
 	];
+
+	protected $maps = [
+     	'department' 			=> 	['motion_id'] /* User ID is here for the benefit of the getMotionComments */
+    ];
 
 	public $fields = [
 		'name' 					=>	['tag'=>'input','type'=>'input','label'=>'Department','placeholder'=>'Department'],

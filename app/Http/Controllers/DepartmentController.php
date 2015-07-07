@@ -5,7 +5,6 @@
 
 // use Illuminate\Http\Request;
 
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
@@ -13,11 +12,12 @@ use App\Department;
 use App\Motion;
 use Auth;
 use DB;
-use \Cache;
+use Cache;
+
+use Validator;
 
 
 class DepartmentController extends ApiController {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -110,7 +110,21 @@ class DepartmentController extends ApiController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$department = Department::withTrashed()->find($id);
+		if(!$department){
+			abort(403,"Department does not exist, permanently deleted");
+		}
+		if(!Auth::user()->can('create-motions')){
+			abort(401,"You do not have permission to delete this department");
+		}
+
+		if($department->trashed()){ //If it is soft deleted, this will permanently delete it
+			$department->forceDelete();
+		}
+		
+		$department->delete();
+
+		return $department;
 	}
 
 }
