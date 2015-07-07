@@ -19,28 +19,59 @@ class CommentVote extends ApiModel {
 	protected $table = 'comment_votes';
 
 	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
+	 * The attributes that are fillable by a creator of the model
+	 * @var Array
 	 */
 	protected $fillable = ['position','comment_id','vote_id'];
+
+	/**
+	 * The attributes fillable by the administrator of this model
+	 * @var Array
+	 */
 	protected $adminFillable = [];
 
 	/**
-	 * The attributes excluded from the model's JSON form. The general pubilc shouldn't be able to see non-public users identifiable details or IDs at any point
-	 *
-	 * @var array
+	 * The default attributes included in the JSON/Array
+	 * @var Array
 	 */
 	protected $visible = ['position','comment_id','id'];
+
+	/**
+	 * The attributes visible to an administrator of this model
+	 * @var Array
+	 */
 	protected $adminVisible = [];
- 
+
+	/**
+	 * The attributes visible to the user that created this model
+	 * @var Array
+	 */
+	protected $creatorVisible = [];
+
+	/**
+	 * The attributes visible if the entry is marked as public
+	 * @var array
+	 */
+	protected $publicVisible =  [];
+
+	/**
+	 * The mapped attributes for 1:1 relations
+	 * @var array
+	 */ 
   	protected $maps = [
      	'vote' 			=> 	['user_id','motion_id']
     ];
 
+	/**
+	 * The attributes appended and returned (if visible) to the user
+	 * @var Array
+	 */	
     protected $appends = ['user_id','motion_id'];  
 
-  
+    /**
+     * The rules for all the variables
+     * @var Array
+     */  
 	protected $rules = [
         'comment_id' 	=>	'integer|exists:comments,id|unique_with:comment_votes,vote_id',
         'position'		=>	'integer|min:-1|max:1|required', //Always required
@@ -48,52 +79,57 @@ class CommentVote extends ApiModel {
         'vote_id'		=>	'integer|exists:votes,id'
 	];
 
+	/**
+	 * The attributes required on an update
+	 * @var Array
+	 */
+	protected $onUpdateRequired = ['id','position'];
 
+	/**
+	 * The attributes required when creating the model
+	 * @var Array
+	 */
+	protected $onCreateRequired = ['comment_id','vote_id'];
+	
+	/**
+	 * The attributes that are unique so that the exclusion can be put on them on update validation
+	 * @var array
+	 */
+	protected $unique = ['comment_id']; //Not actually unique, it's a 'unique with' vote_id
+
+	/**
+	 * The front end field details for the attributes in this model 
+	 * @var array
+	 */
+	public $fields = [
+		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+	];
+
+	/**
+	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
+	 * @var array
+	 */
+	private $locked = [];
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
-			$model->setRules();
 			return $model->validate();	
 		});
 
 		static::updating(function($model){
-			$model->setRules();
 			return $model->validate();			
 		});		
 	}
-
-	public function validate(){
-		$validator = Validator::make($this->getAttributes(),$this->rules);
-		if($validator->fails()){
-			$this->errors = $validator->messages();
-			return false;
-		}
-		return true;
-	}
-
 
 	/************************************* Custom Methods *******************************************/
 	
 	
 	/************************************* Getters & Setters ****************************************/
 	
-	public function setRules($required = NULL){
-		if($required){
-			return $this->rules = AddRequired($this->rules,$required);	 //At the outset, just need to have this
-		}
-
-		//Otherwise automatically detect if this is a store or an update
-		if($this->id){
-			$this->rules['comment_id'] = $this->rules['comment_id'].",".$this->id; //Otherwise the validator detects a duplicate (of itself)
-			return $this->rules = AddRequired($this->rules,['id','position']);	 //Is an update
-		}
-		return $this->rules =  AddRequired($this->rules,['vote_id','comment_id']); //Is a store
-	}
-
-
 	/************************************* Casts & Accesors *****************************************/
 
 	/************************************* Scopes ***************************************************/

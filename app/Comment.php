@@ -14,7 +14,6 @@ class Comment extends ApiModel {
 	
 	use SoftDeletes, Eloquence, Mappable;
 
-
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
 	 * @var String
