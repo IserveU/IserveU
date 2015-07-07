@@ -1,0 +1,222 @@
+	<md-fab-speed-dial md-direction="left" ng-class="right">
+        <md-fab-trigger>
+          	<md-button aria-label="menu" class="md-fab md-primary">
+   				<md-icon class="mdi" md-font-icon="mdi-menu" ></md-icon>
+			</md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+        	  <md-button ng-show="createMotion" ui-sref="createmotion" aria-label="create" class="md-fab md-raised md-mini md-primary"><md-tooltip>Create new motion</md-tooltip>
+	          	<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
+	          </md-button>
+	          <md-button aria-label="Google hangout" class="md-fab md-raised md-mini md-primary">
+	          	<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
+	          </md-button>
+	          <md-button ng-show="canDeleteMotion" ng-click="motion.deleteMotion()"  aria-label="delete" class="md-fab md-raised md-mini md-warn"><md-tooltip>Delete motion</md-tooltip>
+	          	<md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
+	          </md-button>
+
+        </md-fab-actions>
+      </md-fab-speed-dial>
+
+<md-content id="maincontent" layout="column" fill-layout ng-class="motion.isLoading?'loading':''">
+
+
+	<section class="md-whiteframe-z1" style="margin:8px">
+		<md-toolbar class="section-toolbar">
+        	<div class="md-toolbar-tools">
+        		<h3>Description</h3>
+           	</div>
+		</md-toolbar>
+		<div layout="row" >
+			<div flex="90" flex-sm="100" flex-order="2" ng-bind-html="motion.motionDetail.text"  flex-order-gt-sm="1" layout-padding style="padding:16px" ></div>
+			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  >
+				<div layout-padding class="listgird">
+				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
+					 <!--   <md-grid-tile class="md-whiteframe-z1">
+						    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>
+						    <md-grid-tile-footer><h3>{{motion.motionDetail.closing | dateToISO | date:'shortDate' }} </h3></md-grid-tile-footer>
+					    </md-grid-tile> -->
+					    <md-grid-tile class="md-whiteframe-z1">
+						  <!--  <md-icon md-svg-icon="/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon> comment out until departments assigned-->
+						    <md-icon md-svg-icon="/themes/default/logo/symbol_mono.svg"></md-icon>
+
+						   <!-- <md-grid-tile-footer><h3>{{motion.motionDetail.department  }}</h3></md-grid-tile-footer> -->
+					    </md-grid-tile>
+					    <md-grid-tile class="md-whiteframe-z1 {{motion.motionVotes.position}}">
+
+
+						  	<md-icon md-svg-icon="/fonts/icons/{{motion.motionVotes.position}}.svg"  ng-if="motion.motionVotes.position" ></md-icon>
+						  	<md-icon md-svg-src="/themes/default/loading.svg" ng-show="!motion.motionVotes.position"></md-icon>
+						 <!--   <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer> -->							 
+					    </md-grid-tile>
+				    </md-grid-list>
+				</div>
+
+			</div>	
+		</div>
+
+		<div flex="100" layout-fill>
+ 
+
+			<!-- <md-fab-toolbar ng-class="md-right">
+			    <md-fab-trigger class="align-with-text">
+			      <md-button aria-label="menu" class="md-fab md-primary">
+			        <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
+			      </md-button>
+			    </md-fab-trigger>
+			    <md-toolbar>
+			      <md-fab-actions class="md-toolbar-tools">
+			       	<md-button aria-label="delete" class="md-warn" ng-if="canDeleteMotion" ng-click="motion.deleteMotion()"><md-icon class="mdi" md-font-icon="mdi-delete"></md-icon></md-button>
+			      </md-fab-actions>
+			    </md-toolbar>
+		  </md-fab-toolbar>
+		<md-button class="md-warn" ng-if="canDeleteMotion" ng-click="motion.deleteMotion()">Delete</md-button> -->
+		</div>
+	</section>
+
+
+	<section class="md-whiteframe-z1"  class="voting"  layout-margin>
+		<md-toolbar class="section-toolbar">
+        	<div class="md-toolbar-tools">
+        		<h3>Voting</h3>
+           	</div>
+		</md-toolbar>
+	    <div flex="100" layout="row" class="voting"  >
+	    	
+	        <!--Agree Side-->
+	        <div layout-padding flex> 
+	            <md-button ng-click="motion.castVote(1)" ng-switch="{{ motion.votes[0].position}}" ng-class="{'md-raised agree':motion.usersVote == 1}" aria-label="Agree" layout-fill>
+	            	<md-icon md-svg-src="/fonts/icons/{{ motion.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!motion.agreeVoting"></md-icon>
+	            	<md-icon md-svg-src="/themes/default/loading.svg" ng-show="motion.agreeVoting"></md-icon>
+	            </md-button>
+	        </div>
+
+	        <div layout-padding flex>
+	       		 <md-button ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote == 0}" aria-label="Abstain" layout-fill>
+	       		 	<md-icon md-svg-icon="/fonts/icons/{{ motion.usersVote==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!motion.abstainVoting"></md-icon>
+	       		 	<md-icon md-svg-icon="/themes/default/loading.svg" ng-show="motion.abstainVoting"></md-icon>	       		 	
+	       		 </md-button>	
+	        </div>
+	        <!--Abstain Side-->
+	        <div layout-padding flex >
+ 				<md-button ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote == -1}" aria-label="Disagree" layout-fill>
+ 					<md-icon md-svg-src="/fonts/icons/{{ motion.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!motion.disagreeVoting"></md-icon>
+ 					<md-icon md-svg-src="/themes/default/loading.svg" ng-show="motion.disagreeVoting"></md-icon>
+ 				</md-button>	   
+	        </div>
+	    </div>
+
+        <div class="statusbar" layout="row" layout-align="center center"> 
+	  	  	<md-button style="width:{{ motion.motionVotes.agree.roundedPercentage }}%" class="agree md-raised md-primary" aria-label="Number in agreement">
+	  		  	<md-tooltip>{{ motion.motionVotes.agree.count }} Agree</md-tooltip>
+	  		</md-button>
+	  	  	<md-button style="width:{{ motion.motionVotes.abstain.roundedPercentage }}%"  class="abstain md-raised md-grey" aria-label="Number abstaining">
+	  	  		<md-tooltip>{{ motion.motionVotes.abstain.count }} Abstain</md-tooltip>
+	  	  	</md-button>
+	  	  	<md-button style="width:{{ motion.motionVotes.disagree.roundedPercentage }}%" class="disagree md-raised md-accent" aria-label="Number in disagreement">
+	  	  		<md-tooltip>{{ motion.motionVotes.disagree.count }} Disagree</md-tooltip>			  	  		
+	  	  	</md-button>
+		</div>
+	</section>
+		
+	
+
+
+	<!-- Comment section, think about abstracting this into comment.tpl.html --> 
+
+	<section class="md-whiteframe-z1 comments"  ng-if="motion.usersVote || motion.usersVote == 0"  layout-margin>
+		<md-toolbar class="section-toolbar">
+        	<div class="md-toolbar-tools" ng-if="motion.thisUsersComment == null">
+        		<h3>Post Comment</h3>
+           	</div>
+           	<div class="md-toolbar-tools" ng-if="motion.thisUsersComment != null">
+        		<h3>Your Comment</h3>
+           	</div>
+		</md-toolbar>
+		
+			<div flex class="disagee comments" layout-padding ng-show="motion.thisUsersComment.text == null">
+			<form style="padding-bottom:20px">
+	     		<div layout="column" > 
+				    <div>
+					    <md-input-container>
+							<label>Comment</label>
+							<textarea columns="1" ng-model="motion.commenttext" ></textarea>
+					    </md-input-container>
+				    </div>
+				    <div layout="row" layout-align="end center">
+				    	<md-button ng-click="motion.submitComment(motion.commenttext)" class="btn btn-sm btn-primary">Submit Comment</md-button>
+					</div>
+				</div>
+	        </form>
+			</div>
+
+		<div flex ng-if="motion.thisUsersComment.text != null">
+			<md-input-container flex >
+			<p ng-if="!motion.editComment" columns="1">{{motion.thisUsersComment.text}}</p>
+			<textarea ng-if="motion.editComment" columns="1" ng-model="motion.commenttext"></textarea>
+			</md-input-container>
+			<div layout="row" layout-align="end center">
+				<md-button class="md-primary" ng-if="!motion.editComment" ng-click="motion.editCommentFunction()">Edit</md-button>
+				<md-button class="md-primary" ng-if="motion.editComment" ng-click="motion.updateComment(motion.commenttext); motion.editCommentFunction()">Save Comment</md-button>
+				<md-button class="md-warn" ng-if="!motion.editComment" ng-click="motion.deleteComment()">Delete</md-button>
+				<md-button class="md-warn" ng-if="motion.editComment" ng-click="motion.editCommentFunction()">Close</md-button>
+			</div>
+		</div>
+	</section>
+	<!-- This is comment display content card --> 
+	<!-- this section is the agree comments -->
+	<section name="agreecomments" layout="row">
+	<div class="md-whiteframe-z1 comments agree" flex layout-margin>
+		<md-toolbar class="section-toolbar">
+        	<div class="md-toolbar-tools">
+        		<h3>Agree</h3>
+           	</div>
+		</md-toolbar>
+			<div flex layout-fill>
+			 	<div layout-padding ng-repeat="comment in motion.agreeComments">
+		        <h3 class="md-headline">{{comment.first_name + ' ' + comment.last_name}}</h3>
+		        <p class="md-body-1" ng-if="!comment.editCommentDialog">{{comment.text}}</p>
+		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes"> 
+		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
+					<md-icon md-svg-src="/fonts/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
+					<md-tooltip>Agree With Comment</md-tooltip>
+				</md-button>					         
+					<md-button ng-click="motion.checkCommentVotes(comment, -1)" class="md-icon-button" ng-class="{'md-accent':comment.this_users_comment_vote == -1}" aria-label="Disagree">
+					<md-icon md-svg-src="/fonts/icons/{{ comment.this_users_comment_vote == '-1' && 'thumb-down' || 'thumb-down-outline' }}.svg"></md-icon>
+					<md-tooltip>Disagree With Comment</md-tooltip>
+				</md-button>	        					         
+			</div> 
+		        <md-divider  ng-if="!$last" class="md-default-theme"></md-divider>				       
+			</div>
+			</div>
+	</div>
+	<!-- This is the disagree section --> 
+	<div name="disagreecomments" class="md-whiteframe-z1 comments disagree" flex layout-margin>
+		<md-toolbar class="section-toolbar">
+        	<div class="md-toolbar-tools">
+        		<h3>Disagree</h3>
+           	</div>
+		</md-toolbar>
+			<div flex layout-fill >
+			 	<div layout-padding ng-repeat="comment in motion.disagreeComments">
+	        <h3 class="md-headline">{{comment.first_name + ' ' + comment.last_name}}</h3>
+	        <p class="md-body-1">{{comment.text}}</p>
+		 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
+		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
+					<md-icon md-svg-src="/fonts/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
+					<md-tooltip>Agree With Comment</md-tooltip>
+				</md-button>					         
+					<md-button ng-click="motion.checkCommentVotes(comment, -1)" class="md-icon-button" ng-class="{'md-accent':comment.this_users_comment_vote == -1}" aria-label="Disagree">
+					<md-icon md-svg-src="/fonts/icons/{{ comment.this_users_comment_vote == '-1' && 'thumb-down' || 'thumb-down-outline' }}.svg"></md-icon>
+					<md-tooltip>Disagree With Comment</md-tooltip>
+				</md-button>	        					         
+			</div>
+			<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
+			</div>	
+			</div>
+	</div>
+	</section>
+
+
+		    	
+</md-content>

@@ -1,0 +1,214 @@
+
+/* variables */
+$primaryColor: rgb(0,172,177);
+$accentColor: rgb(255,118,0);
+
+$darkGrey: #666666;
+$midGrey: #cccccc;
+$lightGrey:  #f2f2f2;
+
+$padding: 16px;
+
+
+md-icon{
+	 font-family: 'MaterialDesignIcons';
+  src: url("/css/fonts/materialdesignicons-webfont.eot?v=1.1.34");
+  src: url("/css/fonts/materialdesignicons-webfont.eot?#iefix&v=1.1.34") format("embedded-opentype"), url("/css/fonts/materialdesignicons-webfont.woff2?v=1.1.34") format("woff2"), url("/css/fonts/materialdesignicons-webfont.woff?v=1.1.34") format("woff"), url("/css/fonts/materialdesignicons-webfont.ttf?v=1.1.34") format("truetype"), url("/css/fonts/materialdesignicons-webfont.svg?v=1.1.34#materialdesigniconsregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+} 
+
+.mdi {
+  display: inline-block;
+  font: normal normal normal 24px/1 MaterialDesignIcons;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+
+/*Prevents duplicate issue SVG issue */
+button md-icon svg:nth-child(2) {
+	display: none !important; 
+}
+
+/* code */
+.loginbox{
+	background: rgba(255,255,255,0.75);
+}
+
+form{
+  margin-bottom: 0em;
+}
+
+// md-fab-speed-dial{
+// 	position: fixed !important;
+// 	bottom: 8px;
+// 	right: 8px;
+// }
+
+#maincontent{
+
+	
+
+	&.loading{
+		section{
+			filter: blur(5px) grayscale(0.5);
+		}
+
+		position:absolute;
+
+		.loading_animation{
+		
+		}
+	}
+
+	.loading_animation{
+		height:250px;
+		display:absolute;
+		z-index:999;
+/*	position:absolute; */
+	}
+
+	transition: 1s filter linear;
+
+
+	padding: $padding/2;
+
+	a{
+		text-decoration: none;
+		font-weight: 700;
+		color:$accentColor;
+	}
+
+	md-grid-tile{
+		background-color: $midGrey;
+
+
+		md-icon{
+			width: 80%;
+			height: 80%;
+			text-align: center;		
+		}
+
+		&.thumb_up md-icon{
+			color: $primaryColor;
+
+		}
+
+		&.thumb_down md-icon{
+			color: $accentColor;
+		}
+	}
+
+	.voting{
+		button{
+			margin: 0px;
+			height: 100px;
+		}
+
+		md-icon{
+			height: 80%;
+			width: 25%;
+		}
+
+		.agree md-icon{ 
+			color: $primaryColor;
+		}
+		
+		.disagree md-icon{
+			color: $accentColor;
+		}
+
+		.statusbar button.md-raised.md-button.md-default-theme{
+			border-radius: 0px;
+			margin: 0;
+			display: block !important;
+		}
+
+	}
+
+	.comments md-list-item.md-no-proxy{
+		padding: 0px;
+	}
+
+	md-toolbar.section-toolbar.md-default-theme{
+		background-color: $lightGrey;
+	}
+
+	md-toolbar.section-toolbar.md-default-theme h3{
+		color: $darkGrey;
+	}
+
+}
+
+
+ 
+
+md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 304px !important;
+    width: 85vw !important;
+    max-width: 400px !important;
+
+
+    sidebar{
+
+		md-list-item{
+			cursor: pointer;
+
+			p{
+				display: block;
+				padding-top:16px;
+				padding-bottom: 16px;
+			}
+
+			> md-icon:first-child{
+				margin-top:0px;
+				margin-bottom: 0px;
+			}
+
+			min-height: 0;
+
+			&.active {
+				font-weight: 600;
+				background-color: $lightGrey;
+			}
+		}
+		md-list{
+			padding: 0;
+		}
+	}
+} 
+
+.md-toolbar-tools > md-icon{
+	width:24px;
+	display: block;
+	margin-bottom: 12px;
+	margin-left: 0px;
+	margin-right: 32px;
+	margin-top: 12px;
+}
+
+md-toast{
+	position: fixed;
+}
+
+
+[layout-margin]{
+	margin: $padding/2;
+}
+
+[layout-padding]{
+	padding: $padding/2;
+}
+
+md-card{
+	margin: $padding;
+}
+
+img {max-width:100%;}
+
+.random-motion-image {
+	max-width: 100% !important;
+}
+ 

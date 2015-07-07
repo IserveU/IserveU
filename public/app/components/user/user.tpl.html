@@ -1,0 +1,25 @@
+<div ui-view>
+
+
+
+    <!-- used for edit, later, but for now used to fire api call to getUser -->
+
+<h3>List of Profiles</h3>
+<table style="width:100%" layout="align:right">
+  <tr>
+    <th>Firstname</th>	
+    <th>Lastname</th> 
+    <th>Public</th>
+    <th>Verified</th>
+  </tr>
+  <tr ng-repeat="user in users.userInfo">
+    <td>{{user.first_name}}</td>
+    <td>{{user.last_name}}</td> 
+    <td>{{user.public}}</td>
+  </tr>
+</table>
+ 
+
+</div>
+
+

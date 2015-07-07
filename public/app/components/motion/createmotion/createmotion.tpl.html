@@ -1,0 +1,58 @@
+<md-content id="maincontent" layout="column" fill-layout>
+
+  <section class="md-whiteframe-z1" style="margin:8px">
+    <md-toolbar class="section-toolbar">
+      <div class="md-toolbar-tools">
+        <h3>New Motion</h3>
+      </div>
+    </md-toolbar>
+    <div layout="column" >
+      <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
+      <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
+      <form name="newmotionform">
+         <md-input-container>
+          <label>Title</label>
+          <textarea columns="1" ng-model="motion.newmotiontitle" name="title" minlength='8' required></textarea>
+          <div ng-messages="newmotionform.title.$error" ng-if="newmotionform.title.$error.minlength">  
+            <div ng-message>Must be atleast 8 characters.</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Description</label>
+          <textarea columns="1" ng-model="motion.newmotiontext" name="description" minlength="70" required></textarea>
+          <div ng-messages="newmotionform.description.$error" ng-if="newmotionform.description.$error.minlength">  
+            <div ng-message>Try making this as detailed as possible. You want people to understand what your motion is about.</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Summary</label>
+          <textarea columns="1" ng-model="motion.newmotionsummary" required></textarea>
+        </md-input-container>
+        
+        <div layout="row" layout-align="left">
+        <md-input-container>
+          <label>Closing date</label>
+          <input columns="2" type="date" ng-model="motion.newmotionclosingdate" />
+        </md-input-container>
+          <div layout-align="right">
+          <md-select ng-model="department" md-on-open="motion.loadDepartments()" style="min-width: 200px;">
+            <md-select-label>{{ department ? department.name : 'Choose Department' }}</md-select-label>
+            <md-option ng-value="department" ng-repeat="department in motion.departments">{{department.name}}</md-option>
+          </md-select>
+            <md-button>Add new department</md-button>
+          </div>
+          <div flex="50">
+            <md-checkbox ng-model="motion.newmotionisactive" aria-label="Checkbox 1">
+            Active<md-tooltip>This will make your motion stay active for a week on creation</md-tooltip>
+            </md-checkbox>
+          </div>
+        </div>
+
+        <div layout="row" layout-align="front center">
+            <md-button ng-disabled="newmotionform.$error.required || newmotionform.$error.minlength" ng-click="motion.createNewMotion(motion.newmotiontitle, motion.newmotiontext, motion.newmotionsummary, motion.newmotionclosingdate, motion.newmotionisactive, department.name)" type="submit" class="btn btn-sm btn-primary">Create</md-button>
+        </div>
+      </form>
+      </div>  
+    </div>
+  </section>
+  </md-content>

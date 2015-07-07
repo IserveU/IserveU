@@ -1,0 +1,53 @@
+<div>
+ 
+  <md-content  layout-padding="60" class="autoScroll">
+
+   
+    <!--  <md-button class="md-icon-button"><md-icon md-svg-src="/icons/editor/svg/design/ic_mode_edit_18px.svg"></md-icon><md-tooltip>Edit</md-tooltip></md-button>-->
+
+    <md-input-container layout="row" style="display:flex" flex novalidate> 
+      <input aria-label="firstname" ng-model="users.userInfo[getId()].first_name" name="firstname"ng-disabled="!nameformBool" placeholder="Name"required>
+      
+      <md-button class="md-icon-button" ng-click="nameformBool = !nameformBool" ng-hide="nameformBool || isuserprofile">Edit<md-tooltip ng-show="notlocked">We will need to verify this information</md-tooltip></md-button><md-button class="md-icon-primary" ng-click="nameformBool = !nameformBool;updateInfo(user.first_name,'first_name', user.id)" ng-show="nameformBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="nameformBool = !nameformBool" ng-show="nameformBool">Cancel</md-button>
+    </md-input-container>
+
+
+<br>
+    <md-input-container layout="row" style="display:flex" flex novalidate> 
+      <input aria-label="dateofbirth"  ng-model="users.userInfo[getId()].date_of_birth" form="dobform" ng-disabled="!dobformBool" placeholder="Birthday"required>
+      <md-button class="md-icon-button" ng-click="dobformBool = !dobformBool" ng-hide="dobformBool || isuserprofile">Edit<md-tooltip ng-show="notlocked">We will need to verify this information</md-tooltip></md-button><md-button class="md-icon-button" ng-click="dobformBool = !dobformBool;updateInfo(user.date_of_birth,'date_of_birth', user.id)" ng-show="dobformBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="dobformBool = !dobformBool" ng-show="dobformBool">Cancel</md-button>
+    </md-input-container>
+<br>
+    <md-input-container layout="row" style="display:flex" flex novalidate> 
+      <input aria-label="email" ng-model="users.userInfo[getId()].email" form="emailform" ng-disabled="!emailBool" placeholder="Email"required>
+      <md-button  class="md-icon-button" ng-click="emailBool = !emailBool" ng-hide="emailBool || isuserprofile" >Edit</md-button><md-button class="md-icon-button" ng-click="emailBool = !emailBool;updateInfo(user.email,'email', user.id)" ng-show="emailBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="emailBool = !emailBool" ng-show="emailBool">Cancel</md-button>
+    </md-input-container>
+
+    <!--
+<br>
+    <md-input-container md-no-float="" layout="row" style="display:inline-flex" flex ng-init="updateInfo(user.address,'address', user.id)" novalidate> 
+      <input ng-model="user.address" form="addressform" ng-disabled="!addressBool"required></input>
+      <md-button  disabled="updateInfo(user.address,'address', user.id)" class="md-icon-button" ng-click="addressBool = !addressBool" ng-hide="addressBool" >Edit</md-button><md-button class="md-icon-button" ng-click="addressBool = !addressBool;updateInfo(user.address,'address', user.id)" ng-show="addressBool" type="submit">Save</md-button>
+    </md-input-container>-->
+
+
+<br>
+
+
+<br>
+
+<!--
+    <md-input-container md-no-float="">
+      <md-icon md-svg-src="/icons/editor/svg/design/ic_format_align_justify_24px.svg"></md-icon>
+      <input ng-model="user.biography" type="text" placeholder="Write out things that make you interesting!" md-maxlength="150"></input>
+-->
+  
+
+    </md-input-container>
+
+  </md-content>
+
+
+
+</div>
+
