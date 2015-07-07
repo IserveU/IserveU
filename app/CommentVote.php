@@ -12,6 +12,11 @@ class CommentVote extends ApiModel {
 
 	use SoftDeletes, Eloquence, Mappable;
 
+	/**
+	 * The name of the table for this model, also for the permissions set for this model
+	 * @var String
+	 */
+	protected $table = 'comment_votes';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -43,7 +48,6 @@ class CommentVote extends ApiModel {
         'vote_id'		=>	'integer|exists:votes,id'
 	];
 
-	public $errors;
 
 
 	/**************************************** Standard Methods **************************************** */

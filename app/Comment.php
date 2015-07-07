@@ -14,41 +14,105 @@ class Comment extends ApiModel {
 	
 	use SoftDeletes, Eloquence, Mappable;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['text','vote_id'];
-	protected $adminFillable = [];
-
 
 	/**
-	 * The attributes excluded from the model's JSON form. The general pubilc shouldn't be able to see non-public users identifiable details or IDs at any point
-	 *
-	 * @var array
+	 * The name of the table for this model, also for the permissions set for this model
+	 * @var String
 	 */
-	protected $visible = ['text','vote','user','id']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
-	protected $adminVisible = [];
-
 	protected $table = 'comments';
 
+	/**
+	 * The attributes that are fillable by a creator of the model
+	 * @var Array
+	 */
+	protected $fillable = ['text','vote_id'];
+
+	/**
+	 * The attributes fillable by the administrator of this model
+	 * @var Array
+	 */
+	protected $adminFillable = [];
+
+	/**
+	 * The default attributes included in the JSON/Array
+	 * @var Array
+	 */
+	protected $visible = ['text','vote','user','id']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
+	
+	/**
+	 * The attributes visible to an administrator of this model
+	 * @var Array
+	 */
+	protected $adminVisible = [];
+
+	/**
+	 * The attributes visible to the user that created this model
+	 * @var Array
+	 */
+	protected $creatorVisible = [];
+
+	/**
+	 * The attributes visible if the entry is marked as public
+	 * @var array
+	 */
+	protected $publicVisible =  [];
+
+	/**
+	 * The mapped attributes for 1:1 relations
+	 * @var array
+	 */
    	protected $maps = [
      	'vote' 			=> 	['motion_id','position','user','user_id'] /* User ID is here for the benefit of the getMotionComments */
     ];
-
+	
+	/**
+	 * The attributes appended and returned (if visible) to the user
+	 * @var Array
+	 */	
     protected $appends = ['position','motion_id','commentRank','user'];  
 
-
+    /**
+     * The rules for all the variables
+     * @var Array
+     */
 	protected $rules = [
-        'text'			=>	'required',
+        'text'			=>	'min:3|string',
         'vote_id'		=>	'integer|exists:votes,id|unique:comments,vote_id',
         'id'			=>	'integer'
 	];
 
-	public $errors;
+	/**
+	 * The attributes required on an update
+	 * @var Array
+	 */
+	protected $onUpdateRequired = ['id'];
 
+	/**
+	 * The attributes required when creating the model
+	 * @var Array
+	 */
+	protected $onCreateRequired = ['text'];
+	
+	/**
+	 * The attributes that are unique so that the exclusion can be put on them on update validation
+	 * @var array
+	 */
+	protected $unique = ['vote_id'];
 
+	/**
+	 * The front end field details for the attributes in this model 
+	 * @var array
+	 */
+	public $fields = [
+		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+	];
+
+	/**
+	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
+	 * @var array
+	 */
+	private $locked = [];
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -64,16 +128,6 @@ class Comment extends ApiModel {
 		});		
 	}
 
-	public function validate(){
-		$validator = Validator::make($this->getAttributes(),$this->rules);
-		if($validator->fails()){
-			$this->errors = $validator->messages();
-			return false;
-		}	
-		return true;
-	}
-
-
 	/**************************************** Custom Methods **************************************** */
 	
 
@@ -81,40 +135,9 @@ class Comment extends ApiModel {
 	
 	/****************************************** Getters & Setters ************************************/
 
-
-	public function setRules($required = NULL){
-		if($required){
-			return $this->rules = AddRequired($this->rules,$required);	 //At the outset, just need to have this
-		}
-
-		//Automatically detect if this is a store or an update
-		if($this->id){
-			return $this->rules = AddRequired($this->rules,['id']);	 //Is an update
-		}
-		return $this->rules =  AddRequired($this->rules,['vote_id']); //Is a store
-	}
-
-
-	public function getRulesAttribute(){
-		if($this->id){ //Existing record
-			$this->rules['vote_id'] = $this->rules['vote_id'].','.$this->id;
-
-			//$this->rules = AddRule($this->rules,['id'],'required');
-
-			if(Request::method()=="PATCH"){ // Adds things that aren't actual validation rules if this is the actual patch
-				return $this->rules;	
-			}
-		}
-
-		if(Request::method()=="POST"){ //Initial create
-		//	$this->rules = AddRule($this->rules,['email','first_name','last_name','password'],'required');
-		//	return $this->rules; //DOn't add on things that aren't actual validation rules
-		}
-
-		return $this->rules;	
-	}
-
-
+	/**
+	 * @return integer the mutator to get the sum of all the comment votes
+	 */
 	public function getCommentRankAttribute()
 	{
 	  // if relation is not loaded already, let's do it first
@@ -128,6 +151,10 @@ class Comment extends ApiModel {
 	}
 
 	/************************************* Casts & Accesors *****************************************/
+	
+	/**
+	 * @return The sum of all the comment votes 
+	 */
 	public function commentRank()
 	{
 	  return $this->hasOne('App\CommentVote')

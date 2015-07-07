@@ -558,13 +558,13 @@ class DefaultUsers extends Seeder{
 		$viewComment->save();
 
 		$createCommentVote					= new Permission;
-		$createCommentVote->name			=	"create-commentvotes";
+		$createCommentVote->name			=	"create-comment_votes";
 		$createCommentVote->display_name	= 	'Create Comments';
 		$createCommentVote->description 	=	'Can vote on comments';
 		$createCommentVote->save();
 	
 		$viewCommentVote					= new Permission;
-		$viewCommentVote->name			=	"view-commentvotes";
+		$viewCommentVote->name			=	"view-comment_votes";
 		$viewCommentVote->display_name	= 	'Create Comments';
 		$viewCommentVote->description 	=	'Can view other users comment votes';
 		$viewCommentVote->save();

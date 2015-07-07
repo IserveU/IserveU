@@ -97,6 +97,11 @@ class Vote extends ApiModel {
 		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
 	];
 
+	/**
+	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
+	 * @var array
+	 */
+	private $locked = [];
 
 	/**************************************** Standard Methods *****************************************/
 	public static function boot(){
@@ -119,7 +124,9 @@ class Vote extends ApiModel {
 	
 	/************************************* Getters & Setters ****************************************/
 	
-
+	/**
+	 * @return Overrides the API Model, will see if it can be intergrated into it
+	 */
 	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
 		if(Auth::user()->id==$this->user_id){
 			$this->setVisible($this->creatorVisible);
@@ -151,6 +158,4 @@ class Vote extends ApiModel {
 	public function comment(){
 		return $this->hasOne('App\Comment');
 	}
-
-
 }
