@@ -26,8 +26,11 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->model('user','App\User');
 		$router->model('motion','App\Motion');
+		$router->model('comment','App\Comment');
+		$router->model('comment_vote','App\CommentVote');
 
 	}
+
 
 	/**
 	 * Define the routes for the application.

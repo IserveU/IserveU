@@ -30,7 +30,7 @@ class CommentController extends ApiController {
 	 * @return Response
 	 */
 	public function create(){
-		return (new Comment)->setRules();
+		return (new Comment)->fields;
 	}
 
 	/**
@@ -54,9 +54,7 @@ class CommentController extends ApiController {
 			abort(403,"You can not comment tied to another users vote");
 		}
 		
-		$input = Request::all();
-		$comment = new Comment($input);
-		$comment->vote_id = $vote->id;
+		$comment = new Comment(Request::all());
 		if(!$comment->save()){
 			abort(403,$comment->errors);
 		}
@@ -69,12 +67,7 @@ class CommentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id){
-		$comment = Comment::find($id);
-		if(!$comment){
-			abort(403,'Comment does not exist');
-		}
-
+	public function show(Comment $comment){
 		return $comment;
 	}
 
@@ -85,18 +78,17 @@ class CommentController extends ApiController {
 	 * @param  int  $id to edit this
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Comment $comment)
 	{
-		if(!Auth::user()->can('create-comments')){
-			abort(403,'You do not have permission to update a comment');
-		}
-
-		$comment = Comment::find($id);
 		if(!$comment){
 			abort(400,'Comment does not exist');
 		}
 
-		return $comment->setRules();
+		if(!Auth::user()->can('create-comments')){
+			abort(403,'You do not have permission to update a comment');
+		}
+
+		return $comment->fields;
 	}
 	/**
 	 * Update the specified resource in storage. If it has been deleted, this will undelete it.
@@ -104,13 +96,12 @@ class CommentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Comment $id)
 	{
 		if(!Auth::user()->can('create-comments')){
 			abort(401,'You do not have permission to update a comment');
 		}
 
-		$comment = Comment::withTrashed()->find($id);
 		if(!$comment){
 			abort(400,'Comment does not exist');
 		}
@@ -119,16 +110,9 @@ class CommentController extends ApiController {
 			abort(401,'User does not have permission to edit this comment');
 		}
 
-		if($comment->trashed()){ //Undelete comment if you update a comment you deleted
-			$comment->deleted_at = null; //restore() isn't working either
-			$comment->save();
-		}
-
 		$input = Request::all();
 		$comment->text = $input['text'];
-		
 
-		$tempcheck = $comment->rules;
 
 		if(!$comment->save()){ //Validation failed show errors
 			abort(403,$comment->errors);
@@ -160,6 +144,25 @@ class CommentController extends ApiController {
 		}
 		
 		$comment->delete();
+
+		return $comment;
+	}
+
+	public function restore($id){
+		$comment = Comment::withTrashed()->find($id);
+
+		if(!$comment){
+			abort(404,'Comment does not exist');
+		}
+
+		if($comment->user->id != Auth::user()->id && !Auth::user()->can('edit-comment')){
+			abort(401,'User does not have permission to restore this comment');
+		}
+
+		$comment->deleted_at = null; //restore() isn't working either
+		if(!$comment->save()){
+			abort(400,$comment->errors);
+		}
 
 		return $comment;
 	}

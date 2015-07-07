@@ -179,7 +179,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	/**
 	 * @param string takes a string and hashes it into a password
 	 */
-	public function setPasswordAttribute(string $value){
+	public function setPasswordAttribute($value){
 		$this->attributes['password'] = Hash::make($value);
 	}
 

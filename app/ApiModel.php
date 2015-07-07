@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Role;
 use Auth;
 use Illuminate\Support\Facades\Validator;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 
 class ApiModel extends Model
@@ -26,22 +26,24 @@ class ApiModel extends Model
         return true;
     }
 
-    public function getFields(){
+    public function getFieldsAttribute(){
         $result = [];
 
         $values = $this->toArray(); //Ensures security
         foreach($this->fillable as $key){
-            $field = [
-                'name'              =>  $key,
-                'rules'             =>  $this->rules[$key],
-                'type'              =>  $this->fields[$key]['type'],
-                'templateOptions'   =>  [
-                    'valueProp'         =>  isset($values[$key])?$values[$key]:null,
-                    'required'          =>  (strpos('required',$this->rules[$key]))?true:false,
-                    'label'             =>  $this->fields[$key]['label'],
-                ]
-            ];
-            $result[] = $field;
+            if(!empty($this->fields[$key])){
+                $field = [
+                    'name'              =>  $key,
+                    'rules'             =>  $this->rules[$key],
+                    'type'              =>  $this->fields[$key]['type'],
+                    'templateOptions'   =>  [
+                        'valueProp'         =>  isset($values[$key])?$values[$key]:null,
+                        'required'          =>  (strpos('required',$this->rules[$key]))?true:false,
+                        'label'             =>  $this->fields[$key]['label'],
+                    ]
+                ];
+                $result[] = $field;
+            }
         }
         return $result;
     }

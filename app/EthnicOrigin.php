@@ -1,13 +1,10 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use StandardModelTrait;
 
 
 class EthnicOrigin extends ApiModel {
 	
-
-	use StandardModelTrait;
 
 
 	/**

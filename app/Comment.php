@@ -102,9 +102,10 @@ class Comment extends ApiModel {
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
-	public $fields = [
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+	protected $fields = [
+		'text' 					=>	['tag'=>'textarea','type'=>'textarea','label'=>'','placeholder'=>'Your comment on this motion'],
+		//? 'vote_id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>''],
+		// 'id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>'']
 	];
 
 	/**
