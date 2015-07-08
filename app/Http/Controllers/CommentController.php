@@ -97,7 +97,7 @@ class CommentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Comment $id)
+	public function update(Comment $comment)
 	{
 		if(!Auth::user()->can('create-comments')){
 			abort(401,'You do not have permission to update a comment');
@@ -111,7 +111,8 @@ class CommentController extends ApiController {
 			abort(401,'User does not have permission to edit this comment');
 		}
 
-		$comment->secureFill(Request::all());
+		$comment->fill(Request::except('token'));
+	//	dd($comment);
 
 		if(!$comment->save()){ //Validation failed show errors
 			abort(403,$comment->errors);
@@ -125,12 +126,11 @@ class CommentController extends ApiController {
 	/**
 	 * Remove the specified resource from storage, if run twice it permanently deletes it
 	 *
-	 * @param  int  $id
+	 * @param  Comment  $comment The comment you want to destroy
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Comment $comment)
 	{
-		$comment = Comment::withTrashed()->with('vote.user')->find($id);
 		if(!$comment){
 			abort(403,"Comment does not exist, permanently deleted");
 		}
@@ -138,17 +138,13 @@ class CommentController extends ApiController {
 			abort(401,'User does not have permission to delete this comment');
 		}
 
-		if($comment->trashed()){ //If it is soft deleted, this will permanently delete it
-			$comment->forceDelete();
-		}
-		
 		$comment->delete();
 
 		return $comment;
 	}
 
 	public function restore($id){
-		$comment = Comment::withTrashed()->find($id);
+		$comment = Comment::withTrashed()->with('vote.user')->find($id);
 
 		if(!$comment){
 			abort(404,'Comment does not exist');

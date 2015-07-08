@@ -55,7 +55,7 @@ class CommentVoteController extends ApiController {
 
 		//Check validation
 		$input = Request::all();
-		if(!array_key_exists('comment_id',$input) || !is_numeric($input['comment_id'])){
+		if(!isset($input['comment_id'])){
 			abort(422,'comment_id is required');
 		}
 

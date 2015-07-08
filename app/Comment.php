@@ -124,6 +124,7 @@ class Comment extends ApiModel {
 		});
 
 		static::updating(function($model){
+
 			return $model->validate();			
 		});		
 	}

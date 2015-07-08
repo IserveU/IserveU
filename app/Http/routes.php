@@ -42,9 +42,6 @@ Route::group(array('prefix' => 'api'), function(){
 			return array('themename'=>config('app.themename'),'user'=>Auth::user());
 		});
 
-		
-	
-
 		Route::get('motion/getcomments/{motionid}','MotionController@getComments');
 		Route::resource('motion', 'MotionController');
 
@@ -52,6 +49,7 @@ Route::group(array('prefix' => 'api'), function(){
 
 		Route::resource('vote', 'VoteController');
 
+		Route::get('comment/{id}/restore','CommentController@restore');
 		Route::resource('comment', 'CommentController');
 
 		Route::resource('comment_vote', 'CommentVoteController');
