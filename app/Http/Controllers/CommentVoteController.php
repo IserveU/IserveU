@@ -22,7 +22,7 @@ class CommentVoteController extends ApiController {
 	 */
 	public function index()
 	{
-		if(Auth::user()->can('view-commentvotes')){ //Administrator able to see any comment vote
+		if(Auth::user()->can('view-comment_votes')){ //Administrator able to see any comment vote
 			return CommentVote::all();	
 		}		
 		return CommentVote::where('user_id',Auth::user()->id)->select('comment_id','position')->get(); //Get standard users comment votes	
@@ -35,11 +35,10 @@ class CommentVoteController extends ApiController {
 	 */
 	public function create()
 	{	
-		if(!Auth::user()->can('create-commentvotes')){
+		if(!Auth::user()->can('create-comment_votes')){
 			abort(401,'You do not have permission to vote on a comment');			
 		}
-
-		return (new CommentVote)->setRules();
+		return (new CommentVote)->fields;
 	}
 
 	/**
@@ -50,7 +49,7 @@ class CommentVoteController extends ApiController {
 
 	public function store(){
 		//Check user permissions
-		if(!Auth::user()->can('create-commentvotes')){
+		if(!Auth::user()->can('create-comment_votes')){
 			abort(401,'You do not have permission to vote on a comment');
 		}
 
@@ -58,7 +57,6 @@ class CommentVoteController extends ApiController {
 		$input = Request::all();
 		$commentVote  = new CommentVote($input);
 
-		$commentVote->setRules(['comment_id','position']); //Before going any further these are required
 		if(!$commentVote->validate()){
 			abort(403,$commentVote->errors);
 		}
@@ -90,16 +88,9 @@ class CommentVoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(CommentVote $commentVote)
 	{
-		$commentVote = CommentVote::find($id);
-		if(Auth::user()->can('view-commentvotes')){ //Administrator able to see any comment vote
-			return $commentVote;
-		}
-		if(Auth::user()->id == $commentVote->user_id){ //Current user
-			return $commentVote;
-		}
-		abort(401,'You do not have permission to vote on a comment');
+		return $commentVote;
 	}
 
 	/**
@@ -108,22 +99,17 @@ class CommentVoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(CommentVote $commentVote)
 	{
-		if(!Auth::user()->can('create-commentvotes')){
+		if(!Auth::user()->can('create-comment_votes')){
 			abort(401,'You do not have permission to edit votes on comments');			
 		}
 
-		$commentVote = CommentVote::find($id);
-		if(!$commentVote){
-			abort(403,"There is no comment vote with the ID of ($id)");
-		}
-
 		if(Auth::user()->id != $commentVote->vote->user->id){ //Current user
-			abort(401,'You do not have permission to edit this comment vote');
+			abort(401,'You do not have permission to edit the comment vote ('.$commentVote->id.')');
 		}
 		
-		return $commentVote->setRules();
+		return $commentVote->fields;
 	}
 
 	/**
@@ -132,26 +118,20 @@ class CommentVoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(CommentVote $commentVote)
 	{
 		//Check user permissions
-		if(!Auth::user()->can('create-commentvotes')){
+		if(!Auth::user()->can('create-comment_votes')){
 			abort(401,'You do not have permission to vote on a comment');
 		}
 
-		//Find the existing comment vote, check that the user_id is correct
-		$commentVote = CommentVote::where('id',$id)->first();
-		
-		if(!$commentVote){
-			abort(401,"This Comment Vote does not exits ($id) you are using the wrong API call or passing an invalid comment_vote_id");
-		}
-
+		// check that the user_id is correct
 		if($commentVote->user_id != Auth::user()->id){ //->where('user_id',Auth::user()->id)
-			abort(401,"The user with the id of ".Auth::user()->id." did not create the comment_vote with the id of ($id)");
+			abort(401,"The user with the id of ".Auth::user()->id." did not create the comment_vote with the id of (".$commentVote->id.")");
 		}
 
 		//Check validation
-		$input = Request::only('position');
+		$input = Request::only('position'); 
 	
 		//Time to edit vote
 		$commentVote->position = $input['position'];

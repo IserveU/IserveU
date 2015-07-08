@@ -108,12 +108,10 @@ class Vote extends ApiModel {
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
-			$model->setRules();
 			return $model->validate();	
 		});
 
 		static::updating(function($model){
-			$model->setRules();
 			return $model->validate();			
 		});		
 	}

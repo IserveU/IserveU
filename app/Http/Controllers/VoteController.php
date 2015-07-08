@@ -35,7 +35,7 @@ class VoteController extends ApiController {
 			abort(401,'You do not have permission to create a vote on a motion');			
 		}
 
-		return (new Vote)->setRules();
+		return (new Vote)->fields;
 	}
 
 	/**
@@ -97,7 +97,7 @@ class VoteController extends ApiController {
 		if(!$vote){
 			abort(403,"This vote does not exist ($id)");
 		}
-		return $vote->setRules();
+		return $vote->fields;
 	}
 
 	/**

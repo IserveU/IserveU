@@ -108,7 +108,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
-	public $fields = [
+	protected $fields = [
 		'email' 					=>	['tag'=>'input','type'=>'email','label'=>'Email Address','placeholder'=>'Email Address'],
 	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'Password','placeholder'=>'Your Password'],
 	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'First Name','placeholder'=>'First Name'],

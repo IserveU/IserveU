@@ -101,8 +101,8 @@ class CommentVote extends ApiModel {
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
-	public $fields = [
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+	protected $fields = [
+			'position' 		=>	['tag'=>'radio','type'=>'radio','label'=>'Attribute Name','placeholder'=>'Email Address'],
 		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
 	];
 

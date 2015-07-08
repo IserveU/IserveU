@@ -42,7 +42,7 @@ class MotionController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-		return (new Motion)->rules;		
+		return (new Motion)->fields;		
 	}
 
 	/**

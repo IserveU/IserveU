@@ -30,6 +30,7 @@ class ApiModel extends Model
         $result = [];
 
         $values = $this->toArray(); //Ensures security
+
         foreach($this->fillable as $key){
             if(!empty($this->fields[$key])){
                 $field = [

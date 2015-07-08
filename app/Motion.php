@@ -91,7 +91,7 @@ class Motion extends ApiModel {
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
-	public $fields = [
+	protected $fields = [
 		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
 		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
 	];
