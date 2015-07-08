@@ -61,7 +61,7 @@ class Motion extends ApiModel {
      * @var array
      */
 	protected $rules = [
-		'title' 			=>	'min:8|unique:motions',
+		'title' 			=>	'min:8|unique:motions,title',
         'active'			=>	'boolean',
         'closing' 			=>	'date',
         'text'				=>	'min:10',
@@ -92,8 +92,10 @@ class Motion extends ApiModel {
 	 * @var array
 	 */
 	protected $fields = [
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+		'title' 				=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
+		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
+		'closing'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
+		'text'	 				=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 	];
 
 	/**
@@ -115,7 +117,11 @@ class Motion extends ApiModel {
 		static::updating(function($model){
 			event(new MotionUpdated($model));
 			return $model->validate();			
-		});		
+		});
+
+		static::deleting(function($model) { // before delete() method call this
+             $model->votes()->delete();
+        });
 	}
 
 

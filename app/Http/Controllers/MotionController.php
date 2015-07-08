@@ -107,7 +107,7 @@ class MotionController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-		return $motion->rules;
+		return $motion->fields;
 	}
 
 	/**
@@ -126,7 +126,7 @@ class MotionController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-		$motion->title = Request::get('title');
+		$motion->title = Request::get('title'); //Securefill?
 		$motion->text = Request::get('text');
 
 		if(Request::get('active') && !$motion->setActiveAttribute(Request::get('active'))){ //If you tried to set active, but failed with permissions
@@ -169,7 +169,7 @@ class MotionController extends ApiController {
 	/**
 	 * Return the comment for a motion with the user in questions comment in it's own array, as well as the current users votes
 	 *
-	 * @param  int  $id
+	 * @param  int  $id  id of motion
 	 * @return Response
 	 */
 

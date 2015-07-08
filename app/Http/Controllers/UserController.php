@@ -48,7 +48,7 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function create(){
-		return (new User)->getFields();
+		return (new User)->fields;
 	}
 
 	/**
