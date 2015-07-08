@@ -23,13 +23,6 @@ class ApiModel extends Model
             $this->errors = $validator->messages();
             return false;
         }
-
-      
-
-        // if($this->alteredNonUpdatableFields()){
-        //     return false;
-        // }
-
         return true;
     }
 
@@ -74,17 +67,6 @@ class ApiModel extends Model
         return $changed;
     }
 
-    public function alteredNonUpdatableFields(){
-        $dirty = $this->getDirty();
-        foreach($dirty as $key => $value){
-            if(!in_array($key,$this->updateable)){
-                $this->errors = "Trying to update non-updatable field ($key)";
-                return true;
-            }
-        }
-        return false;   
-    }
-
     public function secureFill(array $input){
         $this->getFillableAttribute(); 
         $this->getRulesAttribute(); 
@@ -92,10 +74,6 @@ class ApiModel extends Model
     }
 
     public function getFillableAttribute(){
-        if($this->id){ 
-            $this->fillable = $this->updateable; // When you update, so that you don't go updating something like a set foreign key
-        }
-
         if(Auth::user()->can("edit-".$this->table)){ //Admin
             $this->fillable = array_unique(array_merge($this->adminFillable, $this->fillable));
         }

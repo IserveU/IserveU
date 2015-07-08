@@ -21,7 +21,7 @@ class Vote extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['motion_id','position','user_id'];
+	protected $fillable = ['motion_id','position'];
 
 	/**
 	 * The attributes fillable by the administrator of this model

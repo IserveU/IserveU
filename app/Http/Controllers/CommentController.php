@@ -55,6 +55,7 @@ class CommentController extends ApiController {
 		}
 		
 		$comment = new Comment(Request::all());
+		$comment->vote_id = $vote->id;
 		if(!$comment->save()){
 			abort(403,$comment->errors);
 		}
@@ -110,9 +111,7 @@ class CommentController extends ApiController {
 			abort(401,'User does not have permission to edit this comment');
 		}
 
-		$input = Request::all();
-		$comment->text = $input['text'];
-
+		$comment->secureFill(Request::all());
 
 		if(!$comment->save()){ //Validation failed show errors
 			abort(403,$comment->errors);

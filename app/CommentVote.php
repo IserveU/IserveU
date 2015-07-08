@@ -22,13 +22,7 @@ class CommentVote extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['position','comment_id','vote_id'];
-
-	/**
-	 * The attributes that can be updated
-	 * @var Array
-	 */
-	protected $updateable = ['position'];
+	protected $fillable = ['position']; //Don't be tempted to put 'comment_id','vote_id' in here. End up having to guard them and create dumb functions if something is "updateable"
 
 	/**
 	 * The attributes fillable by the administrator of this model

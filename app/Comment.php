@@ -24,7 +24,7 @@ class Comment extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['text','vote_id'];
+	protected $fillable = ['text'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
