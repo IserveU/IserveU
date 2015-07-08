@@ -11,10 +11,8 @@ use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-use League\Fractal\Manager;  
-use League\Fractal\Resource\Collection;  
-use League\Fractal\Resource\Item;
-use App\Transformers\UserTransformer;  
+
+use App\Transformers\UserTransformer;  //Not doing anything at the moment
 
 
 class UserController extends ApiController {

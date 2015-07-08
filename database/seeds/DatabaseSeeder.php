@@ -48,8 +48,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('DefaultUsers');
 		$this->command->info('Default user/roles seeded'); 
 
-		$this->call('SampleData');
-		$this->command->info('SampleData'); 
+		// $this->call('SampleData');
+		// $this->command->info('SampleData'); 
 		
 
 	}
@@ -606,7 +606,7 @@ class DefaultUsers extends Seeder{
 		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 		$unverified->attachPermissions(array($createComment,$createVote,$createCommentVote));
 
-		$random_pass = 'abcd1234'; //str_random(8);
+		$random_pass = str_random(8);
 
 		$defaultUser = new User;
 		$this->command->info("\n\nADMIN LOGIN WITH: Password: (".$random_pass.") Email: info@iserveu.ca \n\n");

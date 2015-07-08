@@ -19,7 +19,9 @@ Route::get('comment/delete/{id}/{code}', 'CommentController@approve');
 Route::post('authenticate', 'AuthenticateController@authenticate');
 
 
-
+Route::get('/settings', function(){
+	return array('themename'=>config('app.themename'));
+});
 
 
 Route::get('/', function() {
@@ -33,14 +35,13 @@ Route::group(array('prefix' => 'api'), function(){
 	Route::get('user/authenticateduser', 'UserController@authenticatedUser');
 	Route::resource('user', 'UserController');
 
+	Route::resource('background_image', 'BackgroundImageController');
+
 	Route::resource('ethnic_origin', 'EthnicOriginController');
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
-		Route::get('/settings', function(){
-			Auth::user()->setLoggedIn();
-			return array('themename'=>config('app.themename'),'user'=>Auth::user());
-		});
+
 
 		Route::get('motion/getcomments/{motionid}','MotionController@getComments');
 		Route::resource('motion', 'MotionController');
