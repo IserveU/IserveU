@@ -66,13 +66,8 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Vote $vote)
 	{
-		$vote = Vote::find($id);
-		if(!$vote){
-			abort(403,"There is no vote with the id of $id");
-		}
-	
 		if(Auth::user()->can('show-votes')){ //Is a person who can review votes
 			return $vote;
 		}
@@ -90,12 +85,8 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Vote $vote)
 	{
-		$vote = Vote::find($id);
-		if(!$vote){
-			abort(403,"This vote does not exist ($id)");
-		}
 		return $vote->fields;
 	}
 
@@ -105,16 +96,11 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Vote $vote)
 	{
 		//Check if the user has permission to cast votes
 		if(!Auth::user()->can('create-votes')){
 			abort(401,'You do not have permission to update a vote');
-		}
-
-		$vote = Vote::find($id);
-		if(!$vote){
-			abort(403,"This vote does not exits ($id)");
 		}
 
 		if($vote->user_id != Auth::user()->id){
@@ -122,8 +108,7 @@ class VoteController extends ApiController {
 		}
 
 		//Validate the input
-		$input = Request::all();
-		$vote->position = $input['position'];
+		$vote->secureFill(Request::all());
 
  		if(!$vote->save()){
 			abort(403,$vote->errors);
@@ -138,15 +123,10 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Vote $vote)
 	{
 		if(!Auth::user()->can('create-votes')){
 			abort(401,"user can not create or destroy votes");
-		}
-
-		$vote = Vote::find($id);
-		if(!$vote){
-			abort(403,"Vote does not exist ($id)");
 		}
 
 		if($vote->user_id != Auth::user()->id){
