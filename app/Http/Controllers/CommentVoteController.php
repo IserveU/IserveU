@@ -55,10 +55,8 @@ class CommentVoteController extends ApiController {
 
 		//Check validation
 		$input = Request::all();
-		$commentVote  = new CommentVote($input);
-
-		if(!$commentVote->validate()){
-			abort(403,$commentVote->errors);
+		if(!array_key_exists('comment_id',$input) || !is_numeric($input['comment_id'])){
+			abort(422,'comment_id is required');
 		}
 
 		//Gets the comment that is to be voted on
@@ -66,17 +64,19 @@ class CommentVoteController extends ApiController {
 		if(!$comment){
 			abort(403,'There is no comment with the id of '.$input['comment_id']);
 		}
-		$commentVote->comment_id = $comment->id;
 
 		//Check logged in user has voted, and on this comment's motion
 		$vote = Vote::where('user_id',Auth::user()->id)->where('motion_id',$comment->motion_id)->first();
 		if(!$vote){
 			abort(403,'User must vote before posting comment');
 		}
-		
-		$commentVote->vote_id = $vote->id;
+
+		$commentVote  = new CommentVote($input);
+		$commentVote->comment_id = 	$comment->id;
+		$commentVote->vote_id = 	$vote->id;
+
 		if(!$commentVote->save()){
-			abort(403,$commentVote->errors); //Checks if this combo of keys has already been done
+			abort(403,$commentVote->errors);
 		}
 
 		return $commentVote;
@@ -132,9 +132,10 @@ class CommentVoteController extends ApiController {
 
 		//Check validation
 		$input = Request::only('position'); 
-	
+
 		//Time to edit vote
 		$commentVote->position = $input['position'];
+
 		if(!$commentVote->save()){
 			abort(403,$commentVote->errors);
 		}
@@ -148,14 +149,16 @@ class CommentVoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(CommentVote $commentVote)
 	{
-		$commentVote = CommentVote::findOrFail($id);
-		if(Auth::user()->id!=$commentVote->user_id || !Auth::user()->can('delete-comments-vote')){
+
+		if(Auth::user()->id!=$commentVote->user_id && !Auth::user()->can('delete-comment_votes')){
 			abort(401,"User does not have permission to delete this Comment Vote");
 		}	
 
 		$commentVote->forceDelete(); //There are no things relying on this
+
+		return $commentVote;	
 	}
 
 }

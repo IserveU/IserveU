@@ -18,11 +18,18 @@ class ApiModel extends Model
 
 
     public function validate(){
-        $validator = Validator::make($this->getAttributes(),$this->rules);
+        $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
         if($validator->fails()){
             $this->errors = $validator->messages();
             return false;
         }
+
+      
+
+        // if($this->alteredNonUpdatableFields()){
+        //     return false;
+        // }
+
         return true;
     }
 
@@ -31,7 +38,7 @@ class ApiModel extends Model
 
         $values = $this->toArray(); //Ensures security
 
-        foreach($this->fillable as $key){
+        foreach($this->getFillableAttribute() as $key){
             if(!empty($this->fields[$key])){
                 $field = [
                     'name'              =>  $key,
@@ -60,22 +67,36 @@ class ApiModel extends Model
         $dirty = $this->getDirty();
         $changed = array();
         foreach($this->locked as $key){
-            if(array_key_exists($key,$dirty)){
+            if(in_array($key,$dirty)){
                 array_push($changed,$key);
             }
         }
         return $changed;
     }
 
+    public function alteredNonUpdatableFields(){
+        $dirty = $this->getDirty();
+        foreach($dirty as $key => $value){
+            if(!in_array($key,$this->updateable)){
+                $this->errors = "Trying to update non-updatable field ($key)";
+                return true;
+            }
+        }
+        return false;   
+    }
+
     public function secureFill(array $input){
-        //Default fill doesn't use these accesstors
         $this->getFillableAttribute(); 
         $this->getRulesAttribute(); 
         return parent::fill($input);
     }
 
     public function getFillableAttribute(){
-        if(Auth::user()->can("edit-".$this->table)){
+        if($this->id){ 
+            $this->fillable = $this->updateable; // When you update, so that you don't go updating something like a set foreign key
+        }
+
+        if(Auth::user()->can("edit-".$this->table)){ //Admin
             $this->fillable = array_unique(array_merge($this->adminFillable, $this->fillable));
         }
         return $this->fillable;

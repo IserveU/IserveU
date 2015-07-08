@@ -25,6 +25,12 @@ class CommentVote extends ApiModel {
 	protected $fillable = ['position','comment_id','vote_id'];
 
 	/**
+	 * The attributes that can be updated
+	 * @var Array
+	 */
+	protected $updateable = ['position'];
+
+	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var Array
 	 */
@@ -103,7 +109,7 @@ class CommentVote extends ApiModel {
 	 */
 	protected $fields = [
 			'position' 		=>	['tag'=>'radio','type'=>'radio','label'=>'Attribute Name','placeholder'=>'Email Address'],
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
+		 	'comment_id' 	=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>''],
 	];
 
 	/**
