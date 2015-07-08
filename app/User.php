@@ -30,7 +30,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public'];
+	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website'];
 
 	/**
 	 * The attributes fillable by the administrator of this model

@@ -1,5 +1,7 @@
 <?php
 
+use App\BackgroundImage;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -20,7 +22,7 @@ Route::post('authenticate', 'AuthenticateController@authenticate');
 
 
 Route::get('/settings', function(){
-	return array('themename'=>config('app.themename'));
+	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->random());
 });
 
 

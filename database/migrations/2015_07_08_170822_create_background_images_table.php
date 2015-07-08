@@ -12,13 +12,17 @@ class CreateBackgroundImagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('background_images', function (Blueprint $table) {
+        Schema::create('background_images', function (Blueprint $table) {
             $table->increments('id');
             $table->string('file');
-            $table->text('photographer');
-            $table->url('website');
+            $table->integer('user_id')->unsigned();
+            $table->boolean('active')->default(0);
             $table->date('display_date')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('background_images', function($table){
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

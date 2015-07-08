@@ -50,7 +50,7 @@ class BackgroundImageController extends ApiController
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -84,5 +84,9 @@ class BackgroundImageController extends ApiController
     public function destroy($id)
     {
         //
+    }
+
+    public function showRandom($id){
+
     }
 }
