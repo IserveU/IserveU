@@ -126,8 +126,7 @@ class MotionController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-		$motion->title = Request::get('title'); //Securefill?
-		$motion->text = Request::get('text');
+		$motion->secureFill(Request::all());
 
 		if(Request::get('active') && !$motion->setActiveAttribute(Request::get('active'))){ //If you tried to set active, but failed with permissions
 			abort(401,"This user does not have permission to set motions as active");

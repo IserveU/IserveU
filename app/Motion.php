@@ -108,7 +108,6 @@ class Motion extends ApiModel {
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
 		parent::boot();
-		/* validation required on new */
 
 		static::creating(function($model){
 			return $model->validate();	

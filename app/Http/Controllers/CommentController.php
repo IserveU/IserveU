@@ -111,8 +111,7 @@ class CommentController extends ApiController {
 			abort(401,'User does not have permission to edit this comment');
 		}
 
-		$comment->fill(Request::except('token'));
-	//	dd($comment);
+		$comment->secureFill(Request::except('token'));
 
 		if(!$comment->save()){ //Validation failed show errors
 			abort(403,$comment->errors);

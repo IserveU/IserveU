@@ -130,11 +130,8 @@ class CommentVoteController extends ApiController {
 			abort(401,"The user with the id of ".Auth::user()->id." did not create the comment_vote with the id of (".$commentVote->id.")");
 		}
 
-		//Check validation
-		$input = Request::only('position'); 
-
 		//Time to edit vote
-		$commentVote->position = $input['position'];
+		$commentVote->secureFill(Request::all());
 
 		if(!$commentVote->save()){
 			abort(403,$commentVote->errors);

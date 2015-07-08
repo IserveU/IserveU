@@ -15,7 +15,7 @@ class ApiModel extends Model
 
     protected $adminVisible = [];
     protected $adminFillable = [];
-
+ 
 
     public function validate(){
         $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
