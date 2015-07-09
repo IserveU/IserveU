@@ -23,7 +23,8 @@ class BackgroundImageController extends ApiController
      */
     public function index()
     {
-        //
+        $backgroundImage = BackgroundImage::all();
+        return $backgroundImage;
     }
 
     /**

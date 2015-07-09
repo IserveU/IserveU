@@ -12,6 +12,7 @@
 		vm.showUser = false;
 		$rootScope.createMotion = false;
 		$rootScope.canDeleteMotion = false;
+		$rootScope.canCreateBackgroundImages
 
 		vm.userbarservice = UserbarService;
 
@@ -43,6 +44,9 @@
 		}
 		if(permissions.indexOf("delete-motions") != -1) {
 			$rootScope.canDeleteMotion = true;
+		}
+		if(permissions.indexOf("create-background_images") != -1) {
+			$rootScope.canCreateBackgroundImages = true;
 		}
 		// if(permissions.indexOf("edit-users") != -1) {
 			

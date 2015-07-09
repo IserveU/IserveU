@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window) {	
+	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage) {	
 
 		var vm = this;
 
@@ -18,6 +18,7 @@
 		vm.registerform = false;
 		vm.emailValidation = false;
 		vm.login = login;
+		vm.background_image;
 
 
 		function login(email, password) {
@@ -72,8 +73,15 @@
 			});
 		};
 
-	
+		function getSettings(){
+			auth.getSettings().then(function(result){
+				vm.background_image = result.data.background_image;
+				localStorage.setItem('settings', JSON.stringify(result.data));
+			})
+		}
 
+	
+		getSettings();
     }
 
 }());

@@ -42,7 +42,7 @@
 			}).error(function(error) {
 				return error;
 			})
-		}
+		};
 
 
 		var postUserCreate = function(credentials) {
@@ -54,12 +54,21 @@
 			});
 		};
 
+		var getSettings = function() {
+			return $http.get('settings').success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			});
+		};
+
 		return {
 			login: login,
 		  	logout: logout,
 		  	getAuthenticatedUser: getAuthenticatedUser,
 		  	postAuthenticate: postAuthenticate,
-		  	postUserCreate: postUserCreate
+		  	postUserCreate: postUserCreate,
+		  	getSettings: getSettings
 		};
 	}
 

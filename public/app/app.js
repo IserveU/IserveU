@@ -106,6 +106,14 @@
 	                data: {
 	                    requireLogin: false
 	                } 
+	        	})
+	        	.state('backgroundimage', {
+	                url: '/upload',
+	            	controller: 'BackgroundImageController as backgroundimage',
+	            	templateUrl: 'app/shared/backgroundimage/backgroundimage.tpl.html',
+	                data: {
+	                    requireLogin: true
+	                } 
 	        	});           
 
 		})

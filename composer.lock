@@ -2561,12 +2561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Zizaco/entrust.git",
-                "reference": "804000c1c535221792b4e173ecdcc02b5681f5ec"
+                "reference": "3a768eb52300ec4efe9d6a6685b9bf0db6a50ffd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Zizaco/entrust/zipball/804000c1c535221792b4e173ecdcc02b5681f5ec",
-                "reference": "804000c1c535221792b4e173ecdcc02b5681f5ec",
+                "url": "https://api.github.com/repos/Zizaco/entrust/zipball/3a768eb52300ec4efe9d6a6685b9bf0db6a50ffd",
+                "reference": "3a768eb52300ec4efe9d6a6685b9bf0db6a50ffd",
                 "shasum": ""
             },
             "require": {
@@ -2620,7 +2620,7 @@
                 "permission",
                 "roles"
             ],
-            "time": "2015-05-25 00:17:51"
+            "time": "2015-07-09 16:32:53"
         }
     ],
     "packages-dev": [
