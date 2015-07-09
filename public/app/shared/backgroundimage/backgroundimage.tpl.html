@@ -18,8 +18,9 @@
        <input ng-model="url"></input>
       </md-input-container>
 
-      <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files, credits, url)"/>
+      <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)"/>
 
+      <md-button ng-click="uploadFile(credits, url)" type="submit">Submit</md-button>
       </div>
       </form>
       </div>  

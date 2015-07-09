@@ -12,14 +12,19 @@
 
 		var vm = this;
 		$scope.url = "http://";
+		vm.thisFile;
 
-		$scope.uploadFile = function(files, credited, url){
+		$scope.chosenImage = function(files){
+			vm.thisFile = files;
+		}
+
+		$scope.uploadFile = function(credited, url){
 			var formData = new FormData();
 		    //Take the first selected file
-		    formData.append("file", files[0]);
+		    console.log(vm.thisFile[0]);
+		    formData.append("file", vm.thisFile[0]);
 		    formData.append("credited", credited);
 		    formData.append("url", url);
-
 
 
 		    backgroundimage.saveBackgroundImage(formData).then(function(result) {
