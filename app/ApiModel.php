@@ -111,11 +111,13 @@ class ApiModel extends Model
                 return $this->rules;    
             }
         }
-
+        
         if(Request::method()=="POST" || Request::method()=="GET"){ //Initial create
             $this->rules = AddRule($this->rules,$this->onCreateRequired,'required');
             return $this->rules; //DOn't add on things that aren't actual validation rules
         }
+
+
         return $this->rules;    
     }
 

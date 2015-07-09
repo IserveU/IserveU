@@ -18,7 +18,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary'];
+	protected $fillable = ['credited','url','file'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -56,8 +56,9 @@ class BackgroundImage extends ApiModel
      */
 	protected $rules = [
         'active'			=>	'boolean',
-        'file'				=>	'string',
+        'file'				=>	'string|unique:background_images',
         'display_date' 		=>	'date',
+        'url'				=>	'url',
         'user_id'			=>	'integer|exists:users,id',
         'id'				=>	'integer'
 	];
@@ -72,23 +73,23 @@ class BackgroundImage extends ApiModel
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['title','text','user_id'];
+	protected $onCreateRequired = ['file','user_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = ['display_date'];
+	protected $unique = ['display_date','file'];
 
 	/**
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
 	protected $fields = [
-		'title' 				=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
 		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'closing'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'text'	 				=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
+		'file'	 				=>	['tag'=>'file','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
+		'display_date'	 		=>	['tag'=>'date','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
+		'url'	 				=>	['tag'=>'input','type'=>'url','label'=>'Attribute Name','placeholder'=>''],
 	];
 
 	/**
@@ -138,14 +139,18 @@ class BackgroundImage extends ApiModel
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
 	 */
 	public function setActiveAttribute($value){
-		if(!Auth::user()->can('edit-motions')){
+		if(!Auth::user()->can('edit-background_images')){
 			return false;
 		}
 
 		$this->attributes['active'] = $value;
-		$oneWeek = new \DateTime();
-		$oneWeek->add(new \DateInterval('P7D'));
-		$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
+
+		$last = BackgroundImage::whereNotNull('display_date')->active()->orderBy('display_date','desc')->first();
+
+		$tomorrow = date('Y-m-d',strtotime($last->display_date . "+1 days"));
+
+		$this->attributes['display_date'] = $tomorrow;
+
 		return true;
 	}
 

@@ -9,7 +9,7 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
 
-    <body class="background-image" style="background-image:url(/uploads/background_images/somefile.jpg)"  layout="row" >
+    <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >
 
 
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">

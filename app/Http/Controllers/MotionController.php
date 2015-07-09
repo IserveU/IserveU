@@ -57,10 +57,9 @@ class MotionController extends ApiController {
 		}
 
 	
-		$motion = (new Motion)->secureFill(Request::all('active')); //Does the fields specified as fillable in the model
+		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
 
-		$motion->active = 1;
-		
+	
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
 		}

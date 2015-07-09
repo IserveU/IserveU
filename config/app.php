@@ -171,8 +171,8 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		//'App\Providers\TestingServiceProvider',
-		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider'
-
+		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+		'Intervention\Image\ImageServiceProvider'
 	],
 
 	/*
@@ -223,7 +223,8 @@ return [
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'Html'		=> 'Illuminate\Html\HtmlFacade',
 		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade',
-		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth'
+		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth',
+		'Image'		=> 'Intervention\Image\Facades\Image'
 	],
 
 ];

@@ -37,13 +37,13 @@ Route::group(array('prefix' => 'api'), function(){
 	Route::get('user/authenticateduser', 'UserController@authenticatedUser');
 	Route::resource('user', 'UserController');
 
-	Route::resource('background_image', 'BackgroundImageController');
 
 	Route::resource('ethnic_origin', 'EthnicOriginController');
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
 
+		Route::resource('background_image', 'BackgroundImageController');
 
 		Route::get('motion/getcomments/{motionid}','MotionController@getComments');
 		Route::resource('motion', 'MotionController');

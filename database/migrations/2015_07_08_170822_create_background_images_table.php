@@ -16,6 +16,8 @@ class CreateBackgroundImagesTable extends Migration
             $table->increments('id');
             $table->string('file');
             $table->integer('user_id')->unsigned();
+            $table->string('credited');
+            $table->string('url');
             $table->boolean('active')->default(0);
             $table->date('display_date')->nullable();
             $table->timestamps();

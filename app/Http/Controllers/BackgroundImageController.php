@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 use Request;
 use Auth;
-
+use Validator;
+use Input;
+use App\BackgroundImage;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class BackgroundImageController extends ApiController
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +43,29 @@ class BackgroundImageController extends ApiController
      */
     public function store()
     {
-        //
+        $validator = Validator::make(array('image' => Input::file('image')),array('image'=>'image'));
+        if ($validator->fails()){
+            abort(403,'file is not an image');
+        }
+        
+        $img = Image::make(Request::file('file'))->resize(1920,1080);
+       
+        $file = md5($img).".jpg";
+        //$directory .="/database/seeds/thefile.csv";
+        $img->save(getcwd()."/uploads/background_images/$file");
+
+        $input = Request::all();
+        $input['file'] = $file;
+
+        $backgroundImage = (new BackgroundImage)->secureFill($input);
+
+        $backgroundImage->user_id = Auth::user()->id;
+
+        if(!$backgroundImage->save()){
+            abort(403,$backgroundImage->errors);
+        }
+
+        return $backgroundImage;
     }
 
     /**
