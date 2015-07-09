@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use Carbon\Carbon;
 
 class BackgroundImage extends ApiModel
 {
@@ -30,7 +31,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['file','display_date'];
+	protected $visible = ['file','display_date','url','credited'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -98,6 +99,12 @@ class BackgroundImage extends ApiModel
 	 */
 	public $locked = ['file'];
 
+	/**
+     * The attributes that should be mutated to dates.
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'display_date'];
+
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
@@ -117,8 +124,12 @@ class BackgroundImage extends ApiModel
 	/************************************* Custom Methods *******************************************/
 	
 	public function random(){
-		$random_image = BackgroundImage::orderByRaw("RAND()")->active()->first();
-		return $random_image;
+		return BackgroundImage::orderByRaw("RAND()")->active()->first();
+	}
+
+	public function today(){
+		return BackgroundImage::whereNotNull('display_date')->where('display_date','<=',Carbon::now())->active()->orderBy('display_date','desc')->first();
+
 	}
 	
 	/************************************* Getters & Setters ****************************************/
@@ -145,18 +156,18 @@ class BackgroundImage extends ApiModel
 
 		$this->attributes['active'] = $value;
 
-		$last = BackgroundImage::whereNotNull('display_date')->active()->orderBy('display_date','desc')->first();
-		if(!$last){
-			$last = date('NOW');
-		} else {
-			$last = $last->display_date;
-		}
-
-
-
-		$tomorrow = date('Y-m-d',strtotime($last . "+1 days"));
-
-		$this->attributes['display_date'] = $tomorrow;
+		if($value){ //Setting it  active
+			$last = BackgroundImage::whereNotNull('display_date')->active()->orderBy('display_date','desc')->first();
+			if(!$last){
+				$last = Carbon::yesterday();
+			} else {
+				$last = $last->display_date;
+			}
+			
+			$this->attributes['display_date'] = $last->add(new \DateInterval('P1D'))->format('Y-m-d');
+		} else { //Setting it inactive
+			$this->attributes['display_date'] = null;
+		}	
 
 		return true;
 	}

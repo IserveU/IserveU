@@ -62,6 +62,7 @@ class BackgroundImageController extends ApiController
 
         $backgroundImage->user_id = Auth::user()->id;
 
+      
         if(!$backgroundImage->save()){
             abort(403,$backgroundImage->errors);
         }
@@ -113,7 +114,4 @@ class BackgroundImageController extends ApiController
         //
     }
 
-    public function showRandom($id){
-
-    }
 }

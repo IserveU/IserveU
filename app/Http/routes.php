@@ -22,7 +22,7 @@ Route::post('authenticate', 'AuthenticateController@authenticate');
 
 
 Route::get('/settings', function(){
-	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->random());
+	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->today());
 });
 
 
