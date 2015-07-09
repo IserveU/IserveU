@@ -51,7 +51,7 @@ class BackgroundImageController extends ApiController
         
         $img = Image::make(Request::file('file'))->resize(1920,1080);
        
-        $file = md5($img).".jpg";
+        $file = md5($img->response()).".jpg";
         //$directory .="/database/seeds/thefile.csv";
         $img->save(getcwd()."/uploads/background_images/$file");
 
