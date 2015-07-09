@@ -9,7 +9,9 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
 
-    <body back-img layout="row">
+    <body class="background-image" style="background-image:url(/uploads/background_images/somefile.jpg)"  layout="row" >
+
+
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
             <sidebar></sidebar>
         </md-sidenav>
@@ -23,7 +25,7 @@
                 <div flex>
                     <h2>{{user.userbarservice.title}}</h2>
                     <span flex></span> <!-- use up the empty space -->
-                </div>
+                 </div>
 
                 <div >
                     <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
@@ -53,7 +55,7 @@
             </div>
           </md-toolbar>
 
-          <div flex layout-padding ui-view></div>
+          <div flex ui-view></div> 
 
         </div>
     </body>        

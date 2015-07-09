@@ -9,13 +9,34 @@ $lightGrey:  #f2f2f2;
 
 $padding: 16px;
 
+html{
+	height: 100%;
+	
+}
+
+body{
+	height: auto;
+
+}
+
+html,body{
+	min-height: 100% !important;
+}
+
+
+.background-image{
+	background-position: center center;
+	background: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
 md-icon{
-	 font-family: 'MaterialDesignIcons';
-  src: url("/css/fonts/materialdesignicons-webfont.eot?v=1.1.34");
-  src: url("/css/fonts/materialdesignicons-webfont.eot?#iefix&v=1.1.34") format("embedded-opentype"), url("/css/fonts/materialdesignicons-webfont.woff2?v=1.1.34") format("woff2"), url("/css/fonts/materialdesignicons-webfont.woff?v=1.1.34") format("woff"), url("/css/fonts/materialdesignicons-webfont.ttf?v=1.1.34") format("truetype"), url("/css/fonts/materialdesignicons-webfont.svg?v=1.1.34#materialdesigniconsregular") format("svg");
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'MaterialDesignIcons';
+  	src: url("/css/fonts/materialdesignicons-webfont.eot?v=1.1.34");
+  	src: url("/css/fonts/materialdesignicons-webfont.eot?#iefix&v=1.1.34") format("embedded-opentype"), url("/css/fonts/materialdesignicons-webfont.woff2?v=1.1.34") format("woff2"), url("/css/fonts/materialdesignicons-webfont.woff?v=1.1.34") format("woff"), url("/css/fonts/materialdesignicons-webfont.ttf?v=1.1.34") format("truetype"), url("/css/fonts/materialdesignicons-webfont.svg?v=1.1.34#materialdesigniconsregular") format("svg");
+  	font-weight: normal;
+  	font-style: normal;
 } 
 
 .mdi {
@@ -32,10 +53,6 @@ button md-icon svg:nth-child(2) {
 	display: none !important; 
 }
 
-/* code */
-.loginbox{
-	background: rgba(255,255,255,0.75);
-}
 
 form{
   margin-bottom: 0em;
@@ -46,6 +63,22 @@ form{
 // 	bottom: 8px;
 // 	right: 8px;
 // }
+// 
+
+md-content{
+	background-color: rgba(255,255,255,0) !important; 
+}
+
+.md-whiteframe-z1, .loginbox, md-sidenav{
+	background-color: rgba(255,255,255,0.8) !important;
+}
+
+.logo{
+	margin: auto;
+	display: block;
+	margin-bottom: 30px;
+}
+
 
 #maincontent{
 

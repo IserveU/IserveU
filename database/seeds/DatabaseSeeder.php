@@ -48,8 +48,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('DefaultUsers');
 		$this->command->info('Default user/roles seeded'); 
 
-		// $this->call('SampleData');
-		// $this->command->info('SampleData'); 
+		$this->call('SampleData');
+		$this->command->info('SampleData'); 
 		
 
 	}
