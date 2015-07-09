@@ -146,8 +146,15 @@ class BackgroundImage extends ApiModel
 		$this->attributes['active'] = $value;
 
 		$last = BackgroundImage::whereNotNull('display_date')->active()->orderBy('display_date','desc')->first();
+		if(!$last){
+			$last = date('NOW');
+		} else {
+			$last = $last->display_date;
+		}
 
-		$tomorrow = date('Y-m-d',strtotime($last->display_date . "+1 days"));
+
+
+		$tomorrow = date('Y-m-d',strtotime($last . "+1 days"));
 
 		$this->attributes['display_date'] = $tomorrow;
 
