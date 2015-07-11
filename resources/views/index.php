@@ -5,7 +5,7 @@
         <meta name="viewport" content="initial-scale=1" />  
         <link rel="stylesheet" href="css/dependencies.css">
         <link rel="stylesheet" href="css/app.css">
-        <link rel="stylesheet" href="/themes/<?=config('app.themename')?>/theme.css">        
+        <link rel="stylesheet" href="/themes/<?=config('app.themename')?>/theme.css">
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
 
