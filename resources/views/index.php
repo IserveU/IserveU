@@ -64,7 +64,12 @@
             </div>
           </md-toolbar>
 
-          <div flex ui-view></div> 
+          <div flex ui-view></div>
+          
+          <md-caption layout-padding  class="imagecredit">
+            Photo Courtesey of <a href="http://www.changmytext.ca">Jessica Change This Text Photography</a>
+          </md-caption>
+          
 
         </div>
     </body>        

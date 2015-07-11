@@ -23,6 +23,23 @@ html,body{
 	min-height: 100% !important;
 }
 
+a{
+	text-decoration: none;
+	font-weight: 700;
+	color:$accentColor;
+}
+
+md-caption.imagecredit{
+	text-align: right;
+	padding:$padding;
+	color:#fff;
+	text-shadow: 0px 0px 5px #000000;
+
+	a{
+		color: #fff;
+	}
+}
+
 
 .background-image{
 	background-position: center center;
@@ -108,11 +125,7 @@ md-content{
 
 	padding: $padding/2;
 
-	a{
-		text-decoration: none;
-		font-weight: 700;
-		color:$accentColor;
-	}
+
 
 	md-grid-tile{
 		background-color: $midGrey;
