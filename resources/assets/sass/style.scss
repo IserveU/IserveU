@@ -211,9 +211,14 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 			padding: 0;
 		}
 	}
-} 
+}
 
-.md-toolbar-tools > md-icon{
+md-toolbar.site-content-toolbar{
+	padding:0px;
+
+}
+
+.md-toolbar-tools md-icon{
 	width:24px;
 	display: block;
 	margin-bottom: 12px;
@@ -237,7 +242,6 @@ md-toast{
 
 md-fab-toolbar.md-right md-fab-trigger{
 	right:$padding/2;
-
 }
 
 md-card{

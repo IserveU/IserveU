@@ -21,7 +21,7 @@
 
         <div layout="column" tabIndex="-1" role="main" flex>
           <md-toolbar class="md-toolbar-tools site-content-toolbar" ng-if="userIsLoggedIn">
-            <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
+            <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
                 <md-button class="md-icon-button" ng-click="toggleSidebar()" hide-gt-sm aria-label="Toggle Menu">
                   <md-icon md-font-icon="mdi-menu"></md-icon>
                 </md-button>
