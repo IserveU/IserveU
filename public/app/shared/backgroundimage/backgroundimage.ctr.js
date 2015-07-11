@@ -11,7 +11,7 @@
 		UserbarService.setTitle("Background Images");
 
 		var vm = this;
-		$scope.url = "http://";
+		$scope.url = ""; // Jessica: This means that http comes through on the front end and the placeholder doesn't work, it's better to append this for the user or always strip it off and then add it.
 		vm.thisFile;
 
 		$scope.chosenImage = function(files){
