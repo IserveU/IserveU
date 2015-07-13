@@ -159,7 +159,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         if(!Auth::check()){ //If not logged in, don't go to parent
 			return $this->fillable;
         }
-        parent::getFillableAttribute();
+        return parent::getFillableAttribute();
     }
 
 	/****************************************** Getters & Setters ************************************/
