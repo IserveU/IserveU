@@ -110,7 +110,7 @@ class UserController extends ApiController {
 
 		// $data = $fractal->createData($item)->toArray();
 
-		return $user->getFields();
+		return $user->fields;
 	}
 
 
