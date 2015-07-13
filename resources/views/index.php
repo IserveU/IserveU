@@ -8,9 +8,8 @@
         <link rel="stylesheet" href="/themes/<?=config('app.themename')?>/theme.css">
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
-
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
- <body ng-controller="loginController as login" class="background-image" style="background-image:url(/uploads/background_images/d41d8cd98f00b204e9800998ecf8427e.jpg)"  layout="row" >
+ <body back-img class="background-image" layout="row"/>
 
   <!--   /uploads/background_images/{{settings.image}} -->
 
@@ -54,7 +53,7 @@
                                 <md-menu-item ng-if="canCreateBackgroundImages" ui-sref="backgroundimage">
                                     <md-button>
                                         <p>Upload Background Image</p>
-                                        <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
+                                        <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
                                     </md-button>
                                 </md-menu-item>
                             </md-menu-content>

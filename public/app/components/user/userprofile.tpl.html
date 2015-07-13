@@ -1,53 +1,115 @@
 <div>
  
-  <md-content  layout-padding="60" class="autoScroll">
+<md-content id="maincontent" layout="column" fill-layout>
 
-   
-    <!--  <md-button class="md-icon-button"><md-icon md-svg-src="/icons/editor/svg/design/ic_mode_edit_18px.svg"></md-icon><md-tooltip>Edit</md-tooltip></md-button>-->
-
-    <md-input-container layout="row" style="display:flex" flex novalidate> 
-      <input aria-label="firstname" ng-model="users.userInfo[getId()].first_name" name="firstname"ng-disabled="!nameformBool" placeholder="Name"required>
-      
-      <md-button class="md-icon-button" ng-click="nameformBool = !nameformBool" ng-hide="nameformBool || isuserprofile">Edit<md-tooltip ng-show="notlocked">We will need to verify this information</md-tooltip></md-button><md-button class="md-icon-primary" ng-click="nameformBool = !nameformBool;updateInfo(user.first_name,'first_name', user.id)" ng-show="nameformBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="nameformBool = !nameformBool" ng-show="nameformBool">Cancel</md-button>
-    </md-input-container>
-
-
-<br>
-    <md-input-container layout="row" style="display:flex" flex novalidate> 
-      <input aria-label="dateofbirth"  ng-model="users.userInfo[getId()].date_of_birth" form="dobform" ng-disabled="!dobformBool" placeholder="Birthday"required>
-      <md-button class="md-icon-button" ng-click="dobformBool = !dobformBool" ng-hide="dobformBool || isuserprofile">Edit<md-tooltip ng-show="notlocked">We will need to verify this information</md-tooltip></md-button><md-button class="md-icon-button" ng-click="dobformBool = !dobformBool;updateInfo(user.date_of_birth,'date_of_birth', user.id)" ng-show="dobformBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="dobformBool = !dobformBool" ng-show="dobformBool">Cancel</md-button>
-    </md-input-container>
-<br>
-    <md-input-container layout="row" style="display:flex" flex novalidate> 
-      <input aria-label="email" ng-model="users.userInfo[getId()].email" form="emailform" ng-disabled="!emailBool" placeholder="Email"required>
-      <md-button  class="md-icon-button" ng-click="emailBool = !emailBool" ng-hide="emailBool || isuserprofile" >Edit</md-button><md-button class="md-icon-button" ng-click="emailBool = !emailBool;updateInfo(user.email,'email', user.id)" ng-show="emailBool" type="submit">Save</md-button><md-button class="md-icon-primary" ng-click="emailBool = !emailBool" ng-show="emailBool">Cancel</md-button>
-    </md-input-container>
-
-    <!--
-<br>
-    <md-input-container md-no-float="" layout="row" style="display:inline-flex" flex ng-init="updateInfo(user.address,'address', user.id)" novalidate> 
-      <input ng-model="user.address" form="addressform" ng-disabled="!addressBool"required></input>
-      <md-button  disabled="updateInfo(user.address,'address', user.id)" class="md-icon-button" ng-click="addressBool = !addressBool" ng-hide="addressBool" >Edit</md-button><md-button class="md-icon-button" ng-click="addressBool = !addressBool;updateInfo(user.address,'address', user.id)" ng-show="addressBool" type="submit">Save</md-button>
-    </md-input-container>-->
+  <section class="md-whiteframe-z1" style="margin:8px">
+    <md-toolbar class="section-toolbar">
+      <div class="md-toolbar-tools">
+        <h3>Basic Details</h3>
+      </div>
+    </md-toolbar>
+    <div layout="column" >
+      <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
+      <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
+<div ng-show="!ispublic && !isuserprofile">This User's Profile is Not Public</div>
+      <div ng-show="ispublic && !isuserprofile && !user.canEditUser">
+      <h5>First Name</h5>
+      <p>{{users[getId()].first_name}}</p>
+      <h5>Middle Name</h5>
+      <p>{{users[getId()].middle_name}}</p>
+      <h5>Last Name</h5>
+        <p>{{users[getId()].last_name}}</p>
+      <h5>Birthday</h5>
+        <p>{{users[getId()].date_of_birth}}</p>
+      <h5>Email</h5>
+        <p>{{users[getId()].email}}</p>
+      </div>
+<form name="userprofile" ng-if="user.canEditUser || isuserprofile" ng-init="user = users[getId()]">   
 
 
-<br>
-
-
-<br>
-
-<!--
-    <md-input-container md-no-float="">
-      <md-icon md-svg-src="/icons/editor/svg/design/ic_format_align_justify_24px.svg"></md-icon>
-      <input ng-model="user.biography" type="text" placeholder="Write out things that make you interesting!" md-maxlength="150"></input>
--->
-  
+<!-- user name --> 
+  <div layout layout-sm="column">
+   <md-input-container flex>
+    <label>First Name</label>
+      <input aria-label="firstname" ng-model="users[getId()].first_name" name="firstname" ng-readonly="!formEdit.first_name" ng-focus="formEdit.first_name = !formEdit.first_name" ng-blur="updateInfo(users[getId()], 'first_name')" required /> 
 
     </md-input-container>
+<!-- put into input container afterwards-->
+    <md-button ng-if="user.canEditUser || isuserprofile" class="md-icon-button" ng-click="formEdit.first_name = !formEdit.first_name; user.isLoading('first_name')" aria-label="editbutton">
+    <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.first_name"></md-icon>
+    <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading.first_name"></md-icon>
+    <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.first_name"></md-icon>
+    </md-button>
+    
 
+
+
+
+    <md-input-container flex>
+          <label>Middle Name</label>
+          <input ng-model="users[getId()].middle_name" ng-readonly="!formEdit.middle_name" ng-dblclick="edit(formEdit.middle_name)" />
+    </md-input-container>
+    <md-button ng-if="user.canEditUser || isuserprofile"class="md-icon-button" ng-click="editUser(users[getId()].middle_name); user.isLoading('middle_name')"aria-label="editbutton">
+    <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.middle_name"></md-icon>
+    <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading.middle_name"></md-icon>
+    <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.middle_name"></md-icon>
+    </md-button>
+
+
+    </md-input-container>
+        <md-input-container flex>
+          <label>Last Name</label>
+          <input ng-model="users[getId()].last_name" ng-readonly="!formEdit.last_name" ng-dblclick="edit(formEdit.last_name)" />
+    </md-input-container>
+    <md-button ng-if="user.canEditUser || isuserprofile"class="md-icon-button" ng-click="editUser(users[getId()].last_name); user.isLoading('last_name')"aria-label="editbutton">
+    <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.last_name"></md-icon>
+    <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading.last_name"></md-icon>
+    <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.last_name"></md-icon>
+    </md-button>
+
+  </div>
+
+
+  <div layout layout-sm="column">
+    <md-input-container flex novalidate> 
+      <label>Birthday</label>
+      <input aria-label="dateofbirth"  ng-model="users[getId()].date_of_birth" ng-readonly="!formEdit.date_of_birth" ng-dblclick="edit(formEdit.date_of_birth)" required />
+    </md-input-container>
+     <md-button ng-if="user.canEditUser || isuserprofile"class="md-icon-button" ng-click="editUser(users[getId()].date_of_birth); user.isLoading('date_of_birth')"aria-label="editbutton">
+    <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.date_of_birth"></md-icon>
+    <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading.date_of_birth"></md-icon>
+    <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.date_of_birth"></md-icon>
+    </md-button>
+
+
+
+     <md-select name="myModel" placeholder="Set Public Profile" ng-model="myModel" ng-disabled="canEditUser" flex="30" required>
+        <md-option value="1">Public</md-option>
+        <md-option value="2">Not Public</md-option>
+     </md-select>
+
+    <md-switch ng-show="user.canEditUser || isuserprofile" ng-disabled="isuserprofile" class="md-secondary"ng-model="users[getId()].identity_verified" ng-change="verifyUser(users[getId()])" aria-label="Switch" ng-true-value="1" ng-false-value="0" flex="30">Identity Verified</md-switch>
+  </div>
+
+
+<div layout layout-sm="column">
+    <md-input-container flex novalidate> 
+      <label>Email</label>
+      <input aria-label="email" ng-model="users[getId()].email" ng-readonly="!formEdit.email" ng-dblclick="edit(formEdit.email)" required />
+    </md-input-container>
+    <md-button ng-if="user.canEditUser || isuserprofile"class="md-icon-button" ng-click="editUser(users[getId()].email); user.isLoading('email')" aria-label="editbutton">
+    <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.email"></md-icon>
+    <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading.email"></md-icon>
+    <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.email"></md-icon>
+    </md-button>
+</div>
+
+</form>
+
+      </div>  
+    </div>
+  </section>
   </md-content>
-
-
-
+   
 </div>
 

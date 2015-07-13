@@ -25,6 +25,8 @@
         vm.userHasVoted = false;
         vm.userVoteId;
 
+        vm.themename;
+
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
         vm.disagreeComments = [];
@@ -381,6 +383,10 @@
                 });
             });
         }        
+
+        var settings = JSON.parse(localStorage.getItem('settings'));
+        vm.themename = settings.themename;
+        console.log(settings.themename);
 
         getMotion($stateParams.id);
         getMotionComments($stateParams.id);

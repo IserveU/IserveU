@@ -85,7 +85,7 @@
 		    	    data: {
 		    	        requireLogin: true
 		    	    }
-		    	})	
+		    	})
 		    	.state( 'sidebar', {
 		    		templateUrl: 'app/shared/sidebar/sidebar.tpl.html',
 		    		controller:'SidebarController as sidebar',
@@ -147,31 +147,6 @@
 				return out;
 			}
 		})
-		.filter('publicProfile', function() {
-			return function(input) {
-				var out = [];
-				for(var i = 0; i < input.length; i++) {
-					if(input[i].position == "1") {
-						out.push(input[i])
-					}				
-				}
-				return out;
-			}
-		})
-		.directive('backImg', function(){
-		    return function(scope, element, attrs){
-		        var imgnum =  Math.floor(Math.random() * (18 - 1 + 1)) + 1;
-		        if(imgnum<=9){
-		        	imgnum = "0"+imgnum;
-
-		        }
-
-		        element.css({
-		            'background-image':  "url(/themes/<?=config('app.themename')?>/photos/large/" + imgnum + ".jpg)",
-		            'background-size' : 'cover'
-		        });
-		    };
-		})
 		.run(function($rootScope, $auth, $state, auth) {
 			
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {		       
@@ -180,6 +155,7 @@
 					
 						$rootScope.authenticatedUser = user;
 						$rootScope.userIsLoggedIn = true;
+
 						if(toState.name === 'login') {
 							event.preventDefault();
 							//$state.go('home');
@@ -191,6 +167,7 @@
 						if(toState.name === 'user' || toState.name === 'user.profile') {
 							$rootScope.$emit('userListIsClicked');
 						}
+
 					}
 
 

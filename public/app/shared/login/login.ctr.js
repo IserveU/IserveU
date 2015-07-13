@@ -19,6 +19,8 @@
 		vm.emailValidation = false;
 		vm.login = login;
 		vm.background_image;
+		vm.default_background = true;
+		vm.background_url = '/themes/default/photos/background.png';
 
 
 		function login(email, password) {
@@ -75,9 +77,13 @@
 
 		function getSettings(){
 			auth.getSettings().then(function(result){
-				vm.background_image = result.data.background_image;
 				localStorage.setItem('settings', JSON.stringify(result.data));
 			})
+		}
+
+		function setBackgroundURL(url){
+			vm.background_url = "/themes/default/photos/background.png";
+			// vm.background_url = "/uploads/background_images/{{login.background_image}}";
 		}
 
 	

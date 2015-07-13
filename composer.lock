@@ -541,12 +541,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "ff4f45412044f3ab26f29260570a14ff41631d87"
+                "reference": "6771cbfc785a04cbf863879bc41991e5e2cf9ec3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/ff4f45412044f3ab26f29260570a14ff41631d87",
-                "reference": "ff4f45412044f3ab26f29260570a14ff41631d87",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/6771cbfc785a04cbf863879bc41991e5e2cf9ec3",
+                "reference": "6771cbfc785a04cbf863879bc41991e5e2cf9ec3",
                 "shasum": ""
             },
             "require": {
@@ -590,7 +590,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-06-28 15:55:12"
+            "time": "2015-07-09 20:11:11"
         },
         {
             "name": "jakub-onderka/php-console-color",

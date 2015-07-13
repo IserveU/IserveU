@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('BackgroundImageController', BackgroundImageController);
 
-	function BackgroundImageController($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window ,UserbarService, backgroundimage) {	
+	function BackgroundImageController($scope, $rootScope, $state, $mdToast, UserbarService, backgroundimage) {	
 
 		UserbarService.setTitle("Background Images");
 
@@ -28,7 +28,12 @@
 
 
 		    backgroundimage.saveBackgroundImage(formData).then(function(result) {
-		    	$state.go($state.current, {}, {reload: true});
+		    	$mdToast.show(
+                  $mdToast.simple()
+                    .content('Your image has been sent in for approval!')
+                    .position('bottom right')
+                    .hideDelay(3000)
+                );
 		    });
 
 		}

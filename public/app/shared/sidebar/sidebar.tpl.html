@@ -1,4 +1,4 @@
-<md-content ng-hide="userListIsClicked" flex role="navigation" ng-controller="SidebarController as sidebar">
+<md-content ng-if="!userListIsClicked" flex role="navigation" ng-controller="SidebarController as sidebar">
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -26,7 +26,6 @@
 
 
 <!-- show user list when user list is clickedon by admin -->
-
 <md-content ng-show="userListIsClicked" flex role="navigation" ng-controller="UserController as users">
 	<md-toolbar>
 		<div class="md-toolbar-tools">
@@ -40,12 +39,14 @@
 		</div>
 	</md-toolbar>
 	<md-list>
-		<md-list-item class="sidebar-list" ng-repeat="user in users.userInfo" >	
+		<md-list-item class="sidebar-list" ng-repeat="user in users" >	
 			<md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
 			<p md-ink-ripple ui-sref="user.profile({id:user.id})">{{user.first_name}} {{user.last_name}}</p>
-			<md-switch ng-if="user.identity_verified == 0" label="Switch" ng-click="verifyUser(user)"></md-switch>
+			
+			<md-switch class="md-secondary"ng-model="user.identity_verified" ng-click="verifyUser(user)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
+			
 			
 
 		</md-list-item>
 	</md-list>
-</md-content> 
+</md-content>

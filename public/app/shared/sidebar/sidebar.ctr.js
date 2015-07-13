@@ -9,6 +9,16 @@
 	function SidebarController(motion, $rootScope) {
 
 		var vm = this;
+		var permissions = JSON.parse(localStorage.getItem('permissions'));
+
+		vm.showUser = false;
+		
+
+		if(permissions.indexOf("show-users") != -1) {
+			console.log('what');
+			vm.showUser = true;
+		}
+
 		vm.setMotionName = setMotionName;
 		vm.getMotions = getMotions;
 		$rootScope.userListIsClicked = false;
