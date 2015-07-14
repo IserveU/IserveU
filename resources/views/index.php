@@ -25,7 +25,7 @@
                   <md-icon md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
-                    <h2>{{user.userbarservice.title}}</h2>
+                    <h2 ng-cloak>{{user.userbarservice.title}}</h2>
                     <span flex></span> <!-- use up the empty space -->
                  </div>
 
@@ -40,19 +40,19 @@
                             <md-menu-content width="4">
                                 <md-menu-item>
                                     <md-button ui-sref="login" ng-click="user.logout()">
-                                        <p>Logout {{authenticatedUser.first_name}}</p>
+                                        <p ng-cloak>Logout {{authenticatedUser.first_name}}</p>
                                         <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="user.showUser" ui-sref="user">
                                     <md-button ng-click="user.showUserSideBar()">
-                                        <p>User List</p>
+                                        <p ng-cloak>User List</p>
                                         <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="canCreateBackgroundImages" ui-sref="backgroundimage">
                                     <md-button>
-                                        <p>Upload Background Image</p>
+                                        <p ng-cloak>Upload Background Image</p>
                                         <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
                                     </md-button>
                                 </md-menu-item>
@@ -65,8 +65,8 @@
 
           <div flex ui-view></div>
           
-          <md-caption layout-padding  class="imagecredit">
-            Photo Courtesey of <a href="http://www.changmytext.ca">Jessica Change This Text Photography</a>
+          <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background">
+            Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}} Photography</a>
           </md-caption>
           
 

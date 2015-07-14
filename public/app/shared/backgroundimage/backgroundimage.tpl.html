@@ -12,22 +12,32 @@
       <form name="uploadfile">
 
       <md-input-container>
+
                 <md-icon class="mdi" md-font-icon="mdi-account" ></md-icon>
 
-        <input ng-model="credits" placeholder="Who took this photo?" />
+        <input ng-model="credits" placeholder="Who took this photo?" required/>
       </md-input-container>
-      <md-input-container>
-                      <md-icon class="mdi" md-font-icon="mdi-link" ></md-icon>
-       <input ng-model="url" placeholder="myphotographywebsite.ca" />
-      </md-input-container>
-      <md-input-container>
-        <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
 
-        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" />
+      <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-link" ></md-icon>
+       <input ng-model="url" placeholder="myphotographywebsite.ca" required/>
+      </md-input-container>
+
+      <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" required/>
       </md-input-container>
 
       <div>
-        <md-button ng-click="uploadFile(credits, url)" type="submit">Submit</md-button>
+        <md-button ng-click="uploadFile(credits, url); uploadcheck()" ng-hide="uploading" type="submit">Submit
+        </md-button>
+        <md-button> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ng-show="uploading"></md-icon>
+        </md-button>
+         <div ng-messages="uploadfile.$error" ng-if="showError">
+          <div ng-message="">There was an error uploading your photo. Make sure you've entered in all the fields correctly.</div>
+         </div>
+        
+
       </div>
       </form>
       </div>
