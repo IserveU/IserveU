@@ -163,8 +163,8 @@
 		</md-toolbar>
 			<div flex layout-fill >
 			 	<div layout-padding ng-repeat="comment in motion.disagreeComments">
-	        <h3 class="md-headline">{{comment.first_name + ' ' + comment.last_name}}</h3>
 	        <p class="md-body-1">{{comment.text}}</p>
+	       <span ng-if="comment.vote.position==0"class="md-caption">Abstained vote</span>
 		 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
 		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
 					<md-icon md-svg-src="/themes/{{motion.themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
