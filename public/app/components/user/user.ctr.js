@@ -4,13 +4,14 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $stateParams, user, $mdToast, $animate, UserbarService, $state) {
+	function UserController($rootScope, $scope, $stateParams, user, $mdToast, $animate, UserbarService, $state, $timeout) {
 		
 		UserbarService.setTitle("");
 		
 		var vm = this;
 		var userlocal = JSON.parse(localStorage.getItem('user'));
 		var userpermissions = JSON.parse(localStorage.getItem('permissions'));
+
 
 		vm.canShowUser = false;
 		vm.canEditUser = false;
@@ -47,6 +48,13 @@
 		};
 
 		$scope.getId = getId;
+		$scope.updateInfo = updateInfo;
+
+		vm.showEditUsers = function(){
+			angular.forEach($scope.formEdit, function(value, key) {
+				$scope.formEdit[key] = !$scope.formEdit[key];
+			});
+		}
 
 		$scope.verifyUser = function(userinfo){
 			var verifiedData = userinfo.identity_verified;
@@ -55,7 +63,7 @@
 				id: userinfo.id,
 				identity_verified: verifiedData
 			}
-			editUser(data);
+			updateInfo(data);
 
 			var isverified;
 			if(userinfo.identity_verified == 1){
@@ -85,12 +93,6 @@
 			return id;
 		}
 
-		$scope.edit = function(booleanVar) {
-			console.log(booleanVar);
-			return booleanVar = true;
-			console.log(booleanVar);
-		}
-
 		function checkPermissions() {
 			if(userpermissions.indexOf("show-users") != -1) {
 				vm.canShowUser = true;
@@ -101,13 +103,19 @@
 		}
 
 		function checkPublic() {
-			if(!vm.canShowUser && !$scope.users[getId()]) { 
+			if(!vm.canShowUser || !$scope.users[getId()]) { 
 				$scope.ispublic = false;
+			}
+			else {
+				if($scope.users[getId()].public == 0){
+					return $scope.publicChoice = "Not Public";
+				}
+				$scope.publicChoice = "Public";
 			}
 		}
 
 		function checkUser() {
-			if(!vm.canShowUser && $stateParams.id == userlocal.id) {
+			if($stateParams.id == userlocal.id) {
 				$scope.isuserprofile = true;
 			}
 		}
@@ -120,41 +128,38 @@
             });         
 		}
 
-		//returns true or false if user info is permissable to be udpated
-		$scope.updateInfo = function(data, datatype){
-			var id = data.id;
-			console.log(data);
-			return user.editUser(id).then(function(result) {
-				if(result[datatype].match("locked")){
-				$mdToast.show(
-                  $mdToast.simple()
-                    .content("This will take a few days to process!")
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
-					return false;
-				};
-				data = {id:id};
-				angular.extend(data, [input]);
-				Object.defineProperty(data, datatype,
-					Object.getOwnPropertyDescriptor(data, 0));
-				delete data[0];
-				editUser(data);
-			});
+		$scope.setPublic = function(value) {
+			$scope.users[getId()].public = value;
+			updateInfo($scope.users[getId()], 'public');
 		}
 
-		function editUser (data) {
-			console.log(data);
+		function updateInfo(data, datatype) {
+			isLoading(datatype);
 			user.updateUser(data).then(function(result){
+				onSuccess(datatype);
+				isLoading(datatype);
+				$timeout(function(){
+					onSuccess(datatype)}, 1500);
 				console.log(result);
 			},function(error){
 				console.log(error);
 			});
 		}
 
-		vm.isLoading = function(data){
-			console.log(data);
-			// $scope.isLoading = !$scope.isLoading;
+		function isLoading(datatype){
+			angular.forEach($scope.isLoading, function(value, key) {
+				if(key == datatype) {
+					$scope.isLoading[key] = !$scope.isLoading[key];
+				}
+			})
+		}
+
+		function onSuccess(datatype) {
+			angular.forEach($scope.onSuccess, function(value, key) {
+				if(key == datatype) {
+					$scope.onSuccess[key] = !$scope.onSuccess[key];
+				}
+			})
 		}
 
 		getUsers();

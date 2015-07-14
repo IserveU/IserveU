@@ -100,6 +100,7 @@
             motion.getMotionComments(id).then(function(result) {
                 vm.motionComments = result;
                 vm.disagreeComments = result.disagreeComments;
+                console.log(result.disagreeComments);
                 vm.agreeComments = result.agreeComments;
                 vm.thisUsersCommentVotes = result.thisUsersCommentVotes;
                 vm.thisUsersComment = result.thisUsersComment;
