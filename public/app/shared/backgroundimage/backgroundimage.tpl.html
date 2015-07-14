@@ -25,15 +25,18 @@
 
       <md-input-container>
                 <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
-        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" required/>
+        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
       </md-input-container>
 
-      <div>
-        <md-button ng-click="uploadFile(credits, url); uploadcheck()" ng-hide="uploading" type="submit">Submit
+      <div layout layout-sm="column">
+        <md-button ng-click="background.uploadFile(credits, url); background.uploadcheck()" ng-hide="background.uploading" type="submit">Submit
         </md-button>
-        <md-button> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ng-show="uploading"></md-icon>
+        <md-button aria-label="loading" ng-show="background.uploading"> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ></md-icon>
         </md-button>
-         <div ng-messages="uploadfile.$error" ng-if="showError">
+        <md-checkbox ng-show="background.adminbackgroundimages" ng-model="background.isactive" ng-true-value="1" ng-false-value="0" aria-label="Checkbox 1">
+            Active<md-tooltip>This will make put your photo into the daily cycles immediately.</md-tooltip>
+        </md-checkbox>
+         <div ng-messages="uploadfile.$error" ng-if="background.showError">
           <div ng-message="">There was an error uploading your photo. Make sure you've entered in all the fields correctly.</div>
          </div>
         

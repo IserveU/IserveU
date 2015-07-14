@@ -109,7 +109,7 @@
 	        	})
 	        	.state('backgroundimage', {
 	                url: '/upload',
-	            	controller: 'BackgroundImageController as backgroundimage',
+	            	controller: 'BackgroundImageController as background',
 	            	templateUrl: 'app/shared/backgroundimage/backgroundimage.tpl.html',
 	                data: {
 	                    requireLogin: true

@@ -11,21 +11,27 @@
 		UserbarService.setTitle("Background Images");
 
 		var vm = this;
-		$scope.url = ""; // Jessica: This means that http comes through on the front end and the placeholder doesn't work, it's better to append this for the user or always strip it off and then add it.
-		vm.thisFile;
+		
+		vm.isactive = 0;
+		vm.adminbackgroundimages = false;
 		var settings = JSON.parse(localStorage.getItem('settings'));
+		var permissions = JSON.parse(localStorage.getItem('permissions'));
+		if(permissions.indexOf('edit-background_images') != -1) {
+			vm.adminbackgroundimages = true;
+		}
+		$scope.themename = settings.themename;
 		$scope.backgroundcredits = settings.background_image;
 
-		$scope.uploading = false;
-		$scope.onSuccess = false;
-		$scope.showError = false;
-
+		vm.uploading = false;
+		vm.onSuccess = false;
+		vm.showError = false;
 
 		$scope.chosenImage = function(files){
 			vm.thisFile = files;
 		}
 
-		$scope.uploadFile = function(credited, url){
+		vm.uploadFile = function(credited, url){
+			console.log(vm.isactive);
 			var formData = new FormData();
 		    //Take the first selected file
 		    console.log(vm.thisFile[0]);
@@ -35,22 +41,24 @@
                     url = 'http://' + url;
             }
 		    formData.append("url", url);
+		    formData.append('active', vm.isactive);
 
 
 		    backgroundimage.saveBackgroundImage(formData).then(function(result) {
-		    	$scope.onSuccess = true;
-		    	$scope.uploading = false;
-		    	$scope.uploadfile.credits.$setPristine();
-		    	$mdToast.show(
-                  $mdToast.simple()
-                    .content('Your image has been sent in for approval!')
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+		    	var user = "Your image has been sent in for approval!"
+		    	var admin = "Upload successful!"
+		    	vm.onSuccess = true;
+		    	vm.uploading = false;
+			    	$mdToast.show(
+	                  $mdToast.simple()
+	                    .content(vm.adminbackgroundimages ? admin : user)
+	                    .position('bottom right')
+	                    .hideDelay(3000)
+	                );
 		    },function(error){
 		    	console.log("error");
-		    	$scope.uploading = false;
-		    	$scope.showError = true;
+		    	vm.uploading = false;
+		    	vm.showError = true;
 		    });
 
 		}
@@ -66,8 +74,8 @@
 		    });
 		}
 
-		$scope.uploadcheck = function() {
-			$scope.uploading = true;
+		vm.uploadcheck = function() {
+			vm.uploading = true;
 		}
 
     }
