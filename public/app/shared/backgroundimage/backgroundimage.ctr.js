@@ -16,8 +16,10 @@
 		vm.adminbackgroundimages = false;
 		var settings = JSON.parse(localStorage.getItem('settings'));
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
-		if(permissions.indexOf('administrate-background_images') != -1) {
-			vm.adminbackgroundimages = true;
+		if(permissions){
+			if(permissions.indexOf('administrate-background_images') != -1) {
+				vm.adminbackgroundimages = true;
+			}
 		}
 		$scope.themename = settings.themename;
 		$scope.backgroundcredits = settings.background_image;
