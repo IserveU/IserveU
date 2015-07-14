@@ -412,7 +412,7 @@ class DefaultUsers extends Seeder{
 		$createMotion->save();
 
 		$editMotion						= 	new Permission();
-		$editMotion->name				=	"admin-motions";
+		$editMotion->name				=	"administrate-motions";
 		$editMotion->display_name 		= 	'Administrate Motion';
 		$editMotion->description 		=	'Administrate existing motions, enable them';
 		$editMotion->save();
