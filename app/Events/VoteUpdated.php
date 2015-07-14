@@ -2,25 +2,26 @@
 
 namespace App\Events;
 
-use App\User;
 use App\Events\Event;
+use App\Vote;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserRegistered extends Event
+class VoteUpdated extends Event
 {
     use SerializesModels;
 
-    public $user;
+    public $vote;
+
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Vote $vote)
     {
-        $this->user = $user;
+        $this->vote = $vote;
     }
 
     /**

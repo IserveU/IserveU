@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\UserCreated;
 
-use App\Events\UserRegistered;
+use App\Events\UserCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Mail;
 
 
-class SendWelcomeEmail implements ShouldQueue
+class SendWelcomeEmail
 {
     /**
      * Create the event listener.
@@ -27,12 +27,13 @@ class SendWelcomeEmail implements ShouldQueue
      * @param  UserRegistered  $event
      * @return void
      */
-    public function handle(UserRegistered $event) 
+    public function handle(UserCreated $event) 
     { 
         $user = $event->user;
 
+
         Mail::send('emails.welcome', ['user' => $user], function ($m) use ($user) {
-            $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
+             $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
         });
     }
 }

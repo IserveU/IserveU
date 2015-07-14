@@ -34,13 +34,13 @@ class CommentVote extends ApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['position','comment_id','id'];
+	protected $visible = ['position','comment_id','id','comment_position'];
 
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var Array
 	 */
-	protected $adminVisible = [];
+	protected $adminVisible = ['user_id','motion_id'];
 
 	/**
 	 * The attributes visible to the user that created this model
@@ -59,14 +59,16 @@ class CommentVote extends ApiModel {
 	 * @var array
 	 */ 
   	protected $maps = [
-     	'vote' 			=> 	['user_id','motion_id']
+     	'vote' 				=> 	['user_id','motion_id'],
+     	'comment_position'	=>	'comment.vote.position',
+     	'comment_user_id'	=>	'comment.vote.user_id'
     ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['user_id','motion_id'];  
+    protected $appends = ['user_id','motion_id','comment_position'];  
 
     /**
      * The rules for all the variables
@@ -133,6 +135,21 @@ class CommentVote extends ApiModel {
 	/************************************* Casts & Accesors *****************************************/
 
 	/************************************* Scopes ***************************************************/
+
+	/**
+	 * [scopeCommentsOfPosition description]
+	 * @param  [type] $query    [description]
+	 * @param  [type] $position [description]
+	 * @return [type]           [description]
+	 */
+	public function scopeOnCommentsOfPosition($query,$position){
+		return $query->where('comment_position','=',$position);
+	}
+
+	public function scopeNotUser($query,$user_id){
+		return $query->where('comment_user_id','!=',$user_id);
+	}
+
 
 	/************************************* Relationships ********************************************/
 

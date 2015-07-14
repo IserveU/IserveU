@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
+use App\Events\VoteUpdated;
 use Auth;
 
 class Vote extends ApiModel {
@@ -112,6 +113,7 @@ class Vote extends ApiModel {
 		});
 
 		static::updating(function($model){
+			event(new VoteUpdated($model));
 			return $model->validate();			
 		});		
 	}

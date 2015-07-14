@@ -12,15 +12,18 @@ class EventServiceProvider extends ServiceProvider {
 	 */
 	protected $listen = [
 		'App\Events\UserUpdatedProfile'	=> [
-			'App\Listeners\IdentityReverification',
+			'App\Listeners\UserUpdated\IdentityReverification',
 		],
-		'App\Events\UserRegistered' => [
-			'App\Listeners\SendWelcomeEmail'
+		'App\Events\UserCreated' => [
+			'App\Listeners\UserCreated\SendWelcomeEmail'
 		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\MotionUpdated\SendNotificationEmail',
 			'App\Listeners\MotionUpdated\RemoveVotes'
 		],
+		'App\Events\VoteUpdated' => [
+			'App\Listeners\VoteUpdated\CheckCommentVotes'
+		]
 	];
 
 	/**

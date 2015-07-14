@@ -11,8 +11,8 @@ use App\Role;
 use Auth;
 use Hash;
 use Request;
-use App\Events\UserUpdatedProfile;
-use App\Events\UserRegistered;
+use App\Events\UserUpdated;
+use App\Events\UserCreated;
 use Event;
 use Mail;
 
@@ -134,12 +134,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 		/* validation required on new */		
 		static::creating(function($model){
-			return $model->validate();
+			if(!$model->validate()) return false;
+			event(new UserCreated($model));
+			return true;
 		});
 
 		static::updating(function($model){
-			event(new UserUpdatedProfile($model));
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			event(new UserUpdated($model));
+			return true;
 		});
 	}
 

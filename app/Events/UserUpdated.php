@@ -7,7 +7,7 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserUpdatedProfile extends Event
+class UserUpdated extends Event
 {
     use SerializesModels;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\UserUpdated;
 
 use Mail;
 use Auth;
-use App\Events\UserUpdatedProfile;
+use App\Events\UserUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,7 +26,7 @@ class IdentityReverification{
      * @param  UserUpdatedProfile  $event
      * @return void
      */
-    public function handle(UserUpdatedProfile $event)
+    public function handle(UserUpdated $event)
     {
         $user = $event->user;
         if(Auth::user()->can('edit-users')){ //Admins don't need to
