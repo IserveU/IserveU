@@ -102,7 +102,7 @@ class MotionController extends ApiController {
 			abort(403,'You do not have permission to create/update motions');
 		}
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('edit-motions')){ //Is not the user who made it, or the site admin
+		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
 			abort(401,"This user can not edit motion ($id)");
 		}
 
@@ -121,7 +121,7 @@ class MotionController extends ApiController {
 			abort(403,'You do not have permission to update a motion');
 		}
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('edit-motions')){ //Is not the user who made it, or the site admin
+		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
 			abort(401,"This user can not edit motion ($id)");
 		}
 

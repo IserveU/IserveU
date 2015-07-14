@@ -320,15 +320,13 @@ class StaticSeeder extends Seeder{
 
 
 		$departments[1] = 'Unknown';
-		$departments[2] = 'Local Agriculture';
-		$departments[3] = 'Harvesting';
-		$departments[4] = 'Tourism Economy';
-		$departments[5] = 'Environmental Stewardship';
-		$departments[6] = 'Solar Power';
-		$departments[7] = 'Biomass Energy';
-		$departments[8] = 'Skills Development';
-		$departments[9] = 'Community Governance';
-		$departments[10] = 'Community Quality of Life';
+		$departments[2] = 'City Administrator';
+		$departments[3] = 'Community Services';
+		$departments[4] = 'Corporate Services';
+		$departments[5] = 'Communications and Economic Development';
+		$departments[6] = 'Planning and Development';
+		$departments[7] = 'Public Safety';
+		$departments[8] = 'Public Works and Engineering';
 
 		foreach($departments as $key => $value){
 			$department = new Department;
@@ -384,15 +382,15 @@ class DefaultUsers extends Seeder{
 		$councilor->save();
 
 		$editPermission					= 	new Permission();
-		$editPermission->name			=	'edit-permissions';
-		$editPermission->display_name 	= 	'Edit Permissions';
-		$editPermission->description 	=	'Edit the roles and permissions of users';
+		$editPermission->name			=	'administrate-permissions';
+		$editPermission->display_name 	= 	'Administrate Permissions';
+		$editPermission->description 	=	'Administrate the roles and permissions of other users';
 		$editPermission->save();
 
 		$editUser						= 	new Permission();
-		$editUser->name					=	'edit-users';
-		$editUser->display_name 		= 	'Edit Users';
-		$editUser->description 			=	'Edit existing users, verify them';
+		$editUser->name					=	'administrate-users';
+		$editUser->display_name 		= 	'Administrate Users';
+		$editUser->description 			=	'Administrate existing other users, verify them';
 		$editUser->save();
 
 		$showUser						= 	new Permission();
@@ -414,9 +412,9 @@ class DefaultUsers extends Seeder{
 		$createMotion->save();
 
 		$editMotion						= 	new Permission();
-		$editMotion->name				=	"edit-motions";
-		$editMotion->display_name 		= 	'Edit Motion';
-		$editMotion->description 		=	'Edit existing motions, enable them';
+		$editMotion->name				=	"admin-motions";
+		$editMotion->display_name 		= 	'Administrate Motion';
+		$editMotion->description 		=	'Administrate existing motions, enable them';
 		$editMotion->save();
 
 		$showMotion						= 	new Permission();
@@ -481,8 +479,8 @@ class DefaultUsers extends Seeder{
 		$createProperty->save();
 
 		$editProperty					= 	new Permission();
-		$editProperty->name				=	"edit-properties";
-		$editProperty->display_name		= 	'Edit Property';
+		$editProperty->name				=	"administrate-properties";
+		$editProperty->display_name		= 	'Administrate Property';
 		$editProperty->description 		=	'Can edit/delete a property';
 		$editProperty->save();
 
@@ -493,7 +491,7 @@ class DefaultUsers extends Seeder{
 		$createBackgroundImage->save();
 
 		$editBackgroundImage						= 	new Permission();
-		$editBackgroundImage->name					=	"edit-background_images";
+		$editBackgroundImage->name					=	"administrate-background_images";
 		$editBackgroundImage->display_name			= 	'Edit Background Image';
 		$editBackgroundImage->description 			=	'Can activate and edit other background images';
 		$editBackgroundImage->save();

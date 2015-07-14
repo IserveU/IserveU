@@ -102,7 +102,7 @@ class UserController extends ApiController {
 	 */
 	public function edit(User $user){
 		//Check it is this user, if not that this is an admin that can edit users
-		if($user->id != Auth::user()->id && !Auth::user()->can('edit-users')){
+		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-users')){
 			abort(401,'You do not have permission to edit this user');
 		}
 
@@ -122,7 +122,7 @@ class UserController extends ApiController {
 	 */
 	public function update(User $user){
 
-		if($user->id != Auth::user()->id && !Auth::user()->can('edit-users')){
+		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-users')){
 			abort(401,'You do not have permission to edit this user');
 		}
 
@@ -183,7 +183,7 @@ class UserController extends ApiController {
 	*/
 	public function grantPermission(){
 
-		if(!Auth::user()->can('edit-permissionss')){
+		if(!Auth::user()->can('administrate-permissionss')){
 			abort(401,"You can not edit user permissions");
 		}
 

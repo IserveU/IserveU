@@ -12,7 +12,6 @@
 		var userlocal = JSON.parse(localStorage.getItem('user'));
 		var userpermissions = JSON.parse(localStorage.getItem('permissions'));
 
-
 		vm.canShowUser = false;
 		vm.canEditUser = false;
 
@@ -97,7 +96,7 @@
 			if(userpermissions.indexOf("show-users") != -1) {
 				vm.canShowUser = true;
 			}
-			if(userpermissions.indexOf("edit-users") != -1) {
+			if(userpermissions.indexOf("administrate-users") != -1) {
 				vm.canEditUser = true;
 			}
 		}

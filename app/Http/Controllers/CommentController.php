@@ -107,7 +107,7 @@ class CommentController extends ApiController {
 			abort(400,'Comment does not exist');
 		}
 
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('edit-comment')){
+		if($comment->user->id != Auth::user()->id && !Auth::user()->can('administrate-comment')){
 			abort(401,'User does not have permission to edit this comment');
 		}
 
@@ -149,7 +149,7 @@ class CommentController extends ApiController {
 			abort(404,'Comment does not exist');
 		}
 
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('edit-comment')){
+		if($comment->user->id != Auth::user()->id && !Auth::user()->can('administrate-comment')){
 			abort(401,'User does not have permission to restore this comment');
 		}
 

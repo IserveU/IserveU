@@ -48,9 +48,6 @@
 		if(permissions.indexOf("create-background_images") != -1) {
 			$rootScope.canCreateBackgroundImages = true;
 		}
-		// if(permissions.indexOf("edit-users") != -1) {
-			
-		// }
 	}
 
 })();

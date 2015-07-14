@@ -53,7 +53,7 @@ class ApiModel extends Model
     }
 
     public function getLockedAttribute(){
-        if(Auth::user()->can('edit-'.$this->table)){
+        if(Auth::user()->can('administrate-'.$this->table)){
             $this->locked = [];
         }
         return $this->locked;
@@ -76,7 +76,7 @@ class ApiModel extends Model
     }
 
     public function getFillableAttribute(){
-        if(Auth::user()->can("edit-".$this->table)){ //Admin
+        if(Auth::user()->can("administrate-".$this->table)){ //Admin
             $this->fillable = array_unique(array_merge($this->adminFillable, $this->fillable));
         }
         return $this->fillable;
