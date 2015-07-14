@@ -37,7 +37,9 @@
           <div layout="row" layout-align="right" flex="fixed">
           <md-select ng-model="department" md-on-open="createmotion.loadDepartments()" style="min-width: 200px;">
             <md-select-label>{{ department ? department.name : 'Choose Department' }}</md-select-label>
-            <md-option ng-value="department" ng-repeat="department in createmotion.departments">{{department.name}}<a ng-click="createmotion.deleteDepartment(department.id)" layout-align="end center">X</a></md-option>
+            <md-option ng-value="department" ng-repeat="department in createmotion.departments">{{department.name}}
+            <!-- <a ng-click="createmotion.deleteDepartment(department.id)" layout-align="end center">X</a> -->
+            </md-option>
             <md-option ng-value="newdepartment" ng-click="createmotion.showDepartmentInput()">New Department</md-option>
 <!--             <md-option ng-value="recentlyadded" ng-selected="!createmotion.departmentInput">{{department[department.length-1].name}}</md-option> -->
           </md-select>
