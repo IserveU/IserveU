@@ -105,6 +105,13 @@
 			});
 		}
 
+		function deleteCommentVote(id) {
+			return CommentVote.delete({id:id}).$promise.then(function(success) {
+			}, function(error) {
+				
+			});
+		}
+
 
 		return {
 			getMotions: getMotions,
@@ -117,7 +124,8 @@
 			updateVote: updateVote,
 			getUsersVotes: getUsersVotes,
 			saveCommentVotes: saveCommentVotes,
-			updateCommentVotes: updateCommentVotes
+			updateCommentVotes: updateCommentVotes,
+			deleteCommentVote: deleteCommentVote
 		}
 	}
 })();

@@ -119,6 +119,9 @@
                 if(comment.this_users_comment_vote == 1){
                     angular.forEach(vm.thisUsersCommentVotes, function(comment_votes, key){
                         if(comment_votes.comment_id == comment.id){
+                            if(position == 1) {
+                               motion.deleteCommentVote(comment_votes.id);
+                            }
                         vm.updateCommentVotes(comment_votes.id, -1);
                        }
                     });
@@ -126,6 +129,9 @@
                 if(comment.this_users_comment_vote == -1){
                     angular.forEach(vm.thisUsersCommentVotes, function(comment_votes, key){
                         if(comment_votes.comment_id == comment.id){
+                            if(position == -1) {
+                                motion.deleteCommentVote(comment_votes.id);
+                            }
                         vm.updateCommentVotes(comment_votes.id, 1);
                         }
                     });
@@ -370,6 +376,10 @@
             });           
         }
 
+        $scope.check=function(data) {
+            console.log(data);
+        }
+
         function getUsersVotes() {
             vm.showDisagreeCommentVotes = false;
             vm.showAgreeCommentVotes = false;
@@ -387,7 +397,6 @@
 
         var settings = JSON.parse(localStorage.getItem('settings'));
         vm.themename = settings.themename;
-        console.log(settings.themename);
 
         getMotion($stateParams.id);
         getMotionComments($stateParams.id);
