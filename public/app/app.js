@@ -177,6 +177,8 @@
 
 			    // $state.go('login', {})
 
+			    $rootScope.currentState = toState.name;
+
 			});			
 		})
 

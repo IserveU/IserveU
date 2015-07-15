@@ -15,7 +15,9 @@
 
 
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
-            <sidebar></sidebar>
+            <sidebar sidebar="{{currentState}}">
+                <div id="sidebar-inner"></div>
+            </sidebar>
         </md-sidenav>
 
         <div layout="column" tabIndex="-1" role="main" flex>
