@@ -13,7 +13,7 @@
 				angular
 					.element(document.getElementById('sidebar-inner'))
 					.empty()
-					.append($compile("<div class='new-sidebar'" + attrs.sidebar + "-sidebar></div>")(scope));
+					.append($compile("<div class='" + attrs.sidebar + "-sidebar'" + attrs.sidebar + "-sidebar></div>")(scope));
 			});
 		}
 
@@ -33,7 +33,7 @@
 					console.log(error);
 				});    
   		}
-  		
+
   	}	
 		
 		return {
