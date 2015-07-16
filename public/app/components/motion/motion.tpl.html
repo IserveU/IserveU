@@ -138,7 +138,7 @@
 		</md-toolbar>
 			<div flex layout-fill>
 			 	<div layout-padding ng-repeat="comment in motion.agreeComments">
-		        <h3 class="md-headline">{{comment.first_name + ' ' + comment.last_name}}</h3>
+		        <h4 class="md-title">{{comment.first_name ? comment.first_name + ' ' + comment.last_name : 'Yellowknifer' }}  </h4>
 		        <p class="md-body-1" ng-if="!comment.editCommentDialog">{{comment.text}}</p>
 		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes"> 
 		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
@@ -158,13 +158,14 @@
 	<div name="disagreecomments" class="md-whiteframe-z1 comments disagree" flex layout-margin>
 		<md-toolbar class="section-toolbar">
         	<div class="md-toolbar-tools">
-        		<h3>Disagree</h3>
+        		<h3>Disagree /  Abstain</h3>
            	</div>
 		</md-toolbar>
 			<div flex layout-fill >
 			 	<div layout-padding ng-repeat="comment in motion.disagreeComments">
-	        <p class="md-body-1">{{comment.text}}</p>
-	       <span ng-if="comment.vote.position==0"class="md-caption">Abstained vote</span>
+			 	<h4 class="md-title">{{comment.first_name ? comment.first_name + ' ' + comment.last_name : 'Yellowknifer' }}  <span ng-if="comment.vote.position==0">(Abstained)</span></h4>
+	        <p class="md-body-1 abstained">{{comment.text}}</p>
+	       
 		 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
 		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
 					<md-icon md-svg-src="/themes/{{motion.themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>

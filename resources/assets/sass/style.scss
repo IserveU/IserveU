@@ -176,6 +176,11 @@ md-content{
 
 	.comments md-list-item.md-no-proxy{
 		padding: 0px;
+
+		.abstained{
+			background: $lightGrey !important;
+
+		}
 	}
 
 	md-toolbar.section-toolbar.md-default-theme{
@@ -184,6 +189,15 @@ md-content{
 
 	md-toolbar.section-toolbar.md-default-theme h3{
 		color: $darkGrey;
+	}
+
+	.md-title{
+		padding: 0px;
+		margin: $padding/2;	
+	}
+
+	p.md-body-1{
+		margin: $padding/2;
 	}
 
 }
