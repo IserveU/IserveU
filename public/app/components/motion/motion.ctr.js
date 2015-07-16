@@ -99,11 +99,12 @@
        function getMotionComments(id) {
             motion.getMotionComments(id).then(function(result) {
                 vm.motionComments = result;
+                console.log(result);
                 vm.disagreeComments = result.disagreeComments;
-                console.log(result.disagreeComments);
                 vm.agreeComments = result.agreeComments;
                 vm.thisUsersCommentVotes = result.thisUsersCommentVotes;
                 vm.thisUsersComment = result.thisUsersComment;
+
                 calculateCommentVotes(vm.agreeComments,vm.thisUsersCommentVotes);
                 calculateCommentVotes(vm.disagreeComments,vm.thisUsersCommentVotes);
                 
