@@ -8,8 +8,9 @@
 
 	function department($resource) {
 
-		var Department = $resource('api/department/:id');
-
+		var Department = $resource('api/department/:id', {}, {
+	        'update': { method:'PUT' }
+	    });
 		function getDepartments(){
 			return Department.query().$promise.then(function(results) {
 				return results;
@@ -34,10 +35,19 @@
 			});
 		}
 
+		function updateDepartment(data){
+			return Department.update({id:data.id}, data).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return error;
+			});
+		}
+
 	return {
 			getDepartments: getDepartments,
 			addDepartment: addDepartment,
-			deleteDepartment: deleteDepartment
+			deleteDepartment: deleteDepartment,
+			updateDepartment: updateDepartment
 		}
 
 

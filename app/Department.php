@@ -19,46 +19,70 @@ class Department extends ApiModel {
 	protected $table = 'departments';
 
 	/**
-	 * The attributes that are mass assignable.
-	 * administrator: 				We want to know if someone is becoming an administrator
-	 * verified_until/property_id: 	If a property_id changes/we need to reverify the person
-	 * hash/pasword:				Seems like these should be setup moremanually
-	 *
+	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['name', 'enabled'];
-
+	protected $fillable = ['name', 'active'];
 
 	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
+	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	
-	protected $visible = ['name','enabled','id'];
+	protected $adminFillable = ['name', 'active'];
 
+	/**
+	 * The attributes included in the JSON/Array
+	 * @var array
+	 */
+	protected $visible = ['name','active','id'];
+
+	/**
+	 * The attributes visible to an administrator of this model
+	 * @var array
+	 */
+	protected $adminVisible = ['active','id'];
+
+	/**
+	 * The attributes visible to the user that created this model
+	 * @var array
+	 */
+	protected $creatorVisible = ['active','id'];
+
+    /**
+     * The rules for all the variables
+     * @var array
+     */
 	protected $rules = [	
-		'name' 				=>	'string|unique:departments',
-	    'enabled'			=>	'boolean'
+		'name' 				=>	'string|unique:departments,name',
+	    'active'			=>	'boolean',
+	    'id'				=>	'integer'
 	];
 
-	protected $maps = [
-     	'department' 			=> 	['motion_id'] /* User ID is here for the benefit of the getMotionComments */
-    ];
+	/**
+	 * The variables that are required when you do an update
+	 * @var array
+	 */
+	protected $onUpdateRequired = ['id'];
+
+	/**
+	 * The variables requied when you do the initial create
+	 * @var array
+	 */
+	protected $onCreateRequired = ['name','active'];
+
+	/**
+	 * Fields that are unique so that the ID of this field can be appended to them in update validation
+	 * @var array
+	 */
+	protected $unique = [];
+
 
 	public $fields = [
 		'name' 					=>	['tag'=>'input','type'=>'input','label'=>'Department','placeholder'=>'Department'],
+		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>'']
 	];
 	
 	private $locked = [];
-
-
-	public function secureFill(array $input){
-		return parent::fill($input);
-	}
-
-
-
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -83,31 +107,8 @@ class Department extends ApiModel {
 
 	/****************************************** Getters & Setters ************************************/
 
-	public function getVisibleAttribute(){ 
-		return $this->visible;
-	}
-
-	public function getFillableAttribute(){
-		return $this->fillable;
-	}
-
-	public function getRulesAttribute(){
-		return $this->rules;	
-	}
-
 	
 	/************************************* Casts & Accesors *****************************************/
-	public function toJson($options = 0) {
-		$this->getVisibleAttribute();
-		return parent::toJson();
-	}
-
-	public function toArray() {
-		$this->getVisibleAttribute();
-		return parent::toArray();
-	}
-
-
 
 	/************************************* Scopes *****************************************/
 

@@ -79,32 +79,27 @@
 		    	    }
 		    	})
 		    	.state( 'user.profile', {
-		    	    url: '/:id',
+		    	    url: '/profile/:id',
 		    	    templateUrl: 'app/components/user/userprofile.tpl.html',
 		    	    controller: 'UserController as user',
 		    	    data: {
 		    	        requireLogin: true
 		    	    }
-		    	})
-		    	.state( 'sidebar', {
-		    		templateUrl: 'app/shared/sidebar/sidebar.tpl.html',
-		    		controller:'SidebarController as sidebar',
-		    		views: {
-		    			'motionsidebar': {
-		    				templateUrl: 'app/shared/sidebar/sidebar.tpl.html',
-		    				controller:'SidebarController as sidebar',
-		    			    data: {
-		    	      			 requireLogin: true
-		    	   			}
-		    			}
-		    		}
-		    	})		    	
+		    	}) 	
 		    	.state('login', {
 	                url: '/login',
 	            	controller: 'loginController as login',
 	            	templateUrl: 'app/shared/login/login.tpl.html',
 	                data: {
 	                    requireLogin: false
+	                } 
+	        	})
+	        	.state('department' , {
+	        		url: '/departments/:id',
+	            	controller: 'DepartmentController as department',
+	            	templateUrl: 'app/shared/department/department.tpl.html',
+	                data: {
+	                    requireLogin: true
 	                } 
 	        	})
 	        	.state('backgroundimage', {
@@ -148,11 +143,12 @@
 			}
 		})
 		.run(function($rootScope, $auth, $state, auth) {
+						
 			
-			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {		       
+			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
+
 				var user = JSON.parse(localStorage.getItem('user'));
 					if(user) {
-					
 						$rootScope.authenticatedUser = user;
 						$rootScope.userIsLoggedIn = true;
 
@@ -170,16 +166,12 @@
 
 					}
 
-
-
 			    var authenticated = $auth.isAuthenticated();
-
-
-			    // $state.go('login', {})
 
 			    $rootScope.currentState = toState.name;
 
-			});			
+			});		
+
 		})
 
     .controller('AppCtrl', function($scope) {

@@ -42,6 +42,9 @@ class DepartmentController extends ApiController {
 	 */
 	public function create()
 	{
+		if(!Auth::user()->can('create-department')){
+			abort(401,'You do not have permission to create a department');
+		}
 		return (new Department)->rules();
 
 	}
@@ -53,13 +56,11 @@ class DepartmentController extends ApiController {
 	 */
 	public function store()
 	{
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('create-department')){
 			abort(401,'You do not have permission to create a department');
 		}
 
-		$input = Request::all();
-		
-		$department = (new Department)->secureFill($input); //Does the fields specified as fillable in the model
+		$department = (new Department)->secureFill(Request::all()); //Does the fields specified as fillable in the model
 		
 
 		if(!$department->save()){
@@ -86,9 +87,17 @@ class DepartmentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Department $department)
 	{
-		//
+		if(!Auth::user()->can('create-department')){
+			abort(403,'You do not have permission to create/update departments');
+		}
+
+		if(!$department->user_id!=Auth::user()->id && !Auth::user()->can('administrate-department')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit department ($id)");
+		}
+
+		return $department->fields;
 	}
 
 	/**
@@ -97,9 +106,22 @@ class DepartmentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Department $department)
 	{
-		//
+		if(!Auth::user()->can('create-department')){
+			abort(403,'You do not have permission to update a department');
+		}
+
+		if(!$department->user_id!=Auth::user()->id && !Auth::user()->can('administrate-department')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit department ($id)");
+		}
+		$department->secureFill(Request::all());
+		
+		if(!$department->save()){
+		 	abort(403,$department->errors);
+		}
+
+		return $department;
 	}
 
 	/**
@@ -108,18 +130,13 @@ class DepartmentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Department $department)
 	{
-		$department = Department::withTrashed()->find($id);
 		if(!$department){
 			abort(403,"Department does not exist, permanently deleted");
 		}
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('administrate-department')){
 			abort(401,"You do not have permission to delete this department");
-		}
-
-		if($department->trashed()){ //If it is soft deleted, this will permanently delete it
-			$department->forceDelete();
 		}
 		
 		$department->delete();

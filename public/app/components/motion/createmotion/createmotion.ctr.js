@@ -37,7 +37,7 @@
             });
 		}
 
-        vm.loadDepartments = function(){
+        vm.loadDepartments = function (){
             department.getDepartments().then(function(result){
                 vm.departments = result;
             });
@@ -53,16 +53,10 @@
             })
         }
 
-        vm.deleteDepartment = function(id){
-            console.log(id);
-            department.deleteDepartment(id).then(function(result){
-                console.log(result);
-            })
-        }
-
         function showDepartmentInput(){
             vm.departmentInput = !vm.departmentInput;
         }
+
 
 	}
 }());

@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider {
 		$router->model('comment','App\Comment');
 		$router->model('comment_vote','App\CommentVote');
 		$router->model('background_image','App\BackgroundImage');
+		$router->model('department', 'App\Department');
 
 
 	}

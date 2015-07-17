@@ -15,7 +15,6 @@
 		
 
 		if(permissions.indexOf("show-users") != -1) {
-			console.log('what');
 			vm.showUser = true;
 		}
 

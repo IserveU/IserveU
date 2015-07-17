@@ -35,7 +35,7 @@
                     <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
    
 
-                        <md-menu md-position-mode="target-right target">
+                        <md-menu md-position-mode="target-right target" ng-cloak>
                             <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
                                 <md-icon class="mdi" md-menu-origin md-font-icon="mdi-menu" ></md-icon>
                             </md-button>
@@ -52,12 +52,19 @@
                                         <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="canCreateBackgroundImages" ui-sref="backgroundimage">
+                                <md-menu-item ng-if="createMotion" ui-sref="backgroundimage">
                                     <md-button>
                                         <p ng-cloak>Upload Background Image</p>
                                         <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
                                     </md-button>
                                 </md-menu-item>
+                                <md-menu-item ng-if="createMotion" ui-sref="department({id:1})">
+                                    <md-button>
+                                        <p ng-cloak>Department Manager</p>
+                                        <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
+                                    </md-button>
+                                </md-menu-item>
+
                             </md-menu-content>
                         </md-menu>
                     </div>

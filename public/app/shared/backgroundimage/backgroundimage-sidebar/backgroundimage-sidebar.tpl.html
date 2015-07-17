@@ -1,0 +1,18 @@
+<md-content flex role="navigation" ng-controller="SidebarController as sidebar">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
+        <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"></md-icon>
+      </md-button>
+      <h2>Motions</h2>
+    </div>
+  </md-toolbar>
+  <md-list>
+    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" md-ink-ripple ui-sref-active="active"> 
+      <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
+      <p ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
+      <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading"></md-icon>
+
+    </md-list-item>
+  </md-list>
+</md-content>

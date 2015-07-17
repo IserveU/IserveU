@@ -319,7 +319,7 @@ class StaticSeeder extends Seeder{
 
 
 
-		$departments[1] = 'Unknown';
+		$departments[1] = 'Unkown';
 		$departments[2] = 'City Administrator';
 		$departments[3] = 'Community Services';
 		$departments[4] = 'Corporate Services';
@@ -331,8 +331,8 @@ class StaticSeeder extends Seeder{
 		foreach($departments as $key => $value){
 			$department = new Department;
 			$department->id 	= 	$key;
-			$department->enabled = true;
-			$department->name 	= 	$value;
+			$department->active = true;
+			$department->name 	=   $value;
 			$department->save();
 		} 	
 
@@ -496,9 +496,21 @@ class DefaultUsers extends Seeder{
 		$editBackgroundImage->description 			=	'Can activate and edit other background images';
 		$editBackgroundImage->save();
 
+		$createDepartment						= 	new Permission();
+		$createDepartment->name					=	"create-department";
+		$createDepartment->display_name			= 	'Create Department';
+		$createDepartment->description 			=	'Can create a department';
+		$createDepartment->save();
+
+		$editDepartment							= 	new Permission();
+		$editDepartment->name					=	"administrate-department";
+		$editDepartment->display_name			= 	'Edit Department';
+		$editDepartment->description 			=	'Can activate and departments';
+		$editDepartment->save();
+
 		$councilor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion));
 		$citizen->attachPermissions(array($createComment,$createVote,$createCommentVote,$createBackgroundImage));
-		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote,$createCommentVote,$viewCommentVote,$editPermission,$createBackgroundImage,$editBackgroundImage));
+		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote,$createCommentVote,$viewCommentVote,$editPermission,$createBackgroundImage,$editBackgroundImage,$createDepartment,$editDepartment));
 		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
 		$unverified->attachPermissions(array($createComment,$createVote,$createCommentVote,$createBackgroundImage));
 
