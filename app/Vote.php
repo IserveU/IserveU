@@ -128,6 +128,10 @@ class Vote extends ApiModel {
 	 * @return Overrides the API Model, will see if it can be intergrated into it
 	 */
 	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
+		if(!Auth::check()){
+			return $this->visible;
+		}
+
 		if(Auth::user()->id==$this->user_id){
 			$this->setVisible($this->creatorVisible);
 			return true;

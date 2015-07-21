@@ -30,6 +30,8 @@ Route::get('/', function() {
 	return view('index');
 });
 
+
+
 Route::group(array('prefix' => 'api'), function(){
 
 
@@ -44,7 +46,6 @@ Route::group(array('prefix' => 'api'), function(){
 
 
 		Route::resource('background_image', 'BackgroundImageController');
-
 		Route::get('motion/getcomments/{motionid}','MotionController@getComments');
 		Route::resource('motion', 'MotionController');
 
@@ -56,5 +57,9 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::resource('comment', 'CommentController');
 
 		Route::resource('comment_vote', 'CommentVoteController');
+
+		Route::resource('user.vote', 'UserVoteController', ['only'=>['index']]);
+
+
 	});
 });

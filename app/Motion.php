@@ -198,7 +198,6 @@ class Motion extends ApiModel {
 		return $query->votes->where('commentRank','<=',0);
 	}
 
-
 	/************************************* Relationships ********************************************/
 
 	public function user(){

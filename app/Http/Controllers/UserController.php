@@ -210,4 +210,8 @@ class UserController extends ApiController {
 
 	}
 
+	public function votes(){
+		
+	}
+
 }
