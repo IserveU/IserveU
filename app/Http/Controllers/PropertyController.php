@@ -93,10 +93,10 @@ class PropertyController extends ApiController {
 
 	public function uploadCSV(){
 
-		Request::file('csvfile')->move(getcwd()."../storage/uploads",'properties.csv');
+		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
 
 
-		$csv = Reader::createFromPath(getcwd()."/storage/uploads/properties.csv");
+		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
 
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
 				
