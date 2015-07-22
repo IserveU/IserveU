@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\Comment;
 use App\CommentVote;
+use \Cache;
+
 
 class MotionCommentController extends ApiController
 {
