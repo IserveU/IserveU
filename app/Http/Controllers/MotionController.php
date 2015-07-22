@@ -9,7 +9,6 @@ use App\CommentVote;
 use App\Vote;
 use Auth;
 use DB;
-use \Cache;
 
 
 class MotionController extends ApiController {
