@@ -11,6 +11,8 @@
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
+	    var MotionComment = $resource('api/motion/:id/comment');
+
 		var Comment = $resource('api/motion/getcomments/:id');
 		var Vote = $resource('api/vote/:id', {}, {
 	        'update': { method:'PUT' }
@@ -57,7 +59,7 @@
 		}
 
 		function getMotionComments(id) {
-			return Comment.get({id:id}).$promise.then(function(result) {
+			return MotionComment.get({id:id}).$promise.then(function(result) {
 				return result;
 			});
 		}

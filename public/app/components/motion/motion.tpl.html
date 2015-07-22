@@ -5,10 +5,27 @@
 		<md-toolbar class="section-toolbar">
         	<div class="md-toolbar-tools">
         		<h3>Description</h3>
+        		<h3 ng-show="motion.editMotion">
+        		<i>&nbsp  (Editing Mode)</i>
+        		<md-button style="color:gray" ng-click="motion.updateMotion()">Save</md-button><md-button style="color:gray" ng-click="motion.editMotionFunction()">Cancel</md-button></h3>
            	</div>
 		</md-toolbar>
 		<div layout="row" >
-			<div flex="90" flex-sm="100" flex-order="2" ng-bind-html="motion.motionDetail.text"  flex-order-gt-sm="1" layout-padding style="padding:16px" ></div>
+			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
+			<p class="md-body-2" ng-show="motion.editMotion">Caution: If you edit this motion all votes and comments will be erased. Be careful.</p>
+			<p class="md-headline">Introduction</p>
+			<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.summary"></p>
+			<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.summary" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+
+				<div>
+			<p class="md-headline">Details</p>
+
+				<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.text"></p>
+				<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.text" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+				</div>
+			</div>
+
+			
 			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  >
 				<div layout-padding class="listgird">
 				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
@@ -196,7 +213,7 @@
 			<md-button ng-show="createMotion" ui-sref="createmotion" aria-label="create" class="md-icon-button">
 				<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
 			</md-button>
-		    <md-button aria-label="edit" ng-click="motion.editMotion()"  class="md-icon-button">
+		    <md-button aria-label="edit" ng-click="motion.editMotionFunction()"  class="md-icon-button">
 				<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
 			</md-button>
 		    <md-button aria-label="comment" ng-click="motion.deleteMotion()"  aria-label="delete"  class="md-icon-button md-warn">

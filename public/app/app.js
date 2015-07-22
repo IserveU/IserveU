@@ -8,7 +8,8 @@
 			'ngMaterial',
 			'ui.router',
 			'ngSanitize', 
-			'satellizer'
+			'satellizer',
+			'angular-medium-editor'
 		])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider) {
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";

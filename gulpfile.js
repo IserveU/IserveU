@@ -23,6 +23,8 @@ elixir(function(mix) {
 		'/bower/angular-sanitize/angular-sanitize.min.js',
 		'/bower/moment/moment.js',
         '/bower/satellizer/satellizer.js',
+        '/bower/angular-medium-editor/dist/angular-medium-editor.min.js',
+        '/bower/medium-editor/dist/js/medium-editor.min.js'
     ],'public/js/dependencies.js', './resources'); // added resources as third argument to point directly to the resources directory and not have /js in there
 
     mix.scriptsIn("resources/js",'public/js/scripts.js'); 
@@ -32,7 +34,8 @@ elixir(function(mix) {
 
     mix.styles([
         '/bower/angular-material/angular-material.css',
-        '/bower/mdi/css/materialdesignicons.min.css'
+        '/bower/mdi/css/materialdesignicons.min.css',
+        '/bower/medium-editor/dist/css/medium-editor.css'
         
     ],'public/css/dependencies.css', './resources'); // added resources as third argument to point directly to the resources directory and not have /css in there
    

@@ -42,6 +42,9 @@
 		if(permissions.indexOf("create-motions") != -1) {
 			$rootScope.createMotion = true;
 		}
+		if(permissions.indexOf("administrate-motions") != -1) {
+			$rootScope.administrateMotion = true;
+		}
 		if(permissions.indexOf("delete-motions") != -1) {
 			$rootScope.canDeleteMotion = true;
 		}

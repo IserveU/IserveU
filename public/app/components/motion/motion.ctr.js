@@ -4,7 +4,8 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $scope, $stateParams, auth, motion, comment, $mdToast, $animate, $state, UserbarService) {
+    function MotionController($rootScope, $scope, $stateParams, auth, motion,
+    comment, $mdToast, $animate, $state, UserbarService) {
 
         var vm = this;
 
@@ -24,6 +25,7 @@
         vm.disagreeVoting = false;
         vm.userHasVoted = false;
         vm.userVoteId;
+        vm.editMotion = false;
 
         vm.themename;
 
@@ -38,6 +40,12 @@
 
         vm.editCommentFunction = function(){
             vm.editComment = !vm.editComment;
+        }
+
+        vm.editMotionFunction = function(){
+            if($rootScope.administrateMotion){
+            vm.editMotion = !vm.editMotion;
+          }
         }
 
         vm.deleteMotion = function() {
@@ -77,6 +85,25 @@
             });
         }
 
+        vm.updateMotion = function() {
+            var data = {
+                text: vm.motionDetail.text,
+                summary: vm.motionDetail.summary,
+                id: $stateParams.id
+            }
+            motion.updateMotion(data).then(function(result) {
+                console.log(result);
+                 $mdToast.show(
+                  $mdToast.simple()
+                    .content("You've successfully updated this motion!")
+                    .position('bottom right')
+                    .hideDelay(3000)
+                );
+            }, function(error) {
+                console.log(error);
+            });
+        }
+
         function showCommentVoteColumn(){
             if(vm.usersVote == 1) {
                 vm.showAgreeCommentVotes = true;
@@ -97,6 +124,7 @@
         }
 
        function getMotionComments(id) {
+
             motion.getMotionComments(id).then(function(result) {
                 vm.motionComments = result;
                 vm.disagreeComments = result.disagreeComments;
@@ -374,10 +402,6 @@
             }, function(error) {
                 
             });           
-        }
-
-        $scope.check=function(data) {
-            console.log(data);
         }
 
         function getUsersVotes() {
