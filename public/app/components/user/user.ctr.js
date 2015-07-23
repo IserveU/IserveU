@@ -122,6 +122,9 @@
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
 				$scope.users = result;
+				angular.forEach(result, function(value, key) {
+					$scope.users[key].date_of_birth = new Date(result[key].date_of_birth);
+				});
 				checkPublic();
 				checkUser();
             });         
@@ -138,8 +141,7 @@
 				onSuccess(datatype);
 				isLoading(datatype);
 				$timeout(function(){
-					onSuccess(datatype)}, 1500);
-				console.log(result);
+					onSuccess(datatype); changeEditable(datatype);}, 1500);
 			},function(error){
 				console.log(error);
 			});
@@ -157,9 +159,24 @@
 			angular.forEach($scope.onSuccess, function(value, key) {
 				if(key == datatype) {
 					$scope.onSuccess[key] = !$scope.onSuccess[key];
+
 				}
 			})
 		}
+
+		function changeEditable(datatype) {
+			angular.forEach($scope.formEdit, function(value, key) {
+				if(key == datatype) {
+					$scope.formEdit[key] = !$scope.formEdit[key];
+				}
+			})
+		}
+
+		// function getFields(id){
+		// 	user.editUser(id).then(function(result){
+		// 		console.log(result);
+		// 	})
+		// }
 
 		getUsers();
 		checkPermissions();

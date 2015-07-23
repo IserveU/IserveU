@@ -37,12 +37,13 @@
         vm.thisUsersCommentVotes = {};
        
         vm.editComment = false;
+        vm.editMotionFunction = editMotionFunction;
 
         vm.editCommentFunction = function(){
             vm.editComment = !vm.editComment;
         }
 
-        vm.editMotionFunction = function(){
+        function editMotionFunction(){
             if($rootScope.administrateMotion){
             vm.editMotion = !vm.editMotion;
           }
@@ -62,14 +63,14 @@
                 $mdToast.show(
                   toast = $mdToast.simple()
                     .content("You've deleted this motion.")
-                    // .action('Undo?')
-                    // .highlightAction(false)
+                    .action('Undo?')
+                    .highlightAction(false)
                     .position('bottom right')
                     .hideDelay(8000)
                 );
 
                 $mdToast.show(toast).then(function() {
-                    motion.updateMotion(data).then(function(result) {
+                    motion.restoreMotion(data).then(function(result) {
                     $state.go('motion({id:data.id})')
                     $mdToast.show(
                      toast = $mdToast.simple()
@@ -93,6 +94,7 @@
             }
             motion.updateMotion(data).then(function(result) {
                 console.log(result);
+                editMotionFunction();
                  $mdToast.show(
                   $mdToast.simple()
                     .content("You've successfully updated this motion!")

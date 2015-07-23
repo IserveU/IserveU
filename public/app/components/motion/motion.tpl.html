@@ -12,16 +12,16 @@
 		</md-toolbar>
 		<div layout="row" >
 			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
-			<p class="md-body-2" ng-show="motion.editMotion">Caution: If you edit this motion all votes and comments will be erased. Be careful.</p>
 			<p class="md-headline">Introduction</p>
+			<p class="md-body-2" ng-show="motion.editMotion">Caution: If you edit this motion all votes and comments will be erased. Be careful.</p>
 			<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.summary"></p>
-			<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.summary" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+			<div text-angular ng-show="motion.editMotion" ng-model="motion.motionDetail.summary"><p class="md-body-1"></p></div>
 
 				<div>
 			<p class="md-headline">Details</p>
 
 				<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.text"></p>
-				<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.text" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+				<div text-angular ng-show="motion.editMotion" ng-model="motion.motionDetail.text"><p class="md-body-1"></p></div>
 				</div>
 			</div>
 
