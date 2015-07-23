@@ -13,6 +13,8 @@
 	    });
 	    var MotionComment = $resource('api/motion/:id/comment');
 
+	    var MotionRestore = $resource('api/motion/:id/restore');
+
 		var Comment = $resource('api/motion/getcomments/:id');
 		var Vote = $resource('api/vote/:id', {}, {
 	        'update': { method:'PUT' }
@@ -56,6 +58,14 @@
 				return error;
 			});
 
+		}
+
+		function restoreMotion(id) {
+			return MotionRestore.get({id:id}).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return error;
+			});
 		}
 
 		function getMotionComments(id) {
@@ -121,6 +131,7 @@
 			createMotion: createMotion,
 			updateMotion: updateMotion,
 			deleteMotion: deleteMotion,
+			restoreMotion: restoreMotion,
 			getMotionComments: getMotionComments,
 			castVote: castVote,
 			updateVote: updateVote,
