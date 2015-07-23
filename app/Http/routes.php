@@ -21,6 +21,7 @@ Route::get('comment/delete/{id}/{code}', 'CommentController@approve');
 Route::post('authenticate', 'AuthenticateController@authenticate');
 
 
+
 Route::get('/settings', function(){
 	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->today());
 });
@@ -46,7 +47,8 @@ Route::group(array('prefix' => 'api'), function(){
 
 
 		Route::resource('background_image', 'BackgroundImageController');
-		// Route::get('motion/getcomments/{motionid}','MotionController@getComments');
+
+		Route::get('motion/{id}/restore','MotionController@restore');
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment', 'MotionCommentController', ['only'=>['index']]);
 
@@ -59,9 +61,10 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::resource('comment', 'CommentController');
 
 		Route::resource('comment_vote', 'CommentVoteController');
-
+		
 		Route::resource('user.vote', 'UserVoteController', ['only'=>['index']]);
 
-
+		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
+		Route::resource('property','PropertyController');
 	});
 });

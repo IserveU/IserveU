@@ -2,8 +2,18 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use League\Csv\Reader;
 
-use Illuminate\Http\Request;
+use App\PropertyBlock;
+use App\PropertyPollDivision;
+use App\PropertyAssesment;
+use App\PropertyCoordinate;
+use App\PropertyPlan;
+use App\Property;
+use App\PropertyZoning;
+use App\PropertyDescription;
+
+use Illuminate\Support\Facades\Request;
 
 class PropertyController extends ApiController {
 
@@ -82,10 +92,11 @@ class PropertyController extends ApiController {
 	}
 
 	public function uploadCSV(){
-		$directory = getcwd();
-		$directory .="/database/seeds/thefile.csv";
 
-		$csv = Reader::createFromPath($directory);
+		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
+
+
+		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
 
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
 				
@@ -111,13 +122,11 @@ class PropertyController extends ApiController {
 		    [18] => Longitude
 		*/
 
-/*
 		foreach($allrows as $row){
 
 			$property = Property::where('roll_number',trim($row[0]))->first();
 			
-			if($property==null){ //If the property hasn't been entered then we might not have all these, otherwise just check the assesment value hasn't changed
-
+			if(!$property){ //If the property hasn't been entered then we might not have all these, otherwise just check the assesment value hasn't changed
 				$block = PropertyBlock::where('name',trim($row[1]))->first();
 				if($block==null){
 					$block = new PropertyBlock;
@@ -177,13 +186,17 @@ class PropertyController extends ApiController {
 				$property->property_description_id		= 	$propertyDescription->id;
 				$property->property_plan_id				= 	$plan->id;
 
-				$property->save();
+				if(!$property->save()){
+				 	abort(403,$property->errors);
+				}
 			}
 
 			$row[9] = intval(str_replace(",","",$row[9]));
 			$row[10] = intval(str_replace(",","",$row[10]));
 			$row[11] = intval(str_replace(",","",$row[11]));
    			$propertyId = $property->id;
+
+
 
 			$assessment = PropertyAssesment::whereRaw("improvement_value = $row[9] AND land_value = $row[10] AND other_value = $row[11] AND property_id = $propertyId")->first();
 			if($assessment==null){
@@ -195,8 +208,6 @@ class PropertyController extends ApiController {
   				$assessment->property_id			= $propertyId;
   				$assessment->save();
 			}
-		
-		}*/
+		}
 	}
-
 }

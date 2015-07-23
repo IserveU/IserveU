@@ -48,19 +48,19 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified','permissions'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified','permissions','votes'];
 
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
 	 * @var array
 	 */
-	protected $publicVisible =  ['first_name','last_name','public','id'];
+	protected $publicVisible =  ['first_name','last_name','public','id','votes'];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
