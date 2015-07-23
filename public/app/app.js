@@ -162,10 +162,6 @@
 							event.preventDefault();
 							$state.go('home');
 						}
-						if(toState.name === 'user' || toState.name === 'user.profile') {
-							$rootScope.$emit('userListIsClicked');
-						}
-
 					}
 
 			    var authenticated = $auth.isAuthenticated();

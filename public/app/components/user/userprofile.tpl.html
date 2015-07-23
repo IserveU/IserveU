@@ -11,20 +11,9 @@
     <div layout="column" >
       <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
       <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-<div ng-show="!ispublic && !isuserprofile">This User's Profile is Not Public</div>
-      <div ng-show="ispublic && !isuserprofile && !user.canEditUser">
-      <h5>First Name</h5>
-      <p>{{users[getId()].first_name}}</p>
-      <h5>Middle Name</h5>
-      <p>{{users[getId()].middle_name}}</p>
-      <h5>Last Name</h5>
-        <p>{{users[getId()].last_name}}</p>
-      <h5>Birthday</h5>
-        <p>{{users[getId()].date_of_birth}}</p>
-      <h5>Email</h5>
-        <p>{{users[getId()].email}}</p>
-      </div>
-<form name="userprofile" ng-if="user.canEditUser || isuserprofile" ng-init="user = users[getId()]">   
+<div ng-show="!ispublic && !isuserprofile && !administrateUsers">This User's Profile is Not Public</div>
+
+<form name="userprofile" ng-init="user = users[getId()]" ng-cloak>   
 
 
 <!-- user name --> 
@@ -32,12 +21,12 @@
    <md-input-container flex ng-hide="formEdit.first_name">
     <label>First Name</label>
       <input ng-model="users[getId()].first_name" aria-label="firstnamereadonly"readonly/>
-    <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.first_name = !formEdit.first_name" aria-label="editbutton">
+    <md-button ng-hide="ispublic && !isuserprofile && !user.canEditUser" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.first_name = !formEdit.first_name" aria-label="editbutton">
      <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.first_name || onSuccess.first_name"></md-icon>
     </md-button>
     </md-input-container>
 
-    <md-input-container flex ng-show="formEdit.first_name">
+    <md-input-container flex ng-if="formEdit.first_name">
     <label>First Name</label>
     <input ng-model="users[getId()].first_name" ng-focus="" ng-blur="updateInfo(users[getId()], 'first_name')" aria-label="firstname" required/>
      <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" aria-label="editbutton">
@@ -51,13 +40,13 @@
     <md-input-container flex ng-hide="formEdit.middle_name">
      <label>Middle Name</label>
       <input ng-model="users[getId()].middle_name" aria-label="middlenamereadonly" readonly/>
-    <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.middle_name = !formEdit.middle_name" aria-label="editbutton">
+    <md-button ng-hide="ispublic && !isuserprofile && !user.canEditUser" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.middle_name = !formEdit.middle_name" aria-label="editbutton">
      <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.middle_name || onSuccess.middle_name"></md-icon>
     </md-button>
     </md-input-container>
 
 
-    <md-input-container flex ng-show="formEdit.middle_name">
+    <md-input-container flex ng-if="formEdit.middle_name">
           <label>Middle Name</label>
           <input ng-model="users[getId()].middle_name" ng-focus="" ng-blur="updateInfo(users[getId()], 'middle_name')" aria-label="middlename"/>
           <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-show="formEdit.middle_name" aria-label="editbutton">
@@ -70,12 +59,12 @@
     <md-input-container flex ng-hide="formEdit.last_name">
      <label>Last Name</label>
       <input ng-model="users[getId()].last_name" aria-label="lastnamereadonly" readonly/>
-    <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.last_name = !formEdit.last_name" aria-label="editbutton">
+    <md-button ng-hide="ispublic && !isuserprofile && !user.canEditUser" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.last_name = !formEdit.last_name" aria-label="editbutton">
      <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.last_name || onSuccess.last_name"></md-icon>
     </md-button>
     </md-input-container>
 
-  <md-input-container flex ng-show="formEdit.last_name"> 
+  <md-input-container flex ng-if="formEdit.last_name" > 
           <label>Last Name</label>
           <input ng-model="users[getId()].last_name" focus="" ng-blur="updateInfo(users[getId()], 'last_name')" aria-label="lastname"/>
           <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-show="formEdit.last_name" aria-label="editbutton">
@@ -94,14 +83,14 @@
     <md-input-container flex ng-hide="formEdit.date_of_birth">
      <label>Birthday</label>
       <input ng-model="users[getId()].date_of_birth" aria-label="birthdayreadonly" type="date" readonly/>
-    <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.date_of_birth = !formEdit.date_of_birth" aria-label="editbutton">
+    <md-button ng-hide="ispublic && !isuserprofile && !user.canEditUser" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.date_of_birth = !formEdit.date_of_birth" aria-label="editbutton">
      <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.date_of_birth || onSuccess.date_of_birth"></md-icon>
     </md-button>
     </md-input-container>
 
 
 
-    <md-input-container flex ng-show="formEdit.date_of_birth" novalidate> 
+    <md-input-container ng-cloak flex ng-if="formEdit.date_of_birth" novalidate > 
       <label>Birthday</label>
       <input ng-model="users[getId()].date_of_birth" ng-focus="" ng-blur="updateInfo(users[getId()], 'date_of_birth')" type="date" aria-label="dateofbirth"/>
  <div class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" aria-label="editbutton">
@@ -118,7 +107,7 @@
         <md-option ng-click="setPublic(0)">Not Public</md-option>
      </md-select>
 
-    <md-switch ng-disabled="isuserprofile || user.canEditUser" class="md-secondary"ng-model="users[getId()].identity_verified" ng-change="verifyUser(users[getId()])" aria-label="Switch" ng-true-value="1" ng-false-value="0" flex="30">Identity Verified</md-switch>
+    <md-switch ng-hide="ispublic && !isuserprofile && !user.canEditUser"ng-disabled="isuserprofile || user.canEditUser" class="md-secondary"ng-model="users[getId()].identity_verified" ng-change="verifyUser(users[getId()])" aria-label="Switch" ng-true-value="1" ng-false-value="0" flex="30">Identity Verified</md-switch>
   </div>
 
 
@@ -127,12 +116,12 @@
     <md-input-container flex ng-hide="formEdit.email">
      <label>Email</label>
       <input ng-model="users[getId()].email" aria-label="emailreadonly" readonly/>
-    <md-button class="md-icon-button" style="padding-top:15px; left:95%; position:absolute" ng-click="formEdit.email = !formEdit.email" aria-label="editbutton">
+    <md-button ng-hide="ispublic && !isuserprofile && !user.canEditUser" class="md-icon-button" style="padding-top:15px; left:95%; position:absolute" ng-click="formEdit.email = !formEdit.email" aria-label="editbutton">
      <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.email || onSuccess.email"></md-icon>
     </md-button>
     </md-input-container>
 
-    <md-input-container flex novalidate ng-show="formEdit.email"> 
+    <md-input-container flex novalidate ng-if="formEdit.email"> 
       <label>Email</label>
       <input ng-model="users[getId()].email" ng-focus="" ng-blur="updateInfo(users[getId()], 'email')" aria-label="email" />
     <md-button style="padding-top:15px; left:95%; position:absolute" class="md-icon-button" ng-show="formEdit.email" aria-label="editbutton">
@@ -162,13 +151,13 @@
     </md-fab-trigger>
     <md-toolbar>
     <md-fab-actions class="md-toolbar-tools">
-      <md-button ng-show="createMotion" aria-label="create" class="md-icon-button">
+      <md-button ng-show="administrateUsers" aria-label="create" class="md-icon-button">
         <md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
       </md-button>
-        <md-button aria-label="edit" ng-click="user.showEditUsers()"  class="md-icon-button">
+        <md-button ng-show="administrateUsers" aria-label="edit" ng-click="user.showEditUsers()"  class="md-icon-button">
         <md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
       </md-button>
-        <md-button aria-label="comment" ng-click="motion.deleteMotion()"  aria-label="delete"  class="md-icon-button md-warn">
+        <md-button ng-show="administrateUsers" aria-label="comment" ng-click="motion.deleteMotion()"  aria-label="delete"  class="md-icon-button md-warn">
         <md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
       </md-button>
     </md-fab-actions>

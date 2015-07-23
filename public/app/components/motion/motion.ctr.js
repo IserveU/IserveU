@@ -26,6 +26,7 @@
         vm.userHasVoted = false;
         vm.userVoteId;
         vm.editMotion = false;
+        vm.editMotionLoading = false;
 
         vm.themename;
 
@@ -87,6 +88,7 @@
         }
 
         vm.updateMotion = function() {
+            vm.editMotionLoading = !vm.editMotionLoading;
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
@@ -95,6 +97,7 @@
             motion.updateMotion(data).then(function(result) {
                 console.log(result);
                 editMotionFunction();
+                vm.editMotionLoading = !vm.editMotionLoading;
                  $mdToast.show(
                   $mdToast.simple()
                     .content("You've successfully updated this motion!")

@@ -102,15 +102,18 @@
 		}
 
 		function checkPublic() {
-			if(!vm.canShowUser || !$scope.users[getId()]) { 
+			console.log($scope.users[getId()]);
+			if($scope.users[getId()].public == 0) { 
 				$scope.ispublic = false;
+				console.log("this is annoying");
 			}
-			else {
+			
 				if($scope.users[getId()].public == 0){
 					return $scope.publicChoice = "Not Public";
 				}
-				$scope.publicChoice = "Public";
-			}
+				else 
+					$scope.publicChoice = "Public";
+			
 		}
 
 		function checkUser() {
@@ -121,12 +124,14 @@
 
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
+				console.log(result);
 				$scope.users = result;
+				checkPublic();
+				checkUser();
 				angular.forEach(result, function(value, key) {
 					$scope.users[key].date_of_birth = new Date(result[key].date_of_birth);
 				});
-				checkPublic();
-				checkUser();
+
             });         
 		}
 
