@@ -162,36 +162,23 @@ class MotionController extends ApiController {
 		return $motion;
 	}
 
+	public function restore($id){
+		$motion = Motion::withTrashed()->with('user')->find($id);
 
-	/**
-	 * Return the comment for a motion with the user in questions comment in it's own array, as well as the current users votes
-	 *
-	 * @param  int  $id  id of motion
-	 * @return Response
-	 */
-
-	public function getComments($id){
-
-		$comments = array();
-
-		if(Auth::user()->can('view-comments')){ //A full admin who can see whatever
-			$comments['agreeComments']		= Comment::with('vote.user','commentVotes')->where('motion_id',$id)->agree()->get()->sortByDesc('commentRank')->toArray();
-			$comments['disagreeComments'] 	= 	Comment::with('vote.user','commentVotes')->where('motion_id',$id)->disagree()->get()->sortByDesc('commentRank')->toArray();
-		
-		} else { //Load the standard cached comments for the page
-	
-			$comments = Cache::remember('motion'.$id.'_comments', config('app.cachetime'), function() use ($id){
-				$comments['agreeComments']		= Comment::with('vote.user','commentVotes')->where('motion_id',$id)->agree()->get()->sortByDesc('commentRank')->toArray();
-				$comments['disagreeComments'] 	= 	Comment::with('vote.user','commentVotes')->where('motion_id',$id)->disagree()->get()->sortByDesc('commentRank')->toArray();
-				return $comments;
-			});
+		if(!$motion){
+			abort(404,'Motion does not exist');
 		}
 
-		$comments['thisUsersComment'] = Comment::where('motion_id',$id)->with('vote')->where('user_id',Auth::user()->id)->first();
-		$comments['thisUsersCommentVotes'] = CommentVote::where('motion_id',$id)->where('user_id',Auth::user()->id)->get();
+		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motion')){
+			abort(401,'User does not have permission to restore this motion');
+		}
 
+		$motion->deleted_at = null; //restore() isn't working either
+		if(!$motion->save()){
+			abort(400,$motion->errors);
+		}
 
-		return $comments;
-		
+		return $motion;
 	}
+
 }

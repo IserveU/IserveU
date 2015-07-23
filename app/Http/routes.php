@@ -47,7 +47,8 @@ Route::group(array('prefix' => 'api'), function(){
 
 
 		Route::resource('background_image', 'BackgroundImageController');
-		// Route::get('motion/getcomments/{motionid}','MotionController@getComments');
+
+		Route::get('motion/{id}/restore','MotionController@restore');
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment', 'MotionCommentController', ['only'=>['index']]);
 
