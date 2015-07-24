@@ -6,7 +6,7 @@
     <md-content class="md-whiteframe-z5 loginbox" layout-padding layout-wrap layout="row" >
   
       <div flex="100">
-        <form name="loginform" ng-hide="login.registerform" novalidate>
+        <form name="loginform" ng-hide="login.registerform || login.passwordreminder" novalidate>
           <md-input-container flex>
             <label>Email</label>
             <input type="email" name="email" ng-model="login.email" required>
@@ -20,7 +20,19 @@
           </md-input-container>
           <md-button type="submit" class="btn btn-primary" ng-click="login.login()">Login</md-button>
           <md-button class="btn btn-primary" ng-click="login.extendregister()">Create</md-button>
+          
+          <md-button ng-show="login.loginError"ng-click="login.forgotPassword()">Forgot password</md-button>
+         
         </form>
+        <form name="passwordreminderform" ng-show="login.passwordreminder" novalidate>
+          <p class="md-caption">We will email you instructions on how to reset your password.</p>
+          <md-input-container>
+            <label>Email</label>
+            <input type="email" name="email" placeholder="example@email.com" ng-model="login.email" required>
+          </md-input-container>
+          <md-button type="submit" class="btn btn-primary" ng-click="login.passwordreset(login.email)">Send password</md-button>
+        </form>
+
         <!-- extends when Create is pressed -->
         <form name="registerform" ng-if="login.registerform" novalidate>
           <md-input-container flex>
