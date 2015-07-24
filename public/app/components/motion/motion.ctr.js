@@ -72,7 +72,8 @@
 
                 $mdToast.show(toast).then(function() {
                     motion.restoreMotion(data.id).then(function(result) {
-                    $state.go('home')
+                    $rootScope.$emit('newMotion');  
+
                     $mdToast.show(
                      toast = $mdToast.simple()
                         .content("Motion is back. Try not to do that again.")

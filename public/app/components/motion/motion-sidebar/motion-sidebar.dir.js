@@ -6,12 +6,10 @@
     .module('iserveu')
     .directive('motionSidebar', motionSidebar);
 
-  function motionSidebar() {
+  function motionSidebar($state, $rootScope) {
 
     return {
-
       templateUrl: 'app/components/motion/motion-sidebar/motion-sidebar.tpl.html'
-
     }
   }
   

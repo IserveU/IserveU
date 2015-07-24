@@ -60,7 +60,6 @@
 
 		vm.passwordreset = function(email) {
             $state.reload();
-
 			//send email function
 		}
 
