@@ -8,8 +8,10 @@ use App\Comment;
 use App\User;
 use App\Vote;
 use App\Motion;
+use App\CommentVote;
 use DB;
 use Validator;
+use Carbon\Carbon;
 
 
 class CommentController extends ApiController {
@@ -160,4 +162,43 @@ class CommentController extends ApiController {
 
 		return $comment;
 	}
+
+	public function topComments(){
+		
+		$input = Request::all();
+
+		if(!isset($input['start_date'])){
+			
+			$input['start_date'] = Carbon::today();
+		}
+		
+		if(!isset($input['end_date'])){
+			$input['end_date'] = Carbon::tomorrow();
+		}
+
+		if(!isset($input['number'])){
+			$input['number'] = 1;
+		}
+
+
+		$validator =  Validator::make($input,[
+			'start_date'	=> 	'date',
+			'end_date'		=>	'date',
+			'number'		=>	'integer'
+		]);
+
+
+
+		if($validator->fails()){
+			return $validator->errors();
+		}
+
+		$comments = Comment::with('commentvotes')->betweenDates($input['start_date'],$input['end_date'])->get()->sortBy(function($comment){
+			return $comment->commentvotes->count();
+		});
+
+
+		return $comments->chunk($input['number']);
+	}
+
 }

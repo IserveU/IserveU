@@ -171,6 +171,17 @@ class Comment extends ApiModel {
 
 	public function scopeDisagree($query){
 		return $query->where('position','!=',1);
+	}
+
+	public function scopeBetweenDates($query,$startDate,$endDate){
+		if($startDate)	$query = $query->where('created_at','>=',$startDate);
+		if($endDate) $query = $query->where('created_at','<=',$endDate);
+		
+		return $query;
+	}
+
+	public function scopeOrderBy($query,$field,$direction){
+		return $query->orderBy($field,$direction);
 
 	}
 

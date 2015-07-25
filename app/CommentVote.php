@@ -150,6 +150,13 @@ class CommentVote extends ApiModel {
 		return $query->where('comment_user_id','!=',$user_id);
 	}
 
+	public function scopeBetweenDates($query,$startDate,$endDate){
+		if($startDate)	$query = $query->where('created_at','>=',$startDate);
+		
+		if($endDate) $query = $query->where('created_at','<=',$endDate);
+
+		return $query;
+	}
 
 	/************************************* Relationships ********************************************/
 

@@ -58,22 +58,18 @@ class Property extends ApiModel {
      * @var array
      */
 	protected $rules = [
-		'unit'				=>		'string',
-		'roll_number'		=>		'unique:properties',
-		'address'			=>		'string',
-		'street'			=>		'string',
+		'unit'						=>		'string',
+		'roll_number'				=>		'unique:properties',
+		'address'					=>		'string',
+		'street'					=>		'string',
 		'property_block_id'			=>		'integer',
 		'property_plan_id'			=>		'integer',
 		'property_poll_division_id'	=>		'integer',
 		'property_zone_id'			=>		'integer',
-		'property_coordinate_id'		=>		'integer',
+		'property_coordinate_id'	=>		'integer',
 		'property_description_id'	=>		'integer',
-		'postal_code'		=>		'string'	
+		'postal_code'				=>		'string'	
 	];
-
-
-
-
 
 
 	/**
@@ -99,17 +95,17 @@ class Property extends ApiModel {
 	 * @var array
 	 */
 	protected $fields = [
-		'unit'				=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
-		'roll_number'		=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
-		'address'			=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
-		'street'			=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
+		'unit'						=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
+		'roll_number'				=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
+		'address'					=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
+		'street'					=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'property_block_id'			=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'property_plan_id'			=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'property_poll_division_id'	=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'property_zone_id'			=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
-		'property_coordinate_id'		=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
+		'property_coordinate_id'	=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'property_description_id'	=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
-		'postal_code'		=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>'']
+		'postal_code'				=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>'']
 	];
 	
 	/**

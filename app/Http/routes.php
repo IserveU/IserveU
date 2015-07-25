@@ -57,6 +57,7 @@ Route::group(array('prefix' => 'api'), function(){
 
 		Route::resource('vote', 'VoteController');
 
+		Route::get('comment/{id}/top','CommentController@topComments');
 		Route::get('comment/{id}/restore','CommentController@restore');
 		Route::resource('comment', 'CommentController');
 
