@@ -17,18 +17,23 @@
             <div ng-message>Must be atleast 8 characters.</div>
           </div>
         </md-input-container>
+
         <md-input-container>
-          <label>Description</label>
-          <textarea columns="1" ng-model="createmotion.newmotiontext" name="description" minlength="70" required></textarea>
+          <label>Introduction</label>
+          <textarea columns="1" ng-model="createmotion.newmotionsummary" required></textarea>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Details</label>
           <div ng-messages="newmotionform.description.$error" ng-if="newmotionform.description.$error.minlength">  
             <div ng-message>Try making this as detailed as possible. You want people to understand what your motion is about.</div>
           </div>
         </md-input-container>
-        <md-input-container>
-          <label>Summary</label>
-          <textarea columns="1" ng-model="createmotion.newmotionsummary" required></textarea>
-        </md-input-container>
-        
+        </br>
+        <div text-angular columns="1" ng-model="createmotion.newmotiontext" name="description" minlength="70" required></div>
+
+
+
         <div layout="row" layout-align="left" flex>
         <md-input-container>
           <label>Closing date</label>

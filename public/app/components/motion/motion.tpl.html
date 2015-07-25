@@ -5,23 +5,31 @@
 		<md-toolbar class="section-toolbar">
         	<div class="md-toolbar-tools">
         		<h3>Description</h3>
-        		<h3 ng-show="motion.editMotion">
-        		<i>&nbsp  (Editing Mode)</i>
-        		<md-button style="color:gray" ng-click="motion.updateMotion()">Save</md-button><md-button style="color:gray" ng-click="motion.editMotionFunction()">Cancel</md-button></h3>
+        		
            	</div>
 		</md-toolbar>
 		<div layout="row" >
 			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
-			<p class="md-body-2" ng-show="motion.editMotion">Caution: If you edit this motion all votes and comments will be erased. Be careful.</p>
 			<p class="md-headline">Introduction</p>
 			<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.summary"></p>
-			<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.summary" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+			<div ng-show="motion.editMotion"><md-input-container><input ng-model="motion.motionDetail.summary" md-maxlength="250" required/></md-input-container>
+			</div>
 
-				<div>
 			<p class="md-headline">Details</p>
 
 				<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.text"></p>
-				<p class="md-body-1" ng-show="motion.editMotion" ng-model="motion.motionDetail.text" medium-editor options='{"placeholder": "Introduction (A motion to..)", "buttons": ["bold", "italic", "underline", "anchor", "header1", "header2", "orderedlist", "unorderedlist"]}'></p>
+				<div text-angular ng-show="motion.editMotion" ng-model="motion.motionDetail.text"><p class="md-body-1"></p></div>
+		<md-input-container><div ng-messages="" ng-if="motion.editMotion">
+          <div ng-message="">CAUTION: If you edit this motion all votes and comments will be erased. Be careful.</div>
+        </div></md-input-container>
+			<div align="right" ng-show="motion.editMotion">
+			<md-button style="color:gray" ng-hide="motion.editMotionLoading" ng-click="motion.updateMotion()">Save</md-button>
+
+			<md-progress-circular ng-show="motion.editMotionLoading" md-mode="indeterminate"></md-progress-circular>
+			<md-button style="color:gray" ng-hide="motion.editMotionLoading"  ng-click="motion.editMotionFunction()">Cancel</md-button>
+
+</div>
+				<div>
 				</div>
 			</div>
 

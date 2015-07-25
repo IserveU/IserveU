@@ -9,7 +9,8 @@
 			'ui.router',
 			'ngSanitize', 
 			'satellizer',
-			'angular-medium-editor'
+			'angular-medium-editor',
+			'textAngular'
 		])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider) {
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -161,10 +162,6 @@
 							event.preventDefault();
 							$state.go('home');
 						}
-						if(toState.name === 'user' || toState.name === 'user.profile') {
-							$rootScope.$emit('userListIsClicked');
-						}
-
 					}
 
 			    var authenticated = $auth.isAuthenticated();

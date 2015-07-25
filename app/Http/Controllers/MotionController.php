@@ -169,7 +169,7 @@ class MotionController extends ApiController {
 			abort(404,'Motion does not exist');
 		}
 
-		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motion')){
+		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motions')){
 			abort(401,'User does not have permission to restore this motion');
 		}
 

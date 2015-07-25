@@ -26,6 +26,7 @@
         vm.userHasVoted = false;
         vm.userVoteId;
         vm.editMotion = false;
+        vm.editMotionLoading = false;
 
         vm.themename;
 
@@ -37,12 +38,13 @@
         vm.thisUsersCommentVotes = {};
        
         vm.editComment = false;
+        vm.editMotionFunction = editMotionFunction;
 
         vm.editCommentFunction = function(){
             vm.editComment = !vm.editComment;
         }
 
-        vm.editMotionFunction = function(){
+        function editMotionFunction(){
             if($rootScope.administrateMotion){
             vm.editMotion = !vm.editMotion;
           }
@@ -62,15 +64,16 @@
                 $mdToast.show(
                   toast = $mdToast.simple()
                     .content("You've deleted this motion.")
-                    // .action('Undo?')
-                    // .highlightAction(false)
+                    .action('Undo?')
+                    .highlightAction(false)
                     .position('bottom right')
                     .hideDelay(8000)
                 );
 
                 $mdToast.show(toast).then(function() {
-                    motion.updateMotion(data).then(function(result) {
-                    $state.go('motion({id:data.id})')
+                    motion.restoreMotion(data.id).then(function(result) {
+                    $rootScope.$emit('newMotion');  
+
                     $mdToast.show(
                      toast = $mdToast.simple()
                         .content("Motion is back. Try not to do that again.")
@@ -86,6 +89,7 @@
         }
 
         vm.updateMotion = function() {
+            vm.editMotionLoading = !vm.editMotionLoading;
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
@@ -93,6 +97,8 @@
             }
             motion.updateMotion(data).then(function(result) {
                 console.log(result);
+                editMotionFunction();
+                vm.editMotionLoading = !vm.editMotionLoading;
                  $mdToast.show(
                   $mdToast.simple()
                     .content("You've successfully updated this motion!")

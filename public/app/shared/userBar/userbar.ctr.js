@@ -45,6 +45,9 @@
 		if(permissions.indexOf("administrate-motions") != -1) {
 			$rootScope.administrateMotion = true;
 		}
+		if(permissions.indexOf("administrate-users") != -1) {
+			$rootScope.administrateUsers = true;
+		}
 		if(permissions.indexOf("delete-motions") != -1) {
 			$rootScope.canDeleteMotion = true;
 		}

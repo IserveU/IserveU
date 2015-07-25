@@ -17,6 +17,7 @@
 		vm.loginError = false;
 		vm.registerform = false;
 		vm.emailValidation = false;
+		vm.passwordreminder = false;
 		vm.login = login;
 		vm.background_image;
 		vm.default_background = true;
@@ -52,6 +53,15 @@
 		vm.extendregister = function() {
 			vm.registerform = !vm.registerform;
 		};
+
+		vm.forgotPassword = function() {
+			vm.passwordreminder = !vm.passwordreminder;
+		}
+
+		vm.passwordreset = function(email) {
+            $state.reload();
+			//send email function
+		}
 
 		vm.createUser = function(first_name, last_name, email, password){
 			var registerinfo = {
