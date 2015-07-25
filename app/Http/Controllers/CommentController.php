@@ -180,13 +180,11 @@ class CommentController extends ApiController {
 			$input['number'] = 1;
 		}
 
-
 		$validator =  Validator::make($input,[
 			'start_date'	=> 	'date',
 			'end_date'		=>	'date',
 			'number'		=>	'integer'
 		]);
-
 
 
 		if($validator->fails()){
