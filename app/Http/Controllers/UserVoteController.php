@@ -24,6 +24,7 @@ class UserVoteController extends ApiController
         }
 
         $votes = User::with('votes.motion')->find($user->id);
+        
         return $votes;
     }
 

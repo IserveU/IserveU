@@ -19,16 +19,32 @@ class MotionController extends ApiController {
 	 * @return Response
 	 */
 	public function index()
-	{
+	{	
+		$filters = Request::all();
+
 		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
-			$motions = Motion::with(['votes'=>function($query){
-				return $query->where('user_id',Auth::user()->id);
-			}])->get();
-			return $motions;
+			$motions = Motion::whereHas('votes',function($query){
+				$query->where('user_id',Auth::user()->id);
+			});
 		} else {
 			$motions = Motion::all();
 		}
-		return $motions;
+
+		if(isset($filters['rank_greater_than']) && is_numeric($filters['rank_greater_than'])){
+			$motions->rankGreaterThan($filters['rank_greater_than']);
+		}
+
+		if(isset($filters['rank_less_than']) && is_numeric($filters['rank_less_than'])){
+			$motions->rankLessThan($filters['rank_less_than']);
+		}
+
+		if(isset($filters['take'])){
+			$motions->take($filters['take']);
+		} else {
+			$motions->take(1);
+		}
+
+		return $motions->get();
 	}
 
 	/**

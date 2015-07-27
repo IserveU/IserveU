@@ -175,14 +175,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			return $this->visible;
 		}
 
-		if(Auth::user()->can('show-users')){ //Admin
-			$this->visible = $this->adminVisible;
-		} else if(Auth::user()->id==$this->id){ // Logged in user
-			$this->visible = $this->creatorVisible;
-		} else if($this->public) { //Public profile
-			$this->visible = ['first_name','last_name','public','id'];
+		if(Auth::user()->id==$this->id){ // Logged in user
+			$this->visible = array_unique(array_merge($this->creatorVisible, $this->visible));
+		} 
+
+		if($this->public) { //Public profile
+			$this->visible = array_unique(array_merge($this->publicVisible, $this->visible));
 		}
-		return $this->visible;
+
+		return parent::getVisibleAttribute();
 	}
 
 	/**

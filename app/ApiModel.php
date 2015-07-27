@@ -83,7 +83,7 @@ class ApiModel extends Model
     }
 
     public function getVisibleAttribute(){
-        if(Auth::user()->can("show-".$this->table)){
+        if(Auth::check() && Auth::user()->can("show-".$this->table)){
             $this->visible = array_unique(array_merge($this->adminVisible, $this->visible));
         }
         return $this->visible;

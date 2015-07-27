@@ -58,7 +58,7 @@ class Vote extends ApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['user'];
+    protected $appends = [];
 
     /**
      * The rules for all the variables
@@ -128,23 +128,16 @@ class Vote extends ApiModel {
 	 * @return Overrides the API Model, will see if it can be intergrated into it
 	 */
 	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
-		if(!Auth::check()){
-			return $this->visible;
-		}
 
 		if(Auth::user()->id==$this->user_id){
-			$this->setVisible($this->creatorVisible);
-			return true;
-		} 
-
-		if($this->user){
-			if($this->user->public){
-				$this->setVisible($this->publicVisible);
-				return false;
-			}
+			$this->setVisible = array_unique(array_merge($this->creatorVisible, $this->visible));
 		}
 
-		parent::getVisibleAttribute();
+		if(($this->user) && $this->user->public){ //I'm really confused how a vote can not have a user somehow
+			$this->setVisible = array_unique(array_merge($this->publicVisible, $this->visible));
+		}
+
+		return parent::getVisibleAttribute();
 	} 
 
 	/************************************* Casts & Accesors *****************************************/

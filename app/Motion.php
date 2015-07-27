@@ -190,13 +190,32 @@ class Motion extends ApiModel {
 		return $query->where('closing', '>=', new DateTime('NOW'));
 	}
 
-	public function scopePassing($query){
-		return $query->votes->where('commentRank','>',0);
+	// public function scopePassing($query){
+	// 	return $query->whereHas('votes',function($query){
+	// 		$query->havingRaw('SUM(position) > 0');
+	// 	});
+	// 	//return $query->votes->where('commentRank','>',0);
+	// }
+
+	// public function scopeFailing($query){
+	// 	return $query->whereHas('votes',function($query){
+	// 		$query->havingRaw('SUM(position) <= 0');
+	// 	});
+	// 	//return $query->votes->where('commentRank','<=',0);
+	// }
+
+	public function scopeRankGreaterThan($query,$rank){
+		return $query->whereHas('votes',function($query) use ($rank){
+			$query->havingRaw('SUM(position) > '.$rank);
+		});
 	}
 
-	public function scopeFailing($query){
-		return $query->votes->where('commentRank','<=',0);
+	public function scopeRankLessThan($query,$rank){
+		return $query->whereHas('votes',function($query) use ($rank){
+			$query->havingRaw('SUM(position) < '.$rank);
+		});
 	}
+
 
 	/************************************* Relationships ********************************************/
 
