@@ -3,6 +3,7 @@
 /public/css
 /public/js
 /public/themes/*
+/public/build/*
 /public/icons/*
 /public/fonts/*
 /resources/bower/*

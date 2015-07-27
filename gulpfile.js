@@ -43,7 +43,7 @@ elixir(function(mix) {
         '/bower/textAngular/dist/textAngular.css',
         '/bower/font-awesome/css/font-awesome.css'
     ],'public/css/dependencies.css', './resources'); // added resources as third argument to point directly to the resources directory and not have /css in there
-    mix.sass('style.scss','public/css');
+    mix.sass(['style.scss'],'public/css');
 
     mix.styles(['dependencies.css','app.css'],'public/css/all.css','././public/css');
 
