@@ -12,6 +12,8 @@
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
 
 		vm.showUser = false;
+		vm.emptyMotionsArray = false;
+
 		
 
 		if(permissions.indexOf("show-users") != -1) {
@@ -42,11 +44,10 @@
 		}
 
 		function getMotions(){
-			var input = {
-				filter: "rank_greater_than"
-			}
-			motion.getMotions(input).then(function(data) {
-				console.log(data);
+			motion.getMotions().then(function(data) {
+				if(!data[0]){
+					vm.emptyMotionsArray = true;
+				}
 				vm.motions = data;
 			});
 		};

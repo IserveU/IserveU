@@ -18,7 +18,10 @@
         <md-icon ng-switch-when="0" md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
         <md-icon ng-switch-when="-1" md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
       </div> -->
-
     </md-list-item>
+    <md-list-item class="sidebar-list" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
+      <p ui-sref="createmotion">Create new motion</p>
+    </md-list-item>
+
   </md-list>
 </md-content>

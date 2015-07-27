@@ -19,21 +19,6 @@
 
 		function controllerMethod(motion, $scope, $location, $state, $rootScope) {
         
-      var vm = this;
-      vm.motions;
-        
-      $scope.sidebar = {
-				motions: null
-			}
- 
- 			function getMotions() {
-      	motion.getMotions().then(function(results) {	        		
-					$scope.sidebar.motions = results;
-				}, function(error) {
-					console.log(error);
-				});    
-  		}
-
   	}	
 		
 		return {
