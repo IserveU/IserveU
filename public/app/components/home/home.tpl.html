@@ -41,7 +41,7 @@
         </div>
       </md-toolbar>
       <div layout-padding>
-        <a ui-sref="motion({id:home.topMotion.id})"class="md-body-1">{{home.topMotion.title}}</a>
+        <a ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})"class="md-body-1">{{home.topMotion.title}}</a>
       </div>
       
     </section>

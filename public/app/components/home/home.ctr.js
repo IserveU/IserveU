@@ -34,8 +34,8 @@
         	});
         }
 
-        function getMyComments(id){
-        	comment.getMyComments(id).then(function(result){
+        function getMyComments(){
+        	comment.getMyComments(getUserId()).then(function(result){
         		vm.myComments = result;
         	},function(error) {
         		console.log(error);
@@ -56,8 +56,13 @@
         	});
         }
 
-        function getMyVotes(id){
-        	motion.getMyVotes(id).then(function(result){
+        function getUserId(){
+        	var user = JSON.parse(localStorage.getItem('user'));
+        	return user.id;
+        }
+
+        function getMyVotes(){
+        	motion.getMyVotes(getUserId()).then(function(result){
         		vm.myVotes = result.votes;
         	},function(error) {
         		console.log(error);
@@ -65,10 +70,9 @@
         }
 
         getTopMotion();
-        getRandomMotion();
-        getMyComments(user.id);
+        getMyComments();
         getTopComment();
-        getMyVotes(user.id);
+        getMyVotes();
 	}
 	
 }());
