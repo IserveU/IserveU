@@ -63,7 +63,8 @@ Route::group(array('prefix' => 'api'), function(){
 
 		Route::resource('comment_vote', 'CommentVoteController');
 		
-		Route::resource('user.vote', 'UserVoteController', ['only'=>['index']]);
+		Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
+		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
 
 		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
 		Route::resource('property','PropertyController');
