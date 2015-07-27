@@ -24,6 +24,8 @@
 		vm.background_url = '/themes/default/photos/background.png';
 
 
+
+
 		function login(email, password) {
 
 			var credentials = { 
@@ -36,19 +38,23 @@
 					vm.loginError = true;
 				}
 				else {
-					auth.postAuthenticate(credentials).then(function(data) {
-						localStorage.setItem('user', JSON.stringify(data.data.user));
-						localStorage.setItem('permissions', JSON.stringify(data.data.user.permissions));
-						$rootScope.userIsLoggedIn = true;
-						$rootScope.authenticatedUser = data.data.user;
-					});
-				}
-
+					setLocalStorage(credentials);
+					}
 			}, function(error) {
 				vm.error = error;
 				vm.loginError = true;
 			});		
-		};   
+		};
+
+		function setLocalStorage(credentials) {
+			auth.postAuthenticate(credentials).then(function(data) {
+				localStorage.setItem('user', JSON.stringify(data.data.user));
+				localStorage.setItem('permissions', JSON.stringify(data.data.user.permissions));
+				$rootScope.userIsLoggedIn = true;
+				$rootScope.authenticatedUser = data.data.user;
+				$state.go('home');
+			});
+		}   
 		
 		vm.extendregister = function() {
 			vm.registerform = !vm.registerform;
@@ -93,7 +99,6 @@
 
 		function setBackgroundURL(url){
 			vm.background_url = "/themes/default/photos/background.png";
-			// vm.background_url = "/uploads/background_images/{{login.background_image}}";
 		}
 
 	

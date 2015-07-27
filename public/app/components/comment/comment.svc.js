@@ -12,6 +12,10 @@
 	        'update': { method:'PUT' }
 	    });
 
+	    var MyComments = $resource('api/user/:id/comment');
+
+	    var TopComment = $resource('api/comment/top');
+
 		function getComment() {
 			return Comment.query().$promise.then(function(results) {
 				return results
@@ -30,7 +34,6 @@
 
 		function updateComment(data) {
 			return Comment.update({id:data.id}, data).$promise.then(function(success) {
-				console.log(success);
 				return success;
 			}, function(error) {
 				return error;
@@ -45,11 +48,29 @@
 			});
 		}
 
+		function getMyComments(id) {
+			return MyComments.get({id:id}).$promise.then(function(results) {
+				return results;
+			}, function(error) {
+				return error;
+			});
+		}
+
+		function getTopComment(){
+			return TopComment.query().$promise.then(function(results) {
+				return results;
+			}, function(error) {
+				return error;
+			})
+		}
+
 		return {
 			saveComment: saveComment,
 			updateComment: updateComment,
 			deleteComment: deleteComment,
-			getComment: getComment
+			getComment: getComment,
+			getMyComments: getMyComments,
+			getTopComment: getTopComment
 		}
 	}
 })();

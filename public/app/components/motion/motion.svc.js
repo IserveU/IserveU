@@ -8,26 +8,52 @@
 
 	function motion($resource) {
 
-		var Motion = $resource('api/motion/:id', {}, {
+		var Motion = $resource('api/motion/:id', {take:50}, {
 	        'update': { method:'PUT' }
 	    });
+
+	    var GetTopMotion = $resource('api/motion/', {
+               rank_greater_than:0, take:1
+		}, {});
+
 	    var MotionComment = $resource('api/motion/:id/comment');
 
 	    var MotionRestore = $resource('api/motion/:id/restore');
 
 		var Comment = $resource('api/motion/getcomments/:id');
+
 		var Vote = $resource('api/vote/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
+
+		var MyVote = $resource('api/user/:id/vote');
+
 		var CommentVote = $resource('api/comment_vote/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
+
 
 		function getMotions() {
 			return Motion.query().$promise.then(function(results) {
 				return results
 			}, function(error) {
 				console.log(error);
+			});
+		}
+
+		function getTopMotion() {
+			return GetTopMotion.query().$promise.then(function(results) {
+				return results
+			}, function(error) {
+				console.log(error);
+			});
+		}
+
+		function getMyVotes(id) {
+			return MyVote.get({id:id}).$promise.then(function(results) {
+				return results;
+			}, function(error) {
+				return error;
 			});
 		}
 
@@ -87,7 +113,6 @@
 			return Vote.update({id:data.id}, data).$promise.then(function(success) {
 				console.log(success);
 			}, function(error) {
-				console.log(error);
 				return error;
 			});
 		}
@@ -138,7 +163,9 @@
 			getUsersVotes: getUsersVotes,
 			saveCommentVotes: saveCommentVotes,
 			updateCommentVotes: updateCommentVotes,
-			deleteCommentVote: deleteCommentVote
+			deleteCommentVote: deleteCommentVote,
+			getTopMotion: getTopMotion,
+			getMyVotes: getMyVotes
 		}
 	}
 })();

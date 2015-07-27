@@ -42,7 +42,11 @@
 		}
 
 		function getMotions(){
-			motion.getMotions().then(function(data) {
+			var input = {
+				filter: "rank_greater_than"
+			}
+			motion.getMotions(input).then(function(data) {
+				console.log(data);
 				vm.motions = data;
 			});
 		};

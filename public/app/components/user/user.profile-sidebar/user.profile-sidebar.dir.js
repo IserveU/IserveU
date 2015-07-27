@@ -16,7 +16,7 @@
       }
 
   	}
-  	else {
+  	{
     return {
 
       templateUrl: 'app/components/user/user-sidebar/user-sidebar.tpl.html'

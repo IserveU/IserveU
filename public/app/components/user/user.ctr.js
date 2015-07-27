@@ -4,7 +4,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $stateParams, user, $mdToast, $animate, UserbarService, $state, $timeout) {
+	function UserController($rootScope, $scope, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout) {
 		
 		UserbarService.setTitle("");
 		
@@ -13,7 +13,8 @@
 		var userpermissions = JSON.parse(localStorage.getItem('permissions'));
 
 		vm.canShowUser = false;
-		vm.canEditUser = false;
+
+		vm.usercredentials;
 
 		$scope.isuserprofile = false;
 		$scope.ispublic = true;
@@ -89,6 +90,7 @@
 		function getId(){
 			var id = $stateParams.id;
 			id--;
+			vm.id = id;
 			return id;
 		}
 
@@ -96,24 +98,18 @@
 			if(userpermissions.indexOf("show-users") != -1) {
 				vm.canShowUser = true;
 			}
-			if(userpermissions.indexOf("administrate-users") != -1) {
-				vm.canEditUser = true;
-			}
 		}
 
-		function checkPublic() {
-			console.log($scope.users[getId()]);
-			if($scope.users[getId()].public == 0) { 
+		function checkPublic(data) {
+			if(data[getId()]){
+			if(data[getId()].public == 0){
 				$scope.ispublic = false;
-				console.log("this is annoying");
+				$scope.publicChoice = "Not Public";
 			}
-			
-				if($scope.users[getId()].public == 0){
-					return $scope.publicChoice = "Not Public";
-				}
-				else 
-					$scope.publicChoice = "Public";
-			
+			else {
+				$scope.publicChoice = "Public";	
+			}
+			}
 		}
 
 		function checkUser() {
@@ -124,14 +120,23 @@
 
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
-				console.log(result);
 				$scope.users = result;
-				checkPublic();
 				checkUser();
 				angular.forEach(result, function(value, key) {
+					if(result[key].id - userlocal.id == -1){
+						if(!result[key+1] || result[key+1].id != userlocal.id){
+						$scope.users.push(userlocal);
+						if(!angular.isDate(result[key+1].date_of_birth)){
+						$scope.users[key+1].date_of_birth = new Date(result[key+1].date_of_birth);
+					}
+						}
+					}
+					if(!angular.isDate(result[key].date_of_birth)){
 					$scope.users[key].date_of_birth = new Date(result[key].date_of_birth);
-				});
+				}
 
+				});
+				checkPublic($scope.users);
             });         
 		}
 
@@ -143,6 +148,13 @@
 		function updateInfo(data, datatype) {
 			isLoading(datatype);
 			user.updateUser(data).then(function(result){
+				if(data.id == userlocal.id && data.public == 0){            
+				$mdToast.show(
+                  $mdToast.simple()
+                    .content('Your changes will be seen when you log back in.')
+                    .position('bottom right')
+                    .hideDelay(3000)
+                );}
 				onSuccess(datatype);
 				isLoading(datatype);
 				$timeout(function(){
@@ -185,6 +197,7 @@
 
 		getUsers();
 		checkPermissions();
+
 	
 	}
 })();

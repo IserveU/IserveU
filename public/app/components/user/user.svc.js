@@ -31,7 +31,6 @@
 		}
 
 		function editUser(id){
-			console.log(id);
 			return UserEdit.query({id:id}).$promise.then(function(result) {
 				return result;
 			}, function(error) {

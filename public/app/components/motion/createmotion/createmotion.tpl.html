@@ -12,7 +12,7 @@
       <form name="newmotionform">
          <md-input-container>
           <label>Title</label>
-          <textarea columns="1" ng-model="createmotion.newmotiontitle" name="title" minlength='8' required></textarea>
+          <input columns="1" ng-model="createmotion.newmotiontitle" name="title" minlength='8' required/>
           <div ng-messages="newmotionform.title.$error" ng-if="newmotionform.title.$error.minlength">  
             <div ng-message>Must be atleast 8 characters.</div>
           </div>

@@ -12,6 +12,8 @@
 		vm.showUser = false;
 		$rootScope.createMotion = false;
 		$rootScope.canDeleteMotion = false;
+			$rootScope.showUsers = false;
+
 		$rootScope.canCreateBackgroundImages
 
 		vm.userbarservice = UserbarService;
@@ -34,10 +36,11 @@
 
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
 		if(permissions == null){
+			console.log('there are no permissions');
 			$state.go('home');
 		}
 		if(permissions.indexOf("show-users") != -1) {
-			vm.showUser = true;
+			$rootScope.showUsers = true;
 		}
 		if(permissions.indexOf("create-motions") != -1) {
 			$rootScope.createMotion = true;

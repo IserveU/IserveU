@@ -48,6 +48,13 @@
 
 		    // the overall default route for the app. If no matching route is found, then go here
 		    $urlRouterProvider.otherwise('/home');
+		    // $urlRouterProvider.rule(function ($injector, $location) {
+		    // 	 var path = $location.path(), normalized = path.toLowerCase();
+      //  			 if (path != normalized) {
+      //              $location.replace().path(normalized);
+      //              console.log(normalized);
+      //   		}
+		    // });
 
 		    $stateProvider
 		    	.state( 'home', {
@@ -81,7 +88,7 @@
 		    	    }
 		    	})
 		    	.state( 'user.profile', {
-		    	    url: '/profile/:id',
+		    	    url: '^/profile/:id',
 		    	    templateUrl: 'app/components/user/userprofile.tpl.html',
 		    	    controller: 'UserController as user',
 		    	    data: {
@@ -146,7 +153,6 @@
 		})
 		.run(function($rootScope, $auth, $state, auth) {
 						
-			
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
 				var user = JSON.parse(localStorage.getItem('user'));
@@ -156,13 +162,18 @@
 
 						if(toState.name === 'login') {
 							event.preventDefault();
-							//$state.go('home');
+							// $state.go('home');
 						}
 						if(toState.name === 'createmotion' && $rootScope.createMotion === false) {
 							event.preventDefault();
 							$state.go('home');
 						}
 					}
+					// else if(toState.name === 'home' && $rootScope.userIsLoggedIn === undefined) {
+					// 	console.log("one iteration");
+					// 	event.preventDefault();
+					// 	$state.go('login');
+					// }
 
 			    var authenticated = $auth.isAuthenticated();
 
