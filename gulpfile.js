@@ -32,9 +32,9 @@ elixir(function(mix) {
     ],'public/js/dependencies.js', './resources'); // added resources as third argument to point directly to the resources directory and not have /js in there
 
     mix.scriptsIn("resources/js",'public/js/scripts.js'); 
-
  	mix.scriptsIn("public/app",'public/js/iserveu-app.js'); 
 
+    mix.scripts(['dependencies.js','scripts.js','iserveu-app.js'],'public/js/all.js','././public/js');
 
     mix.styles([
         '/bower/angular-material/angular-material.css',
@@ -42,15 +42,16 @@ elixir(function(mix) {
         '/bower/medium-editor/dist/css/medium-editor.css',
         '/bower/textAngular/dist/textAngular.css',
         '/bower/font-awesome/css/font-awesome.css'
-        
     ],'public/css/dependencies.css', './resources'); // added resources as third argument to point directly to the resources directory and not have /css in there
-   
     mix.sass('style.scss','public/css');
+
+    mix.styles(['dependencies.css','app.css'],'public/css/all.css','././public/css');
+
+    mix.version(['css/all.css', 'js/all.js']);
+
 
     mix.copy('./resources/bower/mdi/fonts', './public/fonts'); //The default icon set
     mix.copy('./resources/bower/themes', './public/themes');
     mix.copy('./resources/bower/font-awesome/fonts', './public/fonts');
-
- 
 
 });

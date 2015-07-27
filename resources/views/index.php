@@ -3,8 +3,7 @@
     <head>
         <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title>
         <meta name="viewport" content="initial-scale=1" />  
-        <link rel="stylesheet" href="css/dependencies.css">
-        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="<?=elixir('css/all.css')?>">
         <link rel="stylesheet" href="/themes/<?=config('app.themename')?>/theme.css">
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
@@ -81,9 +80,9 @@
 
         </div>
     </body>        
-  
-    <script src="/js/dependencies.js"></script>        
-    <script src="/js/iserveu-app.js"></script> 
+
+    <script src="<?=elixir('js/all.js')?>"></script>
+
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
         </script>
