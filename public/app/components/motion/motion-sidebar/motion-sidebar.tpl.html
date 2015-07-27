@@ -19,7 +19,7 @@
         <md-icon ng-switch-when="-1" md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
       </div> -->
     </md-list-item>
-    <md-list-item class="sidebar-list" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
+    <md-list-item class="sidebar-list" ng-if="createMotion" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
       <p ui-sref="createmotion">Create new motion</p>
     </md-list-item>
 

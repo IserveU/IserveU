@@ -8,7 +8,7 @@
 
 	function motion($resource) {
 
-		var Motion = $resource('api/motion/:id', {take:50}, {
+		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
 
@@ -34,7 +34,7 @@
 
 
 		function getMotions() {
-			return Motion.query().$promise.then(function(results) {
+			return Motion.query({take:50}).$promise.then(function(results) {
 				return results
 			}, function(error) {
 				console.log(error);

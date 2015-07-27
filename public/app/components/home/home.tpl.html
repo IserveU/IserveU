@@ -69,7 +69,7 @@
         </div>
       </md-toolbar>
       <div layout-padding>
-        <p class="md-body-1"><i>{{home.topComment.text}}</i> written by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}</p>
+        <p class="md-body-1" ng-if="home.topComment"><i>{{home.topComment.text}}</i> written by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}</p>
       </div>
       
     </section>
