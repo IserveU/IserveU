@@ -1,4 +1,5 @@
-<md-content flex role="navigation" ng-controller="UserController as users">
+<div flex layout="row"  ng-controller="UserController as users">
+<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z3" md-component-id="left">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -8,10 +9,10 @@
     </div>
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="user in users" >  
+    <md-list-item class="sidebar-list md-whiteframe-z1" ng-repeat="user in users">  
       <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
       <p md-ink-ripple ui-sref="user.profile({id:user.id})">{{user.first_name}} {{user.last_name}}</p>      
       <md-switch class="md-secondary"ng-model="user.identity_verified" ng-click="verifyUser(user)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
   </md-list>
-</md-content>
+</md-sidenav>

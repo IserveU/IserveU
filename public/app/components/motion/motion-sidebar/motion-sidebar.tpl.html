@@ -1,7 +1,8 @@
-<md-content flex role="navigation" ng-controller="SidebarController as sidebar">
+<div flex layout="row"  ng-controller="SidebarController as sidebar">
+<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z3" md-component-id="left">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
+      <md-button class="md-icon-button" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
         <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"></md-icon>
       </md-button>
       <h2>Motions</h2>
@@ -9,7 +10,7 @@
   </md-toolbar>
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" md-ink-ripple ui-sref-active="active"> 
-      <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
+      <md-icon md-font-icon="mdi-check" aria-label="Visited" class="mdi"></md-icon>
       <p ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
       <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading"></md-icon>
 
@@ -18,10 +19,14 @@
         <md-icon ng-switch-when="0" md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
         <md-icon ng-switch-when="-1" md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
       </div> -->
+
     </md-list-item>
+
     <md-list-item class="sidebar-list" ng-if="createMotion" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
+      <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
       <p ui-sref="createmotion">Create new motion</p>
     </md-list-item>
 
   </md-list>
-</md-content>
+</md-sidenav>
+</div>

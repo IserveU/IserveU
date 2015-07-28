@@ -45,7 +45,7 @@
                                         <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="user.showUser" ui-sref="user.profile({id:1})">
+                                <md-menu-item ng-if="showUsers" ui-sref="user.profile({id:1})">
                                     <md-button ng-click="user.showUserSideBar()">
                                         <p ng-cloak>User List</p>
                                         <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>

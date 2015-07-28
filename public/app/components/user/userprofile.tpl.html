@@ -11,7 +11,7 @@
     <div layout="column" >
       <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
       <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-<div ng-if="!showUsers" ng-show="!isuserprofile && !ispublic">This User's Profile is Not Public</div>
+<div ng-if="!showUsers">This User's Profile is Not Public</div>
 
 <form name="userprofile" ng-if="showUsers" ng-cloak>   
 
@@ -21,8 +21,8 @@
    <md-input-container flex ng-hide="formEdit.first_name">
     <label>First Name</label>
       <input ng-model="users[getId()].first_name" aria-label="firstnamereadonly"readonly/>
-    <md-button ng-hide="ispublic && !isuserprofile && !administrateUsers" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.first_name = !formEdit.first_name" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.first_name || onSuccess.first_name"></md-icon>
+    <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.first_name = !formEdit.first_name" aria-label="editbutton">
+     <md-icon class="mdi-small" md-font-icon="mdi-pencil" ng-hide="isLoading.first_name || onSuccess.first_name"></md-icon>
     </md-button>
     </md-input-container>
 
@@ -30,9 +30,9 @@
     <label>First Name</label>
     <input ng-model="users[getId()].first_name" ng-focus="" ng-blur="updateInfo(users[getId()], 'first_name')" aria-label="firstname" required/>
      <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" class="md-primary"ng-hide="isLoading.first_name || onSuccess.first_name"></md-icon>
-     <md-progress-circular ng-show="isLoading.first_name" md-mode="indeterminate"></md-progress-circular>
-     <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.first_name"></md-icon>
+     <md-icon class="mdi-small md-primary" md-font-icon="mdi-pencil" ng-hide="isLoading.first_name || onSuccess.first_name" ng-click="formEdit.first_name = !formEdit.first_name"></md-icon>
+     <md-progress-circular ng-show="isLoading.first_name" md-mode="indeterminate"></md-progress-circular>  
+     <md-icon class="mdi-small" md-font-icon="mdi-check" ng-show="onSuccess.first_name"></md-icon>
      </md-button>
      </md-input-container>
 
@@ -41,7 +41,7 @@
      <label>Middle Name</label>
       <input ng-model="users[getId()].middle_name" aria-label="middlenamereadonly" readonly/>
     <md-button ng-hide="ispublic && !isuserprofile && !administrateUsers" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.middle_name = !formEdit.middle_name" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.middle_name || onSuccess.middle_name"></md-icon>
+     <md-icon class="mdi-small" md-font-icon="mdi-pencil" ng-hide="isLoading.middle_name || onSuccess.middle_name"></md-icon>
     </md-button>
     </md-input-container>
 
@@ -50,9 +50,9 @@
           <label>Middle Name</label>
           <input ng-model="users[getId()].middle_name" ng-focus="" ng-blur="updateInfo(users[getId()], 'middle_name')" aria-label="middlename"/>
           <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-show="formEdit.middle_name" aria-label="editbutton">
-            <md-icon md-font-icon="mdi-pencil" class="md-primary" ng-hide="isLoading.middle_name || onSuccess.middle_name"></md-icon>
+            <md-icon class="mdi-small md-primary" md-font-icon="mdi-pencil" ng-hide="isLoading.middle_name || onSuccess.middle_name" ng-click="formEdit.middle_name = !formEdit.middle_name"></md-icon>
             <md-progress-circular ng-show="isLoading.middle_name" md-mode="indeterminate"></md-progress-circular>
-            <md-icon md-font-icon="mdi-check" ng-show="onSuccess.middle_name"></md-icon>
+            <md-icon class="mdi-small" md-font-icon="mdi-check" ng-show="onSuccess.middle_name"></md-icon>
           </md-button>
     </md-input-container>
 
@@ -60,7 +60,7 @@
      <label>Last Name</label>
       <input ng-model="users[getId()].last_name" aria-label="lastnamereadonly" readonly/>
     <md-button ng-hide="ispublic && !isuserprofile && !administrateUsers" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.last_name = !formEdit.last_name" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.last_name || onSuccess.last_name"></md-icon>
+     <md-icon class="mdi-small" md-font-icon="mdi-pencil" ng-hide="isLoading.last_name || onSuccess.last_name"></md-icon>
     </md-button>
     </md-input-container>
 
@@ -68,9 +68,9 @@
           <label>Last Name</label>
           <input ng-model="users[getId()].last_name" focus="" ng-blur="updateInfo(users[getId()], 'last_name')" aria-label="lastname"/>
           <md-button class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-show="formEdit.last_name" aria-label="editbutton">
-          <md-icon md-font-icon="mdi-pencil" class="md-primary" ng-hide="isLoading.last_name || onSuccess.last_name"></md-icon>
-          <md-progress-circular ng-show="isLoading.last_name" md-mode="indeterminate"></md-progress-circular>
-          <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.last_name"></md-icon>
+          <md-icon class="mdi-small md-primary" md-font-icon="mdi-pencil" ng-hide="isLoading.last_name || onSuccess.last_name" ng-click="formEdit.last_name = !formEdit.last_name"></md-icon>
+          <md-progress-circular  ng-show="isLoading.last_name" md-mode="indeterminate"></md-progress-circular>
+          <md-icon class="mdi-small" md-font-icon="mdi-check" ng-show="onSuccess.last_name"></md-icon>
           </md-button>
     </md-input-container>
 
@@ -84,7 +84,7 @@
      <label>Birthday</label>
       <input ng-model="users[getId()].date_of_birth" aria-label="birthdayreadonly" type="date" readonly/>
     <md-button ng-hide="!isuserprofile && !administrateUsers" class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" ng-click="formEdit.date_of_birth = !formEdit.date_of_birth" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.date_of_birth || onSuccess.date_of_birth"></md-icon>
+     <md-icon class="mdi-small" md-font-icon="mdi-pencil" ng-hide="isLoading.date_of_birth || onSuccess.date_of_birth"></md-icon>
     </md-button>
     </md-input-container>
 
@@ -95,7 +95,7 @@
       <input ng-model="users[getId()].date_of_birth" ng-focus="" ng-blur="updateInfo(users[getId()], 'date_of_birth')" type="date" aria-label="dateofbirth"/>
  <div class="md-icon-button" style="padding-top:15px; left:87%; position:absolute" aria-label="editbutton">
         <md-progress-circular ng-show="isLoading.date_of_birth" md-mode="indeterminate"></md-progress-circular>
-        <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.date_of_birth"></md-icon>
+        <md-icon class="mdi-small" md-font-icon="mdi-check" ng-show="onSuccess.date_of_birth"></md-icon>
         </div> 
     </md-input-container>
 
@@ -117,7 +117,7 @@
      <label>Email</label>
       <input ng-model="users[getId()].email" aria-label="emailreadonly" readonly/>
     <md-button ng-hide="!isuserprofile && !administrateUsers" class="md-icon-button" style="padding-top:15px; left:95%; position:absolute" ng-click="formEdit.email = !formEdit.email" aria-label="editbutton">
-     <md-icon md-font-icon="mdi-pencil" ng-hide="isLoading.email || onSuccess.email"></md-icon>
+     <md-icon class="mdi-small"md-font-icon="mdi-pencil" ng-hide="isLoading.email || onSuccess.email"></md-icon>
     </md-button>
     </md-input-container>
 
@@ -125,9 +125,9 @@
       <label>Email</label>
       <input ng-model="users[getId()].email" ng-focus="" ng-blur="updateInfo(users[getId()], 'email')" aria-label="email" />
     <md-button style="padding-top:15px; left:95%; position:absolute" class="md-icon-button" ng-show="formEdit.email" aria-label="editbutton">
-      <md-icon md-font-icon="mdi-pencil" class="md-primary" ng-hide="isLoading.email || onSuccess.email"></md-icon>
+      <md-icon class="mdi-small md-primary" md-font-icon="mdi-pencil" ng-hide="isLoading.email || onSuccess.email" ng-click="formEdit.email = !formEdit.email"></md-icon >
       <md-progress-circular ng-show="isLoading.email" md-mode="indeterminate"></md-progress-circular>
-      <md-icon  md-font-icon="mdi-check" ng-show="onSuccess.email"></md-icon>
+      <md-icon class="mdi-small" md-font-icon="mdi-check" ng-show="onSuccess.email"></md-icon>
     </md-button>
     </md-input-container>
 
