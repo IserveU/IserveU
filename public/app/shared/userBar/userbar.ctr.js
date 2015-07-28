@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserbarController', UserbarController);
 
-	function UserbarController($scope, $rootScope, $state, auth, UserbarService) {
+	function UserbarController($scope, $rootScope, $state, auth, UserbarService, $mdSidenav) {
 
 		var vm = this;
 		vm.showUser = false;
@@ -18,7 +18,10 @@
 
 		vm.userbarservice = UserbarService;
 
-	
+		vm.toggleSidebar = function(menuId){
+			console.log('motion');
+			$mdSidenav(menuId).toggle();
+		}
 
 		vm.logout = function() {
 			auth.logout().then(function(data) {

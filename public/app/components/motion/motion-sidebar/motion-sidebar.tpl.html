@@ -1,10 +1,10 @@
-<div flex layout="row"  ng-controller="SidebarController as sidebar">
-<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z3" md-component-id="left">
+<md-content flex role="navigation" ng-controller="SidebarController as sidebar">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
+      <md-button class="md-icon-button" ui-sref="home" show-gt-md=""  aria-label="Toggle Menu">
         <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"></md-icon>
       </md-button>
+
       <h2>Motions</h2>
     </div>
   </md-toolbar>
@@ -28,5 +28,4 @@
     </md-list-item>
 
   </md-list>
-</md-sidenav>
-</div>
+</md-content>

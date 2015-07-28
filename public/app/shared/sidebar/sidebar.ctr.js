@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('SidebarController', SidebarController);
 
-	function SidebarController(motion, $rootScope) {
+	function SidebarController(motion, $rootScope, $mdMedia, $mdSidenav) {
 
 		var vm = this;
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
@@ -14,11 +14,17 @@
 		vm.showUser = false;
 		vm.emptyMotionsArray = false;
 
-		
+		$rootScope.$mdMedia = $mdMedia;
+
+		vm.toggleSidenav = function(menuId){
+			$mdSidenav('left').toggle();
+		}
 
 		if(permissions.indexOf("show-users") != -1) {
 			vm.showUser = true;
 		}
+
+
 
 		vm.setMotionName = setMotionName;
 		vm.getMotions = getMotions;
