@@ -13,43 +13,24 @@
       </div> 
     </section>
 
-    <section layout-margin  class="md-whiteframe-z1" flex>
-      <md-toolbar class="section-toolbar">
-        <div class="md-toolbar-tools">
-          <h3>Your Comments</h3>
-        </div>
-      </md-toolbar>
-      <div layout-padding ng-repeat="comment in home.myComments">
-        <a ui-sref="motion({id:comment.vote.motion_id})" class="md-body-1">{{comment.text}}</a>
-      </div>
-    </section>
-</div>
 
-<div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
           <h3>Currently Passing</h3>
         </div>
       </md-toolbar>
-      <div layout-padding ng-if="home.topMotion">
-        <a ui-sref="motion({id:home.topMotion.id})"class="md-body-1">{{home.topMotion.title}}</a>
-      </div>    
+      <md-list layout-padding ng-if="home.topMotion">
+        <md-list-item>
+        <p class="md-body-1">{{home.topMotion.title}}</p>
+         <md-button class="md-icon-button" ui-sref="motion({id:home.topMotion.id})" aria-label="topMotionRedirect">
+        <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+        </md-button>
+        </md-list-item>
+      </md-list>    
     </section>
 
-    <section layout-margin class="md-whiteframe-z1">
-      <md-toolbar class="section-toolbar">
-        <div class="md-toolbar-tools">
-          <h3>Your Vote</h3>
-        </div>
-      </md-toolbar>
-      <div layout-padding ng-repeat="vote in home.myVotes">
-        <a ui-sref="motion({id:vote.motion_id})"class="md-body-1">{{vote.motion.title}}</a>
-        <md-icon ng-show="vote.position==1"class="md-primary" md-svg-src="/themes/default/icons/thumb-up.svg"></md-icon>
-        <md-icon ng-show="vote.position==-1"class="md-secondary" md-svg-src="/themes/default/icons/thumb-down.svg"></md-icon>
-        <md-icon ng-show="vote.position==0"md-svg-src="/themes/default/icons/thumbs-up-down.svg"></md-icon>
-      </div>
-    </section>
+
 
 
   <section layout-margin class="md-whiteframe-z1">
@@ -58,50 +39,71 @@
           <h3>Top Comment Today</h3>
         </div>
       </md-toolbar>
-      <div layout-padding ng-if="home.topComment">
-        <p class="md-body-1"><i>{{home.topComment.text}}</i> written by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}</p>
-      </div>
+      <md-list layout-padding ng-if="home.topComment">
+      <md-list-item ng-model="home.shortNumber">
+      <p class="md-body-1">{{home.topComment.text | limitTo: home.shortNumber}}</p>
+      <md-button class="md-icon-button" ui-sref="motion({id:home.topComment.vote.motion_id})" aria-label="topCommentRedirect">
+      <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+      </md-button>
+
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="md-caption" layout-align="end">
+      written by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}
+      </md-list-item>
+      </md-list>
     </section>
+
+
+
 </div>
 
 
-</md-content>
 
-<!-- 
-<md-content id="maincontent" layout="row" layout-wrap>
+<div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
+
+
+
+    <section layout-margin class="md-whiteframe-z1">
+      <md-toolbar class="section-toolbar">
+        <div class="md-toolbar-tools">
+          <h3>Your Votes</h3>
+        </div>
+      </md-toolbar>
+      <md-list ng-repeat="vote in home.myVotes | limitTo: 5">
+      <md-list-item><p class="md-body-1">{{vote.motion.title}}</p>
+
+        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/default/icons/thumb-up.svg"></md-icon>
+        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/default/icons/thumb-down.svg"></md-icon>
+        <md-icon ng-show="vote.position==0" md-svg-src="/themes/default/icons/thumbs-up-down.svg"></md-icon>
+        <md-button class="md-icon-button" ui-sref="motion({id:vote.motion_id})" aria-label="yourVoteRedirect">
+        <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+        </md-button>
+        </md-list-item><md-divider></md-divider>
+  
+        </md-list>
+
+    </section>
 
     <section layout-margin  class="md-whiteframe-z1" flex>
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>My Comments</h3>
+          <h3>Your Comments</h3>
         </div>
       </md-toolbar>
-      <div layout-padding ng-repeat="comment in home.myComments">
-        <a ui-sref="motion({id:comment.vote.motion_id})" class="md-body-1">{{comment.text}}</a>
-      </div>
-      
+      <md-list ng-repeat="comment in home.myComments | limitTo: 5">
+      <md-list-item>
+      <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
+      <md-button class="md-icon-button" ui-sref="motion({id:comment.vote.motion_id})" aria-label="yourCommentRedirect">
+      <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+      </md-button>
+      </md-list-item>
+      <md-divider></md-divider>
+      </md-list>
     </section>
-  </div> -->
 
 
-<!--   <div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
-    <section layout-margin class="md-whiteframe-z1">
-      <md-toolbar class="section-toolbar">
-        <div class="md-toolbar-tools">
-          <h3>Currently Passing</h3>
-        </div>
-      </md-toolbar>
-      <div layout-padding>
-        <a ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})"class="md-body-1">{{home.topMotion.title}}</a>
-      
-    </section>
-      </div>
+</div>
 
 
-
-
-
-
-  </div>
-</md-content> -->
-
+</md-content>

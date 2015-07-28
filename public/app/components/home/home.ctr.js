@@ -9,6 +9,7 @@
 	function HomeController(motion, comment, UserbarService) {
 		
 		var vm = this;
+        vm.shortNumber = 120;
 		vm.topMotion;
 		vm.myComments = {};
 		vm.myVotes = {};
@@ -48,6 +49,7 @@
         			angular.forEach(comment, function(value, key){
         				if(value.commentRank == 1){
         					vm.topComment = value;
+                            console.log(vm.topComment);
         				}
         			});
         		});
@@ -57,8 +59,12 @@
         }
 
         function getUserId(){
+        	if(JSON.parse(localStorage.getItem('user')) != null){
         	var user = JSON.parse(localStorage.getItem('user'));
         	return user.id;
+        	}
+        	else
+        		return 0;
         }
 
         function getMyVotes(){
