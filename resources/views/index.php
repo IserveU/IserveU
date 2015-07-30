@@ -63,7 +63,7 @@
                                         <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="administrateProperties" ng-controller="PropertyController as property" ng-click="property.uploadProperties()">
+                                <md-menu-item ng-if="administrateProperties" ng-controller="PropertyController as property" ng-click="">
                                     <md-button>
                                         <p ng-cloak>Property Manager</p>
                                         <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>

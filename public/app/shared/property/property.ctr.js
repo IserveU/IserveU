@@ -11,15 +11,14 @@
 		var vm = this;
 
 
-		vm.uploadProperties = function () {
-			property.uploadProperties().then(function(result){
-				console.log("success");
-			},function(error){
-				console.log(error);
-			});
-		};
+		// vm.uploadProperties = function () {
+		// 	property.uploadProperties().then(function(result){
+		// 		console.log("success");
+		// 	},function(error){
+		// 		console.log(error);
+		// 	});
+		// };
 
-		console.log("there");
 
 	}
 
