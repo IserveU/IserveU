@@ -59,9 +59,9 @@ class PropertyAssessment extends ApiModel {
      * @var array
      */
 	protected $rules = [
-		'land_value' 		=>	'doubleval',
-        'improvement_value'	=>	'doubleval',
-        'other_value' 		=>	'doubleval',
+		'land_value' 		=>	'integer',
+        'improvement_value'	=>	'integer',
+        'other_value' 		=>	'integer',
         'year'				=>	'integer',
         'property_id'		=>	'integer',
         'id'				=>	'integer'
@@ -106,17 +106,17 @@ class PropertyAssessment extends ApiModel {
 
 
 	/**************************************** Standard Methods **************************************** */
-	public static function boot(){
-		parent::boot();
+	// public static function boot(){
+		// parent::boot();
 
-		static::creating(function($model){
-			return $model->validate();	
-		});
+		// static::creating(function($model){
+		// 	return $model->validate();	
+		// });
 
-		static::updating(function($model){
-			return $model->validate();			
-		});
-	}
+		// static::updating(function($model){
+		// 	return $model->validate();			
+		// });
+	// }
 
 
 	/************************************* Custom Methods *******************************************/
