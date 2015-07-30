@@ -49,12 +49,10 @@ class PropertyAssessmentController extends ApiController {
 			abort(401,'You do not have permission to create a property assessment');
 		}
 
-		$propertyassessment = (new PropertyAssessment)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-
+		$propertyassessment = (new PropertyAssessment)->secureFill(Request::all()); 
 		if(!$propertyassessment->save()){
-		 	propertyassessment(403,$propertyassessment->errors);
+		 	abort(403,$propertyassessment->errors);
 		}
-     	
      	return $propertyassessment;
 	}
 
@@ -104,7 +102,7 @@ class PropertyAssessmentController extends ApiController {
 			abort(401,"This user can not edit property assessment ($id)");
 		}
 
-		$propertyassessment->secureFill(Request::except('token'));
+		$propertyassessment->secureFill(Request::all());
 
 		if(!$propertyassessment->save()){
 		 	abort(403,$propertyassessment->errors);

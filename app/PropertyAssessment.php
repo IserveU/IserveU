@@ -22,13 +22,13 @@ class PropertyAssessment extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['land_value','property_value','other_value', 'year', 'property_id'];
+	protected $fillable = ['land_value','property_value','improvement_value', 'other_value', 'year', 'property_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['land_value','property_value','other_value'];
+	protected $adminFillable = ['land_value','property_value', 'improvement_value', 'other_value', 'year', 'property_id'];
 	
 	/**
 	 * The attributes included in the JSON/Array
@@ -59,12 +59,12 @@ class PropertyAssessment extends ApiModel {
      * @var array
      */
 	protected $rules = [
+        'id'				=>	'integer',
 		'land_value' 		=>	'integer',
         'improvement_value'	=>	'integer',
         'other_value' 		=>	'integer',
         'year'				=>	'integer',
-        'property_id'		=>	'integer',
-        'id'				=>	'integer'
+        'property_id'		=>	'integer|unique:property_assesments,property_id'
 	];
 
 	/**
@@ -77,13 +77,13 @@ class PropertyAssessment extends ApiModel {
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['land_value','improvement_value','year', 'property_id'];
+	protected $onCreateRequired = ['land_value','year', 'improvement_value','property_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = ['property_id'];
+	protected $unique = [];
 
 	/**
 	 * The front end field details for the attributes in this model 
@@ -106,17 +106,17 @@ class PropertyAssessment extends ApiModel {
 
 
 	/**************************************** Standard Methods **************************************** */
-	// public static function boot(){
-		// parent::boot();
+	public static function boot(){
+		parent::boot();
 
-		// static::creating(function($model){
-		// 	return $model->validate();	
-		// });
+		static::creating(function($model){
+			return $model->validate();	
+		});
 
-		// static::updating(function($model){
-		// 	return $model->validate();			
-		// });
-	// }
+		static::updating(function($model){
+			return $model->validate();			
+		});
+	}
 
 
 	/************************************* Custom Methods *******************************************/
