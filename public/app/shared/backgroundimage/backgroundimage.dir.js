@@ -20,8 +20,7 @@
 		var backgroundimage;
 		var settings = JSON.parse(localStorage.getItem('settings'));
 
-
-		if (settings.background_image == null) {
+		if (settings.background_image == null || settings == null) {
 			backgroundimage = "url(/themes/default/photos/background.png)";
 		}
 		else {
