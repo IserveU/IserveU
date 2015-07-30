@@ -93,7 +93,7 @@ class PropertyController extends ApiController {
 
 	public function uploadCSV(){
 
-		// Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
+		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
 
 
 		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
