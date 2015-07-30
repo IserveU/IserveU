@@ -93,7 +93,7 @@ class PropertyController extends ApiController {
 
 	public function uploadCSV(){
 
-		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
+		// Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
 
 
 		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
@@ -121,9 +121,8 @@ class PropertyController extends ApiController {
 		    [17] => Latitude
 		    [18] => Longitude
 		*/
-
+		 ini_set('max_execution_time', 300);   
 		foreach($allrows as $row){
-
 			$property = Property::where('roll_number',trim($row[0]))->first();
 			
 			if(!$property){ //If the property hasn't been entered then we might not have all these, otherwise just check the assesment value hasn't changed
