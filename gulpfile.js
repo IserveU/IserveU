@@ -47,7 +47,7 @@ elixir(function(mix) {
 
     mix.styles(['dependencies.css','app.css'],'public/css/all.css','././public/css');
 
-    mix.version(['css/all.css', 'js/all.js']);
+    mix.version(['public/css/all.css', 'public/js/all.js']);
 
 
     mix.copy('./resources/bower/mdi/fonts', './public/fonts'); //The default icon set
