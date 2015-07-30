@@ -14,6 +14,8 @@
 		
 		vm.isactive = 0;
 		vm.adminbackgroundimages = false;
+		$scope.themename = '';
+		$scope.backgroundcredits = '';
 		var settings = JSON.parse(localStorage.getItem('settings'));
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
 		if(permissions){
@@ -21,8 +23,11 @@
 				vm.adminbackgroundimages = true;
 			}
 		}
-		$scope.themename = settings.themename;
-		$scope.backgroundcredits = settings.background_image;
+		if(settings) {
+			$scope.themename = settings.themename;
+			$scope.backgroundcredits = settings.background_image;
+		}
+
 
 		vm.uploading = false;
 		vm.onSuccess = false;

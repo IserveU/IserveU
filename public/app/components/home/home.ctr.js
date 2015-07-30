@@ -16,7 +16,9 @@
 		vm.topComment;
 		var user = JSON.parse(localStorage.getItem('user'));
 		var settings = JSON.parse(localStorage.getItem('settings'));
-		vm.themename = settings.themename;
+        if(settings){
+		  vm.themename = settings.themename;
+        }
 
 
         function getRandomMotion() {
