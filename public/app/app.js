@@ -9,8 +9,7 @@
 			'ui.router',
 			'ngSanitize', 
 			'satellizer',
-			'angular-medium-editor',
-			'textAngular'
+			'textAngular',
 		])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider) {
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -107,6 +106,14 @@
 	        		url: '/departments/:id',
 	            	controller: 'DepartmentController as department',
 	            	templateUrl: 'app/shared/department/department.tpl.html',
+	                data: {
+	                    requireLogin: true
+	                } 
+	        	})
+	        	.state('property' , {
+	        		url: '/property',
+	            	controller: 'PropertyController as property',
+	            	templateUrl: 'app/shared/property/propertyassessment/propertyassessment.tpl.html',
 	                data: {
 	                    requireLogin: true
 	                } 

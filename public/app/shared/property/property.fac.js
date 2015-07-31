@@ -8,22 +8,21 @@
 
 	function property($resource) {
 
-		// var UploadProperty = $resource('api/property/uploadcsv', {}, {
-	 //        'update': { method:'PUT' }
-	 //    });
+	var PropertyAssessment = $resource('api/propertyassessment');
 
-	 //    function uploadProperties(){
-	 //    	return UploadProperty.save().$promise.then(function(results) {
-		// 		return results;
-		// 	}, function(error) {
-		// 		return error;
-		// 	});
-	 //    }
+	console.log('twice');
 
+	function getPropertyAssessment(data){
+		return PropertyAssessment.get(data).$promise.then(function(results){
+			return results;
+		}, function(error) {
+			return error;
+		});
+	}
 
-	 //    return {
-	 //    	uploadProperties: uploadProperties
-	 //    }
+	    return {
+	    	getPropertyAssessment: getPropertyAssessment
+	    }
 
 	}
 })();

@@ -23,8 +23,6 @@ elixir(function(mix) {
 		'/bower/angular-sanitize/angular-sanitize.min.js',
 		'/bower/moment/moment.js',
         '/bower/satellizer/satellizer.js',
-        '/bower/angular-medium-editor/dist/angular-medium-editor.min.js',
-        '/bower/medium-editor/dist/js/medium-editor.min.js',
         '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
         '/bower/textAngular/dist/textAngularSetup.js',
         '/bower/textAngular/dist/textAngular-rangy.min.js',

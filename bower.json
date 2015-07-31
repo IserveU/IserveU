@@ -17,7 +17,6 @@
     "moment": "~2.9.0",
     "themes": "git@github.com:/IserveU/themes.git",
     "satellizer": "latest",
-    "angular-medium-editor": "~0.1.0",
     "textAngular": "*",
     "bootstrap-css-only": "latest",
     "font-awesome": "*"

@@ -34,6 +34,7 @@ Route::get('/', function() {
 
 
 Route::group(array('prefix' => 'api'), function(){
+	// Entrust::routeNeedsPermission('propertyassessment/*', 'show-motions', abort(401,'no'));
 
 
 	Route::post('user/grantpermission', 'UserController@grantPermission');
@@ -69,6 +70,14 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
 		Route::resource('property','PropertyController');
 
+		
+		Route::filter('propertyassessment', function()
+		{
+		    // check the current user
+		    if (!Entrust::can('administratw-properties')) {
+		        App::abort(403);
+		    }
+		});
 		Route::resource('propertyassessment', 'PropertyAssessmentController');
 
 	});

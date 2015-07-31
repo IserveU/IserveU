@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 use App\PropertyAssessment;
 use Auth;
 use DB;
@@ -21,7 +22,9 @@ class PropertyAssessmentController extends ApiController {
 			abort(401,'You do not have permission to see property assessments');
 		}
 
-		return $propertyassessment = PropertyAssessment::all();
+		$limit = Request::get('limit') ?: 50;
+
+		return $propertyassessment = PropertyAssessment::paginate($limit);
 	}
 
 	/**
