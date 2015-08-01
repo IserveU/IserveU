@@ -1,6 +1,7 @@
 <?php
 
 use App\BackgroundImage;
+use App\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,15 +71,9 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
 		Route::resource('property','PropertyController');
 
-		
-		Route::filter('propertyassessment', function()
-		{
-		    // check the current user
-		    if (!Entrust::can('administratw-properties')) {
-		        App::abort(403);
-		    }
+		Route::group(['middleware' => 'role:administrator'], function(){
+			Route::resource('propertyassessment', 'PropertyAssessmentController');
 		});
-		Route::resource('propertyassessment', 'PropertyAssessmentController');
 
 	});
 });
