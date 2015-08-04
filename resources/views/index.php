@@ -36,7 +36,7 @@
 
                         <md-menu md-position-mode="target-right target" ng-cloak>
                             <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-                                <md-icon class="mdi" md-menu-origin md-font-icon="mdi-menu" ></md-icon>
+                                <md-icon class="mdi" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
                             </md-button>
                             <md-menu-content width="4">
                                 <md-menu-item>
