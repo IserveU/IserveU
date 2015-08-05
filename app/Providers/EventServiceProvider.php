@@ -17,6 +17,10 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\UserCreated' => [
 			'App\Listeners\UserCreated\SendWelcomeEmail'
 		],
+		'App\Events\UserLoginFailed' => [
+			'App\Listeners\UserLoginFailed\LogAttempt',
+			'App\Listeners\UserLoginFailed\SendResetEmail'
+		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\MotionUpdated\SendNotificationEmail',
 			'App\Listeners\MotionUpdated\RemoveVotes'

@@ -1,7 +1,6 @@
 <?php
 
 use App\BackgroundImage;
-use App\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +14,6 @@ use App\Permission;
 */
 
 
-Route::get('comment/approve/{id}/{code}', 'CommentController@approve');
-
-Route::get('comment/delete/{id}/{code}', 'CommentController@approve');
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
 
@@ -35,7 +31,6 @@ Route::get('/', function() {
 
 
 Route::group(array('prefix' => 'api'), function(){
-	// Entrust::routeNeedsPermission('propertyassessment/*', 'show-motions', abort(401,'no'));
 
 
 	Route::post('user/grantpermission', 'UserController@grantPermission');
@@ -70,10 +65,5 @@ Route::group(array('prefix' => 'api'), function(){
 
 		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
 		Route::resource('property','PropertyController');
-
-		Route::group(['middleware' => 'role:administrator'], function(){
-			Route::resource('propertyassessment', 'PropertyAssessmentController');
-		});
-
 	});
 });
