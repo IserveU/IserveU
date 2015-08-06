@@ -83,7 +83,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    'public'				=>	'boolean',
         'id'       				=>	'integer',
 	    'login_attempts'		=>	'integer',
-	    'identity_verified'		=>	'boolean'
+	    'identity_verified'		=>	'boolean',
+	    'remember_token'		=>	'unique:users,remember_token'
 	];
 
 	/**

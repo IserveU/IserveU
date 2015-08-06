@@ -11,21 +11,22 @@ use Illuminate\Support\Facades\Request;
 
 class ApiModel extends Model
 {
-    public $errors; 
+    public $errors;
+
+    public $rulesParsed = false; 
 
     protected $adminVisible = [];
     protected $adminFillable = [];
  
 
     public function validate(){
-        $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
 
+        $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
 
         if($validator->fails()){
             $this->errors = $validator->messages();
             return false;
-        }
-
+        }       
         return true;
     }
 
@@ -100,24 +101,29 @@ class ApiModel extends Model
     }   
 
     public function getRulesAttribute(){
+
+        if($this->rulesParsed){
+            return $this->rules; //Prevents 'required' and update IDS being added many times
+        }
+
         if($this->id){ //Existing record            
-            $this->rules = AddRule($this->rules,$this->onUpdateRequired,'required');
 
             foreach($this->unique as $value){ //Stops the unique values from ruining everything
                 $this->rules[$value] = $this->rules[$value].",".$this->id;
             }
 
-            if(Request::method()=="PATCH"){ // Adds things that aren't actual validation rules if this is the actual patch
-                return $this->rules;    
-            }
+            $this->rules = AddRule($this->rules,$this->onUpdateRequired,'required'); //Need to require things after appending the ID
+            // if(Request::method()=="PATCH"){ // Adds things that aren't actual validation rules if this is the actual patch
+            //     return $this->rules;    
+            // }
         }
         
         if(Request::method()=="POST" || Request::method()=="GET"){ //Initial create
             $this->rules = AddRule($this->rules,$this->onCreateRequired,'required');
-            return $this->rules; //DOn't add on things that aren't actual validation rules
+            //return $this->rules; //DOn't add on things that aren't actual validation rules
         }
 
-
+        $this->rulesParsed = true;
         return $this->rules;    
     }
 

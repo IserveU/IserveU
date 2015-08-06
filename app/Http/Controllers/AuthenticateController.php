@@ -44,6 +44,9 @@ class AuthenticateController extends ApiController
             abort(401,'Account is locked until '.$user->locked_until);
         }
 
+        $user->remember_token = null;
+        $user->save();
+
         // all good so return the token
         return response()->json(compact('token','user'));
     }    
