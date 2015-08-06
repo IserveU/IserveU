@@ -69,7 +69,7 @@
         function getMyVotes(){
             motion.getMyVotes(getUserId()).then(function(result){
                 vm.myVotes = result.votes;
-                if(!vm.myVotes[0]){
+                if(vm.myVotes == undefined || !vm.myVotes[0]){
                     console.log('empty');
                     vm.empty.myvotes = true;
                 }

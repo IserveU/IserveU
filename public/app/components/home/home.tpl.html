@@ -77,7 +77,7 @@
           <h3>Your Votes</h3>
         </div>
       </md-toolbar>
-      <md-list layout-padding ng-repeat="vote in home.myVotes | limitTo: 5">
+      <md-list layout-padding ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes | limitTo: 5">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
       <p class="md-body-1">{{vote.motion.title}}</p>
         <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/default/icons/thumb-up.svg"></md-icon>
@@ -106,8 +106,8 @@
           <h3>Your Comments</h3>
         </div>
       </md-toolbar>
-      <md-list layout-padding ng-repeat="comment in home.myComments | limitTo: 5">
-      <md-list-item ng-if="home.myComments" ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
+      <md-list layout-padding ng-if="!home.empty.mycomments" ng-repeat="comment in home.myComments | limitTo: 5">
+      <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
       <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
       <md-button class="md-icon-button" aria-label="yourCommentRedirect" ui-sref="motion({id:comment.vote.motion_id})">
         <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
