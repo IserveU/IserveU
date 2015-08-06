@@ -144,6 +144,7 @@
 			<p ng-if="!motion.editComment" columns="1">{{motion.thisUsersComment.text}}</p>
 			<textarea ng-if="motion.editComment" columns="1" ng-model="motion.commenttext"></textarea>
 			</md-input-container>
+			<md-divider></md-divider>
 			<div layout="row" layout-align="end center">
 				<md-button class="md-primary" ng-if="!motion.editComment" ng-click="motion.editCommentFunction()">Edit</md-button>
 				<md-button class="md-primary" ng-if="motion.editComment" ng-click="motion.updateComment(motion.commenttext); motion.editCommentFunction()">Save Comment</md-button>
@@ -207,9 +208,6 @@
 	</div>
 	</section>
 
-
-		    	
-</md-content>
 <md-fab-toolbar class="md-right" >
 	<md-fab-trigger class="align-with-text">
 		<md-button aria-label="menu" class="md-fab md-primary">
@@ -230,3 +228,8 @@
 		</md-fab-actions>
 	</md-toolbar>
 </md-fab-toolbar>
+
+
+		    	
+</md-content>
+
