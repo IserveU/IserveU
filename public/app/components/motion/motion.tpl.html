@@ -139,7 +139,7 @@
 	        </form>
 			</div>
 
-		<div flex ng-if="motion.thisUsersComment.text != null">
+		<div flex layout-padding ng-if="motion.thisUsersComment.text != null">
 			<md-input-container flex >
 			<p ng-if="!motion.editComment" columns="1">{{motion.thisUsersComment.text}}</p>
 			<textarea ng-if="motion.editComment" columns="1" ng-model="motion.commenttext"></textarea>
