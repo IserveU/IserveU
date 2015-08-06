@@ -21,12 +21,15 @@
           <h3>Currently Passing</h3>
         </div>
       </md-toolbar>
-      <md-list layout-padding ng-if="home.topMotion">
-        <md-list-item ui-sref="motion({id:home.topMotion.id})">
+      <md-list layout-padding>
+        <md-list-item ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})">
         <p class="md-body-1">{{home.topMotion.title}}</p>
-         <md-button class="md-icon-button" aria-label="topMotionRedirect">
+         <md-button class="md-icon-button" aria-label="topMotionRedirect" ui-sref="motion({id:home.topMotion.id})">
         <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
         </md-button>
+        </md-list-item>
+        <md-list-item ng-if="home.empty.topmotion" ng-cloak>
+        <p class="md-body-1">There are no motions that are currently passing.</p>
         </md-list-item>
       </md-list>    
     </section>
@@ -40,18 +43,23 @@
           <h3>Top Comment Today</h3>
         </div>
       </md-toolbar>
-      <md-list layout-padding ng-if="home.topComment">
-      <md-list-item ui-sref-active="active" ui-sref="motion({id:home.topComment.vote.motion_id})" ng-model="home.shortNumber">
+      <md-list layout-padding>
+      <md-list-item ng-if="home.topComment" ui-sref-active="active" ui-sref="motion({id:home.topComment.vote.motion_id})" ng-model="home.shortNumber">
       <p class="md-body-1">{{home.topComment.text | limitTo: home.shortNumber}}</p>
-      <md-button class="md-icon-button"  aria-label="topCommentRedirect">
+      <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:home.topComment.vote.motion_id})">
         <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
       </md-button>
 
       </md-list-item>
-      <md-divider></md-divider>
-      <md-list-item class="md-caption" layout-align="end">
-      written by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}
+      <md-divider ng-if="home.topComment"></md-divider>
+      <md-list-item ng-if="home.topComment" class="md-caption" layout-align="end">
+      by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}
       </md-list-item>
+
+      <md-list-item ng-if="home.empty.topcomment" ng-cloak>
+      <p class="md-body-1">There isn't a top comment today. Give it a go.</p>
+      </md-list-item>
+
       </md-list>
     </section>
 
@@ -75,12 +83,21 @@
         <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/default/icons/thumb-up.svg"></md-icon>
         <md-icon ng-show="vote.position==-1" md-svg-src="/themes/default/icons/thumb-down.svg"></md-icon>
         <md-icon ng-show="vote.position==0" md-svg-src="/themes/default/icons/thumbs-up-down.svg"></md-icon>
-          <md-button class="md-icon-button"  aria-label="yourVoteRedirect">
+          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
           </md-button>
-        </md-list-item><md-divider></md-divider>
+        </md-list-item>
+
+
+
+        <md-divider></md-divider>
         </md-list>
 
+      <md-list layout-padding ng-if="home.empty.myvotes" ng-cloak>
+      <md-list-item>
+      <p class="md-body-1">You've yet to vote on anything.</p>
+        </md-list-item>
+        </md-list>
     </section>
 
     <section layout-margin  class="md-whiteframe-z1" flex>
@@ -90,14 +107,23 @@
         </div>
       </md-toolbar>
       <md-list layout-padding ng-repeat="comment in home.myComments | limitTo: 5">
-      <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
+      <md-list-item ng-if="home.myComments" ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
       <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
-      <md-button class="md-icon-button" aria-label="yourCommentRedirect">
+      <md-button class="md-icon-button" aria-label="yourCommentRedirect" ui-sref="motion({id:comment.vote.motion_id})">
         <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
       </md-button>
       </md-list-item>
+
+
       <md-divider></md-divider>
       </md-list>
+
+      <md-list layout-padding ng-if="home.empty.mycomments" ng-cloak>
+      <md-list-item>
+      <p class="md-body-1">You haven't commented on anything. Why not get started?</p>
+      </md-list-item>
+      </md-list>
+
     </section>
 
 

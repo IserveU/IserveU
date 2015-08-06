@@ -11,9 +11,13 @@
 		var vm = this;
         vm.shortNumber = 120;
 		vm.topMotion;
-		vm.myComments = {};
-		vm.myVotes = {};
+		vm.myComments = [];
+		vm.myVotes = [];
 		vm.topComment;
+        vm.empty = {
+            mycomments: false,
+            myvotes: false
+        };
 		var user = JSON.parse(localStorage.getItem('user'));
 		var settings = JSON.parse(localStorage.getItem('settings'));
         if(settings){
@@ -21,27 +25,27 @@
         }
 
 
-        function getRandomMotion() {
-            // motion.getMotion('rand').then(function(result) {
-            //     vm.randomMotionId = result.id;                   
-            // });            
-        }
-
         UserbarService.setTitle("Home");
 
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
         		vm.topMotion = result[0];
+                if(!vm.topMotion){
+                    vm.empty.topmotion = true;
+                }
         	},function(error) {
-        		console.log(error);
+                vm.empty.topmotion = true;
         	});
         }
 
         function getMyComments(){
         	comment.getMyComments(getUserId()).then(function(result){
         		vm.myComments = result;
+                if(!vm.myComments[0]){                
+                    vm.empty.mycomments = true;
+                }
         	},function(error) {
-        		console.log(error);
+                vm.empty.mycomments = true;
         	});
         }
 
@@ -51,31 +55,39 @@
         			angular.forEach(comment, function(value, key){
         				if(value.commentRank == 1){
         					vm.topComment = value;
-                            console.log(vm.topComment);
         				}
         			});
         		});
+                if(!vm.topComment){
+                    vm.empty.topcomment = true;
+                }
         	},function(error) {
-        		console.log(error);
+                vm.empty.topcomment = true;
         	});
+        }
+
+        function getMyVotes(){
+            motion.getMyVotes(getUserId()).then(function(result){
+                vm.myVotes = result.votes;
+                if(!vm.myVotes[0]){
+                    console.log('empty');
+                    vm.empty.myvotes = true;
+                }
+            },function(error) {
+                vm.empty.myvotes = true;
+            });
         }
 
         function getUserId(){
         	if(JSON.parse(localStorage.getItem('user')) != null){
-        	var user = JSON.parse(localStorage.getItem('user'));
+        	   var user = JSON.parse(localStorage.getItem('user'));
         	return user.id;
         	}
         	else
         		return 0;
         }
 
-        function getMyVotes(){
-        	motion.getMyVotes(getUserId()).then(function(result){
-        		vm.myVotes = result.votes;
-        	},function(error) {
-        		console.log(error);
-        	});
-        }
+
 
         getTopMotion();
         getMyComments();
