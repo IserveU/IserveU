@@ -42,6 +42,11 @@ md-caption.imagecredit{
 }
 
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
 .background-image{
 	background-position: center center;
 	background: cover;
@@ -69,6 +74,15 @@ src:url("/fonts/materialdesignicons-webfont.eot?v=1.1.70");src:url("/fonts/mater
   -moz-osx-font-smoothing: grayscale;
   transform: translate(0, 0);
 }
+
+.mdi-small {
+  display: inline-block;
+  font: normal normal normal 15px/1 MaterialDesignIcons;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0); }
 
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {

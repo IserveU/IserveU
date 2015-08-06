@@ -13,7 +13,7 @@
   <!--   /uploads/background_images/{{settings.image}} -->
 
 
-        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
+        <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner"></div>
             </sidebar>
@@ -78,7 +78,7 @@
 
           <div flex ui-view></div>
           
-          <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background">
+          <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background" ng-cloak>
             Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}} Photography</a>
           </md-caption>
           
