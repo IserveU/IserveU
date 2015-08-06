@@ -30,8 +30,6 @@ class SendWelcomeEmail
     public function handle(UserCreated $event) 
     { 
         $user = $event->user;
-
-
         Mail::send('emails.welcome', ['user' => $user], function ($m) use ($user) {
              $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
         });

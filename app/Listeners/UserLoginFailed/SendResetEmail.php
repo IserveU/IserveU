@@ -5,6 +5,7 @@ namespace App\Listeners\UserLoginFailed;
 use App\Events\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Mail;
 
 class SendResetEmail
 {
@@ -28,7 +29,7 @@ class SendResetEmail
     {
         if(!$event->user){ //This email address wasn't associated with a user
             Mail::send('emails.unknownemail',['event' => $event], function ($m) use ($event) {
-                 $m->to($event->credentials->email, 'Unregistered Email Account')->subject('IserveU Login Attempts');
+                    $m->to($event->credentials['email'], "Unknown Email Address")->subject('IserveU Login Attempts');
             });
         }
     }

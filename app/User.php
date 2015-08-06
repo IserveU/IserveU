@@ -218,7 +218,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
    	public function scopeArePublic($query){
         return $query->where('public',1);
     }
+    
 
+    public function scopeWithEmail($query,$email){
+    	return $query->where('email',$email);
+    }
 
 	/**********************************  Relationships *****************************************/
 

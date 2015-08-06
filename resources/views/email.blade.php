@@ -49,7 +49,9 @@
         <!-- ### 600PX CONTAINER ### -->
         <table class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color:#f3f3f3;" bgcolor="#f3f3f3;">
           <tr>
-            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#00acb1;border-top:15px solid #00acb1;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="http://iserveu.ca"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">IserveU</h1></a></td>
+            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#00acb1;border-top:15px solid #00acb1;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="http://iserveu.ca"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
+              <img src="<?=asset('/themes/'.config('app.themename').'/logo/logo_allwhite.png')?>">
+            </h1></a></td>
             <td width="50" align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #00acb1;" bgcolor="#00acb1"></td>
             <td align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #323232;" bgcolor="#00acb1"></td>
           </tr>
@@ -58,7 +60,7 @@
 
 
 
-				@yield('content')
+            @yield('content')
 
 
 
@@ -71,10 +73,10 @@
           <tr>
             <td colspan="3" style="font-family:Helvetica,Arial,sans-serif;padding:20px;line-height:1.5;font-size: 13px;background-color:#323232;color:#ffffff;">
              <p>
-               IserveU &middot; Canada
+               IserveU &middot; Concieved &amp; Forged In Yellowknife, Canada
                <br/>
 
-               <a style="color:#ffffff;" href="http://twitter.com/iserveu_org">Twitter</a> or <a style="color:#ffffff;" href="https://www.facebook.com/pages/IserveU/800727703328786">Facebook</a>.
+               <a style="color:#ffffff;" href="http://twitter.com/iserveu_org">Twitter</a> or <a style="color:#ffffff;" href="https://www.facebook.com/iserveu.ca">Facebook</a>.
             
              </p>
            </td>
