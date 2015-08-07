@@ -17,9 +17,13 @@
 
 
 		$interval(function() {
-			if(PaginationService.loadMoreStuff($window)){
-				console.log('true');
-			}
+
+			PaginationService.loadMoreStuff($window).then(function(bool){
+				console.log("accept");
+			}, function(reject) {
+				console.log("reject");
+			});
+
 		}, 500);
 
 
