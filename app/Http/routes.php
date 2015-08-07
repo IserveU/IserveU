@@ -65,5 +65,9 @@ Route::group(array('prefix' => 'api'), function(){
 
 		Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
 		Route::resource('property','PropertyController');
+
+		Route::group(['middleware' => 'role:administrator'], function(){
+ 			Route::resource('propertyassessment', 'PropertyAssessmentController');
+ 		});
 	});
 });
