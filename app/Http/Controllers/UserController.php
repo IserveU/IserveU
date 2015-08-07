@@ -29,8 +29,10 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function index() {
+		$limit = Request::get('limit') ?: 50;
+
 		if (Auth::user()->can('show-users')) { //An admin able to see all users
-			$users = User::all();
+			$users = User::paginate($limit);
 			return $users;
 		}
 

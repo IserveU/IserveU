@@ -15,7 +15,7 @@
 		var YourUser = $resource('api/settings');
 
 		function getUserInfo(){
-			return User.query().$promise.then(function(results) {
+			return User.get({limit:20}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				console.log(error);
