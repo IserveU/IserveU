@@ -214,4 +214,8 @@ class UserController extends ApiController {
 		
 	}
 
+	public function resetPassword($hash){
+
+	}
+
 }

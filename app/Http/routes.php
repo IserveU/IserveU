@@ -35,6 +35,7 @@ Route::group(array('prefix' => 'api'), function(){
 
 	Route::post('user/grantpermission', 'UserController@grantPermission');
 	Route::get('user/authenticateduser', 'UserController@authenticatedUser');
+	Route::get('user/resetpassword', 'UserController@resetPassword');
 	Route::resource('user', 'UserController');
 
 
