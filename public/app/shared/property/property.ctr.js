@@ -1,4 +1,4 @@
-(function() {
+ (function() {
 
 	'use strict';
 
@@ -6,22 +6,35 @@
 		.module('iserveu')
 		.controller('PropertyController', PropertyController);
 
-	function PropertyController(property, $window) {
+	function PropertyController(property, $window, $scope, PaginationService, $interval) {
 
 		var vm = this;
 
 		vm.propertyassessment;
 		vm.nextpage;
 
-		angular.element($window).bind("scroll", function() {
-		    var windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-		    var body = document.body, html = document.documentElement;
-		    var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-		    var windowBottom = windowHeight + window.pageYOffset;
-		    if(windowBottom >= docHeight - 200){
-		        loadMorePropertyAssessments();
-		    }
-		});
+
+
+
+		$interval(function() {
+			if(PaginationService.loadMoreStuff($window)){
+				console.log('true');
+			}
+		}, 500);
+
+
+
+
+
+		// angular.element($window).bind("scroll", function() {
+		//     var windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		//     var body = document.body, html = document.documentElement;
+		//     var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
+		//     var windowBottom = windowHeight + window.pageYOffset;
+		//     if(windowBottom >= docHeight - 200){
+		//         loadMorePropertyAssessments();
+		//     }
+		// });
 
 
 		// vm.uploadProperties = function () {
