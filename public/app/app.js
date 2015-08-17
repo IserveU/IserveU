@@ -47,13 +47,6 @@
 
 		    // the overall default route for the app. If no matching route is found, then go here
 		    $urlRouterProvider.otherwise('/home');
-		    // $urlRouterProvider.rule(function ($injector, $location) {
-		    // 	 var path = $location.path(), normalized = path.toLowerCase();
-      //  			 if (path != normalized) {
-      //              $location.replace().path(normalized);
-      //              console.log(normalized);
-      //   		}
-		    // });
 
 		    $stateProvider
 		    	.state( 'home', {
@@ -162,26 +155,23 @@
 						
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
+
+
 				var user = JSON.parse(localStorage.getItem('user'));
 					if(user) {
 						$rootScope.authenticatedUser = user;
 						$rootScope.userIsLoggedIn = true;
 
-						if(toState.name === 'login') {
-							event.preventDefault();
-							// $state.go('home');
-						}
 						if(toState.name === 'createmotion' && $rootScope.createMotion === false) {
 							event.preventDefault();
 							$state.go('home');
 						}
 					}
-					// else if(toState.name === 'home' && $rootScope.userIsLoggedIn === undefined) {
-					// 	console.log("one iteration");
-					// 	event.preventDefault();
-					// 	$state.go('login');
-					// }
-
+					else {
+						$rootScope.redirectUrlName = fromState.name;
+						$rootScope.redirectUrlID = fromParams.id;
+					}
+					
 			    var authenticated = $auth.isAuthenticated();
 
 			    $rootScope.currentState = toState.name;
