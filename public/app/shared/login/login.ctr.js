@@ -40,6 +40,11 @@
 				vm.redirectUrlName = $rootScope.redirectUrlName;
 				vm.redirectUrlID = $rootScope.redirectUrlID;
 				setLocalStorage(credentials);
+				else {
+					vm.redirectUrlName = $rootScope.redirectUrlName;
+					vm.redirectUrlID = $rootScope.redirectUrlID;
+					setLocalStorage(credentials);
+				}
 			}, function(error) {
 				vm.error = error;
 				vm.loginError = true;
