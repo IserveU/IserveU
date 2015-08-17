@@ -22,8 +22,8 @@
 		vm.background_image;
 		vm.default_background = true;
 		vm.background_url = '/themes/default/photos/background.png';
-
-
+		vm.redirectUrlName;
+		vm.redirectUrlID;
 
 
 		function login(email, password) {
@@ -37,9 +37,9 @@
 				if(data.status == 401){
 					vm.loginError = true;
 				}
-				else {
-					setLocalStorage(credentials);
-					}
+				vm.redirectUrlName = $rootScope.redirectUrlName;
+				vm.redirectUrlID = $rootScope.redirectUrlID;
+				setLocalStorage(credentials);
 			}, function(error) {
 				vm.error = error;
 				vm.loginError = true;
@@ -52,7 +52,12 @@
 				localStorage.setItem('permissions', JSON.stringify(data.data.user.permissions));
 				$rootScope.userIsLoggedIn = true;
 				$rootScope.authenticatedUser = data.data.user;
-				$state.go('home');
+				if(vm.redirectUrlName){
+					$state.go(vm.redirectUrlName, {"id": vm.redirectUrlID});
+				}
+				else{
+					$state.go('home');
+				}
 			});
 		}   
 		
@@ -96,11 +101,6 @@
 				localStorage.setItem('settings', JSON.stringify(result.data));
 			})
 		}
-
-		function setBackgroundURL(url){
-			vm.background_url = "/themes/default/photos/background.png";
-		}
-
 	
 		getSettings();
     }
