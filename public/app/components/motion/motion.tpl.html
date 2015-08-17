@@ -164,9 +164,11 @@
 		</md-toolbar>
 			<div flex layout-fill>
 			 	<div layout-padding ng-repeat="comment in motion.agreeComments">
-		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}  </h4>
+		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">#{{comment.commentRank}}</p></md-icon></h4>
 		        <p class="md-body-1" ng-if="!comment.editCommentDialog">{{comment.text}}</p>
-		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes"> 
+		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes">
+
+
 		        <md-button ng-click="motion.checkCommentVotes(comment, 1)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
 					<md-icon md-svg-src="/themes/{{motion.themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
 					<md-tooltip>Agree With Comment</md-tooltip>
@@ -189,7 +191,8 @@
 		</md-toolbar>
 			<div flex layout-fill >
 			 	<div layout-padding ng-repeat="comment in motion.disagreeComments">
-			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}  <span ng-if="comment.vote.position==0">(Abstained)</span></h4>
+			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}  <span ng-if="comment.vote.position==0">(Abstained)</span><md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">#{{comment.commentRank}}</p></md-icon></h4>
+			 	<md-icon class="mdi" md-font-icon="mdi-marker"></md-icon>
 	        <p class="md-body-1 abstained">{{comment.text}}</p>
 	       
 		 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
