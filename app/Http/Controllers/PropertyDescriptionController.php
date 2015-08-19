@@ -2,8 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
+use App\PropertyDescription;
+use Auth;
+use DB;
 
 class PropertyDescriptionController extends ApiController {
 
@@ -14,7 +17,13 @@ class PropertyDescriptionController extends ApiController {
 	 */
 	public function index()
 	{
-		//
+		if(!Auth::user()->can('administrate-properties')){ //Logged in user will want to see if they voted on these things
+			abort(401,'You do not have permission to see property assessments');
+		}
+
+		$limit = Request::get('limit') ?: 50;
+
+		return $propertydescription = PropertyDescription::simplePaginate($limit);
 	}
 
 	/**
@@ -24,7 +33,11 @@ class PropertyDescriptionController extends ApiController {
 	 */
 	public function create()
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(401,'You do not have permission to create a property assessment');
+		}
+
+		return (new PropertyDescription)->fields;	
 	}
 
 	/**
@@ -34,7 +47,15 @@ class PropertyDescriptionController extends ApiController {
 	 */
 	public function store()
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(401,'You do not have permission to create a property assessment');
+		}
+
+		$propertydescription = (new PropertyDescription)->secureFill(Request::all()); 
+		if(!$propertydescription->save()){
+		 	abort(403,$propertydescription->errors);
+		}
+     	return $propertydescription;
 	}
 
 	/**
@@ -43,9 +64,9 @@ class PropertyDescriptionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(PropertyDescription $propertydescription)
 	{
-		//
+		return $propertydescription;
 	}
 
 	/**
@@ -54,9 +75,17 @@ class PropertyDescriptionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(PropertyDescription $propertydescription)
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(403,'You do not have permission to create/update propert yassessment');
+		}
+
+		if(!Auth::user()->can('administrate-properties')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not administrate this property assessment ($id)");
+		}
+
+		return $propertydescription->fields;
 	}
 
 	/**
@@ -65,9 +94,25 @@ class PropertyDescriptionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(PropertyDescription $propertydescription)
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(403,'You do not have permission to update a property assessment');
+		}
+
+		if(!Auth::user()->can('administrate-properties')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit property assessment ($id)");
+		}
+
+		$propertydescription->secureFill(Request::all());
+
+		if(!$propertydescription->save()){
+		 	abort(403,$propertydescription->errors);
+		}
+
+		$propertydescription->save();
+		
+		return $propertydescription;
 	}
 
 	/**
@@ -76,7 +121,7 @@ class PropertyDescriptionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(PropertyDescription $propertydescription)
 	{
 		//
 	}

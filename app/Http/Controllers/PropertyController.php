@@ -2,18 +2,21 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
+use Auth;
+use DB;
 use League\Csv\Reader;
 
 use App\PropertyBlock;
 use App\PropertyPollDivision;
-use App\PropertyAssesment;
+use App\PropertyAssessment;
 use App\PropertyCoordinate;
 use App\PropertyPlan;
 use App\Property;
 use App\PropertyZoning;
 use App\PropertyDescription;
 
-use Illuminate\Support\Facades\Request;
 
 class PropertyController extends ApiController {
 
@@ -24,7 +27,13 @@ class PropertyController extends ApiController {
 	 */
 	public function index()
 	{
-		//
+		if(!Auth::user()->can('administrate-properties')){ //Logged in user will want to see if they voted on these things
+			abort(401,'You do not have permission to see property assessments');
+		}
+
+		$limit = Request::get('limit') ?: 50;
+
+		return $property = Property::simplePaginate($limit);
 	}
 
 	/**
@@ -34,7 +43,11 @@ class PropertyController extends ApiController {
 	 */
 	public function create()
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(401,'You do not have permission to create a property assessment');
+		}
+
+		return (new Property)->fields;	
 	}
 
 	/**
@@ -44,7 +57,15 @@ class PropertyController extends ApiController {
 	 */
 	public function store()
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(401,'You do not have permission to create a property assessment');
+		}
+
+		$property = (new Property)->secureFill(Request::all()); 
+		if(!$property->save()){
+		 	abort(403,$property->errors);
+		}
+     	return $property;
 	}
 
 	/**
@@ -53,8 +74,9 @@ class PropertyController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Property $property)
 	{
+		return $property;
 		//
 	}
 
@@ -64,9 +86,17 @@ class PropertyController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Property $property)
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(403,'You do not have permission to create/update propert yassessment');
+		}
+
+		if(!Auth::user()->can('administrate-properties')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not administrate this property assessment ($id)");
+		}
+
+		return $property->fields;
 	}
 
 	/**
@@ -75,9 +105,25 @@ class PropertyController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Property $property)
 	{
-		//
+		if(!Auth::user()->can('create-properties')){
+			abort(403,'You do not have permission to update a property assessment');
+		}
+
+		if(!Auth::user()->can('administrate-properties')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit property assessment ($id)");
+		}
+
+		$property->secureFill(Request::all());
+
+		if(!$property->save()){
+		 	abort(403,$property->errors);
+		}
+
+		$property->save();
+		
+		return $property;
 	}
 
 	/**
@@ -86,17 +132,15 @@ class PropertyController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Property $property)
 	{
 		//
 	}
 
 	public function uploadCSV(){
-
 		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
 
 		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
-
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header
 				
 		/* csv format
@@ -120,8 +164,9 @@ class PropertyController extends ApiController {
 		    [17] => Latitude
 		    [18] => Longitude
 		*/
-		 ini_set('max_execution_time', 300);   
+		ini_set('max_execution_time', 300);
 		foreach($allrows as $row){
+
 			$property = Property::where('roll_number',trim($row[0]))->first();
 			
 			if(!$property){ //If the property hasn't been entered then we might not have all these, otherwise just check the assesment value hasn't changed
@@ -196,9 +241,9 @@ class PropertyController extends ApiController {
 
 
 
-			$assessment = PropertyAssesment::whereRaw("improvement_value = $row[9] AND land_value = $row[10] AND other_value = $row[11] AND property_id = $propertyId")->first();
+			$assessment = PropertyAssessment::whereRaw("improvement_value = $row[9] AND land_value = $row[10] AND other_value = $row[11] AND property_id = $propertyId")->first();
 			if($assessment==null){
-				$assessment = new PropertyAssesment;
+				$assessment = new PropertyAssessment;
   				$assessment->land_value			= $row[10];
   				$assessment->improvement_value	= $row[9];
   				$assessment->other_value		= $row[11];

@@ -24,7 +24,7 @@ class PropertyAssessmentController extends ApiController {
 
 		$limit = Request::get('limit') ?: 50;
 
-		return $propertyassessment = PropertyAssessment::paginate($limit);
+		return $propertyassessment = PropertyAssessment::simplePaginate($limit);
 	}
 
 	/**

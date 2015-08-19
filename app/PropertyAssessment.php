@@ -22,19 +22,19 @@ class PropertyAssessment extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['land_value','property_value','improvement_value', 'other_value', 'year', 'property_id'];
+	protected $fillable = ['land_value','property_value', 'improvement_value', 'other_value', 'year', 'property_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['land_value','property_value', 'improvement_value', 'other_value', 'year', 'property_id'];
+	protected $adminFillable = [];
 	
 	/**
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','land_value','improvement_value','other_value','year','property_id'];
+	protected $visible = [];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -46,7 +46,7 @@ class PropertyAssessment extends ApiModel {
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['id','land_value','improvement_value','other_value','year','property_id'];
+	protected $creatorVisible = [];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user

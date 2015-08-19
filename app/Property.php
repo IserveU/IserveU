@@ -155,11 +155,11 @@ class Property extends ApiModel {
 	}
 
 	public function propertyZone(){
-		return $this->belongsTo('App\PropertyZone');
+		return $this->belongsTo('App\PropertyZoning');
 	}
 
 	public function propertyPollDivision(){
-		return $this->belongsTo('App\PropertyPoleDivision');
+		return $this->belongsTo('App\PropertyPollDivision');
 	}
 
 	public function propertyPlan(){
@@ -167,7 +167,7 @@ class Property extends ApiModel {
 	}
 
 	public function propertyAssesments(){
-		return $this->hasMany('App\PropertyAssesment');
+		return $this->hasMany('App\PropertyAssessment');
 	}
 
 	public function users(){
