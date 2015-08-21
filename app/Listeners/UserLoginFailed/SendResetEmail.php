@@ -34,20 +34,22 @@ class SendResetEmail
             });
             return "no user with this email exists"; //Not sure how to handle event errors
         }
+
         $user = $event->user;
-//($user->login_attempts % 4) == 0 && 
-        if($user->login_attempts !=0 ){ //Every 4 attempts, send this email?
+
+        if(true /*($user->login_attempts % 4) == 0 */){ //Every 4 attempts, send this email?
             
-            if(!isset($user->remember_token)){
+            if(Hash::needsRehash($user->remember_token)){
                 $hash = Hash::make($user);
+                $user->remember_token = $hash;
+                $user->save();
             }
 
-            $user->middle_name = $hash;
-            $user->save();
 
             Mail::send('emails.passwordreset',['user' => $user], function ($m) use ($user) {
                 $m->to($user->email, $user->first_name.' '.$user->last_name)->subject('Trouble Logging In?');
             });
+            return 'password reset sent';
         }
     }
 }

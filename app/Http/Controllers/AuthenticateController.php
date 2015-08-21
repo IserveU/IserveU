@@ -25,8 +25,9 @@ class AuthenticateController extends ApiController
         $credentials = $request->only('email', 'password');
 
         try {
+         
             // attempt to verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+           if (! $token = JWTAuth::attempt($credentials)) {
 
                 event(new UserLoginFailed($credentials));
 
@@ -49,5 +50,32 @@ class AuthenticateController extends ApiController
 
         // all good so return the token
         return response()->json(compact('token','user'));
-    }    
+    }
+
+    public function noPassword($remember_token){
+
+        try{
+            if(empty($remember_token)){
+                abort(403,'No password reset code provided');
+            }
+
+            $user = User::where('remember_token',$remember_token)->first();
+
+            if(!$user){
+                abort(404,'Reset token invalid or expired');
+            }
+
+            $token = JWTAuth::fromUser($user);
+            
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+  
+        $user->remember_token = null;
+        $user->save();
+
+        // all good so return the token
+        return response()->json(compact('token','user'));
+
+    }
 }

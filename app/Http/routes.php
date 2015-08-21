@@ -17,6 +17,8 @@ use App\BackgroundImage;
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
 
+Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
+
 
 
 Route::get('/settings', function(){
@@ -35,7 +37,6 @@ Route::group(array('prefix' => 'api'), function(){
 
 	Route::post('user/grantpermission', 'UserController@grantPermission');
 	Route::get('user/authenticateduser', 'UserController@authenticatedUser');
-	Route::get('user/resetpassword', 'UserController@resetPassword');
 	Route::resource('user', 'UserController');
 
 

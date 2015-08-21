@@ -19,7 +19,7 @@ class UserController extends ApiController {
 
 	public function __construct()
 	{
-		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser']]);
+		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 
 	/**
@@ -212,12 +212,5 @@ class UserController extends ApiController {
 
 	}
 
-	public function votes(){
-		
-	}
-
-	public function resetPassword($hash){
-
-	}
 
 }
