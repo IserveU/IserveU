@@ -22,7 +22,6 @@ class MotionCommentController extends ApiController
      */
     public function index($motion){
         
-
         $comments = array();
 
         if(Auth::user()->can('view-comments')){ //A full admin who can see whatever
@@ -40,7 +39,7 @@ class MotionCommentController extends ApiController
         $comments['thisUsersCommentVotes'] = CommentVote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->get();
 
         return $comments;
-        
+
     }
 
 }

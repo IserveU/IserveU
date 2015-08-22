@@ -11,9 +11,7 @@
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
  <body back-img class="background-image" layout="row"/>
 
-  <!--   /uploads/background_images/{{settings.image}} -->
-
-
+        <!--   /uploads/background_images/{{settings.image}} -->
         <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner"></div>
