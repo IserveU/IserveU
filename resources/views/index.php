@@ -33,41 +33,49 @@
 
                 <div >
                     <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
-   
-
                         <md-menu md-position-mode="target-right target" ng-cloak>
                             <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-                                <md-icon class="mdi" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
+                                <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
                             </md-button>
                             <md-menu-content width="4">
-                                <md-menu-item>
+                                <md-menu-item ng-cloak>
                                     <md-button ui-sref="login" ng-click="user.logout()">
-                                        <p ng-cloak>Logout {{authenticatedUser.first_name}}</p>
-                                        <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
+                                        <div layout="row">
+                                            <p flex>Logout {{authenticatedUser.first_name}}</p>
+                                            <md-icon md-menu-align-target class="mdi" md-font-icon="mdi-logout"></md-icon>
+                                        </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="showUsers" ui-sref="user.profile({id:1})">
                                     <md-button ng-click="user.showUserSideBar()">
-                                        <p ng-cloak>User List</p>
-                                        <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
+                                        <div layout="row">
+                                            <p flex ng-cloak>User List</p>
+                                            <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
+                                        </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="createMotion" ui-sref="backgroundimage">
                                     <md-button>
-                                        <p ng-cloak>Upload Background Image</p>
-                                        <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
+                                        <div layout="row">
+                                            <p flex ng-cloak>Upload Background Image</p>
+                                            <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
+                                        </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="createMotion" ui-sref="department({id:1})">
                                     <md-button>
-                                        <p ng-cloak>Department Manager</p>
-                                        <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
+                                        <div layout="row">
+                                            <p flex ng-cloak>Department Manager</p>
+                                            <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
+                                        </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ng-if="administrateProperties">
                                     <md-button>
-                                        <p ng-cloak>Property Manager</p>
-                                        <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
+                                        <div layout="row">
+                                            <p flex ng-cloak>Property Manager</p>
+                                            <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
+                                        </div>
                                     </md-button>
                                 </md-menu-item>
                             </md-menu-content>

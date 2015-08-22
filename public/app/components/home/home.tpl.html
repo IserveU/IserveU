@@ -28,14 +28,9 @@
         <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
         </md-button>
         </md-list-item>
-        <md-list-item ng-if="home.empty.topmotion" ng-cloak>
-        <p class="md-body-1">There are no motions that are currently passing.</p>
-        </md-list-item>
+        <p ng-if="home.empty.topmotion" ng-cloak class="md-body-1">There are no motions that are currently passing.</p>
       </md-list>    
     </section>
-
-
-
 
   <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
@@ -56,15 +51,11 @@
       by {{home.topComment.user.first_name}} {{home.topComment.user.last_name}}
       </md-list-item>
 
-      <md-list-item ng-if="home.empty.topcomment" ng-cloak>
-      <p class="md-body-1">There isn't a top comment today. Give it a go.</p>
-      </md-list-item>
+      <p ng-if="home.empty.topcomment" ng-cloak class="md-body-1">There isn't a top comment today. Give it a go.</p>
+
 
       </md-list>
     </section>
-
-
-
 </div>
 
 
@@ -94,9 +85,7 @@
         </md-list>
 
       <md-list layout-padding ng-if="home.empty.myvotes" ng-cloak>
-      <md-list-item>
       <p class="md-body-1">You've yet to vote on anything.</p>
-        </md-list-item>
         </md-list>
     </section>
 
@@ -119,9 +108,7 @@
       </md-list>
 
       <md-list layout-padding ng-if="home.empty.mycomments" ng-cloak>
-      <md-list-item>
       <p class="md-body-1">You haven't commented on anything. Why not get started?</p>
-      </md-list-item>
       </md-list>
 
     </section>

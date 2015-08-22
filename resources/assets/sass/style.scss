@@ -87,20 +87,16 @@ src:url("/fonts/materialdesignicons-webfont.eot?v=1.1.70");src:url("/fonts/mater
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {
 	display: none !important; 
-} 
+}
+
 
 
 form{
   margin-bottom: 0em;
 }
 
-
-md-content{
-	background-color: rgba(255,255,255,1) !important; 
-}
-
-.md-whiteframe-z1, .loginbox, md-sidenav{
-	background-color: rgba(255,255,255,1) !important;
+.md-whiteframe-z1, .loginbox, md-sidenav, #maincontent{
+	background-color: rgba(255,255,255,0.6) !important;
 }
 
 .logo{
@@ -258,14 +254,42 @@ md-toolbar.site-content-toolbar{
 
 }
 
-.md-toolbar-tools md-icon{
-	width:24px;
-	display: block;
-	margin-bottom: 12px;
-	margin-left: 0px;
-	margin-right: 32px;
-	margin-top: 12px;
+// .md-toolbar-tools md-icon{
+// 	width:24px;
+// 	display: block;
+// 	margin-bottom: 12px;
+// 	margin-left: 0px;
+// 	margin-right: 32px;
+// 	margin-top: 12px;
+// }
+
+
+
+
+.md-toolbar-tools{
+	md-menu{
+		.md-button, md-icon{
+			text-align: right;
+			margin-right:0px;
+		} 
+	}
 }
+
+md-menu-item{
+	
+	> .md-button md-icon {
+		margin: auto 0px auto 3px;
+			padding-top: 3px;
+	}
+
+	p{
+		padding-top: 6px;
+	}
+
+}
+
+
+
 
 md-toast{
 	position: fixed;
