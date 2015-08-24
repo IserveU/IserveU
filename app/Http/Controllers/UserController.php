@@ -171,13 +171,6 @@ class UserController extends ApiController {
 		return $user->forceDelete(); //No votes/motions, complete deletion
 	}
 
-	public function authenticatedUser(){
-        if (! $user = JWTAuth::parseToken()->authenticate()) {
-            return response()->json(['user_not_found'], 404);
-        }
-        // the token is valid and we have found the user via the sub claim
-        return $user;
-	}
 
 	/*
 	*	@params user_id 	The ID of the user that you want to grant the permission to

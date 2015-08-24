@@ -23,7 +23,14 @@ Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
 
 Route::get('/settings', function(){
-	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->today());
+	$user = null;
+	if ($token = JWTAuth::getToken()) {
+
+		$user = JWTAuth::parseToken()->authenticate();
+				dd($user);
+
+    }	
+	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->today(),'user'=>$user);
 });
 
 
