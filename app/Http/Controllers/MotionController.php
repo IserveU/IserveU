@@ -3,6 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
+
 use App\Motion;
 use App\Comment;
 use App\CommentVote;
@@ -21,6 +23,7 @@ class MotionController extends ApiController {
 	public function index()
 	{	
 		$filters = Request::all();
+		$limit = Request::get('limit') ?: 30;
 
 		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
@@ -43,8 +46,7 @@ class MotionController extends ApiController {
 		} else {
 			$motions->take(1);
 		}
-
-		return $motions->get();
+		return $motions->simplePaginate($limit);
 	}
 
 	/**
