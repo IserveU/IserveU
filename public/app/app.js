@@ -30,7 +30,8 @@
 						//this is way too explicit, 400 errors return on a lot.
 						if(rejection.status === 400) {
 							$rootScope.userIsLoggedIn = false;
-							$state.go('login');
+							localStorage.clear();
+							if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						return $q.reject(rejection);
 
