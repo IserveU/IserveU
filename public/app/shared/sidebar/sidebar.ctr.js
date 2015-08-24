@@ -24,8 +24,6 @@
 			vm.showUser = true;
 		}
 
-
-
 		vm.setMotionName = setMotionName;
 		vm.getMotions = getMotions;
 		$rootScope.userListIsClicked = false;
@@ -50,13 +48,33 @@
 		}
 
 		function getMotions(){
-			motion.getMotions().then(function(data) {
-				if(!data[0]){
+			var filters = {
+				take: 100,
+				limit: 50
+			}
+			motion.getMotions(filters).then(function(results) {
+				if(!results.data[0]){
 					vm.emptyMotionsArray = true;
 				}
-				vm.motions = data;
+				vm.next_page = results.current_page + 1;
+				vm.motions = results.data;
 			});
 		};
+
+		function loadMoreMotions(){
+			var data = {
+				take: 100,
+				limit: 50,
+				page: vm.next_page
+			}
+			motion.getMotions(data).then(function(results) {
+				if(!results.data[0]){
+					vm.emptyMotionsArray = true;
+				}
+				vm.next_page = results.current_page + 1;
+				vm.motions = results.data;
+			});
+		}
 
 		getMotions();
 	}
