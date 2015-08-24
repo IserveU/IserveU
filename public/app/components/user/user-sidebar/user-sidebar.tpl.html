@@ -8,10 +8,10 @@
     </div>
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="user in users">  
+    <md-list-item class="sidebar-list" ng-repeat="user in users.users">  
       <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
       <p md-ink-ripple ui-sref="user.profile({id:user.id})">{{user.first_name}} {{user.last_name}}</p>      
-      <md-switch class="md-secondary"ng-model="user.identity_verified" ng-click="verifyUser(user)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
+      <md-switch class="md-secondary"ng-model="user.identity_verified" ng-click="users.verifyUser(user)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
   </md-list>
 </md-content>

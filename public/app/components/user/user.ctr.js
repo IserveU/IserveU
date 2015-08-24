@@ -13,17 +13,16 @@
 		var userpermissions = JSON.parse(localStorage.getItem('permissions'));
 
 		vm.canShowUser = false;
-
+		vm.nextpage;
 		vm.usercredentials;
 
-		$scope.isuserprofile = false;
-		$scope.ispublic = true;
-		$scope.nameformBool = false;
-		$scope.emailformBool = false;
-		$scope.notlocked = true;
-		$scope.users = [];
+		vm.isuserprofile = false;
+		vm.ispublic = true;
+		vm.users = [];
 
-		$scope.formEdit = {
+
+		//make a function to set the field names for this from api field names given
+		vm.formEdit = {
 			first_name: false,
 			middle_name: false,
 			last_name: false,
@@ -31,7 +30,7 @@
 			email: false
 		};
 
-		$scope.isLoading = {
+		vm.isLoading = {
 			first_name: false,
 			middle_name: false,
 			last_name: false,
@@ -39,7 +38,7 @@
 			email: false
 		};
 
-		$scope.onSuccess = {
+		vm.onSuccess = {
 			first_name: false,
 			middle_name: false,
 			last_name: false,
@@ -48,17 +47,16 @@
 		};
 
 		$scope.getId = getId;
-		$scope.updateInfo = updateInfo;
+		vm.updateInfo = updateInfo;
 
 		vm.showEditUsers = function(){
-			angular.forEach($scope.formEdit, function(value, key) {
-				$scope.formEdit[key] = !$scope.formEdit[key];
+			angular.forEach(vm.formEdit, function(value, key) {
+				vm.formEdit[key] = !vm.formEdit[key];
 			});
 		}
 
-		$scope.verifyUser = function(userinfo){
+		vm.verifyUser = function(userinfo){
 			var verifiedData = userinfo.identity_verified;
-			console.log(verifiedData)
 			var data = {
 				id: userinfo.id,
 				identity_verified: verifiedData
@@ -83,14 +81,14 @@
           	  );
 		}
 
-		$scope.closeUserList = function(){
-			$rootScope.userListIsClicked = false
-		}
-
 		function getId(){
-			var id = $stateParams.id;
-			id--;
-			vm.id = id;
+			var id;
+			angular.forEach(vm.users, function(value, key) {
+				if(value.id == $stateParams.id){
+					vm.id = value.id;
+					id = key;
+				}
+			})
 			return id;
 		}
 
@@ -103,46 +101,49 @@
 		function checkPublic(data) {
 			if(data[getId()]){
 			if(data[getId()].public == 0){
-				$scope.ispublic = false;
-				$scope.publicChoice = "Not Public";
+				vm.ispublic = false;
+				vm.publicChoice = "Not Public";
 			}
 			else {
-				$scope.publicChoice = "Public";	
+				vm.publicChoice = "Public";	
 			}
 			}
 		}
 
 		function checkUser() {
 			if($stateParams.id == userlocal.id) {
-				$scope.isuserprofile = true;
+				vm.isuserprofile = true;
 			}
 		}
 
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
-				$scope.users = result;
+				vm.nextpage = result.current_page + 1;
+				vm.users = result.data;
 				checkUser();
-				angular.forEach(result, function(value, key) {
-					if(result[key].id - userlocal.id == -1){
-						if(!result[key+1] || result[key+1].id != userlocal.id){
-						$scope.users.push(userlocal);
-						if(!angular.isDate(result[key+1].date_of_birth)){
-						$scope.users[key+1].date_of_birth = new Date(result[key+1].date_of_birth);
-					}
-						}
-					}
-					if(!angular.isDate(result[key].date_of_birth)){
-					$scope.users[key].date_of_birth = new Date(result[key].date_of_birth);
-				}
-
-				});
-				checkPublic($scope.users);
+				checkPublic(vm.users);
             });         
 		}
 
-		$scope.setPublic = function(value) {
-			$scope.users[getId()].public = value;
-			updateInfo($scope.users[getId()], 'public');
+		function loadMoreUsers(){
+			var data = {
+				page: vm.nextpage,
+			}
+			user.getUserInfo().then(function(result) {
+				if(result.current_page == vm.nextpage){
+					vm.nextpage = result.current_page + 1;
+					vm.users.push(result.data);
+					checkUser();
+					checkPublic(vm.users);
+				}
+			}, function(error) {
+				console.log(error);
+			});
+		}
+
+		vm.setPublic = function(value) {
+			vm.users[getId()].public = value;
+			updateInfo(vm.users[getId()], 'public');
 		}
 
 		function updateInfo(data, datatype) {
@@ -165,26 +166,26 @@
 		}
 
 		function isLoading(datatype){
-			angular.forEach($scope.isLoading, function(value, key) {
+			angular.forEach(vm.isLoading, function(value, key) {
 				if(key == datatype) {
-					$scope.isLoading[key] = !$scope.isLoading[key];
+					vm.isLoading[key] = !vm.isLoading[key];
 				}
 			})
 		}
 
 		function onSuccess(datatype) {
-			angular.forEach($scope.onSuccess, function(value, key) {
+			angular.forEach(vm.onSuccess, function(value, key) {
 				if(key == datatype) {
-					$scope.onSuccess[key] = !$scope.onSuccess[key];
+					vm.onSuccess[key] = !vm.onSuccess[key];
 
 				}
 			})
 		}
 
 		function changeEditable(datatype) {
-			angular.forEach($scope.formEdit, function(value, key) {
+			angular.forEach(vm.formEdit, function(value, key) {
 				if(key == datatype) {
-					$scope.formEdit[key] = !$scope.formEdit[key];
+					vm.formEdit[key] = !vm.formEdit[key];
 				}
 			})
 		}
