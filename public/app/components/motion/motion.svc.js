@@ -33,8 +33,8 @@
 	    });
 
 
-		function getMotions() {
-			return Motion.query({take:50}).$promise.then(function(results) {
+		function getMotions(data) {
+			return Motion.get(data).$promise.then(function(results) {
 				return results
 			}, function(error) {
 				console.log(error);
@@ -42,7 +42,7 @@
 		}
 
 		function getTopMotion() {
-			return GetTopMotion.query().$promise.then(function(results) {
+			return GetTopMotion.get().$promise.then(function(results) {
 				return results
 			}, function(error) {
 				console.log(error);
