@@ -88,8 +88,6 @@
       <h2 class="md-flex">This version of IserveU is currently in BETA. Thank you for helping us test the site to improve Yellowknife's democracy. If you run into any major issues send an email to admin@iserveu.ca</h2>
     </div>
   </md-toolbar>
-
-
           <div flex ui-view></div>
           
           <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background" ng-cloak>
