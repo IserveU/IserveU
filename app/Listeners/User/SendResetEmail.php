@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\UserLoginFailed;
+namespace App\Listeners\User;
 
 use App\Events\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;

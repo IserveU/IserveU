@@ -209,8 +209,9 @@ class UserController extends ApiController {
 		$user->addUserRoleByName($role_name);
 
 		return $user;
-
 	}
 
+
+	 
 
 }

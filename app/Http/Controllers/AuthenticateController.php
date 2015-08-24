@@ -10,6 +10,7 @@ use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Events\UserLoginFailed;
+use App\Events\UserForgotPassword;
 use Carbon\Carbon;
 
 class AuthenticateController extends ApiController
@@ -77,5 +78,12 @@ class AuthenticateController extends ApiController
         // all good so return the token
         return response()->json(compact('token','user'));
 
+    }
+
+    public function resetPassword(Request $request){
+        $credentials = $request->only('email', 'password');
+        event(new UserLoginFailed($credentials));
+
+        return response()->json(array('message'=>'password reset sent'));
     }
 }

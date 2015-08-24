@@ -18,8 +18,8 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\UserCreated\SendWelcomeEmail'
 		],
 		'App\Events\UserLoginFailed' => [
-			'App\Listeners\UserLoginFailed\LogAttempt',
-			'App\Listeners\UserLoginFailed\SendResetEmail'
+			'App\Listeners\User\LogAttempt',
+			'App\Listeners\User\SendResetEmail'
 		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\MotionUpdated\SendNotificationEmail',
@@ -27,6 +27,10 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\VoteUpdated\CheckCommentVotes'
+		],
+		'App\Events\UserForgotPassword' => [
+			'App\Listeners\User\SendResetEmail',
+			'App\Listeners\User\SetRandomPassword'
 		]
 	];
 

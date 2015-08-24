@@ -16,6 +16,7 @@ use App\BackgroundImage;
 
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
+Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
 
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
