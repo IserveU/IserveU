@@ -6,10 +6,10 @@
     <md-content class="md-whiteframe-z5 loginbox" layout-padding layout-wrap layout="row" >
   
       <div flex="100">
-        <form name="loginform" ng-hide="login.registerform || login.passwordreminder" novalidate>
+        <form name="loginform" id="loginform" ng-hide="login.registerform || login.passwordreminder" novalidate>
           <md-input-container flex>
             <label>Email</label>
-            <input type="email" name="email" ng-model="login.email" required>
+            <input type="email" label="email" name="email" ng-model="login.email" required>
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>
@@ -18,8 +18,8 @@
               <div ng-message="">Password and email combination incorrect.</div>
             </div>
           </md-input-container>
-          <md-button type="submit" class="btn btn-primary" ng-click="login.login()">Login</md-button>
-          <md-button class="btn btn-primary" ng-click="login.extendregister()">Create</md-button>
+          <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">Login</md-button>
+          <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
           
           <md-button ng-show="login.loginError"ng-click="login.forgotPassword()">Forgot password</md-button>
          
@@ -28,7 +28,7 @@
           <p class="md-caption">We will email you instructions on how to reset your password.</p>
           <md-input-container>
             <label>Email</label>
-            <input type="email" name="email" placeholder="example@email.com" ng-model="login.email" required>
+            <input type="email" name="forgottenemail" placeholder="example@email.com" ng-model="login.email" required>
           </md-input-container>
           <md-button type="submit" class="btn btn-primary" ng-click="login.passwordreset(login.email)">Send password</md-button>
         </form>
@@ -45,20 +45,20 @@
           </md-input-container>
           <md-input-container flex>
             <label>Email</label>
-            <input type="email" name="email" ng-model="login.email" required>
+            <input type="email" name="newemail" ng-model="login.email" required>
             <div ng-messages="registerform.email.$error" ng-if="login.emailValidation">
               <div ng-message>This email is already registered on the site!</div>
             </div>
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>
-            <input minlength="8" type="password" name="password" ng-model="login.password"  required="">
+            <input minlength="8" type="newpassword" name="password" ng-model="login.password"  required="">
             <div ng-messages="registerform.password.$error" ng-if="registerform.password.$error.minlength"> 
               <div ng-message>Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>
-          <md-button type="submit" class="btn btn-primary" ng-click="login.createUser()">Create</md-button>
-          <md-button class="btn btn-primary" ng-click="login.extendregister();">Cancel</md-button>
+          <md-button type="submit" name="create" class="btn btn-primary" ng-click="login.createUser()">Create</md-button>
+          <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
         </form>
       </div>
     </md-content>
