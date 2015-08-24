@@ -52,7 +52,7 @@
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>
-            <input minlength="8" type="newpassword" name="password" ng-model="login.password"  required="">
+            <input minlength="8" type="password" name="newpassword" ng-model="login.password"  required="">
             <div ng-messages="registerform.password.$error" ng-if="registerform.password.$error.minlength"> 
               <div ng-message>Password must be more than 8 characters long.</div>
             </div>
