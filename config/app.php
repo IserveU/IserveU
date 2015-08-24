@@ -172,7 +172,8 @@ return [
 		'App\Providers\RouteServiceProvider',
 		//'App\Providers\TestingServiceProvider',
 		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
-		'Intervention\Image\ImageServiceProvider'
+		'Spatie\Backup\BackupServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
 	],
 
 	/*
