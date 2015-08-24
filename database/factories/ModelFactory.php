@@ -36,4 +36,43 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         ];
 });
 
+// $factory->defineAs(App\Role::class, 'administrator', function($faker) {
 
+//     return [
+//         'name' => 'administrator',
+//     ];
+// });
+
+
+// $factory->defineAs(App\User::class, 'administrator', function ($faker) use ($factory){
+
+//     $user = $factory->raw(App\User::class);
+
+//     $admin = DB::table('role_user')
+//             ->join('users', 'role_user.user_id', '=', 'users.id')
+//             ->join('', 'role_user.role_id', '=', 1)
+//             ->get();
+
+//     return ($user, $admin);
+
+//     // return [
+//     //     factory('App\User')->create()->roles()->save(App\Role::find(1)),
+//     // ];
+
+// });
+
+
+$factory->define(App\Motion::class, function ($faker){
+
+    return [
+        'title' => $faker->sentence($nbWords = 6),
+        'summary' => $faker->sentence($nbWords = 15),
+        'active' => 1,
+        'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
+        'closing' => 2015-08-7,
+        'user_id' => 1,
+        'text' => $faker->paragraph($nbSentences =10),
+        'created_at' => 2015-08-01
+    ];
+
+});
