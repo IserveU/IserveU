@@ -39,8 +39,8 @@ class SendResetEmail
 
         if(true /*($user->login_attempts % 4) == 0 */){ //Every 4 attempts, send this email?
             
-            if(Hash::needsRehash($user->remember_token)){
-                $hash = Hash::make($user);
+            if(empty($user->remember_token)){
+                $hash = str_random(99);
                 $user->remember_token = $hash;
                 $user->save();
             }

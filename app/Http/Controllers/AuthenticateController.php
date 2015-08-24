@@ -67,6 +67,7 @@ class AuthenticateController extends ApiController
             }
 
             $token = JWTAuth::fromUser($user);
+            Auth::loginUsingId($user->id);
             
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
