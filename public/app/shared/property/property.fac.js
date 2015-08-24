@@ -9,8 +9,18 @@
 	function property($resource) {
 
 	var PropertyAssessment = $resource('api/propertyassessment');
+	var PropertyBlock = $resource('api/propertyblock')
+	var Property = $resource('api/property/uploadcsv', {}, {
+	        'update': { method:'PUT' }
+	    });
 
-	console.log('twice');
+	function uploadProperties(){
+		return Property.save().$promise.then(function(results){
+			return results;
+		}, function(error) {
+			return error;
+		});
+	}
 
 	function getPropertyAssessment(data){
 		return PropertyAssessment.get(data).$promise.then(function(results){
@@ -20,8 +30,18 @@
 		});
 	}
 
+	function getPropertyBlock(data){
+		return PropertyBlock.get(data).$promise.then(function(results){
+			return results;
+		}, function(error) {
+			return error;
+		});
+	}
+
 	    return {
-	    	getPropertyAssessment: getPropertyAssessment
+	    	getPropertyAssessment: getPropertyAssessment,
+	    	getPropertyBlock: getPropertyBlock,
+	    	uploadProperties: uploadProperties
 	    }
 
 	}

@@ -16,15 +16,15 @@
 
 
 
-		$interval(function() {
+		// $interval(function() {
 
-			PaginationService.loadMoreStuff($window).then(function(bool){
-				console.log("accept");
-			}, function(reject) {
-				console.log("reject");
-			});
+		// 	PaginationService.loadMoreStuff($window).then(function(bool){
+		// 		console.log(bool);
+		// 	}, function(reject) {
+		// 		console.log(reject);
+		// 	});
 
-		}, 500);
+		// }, 500);
 
 
 
@@ -41,13 +41,13 @@
 		// });
 
 
-		// vm.uploadProperties = function () {
-		// 	property.uploadProperties().then(function(result){
-		// 		console.log("success");
-		// 	},function(error){
-		// 		console.log(error);
-		// 	});
-		// };
+		vm.uploadProperties = function () {
+			property.uploadProperties().then(function(result){
+				console.log("success");
+			},function(error){
+				console.log(error);
+			});
+		};
 
 		function getPropertyAssessment() {
 			property.getPropertyAssessment().then(function(result){
