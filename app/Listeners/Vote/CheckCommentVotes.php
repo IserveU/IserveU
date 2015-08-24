@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\VoteUpdated;
+namespace App\Listeners\Vote;
 
 use App\Events\VoteUpdated;
 use Illuminate\Queue\InteractsWithQueue;

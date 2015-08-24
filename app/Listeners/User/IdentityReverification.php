@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\UserUpdated;
+namespace App\Listeners\User;
 
 use Mail;
 use Auth;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\MotionUpdated;
+namespace App\Listeners\Motion;
 
 use App\Events\MotionUpdated;
 use Illuminate\Queue\InteractsWithQueue;

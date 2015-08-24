@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\UserCreated;
+namespace App\Listeners\User;
 
 use App\Events\UserCreated;
 use Illuminate\Queue\InteractsWithQueue;
