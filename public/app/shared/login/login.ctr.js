@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage) {	
+	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage, resetpassword) {	
 
 		var vm = this;
 
@@ -24,6 +24,14 @@
 		vm.background_url = '/themes/default/photos/background.png';
 		vm.redirectUrlName;
 		vm.redirectUrlID;
+
+		// variables from reset password service
+		vm.passwordreset = resetpassword.resetpassword_box;
+		vm.resetpassword = function(){
+			resetpassword.reset(data);
+		}
+		
+		console.log(vm.passwordreset);
 
 
 		function login(email, password) {
@@ -95,6 +103,10 @@
 				
 			});
 		};
+
+		vm.crossControllerTest = function() {
+			console.log(test);
+		}
 
 		function getSettings(){
 			auth.getSettings().then(function(result){

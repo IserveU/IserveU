@@ -96,6 +96,14 @@
 	                    requireLogin: false
 	                } 
 	        	})
+	        	.state('login.resetpassword', {
+	        		url: '^/login/:resetpassword',
+	        		controller: 'loginController as reset',
+	        		templateUrl: 'app/shared/resetpassword/resetpassword.tpl.html',
+	        		data: {
+	        			requireLogin: false
+	        		}
+	        	})
 	        	.state('department' , {
 	        		url: '/departments/:id',
 	            	controller: 'DepartmentController as department',

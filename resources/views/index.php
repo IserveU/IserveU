@@ -19,6 +19,7 @@
         </md-sidenav>
 
         <div layout="column" tabIndex="-1" role="main" flex>
+        
           <md-toolbar class="md-toolbar-tools site-content-toolbar" ng-if="userIsLoggedIn">
             <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
                 <md-button class="md-icon-button" ng-click="user.toggleSidebar('left')" hide-gt-sm aria-label="Toggle Menu">
@@ -82,6 +83,12 @@
                 </div>
             </div>
           </md-toolbar>
+  <md-toolbar class="md-warn" ng-cloak>
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">This version of IserveU is currently in BETA. Thank you for helping us test the site to improve Yellowknife's democracy. If you run into any major issues send an email to admin@iserveu.ca</h2>
+    </div>
+  </md-toolbar>
+
 
           <div flex ui-view></div>
           
