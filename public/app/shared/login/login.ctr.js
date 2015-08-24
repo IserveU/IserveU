@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage, resetpassword) {	
+	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage) {	
 
 		var vm = this;
 
@@ -26,12 +26,13 @@
 		vm.redirectUrlID;
 
 		// variables from reset password service
-		vm.passwordreset = resetpassword.resetpassword_box;
-		vm.resetpassword = function(){
-			resetpassword.reset(data);
-		}
-		
-		console.log(vm.passwordreset);
+		// vm.passwordreset = resetpassword.resetpassword_box;
+		// vm.resetpassword = function(){
+		// 	var data =
+		// 	resetpassword.reset(data);
+		// }
+
+		// console.log(vm.passwordreset);
 
 
 		function login(email, password) {
