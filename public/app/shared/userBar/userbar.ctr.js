@@ -18,7 +18,6 @@
 		vm.userbarservice = UserbarService;
 
 		vm.toggleSidebar = function(menuId){
-			console.log('motion');
 			$mdSidenav(menuId).toggle();
 		}
 
