@@ -1,3 +1,15 @@
 /vendor
 /node_modules
+/public/css/*
+/public/js/*
+/public/themes/*
+/public/build/*
+/public/icons/*
+/public/fonts/*
+/resources/bower/*
+/storage/logs/*
+
+_ide_helper.php
+npm-debug.log
 .env
+.DS_Store
