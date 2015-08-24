@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "447a6eac9d573b7ba5a78987ecf6cba6",
+    "hash": "c358dd505272e4bf733f089e66c84262",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -435,6 +435,44 @@
                 "laravel"
             ],
             "time": "2015-08-05 10:17:11"
+        },
+        {
+            "name": "flow/jsonpath",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FlowCommunications/JSONPath.git",
+                "reference": "be3bc6868bfba8021023aa322fd4b9d498c72afc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/be3bc6868bfba8021023aa322fd4b9d498c72afc",
+                "reference": "be3bc6868bfba8021023aa322fd4b9d498c72afc",
+                "shasum": ""
+            },
+            "require-dev": {
+                "peekmo/jsonpath": "dev-master",
+                "phpunit/phpunit": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Flow\\JSONPath": "src/",
+                    "Flow\\JSONPath\\Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Frank",
+                    "email": "stephen@flowsa.com"
+                }
+            ],
+            "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "time": "2015-06-25 12:39:45"
         },
         {
             "name": "fzaninotto/faker",
@@ -942,7 +980,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
