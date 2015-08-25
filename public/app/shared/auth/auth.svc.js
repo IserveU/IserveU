@@ -44,6 +44,13 @@
 			})
 		};
 
+		var getNoPassword = function(remember_token) {
+			return $http.get('authenticate/' + remember_token).success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			})
+		}
 
 		var postUserCreate = function(credentials) {
 			return $http.post('api/user', credentials).success(function(result) {					
@@ -67,6 +74,7 @@
 		  	logout: logout,
 		  	getAuthenticatedUser: getAuthenticatedUser,
 		  	postAuthenticate: postAuthenticate,
+		  	getNoPassword: getNoPassword,
 		  	postUserCreate: postUserCreate,
 		  	getSettings: getSettings
 		};
