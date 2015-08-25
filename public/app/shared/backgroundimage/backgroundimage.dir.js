@@ -25,28 +25,14 @@
 		}
 		else {
 			backgroundimage = "url(/uploads/background_images/" + settings.background_image.file +")";
-			console.log(backgroundimage);
 		}
 		element.css({
 		   'background-image': backgroundimage
 		});
-
 	}
 
-	// 	var directive = {
-	// 		link: function(scope, element, attrs) {
-	// 			element.css({
-	// 	            'background-image':  "/themes/default/photos/background.png",
-	// 	            'background-size' : 'cover'
-	// 	        });
-	// 		},
-	// 		controller: controllerMethod
-	// 	}
-
-	// 	return directive;
-	// }
-
 	function controllerMethod(motion, $scope, $location, $state, $rootScope){
+
 	}
 
 
