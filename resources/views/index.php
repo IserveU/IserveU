@@ -91,7 +91,7 @@
           <div flex ui-view></div>
           
           <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background" ng-cloak>
-            Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}} Photography</a>
+            Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}}</a>
           </md-caption>
           
 
