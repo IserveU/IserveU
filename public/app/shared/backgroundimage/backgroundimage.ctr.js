@@ -16,6 +16,10 @@
 		vm.adminbackgroundimages = false;
 		$scope.themename = '';
 		$scope.backgroundcredits = '';
+
+		vm.backgroundimages;
+
+
 		var settings = JSON.parse(localStorage.getItem('settings'));
 		var permissions = JSON.parse(localStorage.getItem('permissions'));
 		if(permissions){
@@ -37,11 +41,18 @@
 			vm.thisFile = files;
 		}
 
+		function backgroundImages(){
+			backgroundimage.getBackgroundImages().then(function(result) {
+				vm.backgroundimages = result.data;
+				console.log(result);
+			}, function(error) {
+				console.log(error);
+			});
+		}
+
 		vm.uploadFile = function(credited, url){
-			console.log(vm.isactive);
 			var formData = new FormData();
 		    //Take the first selected file
-		    console.log(vm.thisFile[0]);
 		    formData.append("file", vm.thisFile[0]);
 		    formData.append("credited", credited);
 		    if(url && !/^(http):\/\//i.test(url)) {
@@ -52,6 +63,7 @@
 
 
 		    backgroundimage.saveBackgroundImage(formData).then(function(result) {
+	            $rootScope.$emit('backgroundImageUploaded', []);
 		    	var user = "Your image has been sent in for approval!"
 		    	var admin = "Upload successful!"
 		    	vm.onSuccess = true;
@@ -62,6 +74,7 @@
 	                    .position('bottom right')
 	                    .hideDelay(3000)
 	                );
+	            $state.reload();
 		    },function(error){
 		    	console.log("error");
 		    	vm.uploading = false;
@@ -81,9 +94,24 @@
 		    });
 		}
 
+		vm.previewimage = function(image){
+			$rootScope.$emit('imagePreview', image);
+
+
+			$mdToast.show(
+	          $mdToast.simple()
+	            .content("Make permanent?")
+	            .position('bottom right')
+	            .hideDelay(3000)
+	        );
+		}
+
 		vm.uploadcheck = function() {
 			vm.uploading = true;
 		}
+
+		backgroundImages();
+
 
     }
 
