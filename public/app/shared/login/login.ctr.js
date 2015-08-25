@@ -115,6 +115,10 @@
 			})
 		}
 	
+		$rootScope.$on('backgroundImageUploaded', function(event, data) {
+			getSettings();
+		});
+
 		getSettings();
     }
 
