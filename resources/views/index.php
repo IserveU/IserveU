@@ -83,7 +83,7 @@
                 </div>
             </div>
           </md-toolbar>
-  <md-toolbar class="md-warn" ng-cloak>
+  <md-toolbar class="md-warn" ng-cloak layout-padding>
     <div class="md-toolbar-tools">
       <h2 class="md-flex">This version of IserveU is currently in BETA. Thank you for helping us test the site to improve Yellowknife's democracy. If you run into any major issues send an email to admin@iserveu.ca</h2>
     </div>
