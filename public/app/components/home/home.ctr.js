@@ -29,7 +29,7 @@
 
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
-        		vm.topMotion = result[0];
+        		vm.topMotion = result.data[0];
                 if(!vm.topMotion){
                     vm.empty.topmotion = true;
                 }
