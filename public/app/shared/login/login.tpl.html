@@ -24,19 +24,7 @@
           <md-button ng-show="login.loginError"ng-click="login.forgotPassword()">Forgot password</md-button>
          
         </form>
-
-        <ui-view > 
-        <!-- ng-show="login.passwordreset" -->
-
-<!--         <form name="passwordreminderform" ng-show="login.passwordreminder" novalidate>
-          <p class="md-caption">We will email you instructions on how to reset your password.</p>
-          <md-input-container>
-            <label>Email</label>
-            <input type="email" name="forgottenemail" ng-model="login.email" required>
-          </md-input-container>
-          <md-button type="submit" class="btn btn-primary" ng-click="login.passwordreset(login.email)">Send password</md-button>
-        </form> -->
-
+        
         <!-- extends when Create is pressed -->
         <form name="registerform" ng-if="login.registerform" novalidate>
           <md-input-container flex>
