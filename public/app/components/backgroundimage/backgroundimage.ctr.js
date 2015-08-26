@@ -110,7 +110,7 @@
 			vm.uploading = true;
 		}
 
-		backgroundImages();
+		// backgroundImages();
 
 
     }
