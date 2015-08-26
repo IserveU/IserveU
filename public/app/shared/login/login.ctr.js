@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($scope, $http, $rootScope, $state, $location, auth, $mdDialog, $window, backgroundimage) {	
+	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService) {	
 
 		var vm = this;
 
@@ -18,22 +18,14 @@
 		vm.registerform = false;
 		vm.emailValidation = false;
 		vm.passwordreminder = false;
+		vm.passwordreset = false;
+
 		vm.login = login;
 		vm.background_image;
 		vm.default_background = true;
 		vm.background_url = '/themes/default/photos/background.png';
 		vm.redirectUrlName;
 		vm.redirectUrlID;
-
-		// variables from reset password service
-		// vm.passwordreset = resetpassword.resetpassword_box;
-		// vm.resetpassword = function(){
-		// 	var data =
-		// 	resetpassword.reset(data);
-		// }
-
-		// console.log(vm.passwordreset);
-
 
 		function login(email, password) {
 
@@ -46,8 +38,6 @@
 				if(data.status == 401){
 					vm.loginError = true;
 				}
-				vm.redirectUrlName = $rootScope.redirectUrlName;
-				vm.redirectUrlID = $rootScope.redirectUrlID;
 				setLocalStorage(credentials);
 			}, function(error) {
 				vm.error = error;
@@ -57,16 +47,7 @@
 
 		function setLocalStorage(credentials) {
 			auth.postAuthenticate(credentials).then(function(data) {
-				localStorage.setItem('user', JSON.stringify(data.data.user));
-				localStorage.setItem('permissions', JSON.stringify(data.data.user.permissions));
-				$rootScope.userIsLoggedIn = true;
-				$rootScope.authenticatedUser = data.data.user;
-				if(vm.redirectUrlName){
-					$state.go(vm.redirectUrlName, {"id": vm.redirectUrlID});
-				}
-				else{
-					$state.go('home');
-				}
+				afterauth.setLoginAuthDetails(data);
 			});
 		}   
 		
@@ -78,10 +59,6 @@
 			vm.passwordreminder = !vm.passwordreminder;
 		}
 
-		vm.passwordreset = function(email) {
-            $state.reload();
-			//send email function
-		}
 
 		vm.createUser = function(first_name, last_name, email, password){
 			var registerinfo = {
@@ -104,10 +81,6 @@
 				
 			});
 		};
-
-		vm.crossControllerTest = function() {
-			console.log(test);
-		}
 
 		function getSettings(){
 			auth.getSettings().then(function(result){
