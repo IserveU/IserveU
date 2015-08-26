@@ -103,7 +103,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = ['email'];
+	protected $unique = ['email', 'remember_token'];
 
 	/**
 	 * The front end field details for the attributes in this model 
