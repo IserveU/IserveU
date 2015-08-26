@@ -97,9 +97,7 @@
 	                } 
 	        	})
 	        	.state('login.resetpassword', {
-	        		url: '^/login/:resetpassword',
-	        		controller: 'loginController as reset',
-	        		templateUrl: 'app/shared/resetpassword/resetpassword.tpl.html',
+	        		url: '/:resetpassword',
 	        		data: {
 	        			requireLogin: false
 	        		}
