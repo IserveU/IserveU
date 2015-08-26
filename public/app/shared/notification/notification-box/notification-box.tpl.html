@@ -1,0 +1,12 @@
+<div ng-show="notifyUser.passwordreset"ng-controller="notificationController as notify">
+  <md-toolbar class="md-warn md-hue-3" ng-cloak layout-padding>
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Take a moment to reset your password,</h3>
+      <span flex="10"></span>
+      <md-input-container>
+      <input type="password" ng-model="notify.newpassword" placeholder="New Password"/>
+      </md-input-container>
+      <md-button type="submit" ng-click="notify.resetPassword(notify.newpassword)">Sure</md-button>
+    </div>
+  </md-toolbar>
+</div>

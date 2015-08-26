@@ -20,7 +20,7 @@
 			restrict: 'E',
 			link: linkMethod,
 			controller: controllerMethod,
-			templateUrl: 'app/shared/notificationbox/notification-box.tpl.html',
+			templateUrl: 'app/shared/notification/notification-box/notification-box.tpl.html',
 		}
 
 	}
