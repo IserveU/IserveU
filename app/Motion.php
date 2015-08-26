@@ -119,7 +119,8 @@ class Motion extends ApiModel {
 		});
 
 		static::deleting(function($model) { // before delete() method call this
-             $model->votes()->delete();
+            $model->votes()->delete();
+            $model->figures()->delete();
         });
 	}
 
@@ -234,5 +235,10 @@ class Motion extends ApiModel {
 	public function votes(){
 		return $this->hasMany('App\Vote')->select(['id','motion_id','position']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
 	}
+
+	public function figures(){
+		return $this->hasMany('App\Figure');
+	}
+
 
 }
