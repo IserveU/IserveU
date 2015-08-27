@@ -5,7 +5,7 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $scope, $stateParams, auth, motion,
-    comment, $mdToast, $animate, $state, UserbarService) {
+    comment, $mdToast, $animate, $state, UserbarService, ToastMessage) {
 
         var vm = this;
 
@@ -59,32 +59,19 @@
                 $state.go('home');
                 $rootScope.$emit('newMotion');  
                 
+                var toast = ToastMessage.delete_toast("You've deleted this motion.");
 
-
-                $mdToast.show(
-                  toast = $mdToast.simple()
-                    .content("You've deleted this motion.")
-                    .action('Undo?')
-                    .highlightAction(false)
-                    .position('bottom right')
-                    .hideDelay(8000)
-                );
-
-                $mdToast.show(toast).then(function() {
-                    motion.restoreMotion(data.id).then(function(result) {
-                    $rootScope.$emit('newMotion');  
-
-                    $mdToast.show(
-                     toast = $mdToast.simple()
-                        .content("Motion is back. Try not to do that again.")
-                        .position('bottom right')
-                        .hideDelay(3000)
-                    );
-                    }); 
+                $mdToast.show(toast).then(function(response) {
+                    if(response == 'ok') {
+                        motion.restoreMotion(data.id).then(function(result) {
+                        $rootScope.$emit('newMotion');  
+                        ToastMessage.simple("Motion is back. Try not to do that again.");
+                    });
+                    }
                 });
               
             }, function(error) {
-                console.log(error);
+                ToastMessage.report_error(error);
             });
         }
 
@@ -96,17 +83,11 @@
                 id: $stateParams.id
             }
             motion.updateMotion(data).then(function(result) {
-                console.log(result);
                 editMotionFunction();
                 vm.editMotionLoading = !vm.editMotionLoading;
-                 $mdToast.show(
-                  $mdToast.simple()
-                    .content("You've successfully updated this motion!")
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+                ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
-                console.log(error);
+                ToastMessage.report_error(error);
             });
         }
 
@@ -181,7 +162,7 @@
             motion.saveCommentVotes(data).then(function(result){
                 getMotionComments($stateParams.id);
             },function(error){
-                console.log(error);
+                ToastMessage.report_error(error);
             }); 
         }
 
@@ -194,7 +175,7 @@
             motion.updateCommentVotes(data).then(function(result){
                 getMotionComments($stateParams.id);
             },function(error){
-                console.log(error);
+                ToastMessage.report_error(error);
             }); 
 
         }
@@ -285,19 +266,12 @@
                 vm.agreeVoting = false;
                 vm.abstainVoting = false;
                 vm.disagreeVoting = false;
-                $mdToast.show(
-                  $mdToast.simple()
-                    .content(message)
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+                ToastMessage.simple(message);
             }, function(error) {
-                console.log("no more error messages");
                 vm.agreeVoting = false;
                 vm.abstainVoting = false;
                 vm.disagreeVoting = false;
-
-                console.log(error);
+                ToastMessage.report_error(error);
             });
             }
             else updateVote(data.position);
@@ -322,13 +296,9 @@
                 vm.agreeVoting = false;
                 vm.abstainVoting = false;
                 vm.disagreeVoting = false;
-                $mdToast.show(
-                  $mdToast.simple()
-                    .content("You've updated your vote")
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+                ToastMessage.simple("You've updated your vote");
             }, function(error) {
+                ToastMessage.report_error(error);
                 vm.agreeVoting = false;
                 vm.abstainVoting = false;
                 vm.disagreeVoting = false;
@@ -344,16 +314,10 @@
             comment.saveComment(data).then(function(result) {
                 vm.commenttext = '';
                 getMotionComments($stateParams.id);
-                 $mdToast.show(
-                  $mdToast.simple()
-                    .content("You've made a comment!")
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+                ToastMessage.simple("You've made a comment!");
               
-                
             }, function(error) {
-                console.log(error);
+                ToastMessage.report_error(error);
             });            
         }
 
@@ -365,14 +329,9 @@
             }
             comment.updateComment(data).then(function(result) {
                 getMotionComments($stateParams.id);
-                $mdToast.show(
-                  $mdToast.simple()
-                    .content("Commented updated")
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );
+                ToastMessage.simple("Commment updated!");
             }, function(error) {
-
+                ToastMessage.report_error(error);
             });
         }
 
@@ -384,30 +343,19 @@
             comment.deleteComment(data.id).then(function(result) {
                 getMotionComments($stateParams.id);
 
-                $mdToast.show(
-                  toast = $mdToast.simple()
-                    .content("Commented deleted")
-                    .action('Undo?')
-                    .highlightAction(false)
-                    .position('bottom right')
-                    .hideDelay(8000)
-                );
+                var toast = ToastMessage.delete_toast("Comment deleted");
 
-                $mdToast.show(toast).then(function() {
-                    comment.updateComment(data).then(function(result) {
-                    getMotionComments($stateParams.id);
-                     $mdToast.show(
-                     toast = $mdToast.simple()
-                        .content("Your comment is back!")
-                        .position('bottom right')
-                        .hideDelay(3000)
-                    );
-                    }); 
-                    
+                $mdToast.show(toast).then(function(response) {
+                    if (response == 'ok' ){
+                    comment.restoreComment(data.id).then(function(result) {
+                        getMotionComments($stateParams.id);
+                        ToastMessage.simple("Your comment is back!");
+                       }); 
+                    }
                 });
             }, function(error) {
-                
-            });           
+                ToastMessage.report_error(error);
+            });       
         }
 
         function getUsersVotes() {
