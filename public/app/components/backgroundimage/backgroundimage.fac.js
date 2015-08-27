@@ -9,7 +9,7 @@
 	function backgroundimage($resource, $http, CSRF_TOKEN, $auth) {
 
 		var getBackgroundImages = function() {
-			return $http.get('api/background_image').success(function(result) {
+			return $http.get('background_image').success(function(result) {
 				return result;
 			}).error(function(error) {
 				return error;

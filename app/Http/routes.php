@@ -20,7 +20,7 @@ Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword'
 
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
-
+Route::get('background_image', 'BackgroundImageController@index');
 
 Route::get('/settings', function(){
 	$user = null;
