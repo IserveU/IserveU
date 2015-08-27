@@ -121,7 +121,7 @@
 	        	.state('backgroundimage', {
 	                url: '/upload',
 	            	controller: 'BackgroundImageController as background',
-	            	templateUrl: 'app/shared/backgroundimage/backgroundimage.tpl.html',
+	            	templateUrl: 'app/components/backgroundimage/backgroundimage.tpl.html',
 	                data: {
 	                    requireLogin: true
 	                } 
@@ -159,10 +159,7 @@
 			}
 		})
 		.run(function($rootScope, $auth, $state, auth) {
-						
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
-
-
 
 				var user = JSON.parse(localStorage.getItem('user'));
 					if(user) {
@@ -186,7 +183,6 @@
 			});		
 
 		})
-
     .controller('AppCtrl', function($scope) {
       $scope.isOpen = false;
       $scope.demo = {

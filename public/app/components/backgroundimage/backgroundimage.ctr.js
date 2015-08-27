@@ -35,10 +35,10 @@
 			vm.thisFile = files;
 		}
 
+		//this is returning a 400 error, must fix
 		function backgroundImages(){
 			backgroundimage.getBackgroundImages().then(function(result) {
 				vm.backgroundimages = result.data;
-				console.log(result);
 			}, function(error) {
 				console.log(error);
 			});
@@ -104,7 +104,7 @@
 			vm.uploading = true;
 		}
 
-		// backgroundImages();
+		backgroundImages();
 
 
     }

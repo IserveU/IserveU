@@ -18,10 +18,10 @@
 		var backgroundimage;
 		var settings = JSON.parse(localStorage.getItem('settings'));
 
-		if (settings.background_image == null || settings) {
+		if (settings.background_image.file == null || !settings) {
 			backgroundimage = "url(/themes/default/photos/background.png)";
 		}
-		else if (settings.background_image != null){
+		else if (settings.background_image.file != null){
 			backgroundimage = "url(/uploads/background_images/" + settings.background_image.file +")";
 		}
 		element.css({

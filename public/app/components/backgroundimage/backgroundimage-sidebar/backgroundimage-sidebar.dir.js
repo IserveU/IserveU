@@ -10,7 +10,7 @@
 
     return {
 
-      templateUrl: 'app/shared/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html'
+      templateUrl: 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html'
       
     }
   }
