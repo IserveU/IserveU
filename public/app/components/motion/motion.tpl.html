@@ -163,7 +163,7 @@
 		</md-toolbar>
 			<div flex layout-fill>
 			 	<div layout-padding ng-repeat="comment in motion.agreeComments">
-		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">#{{comment.commentRank}}</p></md-icon></h4>
+		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<md-icon class="mdi" style="float: right" md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></md-icon></h4>
 		        <p class="md-body-1" ng-if="!comment.editCommentDialog">{{comment.text}}</p>
 		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes">
 
@@ -190,7 +190,7 @@
 		</md-toolbar>
 			<div flex layout-fill >
 			 	<div layout-padding ng-repeat="comment in motion.disagreeComments">
-			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}  <span ng-if="comment.vote.position==0">(Abstained)</span><md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">#{{comment.commentRank}}</p></md-icon></h4>
+			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}  <span ng-if="comment.vote.position==0">(Abstained)</span><md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></md-icon></h4>
 			 	<md-icon class="mdi" md-font-icon="mdi-marker"></md-icon>
 	        <p class="md-body-1 abstained">{{comment.text}}</p>
 	       
