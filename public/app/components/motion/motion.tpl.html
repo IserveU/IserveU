@@ -28,7 +28,7 @@
 			<md-progress-circular ng-show="motion.editMotionLoading" md-mode="indeterminate"></md-progress-circular>
 			<md-button style="color:gray" ng-hide="motion.editMotionLoading"  ng-click="motion.editMotionFunction()">Cancel</md-button>
 
-</div>
+			</div>
 				<div>
 				</div>
 			</div>
@@ -140,14 +140,13 @@
 			</div>
 
 		<div flex layout-padding ng-if="motion.thisUsersComment.text != null">
-			<md-input-container flex >
-			<p ng-if="!motion.editComment" columns="1">{{motion.thisUsersComment.text}}</p>
-			<textarea ng-if="motion.editComment" columns="1" ng-model="motion.commenttext"></textarea>
+			<md-input-container ng-if="motion.editComment" flex>
+			<textarea layout-padding columns="1" ng-model="motion.thisUsersComment.text"></textarea>
 			</md-input-container>
-			<md-divider></md-divider>
+			<p ng-if="!motion.editComment">{{motion.thisUsersComment.text}}</p>
 			<div layout="row" layout-align="end center">
 				<md-button class="md-primary" ng-if="!motion.editComment" ng-click="motion.editCommentFunction()">Edit</md-button>
-				<md-button class="md-primary" ng-if="motion.editComment" ng-click="motion.updateComment(motion.commenttext); motion.editCommentFunction()">Save Comment</md-button>
+				<md-button class="md-primary" ng-if="motion.editComment" ng-click="motion.updateComment(motion.thisUsersComment.text); motion.editCommentFunction()">Save Comment</md-button>
 				<md-button class="md-warn" ng-if="!motion.editComment" ng-click="motion.deleteComment()">Delete</md-button>
 				<md-button class="md-warn" ng-if="motion.editComment" ng-click="motion.editCommentFunction()">Close</md-button>
 			</div>
