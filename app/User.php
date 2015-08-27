@@ -202,8 +202,9 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		foreach ($this->roles as $role){
 			$role_permissions = $role->perms()->get();
 			foreach($role_permissions as $permission){
-				$newarray = explode('-', $permission->name);
-				$permissions[$newarray[1]][] = $newarray[0];
+				if(!in_array($permission->name,$permissions)){
+					$permissions[]=$permission->name;
+				}
 			}
 		}
 		return $permissions;

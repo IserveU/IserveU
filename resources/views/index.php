@@ -45,7 +45,8 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="showUsers" ui-sref="user.profile({id:1})">
+                                <has-permission has-permission="show-users">
+                                <md-menu-item ui-sref="user.profile({id:1})">
                                     <md-button ng-click="user.showUserSideBar()">
                                         <div layout="row">
                                             <p flex ng-cloak>User List</p>
@@ -53,7 +54,9 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="createMotion" ui-sref="backgroundimage">
+                                </has-permission>
+                                <has-permission has-permission="create-background_images">
+                                <md-menu-item ui-sref="backgroundimage">
                                     <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>Upload Background Image</p>
@@ -61,7 +64,9 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="createMotion" ui-sref="department({id:1})">
+                                </has-permission>
+                                <has-permission has-permission="create-motions">
+                                <md-menu-item ui-sref="department({id:1})">
                                     <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>Department Manager</p>
@@ -69,7 +74,9 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ng-if="administrateProperties">
+                                </has-permission>
+                                <has-permission has-permission="administrate-properties">
+                                <md-menu-item>
                                     <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>Property Manager</p>
@@ -77,6 +84,7 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
+                                </has-permission>
                             </md-menu-content>
                         </md-menu>
                     </div>

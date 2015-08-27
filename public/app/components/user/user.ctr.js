@@ -10,9 +10,7 @@
 		
 		var vm = this;
 		var userlocal = JSON.parse(localStorage.getItem('user'));
-		var userpermissions = JSON.parse(localStorage.getItem('permissions'));
 
-		vm.canShowUser = false;
 		vm.nextpage;
 		vm.usercredentials;
 
@@ -90,12 +88,6 @@
 				}
 			})
 			return id;
-		}
-
-		function checkPermissions() {
-			if(userpermissions.indexOf("show-users") != -1) {
-				vm.canShowUser = true;
-			}
 		}
 
 		function checkPublic(data) {
@@ -190,14 +182,7 @@
 			})
 		}
 
-		// function getFields(id){
-		// 	user.editUser(id).then(function(result){
-		// 		console.log(result);
-		// 	})
-		// }
-
 		getUsers();
-		checkPermissions();
 
 	
 	}

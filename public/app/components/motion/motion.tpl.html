@@ -211,6 +211,7 @@
 	</div>
 	</section>
 
+<has-permission has-permission="hasAllmotions">
 <md-fab-toolbar class="md-right" >
 	<md-fab-trigger class="align-with-text">
 		<md-button aria-label="menu" class="md-fab md-primary">
@@ -219,19 +220,25 @@
     </md-fab-trigger>
     <md-toolbar>
 		<md-fab-actions class="md-toolbar-tools">
-			<md-button ng-show="createMotion" ui-sref="createmotion" aria-label="create" class="md-icon-button">
+			<has-permission has-permission="create-motions">
+			<md-button aria-label="create" ui-sref="createmotion" class="md-icon-button">
 				<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
 			</md-button>
-		    <md-button aria-label="edit" ng-click="motion.editMotionFunction()"  class="md-icon-button">
+			</has-permission>
+			<has-permission has-permission="administrate-motions">
+		    <md-button aria-label="edit" ng-click="motion.editMotionFunction()" class="md-icon-button">
 				<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
 			</md-button>
-		    <md-button aria-label="comment" ng-click="motion.deleteMotion()"  aria-label="delete"  class="md-icon-button md-warn">
+			</has-permission>
+			<has-permission has-permission="delete-motions">
+		    <md-button aria-label="delete" ng-click="motion.deleteMotion()" class="md-icon-button md-warn">
 				<md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
 			</md-button>
+			</has-permission>
 		</md-fab-actions>
 	</md-toolbar>
 </md-fab-toolbar>
-
+</has-permission>
 
 		    	
 </md-content>

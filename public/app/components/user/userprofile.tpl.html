@@ -11,9 +11,10 @@
     <div layout="column" >
       <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
       <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-<div ng-if="!showUsers">This User's Profile is Not Public</div>
+<has-permission has-permission="!show-users">This User's Profile is Not Public</has-permission>
 
-<form name="userprofile" ng-if="showUsers" ng-cloak>   
+<has-permission has-permission="show-users">
+<form name="userprofile" ng-cloak>   
 
 
 <!-- user name --> 
@@ -134,14 +135,12 @@
 </div>
 
 </form>
-
+</has-permission>
+      
       </div>  
     </div>
   </section>
-  </md-content>
-   
-
-
+<has-permission has-permission="hasAllusers">
 <md-fab-toolbar class="md-right" >
   <md-fab-trigger class="align-with-text">
     <md-button aria-label="menu" class="md-fab md-primary">
@@ -150,18 +149,23 @@
     </md-fab-trigger>
     <md-toolbar>
     <md-fab-actions class="md-toolbar-tools">
-      <md-button ng-show="administrateUsers" aria-label="create" class="md-icon-button">
-        <md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
-      </md-button>
-        <md-button ng-show="administrateUsers" aria-label="edit" ng-click="user.showEditUsers()"  class="md-icon-button">
+      <has-permission has-permission="administrate-users">
+        <md-button aria-label="editusers" ng-click="user.showEditUsers()" class="md-icon-button">
         <md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
       </md-button>
-        <md-button ng-show="administrateUsers" aria-label="comment" ng-click="motion.deleteMotion()"  aria-label="delete"  class="md-icon-button md-warn">
+      </has-permission>
+      <has-permission has-permission="delete-users">
+        <md-button aria-label="deleteusers" ng-click="user.deleteUser()"  class="md-icon-button md-warn">
         <md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
       </md-button>
+      </has-permission>
     </md-fab-actions>
   </md-toolbar>
 </md-fab-toolbar>
+</has-permission>
+  </md-content>
+   
+
 
 </div>
 
