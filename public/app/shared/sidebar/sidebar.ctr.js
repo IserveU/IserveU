@@ -32,11 +32,6 @@
 			getMotions();
 		});        	       
 		
-		$rootScope.$on('userListIsClicked', function(events, data) {
-			$rootScope.userListIsClicked = true;
-			getMotions();
-		});        	       
-
 		function setMotionName(title) {
 			$rootScope.motionName = title;
 		}

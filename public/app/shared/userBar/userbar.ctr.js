@@ -9,7 +9,6 @@
 	function UserbarController($scope, $rootScope, $state, auth, UserbarService, $mdSidenav, SetPermissionsService) {
 
 		var vm = this;
-		vm.showUser = false;
 
 		vm.userbarservice = UserbarService;
 		vm.setpermissionservice = SetPermissionsService;
@@ -20,18 +19,12 @@
 
 		vm.logout = function() {
 			auth.logout().then(function(data) {
-				localStorage.removeItem('user');
-				localStorage.removeItem('permissions');
+				localStorage.clear();
 				$rootScope.authenticatedUser = null;
 				$rootScope.userIsLoggedIn = false;
 				$state.go('login', {});			
 			});
 		}
-
-		vm.showUserSideBar = function() {
-			$rootScope.$emit('userListIsClicked');
-		}
-
 
 	}
 

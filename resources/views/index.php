@@ -47,7 +47,7 @@
                                 </md-menu-item>
                                 <has-permission has-permission="show-users">
                                 <md-menu-item ui-sref="user.profile({id:1})">
-                                    <md-button ng-click="user.showUserSideBar()">
+                                    <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>User List</p>
                                             <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
