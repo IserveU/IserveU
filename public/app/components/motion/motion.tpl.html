@@ -5,10 +5,9 @@
 		<md-toolbar class="section-toolbar">
         	<div class="md-toolbar-tools">
         		<h3>Description</h3>
-        		
            	</div>
 		</md-toolbar>
-		<div layout="row" >
+		<div layout="row" layout-wrap >
 			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
 			<p class="md-headline">Introduction</p>
 			<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.summary"></p>
@@ -28,7 +27,7 @@
 			<md-progress-circular ng-show="motion.editMotionLoading" md-mode="indeterminate"></md-progress-circular>
 			<md-button style="color:gray" ng-hide="motion.editMotionLoading"  ng-click="motion.editMotionFunction()">Cancel</md-button>
 
-</div>
+			</div>
 				<div>
 				</div>
 			</div>
