@@ -109,7 +109,7 @@
 
 		function castVote(data) {
 			return Vote.save(data).$promise.then(function(success) {
-				console.log(success)
+				return success;
 			}, function(error) {
 				return error;
 			});
@@ -134,7 +134,7 @@
 
 		function saveCommentVotes(data) {
 			return CommentVote.save(data).$promise.then(function(success) {
-				console.log(success);
+				return success;
 			}, function(error) {
 				return $q.reject(error);
 			});
@@ -142,7 +142,7 @@
 
 		function updateCommentVotes(data) {
 			return CommentVote.update({id:data.id}, data).$promise.then(function(success) {
-				console.log(success);
+				return success;
 			}, function(error) {
 				return $q.reject(error);
 			});
