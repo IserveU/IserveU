@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('department', department);
 
-	function department($resource) {
+	function department($resource, $q) {
 
 		var Department = $resource('api/department/:id', {}, {
 	        'update': { method:'PUT' }
@@ -15,7 +15,7 @@
 			return Department.query().$promise.then(function(results) {
 				return results;
 			}, function(error) {
-				console.log(error);
+				return $q.reject(error);
 			});
 		}
 
@@ -23,7 +23,7 @@
 			return Department.save(data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -31,7 +31,7 @@
 			return Department.delete({id:id}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -39,7 +39,7 @@
 			return Department.update({id:data.id}, data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
