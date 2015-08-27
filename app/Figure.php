@@ -3,11 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
+
+use Request;
+use Auth;
+
 
 class Figure extends ApiModel
 {
     
-	use SoftDeletes, Eloquence, Mappable;
+	use Eloquence, Mappable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model

@@ -4,7 +4,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
+use App\Figure;
 use App\Motion;
 use Auth;
 
@@ -41,26 +44,32 @@ class MotionFigureController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-	
-
-        $validator = Validator::make(array('file' => Input::file('file')),array('file'=>'image'));
+		$validator = Validator::make(array('file' => Input::file('file')),array('file'=>'image'));
         if ($validator->fails()){
             abort(403,'file is not an image');
         }
-        
-        $img = Image::make(Request::file('file'))->resize(1920,1080);
-       
+
+
+		try {
+      		      		$img = Image::make(Request::file('file'))->resize(1920, null, function($constraint){
+      			$constraint->aspectRatio();
+      			$constraint->upsize();
+      		});
+		} catch (Exception $e) {
+		    abort(400,'There was an error uploading and resizing the image');
+		} catch (NotReadableException $e){
+			abort(403,"Unable to read image from file");
+		}
+
         $file = md5($img->response()).".png";
         //$directory .="/database/seeds/thefile.csv";
         $img->save(getcwd()."/uploads/figures/$file");
 
         $input = Request::all();
         $input['file'] = $file;
+        $input['motion_id'] = $motion->id;
 
-
-
-		$figure = (new Figure)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-
+		$figure = (new Figure)->secureFill($input);
 
 		if(!$figure->save()){
 		 	abort(403,$figure->errors);
@@ -75,7 +84,7 @@ class MotionFigureController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Motion $motion,Figure $figure)
+	public function show(Motion $motion, Figure $figure)
 	{	
 		return $figure;
 	}
@@ -115,13 +124,32 @@ class MotionFigureController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-		$figure->secureFill(Request::all());
-		
+		try {
+      		$img = Image::make(Request::file('file'))->resize(1920, null, function($constraint){
+      			$constraint->aspectRatio();
+      			$constraint->upsize();
+      		});
+		} catch (Exception $e) {
+		    abort(400,'There was an error uploading and resizing the image');
+		} catch (NotReadableException $e){
+			abort(403,"Unable to read image from file");
+		}
+
+        $file = md5($img->response()).".png";
+        //$directory .="/database/seeds/thefile.csv";
+        $img->save(getcwd()."/uploads/figures/$file");
+
+        $input = Request::all();
+        $input['file'] = $file;
+        $input['motion_id'] = $motion->id;
+
+		$figure->secureFill($input);
+
 		if(!$figure->save()){
 		 	abort(403,$figure->errors);
 		}
-
-		return $motion;
+     	
+     	return $figure;
 	}
 
 	/**
@@ -130,23 +158,14 @@ class MotionFigureController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Motion $motion)
+	public function destroy(Motion $motion, Figure $figure)
 	{
 		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motions')){
 			abort(401,"You do not have permission to delete this motion");
 		}
 
-		$votes = $motion->votes;
-		
-		if(!$votes){ //Has not recieved votes
-			$motion->forceDelete();
-			return $motion;
-		} 
-
-		$motion->active = 0;
-		$motion->save();
-		$motion->delete(); //Motion kept in the database	
-		return $motion;
+		$figure->delete();
+		return $figure;
 	}
 
 
