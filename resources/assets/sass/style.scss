@@ -46,7 +46,6 @@ md-caption.imagecredit{
   display: none !important;
 }
 
-
 .background-image{
 	background-position: center center;
 	background: cover;
@@ -264,7 +263,13 @@ md-toolbar.site-content-toolbar{
 // }
 
 
+md-toolbar.md-warn{
+	.md-toolbar-tools{
+		height: auto;
+		max-height: none;
+	}
 
+}
 
 .md-toolbar-tools{
 	md-menu{
