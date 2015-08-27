@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
-	function motion($resource) {
+	function motion($resource, $q) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
@@ -37,7 +37,7 @@
 			return Motion.get(data).$promise.then(function(results) {
 				return results
 			}, function(error) {
-				console.log(error);
+				return $q.reject(error);
 			});
 		}
 
@@ -45,7 +45,7 @@
 			return GetTopMotion.get().$promise.then(function(results) {
 				return results
 			}, function(error) {
-				console.log(error);
+				return $q.reject(error);
 			});
 		}
 
@@ -53,19 +53,23 @@
 			return MyVote.get({id:id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
 		function getMotion(id) {
 			return Motion.get({id:id}).$promise.then(function(result) {
 				return result;
+			}, function(error) {
+				return $q.reject(error);
 			});
 		}
 
 		function updateMotion(data) {
 			return Motion.update({id:data.id}, data).$promise.then(function(result) {
 				return result;
+			}, function(error) {
+				return $q.reject(error);
 			});
 		}
 
@@ -73,7 +77,7 @@
 			return Motion.save(data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -81,7 +85,7 @@
 			return Motion.delete({id:id}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 
 		}
@@ -90,13 +94,15 @@
 			return MotionRestore.get({id:id}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
 		function getMotionComments(id) {
 			return MotionComment.get({id:id}).$promise.then(function(result) {
 				return result;
+			}, function(error) {
+				return $q.reject(error);
 			});
 		}
 
@@ -113,7 +119,7 @@
 			return Vote.update({id:data.id}, data).$promise.then(function(success) {
 				console.log(success);
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -121,7 +127,7 @@
 			return Vote.query().$promise.then(function(result) {
 				return result;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -130,7 +136,7 @@
 			return CommentVote.save(data).$promise.then(function(success) {
 				console.log(success);
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -138,14 +144,14 @@
 			return CommentVote.update({id:data.id}, data).$promise.then(function(success) {
 				console.log(success);
 			}, function(error) {
-				console.log(error);
+				return $q.reject(error);
 			});
 		}
 
 		function deleteCommentVote(id) {
 			return CommentVote.delete({id:id}).$promise.then(function(success) {
 			}, function(error) {
-				
+				return $q.reject(error);
 			});
 		}
 

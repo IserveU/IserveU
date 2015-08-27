@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('user', user);
 
-	function user($resource) {
+	function user($resource, $q) {
 
 		var User = $resource('api/user/:id', {}, {
 	        'update': { method:'PUT' }
@@ -18,7 +18,7 @@
 			return User.get({limit:20}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
-				console.log(error);
+				return $q.reject(error);
 			});
 		}
 
@@ -26,7 +26,7 @@
 			return User.get({id:id}).$promise.then(function(result) {
 				return result;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
@@ -34,7 +34,7 @@
 			return UserEdit.query({id:id}).$promise.then(function(result) {
 				return result;
 			}, function(error) {
-								
+				return $q.reject(error);				
 			});
 		}
 
@@ -42,7 +42,7 @@
 			return User.update({id:data.id}, data).$promise.then(function(result) {
 				return result;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
