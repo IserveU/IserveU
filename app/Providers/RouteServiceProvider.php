@@ -26,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->model('user','App\User');
 		$router->model('motion','App\Motion');
+		$router->model('figure','App\Figure');
 		$router->model('vote','App\Vote');
 		$router->model('comment','App\Comment');
 		$router->model('comment_vote','App\CommentVote');
@@ -39,9 +40,6 @@ class RouteServiceProvider extends ServiceProvider {
 		$router->model('propertyplan', 'App\PropertyPlan');
 		$router->model('propertypolldivision', 'App\PropertyPollDivision');
 		$router->model('propertyzone', 'App\PropertyZoning');
-
-
-
 
 	}
 
