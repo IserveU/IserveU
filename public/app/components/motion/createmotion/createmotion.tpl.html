@@ -9,7 +9,7 @@
     <div layout="column" >
       <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
       <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-      <form name="newmotionform">
+      <form name="newmotionform" novalidate>
          <md-input-container>
           <label>Title</label>
           <input columns="1" ng-model="createmotion.newmotiontitle" name="title" minlength='8' required/>
@@ -32,9 +32,17 @@
         </br>
         <div text-angular columns="1" ng-model="createmotion.newmotiontext" name="description" minlength="70" required></div>
 
+      <div layout="row" ng-controller="FigureController as figure">
+        <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
+        </md-input-container>
+        <md-button ng-click="figure.uploadFile()">Add a figure</md-button>
+      </div>
 
 
         <div layout="row" layout-align="left" flex>
+
         <md-input-container>
           <label>Closing date</label>
           <input columns="2" type="date" ng-model="createmotion.newmotionclosingdate" />
