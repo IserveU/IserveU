@@ -1,13 +1,11 @@
 <md-content id="maincontent" layout="column" fill-layout ng-class="motion.isLoading?'loading':''">
-
-
 	<section class="md-whiteframe-z1" style="margin:8px">
 		<md-toolbar class="section-toolbar">
         	<div class="md-toolbar-tools">
         		<h3>Description</h3>
            	</div>
 		</md-toolbar>
-		<div layout="row" layout-wrap >
+		<div layout="row" layout-wrap fill-layout >
 			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
 			<p class="md-headline">Introduction</p>
 			<p class="md-body-1" ng-hide="motion.editMotion" ng-bind-html="motion.motionDetail.summary"></p>
