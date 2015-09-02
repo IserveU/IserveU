@@ -39,6 +39,7 @@
 		function setLocalStorage(credentials) {
 			auth.postAuthenticate(credentials).then(function(data) {
 				afterauth.setLoginAuthDetails(data);
+				getSettings();
 			});
 		}   
 		

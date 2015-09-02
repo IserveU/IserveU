@@ -15,17 +15,19 @@
 	}
 
 	function linkMethod(scope, element, attributes){
-		var backgroundimage;
+
+		var background_image;
+		
 		var settings = JSON.parse(localStorage.getItem('settings'));
 
-		if (settings.background_image.file == null || !settings) {
-			backgroundimage = "url(/themes/default/photos/background.png)";
+		if (settings != null) {
+			if(settings.background_image != null){
+				background_image = "url(/uploads/background_images/" + settings.background_image.file +")";
+			}
 		}
-		else if (settings.background_image.file != null){
-			backgroundimage = "url(/uploads/background_images/" + settings.background_image.file +")";
-		}
+
 		element.css({
-		   'background-image': backgroundimage
+		    'background-image': ((background_image == null) ? "url(/themes/default/photos/background.png)" : background_image)
 		});
 	}
 
