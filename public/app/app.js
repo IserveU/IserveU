@@ -34,16 +34,8 @@
 							if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						return $q.reject(rejection);
-
-					// 	var deferred = $q.defer();
-					// 	if(rejection.status === 200) {
-					// 		return deferred.promise;
-					// 	}
-					// 	else
-					// 		return $q.reject(rejection);		
-					// }
+					}
 				}
-			}
 			});
 
 		    // the overall default route for the app. If no matching route is found, then go here
@@ -53,7 +45,10 @@
 		    	.state( 'home', {
 		    		url: '/home',
 		    		templateUrl: 'app/components/home/home.tpl.html',
-		    		controller: 'HomeController as home'
+		    		controller: 'HomeController as home',
+		    		data: {
+		    	        requireLogin: true
+		    	    }
 		    	})
 		    	.state( 'motion', {
 		    	    url: '/motion/:id',
@@ -159,27 +154,31 @@
 			}
 		})
 		.run(function($rootScope, $auth, $state, auth) {
+
+			$rootScope.themename = 'default';
+
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
+				
+				if(toState.name !== 'login'){
+					$rootScope.redirectUrlName = toState.name;
+					$rootScope.redirectUrlID = toParams.id;
+				}
+
+				var requireLogin = toState.data.requireLogin;
+
+				var auth = $auth.isAuthenticated();
+					if(!auth && requireLogin){
+						event.preventDefault();
+						$state.go('login');
+					}
 
 				var user = JSON.parse(localStorage.getItem('user'));
 					if(user) {
 						$rootScope.authenticatedUser = user;
 						$rootScope.userIsLoggedIn = true;
-
-						if(toState.name === 'createmotion' && $rootScope.createMotion === false) {
-							event.preventDefault();
-							$state.go('home');
-						}
 					}
-					else {
-						$rootScope.redirectUrlName = fromState.name;
-						$rootScope.redirectUrlID = fromParams.id;
-					}
-					
-			    var authenticated = $auth.isAuthenticated();
 
-			    $rootScope.currentState = toState.name;
-
+			    $rootScope.currentState = toState.name;	// used for sidebar directive
 			});		
 
 		})

@@ -6,13 +6,13 @@
 		.module('iserveu')
 		.factory('auth', auth);
 
-	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth) {
+	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth, $q) {
 
 		var login = function(credentials) {
 			return $auth.login(sanitizeCredentials(credentials)).then(function(user) {
 				return user;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		};
 

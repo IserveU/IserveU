@@ -21,11 +21,6 @@
 		vm.passwordreset = false;
 
 		vm.login = login;
-		vm.background_image;
-		vm.default_background = true;
-		vm.background_url = '/themes/default/photos/background.png';
-		vm.redirectUrlName;
-		vm.redirectUrlID;
 
 		function login(email, password) {
 
@@ -35,12 +30,8 @@
 			};
 
 			auth.login(credentials).then(function(data) {
-				if(data.status == 401){
-					vm.loginError = true;
-				}
 				setLocalStorage(credentials);
 			}, function(error) {
-				vm.error = error;
 				vm.loginError = true;
 			});		
 		};
@@ -69,13 +60,9 @@
 			};
 			
 			auth.postUserCreate(registerinfo).then(function(result){
-				if(result.status === 200) {
-					login(registerinfo);
-				}	
+				login(registerinfo);
 			}, function(error) {
-				if(error.status === 400) {
-					// waiting on api to send back more verbose error messages
-					console.log(error);
+				if(error.status === 400) {		// need more verbose error messages to inform user
 					vm.emailValidation = true;
 				}
 				
