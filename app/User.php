@@ -11,6 +11,8 @@ use App\Role;
 use Auth;
 use Hash;
 use Request;
+use Carbon\Carbon;
+
 use App\Events\UserUpdated;
 use App\Events\UserCreated;
 use Event;
@@ -120,6 +122,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'Public','placeholder'=>'Enable Public Profile'],
 	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'Identity Verified','placeholder'=>'User Is Verified'],
 	];
+
+
+	/**
+	 * The fields that are dates/times
+	 * @var array
+	 */
+	protected $dates = ['verified_until','created_at','updated_at'];
 	
 	/**
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
@@ -216,13 +225,46 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 
 	/************************************* Scopes *****************************************/
+   	
+	/**
+     * Checks the user is public
+	 * @param query 
+	 */    
    	public function scopeArePublic($query){
         return $query->where('public',1);
     }
-    
+
+
+    /**
+     * Checks the user has the email
+	 * @param query 
+	 */    
 
     public function scopeWithEmail($query,$email){
     	return $query->where('email',$email);
+    }
+
+
+    /**
+     * Makes sure the voter is a verified Canadian citizen who is living in Yellowknife
+	 * @param query 
+	 */
+
+    public function scopeValidVoter($query){
+		return $query->where('verified_until','>=',Carbon::now())
+			->whereHas('roles',function($query){
+				$query->where('name','citizen');
+
+			});
+    }
+
+    public function scopeCouncillor($query){
+		return $query->where('verified_until','>=',Carbon::now())
+			->where('public',1)
+			->whereHas('roles',function($query){
+				$query->where('name','councillor');
+
+			});
     }
 
 	/**********************************  Relationships *****************************************/
@@ -246,5 +288,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 	public function properties(){
 		return $this->belongsToMany('App\Property');
+	}
+
+	public function deferredVotes(){
+		return $this->hasMany('App\Vote','deferred_to_id');
+	}
+
+	public function roles(){
+	    return $this->belongsToMany('App\Role'); //,'assigned_roles'
 	}
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
 use App\Events\MotionUpdated;
+use App\Events\MotionCreated;
 
 
 class Motion extends ApiModel {
@@ -110,6 +111,7 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
+			event(new MotionCreated($model));
 			return $model->validate();	
 		});
 
@@ -161,6 +163,29 @@ class Motion extends ApiModel {
 		return true;
 	}
 
+	public function getActivelyAgreeAttribute($value){
+		
+	}
+
+	public function getActivelyDisagreeAttribute($value){
+
+	}
+
+	public function getActivelyAbstainAttribute($value){
+
+	}
+
+	public function getPassivelyDisagreeAttribute($value){
+
+	}
+
+	public function getPassivelyAgreeAttribute($value){
+
+	}
+
+	public function getPassivelyAbstainAttribute($value){
+
+	}
 
 
 	/************************************* Casts & Accesors *****************************************/

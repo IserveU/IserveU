@@ -120,5 +120,8 @@ class Department extends ApiModel {
 		return $this->hasMany('App\Motion');
 	}
 
+	public function delegations(){
+		return $this->hasMany('App\Delegations');
+	}
 
 }
