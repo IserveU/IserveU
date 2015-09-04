@@ -114,7 +114,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'Password','placeholder'=>'Your Password'],
 	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'First Name','placeholder'=>'First Name'],
 	    'middle_name'				=>	['tag'=>'input','type'=>'input','label'=>'Middle Name','placeholder'=>'Middle Name'],
-	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'First Name','placeholder'=>'Last Name'],
+	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'Last Name','placeholder'=>'Last Name'],
 	    'ethnic_origin_id'			=>	['tag'=>'md-select','type'=>'select','label'=>'Ethnic Origin','placeholder'=>'Primary Ethnic Origin'],
 	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'Date of Birth','placeholder'=>'Date of Birth'],
 	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'Public','placeholder'=>'Enable Public Profile'],
