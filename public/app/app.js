@@ -10,6 +10,9 @@
 			'ngSanitize', 
 			'satellizer',
 			'textAngular',
+			'flow',
+			'formly',
+			'ngMessages'
 		])
 		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider) {
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -29,9 +32,9 @@
 					responseError: function(rejection) {
 						//this is way too explicit, 400 errors return on a lot.
 						if(rejection.status === 400) {
-							$rootScope.userIsLoggedIn = false;
-							localStorage.clear();
-							if(!localStorage.satellizer_token){$state.go('login');}
+							// $rootScope.userIsLoggedIn = false;
+							// localStorage.clear();
+							// if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						return $q.reject(rejection);
 					}
@@ -39,6 +42,11 @@
 			});
 
 		    // the overall default route for the app. If no matching route is found, then go here
+			
+			$urlRouterProvider.when('/', ['$state', '$match', function($state, $match) {
+				$state.go('home');
+			}])	
+
 		    $urlRouterProvider.otherwise('/home');
 
 		    $stateProvider
@@ -68,7 +76,7 @@
 		    	})
 
 		    	.state( 'user', {
-		    	    url: '/user',
+		    	    url: '/user/:id',
 		    	    templateUrl: 'app/components/user/user.tpl.html',
 		    	    controller: 'UserController as user',
 		    	    data: {
@@ -76,7 +84,7 @@
 		    	    }
 		    	})
 		    	.state( 'user.profile', {
-		    	    url: '^/profile/:id',
+		    	    url: '^/myprofile',
 		    	    templateUrl: 'app/components/user/userprofile.tpl.html',
 		    	    controller: 'UserController as user',
 		    	    data: {
@@ -120,7 +128,15 @@
 	                data: {
 	                    requireLogin: true
 	                } 
-	        	});           
+	        	})
+	        	.state('backgroundimage.preview', {
+	                url: '^/preview/:id',
+	            	controller: 'BackgroundImageController as preview',
+	            	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
+	                data: {
+	                    requireLogin: true
+	                } 
+	        	});                  
 
 		})
 		.filter('dateToISO', function() {
@@ -158,19 +174,19 @@
 			$rootScope.themename = 'default';
 
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
-				
 				if(toState.name !== 'login'){
 					$rootScope.redirectUrlName = toState.name;
 					$rootScope.redirectUrlID = toParams.id;
 				}
 
 				var requireLogin = toState.data.requireLogin;
-
 				var auth = $auth.isAuthenticated();
-					if(!auth && requireLogin){
-						event.preventDefault();
+				if(auth === false && requireLogin === true){
+					event.preventDefault();
+					if(fromState.name !== 'login' || toState.name !== 'login'){
 						$state.go('login');
 					}
+				}
 
 				var user = JSON.parse(localStorage.getItem('user'));
 					if(user) {
