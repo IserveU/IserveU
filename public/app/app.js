@@ -54,11 +54,11 @@
 		    formlyConfigProvider.disableWarnings = true;
 		    formlyConfigProvider.setType({
 			  name: 'input',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input ng-model="model[options.name]"></md-input-container>'
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input ng-model="model[options.key]"></md-input-container>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'date',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="date" ng-model="model[options.name]"></md-input-container>'
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="date" ng-model="model[options.key]"></md-input-container>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'md-switch',
@@ -66,7 +66,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'email',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="email" ng-model="model[options.name]"></md-input-container>'
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="email" ng-model="model[options.key]"></md-input-container>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'password',
@@ -78,7 +78,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'select',
-			  template: '<md-select aria-label="select" ng-model="model[options.name]" placeholder="Ethnic Origins"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
+			  template: '<md-select aria-label="select" ng-model="model[options.key]" placeholder="Ethnic Origins"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'userform',
@@ -120,9 +120,9 @@
 		    	        requireLogin: true
 		    	    }
 		    	})
-		    	.state( 'user.profile', {
-		    	    url: '^/myprofile',
-		    	    templateUrl: 'app/components/user/userprofile.tpl.html',
+		    	.state( 'myprofile', {
+		    	    url: '/myprofile',
+		    	    templateUrl: 'app/components/user/user.tpl.html',
 		    	    controller: 'UserController as user',
 		    	    data: {
 		    	        requireLogin: true
@@ -212,9 +212,14 @@
 
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 				if(toState.name !== 'login'){
+					if(toState.name !== 'login.resetpassword'){
+					console.log('here in app.js');
+					console.log(toState.name);
 					$rootScope.redirectUrlName = toState.name;
 					$rootScope.redirectUrlID = toParams.id;
+					}
 				}
+
 
 				var requireLogin = toState.data.requireLogin;
 				var auth = $auth.isAuthenticated();
@@ -230,8 +235,13 @@
 						$rootScope.authenticatedUser = user;
 						$rootScope.userIsLoggedIn = true;
 					}
-
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
+			    if($rootScope.currentState == 'myprofile'){
+			    	$rootScope.currentState = 'user';
+			    }
+			    if($rootScope.currentState == 'home'){
+			    	$rootScope.currentState = 'motion';
+			    }
 			});		
 
 		})

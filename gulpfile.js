@@ -19,14 +19,17 @@ elixir(function(mix) {
         '/bower/angular-aria/angular-aria.min.js',
         '/bower/angular-material/angular-material.min.js',        
 		'/bower/angular-resource/angular-resource.js',
+        '/bower/angular-messages/angular-messages.min.js',
 		'/bower/angular-ui-router/release/angular-ui-router.min.js',
 		'/bower/angular-sanitize/angular-sanitize.min.js',
 		'/bower/moment/moment.js',
         '/bower/satellizer/satellizer.js',
         '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
         '/bower/textAngular/dist/textAngularSetup.js',
-        '/bower/textAngular/dist/textAngular-rangy.min.js',
         '/bower/textAngular/dist/textAngular-sanitize.min.js',
+        '/bower/ng-flow/dist/ng-flow-standalone.min.js',
+        '/bower/api-check/dist/api-check.min.js',
+        '/bower/angular-formly/dist/formly.min.js'
     ],'public/js/dependencies.js', './resources');// added resources as third argument to point directly to the resources directory and not have /js in there
 
  	mix.scriptsIn("public/app",'public/js/app.js');
