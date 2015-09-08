@@ -15,7 +15,6 @@
 			if(token){localStorage.setItem('satellizer_token', JSON.stringify(token));}
 			SetPermissionsService.set(JSON.stringify(data.data.user.permissions));
 			localStorage.setItem('user', JSON.stringify(data.data.user));
-			$rootScope.userIsLoggedIn = true;
 			$rootScope.authenticatedUser = data.data.user;
 			redirect();
 		}
@@ -27,6 +26,7 @@
 			else{
 				$state.go('home');
 			}
+			$rootScope.userIsLoggedIn = true;
 		}
 
 	}
