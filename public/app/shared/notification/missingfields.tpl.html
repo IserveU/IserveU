@@ -1,0 +1,27 @@
+<md-dialog aria-label="Edit user form"  flex="45">
+
+<div ng-controller="NotificationController as user">
+
+<md-toolbar class="md-warn" layout-padding>
+  <div class="md-toolbar-tools">
+    <h2 class="md-flex">Fill in these missing fields</h2>
+  </div>
+</md-toolbar>
+<form>
+
+<md-dialog-content style="height:80%;">
+<div layout-padding>
+
+	<formly-form model="user.model" fields="user.fields" flex>
+	<div layout layout-align="end">
+		<md-button type="submit" ng-click="submit(user.model)" ng-cloak>Save Changes</md-button>
+		<md-button ng-click="cancel()" ng-cloak>Not now</md-button>
+	</div>
+	</formly-form>
+</div>
+
+</md-dialog-content>
+
+</form>
+</md-dialog>
+
