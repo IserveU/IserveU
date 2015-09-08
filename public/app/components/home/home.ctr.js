@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController(motion, comment, UserbarService) {
+	function HomeController(motion, comment, UserbarService, $scope, $rootScope, notificationService, resetPasswordService) {
 		
 		var vm = this;
         vm.shortNumber = 120;
@@ -18,12 +18,6 @@
             mycomments: false,
             myvotes: false
         };
-		var user = JSON.parse(localStorage.getItem('user'));
-		var settings = JSON.parse(localStorage.getItem('settings'));
-        if(settings){
-		  vm.themename = settings.themename;
-        }
-
 
         UserbarService.setTitle("Home");
 
@@ -83,7 +77,7 @@
         	return user.id;
         	}
         	else
-        		return 0;
+        		return -1;
         }
 
 

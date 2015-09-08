@@ -1,8 +1,9 @@
 <div ng-if="userIsLoggedIn">
-<!-- <notification-box></notification-box> -->
+<div ng-controller="UserController as vm"></div>
 <md-content id="maincontent" layout="row">
 <div layout-gt-lg="column front" layout-sm="column">
   <div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
+
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
@@ -71,9 +72,9 @@
       <md-list layout-padding ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes | limitTo: 5">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
       <p class="md-body-1">{{vote.motion.title}}</p>
-        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/default/icons/thumb-up.svg"></md-icon>
-        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/default/icons/thumb-down.svg"></md-icon>
-        <md-icon ng-show="vote.position==0" md-svg-src="/themes/default/icons/thumbs-up-down.svg"></md-icon>
+        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg"></md-icon>
+        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg"></md-icon>
+        <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg"></md-icon>
           <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
           </md-button>
