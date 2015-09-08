@@ -1,5 +1,9 @@
 <md-content id="maincontent" layout="column" fill-layout>
 
+<!-- preview image html -->
+<div ui-view></div>
+
+<!-- upload html begins --> 
   <section class="md-whiteframe-z1" style="margin:8px">
     <md-toolbar class="section-toolbar">
       <div class="md-toolbar-tools">
@@ -23,15 +27,21 @@
        <input ng-model="url" placeholder="myphotographywebsite.ca" required/>
       </md-input-container>
 
+ 
+      <div flow-init="" flow-files-submitted="background.upload($flow)" layout layout-sm="column">
       <md-input-container>
                 <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
-        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
-
+        <input aria-label="backgroundImageFile" type="file" style="position:absolute"flow-btn/>
       </md-input-container>
+      <span flex="30"></span>
+        <p class="md-body-1" ng-repeat="file in $flow.files">{{file.name}}</p>
+      <div ng-show="background.preview" style="display:inline-block;width:300px;height:200px" >
+        <img flow-img="$flow.files[0]" />
+      </div>
+      </div>
 
       <div layout layout-sm="column">
-        <md-button ng-click="background.uploadFile(credits, url); background.uploadcheck()" ng-hide="background.uploading" type="submit">Submit
-        </md-button>
+        <md-button ng-click="background.uploadFile(credits, url); background.uploading = true" ng-hide="background.uploading" type="submit">Submit</md-button>
         <md-button aria-label="loading" ng-show="background.uploading"> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ></md-icon>
         </md-button>
 
@@ -39,8 +49,8 @@
         <md-checkbox ng-model="background.isactive" ng-true-value="1" ng-false-value="0" aria-label="Checkbox 1">
             Active<md-tooltip>This will place your photo into the daily cycles immediately.</md-tooltip>
         </md-checkbox>
-         <div ng-messages="uploadfile.$error" ng-if="background.showError">
-          <div ng-message="">There was an error uploading your photo. Make sure you've entered in all the fields correctly.</div>
+         <div ng-messages="{warning:background.showError}">
+          <div ng-message="warning">There was an error uploading your photo. Make sure you've entered in all the fields correctly.</div>
          </div>
          </has-permission>
         

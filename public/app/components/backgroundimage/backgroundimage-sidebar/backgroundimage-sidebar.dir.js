@@ -4,7 +4,8 @@
 
   angular
     .module('iserveu')
-    .directive('backgroundimageSidebar', backgroundimageSidebar);
+    .directive('backgroundimageSidebar', backgroundimageSidebar)
+    .directive('backgroundimage.previewSidebar', backgroundimagePreviewSidebar);
 
   function backgroundimageSidebar() {
 
@@ -14,5 +15,15 @@
       
     }
   }
+
+  function backgroundimagePreviewSidebar() {
+
+    return {
+
+      templateUrl: 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html'
+      
+    }
+  }
+
   
 })();
