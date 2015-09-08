@@ -5,7 +5,7 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $scope, $stateParams, auth, motion,
-    comment, $mdToast, $animate, $state, UserbarService, ToastMessage) {
+    comment, $mdToast, $animate, $state, UserbarService, ToastMessage, FigureService) {
 
         var vm = this;
 
@@ -13,22 +13,22 @@
         vm.motionComments = [];
         vm.motionVotes = {};
         vm.usersVote;
-        vm.voteFor; //Are these being used?
         vm.voteAgainst;
         vm.voteNeutral; 
-        vm.commenttext;
         vm.first_name;
         vm.last_name;
         vm.email; 
-        vm.agreeVoting = false;
-        vm.abstainVoting = false;
-        vm.disagreeVoting = false;
+
+        vm.voting = {
+            agree: false,
+            abstain: false,
+            disagree: false
+        }
+
         vm.userHasVoted = false;
         vm.userVoteId;
         vm.editMotion = false;
         vm.editMotionLoading = false;
-
-        vm.themename;
 
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
@@ -39,6 +39,9 @@
        
         vm.editComment = false;
         vm.editMotionFunction = editMotionFunction;
+
+        vm.figures = "comma";
+        vm.getFigure = FigureService.getFigure;
 
         vm.editCommentFunction = function(){
             vm.editComment = !vm.editComment;
@@ -57,14 +60,14 @@
             };
             motion.deleteMotion($stateParams.id).then(function(result) {
                 $state.go('home');
-                $rootScope.$emit('newMotion');  
+                $rootScope.$emit('refreshMotionSidebar');  
                 
                 var toast = ToastMessage.delete_toast("You've deleted this motion.");
 
                 $mdToast.show(toast).then(function(response) {
                     if(response == 'ok') {
                         motion.restoreMotion(data.id).then(function(result) {
-                        $rootScope.$emit('newMotion');  
+                        $rootScope.$emit('refreshMotionSidebar');  
                         ToastMessage.simple("Motion is back. Try not to do that again.");
                     });
                     }
@@ -101,13 +104,20 @@
         }
 
         function getMotion(id) {
+            getFigures(id);
             // this contains motion votes
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
                 vm.isLoading = false;
                 calculateVotes(result);
-                UserbarService.title = result.title;               
-            });         
+                UserbarService.title = result.title;
+            });  
+        }
+
+        function getFigures(id){
+            FigureService.getFigures(id).then(function(result) {
+                vm.figures = result;
+            });
         }
 
        function getMotionComments(id) {
@@ -239,15 +249,15 @@
             switch(position) {
                 case -1: 
                     message = message+" disagree with this motion";
-                    vm.disagreeVoting = true;
+                    vm.voting.disagree = true;
                     break;
                 case 1:
                     message = message+" agreed with this motion";
-                    vm.agreeVoting = true;
+                    vm.voting.agree = true;
                     break;
                 default:
                     message = message+" abstained from voting on this motion";
-                    vm.abstainVoting = true;
+                    vm.voting.abstain = true;
             }
 
             var data = {
@@ -263,20 +273,21 @@
                     getUsersVotes();
                 });
                 
-                vm.agreeVoting = false;
-                vm.abstainVoting = false;
-                vm.disagreeVoting = false;
+                angular.forEach(vm.voting, function(value, key){
+                    vm.voting[key] = false;
+                })
+                
                 ToastMessage.simple(message);
             }, function(error) {
-                vm.agreeVoting = false;
-                vm.abstainVoting = false;
-                vm.disagreeVoting = false;
+                angular.forEach(vm.voting, function(value, key){
+                    vm.voting[key] = false;
+                })
                 ToastMessage.report_error(error);
             });
             }
             else updateVote(data.position);
 
-            $rootScope.$emit('voteCast', {position:position, id:$stateParams.id});      
+            $rootScope.$emit('refreshMotionSidebar', {position:position, id:$stateParams.id});      
 
         }
 
@@ -293,15 +304,16 @@
                     getMotionComments($stateParams.id);
                 });
 
-                vm.agreeVoting = false;
-                vm.abstainVoting = false;
-                vm.disagreeVoting = false;
+                angular.forEach(vm.voting, function(value, key){
+                    vm.voting[key] = false;
+                })
                 ToastMessage.simple("You've updated your vote");
+
             }, function(error) {
                 ToastMessage.report_error(error);
-                vm.agreeVoting = false;
-                vm.abstainVoting = false;
-                vm.disagreeVoting = false;
+                angular.forEach(vm.voting, function(value, key){
+                    vm.voting[key] = false;
+                })
             });
         }
 
@@ -312,7 +324,6 @@
                 text: text
             }
             comment.saveComment(data).then(function(result) {
-                vm.commenttext = '';
                 getMotionComments($stateParams.id);
                 ToastMessage.simple("You've made a comment!");
               
@@ -346,7 +357,7 @@
                 var toast = ToastMessage.delete_toast("Comment deleted");
 
                 $mdToast.show(toast).then(function(response) {
-                    if (response == 'ok' ){
+                    if (response == 'ok'){
                     comment.restoreComment(data.id).then(function(result) {
                         getMotionComments($stateParams.id);
                         ToastMessage.simple("Your comment is back!");
@@ -372,9 +383,6 @@
                 });
             });
         }        
-
-        var settings = JSON.parse(localStorage.getItem('settings'));
-        vm.themename = settings.themename;
 
         getMotion($stateParams.id);
         getMotionComments($stateParams.id);
