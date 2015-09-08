@@ -32,9 +32,9 @@
 					responseError: function(rejection) {
 						//this is way too explicit, 400 errors return on a lot.
 						if(rejection.status === 400) {
-							$rootScope.userIsLoggedIn = false;
-							localStorage.clear();
-							if(!localStorage.satellizer_token){$state.go('login');}
+							// $rootScope.userIsLoggedIn = false;
+							// localStorage.clear();
+							// if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						return $q.reject(rejection);
 					}
@@ -62,7 +62,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'md-switch',
-			  template: '<md-switch ng-change="options.templateOptions.ngChange(options.templateOptions.item_id, options.templateOptions.valueProp)" ng-model="options.templateOptions.valueProp"ng-true-value="1" ng-false-value="0"/>{{options.templateOptions.label}}'
+			  template: '<md-switch ng-model="model[options.key]" ng-value="options.templateOptions.valueProp" ng-true-value="1" ng-false-value="0"/>{{options.templateOptions.label}}'
 			});
 			formlyConfigProvider.setType({
 			  name: 'email',
