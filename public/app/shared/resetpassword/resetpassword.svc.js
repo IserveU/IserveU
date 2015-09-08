@@ -7,18 +7,17 @@
 		.service('resetPasswordService', resetPasswordService);
 
 
-	function resetPasswordService($stateParams, $state, $mdToast, auth, afterauth, user, $rootScope) {
+	function resetPasswordService($stateParams, $state, ToastMessage, auth, afterauth, user, $timeout, $rootScope, $mdDialog) {
 
-		$rootScope.notifyUser = {
-			passwordreset: false
-		};
+		var vm = this;
 
 		if($stateParams.resetpassword){
 			auth.getNoPassword($stateParams.resetpassword).then(function(data) {
 				afterauth.setLoginAuthDetails(data, data.data.token);
-				$rootScope.notifyUser.passwordreset = true;
+				$timeout(function() {
+					$rootScope.$emit('resetPasswordDialog');
+				}, 500);
 			}, function(error) {
-				console.log(error);
 				if(error.status === 404){
 					console.log('invalid token');
 				}
@@ -27,5 +26,6 @@
 				}
 			});
 		}
+
 	}
 }());
