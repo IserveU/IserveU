@@ -31,7 +31,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['file','display_date','url','credited'];
+	protected $visible = ['id','file','display_date','url','credited'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
