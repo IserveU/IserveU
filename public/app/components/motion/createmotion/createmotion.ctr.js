@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, motion, $mdToast, $state, UserbarService, department) {
+    function CreateMotionController($rootScope, $scope, $stateParams, motion, $state, UserbarService, department, FigureService) {
 
 		UserbarService.setTitle("");
 
@@ -13,9 +13,23 @@
 
         vm.newmotionisactive = false;
         vm.departmentInput = false;
+        vm.entertitle = false;
         vm.newdepartment = "New Department";
         vm.departments = [];
+        vm.motion_id;
         vm.showDepartmentInput = showDepartmentInput;
+        vm.uploadFigure = FigureService.uploadFile;
+        vm.figuretitle;
+
+        $scope.chosenImage = function(files){
+            vm.thisFile = files;
+            if(vm.thisFile[0]){
+                vm.entertitle = true;
+            }
+            vm.formData = new FormData();
+            vm.formData.append("file", vm.thisFile[0]);
+        }
+
 
     	vm.createNewMotion = function(title, text, summary, closingdate, isactive, departmentname){
             if(isactive){
@@ -28,10 +42,12 @@
                 closing:closingdate,
                 active:isactive
             }
+
+            vm.formData.append("title", vm.figuretitle);
+
             motion.createMotion(data).then(function(result) {
-                console.log(result);
-                $state.go('home');
-                $rootScope.$emit('newMotion');  
+                FigureService.uploadFile(vm.formData, result.id);
+                $rootScope.$emit('refreshMotionSidebar');  
             },function(error) {
                 console.log(error);
             });

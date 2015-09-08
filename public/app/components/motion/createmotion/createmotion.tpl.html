@@ -26,20 +26,23 @@
         <md-input-container>
           <label>Details</label>
           <div ng-messages="newmotionform.description.$error" ng-if="newmotionform.description.$error.minlength">  
-            <div ng-message>Try making this as detailed as possible. You want people to understand what your motion is about.</div>
+            <div ng-message>Go for detail and simplicity! You want almost everyone to understand this complicated motion.</div>
           </div>
-        </md-input-container>
-        </br>
-        <div text-angular columns="1" ng-model="createmotion.newmotiontext" name="description" minlength="70" required></div>
-
-      <div layout="row" ng-controller="FigureController as figure">
+        </md-input-container></br>
+      <text-angular class="text-angular" ng-model="createmotion.newmotiontext" layout-padding>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</text-angular>
+      <div layout="row">
         <md-input-container>
-                <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+        <md-icon class="mdi mdi-file-image-box" ></md-icon>
         <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
         </md-input-container>
-        <md-button ng-click="figure.uploadFile()">Add a figure</md-button>
+        <md-input-container ng-if="createmotion.entertitle"><label>Figure Title</label><input ng-model="createmotion.figuretitle"></input> </md-input-container>
       </div>
-
 
         <div layout="row" layout-align="left" flex>
 
