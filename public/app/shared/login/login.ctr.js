@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService) {	
+	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage) {	
 
 		var vm = this;
 
@@ -14,10 +14,10 @@
 		vm.password;
 		vm.first_name;
 		vm.last_name;
-		vm.loginError = false;
 		vm.registerform = false;
 		vm.emailValidation = false;
 		vm.passwordreminder = false;
+		vm.invalidCredentials = false;
 		vm.passwordreset = false;
 
 		vm.login = login;
@@ -32,7 +32,12 @@
 			auth.login(credentials).then(function(data) {
 				setLocalStorage(credentials);
 			}, function(error) {
-				vm.loginError = true;
+				if(error.data.error == "invalid_credentials"){
+					vm.invalidCredentials = true;
+				}
+				else{
+					ToastMessage.report_error(error.data);
+				}
 			});		
 		};
 
@@ -63,10 +68,15 @@
 			auth.postUserCreate(registerinfo).then(function(result){
 				login(registerinfo);
 			}, function(error) {
-				if(error.status === 400) {		// need more verbose error messages to inform user
-					vm.emailValidation = true;
+				var message = JSON.parse(error.data.message);
+				if(message.hasOwnProperty('email')){
+					if(message.email[0] == "validation.unique"){
+						vm.emailValidation = true;
+					}
 				}
-				
+				else{
+					ToastMessage.report_error(message);
+				}
 			});
 		};
 
@@ -76,7 +86,7 @@
 			})
 		}
 	
-		$rootScope.$on('backgroundImageUploaded', function(event, data) {
+		$rootScope.$on('refreshLocalStorageSettings', function(event, data) {
 			getSettings();
 		});
 
