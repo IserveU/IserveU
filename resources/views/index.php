@@ -9,10 +9,10 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
- <body back-img class="background-image" layout="row"/>
+ <body back-img class="background-image" layout="row" ng-controller="SidebarController as sidebar"/>
 
         <!--   /uploads/background_images/{{settings.image}} -->
-        <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
+        <md-sidenav  id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner"></div>
             </sidebar>
@@ -22,7 +22,7 @@
         
           <md-toolbar class="md-toolbar-tools site-content-toolbar" ng-if="userIsLoggedIn">
             <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
-                <md-button class="md-icon-button" ng-click="user.toggleSidebar('left')" hide-gt-sm aria-label="Toggle Menu">
+                <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-sm aria-label="Toggle Menu">
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
@@ -45,8 +45,16 @@
                                         </div>
                                     </md-button>
                                 </md-menu-item>
+                                <md-menu-item ui-sref="myprofile">
+                                    <md-button>
+                                        <div layout="row">
+                                            <p flex ng-cloak>Your Profile</p>
+                                            <md-icon class="mdi mdi-account-circle"></md-icon>
+                                        </div>
+                                    </md-button>
+                                </md-menu-item>
                                 <has-permission has-permission="show-users">
-                                <md-menu-item ui-sref="user.profile({id:1})">
+                                <md-menu-item ui-sref="user({id:1})">
                                     <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>User List</p>
@@ -97,15 +105,10 @@
     </div>
   </md-toolbar>
 
-
-  <notification-box></notification-box>
-
-
           <div flex ui-view></div>
 
-          
           <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background" ng-cloak>
-            Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}}</a>
+            <span ng-if="backgroundcredits.credited">Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}}</a></span>
           </md-caption>
           
 
