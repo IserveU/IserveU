@@ -7,12 +7,11 @@ use App\Vote;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class VoteUpdated extends Event
+class VoteCreated extends Event
 {
     use SerializesModels;
 
     public $vote;
-    public $motion;
 
 
     /**
@@ -23,7 +22,7 @@ class VoteUpdated extends Event
     public function __construct(Vote $vote)
     {
         $this->vote     = $vote;
-        $this->motion   = $vote->motion;
+        $this->motion   = $vote->motion;        
     }
 
     /**

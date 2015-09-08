@@ -10,6 +10,7 @@ use App\User;
 use App\Motion;
 use App\Delegation;
 use App\Department;
+use App\Vote;
 use DB;
 
 
@@ -23,28 +24,7 @@ class DelegationController extends ApiController
     public function index()
     {
 
-    //    $delegationTotals = DB::table('delegations')->select('delegate_to_id', DB::raw('count(*) as total'))->groupBy('delegate_to_id')->orderBy('total','ASC')->get();
-
-        DB::enableQueryLog();
-
-        $validUsers = User::notCouncillor()->get();
-        $departments = Department::all();
-
-        $numberOfCouncilors = User::councillor()->count();
-
-        if($numberOfCouncilors){
-            foreach($validUsers as $user){
-                foreach($departments as $department){
-                    $councillors = User::councillor()->get();
-                    $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
-                    $newDelegation = new Delegation;
-                    $newDelegation->department_id       =   $department->id;
-                    $newDelegation->delegate_from_id    =   $user->id;
-                    $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
-                    $newDelegation->save();
-                }
-            }
-        }
+     
 
     }
 

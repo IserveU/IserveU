@@ -6,7 +6,10 @@ use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
 use App\Events\VoteUpdated;
+use App\Events\VoteCreated;
+
 use Auth;
+
 
 class Vote extends ApiModel {
 
@@ -34,7 +37,7 @@ class Vote extends ApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['motion_id','position','id','count','motion']; //Count is used in motion controller, motion is used to get user/{id}/vote and have the motion attached
+	protected $visible = ['motion_id','position','id','count','motion','deferred_to_id']; //Count is used in motion controller, motion is used to get user/{id}/vote and have the motion attached
 
 	/**
 	 * The attributes visible to an administrator of this model
@@ -112,10 +115,20 @@ class Vote extends ApiModel {
 			return $model->validate();	
 		});
 
-		static::updating(function($model){
+		static::updated(function($model){
 			event(new VoteUpdated($model));
+			return true;
+		});
+
+		static::updating(function($model){
 			return $model->validate();			
+		});
+
+		static::updated(function($model){
+			event(new VoteUpdated($model));
+			return true;
 		});		
+
 	}
 
 
@@ -138,6 +151,15 @@ class Vote extends ApiModel {
 		}
 
 		return parent::getVisibleAttribute();
+	}
+
+	public function setPositionAttribute($value){
+		if(Auth::user()->id == $this->user_id){
+			$this->attributes['deferred_to_id']		= NULL;
+		}
+		$this->attributes['position'] 			= $value;
+
+
 	}
 
 
