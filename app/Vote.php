@@ -138,11 +138,35 @@ class Vote extends ApiModel {
 		}
 
 		return parent::getVisibleAttribute();
-	} 
+	}
+
 
 	/************************************* Casts & Accesors *****************************************/
+
+
 	
 	/************************************* Scopes ***************************************************/
+
+	public function scopeActive($query){
+		return $query->whereNotNull('deferred_to_id');
+	}
+
+	public function scopePassive($query){
+		return $query->whereNotNull('deferred_to_id');
+	}
+
+	public function scopeAgree($query){
+		return $query->where('position',1);
+	}
+
+	public function scopeDisagree($query){
+		return $query->where('position',-1);
+	}
+
+	public function scopeAbstain($query){
+		return $query->where('position',0);
+	}
+
 
 	/************************************* Relationships ********************************************/
 
@@ -156,5 +180,9 @@ class Vote extends ApiModel {
 
 	public function comment(){
 		return $this->hasOne('App\Comment');
+	}
+
+	public function deferred(){
+		return $this->belongsTo('App\User','deferred_to_id');
 	}
 }

@@ -96,13 +96,7 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion)
 	{	
-		$motion  = Motion::with(['votes' => function($q) {
-            // The post_id foreign key is needed, 
-            // so Eloquent could rearrange the relationship between them
-            $q->select(array(DB::raw("count(*) as count, position"),"motion_id"))
-              ->groupBy("position");
-        }])
-        ->find($motion->id); 
+		$motion  = Motion::find($motion->id); 
 
 		return $motion;
 	}

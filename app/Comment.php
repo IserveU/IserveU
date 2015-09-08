@@ -182,7 +182,6 @@ class Comment extends ApiModel {
 
 	public function scopeOrderBy($query,$field,$direction){
 		return $query->orderBy($field,$direction);
-
 	}
 
 

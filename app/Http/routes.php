@@ -14,6 +14,7 @@ use App\BackgroundImage;
 */
 
 
+Route::resource('delegation', 'DelegationController');
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
@@ -55,6 +56,7 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
 		Route::resource('motion.figure','MotionFigureController');
+		Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 
 		Route::resource('department', 'DepartmentController');
 

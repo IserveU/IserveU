@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
 use App\Events\MotionUpdated;
+use App\Events\MotionCreated;
 
 
 class Motion extends ApiModel {
@@ -24,7 +25,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary'];
+	protected $fillable = ['title','text','summary','department_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -63,6 +64,7 @@ class Motion extends ApiModel {
 	protected $rules = [
 		'title' 			=>	'min:8|unique:motions,title',
         'active'			=>	'boolean',
+        'department_id'		=>	'exists:departments,id',
         'closing' 			=>	'date',
         'text'				=>	'min:10',
         'user_id'			=>	'integer|exists:users,id',
@@ -79,7 +81,7 @@ class Motion extends ApiModel {
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['title','text','user_id'];
+	protected $onCreateRequired = ['title','text','user_id','department_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
@@ -110,12 +112,20 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			return true;	
 		});
 
+		static::created(function($model){
+			event(new MotionCreated($model));
+			return true;	
+		});
+
+
 		static::updating(function($model){
+			if(!$model->validate()) return false;
 			event(new MotionUpdated($model));
-			return $model->validate();			
+			return true;			
 		});
 
 		static::deleting(function($model) { // before delete() method call this
@@ -161,6 +171,29 @@ class Motion extends ApiModel {
 		return true;
 	}
 
+	public function getActivelyAgreeAttribute($value){
+		
+	}
+
+	public function getActivelyDisagreeAttribute($value){
+
+	}
+
+	public function getActivelyAbstainAttribute($value){
+
+	}
+
+	public function getPassivelyDisagreeAttribute($value){
+
+	}
+
+	public function getPassivelyAgreeAttribute($value){
+
+	}
+
+	public function getPassivelyAbstainAttribute($value){
+
+	}
 
 
 	/************************************* Casts & Accesors *****************************************/
