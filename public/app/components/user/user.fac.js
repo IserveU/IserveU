@@ -30,6 +30,7 @@
 			});
 		}
 
+		//change name to get fields
 		function editUser(id){
 			return UserEdit.query({id:id}).$promise.then(function(result) {
 				return result;
@@ -39,6 +40,7 @@
 		}
 
 		function updateUser(data){
+			console.log(data);
 			return User.update({id:data.id}, data).$promise.then(function(result) {
 				return result;
 			}, function(error) {

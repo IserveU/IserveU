@@ -1,1 +1,38 @@
-<div ui-view></div>
+<div ng-show="!user.isLoading">
+
+<md-content id="maincontent" layout="column" fill-layout>
+
+  <section class="md-whiteframe-z1" style="margin:8px">
+    <md-toolbar class="section-toolbar md-tall">
+      <div>
+        <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
+        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}</h3></div>
+        <div style="padding-left: 110px; position:absolute">
+        <md-button style="color:black;" class="md-secondary"ng-click="user.showEditUserForm()">Edit</md-button>
+        </div>
+      </div>
+    </md-toolbar>
+    <div layout="column" layout-padding>
+
+    
+
+  <form>
+
+
+  <!-- form begins -->
+  <div layout-padding style="padding-top:7px"><label class="md-caption" style="color:grey">Email</label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
+	<div layout-padding style="padding-top:7px"><label class="md-caption" style="color:grey">Birthday</label><p class="md-subhead" style="margin:0">{{user.display_date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
+ <!-- form ends -- >
+
+
+ </form>
+      </div>
+        </div>
+
+
+
+
+      </section>
+
+</md-content>
+</div>

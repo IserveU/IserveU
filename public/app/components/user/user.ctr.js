@@ -4,48 +4,138 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout) {
+	function UserController($rootScope, $scope, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
 		
 		UserbarService.setTitle("");
 		
 		var vm = this;
-		var userlocal = JSON.parse(localStorage.getItem('user'));
 
 		vm.nextpage;
-		vm.usercredentials;
-
-		vm.isuserprofile = false;
-		vm.ispublic = true;
 		vm.users = [];
 
+	    vm.userForm = [{
+	    	key: 'userform',
+	    	type: 'userform',
+	    }];
 
-		//make a function to set the field names for this from api field names given
-		vm.formEdit = {
-			first_name: false,
-			middle_name: false,
-			last_name: false,
-			date_of_birth: false,
-			email: false
+	    vm.isLoading = true;
+	    vm.onSuccess = false;
+
+	    vm.updateInfo = updateInfo;
+
+	    vm.profile = {};
+
+	    vm.showPasswordDialog = showPasswordDialog;
+
+	    $rootScope.$on('resetPasswordDialog', function(events){
+	    	showPasswordDialog(events);
+	    });
+
+		function showPasswordDialog(ev) {
+			$mdDialog.show({
+				controller: ResetPasswordController,
+				templateUrl: 'app/components/user/mddialog/new_password_dialog.tpl.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: true
+			});
 		};
 
-		vm.isLoading = {
-			first_name: false,
-			middle_name: false,
-			last_name: false,
-			date_of_birth: false,
-			email: false
-		};
+		vm.showEditUserForm = function(ev){
+			$mdDialog.show({
+				controller: EditUserController,
+				templateUrl: 'app/components/user/mddialog/edit_user_form.tpl.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: true
+			});
+		}
 
-		vm.onSuccess = {
-			first_name: false,
-			middle_name: false,
-			last_name: false,
-			date_of_birth: false,
-			email: false
-		};
+		function EditUserController($scope, $mdDialog){
+			$scope.submit = function(model) {
+				user.updateUser(model).then(function(results){
+					ToastMessage.simple("Thank you! Your changes can be seen after you refresh the page.");
+					$mdDialog.hide();
+				}, function(error){
+					checkError(JSON.parse(error.data.message), "You cannot edit your profile.");
+					$mdDialog.hide();
+				})
+			}
+			$scope.cancel = function() {
+	    		$mdDialog.cancel();
+	    	};
 
-		$scope.getId = getId;
-		vm.updateInfo = updateInfo;
+		}
+
+		function ResetPasswordController($scope, $mdDialog){
+	    	$scope.cancel = function() {
+	    		$mdDialog.cancel();
+	    	};
+
+	    	$scope.resetPassword = function(password) {
+	    		var data = {
+	    			id: JSON.parse(localStorage.getItem('user')).id,
+	    			password: password
+	    		}
+				user.updateUser(data).then(function(results){
+					ToastMessage.simple("Your password has been reset!");
+					$mdDialog.hide();
+				}, function(error){
+					checkError(JSON.parse(error.data.message), "You cannot reset your password!");
+					$mdDialog.hide();
+				})
+	    	};
+
+		}
+
+	    function grabUserFields(id){
+	    	//testing
+	    	if($state.current.name == "myprofile"){
+				id = JSON.parse(localStorage.getItem('user')).id;
+			}
+	    	if(id){
+		    	user.editUser(id).then(function(results){
+
+		    		angular.forEach(results, function(value, key){
+		    			delete results[key].rules;
+		    			results[key].templateOptions['item_id'] = id;
+		    			if(value.name == 'identity_verified'){
+		    				results[key].templateOptions['ngChange'] = (vm.verifyUser);
+		    			}
+		    			if(value.name == 'public'){
+		    				results[key].templateOptions['ngChange'] = (vm.togglePublic);
+		    			}
+		    			if(value.name == 'password'){
+		    				results[key].templateOptions['ngClick'] = (vm.showPasswordDialog);
+		    			}
+		    			if(value.name == 'ethnic_origin_id'){
+		    				ethnic_origin.getEthnicOrigins().then(function(results){
+		    					vm.ethnics = results;
+		    					value.templateOptions['ngRepeat'] = vm.ethnics;
+							});
+		    			}
+		    		});
+		    		splitUserField.given(results);
+		    		setFields();
+	    		});
+	    	}
+	    }
+
+
+
+	    function setFields(){
+			vm.first_name_field = splitUserField.set(splitUserField.first_name);
+			vm.middle_name_field = splitUserField.set(splitUserField.middle_name);
+			vm.last_name_field = splitUserField.set(splitUserField.last_name);
+			vm.email_field = splitUserField.set(splitUserField.email);
+			vm.date_of_birth_field = splitUserField.set(splitUserField.date_of_birth);
+			vm.public_field = splitUserField.set(splitUserField.public);
+			vm.ethnic_origins_id_field = splitUserField.set(splitUserField.ethnic_origin_id);
+			vm.identity_verified_field = splitUserField.set(splitUserField.identity_verified);
+			vm.password_field = splitUserField.set(splitUserField.password);
+	    }
+
+
 
 		vm.showEditUsers = function(){
 			angular.forEach(vm.formEdit, function(value, key) {
@@ -54,134 +144,87 @@
 		}
 
 		vm.verifyUser = function(userinfo){
-			var verifiedData = userinfo.identity_verified;
+			var message = userinfo.first_name + ' ' + userinfo.last_name + ' has been ';
 			var data = {
 				id: userinfo.id,
-				identity_verified: verifiedData
+				identity_verified: userinfo.identity_verified
 			}
-			updateInfo(data);
-
-			var isverified;
-			if(userinfo.identity_verified == 1){
-				isverified = "verified.";
-			}
-			else {
-				isverified = "unverified.";
-			}
-
-			var message = userinfo.first_name + ' ' + userinfo.last_name + ' has been ' + isverified;
-
-			$mdToast.show(
-              $mdToast.simple()
-                .content(message)
-                .position('bottom right')
-                .hideDelay(3000)
-          	  );
-		}
-
-		function getId(){
-			var id;
-			angular.forEach(vm.users, function(value, key) {
-				if(value.id == $stateParams.id){
-					vm.id = value.id;
-					id = key;
+			user.updateUser(data).then(function(result){
+				console.log(result.identity_verified);
+				if(userinfo.identity_verified == 1){
+					message = message+"verified.";
 				}
-			})
-			return id;
+				else {
+					message = message+"unverified.";
+				}
+				ToastMessage.simple(message);
+			}, function(error){
+				checkError(JSON.parse(error.data.message), "This user cannot be verified.");
+			});
+
 		}
 
-		function checkPublic(data) {
-			if(data[getId()]){
-			if(data[getId()].public == 0){
-				vm.ispublic = false;
-				vm.publicChoice = "Not Public";
-			}
-			else {
-				vm.publicChoice = "Public";	
-			}
-			}
-		}
-
-		function checkUser() {
-			if($stateParams.id == userlocal.id) {
-				vm.isuserprofile = true;
-			}
-		}
 
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
 				vm.nextpage = result.current_page + 1;
 				vm.users = result.data;
-				checkUser();
-				checkPublic(vm.users);
             });         
 		}
 
-		function loadMoreUsers(){
-			var data = {
-				page: vm.nextpage,
+		function getUser(id){
+			if($state.current.name == "myprofile"){
+				id = JSON.parse(localStorage.getItem('user')).id;
 			}
-			user.getUserInfo().then(function(result) {
-				if(result.current_page == vm.nextpage){
-					vm.nextpage = result.current_page + 1;
-					vm.users.push(result.data);
-					checkUser();
-					checkPublic(vm.users);
-				}
-			}, function(error) {
+			user.getUser(id).then(function(result){
+				vm.display_date_of_birth = result.date_of_birth;
+				result.date_of_birth = new Date(result.date_of_birth);
+				vm.profile = result;
+				vm.isLoading = false;
+				console.log(vm.profile);
+			}, function(error){
 				console.log(error);
-			});
+			})
 		}
 
-		vm.setPublic = function(value) {
-			vm.users[getId()].public = value;
-			updateInfo(vm.users[getId()], 'public');
-		}
+
 
 		function updateInfo(data, datatype) {
-			isLoading(datatype);
+			var id = JSON.parse(localStorage.getItem('user')).id;
+			isLoading();
 			user.updateUser(data).then(function(result){
-				if(data.id == userlocal.id && data.public == 0){            
-				$mdToast.show(
-                  $mdToast.simple()
-                    .content('Your changes will be seen when you log back in.')
-                    .position('bottom right')
-                    .hideDelay(3000)
-                );}
-				onSuccess(datatype);
-				isLoading(datatype);
-				$timeout(function(){
-					onSuccess(datatype); changeEditable(datatype);}, 1500);
+				if(data.id == id && data.public == 0){
+					ToastMessage.simple('Your changes will be seen when you log back in.');            
+				}
+				onSuccess();
+				isLoading();
+				$timeout(function(){ onSuccess(datatype);}, 1500);
 			},function(error){
-				console.log(error);
+				checkError(JSON.parse(error.data.message));
 			});
+		}
+
+		function checkError(error, reason) {
+			angular.forEach(error, function(value, key){
+				value = JSON.stringify(value);
+				if(value.substr(0,12)=='["validation'){
+					error = " is missing.";
+				}
+				var message = "This user's "+key+error;
+				ToastMessage.double(message, reason, true);
+			})
 		}
 
 		function isLoading(datatype){
-			angular.forEach(vm.isLoading, function(value, key) {
-				if(key == datatype) {
-					vm.isLoading[key] = !vm.isLoading[key];
-				}
-			})
+			vm.isLoading = !vm.isLoading;
 		}
 
 		function onSuccess(datatype) {
-			angular.forEach(vm.onSuccess, function(value, key) {
-				if(key == datatype) {
-					vm.onSuccess[key] = !vm.onSuccess[key];
-
-				}
-			})
+			vm.onSuccess = !vm.onSuccess;
 		}
 
-		function changeEditable(datatype) {
-			angular.forEach(vm.formEdit, function(value, key) {
-				if(key == datatype) {
-					vm.formEdit[key] = !vm.formEdit[key];
-				}
-			})
-		}
-
+	    grabUserFields($stateParams.id);
+		getUser($state.params.id);
 		getUsers();
 
 	

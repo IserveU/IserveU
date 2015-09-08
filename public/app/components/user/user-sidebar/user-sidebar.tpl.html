@@ -1,4 +1,4 @@
-<md-content flex role="navigation" ng-controller="UserController as users">
+<md-content flex role="navigation" ng-controller="UserController as user">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -8,10 +8,10 @@
     </div>
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="user in users.users">  
+    <md-list-item class="sidebar-list" ng-repeat="thisuser in user.users">  
       <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
-      <p md-ink-ripple ui-sref="user.profile({id:user.id})">{{user.first_name}} {{user.last_name}}</p>      
-      <md-switch class="md-secondary"ng-model="user.identity_verified" ng-click="users.verifyUser(user)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
+      <p md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
+      <md-switch class="md-secondary"ng-model="thisuser.identity_verified" ng-click="user.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
   </md-list>
 </md-content>

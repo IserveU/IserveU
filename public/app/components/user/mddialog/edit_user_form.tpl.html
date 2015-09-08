@@ -1,0 +1,43 @@
+<md-dialog aria-label="Edit user form" style="height:80%;" flex="45">
+
+<div ng-controller="UserController as user">
+
+<form>
+<md-toolbar class="section-toolbar" md-scroll-shrink="true">
+  <div class="md-toolbar-tools">
+    <h3>Edit Your Public Profile</h3>
+  </div>
+</md-toolbar>
+<md-dialog-content>
+
+<div layout-padding>
+
+
+<div layout layout-sm="column">
+	<formly-form model="user.profile" fields="user.first_name_field" flex></formly-form>
+	<formly-form model="user.profile" fields="user.middle_name_field" flex></formly-form>
+	<formly-form model="user.profile" fields="user.last_name_field" flex></formly-form>
+</div>
+	<formly-form model="user.profile" fields="user.email_field" ></formly-form>
+	<formly-form model="user.profile" fields="user.date_of_birth_field" ></formly-form>
+	<formly-form model="user.profile" fields="user.public_field"></formly-form>
+
+	<formly-form model="user.profile" fields="user.identity_verified_field" ></formly-form>
+<div layout layout-sm="column">
+	<formly-form model="user.profile" fields="user.ethnic_origins_id_field" flex="45"></formly-form>
+	<span flex="15"></span>
+	<formly-form model="user.profile" fields="user.password_field" flex="40"></formly-form>
+</div>
+</div>
+
+</md-dialog-content>
+
+<div ng-show="isLoading = true" layout-align="end">
+<md-button ng-cloak ng-click="submit(user.profile)">Save Changes</md-button>
+<md-button ng-cloak ng-click="cancel()">Cancel</md-button>
+</div>
+
+</div>
+</form>
+</md-dialog>
+
