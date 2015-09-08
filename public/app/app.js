@@ -213,10 +213,8 @@
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 				if(toState.name !== 'login'){
 					if(toState.name !== 'login.resetpassword'){
-					console.log('here in app.js');
-					console.log(toState.name);
-					$rootScope.redirectUrlName = toState.name;
-					$rootScope.redirectUrlID = toParams.id;
+						$rootScope.redirectUrlName = toState.name;
+						$rootScope.redirectUrlID = toParams.id;
 					}
 				}
 
@@ -240,6 +238,9 @@
 			    	$rootScope.currentState = 'user';
 			    }
 			    if($rootScope.currentState == 'home'){
+			    	$rootScope.currentState = 'motion';
+			    }
+			    if($rootScope.currentState == 'createmotion'){
 			    	$rootScope.currentState = 'motion';
 			    }
 			});		
