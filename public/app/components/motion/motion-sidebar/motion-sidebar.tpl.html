@@ -1,31 +1,35 @@
-<md-content flex role="navigation" ng-controller="SidebarController as sidebar">
+<md-content flex role="navigation" ng-controller="MotionSidebarController as sidebar">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" ui-sref="home" show-gt-md=""  aria-label="Toggle Menu">
-        <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"></md-icon>
+      <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
+        <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg"></md-icon>
       </md-button>
-
       <h2>Motions</h2>
+      <span flex></span>
     </div>
+
   </md-toolbar>
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" md-ink-ripple ui-sref-active="active"> 
-      <md-icon md-font-icon="mdi-check" aria-label="Visited" class="mdi"></md-icon>
-      <p ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
-      <md-icon md-svg-src="/themes/default/loading.svg" ng-show="isLoading"></md-icon>
+<!--       <span ng-controller="MotionController as vm">
+      <md-icon class="mdi" md-svg-src="/themes/{{themename}}/loading.svg" ng-show="vm.isLoading && sidebar.isState"></md-icon> -->
+      <md-icon md-font-icon="mdi-check" aria-label="Visited" ng-hide="vm.isLoading && sidebar.isState" class="mdi"></md-icon>
+      <!-- </span> -->
 
+      <p layout-padding ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
       <!-- <div ng-switch="{{ motion.votes[0].position}}">
         <md-icon ng-switch-when="1" md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" ng-click="cycleVote(motion" aria-label="Open Chat"></md-icon>
         <md-icon ng-switch-when="0" md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
         <md-icon ng-switch-when="-1" md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
       </div> -->
-
     </md-list-item>
 
-    <md-list-item class="sidebar-list" ng-if="createMotion" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
+    <has-permission has-permission="create-motions">
+    <md-list-item class="sidebar-list" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
       <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
       <p ui-sref="createmotion">Create new motion</p>
     </md-list-item>
+    </has-permission>
 
   </md-list>
 </md-content>

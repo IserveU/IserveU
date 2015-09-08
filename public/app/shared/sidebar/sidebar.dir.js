@@ -19,7 +19,7 @@
 
 		function controllerMethod(motion, $scope, $location, $state, $rootScope) {
         
-  	}	
+  		}	
 		
 		return {
 			restrict: 'E',
