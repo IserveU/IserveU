@@ -26,15 +26,21 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Motion\SendNotificationEmail',
 			'App\Listeners\Motion\RemoveVotes'
 		],
+		'App\Events\VoteCreated' => [
+			'App\Listeners\Vote\SetDeferedToVotes',
+			'App\Listeners\Motion\BalanceDeferredVotes'
+		],
 		'App\Events\VoteUpdated' => [
-			'App\Listeners\Vote\CheckCommentVotes'
+			'App\Listeners\Vote\CheckCommentVotes',
+			'App\Listeners\Vote\SetDeferedToVotes',
+			'App\Listeners\Motion\BalanceDeferredVotes'
 		],
 		'App\Events\UserForgotPassword' => [
 			'App\Listeners\User\SendResetEmail',
 			'App\Listeners\User\SetRandomPassword'
 		],
 		'App\Events\MotionCreated' => [
-			'App\Listeners\Vote\CreateDeferredVotes',
+			'App\Listeners\Motion\CreateDeferredVotes',
 		]
 	];
 

@@ -43,7 +43,7 @@ elixir(function(mix) {
     
     mix.sass(['style.scss'],'public/css');
 
-    mix.copy('./resources/bower/mdi/fonts', './public/fonts'); //The default icon set
+    mix.copy('./resources/bower/mdi/fonts', './public/build/fonts'); //The default icon set
     mix.copy('./resources/bower/themes', './public/themes');
     mix.copy('./resources/bower/font-awesome/fonts', './public/fonts');
 

@@ -266,7 +266,7 @@ class Motion extends ApiModel {
 	}
 	
 	public function votes(){
-		return $this->hasMany('App\Vote')->select(['id','motion_id','position']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
+		return $this->hasMany('App\Vote'); //->select(['id','motion_id','position','deferred']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
 	}
 
 	public function figures(){

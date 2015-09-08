@@ -18,6 +18,12 @@ class MotionVoteController  extends ApiController{
 
         return $motion->votes()->agree()->active()->count();
 
+                // Probably good for the votes function to profile who has what share
+        // $votes = $motion->votes->groupBy('deferred_to_id')->toArray();
+        // $councillorIds = array_column(User::councillor()->get()->toArray(),'id','id');  
+        // $deferredToCouncilor = array_intersect_key($votes,array_flip($councillorIds));
+
+
     }
 
     /**
