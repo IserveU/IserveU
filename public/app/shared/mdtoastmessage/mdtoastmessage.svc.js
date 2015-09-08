@@ -10,9 +10,11 @@
 	
 	var vm = this;
 
+    vm.simple = simple;
+
 	vm.report_error = function(error){
         var toast = $mdToast.simple()
-            .content("Somethings not working!")
+            .content("Something's not working!")
             .action("Report")
             .position('bottom right')
             .hideDelay(3000);
@@ -29,13 +31,19 @@
         console.log(error);
 	}
 
-    vm.simple = function(message){
-        $mdToast.show(
+    function simple(message){
+        return $mdToast.show(
             $mdToast.simple()
             .content(message)
             .position('bottom right')
             .hideDelay(3000)
         );
+    }
+
+    vm.double = function(message1, message2, bool){
+        simple(message1).then(function(){
+            if (bool) { simple(message2); }
+        });
     }
 
 	vm.delete_toast = function(message){
