@@ -14,6 +14,7 @@ use App\BackgroundImage;
 */
 
 
+Route::resource('delegation', 'DelegationController');
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');

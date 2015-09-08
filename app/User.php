@@ -17,6 +17,8 @@ use App\Events\UserUpdated;
 use App\Events\UserCreated;
 use Event;
 use Mail;
+use DB;
+
 
 class User extends ApiModel implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -62,13 +64,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible if the entry is marked as public
 	 * @var array
 	 */
-	protected $publicVisible =  ['first_name','last_name','public','id','votes'];
+	protected $publicVisible =  ['first_name','last_name','public','id','votes','totalDelegationsTo'];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions'];
+    protected $appends = ['permissions','totalDelegationsTo'];
 
     /**
      * The rules for all the variables
@@ -145,9 +147,14 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		/* validation required on new */		
 		static::creating(function($model){
 			if(!$model->validate()) return false;
+			return true;
+		});
+
+		static::created(function($model){
 			event(new UserCreated($model));
 			return true;
 		});
+
 
 		static::updating(function($model){
 			if(!$model->validate()) return false;
@@ -220,8 +227,39 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	}
 
 
+	public function getTotalDelegationsToAttribute(){
+		/*	$this->delegatedTo; */
+
+		// if relation is not loaded already, let's do it first
+	  	if (!array_key_exists('totalDelegationsTo',$this->relations))
+	    	$this->load('totalDelegationsTo');
+		$related = $this->getRelation('totalDelegationsTo');
+	 	
+	 	
+	  	// then return the count directly
+	  	return ($related) ? $related->total : 0;
+	
+		// $totalDelegations = DB::table('delegations')->select('delegate_to_id', DB::raw('count(*) as total'))->where('delegate_to_id','=',$this->id)->orderBy('total','ASC')->get();
+		
+		// return $totalDelegations[0]->total;
+	}
+
+
+
+
 	/************************************* Casts & Accesors *****************************************/
 
+	/**
+	 * @return relation the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
+	 */
+
+	public function totalDelegationsTo()
+	{
+	  return $this->hasOne('App\Delegation','delegate_to_id')
+	    ->select('delegate_to_id', DB::raw('count(*) as total'));
+	//    ->groupBy('delegate_to_id');
+		
+	}
 
 
 	/************************************* Scopes *****************************************/
@@ -253,7 +291,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
     public function scopeValidVoter($query){
 		return $query->where('verified_until','>=',Carbon::now())
 			->whereHas('roles',function($query){
-				$query->where('name','citizen');
+				$query->where('name','citizen')
+				->orWhere('name','unverified');
 
 			});
     }
@@ -264,6 +303,19 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			->whereHas('roles',function($query){
 				$query->where('name','councillor');
 
+			});
+    }
+
+    public function scopeNotCouncillor($query){
+		return $query->whereDoesntHave('roles',function($q){
+				$q->where('name','councillor');
+
+			});
+    }
+
+    public function scopeNotCitizen($query){
+		return $query->whereDoesntHave('roles',function($q){
+				$q->where('name','citizen');
 			});
     }
 
@@ -292,6 +344,14 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 	public function deferredVotes(){
 		return $this->hasMany('App\Vote','deferred_to_id');
+	}
+
+	public function delegatedTo(){
+		return $this->hasMany('App\Delegation','delegate_to_id');
+	}
+
+	public function delegatedFrom(){
+		return $this->hasMany('App\Delegation','delegate_from_id');
 	}
 
 	public function roles(){

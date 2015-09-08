@@ -6,6 +6,11 @@ use App\Events\MotionCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+use App\User;
+use App\Delegation;
+use App\Department;
+use DB;
+
 class CreateDeferredVotes
 {
     /**
@@ -27,15 +32,29 @@ class CreateDeferredVotes
     public function handle(MotionCreated $event)
     {
         $motion = $event->motion;
-        // DB::enableQueryLog();
-        $validUsers = User::validVoter()->get();
-        // print_r(DB::getQueryLog());
+     //   DB::enableQueryLog();
+        $validVoters = User::with(['delegatedFrom'=>function($query) use ($motion){
+      //  $validVoters = User::whereHas('delegatedFrom', function($query) use ($motion){
+            $query->where('department_id',$motion->department_id);
+        }])->validVoter()->notCouncillor()->get();
+
+     //   echo print_r(DB::getQueryLog());
+
+        $votes = array();
+
+
+        foreach($validVoters as $validVoter){
+            if(!$validVoter->delegatedFrom->isEmpty()){
+                $votes[] = [
+                    'motion_id'         =>       $motion->id,
+                    'user_id'           =>       $validVoter->id,
+                    'deferred_to_id'    =>       $validVoter->delegatedFrom->first()->delegate_to_id
+                ];
+            }
+        }
+
+        DB::table('votes')->insert($votes);
 
         $councillors = User::councillor()->get();
-
-        echo $councillors->count();
-
-
-
     }
 }

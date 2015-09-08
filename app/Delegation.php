@@ -41,13 +41,13 @@ class Delegation extends ApiModel
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['delegate_to_id','department_id','delgate_from_id'];
+	protected $creatorVisible = ['delegate_to_id','department_id','delegate_from_id'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
 	 * @var array
 	 */
-	protected $publicVisible =  [];
+	protected $publicVisible =  ['delegate_to_id','delegate_from_id','department_id'];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
@@ -61,8 +61,8 @@ class Delegation extends ApiModel
      */
 	protected $rules = [	
 	    'delegate_to_id'		=>	'integer|exists:users,id',
-	    'delegate_from_id'		=>	'integer|exists:users,id|unique_with:delgations,department_id',
-	    'department_id'			=>	'integer|exists:departments,id|unique_with:delgations,delegate_from_id'
+	    'delegate_from_id'		=>	'integer|exists:users,id|unique_with:delegations,department_id',
+	    'department_id'			=>	'integer|exists:departments,id|unique_with:delegations,delegate_from_id'
 	];
 
 	/**
@@ -133,7 +133,10 @@ class Delegation extends ApiModel
 
 	/****************************************** Getters & Setters ************************************/
 
-	
+	public function totals($query){
+		return $query->groupBy('delegate_to_total'); 
+	}
+
 
 	/************************************* Casts & Accesors *****************************************/
 
