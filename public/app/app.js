@@ -14,7 +14,7 @@
 			'formly',
 			'ngMessages'
 		])
-		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider) {
+		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider, formlyConfigProvider) {
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 			$authProvider.loginUrl = '/authenticate';
@@ -32,9 +32,9 @@
 					responseError: function(rejection) {
 						//this is way too explicit, 400 errors return on a lot.
 						if(rejection.status === 400) {
-							// $rootScope.userIsLoggedIn = false;
-							// localStorage.clear();
-							// if(!localStorage.satellizer_token){$state.go('login');}
+							$rootScope.userIsLoggedIn = false;
+							localStorage.clear();
+							if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						return $q.reject(rejection);
 					}
@@ -48,6 +48,43 @@
 			}])	
 
 		    $urlRouterProvider.otherwise('/home');
+				
+
+
+		    formlyConfigProvider.disableWarnings = true;
+		    formlyConfigProvider.setType({
+			  name: 'input',
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input ng-model="model[options.name]"></md-input-container>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'date',
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="date" ng-model="model[options.name]"></md-input-container>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'md-switch',
+			  template: '<md-switch ng-change="options.templateOptions.ngChange(options.templateOptions.item_id, options.templateOptions.valueProp)" ng-model="options.templateOptions.valueProp"ng-true-value="1" ng-false-value="0"/>{{options.templateOptions.label}}'
+			});
+			formlyConfigProvider.setType({
+			  name: 'email',
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="email" ng-model="model[options.name]"></md-input-container>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'password',
+			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="password" ng-hide="true" ng-model="options.templateOptions.valueProp"/></md-input-container>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'password-edit',
+			  template: '<md-button type="submit" ng-click="options.templateOptions.ngClick()"><label>Change password</label></md-button>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'select',
+			  template: '<md-select aria-label="select" ng-model="model[options.name]" placeholder="Ethnic Origins"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
+			});
+			formlyConfigProvider.setType({
+			  name: 'userform',
+			  templateUrl: 'app/components/user/userform.tpl.html'
+			});
+
 
 		    $stateProvider
 		    	.state( 'home', {
