@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Vote;
+
 class MotionVoteController  extends ApiController{
     /**
      * Display a listing of the resource.
@@ -16,14 +18,26 @@ class MotionVoteController  extends ApiController{
     public function index($motion)
     {
 
-     //   return $motion->votes()->agree()->active()->count();
+        $passiveVotes = Vote::where('motion_id',$motion->id)->cast()->passive()->get()->groupBy('deferred_to_id');
 
-                // Probably good for the votes function to profile who has what share
+        $votesCount = array();
+        $totalVotes = Vote::where('motion_id',$motion->id)->cast()->count();
+
+        foreach($passiveVotes as $id => $vote){
+            $count = count($vote);
+            $votesCount[$vote[0]->position]['passive']['number'] = $count;
+            $votesCount[$vote[0]->position]['passive']['percent'] = floor(($count/$totalVotes)*100)/100;
+        }
+
+        $activeVotes = Vote::where('motion_id',$motion->id)->cast()->active()->get()->groupBy('position');
+
+        foreach($activeVotes as $id => $vote){
+            $count = count($vote);
+            $votesCount[$id]['active']['number'] = $count;
+            $votesCount[$id]['active']['percent'] = floor(($count/$totalVotes)*100)/100;
+        }
         
-
-        return $motion->votes->groupBy('deferred_to_id')->toArray();
-        // $councillorIds = array_column(User::councillor()->get()->toArray(),'id','id');  
-        // $deferredToCouncilor = array_intersect_key($votes,array_flip($councillorIds));
+        return $votesCount;
 
     }
 
