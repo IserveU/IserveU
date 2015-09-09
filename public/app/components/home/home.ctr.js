@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController(motion, comment, UserbarService, $scope, $rootScope, notificationService, resetPasswordService) {
+	function HomeController(motion, comment, vote, UserbarService, notificationService, resetPasswordService) {
 		
 		var vm = this;
         vm.shortNumber = 120;
@@ -61,7 +61,7 @@
         }
 
         function getMyVotes(){
-            motion.getMyVotes(getUserId()).then(function(result){
+            vote.getMyVotes(getUserId()).then(function(result){
                 vm.myVotes = result.votes;
                 if(vm.myVotes == undefined || !vm.myVotes[0]){
                     vm.empty.myvotes = true;

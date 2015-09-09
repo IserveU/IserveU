@@ -18,6 +18,8 @@
 
 	    var TopComment = $resource('api/comment/top');
 
+	    var MotionComment = $resource('api/motion/:id/comment');
+
 		function getComment() {
 			return Comment.query().$promise.then(function(results) {
 				return results
@@ -74,6 +76,14 @@
 			})
 		}
 
+		function getMotionComments(id) {
+			return MotionComment.get({id:id}).$promise.then(function(result) {
+				return result;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
+
 		return {
 			saveComment: saveComment,
 			updateComment: updateComment,
@@ -81,7 +91,8 @@
 			restoreComment: restoreComment,
 			getComment: getComment,
 			getMyComments: getMyComments,
-			getTopComment: getTopComment
+			getTopComment: getTopComment,
+			getMotionComments: getMotionComments
 		}
 	}
 })();

@@ -4,8 +4,8 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $scope, $stateParams, auth, motion,
-    comment, $mdToast, $animate, $state, UserbarService, ToastMessage, FigureService) {
+    function MotionController($rootScope, $stateParams, motion,
+    comment, commentvote, vote, $mdToast, $state, UserbarService, ToastMessage, FigureService) {
 
         var vm = this;
 
@@ -13,8 +13,6 @@
         vm.motionComments = [];
         vm.motionVotes = {};
         vm.usersVote;
-        vm.voteAgainst;
-        vm.voteNeutral; 
         vm.first_name;
         vm.last_name;
         vm.email; 
@@ -27,6 +25,7 @@
 
         vm.userHasVoted = false;
         vm.userVoteId;
+
         vm.editMotion = false;
         vm.editMotionLoading = false;
 
@@ -36,6 +35,8 @@
         vm.agreeComments = [];
         vm.thisUsersComment = [];
         vm.thisUsersCommentVotes = {};
+
+        vm.motionIsLoading = false;
        
         vm.editComment = false;
         vm.editMotionFunction = editMotionFunction;
@@ -107,11 +108,15 @@
             getFigures(id);
             // this contains motion votes
             motion.getMotion(id).then(function(result) {
+                vm.isLoading = false; 
                 vm.motionDetail = result;
-                vm.isLoading = false;
                 calculateVotes(result);
                 UserbarService.title = result.title;
             });  
+        }
+
+        vm.switchLoading = function(){
+            vm.motionIsLoading = true;
         }
 
         function getFigures(id){
@@ -122,7 +127,7 @@
 
        function getMotionComments(id) {
 
-            motion.getMotionComments(id).then(function(result) {
+            comment.getMotionComments(id).then(function(result) {
                 vm.motionComments = result;
                 vm.disagreeComments = result.disagreeComments;
                 vm.agreeComments = result.agreeComments;
@@ -145,7 +150,7 @@
                     angular.forEach(vm.thisUsersCommentVotes, function(comment_votes, key){
                         if(comment_votes.comment_id == comment.id){
                             if(position == 1) {
-                               motion.deleteCommentVote(comment_votes.id);
+                               commentvote.deleteCommentVote(comment_votes.id);
                             }
                         vm.updateCommentVotes(comment_votes.id, -1);
                        }
@@ -155,7 +160,7 @@
                     angular.forEach(vm.thisUsersCommentVotes, function(comment_votes, key){
                         if(comment_votes.comment_id == comment.id){
                             if(position == -1) {
-                                motion.deleteCommentVote(comment_votes.id);
+                                commentvote.deleteCommentVote(comment_votes.id);
                             }
                         vm.updateCommentVotes(comment_votes.id, 1);
                         }
@@ -169,7 +174,7 @@
                 position:position
             }
             
-            motion.saveCommentVotes(data).then(function(result){
+            commentvote.saveCommentVotes(data).then(function(result){
                 getMotionComments($stateParams.id);
             },function(error){
                 ToastMessage.report_error(error);
@@ -182,7 +187,7 @@
                 position:position
             }
 
-            motion.updateCommentVotes(data).then(function(result){
+            commentvote.updateCommentVotes(data).then(function(result){
                 getMotionComments($stateParams.id);
             },function(error){
                 ToastMessage.report_error(error);
@@ -201,6 +206,12 @@
         }
 
         function calculateVotes(motionDetail){
+            // vm.motionIsLoading = false;
+            // vote.getMotionVotes(motionDetail.id).then(function(results){
+            //     console.log(results);
+            // }, function(error){
+            //     console.log(error);
+            // });
             var disagree = {};
             var agree = {};
             var abstain = {};
@@ -266,7 +277,7 @@
                 message:message
             }
             if(!vm.userHasVoted) {
-            motion.castVote(data).then(function(result) {
+            vote.castVote(data).then(function(result) {
                 motion.getMotion($stateParams.id).then(function(result) {
                     vm.motionDetail = result;
                     calculateVotes(result);
@@ -296,7 +307,7 @@
                 id: vm.userVoteId,
                 position:position,
             }
-            motion.updateVote(data).then(function(result) {
+            vote.updateVote(data).then(function(result) {
                 motion.getMotion($stateParams.id).then(function(result) {
                     vm.motionDetail = result;
                     calculateVotes(result);
@@ -372,7 +383,7 @@
         function getUsersVotes() {
             vm.showDisagreeCommentVotes = false;
             vm.showAgreeCommentVotes = false;
-            motion.getUsersVotes().then(function(result) {
+            vote.getUsersVotes().then(function(result) {
                 angular.forEach(result, function(value, key) {
                     if(value.motion_id == $stateParams.id) {
                         vm.usersVote = parseInt(value.position);
