@@ -49,7 +49,7 @@
                                     <md-button>
                                         <div layout="row">
                                             <p flex ng-cloak>Your Profile</p>
-                                            <md-icon class="mdi mdi-account-circle"></md-icon>
+                                            <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
                                         </div>
                                     </md-button>
                                 </md-menu-item>
