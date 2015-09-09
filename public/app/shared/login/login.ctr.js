@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage) {	
+	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage, $mdDialog) {	
 
 		var vm = this;
 
@@ -56,6 +56,22 @@
 			vm.passwordreminder = !vm.passwordreminder;
 		}
 
+		vm.sendResetPassword = function(){
+			var credentials = {
+				email: vm.email,
+				password: vm.password
+			}
+			auth.getResetPassword(credentials).then(function(result) {
+				$mdDialog.show(
+					$mdDialog.alert()
+					.clickOutsideToClose(true)
+					.content('Your email has been sent!')
+					.ok('Thanks!')
+				);
+			}, function(error) {
+				console.log(error);
+			});
+		}
 
 		vm.createUser = function(first_name, last_name, email, password){
 			var registerinfo = {

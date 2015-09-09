@@ -69,6 +69,15 @@
 			});
 		};
 
+		var getResetPassword = function(credentials) {
+			return $http.post('authenticate/resetpassword', credentials).success(function(result) {
+				return result;
+			})
+			.error(function(error){
+				return error;
+			})
+		}
+
 		return {
 			login: login,
 		  	logout: logout,
@@ -76,7 +85,8 @@
 		  	postAuthenticate: postAuthenticate,
 		  	getNoPassword: getNoPassword,
 		  	postUserCreate: postUserCreate,
-		  	getSettings: getSettings
+		  	getSettings: getSettings,
+		  	getResetPassword: getResetPassword
 		};
 	}
 
