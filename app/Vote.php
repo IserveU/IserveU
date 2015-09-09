@@ -170,7 +170,7 @@ class Vote extends ApiModel {
 	/************************************* Scopes ***************************************************/
 
 	public function scopeActive($query){
-		return $query->whereNotNull('deferred_to_id');
+		return $query->whereNull('deferred_to_id');
 	}
 
 	public function scopePassive($query){
@@ -187,6 +187,10 @@ class Vote extends ApiModel {
 
 	public function scopeAbstain($query){
 		return $query->where('position',0);
+	}
+
+	public function scopeCast($query){
+		return $query->whereNotNull('position');
 	}
 
 

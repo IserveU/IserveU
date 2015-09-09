@@ -6,39 +6,22 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
 
-use App\Vote;
+use Zizaco\Entrust\Entrust;
+use App\Role;
+use App\User;
 
-class MotionVoteController  extends ApiController{
+class RoleController extends ApiController
+{
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($motion)
+    public function index()
     {
-
-        $passiveVotes = Vote::where('motion_id',$motion->id)->cast()->passive()->get()->groupBy('deferred_to_id');
-
-        $votesCount = array();
-        $totalVotes = Vote::where('motion_id',$motion->id)->cast()->count();
-
-        foreach($passiveVotes as $id => $vote){
-            $count = count($vote);
-            $votesCount[$vote[0]->position]['passive']['number'] = $count;
-            $votesCount[$vote[0]->position]['passive']['percent'] = floor(($count/$totalVotes)*100)/100;
-        }
-
-        $activeVotes = Vote::where('motion_id',$motion->id)->cast()->active()->get()->groupBy('position');
-
-        foreach($activeVotes as $id => $vote){
-            $count = count($vote);
-            $votesCount[$id]['active']['number'] = $count;
-            $votesCount[$id]['active']['percent'] = floor(($count/$totalVotes)*100)/100;
-        }
-        
-        return $votesCount;
-
+        return Role::all();
     }
 
     /**
@@ -106,4 +89,37 @@ class MotionVoteController  extends ApiController{
     {
         //
     }
+
+
+    /*
+    *   @params user_id     The ID of the user that you want to grant the permission to
+    *   @params role_name   The string name of the role
+    */
+    public function grant(){
+        if(!Auth::user()->can('administrate-permissionss')){
+            abort(401,"You can not edit user permissions");
+        }
+
+        $user_id = Request::get('user_id');
+        $role_name = Request::get('role_name');
+
+        if(!is_numeric($user_id)){
+            abort(403,"User id needs to be an integer");
+        }
+
+        $user = User::find($user_id);
+        if(!$user){
+            abort(403,"User with the id of ($user_id) not found");
+        }
+
+        if($user->hasRole($role_name)){
+            abort(403,"User already has the role ($role_name)");
+
+        }
+
+        $user->addUserRoleByName($role_name);
+
+        return $user;
+    }
+
 }
