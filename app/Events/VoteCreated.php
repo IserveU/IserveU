@@ -12,6 +12,7 @@ class VoteCreated extends Event
     use SerializesModels;
 
     public $vote;
+    public $motion;
 
 
     /**
