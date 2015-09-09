@@ -40,8 +40,8 @@ Route::get('/', function() {
 
 Route::group(array('prefix' => 'api'), function(){
 
-
-	Route::post('user/grantpermission', 'UserController@grantPermission');
+	Route::resource('role', 'RoleController');
+	Route::post('role/grant', 'RoleController@grant');
 	Route::resource('user', 'UserController');
 
 
