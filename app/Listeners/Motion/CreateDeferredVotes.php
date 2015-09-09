@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Vote;
+namespace App\Listeners\Motion;
 
 use App\Events\MotionCreated;
 use Illuminate\Queue\InteractsWithQueue;
