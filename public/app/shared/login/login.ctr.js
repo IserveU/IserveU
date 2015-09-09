@@ -20,10 +20,13 @@
 		vm.invalidCredentials = false;
 		vm.passwordreset = false;
 
+		vm.loggingIn = false;
+		vm.creatingUser = false;
+
 		vm.login = login;
 
 		function login(email, password) {
-
+			vm.loggingIn = true;
 			var credentials = { 
 				email: vm.email, 
 				password: vm.password
@@ -32,6 +35,7 @@
 			auth.login(credentials).then(function(data) {
 				setLocalStorage(credentials);
 			}, function(error) {
+				vm.loggingIn = false;
 				if(error.data.error == "invalid_credentials"){
 					vm.invalidCredentials = true;
 				}
@@ -74,6 +78,7 @@
 		}
 
 		vm.createUser = function(first_name, last_name, email, password){
+			vm.creatingUser = true;
 			var registerinfo = {
 				first_name: vm.first_name,
 				last_name: vm.last_name,
@@ -84,6 +89,7 @@
 			auth.postUserCreate(registerinfo).then(function(result){
 				login(registerinfo);
 			}, function(error) {
+				vm.creatingUser = false;
 				var message = JSON.parse(error.data.message);
 				if(message.hasOwnProperty('email')){
 					if(message.email[0] == "validation.unique"){

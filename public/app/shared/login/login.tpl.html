@@ -24,7 +24,11 @@
                 <div ng-message="warning">Password and email combination do not match.</div>
               </div>
           </md-input-container>
-          <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">Login</md-button>
+          <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
+            <div ng-hide="login.loggingIn">Login</div>
+            <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="login.loggingIn"></md-icon>
+
+          </md-button>
           <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
           <div layout-align="center center">
           <md-button ng-show="login.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
@@ -55,7 +59,11 @@
               <div ng-message="minlength">Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>
-          <md-button type="submit" name="create" class="btn btn-primary" ng-click="login.createUser()">Create</md-button>
+          <md-button type="submit" name="create" class="btn btn-primary" ng-click="login.createUser()">
+            <div ng-hide="login.creatingUser">Create</div>
+            <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
+          </md-button>
+            
           <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
         </form>
       </div>
