@@ -34,7 +34,7 @@ class MotionVoteController  extends ApiController{
         foreach($activeVotes as $id => $vote){
             $count = count($vote);
             $votesCount[strval($id)]['active']['number'] = $count;
-            $votesCount[strval($id)]['active']['percent'] = floor(($count/$totalVotes)*100)/100;
+            $votesCount[strval($id)]['active']['percent'] = floor(($count/$totalVotes)*100);
         }
         
         return $votesCount;

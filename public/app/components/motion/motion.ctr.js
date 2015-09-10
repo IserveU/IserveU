@@ -23,6 +23,12 @@
             disagree: false
         }
 
+        vm.motionVotes = {
+            disagree:{percent:0,number:0},
+            agree:{percent:0,number:0},
+            abstain:{percent:0,number:0}
+        }
+
         vm.userHasVoted = false;
         vm.userVoteId;
 
@@ -41,7 +47,7 @@
         vm.editComment = false;
         vm.editMotionFunction = editMotionFunction;
 
-        vm.figures = "comma";
+        vm.figures;
         vm.getFigure = FigureService.getFigure;
 
         vm.editCommentFunction = function(){
@@ -110,7 +116,7 @@
             motion.getMotion(id).then(function(result) {
                 vm.isLoading = false; 
                 vm.motionDetail = result;
-                calculateVotes(result);
+                getMotionVotes(result);
                 UserbarService.title = result.title;
             });  
         }
@@ -205,50 +211,29 @@
             });
         }
 
-        function calculateVotes(motionDetail){
-            // vm.motionIsLoading = false;
-            // vote.getMotionVotes(motionDetail.id).then(function(results){
-            //     console.log(results);
-            // }, function(error){
-            //     console.log(error);
-            // });
-            var disagree = {};
-            var agree = {};
-            var abstain = {};
-            
-            disagree.count = 0;
-            agree.count = 0;
-            abstain.count = 0;
-
-            var totalVotes = 0;
-    
-            angular.forEach(motionDetail.votes, function(value, key) { /*This is not looping every vote, just the 3 values of position */
-
-                totalVotes += parseInt(value.count);
-                if(parseInt(value.position)==-1){
-                   disagree.count = parseInt(value.count);
-                } else if(parseInt(value.position)==1){
-                    agree.count = parseInt(value.count);
-                } else {
-                    abstain.count = parseInt(value.count);
-                }
+        function getMotionVotes(motionDetail){
+            vote.getMotionVotes(motionDetail.id).then(function(results){
+                calculateVotes(results);
+            }, function(error){
+                console.log(error);
             });
 
-            disagree.percentage =  (disagree.count/totalVotes)*100;
-            agree.percentage =  (agree.count/totalVotes)*100;
-            abstain.percentage =  (abstain.count/totalVotes)*100;
+        }
 
-            disagree.roundedPercentage = (disagree.percentage).toFixed(3);
-            agree.roundedPercentage = (agree.percentage).toFixed(3);
-            abstain.roundedPercentage = (abstain.percentage).toFixed(3);
+        function calculateVotes(vote_array){
+            if(vote_array[-1]){
+                vm.motionVotes.disagree = vote_array[-1].active;
+            }
+            if(vote_array[1]){
+                vm.motionVotes.agree = vote_array[1].active;
+            }
+            if(vote_array[0]){
+                vm.motionVotes.abstain = vote_array[0].active;
+            }
 
-            vm.motionVotes.disagree = disagree;
-            vm.motionVotes.agree = agree;
-            vm.motionVotes.abstain = abstain;
-
-            if(disagree.count>agree.count){
+            if(vm.motionVotes.disagree.number>vm.motionVotes.agree.number){
                 vm.motionVotes.position = "thumb-down";
-            } else if(disagree.count<agree.count){
+            } else if(vm.motionVotes.disagree.number<vm.motionVotes.agree.number){
                 vm.motionVotes.position = "thumb-up";
             } else {
                 vm.motionVotes.position = "thumbs-up-down";
@@ -276,6 +261,7 @@
                 position:position,
                 message:message
             }
+            
             if(!vm.userHasVoted) {
             vote.castVote(data).then(function(result) {
                 motion.getMotion($stateParams.id).then(function(result) {

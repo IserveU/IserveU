@@ -104,14 +104,14 @@
 	    </div>
 
         <div class="statusbar" layout="row" layout-align="center center"> 
-	  	  	<md-button style="width:{{ motion.motionVotes.agree.roundedPercentage }}%" class="agree md-raised md-primary" aria-label="Number in agreement">
-	  		  	<md-tooltip>{{ motion.motionVotes.agree.count }} Agree</md-tooltip>
+	  	  	<md-button style="width:{{ motion.motionVotes.agree.percent }}%" class="agree md-raised md-primary" aria-label="Number in agreement">
+	  		  	<md-tooltip>{{ motion.motionVotes.agree.number }} Agree</md-tooltip>
 	  		</md-button>
-	  	  	<md-button style="width:{{ motion.motionVotes.abstain.roundedPercentage }}%"  class="abstain md-raised md-grey" aria-label="Number abstaining">
-	  	  		<md-tooltip>{{ motion.motionVotes.abstain.count }} Abstain</md-tooltip>
+	  	  	<md-button style="width:{{ motion.motionVotes.abstain.percent }}%"  class="abstain md-raised md-grey" aria-label="Number abstaining">
+	  	  		<md-tooltip>{{ motion.motionVotes.abstain.number }} Abstain</md-tooltip>
 	  	  	</md-button>
-	  	  	<md-button style="width:{{ motion.motionVotes.disagree.roundedPercentage }}%" class="disagree md-raised md-accent" aria-label="Number in disagreement">
-	  	  		<md-tooltip>{{ motion.motionVotes.disagree.count }} Disagree</md-tooltip>			  	  		
+	  	  	<md-button style="width:{{ motion.motionVotes.disagree.percent }}%" class="disagree md-raised md-accent" aria-label="Number in disagreement">
+	  	  		<md-tooltip>{{ motion.motionVotes.disagree.number }} Disagree</md-tooltip>			  	  		
 	  	  	</md-button>
 		</div>
 	</section>
