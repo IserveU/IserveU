@@ -19,7 +19,7 @@
 
 	    // set into local storage array that updates
 	    function getMyVotes(id) {
-			return MyVotes.get({id:id}).$promise.then(function(results) {
+			return MyVotes.query({id:id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);

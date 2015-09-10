@@ -136,7 +136,6 @@
 
 	    function setFields(){
 			vm.first_name_field = splitUserField.set(splitUserField.first_name);
-			console.log(vm.first_name_field);
 			vm.middle_name_field = splitUserField.set(splitUserField.middle_name);
 			vm.last_name_field = splitUserField.set(splitUserField.last_name);
 			vm.email_field = splitUserField.set(splitUserField.email);
@@ -192,7 +191,6 @@
 				vm.display_date_of_birth = result.date_of_birth;
 				result.date_of_birth = new Date(result.date_of_birth);
 				vm.profile = result;
-				console.log('bar');
 				vm.isLoading = false;
 			}, function(error){
 				console.log(error);

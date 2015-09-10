@@ -21,7 +21,7 @@
         vm.departments = [];
 
         // ng model variables
-        vm.department = 1;
+        vm.department;
         vm.closingdate = oneWeekDate;
         vm.motion_id;
         vm.isactive;
