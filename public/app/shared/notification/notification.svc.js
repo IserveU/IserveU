@@ -58,7 +58,8 @@
 				}
 				if(value.key == "date_of_birth" && value.templateOptions.valueProp == '0000-00-00'){
 					vm.fields.push(value);
-					$rootScope.$broadcast('dialogBox');
+					showDialogBox();
+					//$rootScope.$broadcast('dialogBox');	// using rootscope b/c $scope is not injectable
 				}
 			})
 			return vm.fields;
@@ -66,14 +67,23 @@
 
 		getUserFields();
 
-		$rootScope.$on('dialogBox', function(events, data){
-			showDialogBox();
-		});
+		// $rootScope.$on('dialogBox', function(events, data){
+		// 	showDialogBox();
+		// });
 
 		function showDialogBox(){
 			$mdDialog.show({
 				controller: EditUserController,
 				templateUrl: 'app/shared/notification/missingfields.tpl.html',
+				parent: angular.element(document.body),
+				clickOutsideToClose: false
+			});
+		}
+
+		function showVerificationBox(){
+			$mdDialog.show({
+				controller: VerifyUserController,
+				templateUrl: 'app/shared/notification/verificationform.tpl.html',
 				parent: angular.element(document.body),
 				clickOutsideToClose: false
 			});
@@ -88,6 +98,17 @@
 	    			$mdDialog.cancel();
 	    			console.log(error);
 	    		})
+	    	}
+	    	$scope.cancel = function(){
+	    		$mdDialog.cancel();
+	    	}
+		}
+
+		function VerifyUserController($scope, $mdDialog) {
+	    	$scope.verify = function(address) {
+	    		address['user_id'] = vm.id;
+	    		// api post to upload data
+	    		$mdDialog.hide();
 	    	}
 	    	$scope.cancel = function(){
 	    		$mdDialog.cancel();
