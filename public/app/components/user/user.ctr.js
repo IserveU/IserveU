@@ -4,7 +4,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
+	function UserController($rootScope, $scope, GrantRoleService, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
 		
 		UserbarService.setTitle("");
 		
@@ -26,6 +26,20 @@
 	    vm.profile = {};
 
 	    vm.showPasswordDialog = showPasswordDialog;
+
+	    vm.new_role;
+
+		$timeout(function(){
+			vm.roles = GrantRoleService.roles; 
+	    	console.log(vm.roles);
+		}, 4500);
+
+		vm.setRole = function(role_name){
+			var user_id = vm.profile.id;
+			console.log(role_name);
+			GrantRoleService.grant(role_name, user_id);
+		}
+	    
 
 	    $rootScope.$on('resetPasswordDialog', function(events){
 	    	showPasswordDialog(events);
@@ -181,7 +195,6 @@
 				result.date_of_birth = new Date(result.date_of_birth);
 				vm.profile = result;
 				vm.isLoading = false;
-				console.log(vm.profile);
 			}, function(error){
 				console.log(error);
 			})
@@ -198,7 +211,6 @@
 				}
 				onSuccess();
 				isLoading();
-				$timeout(function(){ onSuccess(datatype);}, 1500);
 			},function(error){
 				checkError(JSON.parse(error.data.message));
 			});
