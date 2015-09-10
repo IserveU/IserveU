@@ -13,7 +13,7 @@ class ReworkVotesTable extends Migration
     public function up()
     {
         Schema::table('votes', function($table){
-            DB::statement("ALTER TABLE `votes` MODIFY `position` INTEGER UNSIGNED NULL;");
+            DB::statement("ALTER TABLE `votes` MODIFY `position` INTEGER SIGNED NULL;");
         });
     }
 
