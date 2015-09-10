@@ -48,7 +48,8 @@
         }
 
 
-    	vm.newMotion = function(title, text, summary, closingdate, isactive, departmentname){
+    	vm.newMotion = function(){
+            console.log(vm.closingdate);
             var data = {
                 title: vm.title,
                 text: vm.text,

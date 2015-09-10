@@ -25,7 +25,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id'];
+	protected $fillable = ['title','text','summary','department_id', 'closing'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -164,10 +164,13 @@ class Motion extends ApiModel {
 			return false;
 		}
 
-		$this->attributes['active'] = $value;
-		$oneWeek = new \DateTime();
-		$oneWeek->add(new \DateInterval('P7D'));
-		$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
+		if(!$this->closing && $value == 1){
+			$this->attributes['active'] = $value;
+			$oneWeek = new \DateTime();
+			$oneWeek->add(new \DateInterval('P7D'));
+			$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
+		}
+
 		return true;
 	}
 

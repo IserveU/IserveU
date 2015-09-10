@@ -12,12 +12,14 @@
 	        'update': { method:'PUT' }
 	    });
 
-		var MyVote = $resource('api/user/:id/vote');
+		var MyVotes = $resource('api/user/:id/vote');
 
 	    var MotionVote = $resource('api/motion/:id/vote');
 
+
+	    // set into local storage array that updates
 	    function getMyVotes(id) {
-			return MyVote.get({id:id}).$promise.then(function(results) {
+			return MyVotes.get({id:id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);
