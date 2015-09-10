@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
+use App\Vote;
 
 class UserVoteController extends ApiController
 {
@@ -23,7 +23,7 @@ class UserVoteController extends ApiController
              abort(401,"You do not have permission to view this non-public user's votes");
         }
 
-        $votes = User::with('votes.motion')->find($user->id);
+        $votes = Vote::where('user_id',$user->id)->active()->with('motion')->get();
         
         return $votes;
     }

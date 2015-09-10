@@ -50,8 +50,14 @@ class VoteController extends ApiController {
 			abort(401,'You do not have permission to create a vote');
 		}
 
-		$vote  = new Vote(Request::all());
-		$vote->user_id = Auth::user()->id;
+		//Check if vote exists
+		$vote = Vote::where('user_id',Auth::user()->id)->where('motion_id',Request::input('motion_id'))->first();
+		if($vote){
+			$vote->position = Request::input('position');
+		} else {
+			$vote  = new Vote(Request::all());
+			$vote->user_id = Auth::user()->id;	
+		}
 
  		if(!$vote->save()){
 			abort(403,$vote->errors);
