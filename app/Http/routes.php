@@ -40,8 +40,7 @@ Route::get('/', function() {
 
 Route::group(array('prefix' => 'api'), function(){
 
-	Route::resource('role', 'RoleController');
-	Route::post('role/grant', 'RoleController@grant');
+
 	Route::resource('user', 'UserController');
 
 
@@ -49,7 +48,9 @@ Route::group(array('prefix' => 'api'), function(){
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
-
+		Route::resource('role', 'RoleController');
+		Route::post('role/grant', 'RoleController@grant');
+		
 		Route::resource('background_image', 'BackgroundImageController');
 
 		Route::get('motion/{id}/restore','MotionController@restore');

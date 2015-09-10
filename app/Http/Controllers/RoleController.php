@@ -96,7 +96,7 @@ class RoleController extends ApiController
     *   @params role_name   The string name of the role
     */
     public function grant(){
-        if(!Auth::user()->can('administrate-permissionss')){
+        if(!Auth::user()->can('administrate-permissions')){
             abort(401,"You can not edit user permissions");
         }
 
