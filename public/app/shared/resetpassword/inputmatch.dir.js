@@ -10,8 +10,6 @@
 
 		function linkMethod(scope, element, attrs, ngModel) {
 
-			console.log('here at link');
-
 			ngModel.$validators.compareTo = function(modelValue) {
 				return modelValue == scope.otherModelValue;
 			};
