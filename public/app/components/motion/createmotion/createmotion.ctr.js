@@ -13,12 +13,16 @@
 
     	var vm = this;
 
+        //sets next week
+        var oneWeekDate = new Date();
+        oneWeekDate.setDate(oneWeekDate.getDate() + 7);
+
         vm.enterfiguretitle = false;
         vm.departments = [];
 
         // ng model variables
         vm.department = 1;
-        vm.closingdate;
+        vm.closingdate = oneWeekDate;
         vm.motion_id;
         vm.isactive;
         vm.text;
@@ -32,6 +36,8 @@
         vm.theseFiles = {};
 
         vm.upload = function(flow, index){
+        console.log(oneWeekDate);
+
             vm.thisFile = flow.files[0].file;
         }
 
