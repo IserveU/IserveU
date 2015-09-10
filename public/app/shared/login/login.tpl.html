@@ -10,7 +10,7 @@
           <md-input-container flex>
             <label>Email</label>
             <input type="email" label="email" name="email" ng-model="login.email" required>
-              <div ng-messages="loginform.email.$error">
+              <div ng-messages="loginform.email.$error" ng-if="loginform.email.$dirty">
                 <div ng-message="required">Email is required</div>
               </div>
           </md-input-container>
@@ -36,7 +36,7 @@
         </form>
         
         <!-- extends when Create is pressed -->
-        <form name="registerform" ng-if="login.registerform" novalidate>
+        <form name="registerform" ng-if="login.registerform" ng-submit="registerform.$valid && login.createUser()" novalidate>
           <md-input-container flex>
             <label>First Name</label>
             <input type="name" name="firstname" ng-model="login.first_name" required>
@@ -53,13 +53,21 @@
             </div>
           </md-input-container>
           <md-input-container flex>
+            <label>Confirm Email</label>
+            <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.email" required>
+            <div ng-messages="registerform.confirmemail.$error" ng-if="registerform.newpassword.$dirty">
+              <div ng-message="required">Please confirm your email.</div>
+              <div ng-message="compareTo">Your email does not match.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
             <label>Password</label>
             <input ng-minlength="8" type="password" name="newpassword" ng-model="login.password"  required="">
             <div ng-messages="registerform.password.$error"> 
               <div ng-message="minlength">Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>
-          <md-button type="submit" name="create" class="btn btn-primary" ng-click="login.createUser()">
+          <md-button type="submit" name="create" class="btn btn-primary">
             <div ng-hide="login.creatingUser">Create</div>
             <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
           </md-button>
