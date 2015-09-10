@@ -13,7 +13,7 @@
 
 		vm.given = function(fields){
 		angular.forEach(fields, function(value, key){
-			switch(value.name){
+			switch(value.key){
 				case "password":
 					vm.password = value;
 					break;
@@ -49,11 +49,11 @@
 
 		vm.set = function(array){
 			if(array){
-				if(array.name == 'password'){
+				if(array.type == 'password'){
 					array.type = array.type+'-edit';
 				}
 				var field = [{
-		    		key: array.name,
+		    		key: array.key,
 		    		type: array.type,
 		    		templateOptions: array.templateOptions,
 		        	noFormControl: true,

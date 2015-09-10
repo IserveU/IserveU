@@ -38,13 +38,13 @@ class ApiModel extends Model
         foreach($this->getFillableAttribute() as $key){
             if(!empty($this->fields[$key])){
                 $field = [
-                    'name'              =>  $key,
-                    'rules'             =>  $this->rules[$key],
+                    'key'              =>  $key,
                     'type'              =>  $this->fields[$key]['type'],
                     'templateOptions'   =>  [
                         'valueProp'         =>  isset($values[$key])?$values[$key]:null,
                         'required'          =>  (strpos('required',$this->rules[$key]))?true:false,
                         'label'             =>  $this->fields[$key]['label'],
+                        'rules'             =>  $this->rules[$key]
                     ]
                 ];
                 $result[] = $field;

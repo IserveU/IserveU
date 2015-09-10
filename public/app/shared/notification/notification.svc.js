@@ -44,9 +44,6 @@
 
 		function getEmptyFields(fields) {
 			angular.forEach(fields, function(value,key) {
-	    		delete fields[key].rules;
-	    		value['key'] = value.name;
-	    		delete fields[key].name;
 				if(value.templateOptions.valueProp == null && value.key != 'password'){
 					if(value.key == 'ethnic_origin_id'){
 						ethnic_origin.getEthnicOrigins().then(function(results){
@@ -59,17 +56,12 @@
 				if(value.key == "date_of_birth" && value.templateOptions.valueProp == '0000-00-00'){
 					vm.fields.push(value);
 					showDialogBox();
-					//$rootScope.$broadcast('dialogBox');	// using rootscope b/c $scope is not injectable
 				}
 			})
 			return vm.fields;
 		}
 
 		getUserFields();
-
-		// $rootScope.$on('dialogBox', function(events, data){
-		// 	showDialogBox();
-		// });
 
 		function showDialogBox(){
 			$mdDialog.show({

@@ -31,12 +31,10 @@
 
 		$timeout(function(){
 			vm.roles = GrantRoleService.roles; 
-	    	console.log(vm.roles);
 		}, 4500);
 
 		vm.setRole = function(role_name){
 			var user_id = vm.profile.id;
-			console.log(role_name);
 			GrantRoleService.grant(role_name, user_id);
 		}
 	    
@@ -109,20 +107,19 @@
 			}
 	    	if(id){
 		    	user.editUser(id).then(function(results){
-
 		    		angular.forEach(results, function(value, key){
-		    			delete results[key].rules;
+		    			// delete results[key].rules;
 		    			results[key].templateOptions['item_id'] = id;
-		    			if(value.name == 'identity_verified'){
+		    			if(value.key == 'identity_verified'){
 		    				results[key].templateOptions['ngChange'] = (vm.verifyUser);
 		    			}
-		    			if(value.name == 'public'){
+		    			if(value.key == 'public'){
 		    				results[key].templateOptions['ngChange'] = (vm.togglePublic);
 		    			}
-		    			if(value.name == 'password'){
+		    			if(value.key == 'password'){
 		    				results[key].templateOptions['ngClick'] = (vm.showPasswordDialog);
 		    			}
-		    			if(value.name == 'ethnic_origin_id'){
+		    			if(value.key == 'ethnic_origin_id'){
 		    				ethnic_origin.getEthnicOrigins().then(function(results){
 		    					vm.ethnics = results;
 		    					value.templateOptions['ngRepeat'] = vm.ethnics;
@@ -139,6 +136,7 @@
 
 	    function setFields(){
 			vm.first_name_field = splitUserField.set(splitUserField.first_name);
+			console.log(vm.first_name_field);
 			vm.middle_name_field = splitUserField.set(splitUserField.middle_name);
 			vm.last_name_field = splitUserField.set(splitUserField.last_name);
 			vm.email_field = splitUserField.set(splitUserField.email);
@@ -194,13 +192,12 @@
 				vm.display_date_of_birth = result.date_of_birth;
 				result.date_of_birth = new Date(result.date_of_birth);
 				vm.profile = result;
+				console.log('bar');
 				vm.isLoading = false;
 			}, function(error){
 				console.log(error);
 			})
 		}
-
-
 
 		function updateInfo(data, datatype) {
 			var id = JSON.parse(localStorage.getItem('user')).id;
