@@ -26,6 +26,7 @@ elixir(function(mix) {
         '/bower/satellizer/satellizer.js',
         '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
         '/bower/textAngular/dist/textAngularSetup.js',
+        '/bower/textAngular/dist/textAngular-rangy.min.js',
         '/bower/textAngular/dist/textAngular-sanitize.min.js',
         '/bower/ng-flow/dist/ng-flow-standalone.min.js',
         '/bower/api-check/dist/api-check.min.js',
