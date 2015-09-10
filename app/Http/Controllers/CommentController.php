@@ -42,7 +42,6 @@ class CommentController extends ApiController {
 	 * @return Response
 	 */
 	public function store(){
-
 		if(!Auth::user()->can('create-comments')){
 			abort(401,'You do not have permission to write a comment');
 		}
@@ -55,9 +54,16 @@ class CommentController extends ApiController {
 		if($vote->user_id != Auth::user()->id){
 			abort(403,"You can not comment tied to another users vote");
 		}
-		
-		$comment = new Comment(Request::all());
-		$comment->vote_id = $vote->id;
+
+		$comment = Comment::onlyTrashed()->where('vote_id',$vote->id)->where('user_id',Auth::user()->id)->first();
+		if($comment){
+			$comment->restore();
+			$comment->text = Request::get('text');
+		} else {
+			$comment = new Comment(Request::all());
+			$comment->vote_id = $vote->id;
+		}
+
 		if(!$comment->save()){
 			abort(403,$comment->errors);
 		}
