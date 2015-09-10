@@ -26,11 +26,16 @@
 			<md-button style="color:gray" ng-hide="motion.editMotionLoading"  ng-click="motion.editMotionFunction()">Cancel</md-button>
 
 			</div>
-		<div ng-if="motion.figures == null" layout-padding>
+		<div layout-padding>
 		<md-divider></md-divider>
-		<p class="md-body-1">
-		<md-icon class="mdi-small mdi-paperclip" style="padding-top:5px"></md-icon>
-			Attachments: <a ng-repeat="figure in motion.figures" ng-click="motion.getFigure(figure.motion_id, id)">{{ (figure.title) ? figure.title : figure.file }}{{$last ? '' : ', '}} id: {{figure.id}}, motion_id:{{figure.motion_id}}</a></p>
+
+		<div flex ng-repeat="figure in motion.figures">
+			<h3 class="md-subhead">{{figure.title}}</h3>
+			<a href="/uploads/figures/{{figure.file}}">
+				<img ng-src="/uploads/figures/{{figure.file}}" />
+			</a>
+		</div>
+
 		</div>
 				<div>
 				</div>

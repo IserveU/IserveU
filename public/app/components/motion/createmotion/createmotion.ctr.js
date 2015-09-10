@@ -1,5 +1,7 @@
  (function() {
 
+    'use strict';
+
     angular
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
@@ -11,68 +13,82 @@
 
     	var vm = this;
 
-        vm.newmotionisactive = false;
-        vm.departmentInput = false;
-        vm.entertitle = false;
-        vm.newdepartment = "New Department";
+        vm.enterfiguretitle = false;
         vm.departments = [];
-        vm.motion_id;
-        vm.showDepartmentInput = showDepartmentInput;
-        vm.uploadFigure = FigureService.uploadFile;
-        vm.figuretitle;
 
-        $scope.chosenImage = function(files){
-            vm.thisFile = files;
-            if(vm.thisFile[0]){
-                vm.entertitle = true;
-            }
-            vm.formData = new FormData();
-            vm.formData.append("file", vm.thisFile[0]);
+        // ng model variables
+        vm.department = 1;
+        vm.closingdate;
+        vm.motion_id;
+        vm.isactive;
+        vm.text;
+        vm.title;
+        vm.summary;
+        vm.submitted = false;
+
+        vm.uploadFigure = FigureService.uploadFile;
+        vm.figuretitle = '';
+
+        vm.theseFiles = {};
+
+        vm.upload = function(flow, index){
+            vm.thisFile = flow.files[0].file;
+        }
+
+        vm.newFigureTitle = function(flow, name, index){
+
+
+            flow.files[index].name = name;
+
+            var tempFormData = new FormData();
+            tempFormData.append("file", flow.files[index].file);
+            tempFormData.append("title", name);
+  
+            vm.theseFiles[index] = tempFormData;
         }
 
 
-    	vm.createNewMotion = function(title, text, summary, closingdate, isactive, departmentname){
-            if(isactive){
-                isactive = 1;
-            }
+    	vm.newMotion = function(title, text, summary, closingdate, isactive, departmentname){
             var data = {
-                title: title,
-                text:text,
-                summary:summary,
-                closing:closingdate,
-                active:isactive
+                title: vm.title,
+                text: vm.text,
+                summary: vm.summary,
+                closing: vm.closingdate,
+                active: vm.isactive,
+                department_id: vm.department
             }
-
-            vm.formData.append("title", vm.figuretitle);
 
             motion.createMotion(data).then(function(result) {
-                FigureService.uploadFile(vm.formData, result.id);
                 $rootScope.$emit('refreshMotionSidebar');  
+                uploadFigure(result.id);
             },function(error) {
                 console.log(error);
             });
 		}
 
-        vm.loadDepartments = function (){
+        function uploadFigure(id) {
+            if(!vm.theseFiles[0]){
+                var formData = new FormData();
+                formData.append("file", vm.thisFile);
+                FigureService.uploadFile(formData, id);
+                return -1;
+            }
+            angular.forEach(vm.theseFiles, function(value, key) {
+                FigureService.uploadFile(value, id);
+            })
+        }
+
+        function loadDepartments(){
             department.getDepartments().then(function(result){
                 vm.departments = result;
             });
         } 
 
-
-        vm.addDepartment = function(){
-            var data = {
-                name: vm.newdepartment
-            }
-            department.addDepartment(data).then(function(result){
-                showDepartmentInput();
-            })
+        vm.submit = function(){
+            vm.submitted = true;
         }
 
-        function showDepartmentInput(){
-            vm.departmentInput = !vm.departmentInput;
-        }
-
+        loadDepartments();
 
 	}
 }());

@@ -78,7 +78,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'select',
-			  template: '<md-select aria-label="select" ng-model="model[options.key]" placeholder="Ethnic Origins"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
+			  template: '<md-select aria-label="select" ng-model="model[options.key]" placeholder="options.templateOptions.label"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'userform',
@@ -106,7 +106,7 @@
 		    	.state( 'createmotion', {
 		    	    url: '/createmotion',
 		    	    templateUrl: 'app/components/motion/createmotion/createmotion.tpl.html',
-		    	    controller: 'CreateMotionController as createmotion',
+		    	    controller: 'CreateMotionController as create',
 		    	    data: {
 		    	        requireLogin: true
 		    	    }

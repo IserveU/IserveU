@@ -9,70 +9,93 @@
     <div layout="column" >
       <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
       <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-      <form name="newmotionform" novalidate>
+
+
+      <form name="newmotionform" novalidate ng-submit="newmotionform.$valid && create.newMotion()">
+
+      <div layout-padding>
          <md-input-container>
           <label>Title</label>
-          <input columns="1" ng-model="createmotion.newmotiontitle" name="title" minlength='8' required/>
-          <div ng-messages="newmotionform.title.$error" ng-if="newmotionform.title.$error.minlength">  
-            <div ng-message>Must be atleast 8 characters.</div>
-          </div>
+          <input ng-model="create.title" name="title" ng-minlength='8' required/>
+            <div ng-messages="newmotionform.title.$error">  
+              <div ng-message="minlength">Must be atleast 8 characters.</div>
+              <div ng-if="newmotionform.title.$dirty || create.submitted" ng-message="required">A title is required.</div>
+            </div>
         </md-input-container>
 
         <md-input-container>
           <label>Introduction</label>
-          <textarea columns="1" ng-model="createmotion.newmotionsummary" required></textarea>
+          <input ng-model="create.summary" name="introduction"></input>
         </md-input-container>
 
-        <md-input-container>
-          <label>Details</label>
-          <div ng-messages="newmotionform.description.$error" ng-if="newmotionform.description.$error.minlength">  
-            <div ng-message>Go for detail and simplicity! You want almost everyone to understand this complicated motion.</div>
-          </div>
-        </md-input-container></br>
-      <text-angular class="text-angular" ng-model="createmotion.newmotiontext" layout-padding>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        <md-input-container style="max-width:15%">
+        <textarea ng-disabled="true">Details</textarea>
+        </md-input-container>
+
+      <md-input-container>
+      <text-angular class="text-angular" ng-model="create.text" name="text" layout-padding ng-length="300">
+      <p class="md-body-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
       cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</text-angular>
-      <div layout="row">
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></text-angular>
+            <div ng-messages="newmotionform.text.$error">  
+              <div ng-message="minlength">Make it longer.</div>
+              <div ng-if="create.submitted" ng-message="required">Fill in your motion.</div>
+            </div>
+      </md-input-container>
+
+      <div flow-init="" flow-files-submitted="create.upload($flow, $index)" layout layout-sm="column">
+      <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+        <input aria-label="figures select" type="file" style="position:absolute"flow-btn/>
+      </md-input-container>
+      <span flex="15"></span>
+        <md-input-container ng-repeat="file in $flow.files" layout-sm="column">
+        <input  ng-model="file.name" name="file"ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
+          <div ng-messages="newmotionform.file.$error">  
+            <div ng-message="minlength">Title must be 8 characters.</div>
+          </div>
+        </md-input-container>
+      </div>
+
+
+<!--       <div layout layout-sm="column">
         <md-input-container>
         <md-icon class="mdi mdi-file-image-box" ></md-icon>
         <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
         </md-input-container>
-        <md-input-container ng-if="createmotion.entertitle"><label>Figure Title</label><input ng-model="createmotion.figuretitle"></input> </md-input-container>
-      </div>
+        <md-input-container ng-show="create.entertitle"><label>Figure Title</label><input ng-model="create.figuretitle"></input></md-input-container>
+      </div> -->
 
-        <div layout="row" layout-align="left" flex>
 
-        <md-input-container>
-          <label>Closing date</label>
-          <input columns="2" type="date" ng-model="createmotion.newmotionclosingdate" />
-        </md-input-container>
-          <div layout="row" layout-align="right" flex="fixed">
-          <md-select ng-model="department" md-on-open="createmotion.loadDepartments()" style="min-width: 200px;">
-            <md-select-label>{{ department ? department.name : 'Choose Department' }}</md-select-label>
-            <md-option ng-value="department" ng-repeat="department in createmotion.departments">{{department.name}}
-            <!-- <a ng-click="createmotion.deleteDepartment(department.id)" layout-align="end center">X</a> -->
+        <div layout layout-sm="column">
+
+          <md-input-container flex="33">
+            <label>Closing date</label>
+            <input type="date" ng-model="create.closingdate" />
+          </md-input-container>
+
+          <md-input-container flex="45">
+          <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>
+            <md-option ng-repeat="department in create.departments" ng-value="department.id" >{{department.name}}
             </md-option>
-            <md-option ng-value="newdepartment" ng-click="createmotion.showDepartmentInput()">New Department</md-option>
-<!--             <md-option ng-value="recentlyadded" ng-selected="!createmotion.departmentInput">{{department[department.length-1].name}}</md-option> -->
           </md-select>
+            <div ng-messages="newmotionform.departmentname.$error">  
+              <div ng-if="create.submitted" ng-message="required">A department is required.</div>
+            </div>
+          </md-input-container>
 
-            <md-input-container ng-show="createmotion.departmentInput"><input ng-model="createmotion.newdepartment" layout-align="left"></input></md-input-container><md-button ng-show="createmotion.departmentInput" ng-click="createmotion.addDepartment()">Save</md-button>
-          </div>
-
+          <md-checkbox ng-model="create.isactive" aria-label="Checkbox 1" ng-true-value="1" ng-false-value="0" flex>Active<md-tooltip >This will make your motion stay active for a week on creation</md-tooltip>
+          </md-checkbox>
         </div>
 
-        <div layout="row" layout-align="front center">
-            <md-button ng-disabled="newmotionform.$error.required || newmotionform.$error.minlength" ng-click="createmotion.createNewMotion(createmotion.newmotiontitle, createmotion.newmotiontext, createmotion.newmotionsummary, createmotion.newmotionclosingdate, createmotion.newmotionisactive, department.name)" type="submit" class="btn btn-sm btn-primary">Create</md-button>
-          <div flex>
-            <md-checkbox ng-model="createmotion.newmotionisactive" aria-label="Checkbox 1">
-            Active<md-tooltip>This will make your motion stay active for a week on creation</md-tooltip>
-            </md-checkbox>
+            <md-button ng-click="create.submit()" type="submit" class="btn btn-sm btn-primary">Create motion</md-button>
+        
+
           </div>
         </div>
+      </div>
       </form>
       </div>  
     </div>
