@@ -6,9 +6,11 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController(motion, comment, vote, UserbarService, notificationService, resetPasswordService) {
+	function HomeController(motion, comment, vote, UserbarService, $timeout, notificationService, resetPasswordService) {
 		
+
 		var vm = this;
+
         vm.shortNumber = 120;
         vm.user_id = JSON.parse(localStorage.getItem('user')).id;
 		vm.topMotion;
@@ -20,7 +22,9 @@
             myvotes: false
         };
 
-        UserbarService.setTitle("Home");
+        $timeout(function(){
+            UserbarService.setTitle("Home");
+        }, 100);
 
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
@@ -34,7 +38,7 @@
         }
 
         function getMyComments(){
-        	comment.getMyComments(getUserId()).then(function(result){
+        	comment.getMyComments(vm.user_id).then(function(result){
         		vm.myComments = result;
                 if(!vm.myComments[0]){                
                     vm.empty.mycomments = true;
