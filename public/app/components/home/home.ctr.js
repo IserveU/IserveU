@@ -10,6 +10,7 @@
 		
 		var vm = this;
         vm.shortNumber = 120;
+        vm.user_id = JSON.parse(localStorage.getItem('user')).id;
 		vm.topMotion;
 		vm.myComments = [];
 		vm.myVotes = [];
@@ -45,24 +46,22 @@
 
         function getTopComment(){
         	comment.getTopComment().then(function(result){
-        		angular.forEach(result, function(comment,key) {
-        			angular.forEach(comment, function(value, key){
-        				if(value.commentRank == 1){
-        					vm.topComment = value;
-        				}
-        			});
-        		});
-                if(!vm.topComment){
+                if(!result[0]){
                     vm.empty.topcomment = true;
                 }
+        		angular.forEach(result, function(comment,key) {
+                    if(comment[0].commentRank == 1){
+                        vm.topComment = comment[0];
+                    }
+        		});
         	},function(error) {
                 vm.empty.topcomment = true;
         	});
         }
 
         function getMyVotes(){
-            vote.getMyVotes(getUserId()).then(function(result){
-                vm.myVotes = result.votes;
+            vote.getMyVotes(vm.user_id).then(function(result){
+                vm.myVotes = result;
                 if(vm.myVotes == undefined || !vm.myVotes[0]){
                     vm.empty.myvotes = true;
                 }
@@ -70,17 +69,6 @@
                 vm.empty.myvotes = true;
             });
         }
-
-        function getUserId(){
-        	if(JSON.parse(localStorage.getItem('user')) != null){
-        	   var user = JSON.parse(localStorage.getItem('user'));
-        	return user.id;
-        	}
-        	else
-        		return -1;
-        }
-
-
 
         getTopMotion();
         getMyComments();
