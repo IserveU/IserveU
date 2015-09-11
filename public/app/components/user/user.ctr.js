@@ -4,7 +4,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, GrantRoleService, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
+	function UserController($rootScope, $scope, GrantRoleService, vote, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
 		
 		UserbarService.setTitle("");
 		
@@ -17,9 +17,6 @@
 	    	key: 'userform',
 	    	type: 'userform',
 	    }];
-
-	    vm.isLoading = true;
-	    vm.onSuccess = false;
 
 	    vm.updateInfo = updateInfo;
 
@@ -107,7 +104,6 @@
 	    	if(id && vm.profile.public){
 		    	user.editUser(id).then(function(results){
 		    		angular.forEach(results, function(value, key){
-		    			// delete results[key].rules;
 		    			results[key].templateOptions['item_id'] = id;
 		    			if(value.key == 'identity_verified'){
 		    				results[key].templateOptions['ngChange'] = (vm.verifyUser);
@@ -130,8 +126,6 @@
 	    		});
 	    	}
 	    }
-
-
 
 	    function setFields(){
 			vm.first_name_field = splitUserField.set(splitUserField.first_name);
@@ -190,6 +184,7 @@
 				vm.display_date_of_birth = result.date_of_birth;
 				result.date_of_birth = new Date(result.date_of_birth);
 				vm.profile = result;
+				getVotingHistory();
 				vm.isLoading = false;
 			}, function(error){
 				console.log(error);
@@ -198,13 +193,10 @@
 
 		function updateInfo(data, datatype) {
 			var id = JSON.parse(localStorage.getItem('user')).id;
-			isLoading();
 			user.updateUser(data).then(function(result){
 				if(data.id == id && data.public == 0){
 					ToastMessage.simple('Your changes will be seen when you log back in.');            
 				}
-				onSuccess();
-				isLoading();
 			},function(error){
 				checkError(JSON.parse(error.data.message));
 			});
@@ -221,12 +213,23 @@
 			})
 		}
 
-		function isLoading(datatype){
-			vm.isLoading = !vm.isLoading;
-		}
-
-		function onSuccess(datatype) {
-			vm.onSuccess = !vm.onSuccess;
+		function getVotingHistory(){
+			vote.getMyVotes(vm.profile.id).then(function(results){
+				angular.forEach(results, function(value, key){
+					if(value.position == 1){
+						value.position = "/themes/"+$rootScope.themename+"/icons/thumb-up.svg";
+					}
+					else if(value.position == -1){
+						value.position = "/themes/"+$rootScope.themename+"/icons/thumb-down.svg";
+					}
+					else{
+						value.position = value.position = "/themes/"+$rootScope.themename+"/icons/thumbs-up-down.svg";
+					}
+				})
+				vm.votes = results;
+			}, function(error){
+				console.log(error);
+			})
 		}
 
 	    grabUserFields($stateParams.id);

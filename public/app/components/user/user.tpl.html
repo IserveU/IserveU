@@ -19,22 +19,31 @@
 
 
   <!-- form begins -->
-      <div layout="column" layout-padding>    
-        <form>
-        <div layout-padding style="padding-top:7px"><label class="md-caption" style="color:grey">Email</label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
-      	<div layout-padding style="padding-top:7px"><label class="md-caption" style="color:grey">Birthday</label><p class="md-subhead" style="margin:0">{{user.display_date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
-       </form>
-      </div>
- <!-- form ends; more info and data later-->
+      <div layout="column">    
+        <form layout-padding>
+        <div layout-padding style="padding-top:7px" ng-show="user.profile.email"><label class="md-caption" style="color:grey">Email</label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
+      	<div layout-padding style="padding-top:7px" ng-show="user.profile.date_of_birth"><label class="md-caption" style="color:grey">Birthday</label><p class="md-subhead" style="margin:0">{{user.display_date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
 
-      <span flex="33"></span>
-      
     <has-permission has-permission="administrate-permissions">
-      <div layout="row" layout-align="center end">
+      <div layout="row" layout-padding>
         <md-select aria-label="select" ng-model="user.new_role" placeholder="Select role"><md-option ng-repeat="role in user.roles" ng-value="role.name">{{role.display_name}}<md-tooltip>{{role.description}}</md-tooltip></md-option></md-select>
               <md-button ng-click="user.setRole(user.new_role)" class="btn btn-sm btn-primary">Save</md-button>
       </div>
     </has-permission>
+
+
+       </form>
+ <!-- form ends; more info and data later-->
+      </div>
+      <span flex></span>
+         <div ng-if="user.profile.public && user.votes" class="md-whiteframe-z1" style="min-width:57%"layout-align="end" layout-padding>
+              <!-- <md-divider flex></md-divider> -->
+           <h3 class="md-subhead" style="color:grey">Voting History</h3>
+             <p class="md-body-1" ng-repeat="vote in user.votes"><md-icon md-svg-src="{{vote.position}}"></md-icon> on <i><a ui-sref="motion({id:vote.motion_id})">{{vote.motion.title}}</a></i>.</p>
+         </div>
+
+      
+
 
     </div>
 
