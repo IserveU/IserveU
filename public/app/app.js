@@ -36,7 +36,7 @@
 							// localStorage.clear();
 							// if(!localStorage.satellizer_token){$state.go('login');}
 						}
-						if(rejection.status === 401 || rejection.status === 404){
+						if(rejection.status === 401){
 							$state.go('permissionfail');
 						}
 						return $q.reject(rejection);
