@@ -101,11 +101,10 @@
 		}
 
 	    function grabUserFields(id){
-	    	//testing
 	    	if($state.current.name == "myprofile"){
 				id = JSON.parse(localStorage.getItem('user')).id;
 			}
-	    	if(id){
+	    	if(id && vm.profile.public){
 		    	user.editUser(id).then(function(results){
 		    		angular.forEach(results, function(value, key){
 		    			// delete results[key].rules;

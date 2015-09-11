@@ -36,6 +36,9 @@
 							// localStorage.clear();
 							// if(!localStorage.satellizer_token){$state.go('login');}
 						}
+						if(rejection.status === 401 || rejection.status === 404){
+							$state.go('permissionfail');
+						}
 						return $q.reject(rejection);
 					}
 				}
@@ -172,6 +175,14 @@
 	            	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
 	                data: {
 	                    requireLogin: true
+	                } 
+	        	})
+	        	.state('permissionfail' , {
+	        		url: '/invalidentry',
+	            	controller: 'RedirectController as redirect',
+	            	templateUrl: 'app/shared/permissions/onfailure/permissionsfail.tpl.html',
+	                data: {
+	                    requireLogin: false
 	                } 
 	        	});                  
 
