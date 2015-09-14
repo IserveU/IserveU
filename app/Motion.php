@@ -227,6 +227,10 @@ class Motion extends ApiModel {
 		return $query->where('closing', '>=', new DateTime('NOW'));
 	}
 
+	public function scopeDepartment($query,$department_id){
+		return $query->where('department_id',$department_id);
+	}
+
 	// public function scopePassing($query){
 	// 	return $query->whereHas('votes',function($query){
 	// 		$query->havingRaw('SUM(position) > 0');
