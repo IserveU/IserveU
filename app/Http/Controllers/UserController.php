@@ -63,6 +63,7 @@ class UserController extends ApiController {
 		//Create a new user and fill secure fields
 		$newUser = (new User)->secureFill($input);
 
+
 		if(!$newUser->save()){
 			abort(400,$newUser->errors);
 		}
