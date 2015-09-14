@@ -104,7 +104,7 @@ class Delegation extends ApiModel
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
 	 * @var array
 	 */
-	private $locked = ['first_name','middle_name','last_name','date_of_birth'];
+	protected $locked = ['first_name','middle_name','last_name','date_of_birth'];
 
 
 	/**************************************** Standard Methods **************************************** */
