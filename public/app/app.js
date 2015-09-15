@@ -37,7 +37,7 @@
 							// if(!localStorage.satellizer_token){$state.go('login');}
 						}
 						if(rejection.status === 401){
-							$state.go('permissionfail');
+							// $state.go('permissionfail');
 						}
 						return $q.reject(rejection);
 					}
@@ -217,6 +217,11 @@
 				return out;
 			}
 		})
+		.filter('object2Array', function() {
+		    return function(obj) {
+		    	return Object.keys(obj).map(function(key){return obj[key];});
+		    }
+	 	})
 		.run(function($rootScope, $auth, $state, auth) {
 
 			$rootScope.themename = 'default';
