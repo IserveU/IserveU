@@ -44,7 +44,7 @@ class EthnicOrigin extends ApiModel {
 
 	];
 	
-	private $locked = [];
+	protected $locked = [];
 
 
 	public function secureFill(array $input){

@@ -112,7 +112,7 @@ class CommentVote extends ApiModel {
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
 	 * @var array
 	 */
-	private $locked = [];
+	protected $locked = [];
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){

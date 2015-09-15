@@ -11,10 +11,13 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		'App\Events\UserUpdatedProfile'	=> [
+		'App\Events\UserUpdated'	=> [
+			'App\Listeners\User\AddModifiedUserEntry',
 			'App\Listeners\User\IdentityReverification',
 		],
 		'App\Events\UserCreated' => [
+			'App\Listeners\User\AddModifiedUserEntry',
+			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendWelcomeEmail',
 			'App\Listeners\User\CreateDefaultDelegations'
 		],
@@ -36,6 +39,7 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Motion\BalanceDeferredVotes'
 		],
 		'App\Events\UserForgotPassword' => [
+			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendResetEmail',
 			'App\Listeners\User\SetRandomPassword'
 		],

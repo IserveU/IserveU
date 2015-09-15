@@ -41,6 +41,10 @@ class MotionController extends ApiController {
 			$motions->rankLessThan($filters['rank_less_than']);
 		}
 
+		if(isset($filters['department_id']) && is_numeric($filters['department_id'])){
+			$motions->department($filters['department_id']);
+		}
+
 		if(isset($filters['take'])){
 			$motions->take($filters['take']);
 		} else {

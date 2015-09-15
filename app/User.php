@@ -136,7 +136,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
 	 * @var array
 	 */
-	private $locked = ['first_name','middle_name','last_name','date_of_birth'];
+	protected $locked = ['first_name','middle_name','last_name','date_of_birth'];
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -155,7 +155,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			return true;
 		});
 
-
 		static::updating(function($model){
 			if(!$model->validate()) return false;
 			event(new UserUpdated($model));
@@ -170,7 +169,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * @param Adds the named role to a user
 	 */
     public function addUserRoleByName($name){
-	    $userRole = Role::where('name', '=', $name)->firstOrFail();
+	    $userRole = Role::where('name','=',$name)->firstOrFail();
 	    $this->roles()->attach($userRole->id);
     }
 
@@ -356,5 +355,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 	public function roles(){
 	    return $this->belongsToMany('App\Role'); //,'assigned_roles'
+	}
+
+	public function modifiedcationTo(){
+		return $this->hasMany('App\ModifiedUser','modification_to_id');
+	}
+
+	public function modifiedcationBy(){
+		return $this->hasMany('App\ModifiedUser','modification_by_id');
 	}
 }

@@ -104,7 +104,7 @@ class Motion extends ApiModel {
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
 	 * @var array
 	 */
-	public $locked = ['title','text'];
+	protected $locked = ['title','text'];
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -225,6 +225,10 @@ class Motion extends ApiModel {
 
 	public function scopeCurrent($query){
 		return $query->where('closing', '>=', new DateTime('NOW'));
+	}
+
+	public function scopeDepartment($query,$department_id){
+		return $query->where('department_id',$department_id);
 	}
 
 	// public function scopePassing($query){

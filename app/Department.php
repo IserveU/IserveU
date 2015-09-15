@@ -82,7 +82,7 @@ class Department extends ApiModel {
 		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>'']
 	];
 	
-	private $locked = [];
+	protected $locked = [];
 
 
 	/**************************************** Standard Methods **************************************** */

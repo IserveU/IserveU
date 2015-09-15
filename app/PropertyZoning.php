@@ -94,7 +94,7 @@ class PropertyZoning extends ApiModel {
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
 	 * @var array
 	 */
-	public $locked = [];
+	protected $locked = [];
 
 	/**************************************** Standard Methods **************************************** */
 
