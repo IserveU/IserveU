@@ -40,7 +40,6 @@
 		}
 
 		function updateUser(data){
-			console.log(data);
 			return User.update({id:data.id}, data).$promise.then(function(result) {
 				return result;
 			}, function(error) {

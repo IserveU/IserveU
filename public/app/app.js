@@ -61,7 +61,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'date',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="date" ng-model="model[options.key]"></md-input-container>'
+			  template: '<md-datepicker md-placeholder="{{options.templateOptions.label}}" ng-model="model[options.key]"></md-datepicker>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'md-switch',

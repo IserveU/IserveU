@@ -7,9 +7,9 @@
       <div>
         <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
         <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}</h3></div>
-        <div style="padding-left: 110px; position:absolute">
-        <md-button style="color:black;" class="btn btn-sm btn-primary"ng-click="user.showEditUserForm()">Edit</md-button>
-        </div>
+          <div style="padding-left: 110px; position:absolute" ng-if="user.my_id || user.administrate_users">
+            <md-button style="color:black;" class="btn btn-sm btn-primary" ng-click="user.showEditUserForm()">Edit</md-button>
+          </div>
       </div>
 
     </md-toolbar>

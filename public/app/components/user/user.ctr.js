@@ -1,10 +1,12 @@
 (function() {
 
+	'use strict';
+
 	angular
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, GrantRoleService, vote, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
+	function UserController($rootScope, $scope, GrantRoleService, SetPermissionsService, vote, splitUserField, ethnic_origin, $mdDialog, $stateParams, $filter, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService) {
 		
 		UserbarService.setTitle("");
 		
@@ -23,6 +25,9 @@
 	    vm.profile = {};
 
 	    vm.showPasswordDialog = showPasswordDialog;
+
+		vm.my_id = false;
+	   	vm.administrate_users = SetPermissionsService.can("administrate-users");
 
 	    vm.new_role;
 
@@ -99,9 +104,10 @@
 
 	    function grabUserFields(id){
 	    	if($state.current.name == "myprofile"){
+				vm.my_id = true;
 				id = JSON.parse(localStorage.getItem('user')).id;
 			}
-	    	if(id && vm.profile.public){
+	    	if(id || vm.my_id){
 		    	user.editUser(id).then(function(results){
 		    		angular.forEach(results, function(value, key){
 		    			results[key].templateOptions['item_id'] = id;
@@ -178,17 +184,23 @@
 
 		function getUser(id){
 			if($state.current.name == "myprofile"){
+				vm.my_id = true;
 				id = JSON.parse(localStorage.getItem('user')).id;
 			}
-			user.getUser(id).then(function(result){
-				vm.display_date_of_birth = result.date_of_birth;
-				result.date_of_birth = new Date(result.date_of_birth);
-				vm.profile = result;
-				getVotingHistory();
-				vm.isLoading = false;
-			}, function(error){
-				console.log(error);
-			})
+			if(id){
+				user.getUser(id).then(function(result){
+					if(result.date_of_birth){
+						vm.display_date_of_birth = result.date_of_birth;
+						result.date_of_birth = new Date(result.date_of_birth);
+					}
+					vm.profile = result;
+					vm.isLoading = false;
+					getVotingHistory(vm.profile.id);
+				}, function(error){
+					console.log(error);
+				});
+			}
+
 		}
 
 		function updateInfo(data, datatype) {
@@ -213,8 +225,8 @@
 			})
 		}
 
-		function getVotingHistory(){
-			vote.getMyVotes(vm.profile.id).then(function(results){
+		function getVotingHistory(id){
+			vote.getMyVotes(id).then(function(results){
 				angular.forEach(results, function(value, key){
 					if(value.position == 1){
 						value.position = "/themes/"+$rootScope.themename+"/icons/thumb-up.svg";

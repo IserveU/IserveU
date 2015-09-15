@@ -20,13 +20,13 @@
 </div>
 	<formly-form model="user.profile" fields="user.email_field" ></formly-form>
 	<formly-form model="user.profile" fields="user.date_of_birth_field" ></formly-form>
-	<formly-form model="user.profile" fields="user.public_field"></formly-form>
+	<formly-form ng-show="user.my_id" model="user.profile" fields="user.public_field"></formly-form>
 
 	<formly-form model="user.profile" fields="user.identity_verified_field" ></formly-form>
 <div layout layout-sm="column">
 	<formly-form model="user.profile" fields="user.ethnic_origins_id_field" flex="45"></formly-form>
 	<span flex="15"></span>
-	<formly-form model="user.profile" fields="user.password_field" flex="40"></formly-form>
+	<formly-form ng-show="user.my_id" model="user.profile" fields="user.password_field" flex="40"></formly-form>
 </div>
 </div>
 
