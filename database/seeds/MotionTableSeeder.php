@@ -14,9 +14,9 @@ class MotionTableSeeder extends Seeder
     {
     	$faker = Faker::create();
 
+        $today = new DateTime('now');
 
-
-    	foreach(range(1,100) as $index){
+    	foreach(range(1,10) as $index){
 
         DB::table('motions')->insert([
            	'title' => $faker->sentence($nbWords = 6),
@@ -26,7 +26,7 @@ class MotionTableSeeder extends Seeder
             'closing' => $faker->date(),
             'user_id' => 1,
             'text' => $faker->paragraph($nbSentences =10),
-            'created_at' => $faker->date()
+            'created_at' => $today
         	]);
 
         foreach(range(1, 100) as $secondindex){
@@ -36,7 +36,7 @@ class MotionTableSeeder extends Seeder
             'position' => $faker->biasedNumberBetween($min = -1, $max = 1, $function = 'sqrt'),
             'motion_id' => $index,
             'user_id' => $secondindex,
-            'created_at' => $faker->date()
+            'created_at' => $today
             ]);
         // test comments
 

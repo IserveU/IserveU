@@ -14,21 +14,24 @@ class CommentTableSeeder extends Seeder
     public function run()
     {
     	$faker = Faker::create();
+        $array = array(1, -1);
+        $today = new DateTime('now');
 
-
-    	foreach(range(1, 10000) as $index){
+    	foreach(range(1, 1000) as $index){
         DB::table('comments')->insert([
             'text' => $faker->sentence($nbWords = 15),
-            'vote_id' => $index
+            'vote_id' => $index,
+            'created_at' => $today
             ]);
 
         // test comment votes
-
-        DB::table('comment_votes')->insert([
-            'position' => $faker->biasedNumberBetween($min = -1, $max = 1, $function = 'sqrt'),
-            'comment_id' => $index,
-            'vote_id' => $index
-            ]);
+        foreach(range(1, 1000) as $secondindex){
+            DB::table('comment_votes')->insert([
+                'position' => array_rand($array),
+                'comment_id' => $index,
+                'vote_id' => $secondindex
+                ]);
+            }
         }
     }
 }

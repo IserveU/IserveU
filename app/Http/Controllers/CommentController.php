@@ -53,7 +53,7 @@ class CommentController extends ApiController {
 		});
 
 
-		return $comments->chunk($input['number']);
+		return $comments->sortBy('commentRank')->chunk($input['number'])->reverse();
 
 	}
 

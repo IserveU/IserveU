@@ -171,7 +171,7 @@
 	        	})
 	        	.state('backgroundimage.preview', {
 	                url: '^/preview/:id',
-	            	controller: 'BackgroundImageController as preview',
+	            	controller: 'PreviewImageController as preview',
 	            	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
 	                data: {
 	                    requireLogin: true
