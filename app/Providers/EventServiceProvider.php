@@ -45,7 +45,14 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\MotionCreated' => [
 			'App\Listeners\Motion\CreateDeferredVotes',
-		]
+		],
+		'App\Events\DepartmentCreated' => [
+			'App\Listeners\Department\CreateDepartmentDelegations',
+		],
+		'App\Events\CommentDeleted' => [
+			'App\Listeners\Comment\DeleteCommentVotes',
+		],
+
 	];
 
 	/**

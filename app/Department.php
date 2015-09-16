@@ -90,13 +90,19 @@ class Department extends ApiModel {
 	public static function boot(){
 		parent::boot();
 
-		/* validation required on new */		
 		static::creating(function($model){
-			return $model->validate();
+			if(!$model->validate()) return false;
+			return true;
+		});
+
+		static::created(function($model){
+			event(new DepartmentCreated($model));
+			return true;
 		});
 
 		static::updating(function($model){
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			return true;
 		});
 	}
 

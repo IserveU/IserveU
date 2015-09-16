@@ -9,6 +9,8 @@ use DB;
 use Illuminate\Support\Facades\Validator;
 use Request;
 
+use App\Events\CommentDeleted;
+
 
 class Comment extends ApiModel {
 	
@@ -118,15 +120,21 @@ class Comment extends ApiModel {
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
 		parent::boot();
-		/* validation required on new */		
+
 		static::creating(function($model){
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			return true;
 		});
 
 		static::updating(function($model){
+			if(!$model->validate()) return false;
+			return true;
+		});
 
-			return $model->validate();			
-		});		
+		static::deleted(function($model){
+			event(new CommentDeleted($model));
+			return true;
+		});
 	}
 
 	/**************************************** Custom Methods **************************************** */
