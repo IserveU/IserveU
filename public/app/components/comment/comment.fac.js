@@ -16,9 +16,9 @@
 
 	    var MyComments = $resource('api/user/:id/comment');
 
-	    var TopComment = $resource('api/comment/top');
-
 	    var MotionComment = $resource('api/motion/:id/comment');
+
+
 
 		function getComment() {
 			return Comment.query().$promise.then(function(results) {
@@ -68,14 +68,6 @@
 			});
 		}
 
-		function getTopComment(){
-			return TopComment.query().$promise.then(function(results) {
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			})
-		}
-
 		function getMotionComments(id) {
 			return MotionComment.get({id:id}).$promise.then(function(result) {
 				return result;
@@ -91,7 +83,6 @@
 			restoreComment: restoreComment,
 			getComment: getComment,
 			getMyComments: getMyComments,
-			getTopComment: getTopComment,
 			getMotionComments: getMotionComments
 		}
 	}

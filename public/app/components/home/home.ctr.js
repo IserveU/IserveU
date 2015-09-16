@@ -49,15 +49,9 @@
         }
 
         function getTopComment(){
-        	comment.getTopComment().then(function(result){
-                if(!result[0]){
-                    vm.empty.topcomment = true;
-                }
-        		angular.forEach(result, function(comment,key) {
-                    if(comment[0].commentRank == 1){
-                        vm.topComment = comment[0];
-                    }
-        		});
+        	comment.getComment().then(function(result){
+                if(!result[0]){ vm.empty.topcomment = true; }
+                else vm.topComments = result.slice(0,5);
         	},function(error) {
                 vm.empty.topcomment = true;
         	});
@@ -65,7 +59,7 @@
 
         function getMyVotes(){
             vote.getMyVotes(vm.user_id).then(function(result){
-                vm.myVotes = result;
+                vm.myVotes = result.slice(0,5);
                 if(vm.myVotes == undefined || !vm.myVotes[0]){
                     vm.empty.myvotes = true;
                 }
