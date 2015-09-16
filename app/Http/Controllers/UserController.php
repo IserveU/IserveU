@@ -37,7 +37,7 @@ class UserController extends ApiController {
 		}
 
 		//Other people can see a list of the public users
-		$users = User::arePublic()->get();
+		$users = User::arePublic()->paginate($limit);
 		return $users;
 			
 	}
