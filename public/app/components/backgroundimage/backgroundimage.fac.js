@@ -28,9 +28,18 @@
 			});
 		}
 
+		var getBackgroundImage = function(id) {
+			return $http.get('api/background_image/' + id).success(function(result) {
+				return result;
+			}).error(function(error){
+				return error;
+			});
+		}
+
 		return {
 		  	getBackgroundImages: getBackgroundImages,
-		  	saveBackgroundImage: saveBackgroundImage
+		  	saveBackgroundImage: saveBackgroundImage,
+		  	getBackgroundImage: getBackgroundImage
 		};
 	}
 

@@ -76,9 +76,11 @@ class BackgroundImageController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(BackgroundImage $backgroundImage)
     {
-        
+        $backgroundImage  = BackgroundImage::find($backgroundImage->id); 
+
+        return $backgroundImage;
     }
 
     /**
