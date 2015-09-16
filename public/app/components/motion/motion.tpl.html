@@ -171,7 +171,7 @@
 		</md-toolbar>
 			<div flex layout-fill>
 			 	<div layout-padding ng-repeat="comment in motion.agreeComments | object2Array | orderBy: 'commentRank':true">
-		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<md-icon class="mdi" style="float: right" md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></md-icon></h4>
+		        <h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<span style="float: right; color:grey"><i class="md-caption" style="display: inline">{{comment.updated_at == comment.created_at ? 'created on ' + comment.created_at : 'edited' + comment.updated_at}}</i><p class="md-title" style="display: inline">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></span></h4>
 		        <p class="md-body-1" ng-if="!comment.editCommentDialog">{{comment.text}}</p>
 		 <div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes">
 
@@ -198,7 +198,7 @@
 		</md-toolbar>
 			<div flex layout-fill >
 			 	<div layout-padding ng-repeat="comment in motion.disagreeComments | object2Array | orderBy: 'commentRank':true">
-			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<span ng-if="comment.vote.position==0">(Abstained)</span><md-icon class="mdi" style="float: right"md-font-icon="mdi-hexagon"><p class="md-title" style="display: inline">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></md-icon></h4>
+			 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer' }}<span ng-if="comment.vote.position==0">&nbsp;(Abstained)</span><span style="float:right; color:grey"><i class="md-caption" style="display: inline">edited {{comment.updated_at | date : 'short'}}</i><p class="md-title" style="display: inline;">{{comment.commentRank > 0 && '+' || ''}}{{comment.commentRank}}</p></h4>
 	        <p class="md-body-1 abstained">{{comment.text}}</p>
 	       
 		 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 

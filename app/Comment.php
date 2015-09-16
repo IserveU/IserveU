@@ -36,7 +36,7 @@ class Comment extends ApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['text','vote','user','id','commentRank']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
+	protected $visible = ['text','vote','user','id','commentRank', 'created_at', 'updated_at']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
 	
 	/**
 	 * The attributes visible to an administrator of this model
