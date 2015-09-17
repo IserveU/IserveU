@@ -40,7 +40,7 @@
                                 <md-menu-item ng-cloak>
                                     <md-button ui-sref="login" ng-click="user.logout()">
                                         <div layout="row">
-                                            <p flex>Logout {{authenticatedUser.first_name}}</p>
+                                            <p flex>Logout {{::authenticatedUser.first_name}}</p>
                                             <md-icon md-menu-align-target class="mdi" md-font-icon="mdi-logout"></md-icon>
                                         </div>
                                     </md-button>
@@ -107,10 +107,9 @@
 
           <div flex ui-view></div>
 
-          <md-caption layout-padding  class="imagecredit" ng-controller="BackgroundImageController as background" ng-cloak>
-            <span ng-if="backgroundcredits.credited">Photo courtesy of <a href="{{backgroundcredits.url}}">{{backgroundcredits.credited}}</a></span>
+          <md-caption ng-if="sidebar.background.credited" layout-padding  class="imagecredit">
+            <span ng-cloak>Photo courtesy of <a href="{{::sidebar.background.url}}" ng-bind="::sidebar.background.credited"></a></span>
           </md-caption>
-          
 
         </div>
     </body>        
