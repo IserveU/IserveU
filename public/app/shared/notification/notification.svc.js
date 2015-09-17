@@ -7,13 +7,15 @@
 		.service('notificationService', notificationService);
 
 
-	function notificationService($stateParams, $state, $mdToast, auth, user, $rootScope, $mdDialog, ethnic_origin) {
+	function notificationService($stateParams, $state, $mdToast, $timeout, auth, user, $rootScope, $mdDialog, ethnic_origin) {
 
 		var vm = this;
 
 		vm.fields = [];
 
-		vm.id = JSON.parse(localStorage.getItem('user')).id;
+		$timeout(function(){
+			vm.id = JSON.parse(localStorage.getItem('user')).id;
+		}, 1000);
 
 		vm.reset = function(newpassword) {
 			var data = {
