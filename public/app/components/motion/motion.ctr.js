@@ -85,7 +85,10 @@
             motion.updateMotion(data).then(function(result) {
                 vm.editMotion();
                 vm.editingMotion = false;
+<<<<<<< HEAD
                 FigureService.uploadFile(vm.formData, $stateParams.id);
+=======
+>>>>>>> 9f1b1c7cacd8cb473e6b5e49f737f3d440031334
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
                 ToastMessage.report_error(error);
