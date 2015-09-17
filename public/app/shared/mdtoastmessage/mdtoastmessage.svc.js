@@ -48,8 +48,8 @@
 
 	vm.delete_toast = function(message){
        var toast = $mdToast.simple()
-            .content(message)
-            .action("Undo?")
+            .content("Are you sure?")
+            .action("Delete" + message)
             .highlightAction(true)
             .position('bottom right')
             .hideDelay(6500);

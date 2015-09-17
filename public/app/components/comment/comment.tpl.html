@@ -1,0 +1,109 @@
+<!--  ng-if="vm.usersVote || vm.usersVote == 0" -->
+<section class="md-whiteframe-z1 comments" layout-margin>
+	<md-toolbar class="section-toolbar">
+    	<div class="md-toolbar-tools">
+    		<h3 ng-bind="vm.thisUsersComment == null ? 'Post Comment' : 'Your Comment'"></h3>
+       	</div>
+	</md-toolbar>
+	
+	<div flex ng-if="vm.thisUsersComment.text == null" class="disagree comments" layout-padding>
+		<form style="padding-bottom:20px">
+     		<div layout="column"> 
+			    <div>
+				    <md-input-container>
+						<label>Comment</label>
+						<textarea columns="1" ng-model="vm.commenttext"></textarea>
+				    </md-input-container>
+			    </div>
+			    <div layout="row" layout-align="end center">
+			    	<md-button ng-click="vm.submitComment(motion.userVoteId, vm.commenttext)" class="btn btn-sm btn-primary">Submit Comment</md-button>
+				</div>
+			</div>
+        </form>
+	</div>
+
+	<div flex layout-padding ng-hide="vm.thisUsersComment.text == null">
+		<span ng-hide="vm.editComment">
+			<p ng-bind="vm.thisUsersComment.text"></p>
+				<div layout="row" layout-align="end center">
+					<md-button class="md-primary" ng-click="vm.editCommentFunction()">Edit</md-button>
+					<md-button class="md-warn" ng-click="vm.deleteComment()">Delete</md-button>
+				</div>
+		</span>
+		<span ng-show="vm.editComment">
+			<md-input-container flex>
+				<textarea layout-padding columns="1" ng-model="vm.thisUsersComment.text"></textarea>
+			</md-input-container>
+			<div layout="row" layout-align="end center">
+				<md-button class="md-primary" ng-click="vm.updateComment(vm.thisUsersComment.text); vm.editCommentFunction()">Save Comment</md-button>
+				<md-button class="md-warn" ng-click="vm.editCommentFunction()">Close</md-button>
+			</div>
+		</span>
+	</div>
+
+</section>
+<!-- This is comment display content card --> 
+<!-- this section is the agree comments -->
+<section name="comments" layout="row">
+	<div class="md-whiteframe-z1 comments-agree" flex layout-margin>
+		<md-toolbar class="section-toolbar">
+			<div class="md-toolbar-tools">
+				<h3>Agree</h3>
+			</div>
+		</md-toolbar>
+	<div flex layout-fill>
+		<div layout-padding ng-repeat="comment in vm.agreeComments | object2Array | orderBy: 'commentRank':true">
+			<div class="motion-comments">
+				<h4 class="md-title" ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'"></h4>
+				<div>
+					<i class="md-caption" ng-bind="comment.updated_at == comment.created_at ? 'created on ' + comment.created_at : 'edited ' + comment.updated_at"></i>
+					<p class="md-title" ng-bind="comment.commentRank > 0 ? '+' + comment.commentRank : '' + comment.commentRank"></p>
+				</div>
+			</div>
+			<p class="md-body-1" ng-bind="comment.text"></p>
+			<div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes">
+				<md-button ng-click="vm.checkCommentVotes(comment, 1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
+				<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
+					<md-tooltip>Agree With Comment</md-tooltip>
+						</md-button>					         
+				<md-button ng-click="vm.checkCommentVotes(comment, -1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-accent':comment.this_users_comment_vote == -1}" aria-label="Disagree">
+				<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '-1' && 'thumb-down' || 'thumb-down-outline' }}.svg"></md-icon>
+					<md-tooltip>Disagree With Comment</md-tooltip>
+						</md-button>	        					         
+			</div> 
+			<md-divider  ng-if="!$last" class="md-default-theme"></md-divider>				       
+		</div>
+	</div>
+</div>
+
+<div name="disagreecomments" class="md-whiteframe-z1 comments-disagree" flex layout-margin>
+	<md-toolbar class="section-toolbar">
+    	<div class="md-toolbar-tools">
+    		<h3>Disagree /  Abstain</h3>
+       	</div>
+	</md-toolbar>
+		<div flex layout-fill>
+		 	<div layout-padding ng-repeat="comment in vm.disagreeComments | object2Array | orderBy: 'commentRank':true">
+		 	<div class="motion-comments">
+		 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'}}<span ng-show="comment.vote.position==0">&nbsp;(Abstained)</span></h4>
+		 		<div>
+	        		<i class="md-caption" ng-bind="comment.updated_at == comment.created_at ? 'created on ' + comment.created_at : 'edited ' + comment.updated_at"></i>
+	        		<p class="md-title" ng-bind="comment.commentRank > 0 ? '+' + comment.commentRank : '' + comment.commentRank"></p>
+		 		</div>
+		 	</div>
+        <p class="md-body-1 abstained" ng-bind="comment.text"></p>
+	 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
+	        <md-button ng-click="vm.checkCommentVotes(comment, 1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
+				<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
+				<md-tooltip>Agree With Comment</md-tooltip>
+			</md-button>					         
+			<md-button ng-click="vm.checkCommentVotes(comment, -1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-accent':comment.this_users_comment_vote == -1}" aria-label="Disagree">
+					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '-1' && 'thumb-down' || 'thumb-down-outline' }}.svg"></md-icon>
+				<md-tooltip>Disagree With Comment</md-tooltip>
+			</md-button>	        					         
+	</div>
+		<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
+		</div>	
+		</div>
+</div>
+</section> 

@@ -14,7 +14,11 @@
 			'formly',
 			'ngMessages'
 		])
-		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider, formlyConfigProvider) {
+		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider, formlyConfigProvider, $compileProvider) {
+
+			// speeds up the app, the debug info are for {{}}
+			$compileProvider.debugInfoEnabled(false);
+
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 			$authProvider.loginUrl = '/authenticate';
@@ -49,6 +53,8 @@
 			$urlRouterProvider.when('/', ['$state', '$match', function($state, $match) {
 				$state.go('home');
 			}])	
+
+			$urlRouterProvider.when("/motion/:id", "/motion/:id/");
 
 		    $urlRouterProvider.otherwise('/home');
 				
@@ -105,6 +111,18 @@
 		    	    data: {
 		    	        requireLogin: true
 		    	    }
+		    	})
+		    	.state( 'motion.components', {
+		    		url: '/',
+		    		views: {
+		    			'votes': {
+		    				templateUrl: 'app/components/vote/vote.tpl.html',
+		    			},
+		    			'comments': {
+				    	    templateUrl: 'app/components/comment/comment.tpl.html',
+				    	    controller: 'CommentController as vm',
+		    			}
+		    		}
 		    	})
 		    	.state( 'createmotion', {
 		    	    url: '/createmotion',
@@ -250,13 +268,17 @@
 						$rootScope.userIsLoggedIn = true;
 					}
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
-			    if($rootScope.currentState == 'myprofile'){
+			    //this is slowing down app more than $watch in directives, however that flash is super annoying
+			    if(toState.name == 'myprofile'){
 			    	$rootScope.currentState = 'user';
 			    }
-			    if($rootScope.currentState == 'home'){
+			    if(toState.name== 'home'){
 			    	$rootScope.currentState = 'motion';
 			    }
-			    if($rootScope.currentState == 'createmotion'){
+			    if(toState.name == 'createmotion'){
+			    	$rootScope.currentState = 'motion';
+			    }
+			    if(toState.name == 'motion.components'){
 			    	$rootScope.currentState = 'motion';
 			    }
 			});		

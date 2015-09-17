@@ -4,63 +4,41 @@
 
 	angular
 		.module('iserveu')
-		.service('CalculateVoteService', CalculateVoteService);
+		.service('VoteService', VoteService);
 
 
-	function CalculateVoteService(motion) {
+	function VoteService($stateParams, vote) {
 
 		var vm = this;
 
-	     function calculateVotes(motionDetail){
-	        // motion.getMotionVotes(motionDetail.id).then(function(results){
-	        //     console.log(results);
-	        // }, function(error){
-	        //     console.log(error);
-	        // });
-	        var disagree = {};
-	        var agree = {};
-	        var abstain = {};
-	        
-	        disagree.count = 0;
-	        agree.count = 0;
-	        abstain.count = 0;
+        function getUsersVotes() {
 
-	        var totalVotes = 0;
+            vote.getUsersVotes().then(function(result) {
+                angular.forEach(result, function(value, key) {
+                    if(value.motion_id == $stateParams.id) {
+                        vm.usersVote = parseInt(value.position);
+                        vm.userHasVoted = true;
+                        vm.userVoteId = value.id;
+                    }
+                });
+            });
+        }  
 
-	        angular.forEach(motionDetail.votes, function(value, key) { /*This is not looping every vote, just the 3 values of position */
-
-	            totalVotes += parseInt(value.count);
-	            if(parseInt(value.position)==-1){
-	               disagree.count = parseInt(value.count);
-	            } else if(parseInt(value.position)==1){
-	                agree.count = parseInt(value.count);
-	            } else {
-	                abstain.count = parseInt(value.count);
-	            }
-	        });
-
-	        disagree.percentage =  (disagree.count/totalVotes)*100;
-	        agree.percentage =  (agree.count/totalVotes)*100;
-	        abstain.percentage =  (abstain.count/totalVotes)*100;
-
-	        disagree.roundedPercentage = (disagree.percentage).toFixed(3);
-	        agree.roundedPercentage = (agree.percentage).toFixed(3);
-	        abstain.roundedPercentage = (abstain.percentage).toFixed(3);
-
-	        vm.motionVotes.disagree = disagree;
-	        vm.motionVotes.agree = agree;
-	        vm.motionVotes.abstain = abstain;
-
-	        if(disagree.count>agree.count){
-	            vm.motionVotes.position = "thumb-down";
-	        } else if(disagree.count<agree.count){
-	            vm.motionVotes.position = "thumb-up";
-	        } else {
-	            vm.motionVotes.position = "thumbs-up-down";
-	        } 
-	    }
+       	function showCommentVoteColumn(){
+       		var result = false;
+       		if(vm.usersVote == 1){
+       			result = true;
+       		}
+       		return result;
+        }
 
 
+        getUsersVotes();     
+
+        return {
+        	getUsersVotes: getUsersVotes,
+        	showCommentVoteColumn: showCommentVoteColumn
+        }
 
 	}
 
