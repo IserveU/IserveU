@@ -343,3 +343,45 @@ img {max-width:100%;}
 .random-motion-image {
 	max-width: 100% !important;
 }
+
+div.motion-comments {
+	p, h4, i{
+		display:inline;
+	}
+	div{
+		float: right;
+		color: grey;
+	}
+}
+
+fieldset.standard {
+  border-style: solid;
+  border-width: 1px; 
+ }
+
+div.edit-motion-mode {
+	fieldset {
+		border-style: solid;
+ 		border-width: 1px; 
+ 		background: rgb(255,255,255);
+ 		background: rgba(255,255,255,0.5);
+	}
+	legend {
+		color: black;
+	}
+	textarea {
+		border: 0px;
+		resize: none;
+		width: 100%;
+		background-color:transparent;
+	}
+	textarea:focus{
+		box-shadow: 0 0 6px #5B9DD9;
+	}
+	text-angular {
+		p {
+
+		}
+	}
+}
+

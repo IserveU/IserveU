@@ -1,0 +1,21 @@
+<div class="edit-motion-mode" flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
+	<div flex>
+		<fieldset>
+			<legend class="md-headline">Introduction</legend>
+			<textarea rows="4" class="md-body-1" ng-model="motion.motionDetail.summary" aria-label="motionSummary" flex></textarea>
+		</fieldset>
+		<fieldset>
+			<legend class="md-headline">Details</legend>
+			<text-angular class="text-angular md-body-1" ng-model="motion.motionDetail.text" name="text">
+		</text-angular>
+	</fieldset>
+	<div layout layout-align="center end">
+		<md-button ng-click="motion.updateMotion()">
+		<div ng-hide="motion.editingMotion">Save Changes</div>
+		<md-icon ng-show="motion.editingMotion" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
+	</md-button>
+	<md-button ng-click="motion.editMotionSwitch()">Cancel</md-button>
+</div>
+
+</div>
+</div>
