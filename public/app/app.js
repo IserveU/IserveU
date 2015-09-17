@@ -115,6 +115,9 @@
 		    	.state( 'motion.components', {
 		    		url: '/',
 		    		views: {
+		    			'editmotion': {
+		    				templateUrl: 'app/components/motion/edit-motion.tpl.html'
+		    			},
 		    			'votes': {
 		    				templateUrl: 'app/components/vote/vote.tpl.html',
 		    			},

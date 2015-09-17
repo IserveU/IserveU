@@ -31,8 +31,15 @@
         vm.userVoteId;
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
+        vm.editMotionMode = false;
+        vm.editingMotion = false;
         vm.figures;
         vm.getFigure = FigureService.getFigure;
+
+        vm.upload = function(flow) {
+            vm.formData = new FormData();
+            vm.formData.append("file", flow.files[0].file);
+        }
 
         vm.deleteMotion = function() {
             var data = {
@@ -54,16 +61,31 @@
             });
         }
 
+        vm.editMotion = function() {
+            vm.editMotionMode = !vm.editMotionMode;
+        }
+
+        vm.editMotionSwitch = function() {
+            var toast = ToastMessage.action("Discard changes?", "Yes");
+            $mdToast.show(toast).then(function(response){
+                if(response == 'ok'){
+                    vm.editMotion();
+                }
+            })
+        }
+
         vm.updateMotion = function() {
-            vm.editMotionLoading = !vm.editMotionLoading;
+            vm.editingMotion = true;
+            
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
                 id: $stateParams.id
             }
             motion.updateMotion(data).then(function(result) {
-                editMotionFunction();
-                vm.editMotionLoading = !vm.editMotionLoading;
+                vm.editMotion();
+                vm.editingMotion = false;
+                FigureService.uploadFile(vm.formData, $stateParams.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
                 ToastMessage.report_error(error);

@@ -46,6 +46,17 @@
         });
     }
 
+    vm.action = function(message1, affirmative){
+       var toast = $mdToast.simple()
+            .content(message1)
+            .action(affirmative)
+            .highlightAction(false)
+            .position('bottom right')
+            .hideDelay(5000);
+            
+        return toast;
+    }
+
 	vm.delete_toast = function(message){
        var toast = $mdToast.simple()
             .content("Are you sure?")

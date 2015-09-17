@@ -1,0 +1,51 @@
+<div class="edit-motion-mode" flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
+	<div flex>
+		<fieldset>
+			<legend class="md-headline">Introduction</legend>
+			<textarea rows="4" class="md-body-1" ng-model="motion.motionDetail.summary" aria-label="motionSummary" flex></textarea>
+		</fieldset>
+		<fieldset>
+			<legend class="md-headline">Details</legend>
+			<text-angular class="text-angular md-body-1" ng-model="motion.motionDetail.text" name="text">
+		</text-angular>
+	</fieldset>
+
+	<fieldset>
+	<legend class="md-subhead">Attachments</legend>
+		<div ng-controller="CreateMotionController as create" flow-init="" flow-files-submitted="motion.upload($flow)" layout layout-sm="column">
+			<md-input-container>
+				<md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+				<input aria-label="figures select" type="file" style="position:absolute"flow-btn/>
+			</md-input-container>
+			<span flex="15"></span>
+			<md-input-container ng-repeat="file in $flow.files" layout-sm="column">
+				<input  ng-model="file.name" name="file"ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
+					<div ng-messages="newmotionform.file.$error">  
+						<div ng-message="minlength">Title must be 8 characters.</div>
+					</div>
+			</md-input-container>
+		</div>
+
+		<md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"md-row-height-gt-md="1:1" md-row-height="4:3">
+			<md-grid-tile ng-repeat="figure in motion.figures"
+				md-colspan-sm="1">
+				<md-grid-tile-header><h3>{{figure.title}}</h3></md-grid-tile-header>
+				<a href="/uploads/figures/{{figure.file}}">
+					<img ng-src="/uploads/figures/{{figure.file}}" />
+				</a>
+<!-- 				<md-grid-tile-footer style="padding-top: 12px"><md-button ng-click="motion.deleteFigure(figure.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">Remove</p></md-button></md-grid-tile-footer> -->
+
+			</md-grid-tile>
+		</md-grid-list>
+	</fieldset>
+
+	<div layout layout-align="center end">
+		<md-button ng-click="motion.updateMotion()">
+		<div ng-hide="motion.editingMotion">Save Changes</div>
+		<md-icon ng-show="motion.editingMotion" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
+	</md-button>
+	<md-button ng-click="motion.editMotionSwitch()">Cancel</md-button>
+	</div>
+
+</div>
+</div>
