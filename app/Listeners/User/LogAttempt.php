@@ -27,14 +27,18 @@ class LogAttempt
      */
     public function handle(UserLoginFailed $event)
     {
+
         if(!$event->user){
             return "no user with this email address";
         }
 
-        $event->user->login_attempts++;
+        $event->user->login_attempts = $event->user->login_attempts + 1;
         if($event->user->login_attempts > 5 && $event->user->locked_until!=null){
             $event->user->locked_until = Carbon::now()->addHours(3);
         }
-        $event->user->save();
+
+        if(!$event->user->save()){ //Validation failed show errors
+            abort(403,$event->user->errors);
+        }
     }
 }
