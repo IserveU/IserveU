@@ -37,7 +37,7 @@ class SendResetEmail
 
         $user = $event->user;
 
-        if(true /*($user->login_attempts % 4) == 0 */){ //Every 4 attempts, send this email?
+        if(($user->login_attempts % 4) == 0 ){ //Every 4 attempts, send this email?
             
             if(empty($user->remember_token)){
                 $hash = str_random(99);
