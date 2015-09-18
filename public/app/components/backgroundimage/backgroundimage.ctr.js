@@ -6,13 +6,15 @@
 		.module('iserveu')
 		.controller('BackgroundImageController', BackgroundImageController);
 
-	function BackgroundImageController($rootScope, $state, $scope, ToastMessage, UserbarService, SetPermissionsService, backgroundimage) {	
+	function BackgroundImageController($rootScope, $state, $scope, $timeout, ToastMessage, UserbarService, SetPermissionsService, backgroundimage) {	
 
 		UserbarService.setTitle("Background Images");
 
 		var vm = this;
 
-		vm.background = JSON.parse(localStorage.getItem('settings')).background_image;
+		$timeout(function(){
+			vm.background = JSON.parse(localStorage.getItem('settings')).background_image;
+		}, 1000);
 		
 		vm.isactive = 0;
 		vm.backgroundimages;
