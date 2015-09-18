@@ -88,12 +88,11 @@ class CommentController extends ApiController {
 
 		$comment = Comment::onlyTrashed()->where('vote_id',$vote->id)->where('user_id',Auth::user()->id)->first();
 		if($comment){
-			$comment->restore();
-			$comment->text = Request::get('text');
-		} else {
-			$comment = new Comment(Request::all());
-			$comment->vote_id = $vote->id;
+			$comment->forceDelete();
 		}
+		
+		$comment = new Comment(Request::all());
+		$comment->vote_id = $vote->id;
 
 		if(!$comment->save()){
 			abort(403,$comment->errors);
