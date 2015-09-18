@@ -23,7 +23,11 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\UserLoginFailed' => [
 			'App\Listeners\User\LogAttempt',
+			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendResetEmail'
+		],
+		'App\Events\UserLoginSucceeded' => [
+			'App\Listeners\User\ClearLockFields',
 		],
 		'App\Events\UserDeleted' => [
 			'App\Listeners\User\DeleteUser'

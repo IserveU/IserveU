@@ -33,7 +33,7 @@ class LogAttempt
         }
 
         $event->user->login_attempts = $event->user->login_attempts + 1;
-        if($event->user->login_attempts > 5 && $event->user->locked_until!=null){
+        if($event->user->login_attempts > 5 && $event->user->locked_until==null){
             $event->user->locked_until = Carbon::now()->addHours(3);
         }
 

@@ -13,6 +13,9 @@ use App\Events\UserLoginFailed;
 use App\Events\UserForgotPassword;
 use Carbon\Carbon;
 
+use App\Events\UserLoginSucceeded;
+
+
 class AuthenticateController extends ApiController
 {
 
@@ -31,7 +34,6 @@ class AuthenticateController extends ApiController
            if (! $token = JWTAuth::attempt($credentials)) {
 
                 event(new UserLoginFailed($credentials));
-
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
 
@@ -46,8 +48,8 @@ class AuthenticateController extends ApiController
             abort(401,'Account is locked until '.$user->locked_until);
         }
 
-        $user->remember_token = null;
-        $user->save();
+        event(new UserLoginSucceeded($user));
+
 
         // all good so return the token
         return response()->json(compact('token','user'));
@@ -73,8 +75,8 @@ class AuthenticateController extends ApiController
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
   
-        $user->remember_token = null;
-        $user->save();
+        event(new UserLoginSucceeded($user));
+
 
         // all good so return the token
         return response()->json(compact('token','user'));

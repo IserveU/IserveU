@@ -32,10 +32,9 @@ class SetRandomPassword
 
         $user->password = $randomPassword;
 
-        $user->save();
-
-        return $user;
-
+        if(!$user->save()){ //Validation failed show errors
+            abort(403,$event->user->errors);
+        }    
 
     }
 }

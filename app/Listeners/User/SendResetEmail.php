@@ -32,21 +32,15 @@ class SendResetEmail
             // Mail::send('emails.unknownemail',['event' => $event], function ($m) use ($event) {
             //     $m->to($event->credentials['email'], "Unknown Email Address")->subject('IserveU Login Attempts');
             // });
-            return "no user with this email exists"; //Not sure how to handle event errors
+            abort(404,"this email address does not exist");
+
         }
 
         $user = $event->user;
 
-        if(($user->login_attempts % 4) == 0 ){ //Every 4 attempts, send this email?
-            
-            if(empty($user->remember_token)){
-                $hash = str_random(99);
-                $user->remember_token = $hash;
-                $user->save();
-            }
-
-
-            Mail::send('emails.passwordreset',['user' => $user], function ($m) use ($user) {
+        if($user->login_attempts == 5){ //Every 4 attempts, send this email?
+ 
+             Mail::send('emails.passwordreset',['user' => $user], function ($m) use ($user) {
                 $m->to($user->email, $user->first_name.' '.$user->last_name)->subject('Trouble Logging In?');
             });
             return 'password reset sent';

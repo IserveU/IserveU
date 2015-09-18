@@ -5,10 +5,8 @@ namespace App\Listeners\User;
 use App\Events\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Hash;
-use Mail;
 
-class SetRememberToken
+class ClearLockFields
 {
     /**
      * Create the event listener.
@@ -29,12 +27,14 @@ class SetRememberToken
     public function handle($event)
     {
         $user = $event->user;
-            
-        $hash = str_random(99);
-        $user->remember_token = $hash;
-        
+
+        $user->remember_token   = null;
+        $user->login_attempts   = 0;
+        $user->locked_until     = null;        
+
         if(!$user->save()){ //Validation failed show errors
             abort(403,$event->user->errors);
-        }        
+        }
+        
     }
 }

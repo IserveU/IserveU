@@ -41,6 +41,5 @@ class DeleteUser{
             $user->delete(); 
             $user->modificationTo()->delete(); 
         }
-        return $user;
     }
 }
