@@ -47,12 +47,20 @@
 			});
 		}
 
+		function deleteUser(id){
+			return User.delete({id:id}).$promise.then(function(result) {
+				return result;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
 
 		return {
 			getUserInfo: getUserInfo,
 			getUser: getUser,
 			editUser: editUser,
 			updateUser: updateUser,
+			deleteUser: deleteUser
 		}
 
 

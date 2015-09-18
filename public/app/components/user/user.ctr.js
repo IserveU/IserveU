@@ -40,6 +40,21 @@
 			GrantRoleService.grant(role_name, user_id);
 		}
 	    
+		vm.deleteUser = function(id) {
+
+			var toast = ToastMessage.delete_toast(" user");
+
+			$mdToast.show(toast).then(function(response){
+				if(response == 'ok'){
+					user.deleteUser(id).then(function(result){
+						ToastMessage.simple("User deleted.");
+					}, function(error){
+						ToastMessage.report_error(error);
+					})
+				}
+			})
+		}
+
 
 	    $rootScope.$on('resetPasswordDialog', function(events){
 	    	showPasswordDialog(events);
@@ -197,7 +212,10 @@
 					vm.isLoading = false;
 					getVotingHistory(vm.profile.id);
 				}, function(error){
-					console.log(error);
+					if(error.status == 404){
+						$state.go("user", {id: 1});
+						ToastMessage.simple("That user was not found. You've been redirected.");
+					}
 				});
 			}
 
@@ -239,9 +257,7 @@
 					}
 				})
 				vm.votes = results;
-			}, function(error){
-				console.log(error);
-			})
+			});
 		}
 
 	    grabUserFields($stateParams.id);
