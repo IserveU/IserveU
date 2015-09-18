@@ -108,7 +108,7 @@
           <div flex ui-view></div>
 
           <md-caption ng-if="sidebar.background.credited" layout-padding  class="imagecredit">
-            <span >Photo courtesy of <a href="{{::sidebar.background.url}}" ng-bind="::sidebar.background.credited"></a></span>
+            <span ng-cloak>Photo courtesy of <a href="{{::sidebar.background.url}}" ng-bind="::sidebar.background.credited"></a></span>
           </md-caption>
 
         </div>
