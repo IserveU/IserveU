@@ -153,7 +153,7 @@ class CommentVoteController extends ApiController {
 			abort(401,"User does not have permission to delete this Comment Vote");
 		}	
 
-		$commentVote->forceDelete(); //There are no things relying on this
+		$commentVote->forceDelete(); //There are no things relying on this and they might decide to create a new one
 
 		return $commentVote;	
 	}
