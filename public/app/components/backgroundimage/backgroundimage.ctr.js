@@ -11,6 +11,8 @@
 		UserbarService.setTitle("Background Images");
 
 		var vm = this;
+
+		vm.background = JSON.parse(localStorage.getItem('settings')).background_image;
 		
 		vm.isactive = 0;
 		vm.backgroundimages;

@@ -10,8 +10,6 @@
 
 		var vm = this;
 
-		vm.background = JSON.parse(localStorage.getItem('settings')).background_image;
-
 		$rootScope.$mdMedia = $mdMedia;
 		vm.keepOpen = false;
 

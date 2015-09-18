@@ -39,13 +39,13 @@ class CheckCommentVotes
 
         $original = $vote->getOriginal();
 
-        $oldCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete();
+        if($original['position']<=0 && $dirty['position']<=0){ //Don't delete if changed from neutral to abstrain
+        	return true;
+        }
 
+        $oldCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete();
         $newCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($vote['position'])->restore();
 
-        
-
-    //    $newCommentVotes    = CommentVote::onCommentsOfPosition($vote->position);//->restore();
 
         return true;
     }
