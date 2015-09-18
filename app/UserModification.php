@@ -1,19 +1,21 @@
 <?php namespace App;
 
 use Illuminate\Auth\Authenticatable;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ModifiedUser extends ApiModel
+class UserModification extends ApiModel
 {
     
+   	use SoftDeletes;
+
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
 	 * @var string
 	 */
-	protected $table = 'modified_users';
+	protected $table = 'user_modifications';
 
 	/**
 	 * The attributes that are fillable by a creator of the model

@@ -9,6 +9,8 @@ use DB;
 use Illuminate\Support\Facades\Validator;
 use Request;
 
+use Carbon\Carbon;
+
 use App\Events\CommentDeleted;
 
 
@@ -109,6 +111,13 @@ class Comment extends ApiModel {
 		//? 'vote_id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>''],
 		// 'id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>'']
 	];
+
+
+	/**
+	 * The fields that are dates/times
+	 * @var array
+	 */
+	protected $dates = ['created_at','updated_at'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)

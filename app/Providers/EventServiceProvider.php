@@ -12,11 +12,11 @@ class EventServiceProvider extends ServiceProvider {
 	 */
 	protected $listen = [
 		'App\Events\UserUpdated'	=> [
-			'App\Listeners\User\AddModifiedUserEntry',
+			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
 		],
 		'App\Events\UserCreated' => [
-			'App\Listeners\User\AddModifiedUserEntry',
+			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendWelcomeEmail',
 			'App\Listeners\User\CreateDefaultDelegations'
@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\UserLoginFailed' => [
 			'App\Listeners\User\LogAttempt',
 			'App\Listeners\User\SendResetEmail'
+		],
+		'App\Events\UserDeleted' => [
+			'App\Listeners\User\DeleteUser'
 		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\Motion\SendNotificationEmail',

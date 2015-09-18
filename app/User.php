@@ -15,6 +15,8 @@ use Carbon\Carbon;
 
 use App\Events\UserUpdated;
 use App\Events\UserCreated;
+use App\Events\UserDeleted;
+
 use Event;
 use Mail;
 use DB;
@@ -158,6 +160,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		static::updating(function($model){
 			if(!$model->validate()) return false;
 			event(new UserUpdated($model));
+			return true;
+		});
+
+		static::deleted(function($model){
+			event(new UserDeleted($model));
 			return true;
 		});
 	}
@@ -357,11 +364,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    return $this->belongsToMany('App\Role'); //,'assigned_roles'
 	}
 
-	public function modifiedcationTo(){
-		return $this->hasMany('App\ModifiedUser','modification_to_id');
+	public function modificationTo(){
+		return $this->hasMany('App\UserModification','modification_to_id');
 	}
 
-	public function modifiedcationBy(){
-		return $this->hasMany('App\ModifiedUser','modification_by_id');
+	public function modificationBy(){
+		return $this->hasMany('App\UserModification','modification_by_id');
 	}
 }

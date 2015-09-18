@@ -11,10 +11,10 @@ use Auth;
 use JWTAuth;
 
 use App\User;
-use App\ModifiedUser;
+use App\UserModification;
 
 
-class AddModifiedUserEntry
+class AddUserModificationEntry
 {
     /**
      * Create the event listener.
@@ -35,7 +35,7 @@ class AddModifiedUserEntry
     public function handle($event)
     {
         $user = $event->user;
-        $modifiedRecord = new ModifiedUser;
+        $modifiedRecord = new UserModification;
         $token = JWTAuth::getToken();
         if($token){
             $creator = JWTAuth::parseToken()->authenticate();

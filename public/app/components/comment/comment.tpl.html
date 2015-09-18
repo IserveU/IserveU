@@ -56,7 +56,7 @@
 			<div class="motion-comments">
 				<h4 class="md-title" ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'"></h4>
 				<div>
-					<i class="md-caption" ng-bind="comment.updated_at == comment.created_at ? 'created on ' + comment.created_at : 'edited ' + comment.updated_at"></i>
+					<i class="md-caption" ng-bind="comment.updated_at.database == comment.created_at.database ? 'created on ' + comment.created_at.diff : 'edited ' + comment.updated_at.diff"></i>
 					<p class="md-title" ng-bind="comment.commentRank > 0 ? '+' + comment.commentRank : '' + comment.commentRank"></p>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Vote;
 use Request;
 use Auth;
 use Hash;
@@ -154,26 +155,15 @@ class UserController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id){
-		$user = User::findOrFail($id);
+	public function destroy(User $user){
+
 		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-users')){
 			abort(401,'You do not have permission to delete this user');
 		}
-		
-		$votes 		= 	Vote::where('user_id',$id)->get();
-		$motions 	= 	Motion::where('user_id',$id)->get();
-		
-		if($votes->count() && $motions->count()){ //Has made motions/votes
-			$user->public = 0;
-			$user->save();
-		 	return	$user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
-		} 
-		
-		return $user->forceDelete(); //No votes/motions, complete deletion
+
+
+	 	$user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
+	 	return $user;
 	}
-
-
-
-	 
 
 }
