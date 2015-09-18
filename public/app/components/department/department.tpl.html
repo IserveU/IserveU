@@ -1,73 +1,52 @@
-<div>
- 
 <md-content id="maincontent" layout="column" fill-layout>
 
-  <section class="md-whiteframe-z1" style="margin:8px">
-    <md-toolbar class="section-toolbar">
-      <div class="md-toolbar-tools">
-        <h3>Department Manager</h3>
-      </div>
-    </md-toolbar>
-    <div layout="column" >
-      <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
-      <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
+<section class="md-whiteframe-z1" style="margin:8px">
+  <md-toolbar class="section-toolbar">
+  <div class="md-toolbar-tools">
+    <h3>Department Manager</h3>
+  </div>
+</md-toolbar>
+  <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
+  <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
 
-      <div flex layout layout-sm="column" ng-hide="department.create" >
+
+  <div class="display-department" layout layout-sm="column" layout-padding>
+
+    <div layout ng-hide="department.edit_mode || department.create_mode">
+      <md-select aria-label="select" ng-model="department.edit_department" placeholder="Existing departments"><md-option ng-repeat="department in department.departments"  ng-value="department" ng-bind="department.name"></md-option></md-select>
+        <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()">Edit</md-button>
+        <md-button style="color: teal" class="btn btn-sm btn-primary add" ng-click="department.createDepartment()">Add</md-button>
+    </div>
+
+    <div ng-show="department.edit_mode">
       <md-input-container flex>
-      	<label>Name</label>
-      	<input ng-model="department.departments[id].name" ng-blur="department.edit()" ng-focus="" ng-readonly="department.edit"></input>
-      	<md-icon style="padding-top:25px; left:97%; position:absolute"  md-font-icon="mdi-pencil" ng-hide="department.edit"></md-icon>
+        <input ng-model="department.edit_department.name"/>
       </md-input-container>
+      <md-checkbox ng-model="department.edit_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox">Active</md-checkbox>
 
-    <md-switch ng-model="department.departments[id].active" ng-change="enableDepartment()" aria-label="Switch" ng-true-value="1" ng-false-value="0" flex="30">{{department.departments[id].enabled ? 'Department Enabled' : "Department Disabled"}}</md-switch>
+          <md-button class="btn btn-sm btn-primary" ng-click="department.edit()">Save</md-button>
+          <md-button style="color: delete" class="btn btn-sm btn-primary delete" ng-click="department.deleteDepartment()">Delete</md-button>
+          <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()">Cancel</md-button>
+    </div>
 
-      </div>
-
-
-<div ng-show="department.create">
-      <div flex layout layout-sm="column"  ng-show="department.create">
-
+    <div ng-show="department.create_mode">
       <md-input-container flex>
-      	<label>Name</label>
-      	<input ng-model="newdepartment" ng-blur="" ng-focus=""></md-input-container>
+        <input placeholder="New Department"ng-model="department.new_department.name"/>
       </md-input-container>
-      <md-switch ng-model="department.active" aria-label="Switch" ng-true-value="1" ng-false-value="0" flex="30">Enable department?</md-switch>
-   	 </div>
-      <div>
-      <md-button ng-click="department.addDepartment(newdepartment,department.active)">Submit</md-button>
-      </div>
-      </div>
+        <md-checkbox ng-model="department.new_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox">Active</md-checkbox>
+
+        <md-button class="btn btn-sm btn-primary" ng-click="department.addDepartment()">Create</md-button>
+        <md-button class="btn btn-sm btn-primary" ng-click="department.createDepartment()">Cancel</md-button>
+    </div>
+
+  </div>
 
 
-
-      </div>
-      </div>
-      </section>
-      </md-content>
-      </div>
-
+</div>
+</div>
+</section>
+</md-content>
 
 
 
 
-
-<md-fab-toolbar class="md-right" >
-  <md-fab-trigger class="align-with-text">
-    <md-button aria-label="menu" class="md-fab md-primary">
-      <md-icon class="mdi" md-font-icon="mdi-menu" ></md-icon>
-    </md-button>
-    </md-fab-trigger>
-    <md-toolbar>
-    <md-fab-actions class="md-toolbar-tools">
-      <md-button ng-show="createMotion" aria-label="create" ng-click="department.createDepartment()" class="md-icon-button">
-        <md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
-      </md-button>
-        <md-button aria-label="edit" ng-click="department.editDepartment()"  class="md-icon-button">
-        <md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
-      </md-button>
-        <md-button aria-label="comment" ng-click="department.deleteDepartment(id+1)"  aria-label="delete"  class="md-icon-button md-warn">
-        <md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
-      </md-button>
-    </md-fab-actions>
-  </md-toolbar>
-</md-fab-toolbar>

@@ -169,7 +169,7 @@
 	        	.state('department' , {
 	        		url: '/departments/:id',
 	            	controller: 'DepartmentController as department',
-	            	templateUrl: 'app/shared/department/department.tpl.html',
+	            	templateUrl: 'app/components/department/department.tpl.html',
 	                data: {
 	                    requireLogin: true
 	                } 

@@ -396,3 +396,19 @@ div.edit-motion-mode {
 	}
 }
 
+div.display-department {
+	md-select {
+		margin: 0px;
+		display: inline-block;
+	}
+
+	md-button {
+		display: inline-block;
+	}
+
+	md-input-container {
+		display: inline-block;
+		padding: 0px;
+	}
+}
+

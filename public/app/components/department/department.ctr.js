@@ -6,15 +6,24 @@
 		.module('iserveu')
 		.controller('DepartmentController', DepartmentController);
 
-	function DepartmentController(department, $stateParams, $scope, $state) {
+	function DepartmentController($rootScope, $mdToast, $state, $stateParams, department, ToastMessage) {
 
 		var vm = this;
+
 		vm.departments = [];
-		vm.create = false;
-		vm.edit = false;
-		$scope.id = $stateParams.id - 1;
-        vm.newid;
-        vm.active = 0;
+		vm.create_mode = false;
+		vm.edit_mode = false;
+
+        vm.edit_department = {
+            name: '',
+            id: $stateParams.id,
+            active: null
+        }
+
+        vm.new_department = {
+            name: '',
+            active: 0
+        }
 
 		function getDepartments (){
             department.getDepartments().then(function(result){
@@ -23,43 +32,60 @@
         } 
 
         vm.editDepartment = function() {
-        	vm.edit = !vm.edit;
+        	vm.edit_mode = !vm.edit_mode;
         }
 
         vm.createDepartment = function() {
-        	vm.create = !vm.create;
+        	vm.create_mode = !vm.create_mode;
         }
 
-        vm.edit = function(input) {
-            console.log("this");
-        	var data = {
-        		name: 'Testing one more',
-        		id: 1,
-                active: 1
-        	}
-        	department.updateDepartment(data).then(function(result){
-        		console.log(result);
-                getDepartments();
+        vm.edit = function() {
+        	department.updateDepartment(vm.edit_department).then(function(result){
+                vm.editDepartment();
+                refresh();
         	});
         }
 
-        vm.deleteDepartment = function(id) {
-            vm.newid = id +1;
-            department.deleteDepartment(id).then(function(result) {
-                console.log(result);
-            }); 
+        vm.activate = function(department) {
+            vm.data = {
+                id: department.id,
+                active: department.active
+            }
+            setactive();
         }
 
-        vm.addDepartment = function(newdepartment, active){
-            console.log(active);
-            var data = {
-                name: newdepartment,
-                active: active
-            }
-            department.addDepartment(data).then(function(result){
-                console.log(result);
+        vm.deleteDepartment = function() {
+            var toast = ToastMessage.delete_toast(" department");
+
+            $mdToast.show(toast).then(function(response){
+                if(response == 'ok'){
+                    department.deleteDepartment(vm.edit_department.id).then(function(result) {
+                        ToastMessage.simple("Department deleted");
+                        refresh();
+                        $state.reload();
+                    }); 
+                }
             })
         }
+
+        vm.addDepartment = function(){
+            department.addDepartment(vm.new_department).then(function(result){
+                vm.createDepartment();
+                ToastMessage.simple("Department " + vm.new_department.name + " added!");
+                refresh();
+            })
+        }
+
+        function setactive(){
+            department.updateDepartment(vm.data).then(function(result){
+                refresh();
+            });
+        }
+
+        function refresh(){
+            $rootScope.$emit('departmentSidebarRefresh');
+        }
+
 
         getDepartments();
 

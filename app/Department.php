@@ -8,6 +8,8 @@ use DB;
 use Illuminate\Support\Facades\Validator;
 use Request;
 
+use App\Events\DepartmentCreated;
+
 class Department extends ApiModel {
 
 	use SoftDeletes, Eloquence, Mappable;
@@ -74,7 +76,7 @@ class Department extends ApiModel {
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = [];
+	protected $unique = ['name'];
 
 
 	public $fields = [
