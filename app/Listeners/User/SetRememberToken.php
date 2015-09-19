@@ -34,9 +34,9 @@ class SetRememberToken
         $hash = str_random(99);
         $user->remember_token = $hash;
 
-        
         if(!$user->save()){ //Validation failed show errors
             abort(403,$event->user->errors);
-        }        
+        }          
+     
     }
 }

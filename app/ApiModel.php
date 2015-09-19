@@ -138,9 +138,7 @@ class ApiModel extends Model
             }
 
             $this->rules = AddRule($this->rules,$this->onUpdateRequired,'required'); //Need to require things after appending the ID
-            // if(Request::method()=="PATCH"){ // Adds things that aren't actual validation rules if this is the actual patch
-            //     return $this->rules;    
-            // }
+
         }
         
         if(Request::method()=="POST" || Request::method()=="GET"){ //Initial create

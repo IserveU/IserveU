@@ -16,7 +16,6 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\IdentityReverification',
 		],
 		'App\Events\UserCreated' => [
-			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendWelcomeEmail',
 			'App\Listeners\User\CreateDefaultDelegations'

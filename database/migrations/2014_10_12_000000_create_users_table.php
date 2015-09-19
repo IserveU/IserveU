@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration {
 			$table->string('middle_name')->nullable();
 			$table->string('last_name');
 			$table->integer('ethnic_origin_id')->unsigned()->nullable();
-			$table->date('date_of_birth');
+			$table->date('date_of_birth')->nullable();
 			$table->boolean('identity_verified')->default(0);
 			$table->integer('login_attempts')->default(0);
 			$table->datetime('locked_until')->nullable();
