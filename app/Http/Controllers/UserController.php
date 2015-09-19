@@ -69,6 +69,7 @@ class UserController extends ApiController {
 			abort(400,$newUser->errors);
 		}
 
+
 		Auth::loginUsingId($newUser->id);
 
 		$propertyId = Request::get('property_id');
