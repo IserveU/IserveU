@@ -30,6 +30,7 @@ class SetRememberToken
     public function handle($event)
     {
         $user = $event->user;
+
             
         $hash = str_random(99);
         $user->remember_token = $hash;
