@@ -64,7 +64,7 @@
 			getMotionVotes: getMotionVotes,
 			castVote: castVote,
 			updateVote: updateVote,
-			getUsersVotes: getUsersVotes,
+			getUsersVotes: getUsersVotes
 		}
 
 	}

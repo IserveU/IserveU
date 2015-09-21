@@ -1,5 +1,7 @@
     (function() {
 
+    'use strict';
+
     angular
         .module('iserveu')
         .controller('CommentController', CommentController);

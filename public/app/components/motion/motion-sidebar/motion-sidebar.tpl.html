@@ -13,13 +13,14 @@
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" ui-sref-active="active"> 
 
 
+      <div layout-padding>
+        <md-icon aria-label="Visited" ng-class="{mdi:true, 'mdi-trending-up':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-trending-down':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-trending-neutral':motion.motionRank == 0}" layout-padding>
+        <md-tooltip md-direction="right" ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+        <md-tooltip md-direction="right" ng-if="motion.motionRank == 0">Neutral</md-tooltip>
+        </md-icon>
+      </div>
 
-      <md-icon aria-label="Visited" ng-class="{mdi:true, 'mdi-trending-up':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-trending-down':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-trending-neutral':motion.motionRank == 0}">
-      <md-tooltip ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Currently passing" : "Not passing"}}</md-tooltip>
-      <md-tooltip ng-if="motion.motionRank == 0">Neutral</md-tooltip>
-      </md-icon>
-
-      <p layout-padding ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
+      <p ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
 
       <div ng-switch="{{ motion.votes[0].position }}">
         <md-button class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting" md-ink-ripple>

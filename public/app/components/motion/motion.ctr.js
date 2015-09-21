@@ -53,7 +53,7 @@
                 if(response == 'ok') {
                     motion.deleteMotion($stateParams.id).then(function(result) {
                         $state.go('home');
-                        $rootScope.$emit('refreshMotionSidebar');  
+                        refreshSidebar();    
                     }, function(error) {
                         ToastMessage.report_error(error);
                     });
@@ -83,9 +83,7 @@
                 active: vm.motionDetail.active,
                 id: $stateParams.id
             }
-            console.log(data);
             motion.updateMotion(data).then(function(result) {
-                console.log(result);
                 vm.editMotion();
                 vm.editingMotion = false;
                 FigureService.uploadFile(vm.formData, $stateParams.id);
@@ -100,7 +98,6 @@
             getFigures(id);
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
-                console.log(result);
                 vm.isLoading = false; 
                 getMotionVotes(result.id);
                 UserbarService.title = result.title;
@@ -118,9 +115,6 @@
         function getMotionVotes(id){
             vote.getMotionVotes(id).then(function(results){
                 calculateVotes(results);
-                vm.voteLoading = false;
-            }, function(error){
-                console.log(error);
             });
 
         }
@@ -143,6 +137,8 @@
             } else {
                 vm.motionVotes.position = "thumbs-up-down";
             } 
+            
+            refreshSidebar();
         }
 
         vm.castVote = function(position) {
@@ -168,6 +164,7 @@
             
             if(!vm.userHasVoted) {
             vote.castVote(data).then(function(result) {
+
                 motion.getMotion(data.motion_id).then(function(result) {
                     vm.motionDetail = result;
                     calculateVotes(result);
@@ -189,7 +186,7 @@
             }
             else updateVote(data.position);
 
-            $rootScope.$emit('refreshMotionSidebar', {position:position, id:data.motion_id});      
+            refreshSidebar();    
 
         }
 
@@ -221,7 +218,6 @@
         }
 
         function getUsersVotes() {
-
             vote.getUsersVotes().then(function(result) {
                 angular.forEach(result, function(value, key) {
                     if(value.motion_id == $stateParams.id) {
@@ -245,6 +241,9 @@
             }
         }
 
+        function refreshSidebar(){
+            $rootScope.$emit('refreshMotionSidebar');
+        }
 
         getMotion($stateParams.id);
         getUsersVotes();
