@@ -49,7 +49,7 @@ class Vote extends ApiModel {
 	 * The attributes visible to the user that created this model
 	 * @var Array
 	 */
-	protected $creatorVisible = ['motion_id','user_id','position','id'];
+	protected $creatorVisible = ['motion_id','user_id','position','id','visited'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -132,7 +132,7 @@ class Vote extends ApiModel {
 				$model->errors = "This motion is no longer open to voting";
 				return false;
 			}
-			
+
 			return true;
 		});
 

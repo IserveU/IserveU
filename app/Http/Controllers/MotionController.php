@@ -99,7 +99,9 @@ class MotionController extends ApiController {
 	 * @return Response
 	 */
 	public function show(Motion $motion)
-	{	
+	{
+		DB::table('votes')->where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>1]);
+
 		return $motion;
 	}
 
