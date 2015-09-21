@@ -28,10 +28,9 @@ class ApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'database'      =>      $attr
+            'carbon'      =>        $carbon
         );
     }
-
 
     public function getUpdatedAtAttribute($attr) {        
         $carbon = Carbon::parse($attr);
@@ -39,13 +38,11 @@ class ApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'database'      =>      $attr
+            'carbon'      =>        $carbon
         );
     }
  
-
     public function validate(){
-
         $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
 
         if($validator->fails()){
