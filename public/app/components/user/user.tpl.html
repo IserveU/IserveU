@@ -38,21 +38,29 @@
 
        </form>
  <!-- form ends; more info and data later-->
-      </div>
-      <span flex></span>
-         <div ng-if="user.profile.public && user.votes" class="md-whiteframe-z1" style="min-width:57%"layout-align="end" layout-padding>
-              <!-- <md-divider flex></md-divider> -->
-           <h3 class="md-subhead" style="color:grey">Voting History</h3>
-             <p class="md-body-1" ng-repeat="vote in user.votes"><md-icon md-svg-src="{{vote.position}}"></md-icon> on <i><a ui-sref="motion({id:vote.motion_id})">{{vote.motion.title}}</a></i>.</p>
-         </div>
-
-      
-
-
-    </div>
-
   </section>
 
+
+    <section  ng-if="user.profile.public && user.votes" style="width:50%" layout-margin class="md-whiteframe-z1">
+      <md-toolbar class="section-toolbar">
+        <div class="md-toolbar-tools">
+          <h3>Voting History</h3>
+        </div>
+      </md-toolbar>
+      <md-list layout-padding  ng-repeat="vote in user.votes">
+      <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
+      <p class="md-body-1">{{vote.motion.title}}</p>
+        <md-icon md-svg-src="{{vote.position}}"></md-icon>
+        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
+        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
+        <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
+           <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+          </md-button>
+        </md-list-item>
+        <md-divider ng-show="!$last"></md-divider>
+      </md-list>
+    </section>
 
 
 
