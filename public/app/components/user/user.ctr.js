@@ -83,7 +83,8 @@
 		function EditUserController($scope, $mdDialog){
 			$scope.submit = function(model) {
 				user.updateUser(model).then(function(results){
-					ToastMessage.simple("Thank you! Your changes can be seen after you refresh the page.");
+					ToastMessage.simple("Thank you!");
+					getUser(model.id);
 					$mdDialog.hide();
 				}, function(error){
 					checkError(JSON.parse(error.data.message), "You cannot edit your profile.");

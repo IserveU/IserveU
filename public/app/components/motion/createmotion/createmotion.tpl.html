@@ -69,9 +69,12 @@
         <md-input-container ng-show="create.entertitle"><label>Figure Title</label><input ng-model="create.figuretitle"></input></md-input-container>
       </div> -->
 
+<span flex style="height: 15px"></span>
 
       <div layout layout-sm="column">
-      <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px" md-placeholder="Enter date">
+        <md-icon class="mdi mdi-calendar"></md-icon>
+        <md-input-container><label>Closing Date</label><input type="date" style="display:inline" ng-model="create.closingdate" /></md-input-container>
+        <!-- <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px" md-placeholder="Enter date"> -->
       </md-datepicker>
 
       <md-input-container flex="45">

@@ -36,14 +36,11 @@
         vm.theseFiles = {};
 
         vm.upload = function(flow, index){
-        console.log(oneWeekDate);
-
             vm.thisFile = flow.files[0].file;
         }
 
         vm.newFigureTitle = function(flow, name, index){
-
-
+            vm.thisFile = '';
             flow.files[index].name = name;
 
             var tempFormData = new FormData();
@@ -74,7 +71,7 @@
 		}
 
         function uploadFigure(id) {
-            if(!vm.theseFiles[0]){
+            if(vm.thisFile){
                 var formData = new FormData();
                 formData.append("file", vm.thisFile);
                 FigureService.uploadFile(formData, id);
@@ -83,6 +80,7 @@
             angular.forEach(vm.theseFiles, function(value, key) {
                 FigureService.uploadFile(value, id);
             })
+
         }
 
         function loadDepartments(){
