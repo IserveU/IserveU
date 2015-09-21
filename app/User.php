@@ -148,12 +148,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 		/* validation required on new */		
 		static::creating(function($model){
+
 			if(!$model->validate()) return false;
+
 			return true;
 		});
 
 		static::created(function($model){
-			event(new UserCreated($model));
+			$user = User::find($model->id);
+			event(new UserCreated($user));
 			return true;
 		});
 

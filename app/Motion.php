@@ -7,6 +7,7 @@ use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
+use Carbon\Carbon;
 use App\Events\MotionUpdated;
 use App\Events\MotionCreated;
 
@@ -37,7 +38,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department','id','votes','motionRank'];
+	protected $visible = ['title','text','summary','department','id','votes','motionRank','MotionOpenForVoting','closing'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -55,7 +56,7 @@ class Motion extends ApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motionRank'];
+    protected $appends = ['motionRank','MotionOpenForVoting'];
 
     /**
      * The rules for all the variables
@@ -99,6 +100,13 @@ class Motion extends ApiModel {
 		'closing'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'text'	 				=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 	];
+
+
+	/**
+	 * The fields that are dates/times
+	 * @var array
+	 */
+	protected $dates = ['closing','created_at','updated_at'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
@@ -174,6 +182,17 @@ class Motion extends ApiModel {
 		return true;
 	}
 
+
+    public function getClosingAttribute($attr) {        
+        $carbon = Carbon::parse($attr);
+
+        return array(
+            'diff'          =>      $carbon->diffForHumans(),
+            'alpha_date'    =>      $carbon->format('j F Y'),
+            'carbon'     	=>      $carbon
+        );
+    }
+
 	public function getActivelyAgreeAttribute($value){
 		
 	}
@@ -197,6 +216,22 @@ class Motion extends ApiModel {
 	public function getPassivelyAbstainAttribute($value){
 
 	}
+
+
+	public function getMotionOpenForVotingAttribute(){
+		if(!$this->active){
+			$this->errors = "This motion is not active and cannot be voted on";
+			return false;
+		}
+
+		if($this->closing['carbon']->lt(Carbon::now())){
+			$this->errors = "This motion is closed for voting";
+			return false;
+		}		
+
+		return true;
+	}
+
 
 
 	/************************************* Casts & Accesors *****************************************/

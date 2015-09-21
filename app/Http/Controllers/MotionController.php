@@ -11,7 +11,7 @@ use App\CommentVote;
 use App\Vote;
 use Auth;
 use DB;
-
+use Carbon\Carbon;
 
 class MotionController extends ApiController {
 
@@ -99,8 +99,8 @@ class MotionController extends ApiController {
 	 * @return Response
 	 */
 	public function show(Motion $motion)
-	{	
-		$motion  = Motion::find($motion->id); 
+	{
+		DB::table('votes')->where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>1]);
 
 		return $motion;
 	}

@@ -9,7 +9,7 @@ use App\Events\VoteUpdated;
 use App\Events\VoteCreated;
 
 use Auth;
-
+use Carbon\Carbon;
 
 class Vote extends ApiModel {
 
@@ -49,7 +49,7 @@ class Vote extends ApiModel {
 	 * The attributes visible to the user that created this model
 	 * @var Array
 	 */
-	protected $creatorVisible = ['motion_id','user_id','position','id'];
+	protected $creatorVisible = ['motion_id','user_id','position','id','visited'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -112,7 +112,13 @@ class Vote extends ApiModel {
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			if(!$model->motion->motionOpenForVoting){
+				$model->errors = "This motion is not open to voting";
+				return false;
+			} 
+
+			return true;	
 		});
 
 		static::updated(function($model){
@@ -121,7 +127,13 @@ class Vote extends ApiModel {
 		});
 
 		static::updating(function($model){
-			return $model->validate();			
+			if(!$model->validate()) return false;
+			if(!$model->motion->motionOpenForVoting){
+				$model->errors = "This motion is no longer open to voting";
+				return false;
+			}
+
+			return true;
 		});
 
 		static::updated(function($model){
@@ -134,6 +146,7 @@ class Vote extends ApiModel {
 
 	/************************************* Custom Methods *******************************************/
 	
+
 	
 	/************************************* Getters & Setters ****************************************/
 	

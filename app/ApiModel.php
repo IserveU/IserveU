@@ -28,10 +28,9 @@ class ApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'database'      =>      $attr
+            'carbon'      =>        $carbon
         );
     }
-
 
     public function getUpdatedAtAttribute($attr) {        
         $carbon = Carbon::parse($attr);
@@ -39,13 +38,11 @@ class ApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'database'      =>      $attr
+            'carbon'      =>        $carbon
         );
     }
  
-
     public function validate(){
-
         $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
 
         if($validator->fails()){
@@ -138,9 +135,7 @@ class ApiModel extends Model
             }
 
             $this->rules = AddRule($this->rules,$this->onUpdateRequired,'required'); //Need to require things after appending the ID
-            // if(Request::method()=="PATCH"){ // Adds things that aren't actual validation rules if this is the actual patch
-            //     return $this->rules;    
-            // }
+
         }
         
         if(Request::method()=="POST" || Request::method()=="GET"){ //Initial create
