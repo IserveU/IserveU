@@ -10,7 +10,7 @@
 
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" md-ink-ripple ui-sref-active="active"> 
+    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" ui-sref-active="active"> 
 
 
 
@@ -21,15 +21,14 @@
 
       <p layout-padding ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
 
-
-
       <div ng-switch="{{ motion.votes[0].position }}">
-        <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
-        <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
-        <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
-        <md-icon ng-switch-when="undefined" class="mdi mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
-
-        <md-tooltip>Quick Vote</md-tooltip>
+        <md-button class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting" md-ink-ripple>
+          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="undefined"class="mdi mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-tooltip>Quick Vote</md-tooltip>
+        </md-button>
       </div>
 
     <md-list-item ng-if="sidebar.emptyMotionsArray">

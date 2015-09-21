@@ -8,21 +8,21 @@
     	
         <!--Agree Side-->
         <div layout-padding flex> 
-            <md-button ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote == 1}" aria-label="Agree" layout-fill>
+            <md-button ng-disabled="!motion.motionDetail.MotionOpenForVoting"ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote == 1}" aria-label="Agree" layout-fill>
             	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ motion.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!motion.voting.agree"></md-icon>
             	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.agree"></md-icon>
             </md-button>
         </div>
         <!--Abstain Side-->
         <div layout-padding flex>
-       		 <md-button ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote == 0}" aria-label="Abstain" layout-fill>
+       		 <md-button ng-disabled="!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote == 0}" aria-label="Abstain" layout-fill>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ motion.usersVote==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!motion.voting.abstain"></md-icon>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.abstain"></md-icon>	       		 	
        		 </md-button>	
         </div>
         <!--Disagree Side-->
         <div layout-padding flex >
-				<md-button ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote == -1}" aria-label="Disagree" layout-fill>
+				<md-button  ng-disabled="!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote == -1}" aria-label="Disagree" layout-fill>
 					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ motion.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!motion.voting.disagree"></md-icon>
 					<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.disagree"></md-icon>
 				</md-button>	   
@@ -31,13 +31,13 @@
 
     <div class="statusbar" layout="row" layout-align="center center"> 
   	  	<md-button style="width:{{ motion.motionVotes.agree.percent }}%" class="agree md-raised md-primary" aria-label="Number in agreement">
-  		  	<md-tooltip>{{ motion.motionVotes.agree.number }} Agree</md-tooltip>
+  		  	<md-tooltip>{{ motion.motionVotes.agree.number }} Agree{{motion.motionDetail.MotionOpenForVoting ? '' : 'd'}}</md-tooltip>
   		</md-button>
   	  	<md-button style="width:{{ motion.motionVotes.abstain.percent }}%"  class="abstain md-raised md-grey" aria-label="Number abstaining">
-  	  		<md-tooltip>{{ motion.motionVotes.abstain.number }} Abstain</md-tooltip>
+  	  		<md-tooltip>{{ motion.motionVotes.abstain.number }} Abstain{{motion.motionDetail.MotionOpenForVoting ? '' : 'ed'}}</md-tooltip>
   	  	</md-button>
   	  	<md-button style="width:{{ motion.motionVotes.disagree.percent }}%" class="disagree md-raised md-accent" aria-label="Number in disagreement">
-  	  		<md-tooltip>{{ motion.motionVotes.disagree.number }} Disagree</md-tooltip>			  	  		
+  	  		<md-tooltip>{{ motion.motionVotes.disagree.number }} Disagree{{motion.motionDetail.MotionOpenForVoting ? '' : 'd'}}</md-tooltip>			  	  		
   	  	</md-button>
 	</div>
 </section>

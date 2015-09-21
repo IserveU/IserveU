@@ -80,9 +80,12 @@
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
+                active: vm.motionDetail.active,
                 id: $stateParams.id
             }
+            console.log(data);
             motion.updateMotion(data).then(function(result) {
+                console.log(result);
                 vm.editMotion();
                 vm.editingMotion = false;
                 FigureService.uploadFile(vm.formData, $stateParams.id);
@@ -97,6 +100,7 @@
             getFigures(id);
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
+                console.log(result);
                 vm.isLoading = false; 
                 getMotionVotes(result.id);
                 UserbarService.title = result.title;
