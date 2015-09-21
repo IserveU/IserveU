@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController(motion, $rootScope) {
+	function MotionSidebarController(motion, vote, $rootScope) {
 
 		var vm = this;
 
@@ -39,6 +39,43 @@
 				}
 				vm.next_page = results.current_page + 1;
 				vm.motions = results.data;
+			});
+		}
+
+
+		// make this into a service maybe?
+		vm.cycleVote = function(motion){
+			if(motion.votes[0] == undefined){
+				castVote(motion.id);
+			}
+
+			else{
+				var data = {
+	                id: motion.votes[0].id,
+	                position: null
+	            }
+				if(motion.votes[0].position != 1){
+					data.position = motion.votes[0].position + 1; 
+				}
+				else {
+					data.position = -1;
+				}
+
+				updateVote(data);
+			}
+
+		}
+
+		function castVote(id){
+			// start at abstain
+			vote.castVote({motion_id:id, position:0}).then(function(result){
+				getMotions();
+			});
+		}
+
+		function updateVote(data){
+			vote.updateVote(data).then(function(result) {
+				getMotions();
 			});
 		}
 

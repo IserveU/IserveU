@@ -11,25 +11,37 @@
   </md-toolbar>
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions" md-ink-ripple ui-sref-active="active"> 
-<!--       <span ng-controller="MotionController as vm">
-      <md-icon class="mdi" md-svg-src="/themes/{{themename}}/loading.svg" ng-show="vm.isLoading && sidebar.isState"></md-icon> -->
-      <md-icon md-font-icon="mdi-check" aria-label="Visited" ng-hide="vm.isLoading && sidebar.isState" class="mdi"></md-icon>
-      <!-- </span> -->
+
+
+
+      <md-icon aria-label="Visited" ng-class="{mdi:true, 'mdi-trending-up':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-trending-down':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-trending-neutral':motion.motionRank == 0}">
+      <md-tooltip ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Currently passing" : "Not passing"}}</md-tooltip>
+      <md-tooltip ng-if="motion.motionRank == 0">Neutral</md-tooltip>
+      </md-icon>
 
       <p layout-padding ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
-      <!-- <div ng-switch="{{ motion.votes[0].position}}">
-        <md-icon ng-switch-when="1" md-svg-src="/img/icons/action/svg/production/ic_thumb_up_24px.svg" ng-click="cycleVote(motion" aria-label="Open Chat"></md-icon>
-        <md-icon ng-switch-when="0" md-svg-src="/img/icons/action/svg/production/ic_thumbs_up_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
-        <md-icon ng-switch-when="-1" md-svg-src="/img/icons/action/svg/production/ic_thumb_down_24px.svg" ng-click="cycleVote(motion)" aria-label="Open Chat"></md-icon>
-      </div> -->
-    </md-list-item>
 
+
+
+      <div ng-switch="{{ motion.votes[0].position }}">
+        <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
+        <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
+        <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
+        <md-icon ng-switch-when="undefined" class="mdi mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"></md-icon>
+
+        <md-tooltip>Quick Vote</md-tooltip>
+      </div>
+
+    <md-list-item ng-if="sidebar.emptyMotionsArray">
+      <p class="md-body-1">No motions</p>
     <has-permission has-permission="create-motions">
-    <md-list-item class="sidebar-list" ng-show="sidebar.emptyMotionsArray" md-ink-ripple ui-sref-active="active"> 
+    <md-list-item class="sidebar-list" md-ink-ripple ui-sref-active="active"> 
       <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
       <p ui-sref="createmotion">Create new motion</p>
     </md-list-item>
     </has-permission>
+    </md-list-item>
+
 
   </md-list>
 </md-content>
