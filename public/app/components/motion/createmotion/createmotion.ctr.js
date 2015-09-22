@@ -56,7 +56,7 @@
                 title: vm.title,
                 text: vm.text,
                 summary: vm.summary,
-                // closing: vm.closingdate,
+                closing: vm.closingdate,
                 active: vm.isactive,
                 department_id: vm.department
             }

@@ -106,7 +106,7 @@ class Motion extends ApiModel {
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['closing','created_at','updated_at'];
+	protected $dates = ['created_at','updated_at'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts

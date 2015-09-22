@@ -86,7 +86,7 @@
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
                 active: vm.motionDetail.active,
-                // closing: vm.motionDetail.closing.carbon.date,
+                closing: vm.motionDetail.closing.carbon.date,
                 id: $stateParams.id,
                 department_id: vm.motionDetail.department_id
             }
