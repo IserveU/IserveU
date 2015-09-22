@@ -31,7 +31,7 @@
         vm.userVoteId;
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
-        vm.editMotionMode = false;
+        vm.editMotionMode = true;
         vm.editingMotion = false;
 
         vm.figures;
