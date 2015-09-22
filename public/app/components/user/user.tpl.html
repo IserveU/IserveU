@@ -24,7 +24,7 @@
       <div layout="column">    
         <form layout-padding>
         <div layout-padding style="padding-top:7px" ng-show="user.profile.email"><label class="md-caption" style="color:grey">Email</label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
-      	<div layout-padding style="padding-top:7px" ng-show="user.profile.date_of_birth"><label class="md-caption" style="color:grey">Birthday</label><p class="md-subhead" style="margin:0">{{user.display_date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
+      	<div layout-padding style="padding-top:7px" ng-show="user.profile.date_of_birth"><label class="md-caption" style="color:grey">Birthday</label><p class="md-subhead" style="margin:0">{{user.profile.date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
 
     <has-permission has-permission="administrate-permissions">
       <div layout="row" layout-padding>
