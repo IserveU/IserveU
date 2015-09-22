@@ -36,5 +36,14 @@
 				console.log(error);
 			});
 		}
+
+		vm.deleteFigure = function(motion_id, figure_id){
+			figure.deleteFigure(motion_id, figure_id).then(function(result) {
+				console.log(result);
+			}, function(error) {
+				console.log(error);
+			});
+		}
+
 	}
 }());

@@ -38,7 +38,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department','id','votes','motionRank','MotionOpenForVoting','closing'];
+	protected $visible = ['title','text','summary','department_id','id','votes','motionRank','MotionOpenForVoting','closing'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
