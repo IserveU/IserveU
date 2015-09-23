@@ -3,44 +3,44 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
-		.service('VoteService', VoteService);
+    .module('iserveu')
+    .service('VoteService', VoteService);
 
 
-	function VoteService($stateParams, vote) {
+  function VoteService($stateParams, vote) {
 
-		var vm = this;
+      var vm = this;
 
-        function getUsersVotes() {
+      function getUsersVotes() {
 
-            vote.getUsersVotes().then(function(result) {
-                angular.forEach(result, function(value, key) {
-                    if(value.motion_id == $stateParams.id) {
-                        vm.usersVote = parseInt(value.position);
-                        vm.userHasVoted = true;
-                        vm.userVoteId = value.id;
-                    }
-                });
-            });
-        }  
+        vote.getUsersVotes().then(function(result) {
+          angular.forEach(result, function(value, key) {
+            if(value.motion_id == $stateParams.id) {
+              vm.usersVote = parseInt(value.position);
+              vm.userHasVoted = true;
+              vm.userVoteId = value.id;
+            }
+          });
+        });
+      }  
 
-       	function showCommentVoteColumn(){
-       		var result = false;
-       		if(vm.usersVote == 1){
-       			result = true;
-       		}
-       		return result;
-        }
+      function showCommentVoteColumn(){
+       var result = false;
+       if(vm.usersVote == 1){
+        result = true;
+      }
+      return result;
+    }
 
 
-        getUsersVotes();     
+    getUsersVotes();     
 
-        return {
-        	getUsersVotes: getUsersVotes,
-        	showCommentVoteColumn: showCommentVoteColumn
-        }
+    return {
+     getUsersVotes: getUsersVotes,
+     showCommentVoteColumn: showCommentVoteColumn
+   }
 
-	}
+}
 
 
 }());

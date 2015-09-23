@@ -9,6 +9,8 @@
 
         var vm = this;
 
+        vm.motionDetail = {};
+
         vm.motionVotes = {};
         vm.usersVote;
 
@@ -35,24 +37,14 @@
         vm.editingMotion = false;
 
         vm.figures;
-        vm.getFigure = FigureService.getFigure;
         vm.delete_figure = [{
             bool: false,
             motion_id: '',
             figure_id: ''
         }]
 
-        vm.upload = function(flow) {
-            vm.formData = new FormData();
-            vm.formData.append("file", flow.files[0].file);
-        }
 
         vm.deleteMotion = function() {
-            var data = {
-                id: $stateParams.id,
-                deleted_at: null
-            };
-
             var toast = ToastMessage.delete_toast(" motion");
 
             $mdToast.show(toast).then(function(response) {
@@ -73,6 +65,7 @@
 
         vm.editMotionSwitch = function() {
             var toast = ToastMessage.action("Discard changes?", "Yes");
+
             $mdToast.show(toast).then(function(response){
                 if(response == 'ok'){
                     vm.editMotion();
@@ -82,6 +75,7 @@
 
         vm.updateMotion = function() {
             vm.editingMotion = true;
+
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
@@ -90,6 +84,7 @@
                 id: $stateParams.id,
                 department_id: vm.motionDetail.department_id
             }
+
             motion.updateMotion(data).then(function(result) {
                 vm.editMotion();
                 vm.editingMotion = false;
@@ -107,7 +102,6 @@
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
                 vm.isLoading = false; 
-                getMotionVotes(result.id);
                 UserbarService.title = result.title;
             });  
 
@@ -115,6 +109,7 @@
         }
 
         // figures section is questionable, maybe abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
+
 
         function getFigures(id){    // unnecessary step 
             FigureService.getFigures(id).then(function(result) {
@@ -130,6 +125,11 @@
             }
         }
 
+        vm.upload = function(flow) {
+            vm.formData = new FormData();
+            vm.formData.append("file", flow.files[0].file);
+        }
+
         function uploadFigure(){
             if(vm.formData){
               FigureService.uploadFile(vm.formData, $stateParams.id);
@@ -137,7 +137,6 @@
         }
 
         function deleteFigures(){
-            console.log(vm.delete_figure);
             angular.forEach(vm.delete_figure, function(figure, key) {
                 if(figure.bool){
                     FigureService.deleteFigure(figure.motion_id, figure.figure_id);
@@ -147,9 +146,15 @@
 
         // motion voting, gotta abstract into service/ new controller
 
-        function getMotionOnGetVoteSuccess(id){
-            motion.getMotion(id).then(function(results){
+        function getMotionOnGetVoteSuccess(){
+            motion.getMotion($stateParams.id).then(function(result){
+                turnOffLoadingVotingAnimation();
 
+                vm.motionDetail = result;
+                getMotionVotes(result.id);
+                getUsersVotes();
+                $rootScope.$emit('getMotionComments', {id: $stateParams.id});
+                refreshSidebar();
             })
         }
 
@@ -157,7 +162,6 @@
             vote.getMotionVotes(id).then(function(results){
                 calculateVotes(results);
             });
-
         }
 
         function calculateVotes(vote_array){
@@ -179,22 +183,21 @@
                 vm.motionVotes.position = "thumbs-up-down";
             } 
             
-            refreshSidebar();
         }
 
         vm.castVote = function(position) {
-            var message = "You";
+            var message;
             switch(position) {
                 case -1: 
-                    message = message+" disagree with this motion";
+                    message = " disagree with ";
                     vm.voting.disagree = true;
                     break;
                 case 1:
-                    message = message+" agreed with this motion";
+                    message = " agreed with ";
                     vm.voting.agree = true;
                     break;
                 default:
-                    message = message+" abstained from voting on this motion";
+                    message = message+" abstained from voting on ";
                     vm.voting.abstain = true;
             }
 
@@ -204,31 +207,22 @@
             }
             
             if(!vm.userHasVoted) {
-            vote.castVote(data).then(function(result) {
-
-                motion.getMotion(data.motion_id).then(function(result) {
-                    vm.motionDetail = result;
-                    calculateVotes(result);
-                    getUsersVotes();
-                });
-                
-                angular.forEach(vm.voting, function(value, position){
-                    vm.voting[position] = false;
-                })
-                
-                ToastMessage.simple(message);
-            }, function(error) {
-                    angular.forEach(vm.voting, function(value, position){
-                        vm.voting[position] = false;
-                    })
-
+                vote.castVote(data).then(function(result) {
+                    getMotionOnGetVoteSuccess();
+                    ToastMessage.simple("You"+message+"this motion");
+                }, function(error) {
+                    turnOffLoadingVotingAnimation();
                     ToastMessage.report_error(error);
                 });
             }
             else updateVote(data.position);
 
-            refreshSidebar();    
+            }
 
+        function turnOffLoadingVotingAnimation(){
+            angular.forEach(vm.voting, function(value, position){
+                vm.voting[position] = false;
+            })
         }
 
         function updateVote(position){
@@ -238,23 +232,13 @@
             }
 
             vote.updateVote(data).then(function(result) {
-                motion.getMotion($stateParams.id).then(function(result) {
-                    vm.motionDetail = result;
-                    getMotionVotes(result.id);
-                    getUsersVotes();
-                   $rootScope.$emit('getMotionComments', {id: $stateParams.id});
-                });
 
-                angular.forEach(vm.voting, function(value, key){
-                    vm.voting[key] = false;
-                })
+                getMotionOnGetVoteSuccess();
                 ToastMessage.simple("You've updated your vote");
 
             }, function(error) {
                 ToastMessage.report_error(error);
-                angular.forEach(vm.voting, function(value, key){
-                    vm.voting[key] = false;
-                })
+                turnOffLoadingVotingAnimation();
             });
         }
 
@@ -282,18 +266,15 @@
             }
         }
 
+        getUsersVotes();
+        getMotionVotes($stateParams.id);
+
         // end refactor of vote ctr/svc
-
-
         function refreshSidebar(){
             $rootScope.$emit('refreshMotionSidebar');
         }
-        function refreshMotionData(){   // probably unnecessary ...
-            $scope.$emit('refreshMotionData');
-        }
 
         getMotion($stateParams.id);
-        getUsersVotes();
     }
 
 }());
