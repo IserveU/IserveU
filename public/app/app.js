@@ -12,9 +12,11 @@
 			'textAngular',
 			'flow',
 			'formly',
-			'ngMessages'
+			'ngMessages',
+			'pascalprecht.translate',
+			'ngCookies'
 		])
-		.config(function($provide, $stateProvider, $urlRouterProvider, $httpProvider, $authProvider, formlyConfigProvider, $compileProvider) {
+		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 
 			// speeds up the app, the debug info are for {{}}
 			$compileProvider.debugInfoEnabled(false);
@@ -57,155 +59,6 @@
 			$urlRouterProvider.when("/motion/:id", "/motion/:id/");
 
 		    $urlRouterProvider.otherwise('/home');
-				
-
-
-		    formlyConfigProvider.disableWarnings = true;
-		    formlyConfigProvider.setType({
-			  name: 'input',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input ng-model="model[options.key]"></md-input-container>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'date',
-			  template: '<md-input-container><input type="date" aria-label="{{options.templateOptions.label}}" label="{{options.templateOptions.label}}" ng-model="model[options.key]" convert-date/></md-input-container>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'md-switch',
-			  template: '<md-switch ng-model="model[options.key]" ng-value="options.templateOptions.valueProp" ng-true-value="1" ng-false-value="0"/>{{options.templateOptions.label}}'
-			});
-			formlyConfigProvider.setType({
-			  name: 'email',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="email" ng-model="model[options.key]"></md-input-container>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'password',
-			  template: '<md-input-container><label>{{options.templateOptions.label}}</label><input type="password" ng-hide="true" ng-model="options.templateOptions.valueProp"/></md-input-container>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'password-edit',
-			  template: '<md-button ng-click="options.templateOptions.ngClick()"><label>Change password</label></md-button>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'select',
-			  template: '<md-select aria-label="select" ng-model="model[options.key]" placeholder="{{options.templateOptions.label}}"><md-option ng-repeat="item in options.templateOptions.ngRepeat" ng-value="item.id">{{item.region}}<md-tooltip>{{item.description}}</md-tooltip></md-option></md-select>'
-			});
-			formlyConfigProvider.setType({
-			  name: 'userform',
-			  templateUrl: 'app/components/user/userform.tpl.html'
-			});
-
-
-		    $stateProvider
-		    	.state( 'home', {
-		    		url: '/home',
-		    		templateUrl: 'app/components/home/home.tpl.html',
-		    		controller: 'HomeController as home',
-		    		data: {
-		    	        requireLogin: true
-		    	    }
-		    	})
-		    	.state( 'motion', {
-		    	    url: '/motion/:id',
-		    	    templateUrl: 'app/components/motion/motion.tpl.html',
-		    	    controller: 'MotionController as motion',
-		    	    data: {
-		    	        requireLogin: true
-		    	    }
-		    	})
-		    	.state( 'motion.components', {
-		    		url: '/',
-		    		views: {
-		    			'editmotion': {
-		    				templateUrl: 'app/components/motion/edit-motion.tpl.html'
-		    			},
-		    			'votes': {
-		    				templateUrl: 'app/components/vote/vote.tpl.html',
-		    			},
-		    			'comments': {
-				    	    templateUrl: 'app/components/comment/comment.tpl.html',
-				    	    controller: 'CommentController as vm',
-		    			}
-		    		}
-		    	})
-		    	.state( 'createmotion', {
-		    	    url: '/createmotion',
-		    	    templateUrl: 'app/components/motion/createmotion/createmotion.tpl.html',
-		    	    controller: 'CreateMotionController as create',
-		    	    data: {
-		    	        requireLogin: true
-		    	    }
-		    	})
-
-		    	.state( 'user', {
-		    	    url: '/user/:id',
-		    	    templateUrl: 'app/components/user/user.tpl.html',
-		    	    controller: 'UserController as user',
-		    	    data: {
-		    	        requireLogin: true
-		    	    }
-		    	})
-		    	.state( 'myprofile', {
-		    	    url: '/myprofile',
-		    	    templateUrl: 'app/components/user/user.tpl.html',
-		    	    controller: 'UserController as user',
-		    	    data: {
-		    	        requireLogin: true
-		    	    }
-		    	}) 	
-		    	.state('login', {
-	                url: '/login',
-	            	controller: 'loginController as login',
-	            	templateUrl: 'app/shared/login/login.tpl.html',
-	                data: {
-	                    requireLogin: false
-	                } 
-	        	})
-	        	.state('login.resetpassword', {
-	        		url: '/:resetpassword',
-	        		data: {
-	        			requireLogin: false
-	        		}
-	        	})
-	        	.state('department' , {
-	        		url: '/departments/:id',
-	            	controller: 'DepartmentController as department',
-	            	templateUrl: 'app/components/department/department.tpl.html',
-	                data: {
-	                    requireLogin: true
-	                } 
-	        	})
-	        	.state('property' , {
-	        		url: '/property',
-	            	controller: 'PropertyController as property',
-	            	templateUrl: 'app/shared/property/propertyassessment/propertyassessment.tpl.html',
-	                data: {
-	                    requireLogin: true
-	                } 
-	        	})
-	        	.state('backgroundimage', {
-	                url: '/upload',
-	            	controller: 'BackgroundImageController as background',
-	            	templateUrl: 'app/components/backgroundimage/backgroundimage.tpl.html',
-	                data: {
-	                    requireLogin: true
-	                } 
-	        	})
-	        	.state('backgroundimage.preview', {
-	                url: '^/preview/:id',
-	            	controller: 'PreviewImageController as preview',
-	            	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
-	                data: {
-	                    requireLogin: true
-	                } 
-	        	})
-	        	.state('permissionfail' , {
-	        		url: '/invalidentry',
-	            	controller: 'RedirectController as redirect',
-	            	templateUrl: 'app/shared/permissions/onfailure/permissionsfail.tpl.html',
-	                data: {
-	                    requireLogin: false
-	                } 
-	        	});                  
 
 		})
 		.filter('dateToDate', function() {

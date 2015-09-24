@@ -1,15 +1,15 @@
 <md-content id="maincontent" layout="column" fill-layout ng-class="motion.isLoading?'loading':''">
 <section class="md-whiteframe-z1" style="margin:8px">
-	<md-toolbar class="section-toolbar">
+	<md-toolbar md-scroll-shrink ng-if="true" class="section-toolbar">
 	<div class="md-toolbar-tools">
-		<h3>Description</h3>
+		<h3 translate="{{'DESCRIPTION'}}"></h3>
 	</div>
 </md-toolbar>
 <div layout="row" layout-wrap fill-layout ng-hide="motion.editMotionMode" >
 	<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
-		<p class="md-headline">Introduction</p>
+		<p class="md-headline" translate="{{'INTRODUCTION'}}"></p>
 		<p class="md-body-1" ng-bind-html="motion.motionDetail.summary" aria-label="motionSummary"></p>
-		<p class="md-headline">Details</p>
+		<p class="md-headline" translate="{{'DETAILS'}}"></p>
 		<p class="md-body-1" ng-bind-html="motion.motionDetail.text"></p>
 
 		<div layout-padding>
@@ -30,8 +30,8 @@
 				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 				    
 					   <md-grid-tile class="md-whiteframe-z1">
-						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove"><p class="md-caption">Closed</p></md-icon>
-						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"><p class="md-caption">Open</p><md-tooltip md-direction="left">closes on {{motion.motionDetail.closing.alpha_date }}</md-icon>
+						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove"><p class="md-caption" style="margin-top:5px" translate="{{'CLOSED'}}"></p></md-icon>
+						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"><p style="margin-top:5px" class="md-caption" translate="{{'OPEN'}}"></p><md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-icon>
 					    </md-grid-tile>
 
 					    <md-grid-tile class="md-whiteframe-z1 {{motion.motionVotes.position}}">

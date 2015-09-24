@@ -48,9 +48,9 @@ class DatabaseSeeder extends Seeder {
 		$this->call('DefaultUsers');
 		$this->command->info('Default user/roles seeded'); 
 
-		factory('App\User', 100)->create();
-		$this->call(MotionTableSeeder::class);
-		$this->call(CommentTableSeeder::class);
+		// factory('App\User', 100)->create();
+		// $this->call(MotionTableSeeder::class);
+		// $this->call(CommentTableSeeder::class);
 
 	}
 

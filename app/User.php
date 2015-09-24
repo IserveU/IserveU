@@ -116,15 +116,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * @var array
 	 */
 	protected $fields = [
-		'email' 					=>	['tag'=>'input','type'=>'email','label'=>'Email Address','placeholder'=>'Email Address'],
-	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'Password','placeholder'=>'Your Password'],
-	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'First Name','placeholder'=>'First Name'],
-	    'middle_name'				=>	['tag'=>'input','type'=>'input','label'=>'Middle Name','placeholder'=>'Middle Name'],
-	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'Last Name','placeholder'=>'Last Name'],
-	    'ethnic_origin_id'			=>	['tag'=>'md-select','type'=>'select','label'=>'Ethnic Origin','placeholder'=>'Primary Ethnic Origin'],
-	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'Date of Birth','placeholder'=>'Date of Birth'],
-	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'Public','placeholder'=>'Enable Public Profile'],
-	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'Identity Verified','placeholder'=>'User Is Verified'],
+		'email' 					=>	['tag'=>'input','type'=>'email','label'=>'EMAIL_ADDRESS','placeholder'=>'Email Address'],
+	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'PASSWORD','placeholder'=>'Your Password'],
+	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'FIRST_NAME','placeholder'=>'First Name'],
+	    'middle_name'				=>	['tag'=>'input','type'=>'input','label'=>'MIDDLE_NAME','placeholder'=>'Middle Name'],
+	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'LAST_NAME','placeholder'=>'Last Name'],
+	    'ethnic_origin_id'			=>	['tag'=>'md-select','type'=>'select','label'=>'ETHNIC_ORIGIN','placeholder'=>'Primary Ethnic Origin'],
+	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'BIRTHDAY','placeholder'=>'Date of Birth'],
+	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'PUBLIC','placeholder'=>'Enable Public Profile'],
+	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'IDENTITY_VERIFIED','placeholder'=>'User Is Verified'],
 	];
 
 

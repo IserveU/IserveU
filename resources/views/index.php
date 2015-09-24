@@ -21,14 +21,27 @@
         <div layout="column" tabIndex="-1" role="main" flex>
         
           <md-toolbar class="md-toolbar-tools site-content-toolbar" ng-if="userIsLoggedIn">
-            <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
+            <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" tabIndex="-1">
                 <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-sm aria-label="Toggle Menu">
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
-                    <h2 ng-cloak>{{user.userbarservice.title}}</h2>
+                    <h2 ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <span flex></span> <!-- use up the empty space -->
                  </div>
+
+                <div>
+                    <md-menu>
+                        <md-button class="md-primary" ng-click="$mdOpenMenu()" ng-cloak translate="{{ 'LANG_NAME' }}"></md-button>
+                        <md-menu-content width="1">
+                            <md-menu-item ng-repeat="language in user.languages">
+                                <md-button ng-click="user.changeLanguage(language.key)">
+                                    <p flex ng-cloak>{{language.name}}</p>
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
 
                 <div >
                     <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
@@ -40,7 +53,7 @@
                                 <md-menu-item ng-cloak>
                                     <md-button ui-sref="login" ng-click="user.logout()">
                                         <div layout="row">
-                                            <p flex>Logout {{::authenticatedUser.first_name}}</p>
+                                            <p flex ng-cloak>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
                                             <md-icon md-menu-align-target class="mdi" md-font-icon="mdi-logout"></md-icon>
                                         </div>
                                     </md-button>
@@ -48,7 +61,7 @@
                                 <md-menu-item ui-sref="myprofile">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak>Your Profile</p>
+                                            <p flex ng-cloak translate="{{'YOUR_PROFILE'}}">Your Profile</p>
                                             <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
                                         </div>
                                     </md-button>
@@ -57,7 +70,7 @@
                                 <md-menu-item ui-sref="user({id:1})">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak>User List</p>
+                                            <p flex ng-cloak translate="{{'USER_LIST'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
                                         </div>
                                     </md-button>
@@ -67,7 +80,7 @@
                                 <md-menu-item ui-sref="backgroundimage">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak>Upload Background Image</p>
+                                            <p flex ng-cloak translate="{{'UPLOAD_BACKGROUND_IMG'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
                                         </div>
                                     </md-button>
@@ -77,7 +90,7 @@
                                 <md-menu-item ui-sref="department({id:1})">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak>Department Manager</p>
+                                            <p flex ng-cloak translate="{{'DEPARTMENT_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
                                         </div>
                                     </md-button>
@@ -87,7 +100,7 @@
                                 <md-menu-item>
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak>Property Manager</p>
+                                            <p flex ng-cloak translate="{{'PROPERTY_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
                                         </div>
                                     </md-button>
@@ -101,14 +114,14 @@
           </md-toolbar>
   <md-toolbar class="md-warn" ng-cloak layout-padding>
     <div class="md-toolbar-tools">
-      <h2 class="md-flex">IserveU is currently in BETA <span style="font-size:60%; display:block">Features and improvements are constantly being added. If you would like give feedback and help us test the software please email admin@iserveu.ca</span></h2>
+      <h2 class="md-flex" >{{'BETA_HEADER' | translate}}<span style="font-size:60%; display:block">{{'BETA_MESSAGE' | translate}}</span></h2>
     </div>
   </md-toolbar>
 
           <div flex ui-view></div>
 
           <md-caption layout-padding  ng-controller="BackgroundImageController as vm" class="imagecredit">
-            <span  ng-if="vm.background.credited" ng-cloak>Photo courtesy of <a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
+            <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
           </md-caption>
 
         </div>

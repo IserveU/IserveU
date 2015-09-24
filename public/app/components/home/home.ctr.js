@@ -40,6 +40,7 @@
         function getMyComments(){
         	comment.getMyComments(vm.user_id).then(function(result){
         		vm.myComments = result;
+                console.log(vm.myComments);
                 if(!vm.myComments[0]){                
                     vm.empty.mycomments = true;
                 }

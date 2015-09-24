@@ -5,7 +5,7 @@
 <form>
 <md-toolbar class="section-toolbar" md-scroll-shrink="true">
   <div class="md-toolbar-tools">
-    <h3>Edit Your Public Profile</h3>
+    <h3 translate="{{'EDIT_YOUR_PUBLIC_PROFILE'}}"></h3>
   </div>
 </md-toolbar>
 <md-dialog-content>
@@ -36,8 +36,8 @@
 </md-dialog-content>
 
 <div ng-show="isLoading = true" layout-align="end">
-<md-button ng-cloak ng-click="submit(user.profile)">Save Changes</md-button>
-<md-button ng-cloak ng-click="cancel()">Cancel</md-button>
+<md-button ng-cloak ng-click="submit(user.profile)" translate="{{'SAVE_CHANGES'}}"></md-button>
+<md-button ng-cloak ng-click="cancel()" translate="{{'CANCEL'}}">Cancel</md-button>
 </div>
 
 </div>

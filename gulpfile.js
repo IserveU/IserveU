@@ -30,7 +30,11 @@ elixir(function(mix) {
         '/bower/textAngular/dist/textAngular-sanitize.min.js',
         '/bower/ng-flow/dist/ng-flow-standalone.min.js',
         '/bower/api-check/dist/api-check.min.js',
-        '/bower/angular-formly/dist/formly.min.js'
+        '/bower/angular-formly/dist/formly.min.js',
+        '/bower/angular-translate/angular-translate.min.js',
+        '/bower/angular-translate-storage-local/angular-translate-storage-local.min.js',
+        '/bower/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
+        '/bower/angular-cookies/angular-cookies.min.js'
     ],'public/js/dependencies.js', './resources');// added resources as third argument to point directly to the resources directory and not have /js in there
 
  	mix.scriptsIn("public/app",'public/js/app.js');

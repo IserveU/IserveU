@@ -22,11 +22,13 @@
     "satellizer": "latest",
     "svg-morpheus": "latest",
     "textAngular": "*",
-    "themes": "git@github.com:/IserveU/themes.git"
+    "themes": "git@github.com:/IserveU/themes.git",
+    "angular-translate": "*",
+    "angular-cookies": "~1.3.17"
   },
   "private": true,
   "resolutions": {
-    "angular": "1.3.18",
+    "angular": "1.3.19",
     "angular-messages": "~1.3.16"
   }
 }

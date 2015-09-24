@@ -4,7 +4,7 @@
       <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
         <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg"></md-icon>
       </md-button>
-      <h2>Motions</h2>
+      <h2 translate="{{'MOTIONS'}}"></h2>
       <span flex></span>
     </div>
 
@@ -14,9 +14,9 @@
 
 
       <div layout-padding>
-        <md-icon aria-label="Visited" ng-class="{mdi:true, 'mdi-trending-up':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-trending-down':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-trending-neutral':motion.motionRank == 0}" layout-padding>
+        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-trending-up':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-trending-down':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-equal':motion.motionRank == 0}" layout-padding>
         <md-tooltip md-direction="right" ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
-        <md-tooltip md-direction="right" ng-if="motion.motionRank == 0">Neutral</md-tooltip>
+        <md-tooltip md-direction="right" ng-if="motion.motionRank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
         </md-icon>
       </div>
 
@@ -28,16 +28,16 @@
           <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
           <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
           <md-icon ng-switch-when="undefined"class="mdi mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
-          <md-tooltip>Quick Vote</md-tooltip>
+          <md-tooltip>{{'QUICK_VOTE' | translate}}</md-tooltip>
         </md-button>
       </div>
 
     <md-list-item ng-if="sidebar.emptyMotionsArray">
-      <p class="md-body-1">No motions</p>
+      <p class="md-body-1" translate="{{'NO_MOTIONS'}}"></p>
     <has-permission has-permission="create-motions">
     <md-list-item class="sidebar-list" md-ink-ripple ui-sref-active="active"> 
       <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
-      <p ui-sref="createmotion">Create new motion</p>
+      <p ui-sref="createmotion" translate="{{'CREATE_NEW_MOTION'}}"></p>
     </md-list-item>
     </has-permission>
     </md-list-item>

@@ -3,7 +3,7 @@
 <section class="md-whiteframe-z1" style="margin:8px">
   <md-toolbar class="section-toolbar">
   <div class="md-toolbar-tools">
-    <h3>Department Manager</h3>
+    <h3 translate="{{'DEPARTMENT_MANAGER'}}"></h3>
   </div>
 </md-toolbar>
   <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
@@ -13,30 +13,30 @@
   <div class="display-department" layout layout-sm="column" layout-padding>
 
     <div layout ng-hide="department.edit_mode || department.create_mode">
-      <md-select aria-label="select" ng-model="department.edit_department" placeholder="Existing departments"><md-option ng-repeat="department in department.departments"  ng-value="department" ng-bind="department.name"></md-option></md-select>
-        <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()">Edit</md-button>
-        <md-button style="color: teal" class="btn btn-sm btn-primary add" ng-click="department.createDepartment()">Add</md-button>
+      <md-select aria-label="select" ng-model="department.edit_department" placeholder="{{'EXISTING_DEPARTMENT' | translate}}"><md-option ng-repeat="department in department.departments"  ng-value="department" ng-bind="department.name"></md-option></md-select>
+        <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()" translate="{{'EDIT'}}"></md-button>
+        <md-button style="color: teal" class="btn btn-sm btn-primary add" ng-click="department.createDepartment()" translate="{{'ADD'}}"></md-button>
     </div>
 
     <div ng-show="department.edit_mode">
       <md-input-container flex>
         <input ng-model="department.edit_department.name"/>
       </md-input-container>
-      <md-checkbox ng-model="department.edit_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox">Active</md-checkbox>
+      <md-checkbox ng-model="department.edit_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox"translate="{{'ACTIVE'}}"></md-checkbox>
 
-          <md-button class="btn btn-sm btn-primary" ng-click="department.edit()">Save</md-button>
-          <md-button style="color: delete" class="btn btn-sm btn-primary delete" ng-click="department.deleteDepartment()">Delete</md-button>
-          <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()">Cancel</md-button>
+          <md-button class="btn btn-sm btn-primary" ng-click="department.edit()" translate="{{'SAVE'}}"></md-button>
+          <md-button style="color: delete" class="btn btn-sm btn-primary delete" ng-click="department.deleteDepartment()"translate="{{'DELETE'}}"></md-button>
+          <md-button class="btn btn-sm btn-primary" ng-click="department.editDepartment()"translate="{{'CANCEL'}}"></md-button>
     </div>
 
     <div ng-show="department.create_mode">
       <md-input-container flex>
         <input placeholder="New Department"ng-model="department.new_department.name"/>
       </md-input-container>
-        <md-checkbox ng-model="department.new_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox">Active</md-checkbox>
+        <md-checkbox ng-model="department.new_department.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox" translate="{{'ACTIVE'}}"></md-checkbox>
 
-        <md-button class="btn btn-sm btn-primary" ng-click="department.addDepartment()">Create</md-button>
-        <md-button class="btn btn-sm btn-primary" ng-click="department.createDepartment()">Cancel</md-button>
+        <md-button class="btn btn-sm btn-primary" ng-click="department.addDepartment()" translate="{{'CREATE'}}"></md-button>
+        <md-button class="btn btn-sm btn-primary" ng-click="department.createDepartment()" translate="{{'CANCEL'}}"></md-button>
     </div>
 
   </div>

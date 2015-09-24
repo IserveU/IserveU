@@ -8,7 +8,7 @@
 
 	function BackgroundImageController($rootScope, $state, $scope, $timeout, ToastMessage, UserbarService, SetPermissionsService, backgroundimage) {	
 
-		UserbarService.setTitle("Background Images");
+		// UserbarService.setTitle("IserveU");
 
 		var vm = this;
 
@@ -24,6 +24,8 @@
 		vm.onSuccess = false;
 		vm.showError = false;
 		vm.isNotAdmin = true;
+		vm.url;
+		vm.credited;
 
 		function isAdmin(){
 			vm.isNotAdmin = !SetPermissionsService.can('administrate-background_images');
@@ -41,12 +43,12 @@
 			$scope.image = "uploads/background_images/"+image.file;
 		}
 
-		vm.uploadFile = function(credited, url){
+		vm.uploadFile = function(){
 			var formData = new FormData();
 		    formData.append("file", vm.thisFile);
-		    formData.append("credited", credited);
-		    if(url && !/^(http):\/\//i.test(url)) {url = 'http://' + url;}
-		    formData.append("url", url);
+		    formData.append("credited", vm.credited);
+		    if(vm.url && !/^(http):\/\//i.test(vm.url)) {vm.url = 'http://' + vm.url;}
+		    formData.append("url", vm.url);
 		    formData.append('active', vm.isactive);
 
 		    backgroundimage.saveBackgroundImage(formData).then(function(result) {

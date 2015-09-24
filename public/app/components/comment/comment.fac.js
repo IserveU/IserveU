@@ -61,7 +61,7 @@
 		}
 
 		function getMyComments(id) {
-			return MyComments.get({id:id}).$promise.then(function(results) {
+			return MyComments.query({id:id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);

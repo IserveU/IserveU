@@ -7,7 +7,7 @@
   <section class="md-whiteframe-z1" style="margin:8px">
     <md-toolbar class="section-toolbar">
       <div class="md-toolbar-tools">
-        <h3>Upload Background Image</h3>
+        <h3 translate="{{'UPLOAD_BACKGROUND_IMG'}}"></h3>
       </div>
     </md-toolbar>
     <div layout="column" >
@@ -18,13 +18,12 @@
       <md-input-container>
 
                 <md-icon class="mdi" md-font-icon="mdi-account" ></md-icon>
-
-        <input ng-model="credits" placeholder="Who took this photo?" required/>
+        <input ng-model="background.credited" translate translate-attr-placeholder="WHO_TOOK_THIS" required/>
       </md-input-container>
 
       <md-input-container>
                 <md-icon class="mdi" md-font-icon="mdi-link" ></md-icon>
-       <input ng-model="url" placeholder="myphotographywebsite.ca" required/>
+       <input ng-model="background.url" translate translate-attr-placeholder="EXAMPLE_WEBSITE" required/>
       </md-input-container>
 
  
@@ -41,16 +40,16 @@
       </div>
 
       <div layout layout-sm="column">
-        <md-button ng-click="background.uploadFile(credits, url); background.uploading = true" ng-hide="background.uploading" type="submit">Submit</md-button>
+        <md-button ng-click="background.uploadFile(); background.uploading = true" ng-hide="background.uploading" type="submit" translate="{{'SUBMIT'}}"></md-button>
         <md-button aria-label="loading" ng-show="background.uploading"> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ></md-icon>
         </md-button>
 
         <has-permission has-permission="administrate-background_images">
         <md-checkbox ng-model="background.isactive" ng-true-value="1" ng-false-value="0" aria-label="Checkbox 1">
-            Active<md-tooltip>This will place your photo into the daily cycles immediately.</md-tooltip>
+            {{'ACTIVE' |  translate}}<md-tooltip>{{'DAILY_CYCLE_TOOLTIP' | translate}}</md-tooltip>
         </md-checkbox>
          <div ng-messages="{warning:background.showError}">
-          <div ng-message="warning">There was an error uploading your photo. Make sure you've entered in all the fields correctly.</div>
+          <div ng-message="warning" translate="{{'UPLOAD_PHOTO_ERROR'}}"></div>
          </div>
          </has-permission>
         

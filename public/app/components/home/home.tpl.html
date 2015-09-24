@@ -6,7 +6,7 @@
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>Welcome!</h3>
+          <h3 translate="{{'WELCOME'}}"></h3>
         </div>
       </md-toolbar>
       <div layout-padding>
@@ -18,7 +18,7 @@
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>Currently Passing</h3>
+          <h3 translate="{{'CURRENTLY_PASSING'}}"></h3>
         </div>
       </md-toolbar>
       <md-list layout-padding>
@@ -35,17 +35,17 @@
   <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>Today's Top Comments</h3>
+          <h3 translate="{{'TODAYS_TOP_COMMENTS'}}"></h3>
         </div>
       </md-toolbar>
       <md-list layout-padding>
       <div  ng-if="home.topComments" ng-repeat="comment in home.topComments">
 
-      <md-list-item ui-sref-active="active" ui-sref="motion({id:home.topComment.vote.motion_id})">
+      <md-list-item ui-sref-active="active" ui-sref="motion({id:comment[0].vote.motion_id})">
       <p class="md-body-1">{{comment[0].text | limitTo: 120}}{{comment.text[0].length > 120 ? '...' : ''}}</p>
 
       <span style="color:green;">{{ (comment[0].commentRank > 0) ? '+' + comment[0].commentRank : '0'}}</span>
-      <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:home.topComment.vote.motion_id})">
+      <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment[0].vote.motion_id})">
         <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
       </md-button>
 
@@ -53,7 +53,8 @@
         <md-divider></md-divider>
 
         <md-list-item class="md-caption" layout-align="end">
-        by {{comment[0].user.public ? comment[0].user.first_name + ' ' + comment[0].user.last_name : 'a Yellowknifer' }}
+        <span ng-show="comment[0].user.public">{{'BY' | translate}}{{comment[0].user.first_name + ' ' + comment[0].user.last_name}}</span>
+        <span ng-hide="comment[0].user.public">{{'BY_A' | translate}}</span>
         </md-list-item>
       </div>
       <p ng-show="home.empty.topcomment" ng-cloak class="md-body-1">There isn't a top comment today. Give it a go.</p>
@@ -70,7 +71,7 @@
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>Your Votes</h3>
+          <h3 translate="{{'YOUR_VOTES'}}"></h3>
         </div>
       </md-toolbar>
       <md-list layout-padding ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes">
@@ -99,7 +100,7 @@
     <section layout-margin  class="md-whiteframe-z1" flex>
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
-          <h3>Your Comments</h3>
+          <h3 translate="{{'YOUR_COMMENTS'}}"></h3>
         </div>
       </md-toolbar>
       <md-list layout-padding ng-if="!home.empty.mycomments" ng-repeat="comment in home.myComments | limitTo: 5">
