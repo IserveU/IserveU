@@ -205,10 +205,6 @@
 			}
 			if(id){
 				user.getUser(id).then(function(result){
-					if(result.date_of_birth){
-						vm.display_date_of_birth = result.date_of_birth;
-						result.date_of_birth = new Date(result.date_of_birth);
-					}
 					vm.profile = result;
 					vm.isLoading = false;
 					getVotingHistory(vm.profile.id);

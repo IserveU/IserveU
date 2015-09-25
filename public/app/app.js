@@ -67,7 +67,7 @@
 			});
 			formlyConfigProvider.setType({
 			  name: 'date',
-			  template: '<md-input-container><input type="date" aria-label="{{options.templateOptions.label}}" label="{{options.templateOptions.label}}" ng-model="model[options.key]"></input></md-input-container>'
+			  template: '<md-input-container><input type="date" aria-label="{{options.templateOptions.label}}" label="{{options.templateOptions.label}}" ng-model="model[options.key]" convert-date/></md-input-container>'
 			});
 			formlyConfigProvider.setType({
 			  name: 'md-switch',
@@ -208,14 +208,13 @@
 	        	});                  
 
 		})
-		.filter('dateToISO', function() {
+		.filter('dateToDate', function() {
 		  	return function(input) {
-		  		if(typeof input !== "undefined"){
-		    		input = new Date(input).toISOString();
-		    		return input;
-		    	}
+		    	input = new Date(input);
+		    	return input;
 	  		};
 		})
+
 		.filter('proComment', function() {
 			return function(input) {
 				var out = [];

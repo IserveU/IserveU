@@ -37,11 +37,14 @@
 		vm.getEmptyFields = getEmptyFields;
 
 		function getUserFields(){
-			user.editUser(vm.id).then(function(results){
-				getEmptyFields(results);
-			}, function(error) {
-				console.log(error);
-			});
+			if(vm.id){
+				user.editUser(vm.id).then(function(results){
+					getEmptyFields(results);
+				}, function(error) {
+					console.log(error);
+				});
+			}
+			
 		}
 
 		function getEmptyFields(fields) {

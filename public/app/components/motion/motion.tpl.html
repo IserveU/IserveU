@@ -28,20 +28,22 @@
 			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  >
 				<div layout-padding class="listgrid">
 				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
-					 <!--   <md-grid-tile class="md-whiteframe-z1">
-						    <md-icon md-svg-icon="/img/icons/action/svg/production/ic_schedule_24px.svg"></md-icon>
-						    <md-grid-tile-footer><h3>{{motion.motionDetail.closing | dateToISO | date:'shortDate' }} </h3></md-grid-tile-footer>
-					    </md-grid-tile> -->
+				    
+					   <md-grid-tile class="md-whiteframe-z1">
+						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove"><p class="md-caption">Closed</p></md-icon>
+						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"><p class="md-caption">Open</p><md-tooltip md-direction="left">closes on {{motion.motionDetail.closing.alpha_date }}</md-icon>
+					    </md-grid-tile>
+
+					    <md-grid-tile class="md-whiteframe-z1 {{motion.motionVotes.position}}">
+						  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.motionVotes.position}}.svg"  ng-if="motion.motionVotes.position"></md-icon>
+						  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.motionVotes.position"></md-icon>
+						 <!--   <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer> -->							 
+					    </md-grid-tile>
 					    <md-grid-tile class="md-whiteframe-z1">
 						  <!--  <md-icon md-svg-icon="/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon> comment out until departments assigned-->
 						    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
 
 						   <!-- <md-grid-tile-footer><h3>{{motion.motionDetail.department  }}</h3></md-grid-tile-footer> -->
-					    </md-grid-tile>
-					    <md-grid-tile class="md-whiteframe-z1 {{motion.motionVotes.position}}">
-						  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.motionVotes.position}}.svg"  ng-if="motion.motionVotes.position"></md-icon>
-						  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.motionVotes.position"></md-icon>
-						 <!--   <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer> -->							 
 					    </md-grid-tile>
 				    </md-grid-list>
 				</div>

@@ -5,7 +5,7 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $stateParams, $mdToast, $state, motion,
-    vote, UserbarService, ToastMessage, VoteService, FigureService) {
+    vote, figure, UserbarService, ToastMessage, VoteService, FigureService) {
 
         var vm = this;
 
@@ -31,10 +31,16 @@
         vm.userVoteId;
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
-        vm.editMotionMode = false;
+        vm.editMotionMode = true;
         vm.editingMotion = false;
+
         vm.figures;
         vm.getFigure = FigureService.getFigure;
+        vm.delete_figure = [{
+            bool: false,
+            motion_id: '',
+            figure_id: ''
+        }]
 
         vm.upload = function(flow) {
             vm.formData = new FormData();
@@ -53,7 +59,7 @@
                 if(response == 'ok') {
                     motion.deleteMotion($stateParams.id).then(function(result) {
                         $state.go('home');
-                        $rootScope.$emit('refreshMotionSidebar');  
+                        refreshSidebar();    
                     }, function(error) {
                         ToastMessage.report_error(error);
                     });
@@ -76,19 +82,20 @@
 
         vm.updateMotion = function() {
             vm.editingMotion = true;
-            
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
                 active: vm.motionDetail.active,
-                id: $stateParams.id
+                closing: vm.motionDetail.closing.carbon.date,
+                id: $stateParams.id,
+                department_id: vm.motionDetail.department_id
             }
-            console.log(data);
             motion.updateMotion(data).then(function(result) {
-                console.log(result);
                 vm.editMotion();
                 vm.editingMotion = false;
-                FigureService.uploadFile(vm.formData, $stateParams.id);
+                uploadFigure();
+                deleteFigures();
+                getMotion(result.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
                 ToastMessage.report_error(error);
@@ -97,30 +104,58 @@
 
 
         function getMotion(id) {
-            getFigures(id);
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
-                console.log(result);
                 vm.isLoading = false; 
                 getMotionVotes(result.id);
                 UserbarService.title = result.title;
             });  
+
+            getFigures(id);
         }
 
-        function getFigures(id){
+        // figures section is questionable, maybe abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
+
+        function getFigures(id){    // unnecessary step 
             FigureService.getFigures(id).then(function(result) {
                 vm.figures = result;
             });
         }
 
+        vm.deleteFigure = function(bool, motion_id, figure_id) {
+            vm.delete_figure[figure_id] = {
+                bool: !bool,
+                motion_id: motion_id,
+                figure_id: figure_id
+            }
+        }
+
+        function uploadFigure(){
+            if(vm.formData){
+              FigureService.uploadFile(vm.formData, $stateParams.id);
+            }
+        }
+
+        function deleteFigures(){
+            console.log(vm.delete_figure);
+            angular.forEach(vm.delete_figure, function(figure, key) {
+                if(figure.bool){
+                    FigureService.deleteFigure(figure.motion_id, figure.figure_id);
+                }
+            })
+        }
+
         // motion voting, gotta abstract into service/ new controller
+
+        function getMotionOnGetVoteSuccess(id){
+            motion.getMotion(id).then(function(results){
+
+            })
+        }
 
         function getMotionVotes(id){
             vote.getMotionVotes(id).then(function(results){
                 calculateVotes(results);
-                vm.voteLoading = false;
-            }, function(error){
-                console.log(error);
             });
 
         }
@@ -143,6 +178,8 @@
             } else {
                 vm.motionVotes.position = "thumbs-up-down";
             } 
+            
+            refreshSidebar();
         }
 
         vm.castVote = function(position) {
@@ -168,6 +205,7 @@
             
             if(!vm.userHasVoted) {
             vote.castVote(data).then(function(result) {
+
                 motion.getMotion(data.motion_id).then(function(result) {
                     vm.motionDetail = result;
                     calculateVotes(result);
@@ -189,7 +227,7 @@
             }
             else updateVote(data.position);
 
-            $rootScope.$emit('refreshMotionSidebar', {position:position, id:data.motion_id});      
+            refreshSidebar();    
 
         }
 
@@ -221,7 +259,6 @@
         }
 
         function getUsersVotes() {
-
             vote.getUsersVotes().then(function(result) {
                 angular.forEach(result, function(value, key) {
                     if(value.motion_id == $stateParams.id) {
@@ -245,6 +282,15 @@
             }
         }
 
+        // end refactor of vote ctr/svc
+
+
+        function refreshSidebar(){
+            $rootScope.$emit('refreshMotionSidebar');
+        }
+        function refreshMotionData(){   // probably unnecessary ...
+            $scope.$emit('refreshMotionData');
+        }
 
         getMotion($stateParams.id);
         getUsersVotes();

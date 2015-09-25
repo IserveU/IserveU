@@ -38,7 +38,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department','id','votes','motionRank','MotionOpenForVoting','closing'];
+	protected $visible = ['title','text','summary','department_id','id','votes','motionRank','MotionOpenForVoting','closing'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -114,7 +114,7 @@ class Motion extends ApiModel {
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['closing','created_at','updated_at'];
+	protected $dates = ['created_at','updated_at'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts

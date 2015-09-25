@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, motion, $state, UserbarService, department, FigureService) {
+    function CreateMotionController($rootScope, $scope, $stateParams, motion, $state, UserbarService, department, FigureService, ToastMessage) {
 
 		UserbarService.setTitle("");
 
@@ -52,7 +52,6 @@
 
 
     	vm.newMotion = function(){
-            console.log(vm.closingdate);
             var data = {
                 title: vm.title,
                 text: vm.text,
@@ -66,7 +65,7 @@
                 $rootScope.$emit('refreshMotionSidebar');  
                 uploadFigure(result.id);
             },function(error) {
-                console.log(error);
+                ToastMessage.report_error(error);
             });
 		}
 
