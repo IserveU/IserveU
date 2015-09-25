@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, motion, $state, UserbarService, department, FigureService, ToastMessage) {
+    function CreateMotionController($rootScope, $scope, $stateParams, motion, motionfile, $state, UserbarService, department, ToastMessage) {
 
 		UserbarService.setTitle("");
 
@@ -26,11 +26,11 @@
         vm.motion_id;
         vm.isactive;
         vm.text;
-        vm.title;
+        vm.title
         vm.summary;
         vm.submitted = false;
+        vm.text_box_clicked = false;
 
-        vm.uploadFigure = FigureService.uploadFile;
         vm.figuretitle = '';
 
         vm.theseFiles = {};
@@ -42,10 +42,9 @@
         vm.newFigureTitle = function(flow, name, index){
             vm.thisFile = '';
             flow.files[index].name = name;
-
             var tempFormData = new FormData();
             tempFormData.append("file", flow.files[index].file);
-            tempFormData.append("title", name);
+            tempFormData.append("file_category_name", "motionfiles");
   
             vm.theseFiles[index] = tempFormData;
         }
@@ -71,13 +70,15 @@
 
         function uploadFigure(id) {
             if(vm.thisFile){
-                var formData = new FormData();
-                formData.append("file", vm.thisFile);
-                FigureService.uploadFile(formData, id);
-                return -1;
+                var fd = new FormData();
+                fd.append("file", vm.thisFile);
+                fd.append("file_category_name", "motionfiles");
+                motionfile.uploadMotionFile(id, fd);
+                return;
             }
+
             angular.forEach(vm.theseFiles, function(value, key) {
-                FigureService.uploadFile(value, id);
+                motionfile.uploadMotionFile(id, value);
             })
 
         }

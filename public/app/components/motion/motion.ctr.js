@@ -5,7 +5,7 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $stateParams, $mdToast, $state, motion,
-    vote, figure, UserbarService, ToastMessage, VoteService, FigureService) {
+    vote, motionfile, UserbarService, ToastMessage, VoteService) {
 
         var vm = this;
 
@@ -36,11 +36,12 @@
         vm.editMotionMode = false;
         vm.editingMotion = false;
 
-        vm.figures;
-        vm.delete_figure = [{
+        vm.motion_files;
+
+        vm.delete_motion_file = [{
             bool: false,
             motion_id: '',
-            figure_id: ''
+            file_id: ''
         }]
 
 
@@ -88,8 +89,8 @@
             motion.updateMotion(data).then(function(result) {
                 vm.editMotion();
                 vm.editingMotion = false;
-                uploadFigure();
-                deleteFigures();
+                uploadMotionFile();
+                deleteMotionFiles();
                 getMotion(result.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
@@ -105,41 +106,42 @@
                 UserbarService.title = result.title;
             });  
 
-            getFigures(id);
+            getMotionFiles(id);
         }
 
         // figures section is questionable, maybe abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
 
 
-        function getFigures(id){    // unnecessary step 
-            FigureService.getFigures(id).then(function(result) {
-                vm.figures = result;
-            });
+        function getMotionFiles(id){    // unnecessary step 
+            motionfile.getMotionFiles(id).then(function(result) {
+                vm.motion_files = result;
+            })
         }
 
-        vm.deleteFigure = function(bool, motion_id, figure_id) {
-            vm.delete_figure[figure_id] = {
+        vm.deleteMotionFile = function(bool, motion_id, file_id) {
+            vm.delete_motion_file[file_id] = {
                 bool: !bool,
                 motion_id: motion_id,
-                figure_id: figure_id
+                file_id: file_id
             }
         }
 
         vm.upload = function(flow) {
             vm.formData = new FormData();
             vm.formData.append("file", flow.files[0].file);
+            vm.formData.append("file_category_name", "motionfiles");
         }
 
-        function uploadFigure(){
+        function uploadMotionFile(){
             if(vm.formData){
-              FigureService.uploadFile(vm.formData, $stateParams.id);
+                motionfile.uploadMotionFile($stateParams.id, vm.formData);
             }
         }
 
-        function deleteFigures(){
-            angular.forEach(vm.delete_figure, function(figure, key) {
-                if(figure.bool){
-                    FigureService.deleteFigure(figure.motion_id, figure.figure_id);
+        function deleteMotionFiles(){
+            angular.forEach(vm.delete_motion_file, function(file, key) {
+                if(file.bool){
+                    motionfile.deleteMotionFile(file.motion_id, file.file_id);
                 }
             })
         }

@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
-	function motion($resource, $q) {
+	function motion($resource, $q, $http) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
@@ -74,6 +74,8 @@
 				return $q.reject(error);
 			});
 		}
+
+
 
 		return {
 			getMotions: getMotions,

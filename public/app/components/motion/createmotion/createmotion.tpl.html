@@ -29,9 +29,9 @@
     <input ng-model="create.summary" name="introduction"></input>
   </md-input-container>
 
-  <md-input-container style="max-width:15%">
-  <textarea ng-disabled="true">Details</textarea>
-</md-input-container>
+  <md-input-container flex>
+    <input class="details-header box-clicked" translate disabled translate-attr-placeholder="DETAILS">
+  </md-input-container>
 
 <md-input-container>
 <text-angular class="text-angular" ng-model="create.text" name="text" layout-padding ng-length="300">
@@ -74,8 +74,8 @@
       <div layout layout-sm="column">
         <md-icon class="mdi mdi-calendar"></md-icon>
         <md-input-container><label>Closing Date</label><input type="date" style="display:inline" ng-model="create.closingdate" /></md-input-container>
-        <!-- <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px" md-placeholder="Enter date"> -->
-      </md-datepicker>
+        <!-- <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px" md-placeholder="Enter date">
+      </md-datepicker> -->
 
       <md-input-container flex="45">
       <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>

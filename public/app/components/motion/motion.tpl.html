@@ -14,11 +14,9 @@
 
 		<div layout-padding>
 			<md-divider></md-divider>
-			<div flex ng-repeat="figure in motion.figures">
-				<h3 class="md-subhead" ng-bind="figure.title"></h3>
-				<a href="/uploads/figures/{{figure.file}}">
-					<img ng-src="/uploads/figures/{{figure.file}}" />
-				</a>
+			<div flex ng-repeat="file in motion.motion_files">
+				<h3 class="md-subhead" ng-bind="file.title"></h3>
+					<img ng-src="/uploads/motionfiles/{{file.filename}}" />
 			</div>
 		</div>
 	</div>
