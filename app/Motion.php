@@ -53,6 +53,14 @@ class Motion extends ApiModel {
 	protected $creatorVisible = ['active','user_id'];
 
 	/**
+	 * The mapped attributes for 1:1 relations
+	 * @var array
+	 */
+   	// protected $maps = [
+    //  	'motionFiles' 				=> 	'motionFiles'
+    // ];
+
+	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
@@ -311,8 +319,13 @@ class Motion extends ApiModel {
 		return $this->hasMany('App\Vote'); //->select(['id','motion_id','position','deferred']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
 	}
 
-	public function figures(){
-		return $this->hasMany('App\Figure');
+	public function motionFiles(){
+		return $this->hasMany('App\MotionFile');
+	}
+
+	public function files(){
+		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
+
 	}
 
 

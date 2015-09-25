@@ -3,53 +3,45 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
 
-use Request;
-use Auth;
-
-
-class Figure extends ApiModel
+class FileCategory extends ApiModel
 {
-    
-	use Eloquence, Mappable;
-
-	/**
+   
+   	/**
 	 * The name of the table for this model, also for the permissions set for this model
 	 * @var string
 	 */
-	protected $table = 'figures';
+	protected $table = 'file_categories';
 
 	/**
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['file','motion_id','title'];
+	protected $fillable = ['name'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = [];
+	protected $adminFillable = ['id','name'];
 	
 	/**
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','file','motion_id','title'];
+	protected $visible = ['id','name'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = [];
+	protected $adminVisible = ['id','name'];
 
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = [];
+	protected $creatorVisible = ['id','name'];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
@@ -62,10 +54,8 @@ class Figure extends ApiModel
      * @var array
      */
 	protected $rules = [
-		'title' 			=>	'min:8|unique_with:figures,motion_id',
-        'file'				=>	'min:20',
-        'motion_id'			=>	'integer',
-        'id'				=>	'integer'
+        'name'			=>	'min:1|unique:file_categories,name',
+        'id'			=>	'integer'
 	];
 
 	/**
@@ -78,22 +68,22 @@ class Figure extends ApiModel
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['file','motion_id'];
+	protected $onCreateRequired = ['name'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = ['title'];
+	protected $unique = ['name'];
 
 	/**
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
 	protected $fields = [
-		'title' 				=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
-		'file'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
+		'name'	 	=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>'']
 	];
+
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
@@ -107,36 +97,42 @@ class Figure extends ApiModel
 		parent::boot();
 
 		static::creating(function($model){
-			return $model->validate();	
+			if(!$model->validate()) return false;
+			return true;
 		});
 
+		static::created(function($model){
+			
+			$result = \File::makeDirectory(getcwd()."/uploads/".$model->name);
+
+			return $result;
+		});
+
+
 		static::updating(function($model){
-			return $model->validate();			
+			if(!$model->validate()) return false;
+			return true;
 		});
 
 	}
 
 
 	/************************************* Custom Methods *******************************************/
-	
+
 	
 	/************************************* Getters & Setters ****************************************/
-
-
 
 
 	/************************************* Casts & Accesors *****************************************/
 
 
-
 	/************************************* Scopes ***************************************************/
-
 
 
 	/************************************* Relationships ********************************************/
 
-	public function motion(){
-		return $this->belongsTo('App\motion');
+	public function files(){
+		return $this->hasMany('App\File');
 	}
 
 }

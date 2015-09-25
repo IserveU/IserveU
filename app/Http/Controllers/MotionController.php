@@ -25,6 +25,8 @@ class MotionController extends ApiController {
 		$filters = Request::all();
 		$limit = Request::get('limit') ?: 30;
 
+		
+
 		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
 				$query->where('user_id',Auth::user()->id);
