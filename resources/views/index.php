@@ -27,6 +27,7 @@
             </sidebar>
         </md-sidenav>
 
+
         <div layout="column" tabIndex="-1" role="main" flex>
         
           <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" ng-if="userIsLoggedIn" >
@@ -125,11 +126,14 @@
 
 
           <div flex ui-view></div>
-          <md-caption layout-padding  ng-controller="BackgroundImageController as vm" class="imagecredit">
-            <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
-          </md-caption>
+
         </div>
 
+        </div>
+        <div layout layout-align="end end" layout-padding>
+           <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
+            <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
+          </md-caption>
         </div>
     </body>        
 
