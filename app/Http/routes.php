@@ -56,7 +56,7 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::get('motion/{id}/restore','MotionController@restore');
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
-		Route::resource('motion.figure','MotionFigureController');
+		Route::resource('motion.motionfile','MotionFileController');
 		Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 
 		Route::resource('department', 'DepartmentController');
