@@ -9,10 +9,19 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
     </head>
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
- <body back-img class="background-image" layout="row" ng-controller="SidebarController as sidebar"/>
+ <body back-img class="background-image"  ng-controller="SidebarController as sidebar"/>
 
         <!--   /uploads/background_images/{{settings.image}} -->
-        <md-sidenav  id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-if="userIsLoggedIn">
+        <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
+          <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:11px">
+          <span translate="{{'BETA_HEADER'}}"></span>&nbsp;
+          <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
+          <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
+          <a style="color:#f2aa4f" href="mailto:admin@iserveu.com"><u>admin@iserveu.ca</u></a></p>
+        </div>
+
+    <div layout="row" >
+        <md-sidenav  id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner"></div>
             </sidebar>
@@ -20,9 +29,9 @@
 
         <div layout="column" tabIndex="-1" role="main" flex>
         
-          <md-toolbar class="md-toolbar-tools site-content-toolbar" ng-if="userIsLoggedIn">
+          <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" ng-if="userIsLoggedIn" >
             <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" tabIndex="-1">
-                <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-sm aria-label="Toggle Menu">
+                <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-md aria-label="Toggle Menu">
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
@@ -31,12 +40,12 @@
                  </div>
 
                 <div>
-                    <md-menu>
+                    <md-menu >
                         <md-button class="md-primary" ng-click="$mdOpenMenu()" ng-cloak translate="{{ 'LANG_NAME' }}"></md-button>
-                        <md-menu-content width="1">
+                        <md-menu-content width="1" style="margin:0px">
                             <md-menu-item ng-repeat="language in user.languages">
                                 <md-button ng-click="user.changeLanguage(language.key)">
-                                    <p flex ng-cloak>{{language.name}}</p>
+                                    <p flex ng-cloak >{{language.name}}</p>
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>
@@ -47,7 +56,7 @@
                     <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
                         <md-menu md-position-mode="target-right target" ng-cloak>
                             <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-                                <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
+                                <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
                             </md-button>
                             <md-menu-content width="4">
                                 <md-menu-item ng-cloak>
@@ -112,17 +121,14 @@
                 </div>
             </div>
           </md-toolbar>
-  <md-toolbar class="md-warn" ng-cloak layout-padding>
-    <div class="md-toolbar-tools">
-      <h2 class="md-flex" >{{'BETA_HEADER' | translate}}<span style="font-size:60%; display:block">{{'BETA_MESSAGE' | translate}}</span></h2>
-    </div>
-  </md-toolbar>
+
+
 
           <div flex ui-view></div>
-
           <md-caption layout-padding  ng-controller="BackgroundImageController as vm" class="imagecredit">
             <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
           </md-caption>
+        </div>
 
         </div>
     </body>        
