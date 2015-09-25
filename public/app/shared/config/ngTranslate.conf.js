@@ -107,7 +107,7 @@
 			MOTIONS: "Motions",
 			BETA_HEADER: "IserveU est présentement en BETA. ",
 			BETA_MESSAGE: "Les caractéristiques et les améliorations sont constamment ajoutées. Si vous désirez nous aider en testant notre programme, envoyez-nous un courriel à ",
-			BETA_MESSAGE_MINI: "Si vous avez des problèmes, envoyez-nous un courriel ",
+			BETA_MESSAGE_MINI: "Pour tous problèmes, communiquez avec nous par courriel ",
 			PHOTO_COURTESY: "Les photos sont une courtoisie de ",
 			LOGOUT: "Se déconnecter",
 			YOUR_PROFILE: "Votre profile",
