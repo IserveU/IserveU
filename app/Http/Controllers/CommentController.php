@@ -168,9 +168,7 @@ class CommentController extends ApiController {
 	 */
 	public function destroy(Comment $comment)
 	{
-		if(!$comment){
-			abort(403,"Comment does not exist, permanently deleted");
-		}
+
 		if($comment->user->id != Auth::user()->id && !Auth::user()->can('delete-comments')){
 			abort(401,'User does not have permission to delete this comment');
 		}

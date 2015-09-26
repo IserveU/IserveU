@@ -12,6 +12,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 
+use Storage;
+
 class BackgroundImageController extends ApiController
 {
 
@@ -111,9 +113,14 @@ class BackgroundImageController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(BackgroundImage $backgroundImage)
     {
-        //
+
+        if(!Auth::user()->can('administrate-background_images')){
+            abort(401,'User does not have permission to delete background images');
+        }
+
+        $backgroundImage->delete();
     }
 
 }

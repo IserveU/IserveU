@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
+use Storage;
+
 
 class BackgroundImage extends ApiModel
 {
@@ -118,6 +120,11 @@ class BackgroundImage extends ApiModel
 			return $model->validate();			
 		});
 
+
+		static::deleted(function($model){
+	        Storage::delete('/uploads/background_images/'.$model->file);
+	        return true;
+		});
 	}
 
 
@@ -171,8 +178,6 @@ class BackgroundImage extends ApiModel
 
 		return true;
 	}
-
-
 
 	/************************************* Casts & Accesors *****************************************/
 
