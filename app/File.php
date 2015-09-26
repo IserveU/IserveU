@@ -170,20 +170,9 @@ class File extends ApiModel
 		    $filename = md5($img->response()).".png";
 		    $img->save(getcwd()."/uploads/".$this->fileCategory->name."/$filename");   
 		} else {
-
-			try {
-	      		$file = Image::make(Request::file('file'))->resize(1920, null, function($constraint){
-	      			$constraint->aspectRatio();
-	      			$constraint->upsize();
-	      		});
-
-				$this->image = false;
-
-			} catch (Exception $e) {
-			    abort(400,'There was an error uploading and resizing the image');
-			} catch (NotReadableException $e){
-				abort(403,"Unable to read image from file");
-			}
+		    $filename = md5($file).".".$file->getClientOriginalExtension();
+			$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
+			$this->image = false;
 		}
 		$this->filename 	=	$filename;
 
