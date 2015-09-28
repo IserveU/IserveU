@@ -14,10 +14,26 @@
 
 	    var Restore = $resource('api/comment/:id/restore');
 
-	    var MyComments = $resource('api/user/:id/comment');
-
 	    var MotionComment = $resource('api/motion/:id/comment');
 
+	    var MyComments =  $resource('api/user/:id/comment', {}, {
+	      query: {
+	        method: 'GET',
+	        params: {},
+	        isArray: true,
+	        transformResponse: function(data, header){
+	          //Getting string data in response
+	          var jsonData = JSON.parse(data); //or angular.fromJson(data)
+	          var comments = [];
+
+	          angular.forEach(jsonData, function(comment){
+	            comments.push(comment);
+	          });
+
+	          return comments;
+	        }
+	      }
+	    });
 
 
 		function getComment() {

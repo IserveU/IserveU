@@ -1,12 +1,12 @@
 <!--  ng-if="vm.usersVote || vm.usersVote == 0" -->
-<section class="md-whiteframe-z1 comments" layout-margin ng-if="motion.usersVote && !motion.MotionOpenForVoting">
+<section class="md-whiteframe-z1 comments" layout-margin ng-if="motion.usersVote || motion.usersVote==0" ng-hide="!motion.MotionOpenForVoting">
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 ng-bind="vm.thisUsersComment == null ? '{{'POST_COMMENT' | translate}}' : '{{'YOUR_COMMENT' | translate}}'"></h3>
        	</div>
 	</md-toolbar>
 	
-	<div flex ng-if="vm.thisUsersComment.text == null" class="disagree comments" layout-padding>
+	<div flex ng-if="vm.thisUsersComment.text == null" layout-padding>
 		<form style="padding-bottom:20px">
      		<div layout="column"> 
 			    <div>
