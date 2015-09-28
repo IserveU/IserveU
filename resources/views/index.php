@@ -14,7 +14,7 @@
         <!--   /uploads/background_images/{{settings.image}} -->
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
           <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:11px">
-          <span translate="{{'BETA_HEADER'}}"></span>&nbsp;
+          <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
           <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
           <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
           <a style="color:#f2aa4f" href="mailto:admin@iserveu.com"><u>admin@iserveu.ca</u></a></p>
