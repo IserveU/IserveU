@@ -1,0 +1,68 @@
+<div ng-show="!user.isLoading">
+
+<md-content id="maincontent" layout="column" fill-layout>
+
+  <section class="md-whiteframe-z1" style="margin:8px">
+    <md-toolbar class="section-toolbar md-tall">
+      <div>
+        <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
+        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}</h3></div>
+          <div style="padding-left: 110px; position:absolute" ng-if="user.my_id || user.administrate_users">
+            <md-button style="color:black;" class="btn btn-sm btn-primary" ng-click="user.showEditUserForm()" translate="{{'EDIT'}}"></md-button>
+              <has-permission has-permission="delete-users">
+                <md-button style="color:red;" class="btn btn-sm btn-primary" ng-click="user.deleteUser(user.profile.id)" translate="{{'DELETE'}}"></md-button>
+              </has-permission>
+          </div>
+      </div>
+    </md-toolbar>
+
+
+    <div layout="row">
+
+
+  <!-- form begins -->
+      <div layout="column">    
+        <form layout-padding>
+        <div layout-padding style="padding-top:7px" ng-show="user.profile.email"><label class="md-caption" style="color:grey" translate="{{'EMAIL_ADDRESS'}}"></label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
+      	<div layout-padding style="padding-top:7px" ng-show="user.profile.date_of_birth"><label class="md-caption" style="color:grey" translate="{{'BIRTHDAY'}}"></label><p class="md-subhead" style="margin:0">{{user.profile.date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
+
+    <has-permission has-permission="administrate-permissions">
+      <div layout="row" layout-padding>
+        <md-select aria-label="select" ng-model="user.new_role" placeholder="{{'SELECT_ROLE' | translate}}"><md-option ng-repeat="role in user.roles" ng-value="role.name">{{role.display_name}}<md-tooltip>{{role.description}}</md-tooltip></md-option></md-select>
+              <md-button ng-click="user.setRole(user.new_role)" class="btn btn-sm btn-primary" translate="{{'SAVE'}}"></md-button>
+      </div>
+    </has-permission>
+
+
+       </form>
+ <!-- form ends; more info and data later-->
+  </section>
+
+
+    <section  ng-if="user.profile.public && user.votes" flex layout-margin class="md-whiteframe-z1">
+      <md-toolbar class="section-toolbar">
+        <div class="md-toolbar-tools">
+          <h3 translate="{{'VOTING_HISTORY'}}"></h3>
+        </div>
+      </md-toolbar>
+      <md-list layout-padding  ng-repeat="vote in user.votes">
+      <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
+      <p class="md-body-1">{{vote.motion.title}}</p>
+        <md-icon md-svg-src="{{vote.position}}"></md-icon>
+        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
+        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
+        <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
+           <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+          </md-button>
+        </md-list-item>
+        <md-divider ng-show="!$last"></md-divider>
+      </md-list>
+    </section>
+
+
+
+</md-content>
+
+
+</div>

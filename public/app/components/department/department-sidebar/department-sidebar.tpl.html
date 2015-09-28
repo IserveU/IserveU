@@ -1,0 +1,17 @@
+<md-content flex role="navigation"  ng-controller="DepartmentSidebarController as sidebar">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
+        <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"></md-icon>
+      </md-button>
+      <h2>Departments</h2>
+    </div>
+  </md-toolbar>
+  <md-list>
+    <md-list-item class="sidebar-list" ng-repeat="department in sidebar.departments">
+    <md-icon class="mdi-small mdi-checkbox-blank-circle" ng-style="default"></md-icon><!-- icon for department space -->
+      <p  md-ink-ripple ui-sref="department({id:department.id})">{{ department.name }}</p>
+      <md-switch style="margin:0px" class="md-secondary" ng-model="department.active" ng-true-value="1" ng-false-value="0" aria-label="Switch" ng-click="sidebar.activate(department)"><md-tooltip>Quick activate</md-tooltip></md-switch>
+    </md-list-item>
+  </md-list>
+</md-content>

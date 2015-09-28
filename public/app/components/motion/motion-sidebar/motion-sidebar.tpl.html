@@ -1,0 +1,73 @@
+<md-content flex role="navigation" class="flex md-default-theme" style="overflow-y:hidden; overflow:hidden"ng-controller="MotionSidebarController as sidebar">
+  <md-toolbar>
+    <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px">
+      <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
+        <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg"></md-icon>
+      </md-button>
+      <h2 style="font-weight:500" translate="{{'MOTIONS'}}"></h2>
+      <span flex></span>
+
+
+      <div class="searchFilter" layout layout-align="end end" style="max-width: 33%" layout-padding>
+            <md-autocomplete ng-hide="!sidebar.showSearchFilter" class="search-input"
+                md-search-text-change="sidebar.searchTextChange(sidebar.searchText)" 
+                md-search-text="sidebar.searchText"
+                md-items="item in ctrl.querySearch(ctrl.searchText)"
+                md-item-text="item.name"
+                md-min-length="0"
+                placeholder="Search ...">
+            </md-autocomplete>
+                <md-icon style="padding-right:8px; " class="mdi mdi-magnify search-icon" ng-class="{'opened':sidebar.searchOpened}" ng-click="sidebar.showSearch()" style="max-height:30px"></md-icon>
+          <!-- <md-icon ng-click="sidebar.expandSearchFilters()" class="mdi mdi-dots-vertical search-icon"></md-icon> -->
+      </div>
+    </div>
+
+  </md-toolbar>
+  <md-list>
+    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
+     <!-- ng-class="{'sidebar-item-loading': sidebar.motion_is_loading[motion.id] && $state.includes('motion', {id:motion.id})}" >  -->
+
+
+      <div layout-padding>
+        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-arrow-bottom-right':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-equal':motion.motionRank == 0}" layout-padding>
+        <md-tooltip md-direction="right" ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+        <md-tooltip md-direction="right" ng-if="motion.motionRank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
+        </md-icon>
+     </div>
+
+      <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
+
+      <div ng-switch="{{ motion.votes[0].position }}">
+        <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting">
+          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="undefined"class="mdi mdi-med mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="motion.MotionOpenForVoting"></md-icon>
+          <md-tooltip>{{'QUICK_VOTE' | translate}}</md-tooltip>
+        </md-button>
+      </div>
+
+    </md-list-item>
+
+<!--     <md-list-item ng-hide="sidebar.hide_show_more">&nbsp;</md-list-item>
+    <md-list-item ng-if="sidebar.hide_show_more && sidebar.motions[29]">
+        <span flex></span>
+          <div class="sidebar-item-last">
+           <md-button md-no-ink class="md-raised" ng-click="sidebar.loadMoreMotions()" style="color:white; background-color: rgb(53,53,53); box-shadow: 0px 0px 0px #353535">{{sidebar.paginate_loading ? 'LOADING' : 'SHOW MORE ...'}}</md-button>
+           </div>
+    </md-list-item> -->
+
+    <md-list-item ng-if="sidebar.emptyMotionsArray">
+      <p class="md-body-1" translate="{{'NO_MOTIONS'}}"></p>
+    <has-permission has-permission="create-motions">
+    <md-list-item class="sidebar-list" ui-sref-active="active"> 
+      <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
+      <p ui-sref="createmotion" translate="{{'CREATE_NEW_MOTION'}}"></p>
+    </md-list-item>
+    </has-permission>
+    </md-list-item>
+
+
+  </md-list>
+
+</md-content>

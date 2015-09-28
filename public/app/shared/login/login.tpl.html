@@ -1,0 +1,80 @@
+<div  layout-align="center center" layout-fill  layout="row">
+  <div flex-sm="100" flex="30">
+      <div flex="100" layout-align="center center" layout-padding>
+       <img class="logo" src="/themes/default/logo/logo.png"/>
+      </div>
+    <md-content class="md-whiteframe-z5 loginbox" layout-padding layout-wrap layout="row" >
+  
+      <div flex="100">
+        <form name="loginform" id="loginform" ng-hide="login.registerform" novalidate>
+          <md-input-container flex>
+            <label>Email</label>
+            <input type="email" label="email" name="email" ng-model="login.email" required>
+              <div ng-messages="loginform.email.$error" ng-if="loginform.email.$dirty">
+                <div ng-message="required">Email is required</div>
+              </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Password</label>
+            <input type="password" name="password" ng-model="login.password" required>
+              <div ng-messages="loginform.password.$error">  
+                <div ng-if="loginform.password.$dirty" ng-message="required">Password is required.</div>
+              </div>
+              <div ng-messages="{warning:login.invalidCredentials}">
+                <div ng-message="warning">Password and email combination do not match.</div>
+              </div>
+          </md-input-container>
+          <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
+            <div ng-hide="login.loggingIn">Login</div>
+            <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="login.loggingIn"></md-icon>
+
+          </md-button>
+          <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
+          <div layout-align="center center">
+          <md-button ng-show="login.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
+          </div>
+        </form>
+        
+        <!-- extends when Create is pressed -->
+        <form name="registerform" ng-if="login.registerform" ng-submit="registerform.$valid && login.createUser()" novalidate>
+          <md-input-container flex>
+            <label>First Name</label>
+            <input type="name" name="firstname" ng-model="login.first_name" required>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Last Name</label>
+            <input type="name" name="lastname" ng-model="login.last_name" required>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Email</label>
+            <input type="email" name="newemail" ng-model="login.email" required>
+            <div ng-messages="{warning:login.emailValidation}">
+            <div ng-message="warning">This email is already registered on the site!</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Confirm Email</label>
+            <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.email" required>
+            <div ng-messages="registerform.confirmemail.$error" ng-if="registerform.newpassword.$dirty">
+              <div ng-message="required">Please confirm your email.</div>
+              <div ng-message="compareTo">Your email does not match.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Password</label>
+            <input ng-minlength="8" type="password" name="newpassword" ng-model="login.password"  required="">
+            <div ng-messages="registerform.password.$error"> 
+              <div ng-message="minlength">Password must be more than 8 characters long.</div>
+            </div>
+          </md-input-container>
+          <md-button type="submit" name="create" class="btn btn-primary">
+            <div ng-hide="login.creatingUser">Create</div>
+            <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
+          </md-button>
+            
+          <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
+        </form>
+      </div>
+    </md-content>
+  </div>
+</div>
