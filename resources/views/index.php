@@ -15,6 +15,7 @@
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
           <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:11px">
           <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
+          <span translate="{{'BETA_HEADER'}}"></span>&nbsp;
           <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
           <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
           <a style="color:#f2aa4f" href="mailto:admin@iserveu.com"><u>admin@iserveu.ca</u></a></p>
@@ -39,6 +40,7 @@
                     <h2 style="font-weight:500" hide-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <h2 style="font-size: 15px" hide-gt-sm show-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
 
+                    <h2 style="font-weight:500" ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <span flex></span> <!-- use up the empty space -->
                  </div>
 

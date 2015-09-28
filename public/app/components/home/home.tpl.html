@@ -1,6 +1,10 @@
 <md-content id="maincontent" ng-if="userIsLoggedIn" layout="column">
 <div layout-gt-lg="column front">
   <div flex="90" flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50" >
+<div ng-if="userIsLoggedIn">
+<md-content id="maincontent" layout="row">
+<div layout-gt-lg="column front" layout-sm="column">
+  <div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
 
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
@@ -66,6 +70,7 @@
 
 
 <div flex="90" flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50" >
+<div flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50">
 
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">

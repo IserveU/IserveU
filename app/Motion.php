@@ -41,6 +41,13 @@ class Motion extends ApiModel {
 	protected $visible = ['title','text','summary','department_id','id','votes','motionRank','MotionOpenForVoting','closing'];
 	
 	/**
+	 * The attributes included in the JSON/Array
+	 * @var array
+	 */
+	protected $hidden = ['motionRankRelation'];
+	
+
+	/**
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
@@ -167,6 +174,10 @@ class Motion extends ApiModel {
 	    $this->load('motionRank');
 	 
 	  $related = $this->getRelation('motionRank');
+	  if ( ! array_key_exists('motionRankRelation', $this->relations)) 
+	    $this->load('motionRankRelation');
+	 
+	  $related = $this->getRelation('motionRankRelation');
 	 
 	  // then return the count directly
 	  return ($related) ? (int) $related->rank : 0;
@@ -250,6 +261,7 @@ class Motion extends ApiModel {
 	 */
 
 	public function motionRank()
+	public function motionRankRelation()
 	{
 	  return $this->hasOne('App\Vote')
 	    ->selectRaw('motion_id, sum(position) as rank')
