@@ -21,7 +21,7 @@
         </div>
 
     <div layout="row" >
-        <md-sidenav  id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn">
+        <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner"></div>
             </sidebar>
@@ -36,7 +36,7 @@
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
-                    <h2 ng-cloak translate="{{user.userbarservice.title}}"></h2>
+                    <h2 style="font-weight:500" ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <span flex></span> <!-- use up the empty space -->
                  </div>
 
