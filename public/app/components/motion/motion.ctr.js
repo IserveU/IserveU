@@ -44,6 +44,12 @@
             file_id: ''
         }]
 
+        vm.updated_motion = [{
+            title: '',
+            motion_id: '',
+            file_id: ''
+        }]
+
 
         vm.deleteMotion = function() {
             var toast = ToastMessage.delete_toast(" motion");
@@ -91,6 +97,7 @@
                 vm.editingMotion = false;
                 uploadMotionFile();
                 deleteMotionFiles();
+                updateMotionFiles();
                 getMotion(result.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
@@ -103,6 +110,7 @@
             motion.getMotion(id).then(function(result) {
                 vm.motionDetail = result;
                 vm.isLoading = false; 
+                $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
                 UserbarService.title = result.title;
             });  
 
@@ -117,6 +125,24 @@
                 vm.motion_files = result;
             })
         }
+
+        vm.updateMotionFile = function(title, motion_id, file_id) {
+            vm.updated_motion[file_id]= {
+                file_category_name: "motionfiles",
+                title: title,
+                motion_id: motion_id,
+                file_id: file_id
+            }
+        }
+
+
+        // title not working on post
+        function updateMotionFiles(){
+            angular.forEach(vm.updated_motion, function(file, key) {
+                motionfile.updateMotionFile(file, file.motion_id, file.file_id);
+            })
+        }
+
 
         vm.deleteMotionFile = function(bool, motion_id, file_id) {
             vm.delete_motion_file[file_id] = {

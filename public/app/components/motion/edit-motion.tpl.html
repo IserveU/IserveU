@@ -35,7 +35,7 @@
 				</md-input-container>
 				<span flex="15"></span>
 				<md-input-container ng-repeat="file in $flow.files" layout-sm="column">
-					<input  ng-model="file.name" name="file"ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
+					<input  ng-model="file.name" name="file" ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
 						<div ng-messages="newmotionform.file.$error">  
 							<div ng-message="minlength">Title must be 8 characters.</div>
 						</div>
@@ -45,11 +45,17 @@
 			<md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"md-row-height-gt-md="1:1" md-row-height="4:3">
 				<md-grid-tile ng-class="{'overlay':motion.delete_motion_file[file.id].bool}" ng-repeat="file in motion.motion_files"
 					md-colspan-sm="1">
-					<md-grid-tile-header><h3>{{figure.title}}</h3></md-grid-tile-header>
-					<a href="/uploads/motionfiles/{{file.filename}}">
-						<img ng-src="/uploads/motionfiles/{{file.filename}}" />
+					<md-grid-tile-header>
+					<!-- <h3 ng-click="motion.show_title_change_name">{{file.filename}}</h3> -->
+					<md-input-container style="font-size:13px; display:inline-block"><input ng-if="!file.title" ng-model="file.filename" ng-blur="motion.updateMotionFile(file.filename, motion.motionDetail.id, file.id)">
+					<input ng-if="file.title" ng-model="file.title" ng-blur="motion.updateMotionFile(file.title, motion.motionDetail.id, file.id)">
+					</md-input-container>
+					</md-grid-tile-header>
+					<a href="/uploads/motionfiles/{{::file.filename}}">
+						<img ng-src="/uploads/motionfiles/{{::file.filename}}" />
 					</a>
 					<md-grid-tile-footer  style="padding-top: 12px;"><md-button ng-click="motion.deleteMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{motion.delete_motion_file[file.id].bool ? 'Cancel' : 'Remove'}}</p></md-button></md-grid-tile-footer>
+
 				</md-grid-tile>
 			</md-grid-list>
 		</fieldset>

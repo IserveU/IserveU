@@ -8,28 +8,27 @@
 		
 		var vm = this;
 
-		vm.getFigures = getFigures;
-		vm.motionfiles;
+		vm.getMotionFiles = getMotionFiles;
 		vm.motionfile;
 
 		vm.uploadFile = function(file, motion_id) {
-		    motionfile.saveFigure(file, motion_id).then(function(result) {
-		    	getFigures(motion_id);
+		    motionfile.uploadMotionFile(file, motion_id).then(function(result) {
+		    	getMotionFiles(motion_id);
 		    }, function(error) {
 		    	console.log(error);
 		    });
 		}
 
-		function getFigures(motion_id){
-			return motionfile.getFigures(motion_id).then(function(result) {
+		function getMotionFiles(motion_id){
+			return motionfile.getMotionFiles(motion_id).then(function(result) {
 				return result;
 			}, function(error) {
 				console.log(error);
 			});
 		}
 
-		vm.getFigure = function(motion_id, figure_id){
-			motionfile.getFigure(motion_id, figure_id).then(function(result) {
+		vm.getMotionFile = function(motion_id, figure_id){
+			motionfile.getMotionFile(motion_id, figure_id).then(function(result) {
 				vm.motionfile = result;
 			}, function(error) {
 				console.log(error);

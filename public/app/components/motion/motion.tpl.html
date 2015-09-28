@@ -14,9 +14,10 @@
 
 		<div layout-padding>
 			<md-divider></md-divider>
+			<md-icon class="mdi mdi-paperclip" style="display:inline-block"></md-icon><p style="display:inline-block" class="md-body-1">Attachments:</p>
 			<div flex ng-repeat="file in motion.motion_files">
-				<h3 class="md-subhead" ng-bind="file.title"></h3>
-					<img ng-src="/uploads/motionfiles/{{file.filename}}" />
+				<a class="md-subhead" href="/uploads/motionfiles/{{file.filename}}" ng-bind="file.filename"></a>
+					<img ng-if="file.image" ng-src="/uploads/motionfiles/{{file.filename}}" />
 			</div>
 		</div>
 	</div>
