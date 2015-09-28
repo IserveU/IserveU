@@ -36,7 +36,9 @@
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
-                    <h2 style="font-weight:500" ng-cloak translate="{{user.userbarservice.title}}"></h2>
+                    <h2 style="font-weight:500" hide-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
+                    <h2 style="font-size: 15px" hide-gt-sm show-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
+
                     <span flex></span> <!-- use up the empty space -->
                  </div>
 
