@@ -1,4 +1,4 @@
-# iserveu
+# IserveU
 eDemocracy Tool
 
 Run: "bower install" to get dependencies
@@ -35,11 +35,9 @@ Follow doc instructions and once you have your VM setup ssh into your machine (v
 
 <pre><code>
 $ composer install
-$ composer update
 $ npm install --global gulp
 $ npm install
 $ bower install
-$ bower update
 $ npm install node-sass
 $ npm install gulp-sass
 </code></pre>
@@ -114,3 +112,8 @@ Does the store of the resource, takes updates with even just one field each time
 
 /api/resource/X			DESTROY	(delete)
 Deletes the record, sometimes soft deletes but if you run it twice it will delete it as far as it is able to
+
+
+#License
+
+GNU General Public License: http://www.gnu.org/licenses/gpl.html
