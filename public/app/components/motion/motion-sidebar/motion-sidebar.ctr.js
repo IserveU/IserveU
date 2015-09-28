@@ -6,40 +6,73 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController(motion, vote, $rootScope) {
+	function MotionSidebarController(motion, vote, MotionSidebarService, $rootScope, $stateParams, $filter, $timeout, $state, $scope) {
 
 		var vm = this;
 
+		$scope.$state = $state;
+
 		vm.emptyMotionsArray = false;
 
-		vm.filters = {
+		vm.motion_filters = {
 			take: 100,
-			limit: 50,
+			limit: 100,
+			page: ''
 		}
+
+		vm.next_page = 1;
+
+		vm.showSearchFilter = false;
+		vm.searchOpened = false;
+		vm.hide_show_more = true;
+		vm.paginate_loading = false;
+
+
+		vm.showSearch = function(){
+			vm.searchOpened = !vm.searchOpened;
+			vm.showSearchFilter = !vm.showSearchFilter;
+		}
+
+		vm.searchText;
+
+		vm.motion_is_loading = {};
+
+		$rootScope.$on('sidebarLoadingFinished', function(events, data) {
+			switchLoading(data.bool, data.id);
+		});
+
 
 		$rootScope.$on('refreshMotionSidebar', function(events, data) {
 			getMotions();
-		});        	             	       
+		});     
 
-		function getMotions(){
-			motion.getMotions(vm.filters).then(function(results) {
+		vm.switchLoading = switchLoading;
+
+		function switchLoading(bool, id){
+			vm.motion_is_loading[id] = bool;
+		}
+
+		function getMotions(filters){
+			console.log(filters);
+			motion.getMotions(filters).then(function(results) {
+				vm.paginate_loading = false;
+				vm.motions = results.data;
 				if(!results.data[0]){
 					vm.emptyMotionsArray = true;
 				}
-				vm.next_page = results.current_page + 1;
-				vm.motions = results.data;
+				if(results.next_page_url == null){
+					vm.hide_show_more = false;
+				}
+				else{
+					vm.next_page = results.next_page_url.slice(-1);
+				}
 			});
 		};
 
-		function loadMoreMotions(){
-			var data = vm.filters[page].push(vm.next_page);
-			motion.getMotions(data).then(function(results) {
-				if(!results.data[0]){
-					vm.emptyMotionsArray = true;
-				}
-				vm.next_page = results.current_page + 1;
-				vm.motions = results.data;
-			});
+		vm.loadMoreMotions = function(){
+			vm.motion_filters.page = vm.next_page;
+			vm.paginate_loading = true;
+			getMotions(vm.motion_filters);
 		}
 
 
@@ -79,7 +112,8 @@
 			});
 		}
 
-		getMotions();
+		getMotions(vm.filters);
+		switchLoading(true, $stateParams.id);
 
 	}
 
