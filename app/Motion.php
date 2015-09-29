@@ -192,7 +192,6 @@ class Motion extends ApiModel {
 			$oneWeek = new \DateTime();
 			$oneWeek->add(new \DateInterval('P7D'));
 			$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
-
 		}
 		return true;
 	}

@@ -62,7 +62,6 @@ class MotionFile extends ApiModel
      	'file_category_name'	=>	'file.filecategory.name'
     ];
 
-
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array

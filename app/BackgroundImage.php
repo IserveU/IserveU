@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
 use Auth;
 use Carbon\Carbon;
 use Storage;
@@ -10,6 +12,9 @@ use Storage;
 
 class BackgroundImage extends ApiModel
 {
+
+	use Eloquence, Mappable;
+
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -33,7 +38,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','file_id','display_date','url','credited'];
+	protected $visible = ['id','file_id','display_date','url','credited','title','filename'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -48,10 +53,21 @@ class BackgroundImage extends ApiModel
 	protected $creatorVisible = ['active','user_id'];
 
 	/**
+	 * The mapped attributes for 1:1 relations
+	 * @var array
+	 */
+   	protected $maps = [
+     	'title' 				=> 	'file.title',
+     	'image'					=>	'file.image',
+     	'filename'				=>	'file.filename',
+     	'file_category_name'	=>	'file.filecategory.name' //Should always be background_images
+    ];
+
+	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = [];
+    protected $appends = ['filename'];
 
     /**
      * The rules for all the variables
@@ -59,8 +75,8 @@ class BackgroundImage extends ApiModel
      */
 	protected $rules = [
         'active'			=>	'boolean',
-        'file_id'			=>	'integer',
-        'display_date' 		=>	'date',
+        'file_id'			=>	'integer|unique:background_images,file_id',
+        'display_date' 		=>	'date|unique:background_images,display_date',
         'url'				=>	'url',
         'user_id'			=>	'integer|exists:users,id',
         'id'				=>	'integer'
@@ -90,7 +106,7 @@ class BackgroundImage extends ApiModel
 	 */
 	protected $fields = [
 		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'file_id'	 				=>	['tag'=>'file','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
+		'file_id'	 			=>	['tag'=>'file','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
 		'display_date'	 		=>	['tag'=>'date','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'url'	 				=>	['tag'=>'input','type'=>'url','label'=>'Attribute Name','placeholder'=>''],
 	];
@@ -195,7 +211,7 @@ class BackgroundImage extends ApiModel
 	}
 
 	public function file(){
-		return $this->hasOne('App\File');
+		return $this->belongsTo('App\File');
 	}
 
 }

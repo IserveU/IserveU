@@ -70,7 +70,8 @@ class File extends ApiModel
         'file'					=>	'mimes:png,pdf,jpg,jpeg,gif',
         'image'					=>	'boolean',
         'file_category_id'		=>	'integer',
-        'id'					=>	'integer'
+        'id'					=>	'integer',
+        'file'					=>	'file'
 	];
 
 	/**
