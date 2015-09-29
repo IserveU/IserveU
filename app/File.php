@@ -131,14 +131,7 @@ class File extends ApiModel
 
 	/************************************* Custom Methods *******************************************/
 	
-	public function uploadFile(Request $request){
-
-
-		$file_category_name = $request->input('file_category_name');
-		//find the category
-		if(empty($file_category_name) && !is_numeric($this->file_category_id)){
-			return false;
-		}
+	public function uploadFile($file_category_name,Request $request){
 
 		$file_category = FileCategory::where('name',$file_category_name)->first();
 		if(!$file_category){

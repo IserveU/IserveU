@@ -79,9 +79,7 @@ class MotionController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-	
 		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-
 	
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;

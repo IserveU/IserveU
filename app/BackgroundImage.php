@@ -21,7 +21,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['credited','url','file'];
+	protected $fillable = ['credited','url','file_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -33,7 +33,7 @@ class BackgroundImage extends ApiModel
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','file','display_date','url','credited'];
+	protected $visible = ['id','file_id','display_date','url','credited'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
@@ -59,7 +59,7 @@ class BackgroundImage extends ApiModel
      */
 	protected $rules = [
         'active'			=>	'boolean',
-        'file'				=>	'string|unique:background_images',
+        'file_id'			=>	'integer',
         'display_date' 		=>	'date',
         'url'				=>	'url',
         'user_id'			=>	'integer|exists:users,id',
@@ -76,13 +76,13 @@ class BackgroundImage extends ApiModel
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['file','user_id'];
+	protected $onCreateRequired = ['file_id','user_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
 	 * @var array
 	 */
-	protected $unique = ['display_date','file'];
+	protected $unique = ['display_date','file_id'];
 
 	/**
 	 * The front end field details for the attributes in this model 
@@ -90,7 +90,7 @@ class BackgroundImage extends ApiModel
 	 */
 	protected $fields = [
 		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'file'	 				=>	['tag'=>'file','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
+		'file_id'	 				=>	['tag'=>'file','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
 		'display_date'	 		=>	['tag'=>'date','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'url'	 				=>	['tag'=>'input','type'=>'url','label'=>'Attribute Name','placeholder'=>''],
 	];
@@ -99,7 +99,7 @@ class BackgroundImage extends ApiModel
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
 	 * @var array
 	 */
-	public $locked = ['file'];
+	public $locked = ['file_id'];
 
 	/**
      * The attributes that should be mutated to dates.
@@ -122,7 +122,7 @@ class BackgroundImage extends ApiModel
 
 
 		static::deleted(function($model){
-	        Storage::delete('/uploads/background_images/'.$model->file);
+	        $model->file->delete();
 	        return true;
 		});
 	}
@@ -192,6 +192,10 @@ class BackgroundImage extends ApiModel
 
 	public function user(){
 		return $this->belongsTo('App\User');
+	}
+
+	public function file(){
+		return $this->hasOne('App\File');
 	}
 
 }
