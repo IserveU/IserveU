@@ -15,6 +15,7 @@ class Kernel extends HttpKernel {
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
+		'anlutro\LaravelSettings\SaveMiddleware'
 	//	'App\Http\Middleware\VerifyCsrfToken', for testing
 	//	'App\Http\Middleware\ReplaceTestVars',
 	];

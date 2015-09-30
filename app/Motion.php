@@ -10,6 +10,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Events\MotionUpdated;
 use App\Events\MotionCreated;
+use Setting;
 
 
 class Motion extends ApiModel {
@@ -121,7 +122,7 @@ class Motion extends ApiModel {
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['created_at','updated_at'];
+	protected $dates = ['created_at','updated_at','closing'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
@@ -187,11 +188,12 @@ class Motion extends ApiModel {
 			return false;
 		}
 
+		$this->attributes['active'] = $value;
+
 		if(!$this->closing && $value == 1){
-			$this->attributes['active'] = $value;
-			$oneWeek = new \DateTime();
-			$oneWeek->add(new \DateInterval('P7D'));
-			$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
+			$closing = new Carbon;
+			$closing->addHours(Setting::get('motion.default.closing_delay',72));
+			$this->closing = $closing;
 		}
 		return true;
 	}
