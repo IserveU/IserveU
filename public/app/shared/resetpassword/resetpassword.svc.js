@@ -11,21 +11,23 @@
 
 		var vm = this;
 
-		if($stateParams.resetpassword){
-			auth.getNoPassword($stateParams.resetpassword).then(function(data) {
-				afterauth.setLoginAuthDetails(data, data.data.token);
-				$timeout(function() {
-					$rootScope.$emit('resetPasswordDialog');
-				}, 500);
-			}, function(error) {
-				if(error.status === 404){
-					console.log('invalid token');
-				}
-				if(error.status === 403){
-					console.log('no token provided');
-				}
-			});
-		}
+		vm.check = function(){
+			if($state.current.name == 'login.resetpassword'){
+				auth.getNoPassword($stateParams.resetpassword).then(function(data) {
+					afterauth.setLoginAuthDetails(data, data.data.token);
+					$timeout(function() {
+						$rootScope.$emit('resetPasswordNotification');
+					}, 1000);
+				}, function(error) {
+					if(error.status === 404){
+						console.log('invalid token');
+					}
+					if(error.status === 403){
+						console.log('no token provided');
+					}
+				});
+			}
+		}	
 
 	}
 }());

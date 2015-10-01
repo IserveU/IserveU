@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.service('SetPermissionsService', SetPermissionsService);
 
-	function SetPermissionsService($rootScope, $state) {
+	function SetPermissionsService($rootScope, $state, auth) {
 
 		var vm = this;
 
@@ -14,6 +14,7 @@
 		vm.permissions;
 
 		function set(permissions_array){
+			if(permissions_array == undefined){auth.logout();}
 			localStorage.setItem('permissions', permissions_array);
 			vm.permissions = $.parseJSON(permissions_array);
 		}
@@ -48,6 +49,7 @@
 		}
 
 		if(!vm.permissions){set(localStorage.getItem('permissions'));}
+		
 
 	}
 })();

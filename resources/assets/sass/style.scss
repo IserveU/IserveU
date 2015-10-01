@@ -430,6 +430,64 @@ div.display-department {
 	}
 }
 
+form.user-profile-form {
+	label {
+		padding-left:50px;
+		display:inline-block;
+	}
+
+	.input-icon {
+		display:inline-block;
+		padding-top:20px;
+	}
+	md-input-container .md-input{
+		display:inline-block;
+	}
+	md-input-container .md-input[disabled]{
+		display:inline-block;
+		color:black;
+		border-bottom-color: transparent; 
+		background-image: none !important;
+	}
+	.user-btn {
+		padding-top:30px;
+		&.clicked{
+			color:$primaryColor;
+		}
+	}
+	md-select {
+		top: 20px;
+	}
+	md-select[disabled] md-select-value .md-select-icon {
+		color:transparent;
+	}
+	md-select[disabled] .md-select-value {
+		color:black;
+		border-bottom-color: transparent; 
+		background-image: none !important;
+	}
+	md-progress-circular {
+		top:22px;
+		right:34px;
+		max-height: 25px;
+	}
+	// md-input-container.md-input-focused label:not(.md-no-float)  {
+	// 	color:$primaryColor; padding-left:38px;
+	// }
+
+		md-input-container:not(.md-input-invalid).md-input-focused label {
+		padding-left: 50px;
+		}
+
+	.change-password {
+
+		label {
+			padding-left:37px;
+			color:black;
+		}
+	}	
+}
+
 .search-icon {
   position: relative;
   transition-property: right;
@@ -483,3 +541,12 @@ div.display-department {
 }
 
 
+.edit-btn {
+	font-size: 14px;
+	display: inline-block;
+	padding-top:3px;
+	&:hover {
+  		cursor: pointer;
+		color: $primaryColor;
+	}
+}

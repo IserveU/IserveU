@@ -48,23 +48,36 @@
     	        requireLogin: true
     	    }
     	})
-
-    	.state( 'user', {
-    	    url: '/user/:id',
-    	    templateUrl: 'app/components/user/user.tpl.html',
-    	    controller: 'UserController as user',
-    	    data: {
-    	        requireLogin: true
-    	    }
-    	})
-    	.state( 'myprofile', {
-    	    url: '/myprofile',
-    	    templateUrl: 'app/components/user/user.tpl.html',
-    	    controller: 'UserController as user',
-    	    data: {
-    	        requireLogin: true
-    	    }
-    	}) 	
+        .state( 'user', {
+            url: '/user/:id',
+            templateUrl: 'app/components/user/user.tpl.html',
+            controller: 'UserController as user',
+            data: {
+                requireLogin: true
+            }
+        })
+        .state( 'user.details', {
+            url: '/profile',
+            views: {
+                'details': {
+                    templateUrl: 'app/components/user/edittemplates/edit-user-details.tpl.html'
+                },
+                'editname': {
+                    templateUrl: 'app/components/user/edittemplates/edit-user-name.tpl.html'
+                },
+                'roles': {
+                    templateUrl: 'app/components/user/edittemplates/edit-roles.tpl.html',
+                }
+            }
+        })
+        .state( 'createuser', {
+            url: '/create/user',
+            templateUrl: 'app/components/user/createuser/createuser.tpl.html',
+            controller: 'CreateUserController as create',
+            data: {
+                requireLogin: true
+            }
+        })
     	.state('login', {
             url: '/login',
         	controller: 'loginController as login',

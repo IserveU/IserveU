@@ -33,7 +33,7 @@
 			vm.showSearchFilter = !vm.showSearchFilter;
 		}
 
-		vm.searchText;
+		vm.searchText = '';
 
 		vm.motion_is_loading = {};
 

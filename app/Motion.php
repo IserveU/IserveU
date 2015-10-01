@@ -164,20 +164,6 @@ class Motion extends ApiModel {
 	
 	/************************************* Getters & Setters ****************************************/
 
-	/**
-	 * @return integer the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
-	 */
-	// public function getMotionRankAttribute()
-	// {
-	//   // if relation is not loaded already, let's do it first
-	//   if ( ! array_key_exists('motionRankRelation', $this->relations)) 
-	//     $this->load('motionRankRelation');
-	 
-	//   $related = $this->getRelation('motionRankRelation');
-	 
-	//   // then return the count directly
-	//   return ($related) ? (int) $related->rank : 0;
-	// }
 
 	/**
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
@@ -256,21 +242,6 @@ class Motion extends ApiModel {
 	/************************************* Casts & Accesors *****************************************/
 
 
-	/**
-	 * @return relation the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
-	 */
-
-	// public function motionRankRelation()
-	// {
-	//   return $this->hasOne('App\Vote')
-	//     ->selectRaw('motion_id, sum(position) as rank')
-	//     ->groupBy('motion_id');
-	// }
-
-
-	public function lastestRank(){
-		return $this->hasOne('App\MotionRank')->latest();
-	}
 
 	/************************************* Scopes ***************************************************/
 
@@ -346,6 +317,12 @@ class Motion extends ApiModel {
 	public function motionRanks(){
 		return $this->hasMany('App\MotionRank');
 	}
+
+	
+	public function lastestRank(){
+		return $this->hasOne('App\MotionRank')->latest();
+	}
+
 
 
 }

@@ -30,6 +30,14 @@
 			});
 		}
 
+		function storeUser(info){
+			return User.save(info).$promise.then(function(result){
+				return result;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
+
 		//change name to get fields
 		function editUser(id){
 			return UserEdit.query({id:id}).$promise.then(function(result) {
@@ -60,7 +68,8 @@
 			getUser: getUser,
 			editUser: editUser,
 			updateUser: updateUser,
-			deleteUser: deleteUser
+			deleteUser: deleteUser,
+			storeUser: storeUser
 		}
 
 

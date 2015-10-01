@@ -49,8 +49,7 @@ Route::group(array('prefix' => 'api'), function(){
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
 		Route::resource('role', 'RoleController');
-		Route::post('role/grant', 'RoleController@grant');
-		
+				
 		Route::resource('background_image', 'BackgroundImageController');
 
 		Route::get('motion/{id}/restore','MotionController@restore');
@@ -70,7 +69,7 @@ Route::group(array('prefix' => 'api'), function(){
 		
 		Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
 		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
-
+		Route::resource('user.role', 'UserRoleController'); 
 
 		Route::group(['middleware' => 'role:administrator'], function(){
 			Route::post('property/uploadcsv', 'PropertyController@uploadCSV');

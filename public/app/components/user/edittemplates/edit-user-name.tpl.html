@@ -1,0 +1,22 @@
+<form class="user-profile-form" layout-padding>
+   <div  layout="row" layout-padding>
+     <md-input-container flex>
+     <label>First Name</label>
+     <md-icon class="mdi mdi-account input-icon"></md-icon>
+     <input ng-blur="user.updateUser('first_name', user.profile.first_name, user.profile.id)" ng-model="user.profile.first_name"/>
+   </md-input-container>
+   <md-input-container flex>
+   <label style="padding-left:0px">Middle Name</label>
+   <input ng-blur="user.updateUser('middle_name', user.profile.middle_name, user.profile.id)" ng-model="user.profile.middle_name"/>
+ </md-input-container>
+ <md-input-container flex>
+ <label  style="padding-left:0px">Last Name</label>
+ <input ng-blur="user.updateUser('last_name', user.profile.last_name, user.profile.id)" ng-model="user.profile.last_name"/>
+</md-input-container>
+</div>
+
+<div layout layout-padding>
+ <md-select layout-padding flex ng-model="user.profile.public" placeholder="Select public/private profile" ng-click="user.updateUser('public', user.profile.public)"><md-option ng-value="1" flex>Public</md-option><md-option ng-value="0">Private</md-option></md-select>
+</div>
+<md-button ng-click="user.show_edit_name = !user.show_edit_name;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;Back</md-button>
+</form>
