@@ -1,6 +1,8 @@
 <md-content id="maincontent" ng-if="userIsLoggedIn" layout="column">
 <div layout-gt-lg="column front">
   <div flex="90" flex-sm="100" flex-md="50"  flex-lg="100" flex-gt-lg="50" >
+
+  <div>
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
@@ -11,8 +13,9 @@
         <p class="md-body-1">Welcome to the beta version of IserveU. Motions are being added to begin the shadow council. Check out the Introduction Motion to the left. It's really easy to get started.</p>
       </div> 
     </section>
+  </div>
 
-
+  <div style="margin-top: 17px;">
     <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
@@ -29,7 +32,9 @@
         <p ng-if="home.empty.topmotion" ng-cloak class="md-body-1">There are no motions that are currently passing.</p>
       </md-list>    
     </section>
-
+  </div>
+  
+  <div  style="margin-top: 17px;">
   <section layout-margin class="md-whiteframe-z1">
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
@@ -56,10 +61,9 @@
         </md-list-item>
       </div>
       <p ng-show="home.empty.topcomment" ng-cloak class="md-body-1">There isn't a top comment today. Give it a go.</p>
-
-
       </md-list>
     </section>
+  </div>  
 </div>
 
 
@@ -96,6 +100,7 @@
         </md-list>
     </section>
 
+    <div style="margin-top: 17px;">
     <section layout-margin  class="md-whiteframe-z1" flex>
       <md-toolbar class="section-toolbar">
         <div class="md-toolbar-tools">
@@ -119,7 +124,7 @@
       </md-list>
 
     </section>
-
+    </div>
 
 </div>
 
