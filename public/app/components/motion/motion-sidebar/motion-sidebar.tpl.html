@@ -1,4 +1,4 @@
-<md-content flex role="navigation" class="flex md-default-theme" style="overflow-y:hidden; overflow:hidden"ng-controller="MotionSidebarController as sidebar">
+<md-content flex role="navigation" class="flex md-default-theme" style="overflow-y:hidden; overflow:hidden" ng-controller="MotionSidebarController as sidebar">
   <md-toolbar>
     <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px">
       <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
@@ -24,18 +24,18 @@
 
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
+    <md-list-item class="sidebar-list" ng-repeat="motion in ::sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
      <!-- ng-class="{'sidebar-item-loading': sidebar.motion_is_loading[motion.id] && $state.includes('motion', {id:motion.id})}" >  -->
 
 
       <div layout-padding>
-        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motionRank > 0, 'md-primary':motion.motionRank > 0, 'mdi-arrow-bottom-right':motion.motionRank < 0, 'md-accent':motion.motionRank < 0, 'mdi-equal':motion.motionRank == 0}" layout-padding>
-        <md-tooltip md-direction="right" ng-if="motion.motionRank != 0">{{ motion.motionRank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
-        <md-tooltip md-direction="right" ng-if="motion.motionRank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
+        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}" layout-padding>
+        <md-tooltip md-direction="right" ng-if="motion.motion_rank != 0">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+        <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
         </md-icon>
      </div>
 
-      <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ motion.title }}</p>
+      <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
       <div ng-switch="{{ motion.votes[0].position }}">
         <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting">

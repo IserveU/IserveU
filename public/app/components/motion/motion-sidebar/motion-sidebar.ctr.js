@@ -52,11 +52,12 @@
 			vm.motion_is_loading[id] = bool;
 		}
 
-		function getMotions(filters){
-			console.log(filters);
-			motion.getMotions(filters).then(function(results) {
+
+		function getMotions(){
+			motion.getMotions(vm.motion_filters).then(function(results) {
 				vm.paginate_loading = false;
 				vm.motions = results.data;
+
 				if(!results.data[0]){
 					vm.emptyMotionsArray = true;
 				}
@@ -72,7 +73,7 @@
 		vm.loadMoreMotions = function(){
 			vm.motion_filters.page = vm.next_page;
 			vm.paginate_loading = true;
-			getMotions(vm.motion_filters);
+			getMotions();
 		}
 
 
@@ -112,7 +113,7 @@
 			});
 		}
 
-		getMotions(vm.filters);
+		getMotions();
 		switchLoading(true, $stateParams.id);
 
 	}
