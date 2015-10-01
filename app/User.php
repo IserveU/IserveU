@@ -54,7 +54,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified','permissions','votes','verified_until'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified','permissions', 'user_role', 'votes','verified_until'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
@@ -71,7 +71,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role'];
 
     /**
      * The rules for all the variables
@@ -237,6 +237,17 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			}
 		}
 		return $permissions;
+	}
+
+	/**
+	 * @return The permissions attached to this user through entrust
+	 */
+	public function getUserRoleAttribute(){
+		$user_role = [];
+		foreach ($this->roles as $role){
+			$user_role[] = $role->display_name;
+		}
+		return $user_role;
 	}
 
 

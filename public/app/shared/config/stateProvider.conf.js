@@ -48,6 +48,14 @@
     	        requireLogin: true
     	    }
     	})
+        .state( 'userlist', {
+            url: '^/userlist',
+            templateUrl: 'app/components/role/roles.tpl.html',
+            controller: 'UserController as user',
+            data: {
+                requireLogin: true
+            }
+        })
         .state( 'user', {
             url: '/user/:id',
             templateUrl: 'app/components/user/user.tpl.html',
