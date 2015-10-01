@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Input;
 
+use App\MotionRank;
 use App\Motion;
 use App\Comment;
 use App\CommentVote;
@@ -100,7 +101,8 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion)
 	{
-		DB::table('votes')->where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>1]);
+
+
 
 		return $motion;
 	}
