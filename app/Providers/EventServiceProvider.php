@@ -37,12 +37,14 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\VoteCreated' => [
 			'App\Listeners\Vote\SetDeferedToVotes',
-			'App\Listeners\Motion\BalanceDeferredVotes'
+			'App\Listeners\Motion\BalanceDeferredVotes',
+			'App\Listeners\Vote\CreateMotionRank'
 		],
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\Vote\CheckCommentVotes',
 			'App\Listeners\Vote\SetDeferedToVotes',
-			'App\Listeners\Motion\BalanceDeferredVotes'
+			'App\Listeners\Motion\BalanceDeferredVotes',
+			'App\Listeners\Vote\CreateMotionRank'
 		],
 		'App\Events\UserForgotPassword' => [
 			'App\Listeners\User\SetRememberToken',

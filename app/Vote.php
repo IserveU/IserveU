@@ -121,8 +121,8 @@ class Vote extends ApiModel {
 			return true;	
 		});
 
-		static::updated(function($model){
-			event(new VoteUpdated($model));
+		static::created(function($model){
+			event(new VoteCreated($model));
 			return true;
 		});
 
