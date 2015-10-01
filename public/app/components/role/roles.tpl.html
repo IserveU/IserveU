@@ -1,0 +1,21 @@
+  <table>
+    <thead>
+      <tr>
+        <td>
+            <p class="md-body-2">User Roles</p>
+        </td>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr ng-repeat="role in vm.roles">
+        <td>
+        <md-checkbox  ng-checked="user.checkRole(role.id)"  style="margin:0px">
+          <p class="md-caption" style="margin:0px">{{role.display_name}}&nbsp;{{role.id}}</p>
+          <md-tooltip>{{role.description}}</md-tooltip>
+        </md-checkbox>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>

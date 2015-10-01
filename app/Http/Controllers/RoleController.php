@@ -90,36 +90,4 @@ class RoleController extends ApiController
         //
     }
 
-
-    /*
-    *   @params user_id     The ID of the user that you want to grant the permission to
-    *   @params role_name   The string name of the role
-    */
-    public function grant(){
-        if(!Auth::user()->can('administrate-permissions')){
-            abort(401,"You can not edit user permissions");
-        }
-
-        $user_id = Request::get('user_id');
-        $role_name = Request::get('role_name');
-
-        if(!is_numeric($user_id)){
-            abort(403,"User id needs to be an integer");
-        }
-
-        $user = User::find($user_id);
-        if(!$user){
-            abort(403,"User with the id of ($user_id) not found");
-        }
-
-        if($user->hasRole($role_name)){
-            abort(403,"User already has the role ($role_name)");
-
-        }
-
-        $user->addUserRoleByName($role_name);
-
-        return $user;
-    }
-
 }
