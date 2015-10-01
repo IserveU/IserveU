@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, $state, $location, $anchorScroll, motion,
+    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, motion,
     vote, motionfile, UserbarService, ToastMessage, VoteService) {
 
         var vm = this;
@@ -87,12 +87,11 @@
 
         vm.updateMotion = function() {
             vm.editingMotion = true;
-
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
                 active: vm.motionDetail.active,
-                closing: vm.motionDetail.closing.carbon.date,
+                closing: $filter('date')(vm.motionDetail.closing.alpha_date, "yyyy-MM-dd HH:mm:ss"),
                 id: $stateParams.id,
                 department_id: vm.motionDetail.department_id
             }
@@ -106,24 +105,26 @@
                 getMotion(result.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
+                vm.editingMotion = false;
                 ToastMessage.report_error(error);
             });
         }
 
 
-        function getMotion(id) {
-            motion.getMotion(id).then(function(result) {
+        function getMotion(motion_id) {
+
+            motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
                 vm.isLoading = false; 
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
                 UserbarService.title = result.title;
             });  
 
-            getMotionFiles(id);
+            getMotionFiles(motion_id);
         }
 
-        // figures section is questionable, maybe abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
-
+        /**************************************** Motion Files Functions **************************************** */
+        // abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
 
         function getMotionFiles(id){    // unnecessary step 
             motionfile.getMotionFiles(id).then(function(result) {
@@ -132,6 +133,7 @@
         }
 
         vm.updateMotionFile = function(title, motion_id, file_id) {
+            console.log(title);
             vm.updated_motion[file_id]= {
                 file_category_name: "motionfiles",
                 title: title,
@@ -177,7 +179,7 @@
             })
         }
 
-        // motion voting, gotta abstract into service/ new controller
+        /**************************************** Motion Voting Functions **************************************** */
 
         function getMotionOnGetVoteSuccess(){
             motion.getMotion($stateParams.id).then(function(result){
