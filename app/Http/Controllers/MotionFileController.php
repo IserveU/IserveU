@@ -18,7 +18,7 @@ use Auth;
 class MotionFileController extends ApiController {
 
 
-    public function index($motion){
+    public function index(Motion $motion){
     	return $motion->files;
 	}
 
@@ -27,7 +27,7 @@ class MotionFileController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function create($motion){
+	public function create(Motion $motion){
 		if(!Auth::user()->can('create-motions')){
 			abort(401,'You do not have permission to create a motion');
 		}
@@ -43,14 +43,14 @@ class MotionFileController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store($motion, Request $request)
+	public function store(Motion $motion, Request $request)
 	{
 		if(!Auth::user()->can('create-motions')){
 			abort(401,'You do not have permission to create a motion');
 		}
-
+		
         $file = new File;
-      	$file->uploadFile($request);		
+      	$file->uploadFile('motion_files',$request);		
 
 		if(!$file->save()){
 		 	abort(403,$file->errors);

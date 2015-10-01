@@ -11,6 +11,7 @@ use App\CommentVote;
 use App\Vote;
 use Auth;
 use DB;
+use Setting;
 use Carbon\Carbon;
 
 class MotionController extends ApiController {
@@ -22,10 +23,9 @@ class MotionController extends ApiController {
 	 */
 	public function index()
 	{	
+
 		$filters = Request::all();
 		$limit = Request::get('limit') ?: 30;
-
-		
 
 		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
@@ -79,9 +79,7 @@ class MotionController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-	
 		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-
 	
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
