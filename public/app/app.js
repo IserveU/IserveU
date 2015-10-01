@@ -129,13 +129,7 @@
 			    if(toState.name === 'myprofile' || 'createuser'){
 			    	$rootScope.currentState = 'user';
 			    }
-			    if(toState.name === 'home'){
-			    	$rootScope.currentState = 'motion';
-			    }
-			    if(toState.name === 'createmotion'){
-			    	$rootScope.currentState = 'motion';
-			    }
-			    if(toState.name === 'motion.components'){
+			    if(toState.name === 'motion.components' || 'home' || 'createmotion'){
 			    	$rootScope.currentState = 'motion';
 			    }
 			});		
