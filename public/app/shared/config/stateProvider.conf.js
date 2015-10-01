@@ -131,7 +131,7 @@
         	templateUrl: 'app/components/department/department.tpl.html',
             data: {
                 requireLogin: true
-            }
+            },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'department';
             }]    
@@ -150,7 +150,7 @@
         	templateUrl: 'app/components/backgroundimage/backgroundimage.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            }, 
            onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'backgroundimage';
             }] 
@@ -161,7 +161,7 @@
         	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            }, 
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'backgroundimage';
             }]

@@ -39,7 +39,7 @@ class CreateMotionRank
             $motionRankAttr = DB::table('votes')->where('motion_id',$motion->id)->selectRaw('motion_id, sum(position) as rank')->groupBy('motion_id')->first();
             $motionRank = MotionRank::create(array('rank'=>$motionRankAttr->rank,'motion_id'=>$motion->id));
             
-            if($motion->lastestRank->created_at['carbon']->diffInHours($motion->closing['carbon']) <= Setting::get('motion.hours_before_closing_autoextend',12)){ // If it is within the autoextend period
+            if($motion->lastestRank && $motion->lastestRank->created_at['carbon']->diffInHours($motion->closing['carbon']) <= Setting::get('motion.hours_before_closing_autoextend',12)){ // If it is within the autoextend period
 
                 $motionRanks = MotionRank::where('motion_id',$motion->id)->latest()->get();
                 $currentRank    =   $motionRanks[0];

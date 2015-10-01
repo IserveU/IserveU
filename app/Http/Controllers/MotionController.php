@@ -15,6 +15,8 @@ use DB;
 use Setting;
 use Carbon\Carbon;
 
+
+
 class MotionController extends ApiController {
 
 	/**
@@ -101,9 +103,6 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion)
 	{
-
-
-
 		return $motion;
 	}
 

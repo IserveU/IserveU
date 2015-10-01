@@ -174,7 +174,7 @@ return [
 		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'anlutro\LaravelSettings\ServiceProvider'
+		'anlutro\LaravelSettings\ServiceProvider',
 	],
 
 	/*
@@ -227,7 +227,7 @@ return [
 		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade',
 		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth',
 		'Image'		=> 'Intervention\Image\Facades\Image',
-		'Setting'	=> 'anlutro\LaravelSettings\Facade'
+		'Setting'	=> 'anlutro\LaravelSettings\Facade',
 	],
 
 ];
