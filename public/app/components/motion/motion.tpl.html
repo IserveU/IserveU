@@ -24,7 +24,7 @@
 
 
 			
-			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  >
+			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  ><a id="top"></a>
 				<div layout-padding class="listgrid">
 				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 				    
@@ -55,15 +55,7 @@
 
 	</section>
 
-
-
-		
-	<!-- implement when the user is close to scrolling near comments begin to load the DOM -->
-		<!--vote.tpl.html-->
-	<div ui-view="votes"></div>
-		<!--comment.tpl.html-->
-	<div ui-view="comments"></div>
-
+	
 <has-permission has-permission="hasAllmotions">
 <md-fab-toolbar class="md-right" >
 	<md-fab-trigger class="align-with-text">
@@ -79,7 +71,7 @@
 			</md-button>
 			</has-permission>
 			<has-permission has-permission="administrate-motions">
-		    <md-button aria-label="edit" ng-click="motion.editMotion()" class="md-icon-button">
+		    <md-button aria-label="edit" ng-click="motion.editMotion(); motion.goTo('top')" class="md-icon-button">
 				<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
 			</md-button>
 			</has-permission>
@@ -92,6 +84,16 @@
 	</md-toolbar>
 </md-fab-toolbar>
 </has-permission>
+
+
+		
+	<!-- implement when the user is close to scrolling near comments begin to load the DOM -->
+		<!--vote.tpl.html-->
+	<div ui-view="votes"></div>
+		<!--comment.tpl.html-->
+	<div ui-view="comments"></div>
+
+
 
 		    	
 </md-content>

@@ -1,0 +1,52 @@
+<md-content id="maincontent" layout="column" fill-layout ng-cloak>
+  <section class="md-whiteframe-z1" style="margin:8px">
+    <md-toolbar class="section-toolbar" layout-padding>
+	<div class="md-toolbar-tools">
+	    <h3>New User</h3>
+	</div>
+    </md-toolbar>
+
+  <div>
+
+  <form name="newUserAdminForm" ng-submit="create.createNewUser()" layout-padding>
+
+  <div layout="row" layout-sm="column" layout-padding flex>
+	<md-input-container flex>
+	  	<label translate="{{'FIRST_NAME'}}"></label>
+	  	<input type="text" ng-model="create.first_name" required/>
+	</md-input-container>
+
+	 <md-input-container flex>
+	  	<label translate="{{'MIDDLE_NAME'}}"></label>	
+	  	<input type='text' ng-model='create.middle_name'/>
+	 </md-input-container>
+
+	 <md-input-container flex>
+	 	<label translate="{{'LAST_NAME'}}"></label>	
+	 	<input type='text' ng-model='create.last_name' required/>
+	 </md-input-container>
+   </div>
+
+   <div layout="column" flex>
+   <md-input-container layout-padding>
+   	<label translate="{{'EMAIL_ADDRESS'}}"></label>	
+   	<input type='email' ng-model='create.email' required/>
+   </md-input-container>
+   </div>
+   
+   <div layout>
+	   <md-button ui-sref="user({id:previousUrlID})"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;Back</md-button>
+
+	   <md-button type="submit">
+	        <div ng-hide="create.creating" translate="{{'CREATE'}}"></div>
+            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="create.creating"></md-icon>
+	   </md-button>
+   </div>
+  
+  </form>
+
+
+  </div>
+  </section>
+</md-content>
+

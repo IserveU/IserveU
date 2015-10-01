@@ -15,7 +15,6 @@
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
           <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:11px">
           <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
-          <span translate="{{'BETA_HEADER'}}"></span>&nbsp;
           <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
           <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
           <a style="color:#f2aa4f" href="mailto:admin@iserveu.com"><u>admin@iserveu.ca</u></a></p>
@@ -39,8 +38,6 @@
                 <div flex>
                     <h2 style="font-weight:500" hide-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <h2 style="font-size: 15px" hide-gt-sm show-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
-
-                    <h2 style="font-weight:500" ng-cloak translate="{{user.userbarservice.title}}"></h2>
                     <span flex></span> <!-- use up the empty space -->
                  </div>
 
@@ -64,18 +61,18 @@
                                 <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
                             </md-button>
                             <md-menu-content width="4">
-                                <md-menu-item ng-cloak>
+                                <md-menu-item>
                                     <md-button ui-sref="login" ng-click="user.logout()">
                                         <div layout="row">
-                                            <p flex ng-cloak>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
-                                            <md-icon md-menu-align-target class="mdi" md-font-icon="mdi-logout"></md-icon>
+                                            <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
+                                            <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
                                         </div>
                                     </md-button>
                                 </md-menu-item>
-                                <md-menu-item ui-sref="myprofile">
+                                <md-menu-item ui-sref="user({id:authenticatedUser.id})">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak translate="{{'YOUR_PROFILE'}}">Your Profile</p>
+                                            <p flex translate="{{'YOUR_PROFILE'}}">Your Profile</p>
                                             <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
                                         </div>
                                     </md-button>
@@ -84,7 +81,7 @@
                                 <md-menu-item ui-sref="user({id:1})">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak translate="{{'USER_LIST'}}"></p>
+                                            <p flex translate="{{'USER_LIST'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
                                         </div>
                                     </md-button>
@@ -94,7 +91,7 @@
                                 <md-menu-item ui-sref="backgroundimage">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak translate="{{'UPLOAD_BACKGROUND_IMG'}}"></p>
+                                            <p flex translate="{{'UPLOAD_BACKGROUND_IMG'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
                                         </div>
                                     </md-button>
@@ -104,7 +101,7 @@
                                 <md-menu-item ui-sref="department({id:1})">
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak translate="{{'DEPARTMENT_MANAGER'}}"></p>
+                                            <p flex translate="{{'DEPARTMENT_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
                                         </div>
                                     </md-button>
@@ -114,7 +111,7 @@
                                 <md-menu-item>
                                     <md-button>
                                         <div layout="row">
-                                            <p flex ng-cloak translate="{{'PROPERTY_MANAGER'}}"></p>
+                                            <p flex translate="{{'PROPERTY_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
                                         </div>
                                     </md-button>
@@ -126,10 +123,45 @@
                 </div>
             </div>
           </md-toolbar>
+          <span ng-controller="ResetPasswordController as reset" ng-if="userIsLoggedIn" >
+        <md-content id="maincontent"  ng-if="reset.notification">
+            <section class="md-whiteframe-z1" ng-cloak style="margin:8px">
+                <md-toolbar style="color:blue" class="section-toolbar md-tall" layout-padding>
+                <div class="md-toolbar-tools">
+                    <h3>Please Reset Your Password</h3>
+                </div>
+                <form name="newpassword">
+                <div layout="row" style="font-size: 14px; padding-top:0px" layout-padding>
+                <md-input-container layout-padding>
+                    <label>New Password</label> 
+                    <input name="password" type="password" ng-model="reset.password" ng-minlength="8" required/>
+                    <div ng-messages="newpassword.password.$error">  
+                      <div ng-message="minlength">Must be atleast 8 characters.</div>
+                    </div>
+
+                    </md-input-container>
+                <md-input-container layout-padding>
+                    <label>Confirm Password</label> 
+                     <input name="confirmPassword" type="password" ng-model="reset.confirmpassword" compare-to="reset.password" required/>
+                    <div ng-messages="newpassword.confirmPassword.$error">
+                        <div ng-message="compareTo">Your password does not match.</div>
+                    </div>
+                    </md-input-container>
+                  <div style="padding-top:23px">
+                     <md-button type="submit" style="color:black; margin:0px" ng-click="reset.savePassword()">Okay</md-button>
+                  </div>
+                </div>
+                </form>
+
+                </md-toolbar>
+            </section>
+        </md-content>
+        </span>
+          <div flex ui-view>
+              
 
 
-
-          <div flex ui-view></div>
+          </div>
 
         </div>
 

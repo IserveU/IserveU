@@ -1,41 +1,32 @@
 <div ng-show="!user.isLoading">
 
-<md-content id="maincontent" layout="column" fill-layout>
+<md-content id="maincontent" layout="column" fill-layout ng-cloak>
 
   <section class="md-whiteframe-z1" style="margin:8px">
-    <md-toolbar class="section-toolbar md-tall">
+    <md-toolbar class="section-toolbar md-tall" layout-padding>
       <div>
         <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
-        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}</h3></div>
-          <div style="padding-left: 110px; position:absolute" ng-if="user.my_id || user.administrate_users">
-            <md-button style="color:black;" class="btn btn-sm btn-primary" ng-click="user.showEditUserForm()" translate="{{'EDIT'}}"></md-button>
-              <has-permission has-permission="delete-users">
-                <md-button style="color:red;" class="btn btn-sm btn-primary" ng-click="user.deleteUser(user.profile.id)" translate="{{'DELETE'}}"></md-button>
-              </has-permission>
-          </div>
+        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}
+        {{user.profile.public ? '(Public)' : '(Private)'}}
+          <md-icon style="color:grey; padding-top:5px" ng-click="user.show_edit_name = !user.show_edit_name;" ng-show="user.showEdits" class="edit-btn mdi mdi-pencil"></md-icon>
+        </h3>
+        </div>
+        <div style="padding-left: 120px; position:absolute; color: grey; display:inline-block">
+          <p  class="md-caption" style="display:inline-block;" ng-repeat="user_role in user.this_users_roles">{{user_role.display_name}}{{$last ? '' : ',&nbsp;'}}</p>
+          <has-permission has-permission="administrate-permissions">
+           <md-icon style="color:grey;" ng-click="user.show_edit_role = !user.show_edit_role; user.checkRoles()" class="edit-btn mdi mdi-pencil"></md-icon>
+          </has-permission>
+        </div>
       </div>
     </md-toolbar>
 
 
-    <div layout="row">
+    <div layout="column" layout-fill>
+      <div ui-view="details"  ng-if="!user.show_edit_role && !user.show_edit_name"></div>
+      <div ui-view="editname" ng-if="user.show_edit_name"></div>
+      <div ui-view="roles"  ng-if="user.show_edit_role"></div>
+    </div>
 
-
-  <!-- form begins -->
-      <div layout="column">    
-        <form layout-padding>
-        <div layout-padding style="padding-top:7px" ng-show="user.profile.email"><label class="md-caption" style="color:grey" translate="{{'EMAIL_ADDRESS'}}"></label><p class="md-subhead" style="margin:0">{{user.profile.email}}</p></div>
-      	<div layout-padding style="padding-top:7px" ng-show="user.profile.date_of_birth"><label class="md-caption" style="color:grey" translate="{{'BIRTHDAY'}}"></label><p class="md-subhead" style="margin:0">{{user.profile.date_of_birth == '0000-00-00' ? 'Birthday is not set' : user.profile.date_of_birth | date: longDate}}</p></div>
-
-    <has-permission has-permission="administrate-permissions">
-      <div layout="row" layout-padding>
-        <md-select aria-label="select" ng-model="user.new_role" placeholder="{{'SELECT_ROLE' | translate}}"><md-option ng-repeat="role in user.roles" ng-value="role.name">{{role.display_name}}<md-tooltip>{{role.description}}</md-tooltip></md-option></md-select>
-              <md-button ng-click="user.setRole(user.new_role)" class="btn btn-sm btn-primary" translate="{{'SAVE'}}"></md-button>
-      </div>
-    </has-permission>
-
-
-       </form>
- <!-- form ends; more info and data later-->
   </section>
 
 
@@ -48,7 +39,6 @@
       <md-list layout-padding  ng-repeat="vote in user.votes">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
       <p class="md-body-1">{{vote.motion.title}}</p>
-        <md-icon md-svg-src="{{vote.position}}"></md-icon>
         <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
         <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
         <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
@@ -61,6 +51,29 @@
     </section>
 
 
+<has-permission has-permission="hasAllusers">
+<md-fab-toolbar class="md-right" >
+  <md-fab-trigger class="align-with-text">
+    <md-button aria-label="menu" class="md-fab md-primary">
+      <md-icon class="mdi" md-font-icon="mdi-menu" ></md-icon>
+    </md-button>
+    </md-fab-trigger>
+    <md-toolbar>
+    <md-fab-actions class="md-toolbar-tools">
+      <has-permission has-permission="administrate-users">
+      <md-button aria-label="create" ui-sref="createuser" class="md-icon-button">
+        <md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
+      </md-button>
+      </has-permission>
+      <has-permission has-permission="delete-users">
+        <md-button aria-label="delete" ng-click="user.deleteUser(user.profile.id)" class="md-icon-button md-warn">
+        <md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
+      </md-button>
+      </has-permission>
+    </md-fab-actions>
+  </md-toolbar>
+</md-fab-toolbar>
+</has-permission>
 
 </md-content>
 

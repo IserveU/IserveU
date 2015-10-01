@@ -182,6 +182,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    $this->roles()->attach($userRole->id);
     }
 
+    public function removeUserRole($id){
+	    $userRole = Role::where('id','=',$id)->firstOrFail();
+	    $this->roles()->detach($userRole->id);
+    }
+
 
     public function getFillableAttribute(){
         if(!Auth::check()){ //If not logged in, don't go to parent

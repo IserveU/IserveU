@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($rootScope, $state, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage, $mdDialog) {	
+	function login($rootScope, $state, $stateParams, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage, $mdDialog) {	
 
 		var vm = this;
 
@@ -109,9 +109,12 @@
 		}
 	
 		$rootScope.$on('refreshLocalStorageSettings', function(event, data) {
+			localStorage.clear();
 			getSettings();
+			login();
 		});
 
+		resetPasswordService.check();
 		getSettings();
     }
 
