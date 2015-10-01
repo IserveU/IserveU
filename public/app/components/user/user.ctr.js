@@ -34,22 +34,19 @@
 
 		role.getRoles().then(function(results){
 			vm.roles = results;
-		});
 
-		role.getUserRole($stateParams.id).then(function(results){
-			vm.this_users_roles = results;
 		});
 
 		vm.checkRoles = function(){
 			RoleService.check_roles(vm.roles, vm.this_users_roles);
 		}
 
-
 		/**************************************** Voting History Function **************************************** */
-		vote.getMyVotes($stateParams.id).then(function(results){
-			vm.votes = results;
-		});
-
+		function getVotingHistory(){
+			vote.getMyVotes($stateParams.id).then(function(results){
+				vm.votes = results;
+			});
+		}
 
 		/**************************************** UI Functions **************************************** */
 	    vm.showEdit = function(type, newdata) {
@@ -168,8 +165,8 @@
 			if(id && $state.current.name.substr(0,4) == 'user'){
 				user.getUser(id).then(function(result){
 					vm.profile = result;
-					vm.isLoading = false;
-					getVotingHistory(vm.profile.id);
+					vm.this_users_roles = vm.profile.user_role;
+					getVotingHistory();
 				}, function(error){
 					if(error.status == 404){
 						$state.go("user", {id: 1});

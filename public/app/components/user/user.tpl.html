@@ -12,7 +12,7 @@
         </h3>
         </div>
         <div style="padding-left: 120px; position:absolute; color: grey; display:inline-block">
-          <p  class="md-caption" style="display:inline-block;" ng-repeat="user_role in user.this_users_roles">{{user_role.display_name}}{{$last ? '' : ',&nbsp;'}}</p>
+          <p  class="md-caption" style="display:inline-block;" ng-repeat="user_role in user.this_users_roles">{{user_role}}{{$last ? '' : ',&nbsp;'}}</p>
           <has-permission has-permission="administrate-permissions">
            <md-icon style="color:grey;" ng-click="user.show_edit_role = !user.show_edit_role; user.checkRoles()" class="edit-btn mdi mdi-pencil"></md-icon>
           </has-permission>

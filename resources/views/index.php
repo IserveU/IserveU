@@ -78,7 +78,7 @@
                                     </md-button>
                                 </md-menu-item>
                                 <has-permission has-permission="show-users">
-                                <md-menu-item ui-sref="user({id:1})">
+                                <md-menu-item ui-sref="userlist">
                                     <md-button>
                                         <div layout="row">
                                             <p flex translate="{{'USER_LIST'}}"></p>
