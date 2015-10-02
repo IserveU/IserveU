@@ -15,15 +15,22 @@
     		controller: 'HomeController as home',
     		data: {
     	        requireLogin: true
-    	    }
+    	    },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'motion';
+            }]
     	})
     	.state( 'motion', {
+            // cache: true,
     	    url: '/motion/:id',
     	    templateUrl: 'app/components/motion/motion.tpl.html',
     	    controller: 'MotionController as motion',
     	    data: {
     	        requireLogin: true
-    	    }
+    	    },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'motion';
+            }]
     	})
     	.state( 'motion.components', {
     		url: '/',
@@ -38,7 +45,10 @@
 		    	    templateUrl: 'app/components/comment/comment.tpl.html',
 		    	    controller: 'CommentController as vm',
     			}
-    		}
+    		},
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'motion';
+            }]
     	})
     	.state( 'createmotion', {
     	    url: '/createmotion',
@@ -46,7 +56,10 @@
     	    controller: 'CreateMotionController as create',
     	    data: {
     	        requireLogin: true
-    	    }
+    	    },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'motion';
+            }]
     	})
         .state( 'userlist', {
             url: '^/userlist',
@@ -54,7 +67,10 @@
             controller: 'UserController as user',
             data: {
                 requireLogin: true
-            }
+            },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'user';
+            }]
         })
         .state( 'user', {
             url: '/user/:id',
@@ -62,7 +78,10 @@
             controller: 'UserController as user',
             data: {
                 requireLogin: true
-            }
+            },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'user';
+            }]
         })
         .state( 'user.details', {
             url: '/profile',
@@ -76,7 +95,10 @@
                 'roles': {
                     templateUrl: 'app/components/user/edittemplates/edit-roles.tpl.html',
                 }
-            }
+            },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'user';
+            }]
         })
         .state( 'createuser', {
             url: '/create/user',
@@ -84,7 +106,10 @@
             controller: 'CreateUserController as create',
             data: {
                 requireLogin: true
-            }
+            },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'user';
+            }]
         })
     	.state('login', {
             url: '/login',
@@ -106,7 +131,10 @@
         	templateUrl: 'app/components/department/department.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            },
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'department';
+            }]    
     	})
     	.state('property' , {
     		url: '/property',
@@ -122,7 +150,10 @@
         	templateUrl: 'app/components/backgroundimage/backgroundimage.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            }, 
+           onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'backgroundimage';
+            }] 
     	})
     	.state('backgroundimage.preview', {
             url: '^/preview/:id',
@@ -130,7 +161,10 @@
         	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            }, 
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'backgroundimage';
+            }]
     	})
     	.state('permissionfail' , {
     		url: '/invalidentry',

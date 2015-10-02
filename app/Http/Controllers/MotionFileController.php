@@ -115,7 +115,8 @@ class MotionFileController extends ApiController {
 		}
 
 		$motionFile = MotionFile::find($motionFile);
-      	$motionFile->file->uploadFile($request);		
+
+      	$motionFile->file->uploadFile('motion_files', $request);		
 		
 		if(!$motionFile->file->save()){
 		 	abort(403,$motionFile->file->errors);

@@ -125,19 +125,6 @@
 						$rootScope.userIsLoggedIn = true;
 					}
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
-			    //this is slowing down app more than $watch in directives, however that flash is super annoying
-			    if(toState.name === 'myprofile' || 'createuser'){
-			    	$rootScope.currentState = 'user';
-			    }
-			    if(toState.name === 'home'){
-			    	$rootScope.currentState = 'motion';
-			    }
-			    if(toState.name === 'createmotion'){
-			    	$rootScope.currentState = 'motion';
-			    }
-			    if(toState.name === 'motion.components'){
-			    	$rootScope.currentState = 'motion';
-			    }
 			});		
 
 		})
