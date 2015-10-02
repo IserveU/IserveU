@@ -9,7 +9,7 @@
   </md-toolbar>
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="thisuser in user.users">  
-      <p md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
+      <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
       <md-switch style="margin:0px" class="md-secondary"ng-model="thisuser.identity_verified" ng-click="user.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
   </md-list>

@@ -57,6 +57,7 @@
 			}])	
 
 			$urlRouterProvider.when("/motion/:id", "/motion/:id/");
+			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
 
 		    $urlRouterProvider.otherwise('/home');
 
@@ -104,6 +105,7 @@
 					if(toState.name !== 'login.resetpassword'){
 						$rootScope.redirectUrlName = toState.name;
 						$rootScope.redirectUrlID = toParams.id;
+						$rootScope.previousUrlID = fromParams.id;
 					}
 				}
 
@@ -124,16 +126,16 @@
 					}
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
 			    //this is slowing down app more than $watch in directives, however that flash is super annoying
-			    if(toState.name == 'myprofile'){
+			    if(toState.name === 'myprofile' || 'createuser'){
 			    	$rootScope.currentState = 'user';
 			    }
-			    if(toState.name== 'home'){
+			    if(toState.name === 'home'){
 			    	$rootScope.currentState = 'motion';
 			    }
-			    if(toState.name == 'createmotion'){
+			    if(toState.name === 'createmotion'){
 			    	$rootScope.currentState = 'motion';
 			    }
-			    if(toState.name == 'motion.components'){
+			    if(toState.name === 'motion.components'){
 			    	$rootScope.currentState = 'motion';
 			    }
 			});		

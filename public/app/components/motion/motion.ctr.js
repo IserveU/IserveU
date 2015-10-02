@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, $state, motion,
+    function MotionController($rootScope, $stateParams, $mdToast, $state, $location, $anchorScroll, motion,
     vote, motionfile, UserbarService, ToastMessage, VoteService) {
 
         var vm = this;
@@ -49,6 +49,11 @@
             motion_id: '',
             file_id: ''
         }]
+
+        vm.goTo = function(id){
+            $location.hash(id);
+            $anchorScroll();
+        }
 
 
         vm.deleteMotion = function() {

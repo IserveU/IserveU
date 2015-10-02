@@ -1,0 +1,43 @@
+<has-permission has-permission="administrate-permissions">
+<md-content id="maincontent">
+<section class="md-whiteframe-z1" style="margin:8px" layout-padding>
+  <form layout-padding>
+  <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc"  layout-padding>
+    <thead layout-padding>
+      <tr>
+        <td>
+        </td>
+        <td>
+            <p class="md-body-2">Name</p>
+        </td>
+        <td>
+            <p class="md-body-2">Identity</p>
+        </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px">Roles</p>
+        </td>
+      </tr>
+    </thead>
+    <tbody layout-padding>
+      <tr ng-repeat="name in user.users">
+        <td ui-sref="user({id:name.id})">
+          <md-icon style="cursor:pointer" class="mdi mdi-arrow-left-bold-circle-outline"></md-icon>
+        </td>
+        <td>
+          <p class="md-caption" style="margin:0px;">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
+        </td>
+        <td>
+           <p class="md-caption" style="margin:0px;">{{::name.identity_verified ? "Verified" : "Unverified"}}</p>
+        </td>
+        <td style="padding-left:10px;">
+          <span ng-repeat="role in ::name.user_role">
+           <p class="md-caption" style="margin:0px; padding-bottom:5px; display:inline-block">{{role}}{{$last ? '' : ','}}</p>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </form>
+</section>
+</md-content>
+</has-permission> 

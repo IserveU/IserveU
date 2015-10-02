@@ -28,7 +28,7 @@ class ApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'carbon'      =>        $carbon
+            'carbon'        =>        $carbon
         );
     }
 

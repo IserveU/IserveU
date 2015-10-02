@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 
-use Request;
+use App\Http\Requests;
+use Illuminate\Http\Request;
+
 use Auth;
 use Validator;
 use Input;
 use App\BackgroundImage;
-use App\Http\Requests;
+use App\File;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -36,7 +38,14 @@ class BackgroundImageController extends ApiController
      */
     public function create()
     {
-        //
+        if(!Auth::user()->can('create-background_images')){
+            abort(401,'You do not have permission to create a motion');
+        }
+
+        $backgroundImageFields      = (new BackgroundImage)->fields;
+        $fileFields                 = (new File)->fields;
+        
+        return array_merge($fileFields,$backgroundImageFields);
     }
 
     /**
@@ -44,26 +53,24 @@ class BackgroundImageController extends ApiController
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
         $validator = Validator::make(array('image' => Input::file('image')),array('image'=>'image'));
         if ($validator->fails()){
             abort(403,'file is not an image');
         }
         
-        $img = Image::make(Request::file('file'))->resize(1920,1080);
-       
-        $file = md5($img->response()).".jpg";
-        //$directory .="/database/seeds/thefile.csv";
-        $img->save(getcwd()."/uploads/background_images/$file");
+        $file = new File;
+        $file->uploadFile('background_images',$request);     
 
-        $input = Request::all();
-        $input['file'] = $file;
+        if(!$file->save()){
+            abort(403,$file->errors);
+        }
 
-        $backgroundImage = (new BackgroundImage)->secureFill($input);
+        $backgroundImage = (new BackgroundImage)->secureFill($request->all());
 
         $backgroundImage->user_id = Auth::user()->id;
-
+        $backgroundImage->file_id = $file->id;
       
         if(!$backgroundImage->save()){
             abort(403,$backgroundImage->errors);
@@ -91,9 +98,12 @@ class BackgroundImageController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(BackgroundImage $backgroundImage)
     {
-        //
+        $backgroundImageFields      = $backgroundImage->fields;
+        $fileFields                 = $backgroundImage->file->fields;
+        
+        return array_merge($fileFields,$backgroundImageFields);
     }
 
     /**
@@ -102,9 +112,28 @@ class BackgroundImageController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(BackgroundImage $backgroundImage, Request $request)
     {
-        //
+        $validator = Validator::make(array('image' => Input::file('image')),array('image'=>'image'));
+        if ($validator->fails()){
+            abort(403,'file is not an image');
+        }
+
+        $file = $backgroundImage->file;
+        $file->uploadFile('background_images',$request);
+
+        if(!$file->save()){
+            abort(403,$file->errors);
+        }
+
+        $backgroundImage->secureFill($request->all());
+              
+        if(!$backgroundImage->save()){
+            abort(403,$backgroundImage->errors);
+        }
+
+        return $backgroundImage; 
+
     }
 
     /**

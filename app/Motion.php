@@ -10,6 +10,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Events\MotionUpdated;
 use App\Events\MotionCreated;
+use Setting;
 
 
 class Motion extends ApiModel {
@@ -38,13 +39,13 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes','motionRank','MotionOpenForVoting','closing'];
+	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank'];
 	
 	/**
-	 * The attributes included in the JSON/Array
+	 * The attributes hidden in the JSON/Array
 	 * @var array
 	 */
-	protected $hidden = ['motionRankRelation'];
+	protected $hidden = [];
 	
 
 	/**
@@ -63,15 +64,15 @@ class Motion extends ApiModel {
 	 * The mapped attributes for 1:1 relations
 	 * @var array
 	 */
-   	// protected $maps = [
-    //  	'motionFiles' 				=> 	'motionFiles'
-    // ];
+   	protected $maps = [
+       	'motion_rank'		=> 	'lastestRank.rank'
+    ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motionRank','MotionOpenForVoting'];
+    protected $appends = ['MotionOpenForVoting','motion_rank'];
 
     /**
      * The rules for all the variables
@@ -121,7 +122,7 @@ class Motion extends ApiModel {
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['created_at','updated_at'];
+	protected $dates = ['created_at','updated_at','closing'];
 
 	/**
 	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
@@ -163,21 +164,6 @@ class Motion extends ApiModel {
 	
 	/************************************* Getters & Setters ****************************************/
 
-	/**
-	 * @return integer the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
-	 */
-	
-	public function getMotionRankAttribute()
-	{
-	  // if relation is not loaded already, let's do it first
-	  if ( ! array_key_exists('motionRankRelation', $this->relations)) 
-	    $this->load('motionRankRelation');
-	 
-	  $related = $this->getRelation('motionRankRelation');
-	 
-	  // then return the count directly
-	  return ($related) ? (int) $related->rank : 0;
-	}
 
 	/**
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
@@ -187,18 +173,22 @@ class Motion extends ApiModel {
 			return false;
 		}
 
-		if(!$this->closing && $value == 1){
-			$this->attributes['active'] = $value;
-			$oneWeek = new \DateTime();
-			$oneWeek->add(new \DateInterval('P7D'));
-			$this->closing = $oneWeek->format("Y-m-d 19:i:00"); //want to make sure that we don't have a system that forces people to be awake at 4:30 am */
-		}
+		$this->attributes['active'] = $value;
 
+		if(!$this->closing && $value == 1){
+			$closing = new Carbon;
+			$closing->addHours(Setting::get('motion.default.closing_delay',72));
+			$this->closing = $closing;
+		}
 		return true;
 	}
 
 
-    public function getClosingAttribute($attr) {        
+    public function getClosingAttribute($attr) {
+    	if(!$attr){
+    		return $attr;
+    	}
+
         $carbon = Carbon::parse($attr);
 
         return array(
@@ -252,16 +242,6 @@ class Motion extends ApiModel {
 	/************************************* Casts & Accesors *****************************************/
 
 
-	/**
-	 * @return relation the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
-	 */
-
-	public function motionRankRelation()
-	{
-	  return $this->hasOne('App\Vote')
-	    ->selectRaw('motion_id, sum(position) as rank')
-	    ->groupBy('motion_id');
-	}
 
 	/************************************* Scopes ***************************************************/
 
@@ -332,8 +312,17 @@ class Motion extends ApiModel {
 
 	public function files(){
 		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
-
 	}
+
+	public function motionRanks(){
+		return $this->hasMany('App\MotionRank');
+	}
+
+	
+	public function lastestRank(){
+		return $this->hasOne('App\MotionRank')->latest();
+	}
+
 
 
 }
