@@ -11,7 +11,7 @@ return [
 	|
 	*/
 
-	'cachetime' => 0.0001, //So we can turn up caching easily
+	'cachetime' => env('CACHETIME',120), //So we can turn up caching easily
 
 	/*
 	|--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => env('URL','http://localhost'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => env('TIMEZONE', 'UTC'),
 
 	/*
 	|--------------------------------------------------------------------------
