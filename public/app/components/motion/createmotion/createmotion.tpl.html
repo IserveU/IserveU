@@ -72,10 +72,10 @@
 <span flex style="height: 15px"></span>
 
       <div layout layout-sm="column">
-        <md-icon class="mdi mdi-calendar"></md-icon>
-        <md-input-container><label>Closing Date</label><input type="date" style="display:inline" ng-model="create.closingdate" /></md-input-container>
-        <!-- <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px" md-placeholder="Enter date">
-      </md-datepicker> -->
+<!--         <md-icon class="mdi mdi-calendar"></md-icon>
+        <md-input-container><label>Closing Date</label><input type="date" style="display:inline" ng-model="create.closingdate" /></md-input-container> -->
+        <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px;  margin-left:-14px" md-placeholder="Enter date" convert-closing-date >
+      </md-datepicker>
 
       <md-input-container flex="45">
       <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>

@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, motion, motionfile, $state, UserbarService, department, ToastMessage) {
+    function CreateMotionController($rootScope, $scope, $stateParams, $filter, motion, motionfile, $state, UserbarService, department, ToastMessage) {
 
 		UserbarService.setTitle("");
 
@@ -51,11 +51,12 @@
 
 
     	vm.newMotion = function(){
+            console.log(vm.closingdate);
             var data = {
                 title: vm.title,
                 text: vm.text,
                 summary: vm.summary,
-                closing: vm.closingdate,
+                closing: $filter('date')(vm.closingdate, "yyyy-MM-dd HH:mm:ss"),
                 active: vm.isactive,
                 department_id: vm.department
             }
