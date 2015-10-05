@@ -250,7 +250,7 @@ class Motion extends ApiModel {
 	}
 
 	public function scopeExpired($query){
-		return $query->where('closing', '<=', new DateTime('NOW'));
+		return $query->where('closing', '<=', Carbon::now());
 	}
 
 	public function scopeCurrent($query){
@@ -259,6 +259,22 @@ class Motion extends ApiModel {
 
 	public function scopeDepartment($query,$department_id){
 		return $query->where('department_id',$department_id);
+	}
+
+	public function scopeUpdatedBefore($query,Carbon $time){	
+		return $query->where('updated_at','<=',$time);
+	}
+
+	public function scopeUpdatedAfter($query,Carbon $time){	
+		return $query->where('updated_at','>=',$time);
+	}	
+
+	public function scopeClosingBefore($query,Carbon $time){
+		return $query->where('closing','<=',$time);
+	}
+
+	public function scopeClosingAfter($query,Carbon $time){
+		return $query->where('closing','>=',$time);
 	}
 
 	// public function scopePassing($query){

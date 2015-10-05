@@ -11,7 +11,10 @@ use Zizaco\Entrust\Entrust;
 use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Carbon\Carbon;
 
+use App\Motion;
+use Mail;
 
 use App\Transformers\UserTransformer;  //Not doing anything at the moment
 
@@ -91,6 +94,7 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function show(User $user){
+
 		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-users')){
 			abort(401,'You do not have permission to view this non-public user');
 		}

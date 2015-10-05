@@ -140,6 +140,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	protected $locked = ['first_name','middle_name','last_name','date_of_birth'];
 
 
+	protected $casts = [
+        'preferences' => 'json'
+    ];
+
+
 	/**************************************** Standard Methods **************************************** */
 
 	public static function boot(){
@@ -267,6 +272,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		
 		// return $totalDelegations[0]->total;
 	}
+
+	// public function getPreferencesAttribute(){
+	// 	return json_decode($this->attributes['preferences']);
+	// }
+
+
+	// public function setPreferencesAttribute($attr){
+	// 	$this->attributes['preferences'] = json_encode($attr);
+	// }
 
 
 
