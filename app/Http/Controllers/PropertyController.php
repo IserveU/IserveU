@@ -27,13 +27,40 @@ class PropertyController extends ApiController {
 	 */
 	public function index()
 	{
+		$filters = Request::all();
+
 		if(!Auth::user()->can('administrate-properties')){ //Logged in user will want to see if they voted on these things
 			abort(401,'You do not have permission to see property assessments');
 		}
+		else {
+			$property = Property::with(['propertyAssessments' => function($query) {
 
-		$limit = Request::get('limit') ?: 50;
+			}]);
+		}
 
-		return $property = Property::simplePaginate($limit);
+		if(isset($filters['search_query_street_name'])){
+			$property->streetNameSearchQuery($filters['search_query_street_name']);
+		}
+
+		if(isset($filters['search_query_address_number'])){
+			$property->addressNumberSearchQuery($filters['search_query_address_number']);
+		}
+
+		if(isset($filters['search_query_apt_number'])){
+			$property->aptNumberSearchQuery($filters['search_query_apt_number']);
+		}
+
+		if(isset($filters['search_query_roll_number'])){
+			$property->rollNumberSearchQuery($filters['search_query_roll_number']);
+		}
+
+		if(isset($filters['take'])){
+			$property->take($filters['take']);
+		} else {
+			$property->take(4);
+		}
+	
+		return $property->get();
 	}
 
 	/**
@@ -107,6 +134,7 @@ class PropertyController extends ApiController {
 	 */
 	public function update(Property $property)
 	{
+
 		if(!Auth::user()->can('create-properties')){
 			abort(403,'You do not have permission to update a property assessment');
 		}

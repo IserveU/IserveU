@@ -6,16 +6,37 @@
 		.module('iserveu')
 		.factory('property', property);
 
-	function property($resource) {
+	function property($resource, ToastMessage) {
 
 	var PropertyAssessment = $resource('api/propertyassessment');
+
 	var PropertyBlock = $resource('api/propertyblock')
-	var Property = $resource('api/property/uploadcsv', {}, {
-	        'update': { method:'PUT' }
-	    });
+
+	var PropertyCSV = $resource('api/property/uploadcsv');
+
+	var Property = $resource('api/property/:id', {search_query_street_name:'@street_name'}, {
+			'update': { method: 'PUT'}
+		});
+
+	function searchProperty(data){
+		return Property.query(data).$promise.then(function(results){
+			return results;
+		}, function(error) {
+			ToastMessage.report_error(error);
+		});
+	}
+
+	function updateProperty(data){
+		console.log(data);
+		return Property.update({id:data.id},data).$promise.then(function(results){
+			return results;
+		}, function(error) {
+			ToastMessage.report_error(error);
+		});
+	}
 
 	function uploadProperties(){
-		return Property.save().$promise.then(function(results){
+		return PropertyCSV.save().$promise.then(function(results){
 			return results;
 		}, function(error) {
 			return error;
@@ -41,7 +62,9 @@
 	    return {
 	    	getPropertyAssessment: getPropertyAssessment,
 	    	getPropertyBlock: getPropertyBlock,
-	    	uploadProperties: uploadProperties
+	    	uploadProperties: uploadProperties,
+	    	searchProperty: searchProperty,
+	    	updateProperty: updateProperty
 	    }
 
 	}

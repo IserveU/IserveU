@@ -94,6 +94,10 @@
                 },
                 'roles': {
                     templateUrl: 'app/components/user/edittemplates/edit-roles.tpl.html',
+                },
+                'address': {
+                    templateUrl: 'app/components/user/edittemplates/edit-user-address.tpl.html',
+                    controller: 'PropertyController as property'
                 }
             },
             onEnter: ['$rootScope', function($rootScope) {
@@ -139,10 +143,13 @@
     	.state('property' , {
     		url: '/property',
         	controller: 'PropertyController as property',
-        	templateUrl: 'app/shared/property/propertyassessment/propertyassessment.tpl.html',
+        	templateUrl: 'app/components/property/property.tpl.html',
             data: {
                 requireLogin: true
-            } 
+            }, 
+            onEnter: ['$rootScope', function($rootScope) {
+                $rootScope.currentState = 'property';
+            }]  
     	})
     	.state('backgroundimage', {
             url: '/upload',

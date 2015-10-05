@@ -1,9 +1,15 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
+use Illuminate\Support\Facades\Validator;
+use Request;
+use Auth;
 
 class Property extends ApiModel {
 
+	use Eloquence, Mappable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -27,19 +33,19 @@ class Property extends ApiModel {
 	 * The default attributes included in any JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['unit','roll_number','address','street','block','plan','poll_division','zone','coordinate','description','postal_code'];
+	protected $visible = ['unit','roll_number','address','street','block','plan','poll_division','zone','coordinate','description','postal_code', 'id'];
 
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = [];
+	protected $adminVisible = ['id', 'street'];
 
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = [];
+	protected $creatorVisible = ['id', 'street'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -58,8 +64,9 @@ class Property extends ApiModel {
      * @var array
      */
 	protected $rules = [
+		'id'						=>		'integer',
 		'unit'						=>		'string',
-		'roll_number'				=>		'unique:properties',
+		'roll_number'				=>		'string|unique:properties,roll_number',
 		'address'					=>		'string',
 		'street'					=>		'string',
 		'property_block_id'			=>		'integer',
@@ -95,6 +102,7 @@ class Property extends ApiModel {
 	 * @var array
 	 */
 	protected $fields = [
+		'id'						=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'unit'						=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'roll_number'				=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
 		'address'					=>		['tag'=>'','type'=>'','label'=>'','placeholder'=>''],
@@ -141,32 +149,47 @@ class Property extends ApiModel {
 
 	/************************************* Scopes *****************************************/
 
+	public function scopeStreetNameSearchQuery($query,$street_name){
+		return $query->where('street', 'like', "%".$street_name."%");
+	}
+
+	public function scopeAddressNumberSearchQuery($query,$address_number){
+		return $query->where('address', 'like', "%".$address_number."%");
+	}
+
+	public function scopeAptNumberSearchQuery($query,$apt_number){
+		return $query->where('unit', 'like', "%".$apt_number."%");
+	}
+
+	public function scopeRollNumberSearchQuery($query,$roll_number){
+		return $query->where('roll_number', 'like', "%".$roll_number."%");
+	}
 
 	/**********************************  Relationships *****************************************/
 
 
 
 	public function propertyBlock(){
-		return $this->belongsTo('App\PropertyBlock');
+		return $this->hasMany('App\PropertyBlock');
 	}
 
 	public function propertyDescription(){
-		return $this->belongsTo('App\PropertyDescription');
+		return $this->hasMany('App\PropertyDescription');
 	}
 
 	public function propertyZone(){
-		return $this->belongsTo('App\PropertyZoning');
+		return $this->hasMany('App\PropertyZoning');
 	}
 
 	public function propertyPollDivision(){
-		return $this->belongsTo('App\PropertyPollDivision');
+		return $this->hasMany('App\PropertyPollDivision');
 	}
 
 	public function propertyPlan(){
-		return $this->belongsTo('App\PropertyPlan');
+		return $this->hasMany('App\PropertyPlan');
 	}
 
-	public function propertyAssesments(){
+	public function propertyAssessments(){
 		return $this->hasMany('App\PropertyAssessment');
 	}
 

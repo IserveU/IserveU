@@ -1,0 +1,96 @@
+<div layout="row">
+<section class="md-whiteframe-z1" style="margin:8px"flex="50">
+<md-toolbar class="md-warn" style="padding-top: 15px">
+  <div class="md-toolbar-tools">
+   <h2 class="md-flex">Verify your address<span style="display:block" class="md-caption">We will need to verify your identity for your Yellowknife vote to count.</span></h2>
+  </div>
+
+</md-toolbar>
+
+<form name="verifyAddress" ng-submit="verifyAddress.$valid && property.checkProperty()">
+<div layout-padding>
+
+  <div layout layout-sm="column">
+    <md-input-container flex="20">
+      <label>Apt./Suite</label><input ng-model="property.searchApt"/>
+    </md-input-container>
+    <md-input-container flex="20">
+      <label>Street No.</label><input ng-change="property.querySearch()" ng-model="property.searchNumber"/>
+    </md-input-container>
+    <md-input-container flex>
+      <label>Address</label><input ng-change="property.querySearch()" ng-model="property.searchText"/>
+    </md-input-container>
+  </div>
+
+  <div layout layout-sm="column">
+    <md-input-container>
+      <label>Postal Code</label><input ng-model="property.address.postal_code" required/>
+    </md-input-container>
+    <md-input-container flex>
+      <label>Roll Number</label><input ng-model="property.searchRollNumber">
+    </md-input-container>
+  </div>
+  <div layout layout-sm="column">
+    <md-input-container>
+      <label>City</label><input ng-model="property.address.city" required/>
+    </md-input-container>
+    <md-input-container flex>
+      <label>Province/Territory</label><input ng-model="property.address.territory" required/>
+    </md-input-container>
+  </div>
+</div>
+  <div class="action buttons" layout-align="center end">
+    <md-button  ng-click="user.showAddress()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;Back</md-button>
+    <md-button type="submit" ng-show="property.isMyAddress">Save</md-button>
+  </div>
+</form>
+
+</section>
+
+  <section class="md-whiteframe-z1" style="margin:8px" flex="45">
+  <md-toolbar class="md-warn" style="padding-top: 15px">
+    <div class="md-toolbar-tools">
+     <h2 class="md-flex">Search Results<span style="display:block" class="md-caption">Select your address.</span></h2>
+    </div>
+  </md-toolbar>
+  <div layout-padding>
+  <p class="md-body-2" ng-hide="property.searching">Please fill in the fields on the left to begin searching.</p>
+  <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc" layout-padding ng-show="property.searching">
+    <thead layout-padding>
+      <tr>
+        <td>
+            <p class="md-body-2">Unit Number</p>
+        </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px">Street Address</p>
+        </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px">Roll Number</p>
+        </td>
+        <td style="padding-left:10px;">
+        </td>
+      </tr>
+    </thead>
+    <tbody layout-padding>
+    <tr ng-repeat="query_result in property.property_queries">
+        <td>
+          <p class="md-caption" style="margin:0px;">{{query_result.unit}}</p>
+        </td>
+        <td style="padding-left:13px">
+           <p class="md-caption" style="margin:0px;">{{query_result.address}} {{query_result.street}}</p>
+        </td>
+        <td style="padding-left:13px;">
+           <p class="md-caption" style="margin:0px;">{{query_result.roll_number}}</p>
+        </td>
+        <td style="padding-left:15px;">
+            <md-radio-group ng-model="property.dataGroup">
+            <md-radio-button ng-value="query_result" ng-click="property.checkOut();property.assignPropertyData(query_result)"></md-radio-button>
+        </td>
+      </md-radio-group>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+  </section>
+</div>
