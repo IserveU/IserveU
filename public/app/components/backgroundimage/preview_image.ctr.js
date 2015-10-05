@@ -10,11 +10,11 @@
 
 		var vm = this;
 
-		vm.file = "uploads/background_images/";
+		vm.filename = "uploads/background_images/";
 
 		function getPreviewFile(id){
 			backgroundimage.getBackgroundImage(id).then(function(result){
-				vm.file = vm.file + result.data.file;
+				vm.filename = vm.filename + result.data.filename;
 			}, function(error){
 				console.log(error);
 			})

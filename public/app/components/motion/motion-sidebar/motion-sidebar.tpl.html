@@ -24,7 +24,7 @@
 
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="motion in ::sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
+    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
      <!-- ng-class="{'sidebar-item-loading': sidebar.motion_is_loading[motion.id] && $state.includes('motion', {id:motion.id})}" >  -->
 
 

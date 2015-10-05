@@ -22,7 +22,7 @@
 
 		if (settings != null) {
 			if(settings.background_image != null){
-				background_image = "url(/uploads/background_images/" + settings.background_image.file +")";
+				background_image = "url(/uploads/background_images/" + settings.background_image.filename +")";
 			}
 		}
 
