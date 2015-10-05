@@ -140,7 +140,7 @@ class File extends ApiModel
 		}
 
 		$this->file_category_id = $file_category->id;
-		$this->title 			= $request->file('title');
+		$this->title 			= $request->input('title');
 
 		$file = $request->file('file');
 		if(!$file){
