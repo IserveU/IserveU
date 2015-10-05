@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserbarController', UserbarController);
 
-	function UserbarController($rootScope, $translate, auth, UserbarService, SetPermissionsService) {
+	function UserbarController($rootScope, $translate, $state, auth, UserbarService, SetPermissionsService) {
 
 		var vm = this;
 
