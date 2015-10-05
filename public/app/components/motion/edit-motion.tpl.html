@@ -16,7 +16,7 @@
 		<div ng-controller="CreateMotionController as create">
 		<fieldset flex>
 			<legend class="md-headline">Display</legend>
-			<md-datepicker style="background-color:transparent; margin-left:-14px"ng-model="motion.motionDetail.closing.alpha_date" convert-closing-date md-placeholder="Enter Closing Date" flex></md-datepicker>
+			<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date" flex></md-datepicker>
 			<div layout layout-sm="column" layout-align="front end" layout-padding>
 				<md-select ng-model="motion.motionDetail.department_id" name="departmentname" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department"><md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
 				

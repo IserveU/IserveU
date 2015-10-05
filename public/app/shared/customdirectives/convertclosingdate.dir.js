@@ -12,9 +12,9 @@
 			require: "ngModel",
 			link: function(scope, element, attrs, ngModelController) {
 
-				ngModelController.$parsers.push(function(data) {
-					return new Date(data);
-				})
+				// ngModelController.$parsers.push(function(data) {
+				// 	return new Date(data);
+				// })
 
       			ngModelController.$formatters.push(function(data) {
 					return new Date(data);

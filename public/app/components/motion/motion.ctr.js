@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, motion,
+    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll,$timeout, motion,
     vote, motionfile, UserbarService, ToastMessage, VoteService) {
 
         var vm = this;
@@ -85,16 +85,22 @@
             })
         }
 
+        $timeout(function(){
+            console.log(vm.motionDetail.closing);
+        }, 8000);
+
         vm.updateMotion = function() {
             vm.editingMotion = true;
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
                 active: vm.motionDetail.active,
-                closing: $filter('date')(vm.motionDetail.closing.alpha_date, "yyyy-MM-dd HH:mm:ss"),
+                closing: $filter('date')(vm.motionDetail.closing.carbon.date, "yyyy-MM-dd HH:mm:ss"),
                 id: $stateParams.id,
                 department_id: vm.motionDetail.department_id
             }
+
+            console.log(data.closing);
 
             motion.updateMotion(data).then(function(result) {
                 vm.editMotion();
@@ -115,6 +121,7 @@
 
             motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
+                vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
                 UserbarService.title = result.title;
