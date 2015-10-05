@@ -62,7 +62,7 @@
                             </md-button>
                             <md-menu-content width="4">
                                 <md-menu-item>
-                                    <md-button ui-sref="login" ng-click="user.logout()">
+                                    <md-button ng-click="user.logout()">
                                         <div layout="row">
                                             <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
                                             <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
