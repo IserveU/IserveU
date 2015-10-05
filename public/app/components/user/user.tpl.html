@@ -2,6 +2,7 @@
 
 <md-content id="maincontent" layout="column" fill-layout ng-cloak>
 
+  <div ng-hide="user.show_edit_address">
   <section class="md-whiteframe-z1" style="margin:8px">
     <md-toolbar class="section-toolbar md-tall" layout-padding>
       <div>
@@ -20,8 +21,7 @@
       </div>
     </md-toolbar>
 
-
-    <div layout="column" layout-fill>
+    <div layout="column" ng-if="user.isSelfOrAdmin"  layout-fill>
       <div ui-view="details"  ng-if="!user.show_edit_role && !user.show_edit_name"></div>
       <div ui-view="editname" ng-if="user.show_edit_name"></div>
       <div ui-view="roles"  ng-if="user.show_edit_role"></div>
@@ -29,26 +29,31 @@
 
   </section>
 
+  <section  ng-if="user.profile.public && user.votes" flex layout-margin class="md-whiteframe-z1">
+    <md-toolbar class="section-toolbar">
+      <div class="md-toolbar-tools">
+        <h3 translate="{{'VOTING_HISTORY'}}"></h3>
+      </div>
+    </md-toolbar>
+    <md-list layout-padding  ng-repeat="vote in user.votes">
+    <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
+    <p class="md-body-1">{{vote.motion.title}}</p>
+      <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
+      <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
+      <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+        <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
+         <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+        </md-button>
+      </md-list-item>
+      <md-divider ng-show="!$last"></md-divider>
+    </md-list>
+  </section>
+  </div>
 
-    <section  ng-if="user.profile.public && user.votes" flex layout-margin class="md-whiteframe-z1">
-      <md-toolbar class="section-toolbar">
-        <div class="md-toolbar-tools">
-          <h3 translate="{{'VOTING_HISTORY'}}"></h3>
-        </div>
-      </md-toolbar>
-      <md-list layout-padding  ng-repeat="vote in user.votes">
-      <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
-      <p class="md-body-1">{{vote.motion.title}}</p>
-        <md-icon ng-show="vote.position==1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
-        <md-icon ng-show="vote.position==-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
-        <md-icon ng-show="vote.position==0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
-          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
-           <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
-          </md-button>
-        </md-list-item>
-        <md-divider ng-show="!$last"></md-divider>
-      </md-list>
-    </section>
+<div ui-view="address" ng-if="user.show_edit_address"></div>
+
+
+
 
 
 <has-permission has-permission="hasAllusers">

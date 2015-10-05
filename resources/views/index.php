@@ -108,7 +108,7 @@
                                 </md-menu-item>
                                 </has-permission>
                                 <has-permission has-permission="administrate-properties">
-                                <md-menu-item>
+                                <md-menu-item ui-sref="property">
                                     <md-button>
                                         <div layout="row">
                                             <p flex translate="{{'PROPERTY_MANAGER'}}"></p>

@@ -19,12 +19,15 @@
 
       			ngModelController.$formatters.push(function(data) {
       				if(data == "0000-00-00") {
-      					var transformedDate = "Birthday not set";
+      					return;
+      				}
+      				else if(data == null){
+      					console.log('foo');
+      					return;
       				}
       				else {
-	       			 	return $filter('date')(new Date(data), "MMMM dd, yyyy");
+						return new Date(data);
       				}
-			        return transformedDate; //converted
 			    });
 			}
 		}

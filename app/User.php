@@ -36,30 +36,30 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website'];
+	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'property_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['identity_verified'];
+	protected $adminFillable = ['identity_verified', 'property_id'];
 
 	/**
 	 * The default attributes included in any JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['public'];
+	protected $visible = ['public', 'user_role'];
 
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified','permissions', 'user_role', 'votes','verified_until'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until', 'property_id'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -89,7 +89,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         'id'       				=>	'integer',
 	    'login_attempts'		=>	'integer',
 	    'identity_verified'		=>	'boolean',
-	    'remember_token'		=>	'unique:users,remember_token'
+	    'remember_token'		=>	'unique:users,remember_token',
+	    'property_id'			=>	'integer'
 	];
 
 	/**
@@ -138,11 +139,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * @var array
 	 */
 	protected $locked = ['first_name','middle_name','last_name','date_of_birth'];
-
-
-	protected $casts = [
-        'preferences' => 'json'
-    ];
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -273,15 +269,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		// return $totalDelegations[0]->total;
 	}
 
-	// public function getPreferencesAttribute(){
-	// 	return json_decode($this->attributes['preferences']);
-	// }
-
-
-	// public function setPreferencesAttribute($attr){
-	// 	$this->attributes['preferences'] = json_encode($attr);
-	// }
-
 
 
 
@@ -376,8 +363,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		return $this->hasManyThrough('App\Comment','App\Vote');
 	}
 
-	public function properties(){
-		return $this->belongsToMany('App\Property');
+	public function property(){
+		return $this->hasOne('App\Property');
 	}
 
 	public function deferredVotes(){

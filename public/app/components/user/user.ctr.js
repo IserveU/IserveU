@@ -16,17 +16,25 @@
 		vm.users = [];
 	    vm.profile = [];
 
-	    vm.showPasswordDialog = showPasswordDialog;
 	   	vm.administrate_users = SetPermissionsService.can("administrate-users");
 
 	    vm.show_edit_name = false; 
 	    vm.edit = {'email': true , 'date_of_birth': true, 'ethnic_origin_id': true, 'password': true};
-	    vm.showEdits = true;
+	    vm.showEdits = false;
+	    vm.isSelfOrAdmin = false;
+	    vm.myDate = new Date();
+	    vm.minDate = new Date(vm.myDate.getFullYear() - 99, vm.myDate.getMonth(), vm.myDate.getDate());
+	    vm.maxDate = new Date(vm.myDate.getFullYear() - 18, vm.myDate.getMonth(), vm.myDate.getDate());
 
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
 		vm.this_users_roles = [];
 	    vm.show_edit_role = false;
+	    vm.show_edit_address = false;
+
+	    vm.showAddress = function(){
+	    	vm.show_edit_address = !vm.show_edit_address;
+	    }
 
 		vm.test_role_name = function(role){
 			RoleService.check_new_role(role, $stateParams.id);
@@ -56,13 +64,20 @@
 	    	vm.edit[type] = !vm.edit[type];
 	    }
 
-	    vm.pressEnter = function($event, type, newdata) {
+	    vm.pressEnter = function($event, type, newdata, isValid) {
+	    	console.log(isValid);
 	    	if($event.keyCode == 13) {
 	    		vm.showEdit(type, newdata);
 	    	}
 	    }
 
+		/**************************************** API Functions **************************************** */
 	    vm.updateUser = updateUser;
+
+	    ethnic_origin.getEthnicOrigins().then(function(result){
+	    	vm.ethnics = result;
+	    })
+
 	    function updateUser(type, newdata, user_id) {
 
 	    	var data = {
@@ -96,41 +111,6 @@
 					})
 				}
 			})
-		}
-
-	    $rootScope.$on('resetPasswordDialog', function(events){
-	    	showPasswordDialog(events);
-	    });
-
-		function showPasswordDialog(ev) {
-			$mdDialog.show({
-				controller: ResetPasswordController,
-				templateUrl: 'app/components/user/mddialog/new_password_dialog.tpl.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true
-			});
-		};
-
-		function ResetPasswordController($scope, $mdDialog){
-	    	$scope.cancel = function() {
-	    		$mdDialog.cancel();
-	    	};
-
-	    	$scope.resetPassword = function(password) {
-	    		var data = {
-	    			id: JSON.parse(localStorage.getItem('user')).id,
-	    			password: password
-	    		}
-				user.updateUser(data).then(function(results){
-					ToastMessage.simple("Your password has been reset!");
-					$mdDialog.hide();
-				}, function(error){
-					checkError(JSON.parse(error.data.message), "You cannot reset your password!");
-					$mdDialog.hide();
-				})
-	    	};
-
 		}
 
 		vm.verifyUser = function(userinfo){
@@ -168,11 +148,23 @@
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
 				}, function(error){
-					if(error.status == 404){
-						$state.go("user", {id: 1});
-						ToastMessage.simple("That user was not found. You've been redirected.");
+					if(error.status == 404 || 401){
+						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});
+						ToastMessage.simple("That user was not found. You've been redirected to your own profile.");
 					}
 				});
+			}
+		}
+
+		function checkSelf(stateId){
+			var id = JSON.parse(localStorage.getItem('user')).id;
+			if(id == stateId){
+				vm.showEdits = true;
+				vm.isSelfOrAdmin = true;
+			}
+			else if (vm.administrate_users){
+				vm.showEdits = true;
+				vm.isSelfOrAdmin = true;
 			}
 		}
 
@@ -188,6 +180,7 @@
 		}
 
 
+		checkSelf($stateParams.id);
 		getUser($stateParams.id);
 		getUsers();
 

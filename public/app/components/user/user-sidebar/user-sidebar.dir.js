@@ -16,7 +16,7 @@
       }
 
   	}
-    else {
+    else if(SetPermissionsService.can('administrate-users')){
     return {
 
       templateUrl: 'app/components/user/user-sidebar/user-sidebar.tpl.html'

@@ -478,6 +478,50 @@ form.user-profile-form {
 		md-input-container:not(.md-input-invalid).md-input-focused label {
 		padding-left: 50px;
 		}
+	::-webkit-input-placeholder {
+		color: black;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   		color:    black;
+   		opacity:  1;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	   color:    black;
+	   opacity:  1;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	   color:    black;
+	}
+
+	.date-picker-label {
+		color: grey;
+		padding-left: 37px;
+		margin: 0px;
+	}
+
+	md-datepicker {
+		background-color: transparent;
+	    position: relative;
+	    right: 10px;
+
+	    .md-datepicker-input-container{
+	      margin: 0px;
+	      bottom: 4px;
+	      right: 14px;
+	    }
+
+	    .md-datepicker-input {
+	    	font-size: 16px;
+	    	min-width: 148px;
+	    }
+
+	    .md-datepicker-button.md-icon-button {
+	      padding-bottom:10px;
+	      padding-right:24px;
+	      bottom: 9px;
+	      right: 2px;
+	    }
+	  }
 
 	.change-password {
 
@@ -542,9 +586,9 @@ form.user-profile-form {
 
 
 .edit-btn {
-	font-size: 14px;
+	font-size: 18px;
+	padding-bottom:3px;
 	display: inline-block;
-	padding-top:3px;
 	&:hover {
   		cursor: pointer;
 		color: $primaryColor;

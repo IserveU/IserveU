@@ -11,10 +11,7 @@ use Zizaco\Entrust\Entrust;
 use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Carbon\Carbon;
 
-use App\Motion;
-use Mail;
 
 use App\Transformers\UserTransformer;  //Not doing anything at the moment
 
@@ -77,7 +74,7 @@ class UserController extends ApiController {
 
 		$propertyId = Request::get('property_id');
 		if($propertyId){ //A property ID field has been submitted
-			$newUser->properties()->attach($propertyId); //If the property ID has been chosen, add it to the property_user table
+			$newUser->property_id = $propertyId; //If the property ID has been chosen, add it to the property_user table
 		}
 
 		$newUser->addUserRoleByName('unverified');
@@ -94,7 +91,6 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function show(User $user){
-
 		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-users')){
 			abort(401,'You do not have permission to view this non-public user');
 		}
@@ -144,10 +140,7 @@ class UserController extends ApiController {
 
 		$propertyId = Request::get('property_id');
 		if($propertyId){ //A property ID field has been submitted
-			$propertyExists = $user->properties()->where('id',$propertyId)->count(); //This property record 
-			if(!$propertyExists){
-				$user->properties()->attach($propertyId); //If the property ID has been chosen, and it's not already in the table, add it to the property_user table
-			}
+			$user->property_id = $propertyId;
 		}
 
 		$user->save();
