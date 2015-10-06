@@ -19,7 +19,7 @@ class MotionFileController extends ApiController {
 
 
     public function index(Motion $motion){
-    	return $motion->files;
+    	return $motion->motionFiles;
 	}
 
 	/**

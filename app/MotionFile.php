@@ -37,7 +37,7 @@ class MotionFile extends ApiModel
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','motion_id','title','image','file_category_name','filename'];
+	protected $visible = ['id','file_id','motion_id','title','image','file_category_name','filename'];
 	
 	/**
 	 * The attributes visible to an administrator of this model

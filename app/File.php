@@ -65,7 +65,7 @@ class File extends ApiModel
      * @var array
      */
 	protected $rules = [
-		'title' 				=>	'min:10',
+		'title' 				=>	'sometimes',
         'filename'				=>	'min:30|unique:files,filename',
         'file'					=>	'mimes:png,pdf,jpg,jpeg,gif',
         'image'					=>	'boolean',
