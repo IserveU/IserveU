@@ -17,7 +17,7 @@
           <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
           <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
           <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
-          <a style="color:#f2aa4f" href="mailto:admin@iserveu.com"><u>admin@iserveu.ca</u></a></p>
+          <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
         </div>
 
     <div layout="row" >
