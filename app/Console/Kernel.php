@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Setting;
 
 class Kernel extends ConsoleKernel {
 
@@ -13,6 +14,7 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\EmailDailySummary',
+		'App\Console\Commands\RankGeneration',
 	];
 
 	/**
@@ -28,6 +30,12 @@ class Kernel extends ConsoleKernel {
 
 		$schedule->command('emails:daily')
 				 ->daily();
+
+		$schedule->command('motions:rankgeneration')
+				 ->hourly();
+
+		//            if(!$motion->lastestRank || $motion->lastestRank->created_at['carbon']->diffInMinutes($now) >= Setting::get('motion.minutes_between_rank_calculations',60)){
+
 	}
 
 }
