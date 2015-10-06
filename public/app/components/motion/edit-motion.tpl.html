@@ -16,15 +16,16 @@
 		<div ng-controller="CreateMotionController as create">
 		<fieldset flex>
 			<legend class="md-headline">Display</legend>
-			<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date" flex></md-datepicker>
+			<md-select ng-model="motion.motionDetail.department_id" name="departmentname" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department"><md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
+			<span ng-if="!motion.motionDetail.active">
 			<div layout layout-sm="column" layout-align="front end" layout-padding>
-				<md-select ng-model="motion.motionDetail.department_id" name="departmentname" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department"><md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
-				
+				<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date"></md-datepicker>
 				<span style="width:50px"></span>
-				<md-checkbox aria-label="Deactivate/Activate motion" ng-model="motion.motionDetail.active" ng-true-value="1" ng-false-value="0"><p class="md-body-1">Deactivate/Activate motion</p></md-checkbox>
+				<md-checkbox aria-label="Activate motion" ng-model="motion.motionDetail.active" ng-true-value="1" ng-false-value="0"><p class="md-body-1" style="display:inline-block">Activate motion</p></md-checkbox>
 			</div>
 			<i class="md-caption" style="font-size:11px">While the motion is set to <strong>active</strong> it is up for discussion within city council. <strong>Unactive</strong> indicates to the user that they cannot to vote on the motion yet.</br>
 				The <strong>closing date</strong> marks the end of the voting period. All votes will be given to the councilors.</i>
+			</span>
 		</fieldset>		
 
 		<fieldset>

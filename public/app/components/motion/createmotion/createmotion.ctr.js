@@ -35,23 +35,20 @@
 
         vm.theseFiles = {};
 
-        vm.upload = function(flow, index){
+        vm.upload = function(flow){
             vm.thisFile = flow.files[0].file;
         }
 
         vm.newFigureTitle = function(flow, name, index){
             vm.thisFile = '';
-            flow.files[index].name = name;
-            var tempFormData = new FormData();
-            tempFormData.append("file", flow.files[index].file);
-            tempFormData.append("file_category_name", "motionfiles");
-  
-            vm.theseFiles[index] = tempFormData;
+            vm.theseFiles[index] = new FormData();
+            vm.theseFiles[index].append("file", flow.files[index].file);
+            vm.theseFiles[index].append("file_category_name", "motionfiles");
+            vm.theseFiles[index].append("title", name);
         }
 
 
     	vm.newMotion = function(){
-            console.log(vm.closingdate);
             var data = {
                 title: vm.title,
                 text: vm.text,
@@ -74,13 +71,16 @@
                 var fd = new FormData();
                 fd.append("file", vm.thisFile);
                 fd.append("file_category_name", "motionfiles");
+                fd.append("title", vm.thisFile.name);
                 motionfile.uploadMotionFile(id, fd);
                 return;
             }
+            else{
+                angular.forEach(vm.theseFiles, function(value, key) {
+                    motionfile.uploadMotionFile(id, value);
+                })
+            }
 
-            angular.forEach(vm.theseFiles, function(value, key) {
-                motionfile.uploadMotionFile(id, value);
-            })
 
         }
 
