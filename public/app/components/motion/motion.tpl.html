@@ -12,12 +12,12 @@
 		<p class="md-headline" translate="{{'DETAILS'}}"></p>
 		<p class="md-body-1" ng-bind-html="motion.motionDetail.text"></p>
 
-		<div layout-padding>
+		<div layout-padding ng-if="motion.motion_files[0]">
 			<md-divider></md-divider>
 			<md-icon class="mdi mdi-paperclip" style="display:inline-block"></md-icon><p style="display:inline-block" class="md-body-1">Attachments:</p>
 			<div flex ng-repeat="file in motion.motion_files">
-				<a class="md-subhead" href="/uploads/motionfiles/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)"></a>
-					<img ng-if="file.image" ng-src="/uploads/motionfiles/{{file.filename}}" />
+				<a class="md-subhead" href="/uploads/motion_files/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)"></a>
+					<img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" />
 			</div>
 		</div>
 	</div>
