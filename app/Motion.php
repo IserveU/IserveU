@@ -169,7 +169,8 @@ class Motion extends ApiModel {
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
 	 */
 	public function setActiveAttribute($value){
-		if(!Auth::user()->can('administrate-motions')){
+
+		if(Auth::check() && !Auth::user()->can('administrate-motions')){
 			abort(401,"Unable to set  user does not have permission to set motions as active");
 		}
 
