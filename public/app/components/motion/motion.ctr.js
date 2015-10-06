@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll,$timeout, motion,
+    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, motion,
     vote, motionfile, UserbarService, ToastMessage, VoteService) {
 
         var vm = this;
@@ -42,13 +42,11 @@
             bool: false,
             motion_id: '',
             file_id: ''
-        }]
+        }];
 
         vm.updated_motion = [{
-            title: '',
-            motion_id: '',
-            file_id: ''
-        }]
+            title: null,
+        }];
 
         vm.goTo = function(id){
             $location.hash(id);
@@ -85,10 +83,6 @@
             })
         }
 
-        $timeout(function(){
-            console.log(vm.motionDetail.closing);
-        }, 8000);
-
         vm.updateMotion = function() {
             vm.editingMotion = true;
             var data = {
@@ -100,14 +94,10 @@
                 department_id: vm.motionDetail.department_id
             }
 
-            console.log(data.closing);
-
             motion.updateMotion(data).then(function(result) {
                 vm.editMotion();
                 vm.editingMotion = false;
-                uploadMotionFile();
-                deleteMotionFiles();
-                updateMotionFiles();
+                motionFileLogic();
                 getMotion(result.id);
                 ToastMessage.simple("You've successfully updated this motion!");
             }, function(error) {
@@ -136,11 +126,19 @@
         function getMotionFiles(id){    // unnecessary step 
             motionfile.getMotionFiles(id).then(function(result) {
                 vm.motion_files = result;
+                console.log(vm.motion_files);
             })
         }
 
+        function motionFileLogic(){
+            if(vm.formData){uploadMotionFile();}
+            if(vm.delete_motion_file){deleteMotionFiles();}
+            if(vm.updated_motion.title != null){}
+                updateMotionFiles();
+        }
+
+
         vm.updateMotionFile = function(title, motion_id, file_id) {
-            console.log(title);
             vm.updated_motion[file_id]= {
                 file_category_name: "motionfiles",
                 title: title,
@@ -149,14 +147,19 @@
             }
         }
 
-
         // title not working on post
         function updateMotionFiles(){
             angular.forEach(vm.updated_motion, function(file, key) {
-                motionfile.updateMotionFile(file, file.motion_id, file.file_id);
+                if(key != 0){
+                    console.log(file);
+                    motionfile.updateMotionFile(file, file.motion_id, file.file_id);
+                }
             })
         }
 
+        vm.newMotionTitle = function(flow, name, $index){
+            vm.formData.append("title", name);
+        }
 
         vm.deleteMotionFile = function(bool, motion_id, file_id) {
             vm.delete_motion_file[file_id] = {
@@ -170,6 +173,8 @@
             vm.formData = new FormData();
             vm.formData.append("file", flow.files[0].file);
             vm.formData.append("file_category_name", "motionfiles");
+            vm.formData.append("title", flow.files[0].file.name);
+
         }
 
         function uploadMotionFile(){
