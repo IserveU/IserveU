@@ -4,7 +4,7 @@
 <div ui-view></div>
 
 <!-- upload html begins --> 
-  <section class="md-whiteframe-z1" style="margin:8px">
+  <section class="md-whiteframe-z1" style="margin:8px" ng-if="$state.includes('preview')">
     <md-toolbar class="section-toolbar">
       <div class="md-toolbar-tools">
         <h3 translate="{{'UPLOAD_BACKGROUND_IMG'}}"></h3>

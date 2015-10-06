@@ -36,10 +36,19 @@
 			});
 		}
 
+		var updateBackgroundImage = function(data){
+			return $http.put('api/background_image/'+data.id, data).success(function(result){
+				return result;
+			}).error(function(error){
+				return error;
+			})
+		}
+
 		return {
 		  	getBackgroundImages: getBackgroundImages,
 		  	saveBackgroundImage: saveBackgroundImage,
-		  	getBackgroundImage: getBackgroundImage
+		  	getBackgroundImage: getBackgroundImage,
+		  	updateBackgroundImage: updateBackgroundImage
 		};
 	}
 

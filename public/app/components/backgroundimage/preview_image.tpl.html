@@ -7,8 +7,36 @@
   <div layout="column" >
     <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
     <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
+<div layout-padding>
+<img ng-src="{{preview.filename}}"/>
+</div>
+      <form name="editbackgroundimage" layout-padding ng-submit="preview.updateBackgroundImage()">
+      <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-account" ></md-icon>
+        <input ng-model="preview.fileinfo.credited" translate translate-attr-placeholder="WHO_TOOK_THIS" required/>
+      </md-input-container>
 
-<img ng-src="{{preview.filename}}" />
+      <md-input-container>
+                <md-icon class="mdi" md-font-icon="mdi-link" ></md-icon>
+       <input ng-model="preview.fileinfo.url" translate translate-attr-placeholder="EXAMPLE_WEBSITE" required/>
+      </md-input-container>
+
+      <md-datepicker has-permission="administrate-background_images"
+      ng-model="preview.fileinfo.display_date" convert-closing-date md-placeholder="Display Date"></md-datepicker>
+
+      <div layout layout-sm="column">
+        <md-button ng-click="preview.updating = true" type="submit">
+          <span ng-hide="preview.updating" translate="{{'SUBMIT'}}"></span>
+          <md-icon ng-show="preview.updating" md-svg-src="/themes/{{::themename}}/loading.svg" ></md-icon>
+        </md-button>
+
+        <md-checkbox has-permission="administrate-background_images" ng-model="preview.fileinfo.active" ng-true-value="1" ng-false-value="0" aria-label="Checkbox 1">
+            {{'ACTIVE' |  translate}}<md-tooltip>{{'DAILY_CYCLE_TOOLTIP' | translate}}</md-tooltip>
+        </md-checkbox>
+
+      </div>
+      </form>
+
 
   </div>
   </div>

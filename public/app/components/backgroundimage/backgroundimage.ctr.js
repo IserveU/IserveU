@@ -12,6 +12,8 @@
 
 		var vm = this;
 
+		$scope.$state = $state;
+
 		$timeout(function(){
 			vm.background = JSON.parse(localStorage.getItem('settings')).background_image;
 		}, 1000);

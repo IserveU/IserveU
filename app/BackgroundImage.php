@@ -32,13 +32,13 @@ class BackgroundImage extends ApiModel
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['active'];
+	protected $adminFillable = ['active', 'display_date'];
 	
 	/**
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['id','file_id','display_date','url','credited','title','filename'];
+	protected $visible = ['id','file_id','display_date','url','credited','title','filename', 'active'];
 	
 	/**
 	 * The attributes visible to an administrator of this model
