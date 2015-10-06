@@ -21,8 +21,8 @@
        <input ng-model="preview.fileinfo.url" translate translate-attr-placeholder="EXAMPLE_WEBSITE" required/>
       </md-input-container>
 
-      <md-datepicker has-permission="administrate-background_images"
-      ng-model="preview.fileinfo.display_date" convert-closing-date md-placeholder="Display Date"></md-datepicker>
+      <span class="column-form"><md-datepicker has-permission="administrate-background_images"
+      ng-model="preview.fileinfo.display_date" convert-closing-date md-placeholder="Display Date"></md-datepicker></span>
 
       <div layout layout-sm="column">
         <md-button ng-click="preview.updating = true" type="submit">
