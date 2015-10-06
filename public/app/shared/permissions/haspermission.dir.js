@@ -28,7 +28,7 @@
 		}
 
 		return {
-			restrict: 'E',
+			restrict: 'AE',
 			link: linkMethod
 		}
 
