@@ -51,7 +51,7 @@
   <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
   <input aria-label="figures select" type="file" style="position:absolute"flow-btn/>
 </md-input-container>
-<span flex="15"></span>
+<span flex="20"></span>
 <md-input-container ng-repeat="file in $flow.files" layout-sm="column">
 <input  ng-model="file.name" name="file"ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
 <div ng-messages="newmotionform.file.$error">  
@@ -79,7 +79,7 @@
 
       <md-input-container flex="45">
       <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>
-      <md-option ng-repeat="department in create.departments" ng-value="department.id" >{{department.name}}
+      <md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}
     </md-option>
   </md-select>
   <div ng-messages="newmotionform.departmentname.$error">  

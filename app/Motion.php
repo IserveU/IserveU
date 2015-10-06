@@ -169,8 +169,13 @@ class Motion extends ApiModel {
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
 	 */
 	public function setActiveAttribute($value){
-		if(!Auth::user()->can('administrate-motions')){
-			return false;
+
+		if(Auth::check() && !Auth::user()->can('administrate-motions')){
+			abort(401,"Unable to set  user does not have permission to set motions as active");
+		}
+
+		if($value && !$this->motionRanks->isEmpty()){
+			abort(403,"This motion has already been voted on, it cannot be reactivated after closing");
 		}
 
 		$this->attributes['active'] = $value;
@@ -180,6 +185,15 @@ class Motion extends ApiModel {
 			$closing->addHours(Setting::get('motion.default.closing_delay',72));
 			$this->closing = $closing;
 		}
+		return true;
+	}
+
+	public function setClosingAttribute($value){
+		if(!$this->motionRanks->isEmpty()){
+			abort(403, "People have already began voting on this motion, you can not change its closing date");
+		}
+
+		$this->attributes['closing'] = $value;
 		return true;
 	}
 
