@@ -46,34 +46,31 @@
   </div>
 </md-input-container>
 
-<div flow-init="" flow-files-submitted="create.upload($flow, $index)" layout layout-sm="column">
-  <md-input-container>
-  <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
-  <input aria-label="figures select" type="file" style="position:absolute"flow-btn/>
-</md-input-container>
-<span flex="20"></span>
-<md-input-container ng-repeat="file in $flow.files" layout-sm="column">
-<input  ng-model="file.name" name="file"ng-blur="create.newFigureTitle($flow, file.name, $index)" ng-minlength="8"></input>
-<div ng-messages="newmotionform.file.$error">  
-  <div ng-message="minlength">Title must be 8 characters.</div>
-</div>
-</md-input-container>
-</div>
 
+  <fieldset ng-style="style" 
+       flow-init
+          flow-drop-enabled="true"
+          flow-drop
+          flow-drag-enter="style={border: '2px dashed rgb(255,118,0)'};create.fileDrop()"
+          flow-drag-leave="style={border: '2px dashed #cccccc'}"
+          flow-files-submitted="create.upload($flow)"
+          >
+    <div layout-padding>
+      <input type="file" multiple="multiple" flow-btn style="font-size: 12px"/>
+      <p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
+    </div>
+    <p style="font-size: 14px;" ng-repeat="file in $flow.files">
+    <md-icon class="mdi-small mdi-close" style="position:relative;top:4px;cursor:pointer" ng-click="create.removeFile(file)"></md-icon>
+    <md-input-container style="display:inline-block; padding:0px; width:96%" flex>
+      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name"/>
+    </md-input-container>
+    </p>
+  </fieldset>
 
-<!--       <div layout layout-sm="column">
-        <md-input-container>
-        <md-icon class="mdi mdi-file-image-box" ></md-icon>
-        <input type="file" name="file" onchange="angular.element(this).scope().chosenImage(this.files)" aria-label="upload_file" required/>
-        </md-input-container>
-        <md-input-container ng-show="create.entertitle"><label>Figure Title</label><input ng-model="create.figuretitle"></input></md-input-container>
-      </div> -->
 
 <span flex style="height: 15px"></span>
 
       <div layout layout-sm="column">
-<!--         <md-icon class="mdi mdi-calendar"></md-icon>
-        <md-input-container><label>Closing Date</label><input type="date" style="display:inline" ng-model="create.closingdate" /></md-input-container> -->
         <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px;  margin-left:-14px" md-placeholder="Enter date" convert-closing-date >
       </md-datepicker>
 
@@ -91,7 +88,7 @@
 </md-checkbox>
 </div>
 
-<md-button ng-click="create.submit()" type="submit" class="btn btn-sm btn-primary">Create motion</md-button>
+<md-button ng-click="create.submitted = true" type="submit" class="btn btn-sm btn-primary">Create motion</md-button>
 
 
 </div>
