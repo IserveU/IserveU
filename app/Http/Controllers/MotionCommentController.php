@@ -28,7 +28,7 @@ class MotionCommentController extends ApiController
             $comments['agreeComments']      = Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->agree()->get()->sortByDesc('commentRank')->toArray();
             $comments['disagreeComments']   =   Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->disagree()->get()->sortByDesc('commentRank')->toArray();
         } else { //Load the standard cached comments for the page
-            $comments = Cache::remember('motion'.$motion->id.'_comments', config('app.cachetime'), function() use ($motion){
+            $comments = Cache::remember('motion'.$motion->id.'_comments', Setting::get('comments.cachetime',60), function() use ($motion){
                 $comments['agreeComments']      = Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->agree()->get()->sortByDesc('commentRank')->toArray();
                 $comments['disagreeComments']   =   Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->disagree()->get()->sortByDesc('commentRank')->toArray();
                 return $comments;

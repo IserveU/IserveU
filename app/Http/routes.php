@@ -28,7 +28,7 @@ Route::get('/settings', function(){
 	if ($token = JWTAuth::getToken()) {
 		$user = JWTAuth::parseToken()->authenticate();
     }
-	return array('themename'=>config('app.themename'),'background_image'=>(new BackgroundImage)->today(),'user'=>$user);
+	return array('themename'=>Setting::get('themename','default'),'background_image'=>(new BackgroundImage)->today(),'user'=>$user);
 });
 
 

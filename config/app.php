@@ -4,17 +4,6 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Default Cache Time
-	|--------------------------------------------------------------------------
-	|
-	| How long to store items in cache by default
-	|
-	*/
-
-	'cachetime' => env('CACHETIME',120), //So we can turn up caching easily
-
-	/*
-	|--------------------------------------------------------------------------
 	| Theme
 	|--------------------------------------------------------------------------
 	|
@@ -22,7 +11,6 @@ return [
 	|
 	*/
 
-	'themename' => env('SET_THEMENAME','default'), //So we can turn up caching easily
 	'sitename' => env('SET_SITENAME',''),
 
 	/*
