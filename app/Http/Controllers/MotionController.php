@@ -143,8 +143,8 @@ class MotionController extends ApiController {
 
 		$motion->secureFill(Request::all());
 
-		if(Request::get('active') && !$motion->setActiveAttribute(Request::get('active'))){ //If you tried to set active, but failed with permissions
-			abort(401,"This user does not have permission to set motions as active");
+		if(Request::get('active')){ //If you tried to set active, but failed with permissions
+			$motion->setActiveAttribute(1);
 		}
 		
 		if(!$motion->save()){
