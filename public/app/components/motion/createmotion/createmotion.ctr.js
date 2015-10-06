@@ -10,43 +10,55 @@
 
 		UserbarService.setTitle("");
 
-
     	var vm = this;
 
-        //sets next week
-        var oneWeekDate = new Date();
+        /************************************* Ng Model Variables ****************************/
+        $scope.style = {border: '2px dashed #cccccc'};  // style for file drop box
+
+        var oneWeekDate = new Date();   //sets for next week
         oneWeekDate.setDate(oneWeekDate.getDate() + 7);
 
-        vm.enterfiguretitle = false;
-        vm.departments = [];
-
-        // ng model variables
-        vm.department;
+        vm.department = 1;
         vm.closingdate = oneWeekDate;
         vm.motion_id;
         vm.isactive;
         vm.text;
-        vm.title
+        vm.title = "a testing title" + Math.random();
         vm.summary;
         vm.submitted = false;
-        vm.text_box_clicked = false;
+        vm.departments = [];
 
-        vm.figuretitle = '';
-
+        /************************************* Motion File Functions ****************************/
+        
         vm.theseFiles = {};
+        vm.uploadMotionFile = uploadMotionFile;
+        vm.changeTitleName = changeTitleName;
 
         vm.upload = function(flow){
-            vm.thisFile = flow.files[0].file;
+            console.log(flow);
+            angular.forEach(flow.files, function(flowObj, index){
+                vm.theseFiles[index] = new FormData();
+                vm.theseFiles[index].append("file", flowObj.file);
+                vm.theseFiles[index].append("file_category_name", "motionfiles");
+                vm.theseFiles[index].append("title", flowObj.name);
+            })
         }
 
-        vm.newFigureTitle = function(flow, name, index){
-            vm.thisFile = '';
-            vm.theseFiles[index] = new FormData();
-            vm.theseFiles[index].append("file", flow.files[index].file);
-            vm.theseFiles[index].append("file_category_name", "motionfiles");
+        function uploadMotionFile(id) {
+            angular.forEach(vm.theseFiles, function(value, key) {
+                motionfile.uploadMotionFile(id, value);
+            })
+        }
+
+        function changeTitleName(index, name){
             vm.theseFiles[index].append("title", name);
         }
 
+        function removeFile(index){
+            delete vm.theseFiles[index];
+        }
+
+        /************************************* Create Motion Functions ****************************/
 
     	vm.newMotion = function(){
             var data = {
@@ -60,41 +72,19 @@
 
             motion.createMotion(data).then(function(result) {
                 $rootScope.$emit('refreshMotionSidebar');  
-                uploadFigure(result.id);
+                uploadMotionFile(result.id);
             },function(error) {
                 ToastMessage.report_error(error);
             });
 		}
 
-        function uploadFigure(id) {
-            if(vm.thisFile){
-                var fd = new FormData();
-                fd.append("file", vm.thisFile);
-                fd.append("file_category_name", "motionfiles");
-                fd.append("title", vm.thisFile.name);
-                motionfile.uploadMotionFile(id, fd);
-                return;
-            }
-            else{
-                angular.forEach(vm.theseFiles, function(value, key) {
-                    motionfile.uploadMotionFile(id, value);
-                })
-            }
+        /************************************* Deparment Functions ****************************/
+        
+        department.getDepartments().then(function(result){
+            vm.departments = result;
+        });
 
 
-        }
-
-        function loadDepartments(){
-            department.getDepartments().then(function(result){
-                vm.departments = result;
-            });
-        } 
-
-        vm.submit = function(){
-            vm.submitted = true;
-        }
-
-        loadDepartments();
 
 	}
 }());
