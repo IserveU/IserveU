@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
         <link rel="stylesheet" href="/themes/<?=Setting::get('themename','default')?>/theme.css">
-        <link rel="icon shortcut" type="image/png" href="/themes/<?=config('app.themename')?>/logo/symbol.png">                
+        <link rel="icon shortcut" type="image/png" href="/themes/<?=Setting::get('themename','default')?>/logo/symbol.png">                
     </head>
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
  <body back-img class="background-image"  ng-controller="SidebarController as sidebar"/>
@@ -179,5 +179,5 @@
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
         </script>
-    <script src="/themes/Setting::get('themename','default')/theme.js"></script>
+    <script src="/themes/<?=Setting::get('themename','default')?>/theme.js"></script>
 </html> 
