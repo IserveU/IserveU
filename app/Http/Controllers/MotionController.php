@@ -141,6 +141,10 @@ class MotionController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
+		if(!$motion->active && !$motion->latestRank){ //Motion has closed/expired
+			abort(403,'This motion has expired and can not be edited');
+		}
+
 		$motion->secureFill(Request::all());
 
 		if(Request::get('active')){ //If you tried to set active, but failed with permissions
