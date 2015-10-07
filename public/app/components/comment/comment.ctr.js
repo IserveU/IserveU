@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CommentController', CommentController);
 
-    function CommentController($rootScope, $stateParams, $mdToast, $timeout, comment, VoteService, ToastMessage, CommentVoteService) {
+    function CommentController($rootScope, $stateParams, $mdToast, comment, VoteService, ToastMessage, CommentVoteService) {
 
         var vm = this;
 
@@ -41,11 +41,9 @@
                 text: text
             }
 
-            comment.saveComment(data).then(function(result) {
+            comment.saveComment().then(function(result) {
                 getMotionComments($stateParams.id);
                 ToastMessage.simple("You've made a comment!");
-            }, function(error) {
-                ToastMessage.report_error(error);
             });            
         }
 
@@ -57,8 +55,6 @@
             comment.updateComment(data).then(function(result) {
                 getMotionComments($stateParams.id);
                 ToastMessage.simple("Commment updated!");
-            }, function(error) {
-                ToastMessage.report_error(error);
             });
         }
 
@@ -70,8 +66,6 @@
                 if (response == 'ok'){
                     comment.deleteComment(id).then(function(result) {
                         getMotionComments($stateParams.id);
-                    }, function(error) {
-                        ToastMessage.report_error(error);
                     }); 
                 }
             });

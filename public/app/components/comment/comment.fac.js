@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('comment', comment);
 
-	function comment($resource, $q) {
+	function comment($resource, $q, ToastMessage) {
 
 		var Comment = $resource('api/comment/:id', {}, {
 	        'update': { method:'PUT' }
@@ -48,7 +48,7 @@
 			return Comment.save(data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return $q.reject(error);
+				ToastMessage.report_error(error);
 			});
 		}
 
@@ -56,7 +56,7 @@
 			return Comment.update({id:data.id}, data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return $q.reject(error);
+				ToastMessage.report_error(error);
 			});
 		}
 
@@ -64,7 +64,7 @@
 			return Comment.delete({id:id}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return $q.reject(error);
+				ToastMessage.report_error(error);
 			});
 		}
 
