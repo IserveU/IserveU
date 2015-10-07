@@ -39,7 +39,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank'];
+	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
@@ -65,14 +65,15 @@ class Motion extends ApiModel {
 	 * @var array
 	 */
    	protected $maps = [
-       	'motion_rank'		=> 	'lastestRank.rank'
+       	'motion_rank'		=> 	'lastestRank.rank',
+       	'user_vote'			=>	'userVote'
     ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['MotionOpenForVoting','motion_rank'];
+    protected $appends = ['MotionOpenForVoting','motion_rank','user_vote'];
 
     /**
      * The rules for all the variables
@@ -352,6 +353,11 @@ class Motion extends ApiModel {
 	public function lastestRank(){
 		return $this->hasOne('App\MotionRank')->latest();
 	}
+
+	public function userVote(){
+		return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);
+	}
+
 
 
 

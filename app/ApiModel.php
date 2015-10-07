@@ -106,8 +106,16 @@ class ApiModel extends Model
     }
 
     public function getVisibleAttribute(){
-        if(Auth::check() && Auth::user()->can("show-".$this->table)){
+        if(!Auth::check()){
+            return $this->visible;
+        } 
+
+        if(Auth::user()->can("show-".$this->table)){ //Admin
             $this->visible = array_unique(array_merge($this->adminVisible, $this->visible));
+        }
+
+        if(array_key_exists('user_id',$this->attributes)){ //The person who created this
+            $this->visible = array_unique(array_merge($this->creatorVisible, $this->visible));   
         }
         return $this->visible;
     }
