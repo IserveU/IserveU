@@ -53,7 +53,6 @@
             $anchorScroll();
         }
 
-
         vm.deleteMotion = function() {
             var toast = ToastMessage.delete_toast(" motion");
 
@@ -123,27 +122,28 @@
         /**************************************** Motion Files Functions **************************************** */
         // abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
 
+        vm.formData = {};
+
         function getMotionFiles(id){    // unnecessary step 
             motionfile.getMotionFiles(id).then(function(result) {
                 vm.motion_files = result;
-                console.log(vm.motion_files);
             })
         }
 
         function motionFileLogic(){
-            if(vm.formData){uploadMotionFile();}
+            if(vm.formData){uploadMotionFile($stateParams.id);}
             if(vm.delete_motion_file){deleteMotionFiles();}
-            if(vm.updated_motion.title != null){}
-                updateMotionFiles();
+            
+            updateMotionFiles();
         }
 
 
-        vm.updateMotionFile = function(title, motion_id, file_id) {
-            vm.updated_motion[file_id]= {
+        vm.updateMotionFile = function(file) {
+            vm.updated_motion[file.file_id]= {
                 file_category_name: "motionfiles",
-                title: title,
-                motion_id: motion_id,
-                file_id: file_id
+                title: file.title,
+                motion_id: file.motion_id,
+                file_id: file.id
             }
         }
 
@@ -151,14 +151,19 @@
         function updateMotionFiles(){
             angular.forEach(vm.updated_motion, function(file, key) {
                 if(key != 0){
-                    console.log(file);
                     motionfile.updateMotionFile(file, file.motion_id, file.file_id);
                 }
             })
         }
 
-        vm.newMotionTitle = function(flow, name, $index){
-            vm.formData.append("title", name);
+        // vm.updateTitleName = function()
+
+        vm.changeTitleName = function(index, name){
+            vm.formData[index].append("title", name);
+        }
+
+        vm.removeFile = function(index){
+            delete vm.formData[index];
         }
 
         vm.deleteMotionFile = function(bool, motion_id, file_id) {
@@ -170,17 +175,19 @@
         }
 
         vm.upload = function(flow) {
-            vm.formData = new FormData();
-            vm.formData.append("file", flow.files[0].file);
-            vm.formData.append("file_category_name", "motionfiles");
-            vm.formData.append("title", flow.files[0].file.name);
+            angular.forEach(flow.files, function(flowObject, index){
+                vm.formData[index] = new FormData();
+                vm.formData[index].append("file", flowObject.file);
+                vm.formData[index].append("file_category_name", "motionfiles");
+                vm.formData[index].append("title", flowObject.name);
+            })
 
         }
 
-        function uploadMotionFile(){
-            if(vm.formData){
-                motionfile.uploadMotionFile($stateParams.id, vm.formData);
-            }
+        function uploadMotionFile(id){
+            angular.forEach(vm.formData, function(value, key) {
+                motionfile.uploadMotionFile(id, value);
+            })
         }
 
         function deleteMotionFiles(){
@@ -233,20 +240,6 @@
         }
 
         vm.castVote = function(position) {
-            var message;
-            switch(position) {
-                case -1: 
-                    message = " disagree with ";
-                    vm.voting.disagree = true;
-                    break;
-                case 1:
-                    message = " agreed with ";
-                    vm.voting.agree = true;
-                    break;
-                default:
-                    message = message+" abstained from voting on ";
-                    vm.voting.abstain = true;
-            }
 
             var data = {
                 motion_id:$stateParams.id,
@@ -256,14 +249,13 @@
             if(!vm.userHasVoted) {
                 vote.castVote(data).then(function(result) {
                     getMotionOnGetVoteSuccess();
-                    ToastMessage.simple("You"+message+"this motion");
+                    VoteService.showVoteMessage(position, vm.voting);
                 }, function(error) {
                     turnOffLoadingVotingAnimation();
                     ToastMessage.report_error(error);
                 });
             }
-            else updateVote(data.position);
-
+                else updateVote(data.position);
             }
 
         function turnOffLoadingVotingAnimation(){

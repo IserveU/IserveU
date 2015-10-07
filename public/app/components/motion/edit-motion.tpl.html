@@ -15,55 +15,53 @@
 
 		<div ng-controller="CreateMotionController as create">
 		<fieldset flex>
-			<legend class="md-headline">Display</legend>
-			<md-select ng-model="motion.motionDetail.department_id" name="departmentname" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department"><md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
-			<span ng-if="!motion.motionDetail.active">
-			<div layout layout-sm="column" layout-align="front end" layout-padding>
-				<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date"></md-datepicker>
-				<span style="width:50px"></span>
-				<md-checkbox aria-label="Activate motion" ng-model="motion.motionDetail.active" ng-true-value="1" ng-false-value="0"><p class="md-body-1" style="display:inline-block">Activate motion</p></md-checkbox>
-			</div>
+			<legend class="md-headline">{{motion.motionDetail.active ? 'Department' : 'Display'}}</legend>
+			<md-select ng-model="motion.motionDetail.department_id" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department">
+				<md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
+			<span ng-if="::!motion.motionDetail.active">
+				<div layout layout-sm="column" layout-align="front end" layout-padding>
+					<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date"></md-datepicker>
+					<span style="width:50px"></span>
+					<md-checkbox aria-label="Activate motion" ng-model="motion.motionDetail.active" ng-true-value="1" ng-false-value="0"><p class="md-body-1" style="display:inline-block">Activate motion</p></md-checkbox>
+				</div>
 			<i class="md-caption" style="font-size:11px">While the motion is set to <strong>active</strong> it is up for discussion within city council. <strong>Unactive</strong> indicates to the user that they cannot to vote on the motion yet.</br>
 				The <strong>closing date</strong> marks the end of the voting period. All votes will be given to the councilors.</i>
 			</span>
 		</fieldset>		
+		</div>
 
 		<fieldset>
 		<legend class="md-subhead">Attachments</legend>
-			<div  flow-init="" flow-files-submitted="motion.upload($flow)" layout layout-sm="column">
-				<md-input-container >
-					<md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
-					<input aria-label="figures select" type="file" style="position:absolute"flow-btn/>
-				</md-input-container>
-				<span flex="15"></span>
-				<md-input-container ng-repeat="file in $flow.files" layout-sm="column" style="position:relative;left:74px">
-					<input  ng-model="file.name" name="file" ng-blur="motion.newMotionTitle($flow, file.name, $index)" ng-minlength="8"></input>
-						<div ng-messages="newmotionform.file.$error">  
-							<div ng-message="minlength">Title must be 8 characters.</div>
-						</div>
-				</md-input-container>
+			<div flow-init layout-sm="column" layout-padding 
+			     	  flow-files-submitted="motion.upload($flow)" 
+		 	          flow-drop-enabled="true"
+			          flow-drop
+			 >
+				<span style="display:inline-block">
+					<md-icon class="mdi" md-font-icon="mdi-file-image-box" style="display:inline-block"></md-icon>
+					<input aria-label="figures select" type="file" style="position:relative; display:inline-block; font-size:12px" flow-btn/>
+					<p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
+				</span>
+
+			    <md-input-container ng-repeat="file in $flow.files" style="display:inline-block; padding:0px; width:96%; font-size:14px" flex>
+			    <md-icon class="mdi-small mdi-close" style="cursor:pointer; top:10px" ng-click="motion.removeFile($index); hideFile = true" ng-hide="hideFile"></md-icon>
+			      <input type="text" style="width:100%" press-enter="motion.changeTitleName($index, file.name)" ng-blur="motion.changeTitleName($index, file.name)" ng-model="file.name" ng-hide="hideFile"/>
+			    </md-input-container>
 			</div>
 
-			<md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"md-row-height-gt-md="1:1" md-row-height="4:3">
-				<md-grid-tile ng-class="{'overlay':motion.delete_motion_file[file.id].bool}" ng-repeat="file in motion.motion_files"
-					md-colspan-sm="1">
+			<md-grid-list  md-gutter="3px" md-cols-sm="1" md-cols-md="2" md-cols-gt-md="4" md-row-height-gt-md="1:1" md-row-height="4:3"  layout-padding>
+				<md-grid-tile ng-class="{'overlay':motion.delete_motion_file[file.id].bool}" ng-repeat="file in motion.motion_files"	md-colspan-sm="1">
 					<md-grid-tile-header>
-					<!-- <h3 ng-click="motion.show_title_change_name">{{file.filename}}</h3> -->
-					<md-input-container style="font-size:13px; display:inline-block"><input ng-if="!file.title" ng-model="file.filename" ng-blur="motion.updateMotionFile(file.filename, motion.motionDetail.id, file.id)">
-					<input ng-if="file.title" ng-model="file.title" ng-blur="motion.updateMotionFile(file.title, motion.motionDetail.id, file.id)">
-					</md-input-container>
+						<h3><textarea ng-model="file.title" ng-blur="motion.updateMotionFile(file)"></textarea></h3>
 					</md-grid-tile-header>
 					<a href="/uploads/motion_files/{{::file.filename}}">
-						<img ng-if="file.image" ng-src="/uploads/motion_files/{{::file.filename}}" />
+						<img ng-src="/uploads/motion_files/{{::file.filename}}" />
 					</a>
 					<md-grid-tile-footer  style="padding-top: 12px;"><md-button ng-click="motion.deleteMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{motion.delete_motion_file[file.id].bool ? 'Cancel' : 'Remove'}}</p></md-button></md-grid-tile-footer>
-
 				</md-grid-tile>
 			</md-grid-list>
+			<md-input-container>
 		</fieldset>
-
-
-		</div>
 
 
 	<div layout layout-align="center end">

@@ -4,44 +4,38 @@
 		.module('iserveu')
 		.service('MotionFileService', MotionFileService);
 
-	function MotionFileService($state, $stateParams, motionfile, ToastMessage) {
+	function MotionFileService(motionfile) {
 		
-		var vm = this;
+		function upload(flow, theseFiles){
+            angular.forEach(flow.files, function(flowObj, index){
+                theseFiles[index] = new FormData();
+                theseFiles[index].append("file", flowObj.file);
+                theseFiles[index].append("file_category_name", "motionfiles");
+                theseFiles[index].append("title", flowObj.name);
+            })
+        }
 
-		vm.getMotionFiles = getMotionFiles;
-		vm.motionfile;
+        function uploadMotionFile(id, theseFiles) {
+            angular.forEach(theseFiles, function(value, key) {
+                motionfile.uploadMotionFile(id, value);
+            })
+        }
 
-		vm.uploadFile = function(file, motion_id) {
-		    motionfile.uploadMotionFile(file, motion_id).then(function(result) {
-		    	getMotionFiles(motion_id);
-		    }, function(error) {
-		    	console.log(error);
-		    });
-		}
+        function changeTitleName(index, name, theseFiles){
+            theseFiles[index].append("title", name);
+        }
 
-		function getMotionFiles(motion_id){
-			return motionfile.getMotionFiles(motion_id).then(function(result) {
-				return result;
-			}, function(error) {
-				console.log(error);
-			});
-		}
+        function removeFile(index, theseFiles){
+            delete theseFiles[index];
+        }
 
-		vm.getMotionFile = function(motion_id, figure_id){
-			motionfile.getMotionFile(motion_id, figure_id).then(function(result) {
-				vm.motionfile = result;
-			}, function(error) {
-				console.log(error);
-			});
-		}
 
-		vm.deleteFigure = function(motion_id, figure_id){
-			motionfile.deleteFigure(motion_id, figure_id).then(function(result) {
-				
-			}, function(error) {
-				ToastMessage.report_error(error);
-			});
-		}
+        return {
+        	upload: upload,
+        	uploadMotionFile: uploadMotionFile,
+        	changeTitleName: changeTitleName,
+        	removeFile: removeFile
+        }
 
 	}
 }());

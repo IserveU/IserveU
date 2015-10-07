@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
-	function motion($resource, $q, $http) {
+	function motion($resource, $q, $http, ToastMessage) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
@@ -46,7 +46,7 @@
 			return Motion.save(data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return $q.reject(error);
+				ToastMessage.report_error(error);
 			});
 		}
 
