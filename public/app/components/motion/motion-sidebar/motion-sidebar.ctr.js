@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController(motion, vote, MotionSidebarService, $rootScope, $stateParams, $filter, $timeout, $state, $scope) {
+	function MotionSidebarController(motion, vote, $rootScope, $stateParams, $state, $scope) {
 
 		var vm = this;
 
