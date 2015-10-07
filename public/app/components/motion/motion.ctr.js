@@ -11,26 +11,7 @@
 
         vm.motionDetail = {};
 
-        vm.motionVotes = {};
-        vm.usersVote;
 
-        vm.voting = {
-            agree: false,
-            abstain: false,
-            disagree: false
-        }
-
-        vm.motionVotes = {
-            disagree:{percent:0,number:0},
-            agree:{percent:0,number:0},
-            abstain:{percent:0,number:0}
-        }
-
-        vm.showDisagreeCommentVotes = false;
-        vm.showAgreeCommentVotes = false;
-
-        vm.userHasVoted = false;
-        vm.userVoteId;
         vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
         vm.editMotionMode = false;
@@ -98,7 +79,7 @@
                 vm.editingMotion = false;
                 motionFileLogic();
                 getMotion(result.id);
-                ToastMessage.simple("You've successfully updated this motion!");
+                ToastMessage.double("You've successfully updated this motion!", "Refresh to see your changes.");
             }, function(error) {
                 vm.editingMotion = false;
                 ToastMessage.report_error(error);
@@ -156,8 +137,6 @@
             })
         }
 
-        // vm.updateTitleName = function()
-
         vm.changeTitleName = function(index, name){
             vm.formData[index].append("title", name);
         }
@@ -200,10 +179,32 @@
 
         /**************************************** Motion Voting Functions **************************************** */
 
+        vm.motionVotes = {};
+        vm.usersVote;
+
+        vm.voting = {
+            agree: false,
+            abstain: false,
+            disagree: false
+        }
+
+        vm.motionVotes = {
+            disagree:{percent:0,number:0},
+            agree:{percent:0,number:0},
+            abstain:{percent:0,number:0},
+            deferred_agree:{percent:0,number:0},
+            deferred_disagree:{percent:0,number:0}
+        }
+
+        vm.showDisagreeCommentVotes = false;
+        vm.showAgreeCommentVotes = false;
+
+        vm.userHasVoted = false;
+        vm.userVoteId;
+
         function getMotionOnGetVoteSuccess(){
             motion.getMotion($stateParams.id).then(function(result){
                 turnOffLoadingVotingAnimation();
-
                 vm.motionDetail = result;
                 getMotionVotes(result.id);
                 getUsersVotes();
@@ -221,9 +222,11 @@
         function calculateVotes(vote_array){
             if(vote_array[-1]){
                 vm.motionVotes.disagree = vote_array[-1].active;
+                vm.motionVotes.deferred_disagree = vote_array[-1].passive;
             }
             if(vote_array[1]){
                 vm.motionVotes.agree = vote_array[1].active;
+                vm.motionVotes.deferred_agree = vote_array[1].passive;
             }
             if(vote_array[0]){
                 vm.motionVotes.abstain = vote_array[0].active;
