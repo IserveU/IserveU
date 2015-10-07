@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('VoteController', VoteController);
 
-    function VoteController($rootScope, $stateParams, motion, vote, ToastMessage) {
+    function VoteController($rootScope, $stateParams, motion, vote, ToastMessage, VoteService) {
 
     	var vm = this;
        
@@ -68,21 +68,7 @@
         }
 
         vm.castVote = function(position) {
-            var message;
-            switch(position) {
-                case -1: 
-                    message = " disagree with ";
-                    vm.voting.disagree = true;
-                    break;
-                case 1:
-                    message = " agreed with ";
-                    vm.voting.agree = true;
-                    break;
-                default:
-                    message = message+" abstained from voting on ";
-                    vm.voting.abstain = true;
-            }
-
+            
             var data = {
                 motion_id:$stateParams.id,
                 position:position
@@ -91,7 +77,8 @@
             if(!vm.userHasVoted) {
                 vote.castVote(data).then(function(result) {
                     getMotionOnGetVoteSuccess();
-                    ToastMessage.simple("You"+message+"this motion");
+                    VoteService.showVoteMessage(position);
+                    // ToastMessage.simple("You"+message+"this motion");
                 }, function(error) {
                     turnOffLoadingVotingAnimation();
                     ToastMessage.report_error(error);
