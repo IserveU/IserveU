@@ -103,6 +103,10 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion)
 	{
+		if(Auth::check()){
+			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
+		}
+
 		return $motion;
 	}
 
