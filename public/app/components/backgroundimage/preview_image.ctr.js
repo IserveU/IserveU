@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('PreviewImageController', PreviewImageController);
 
-	function PreviewImageController($rootScope, $state, $scope, $stateParams, $filter, ToastMessage, backgroundimage, UserbarService) {
+	function PreviewImageController($rootScope, $state, $scope, $stateParams, ToastMessage, backgroundimage, UserbarService) {
 
 		var vm = this;
 
@@ -28,7 +28,7 @@
 				credited: vm.fileinfo.credited,
 				active: vm.fileinfo.active,
 				url: vm.fileinfo.url,
-				display_date: $filter('date')(vm.fileinfo.display_date, 'yyyy-MM-dd')
+				display_date: vm.fileinfo.display_date
 			}
 
 			backgroundimage.updateBackgroundImage(data).then(function(result){
