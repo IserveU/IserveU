@@ -13,29 +13,30 @@
     	var vm = this;
 
         /************************************* Ng Model Variables ****************************/
-        $scope.style = {border: '2px dashed #cccccc'};  // style for file drop box
+        $scope.style    = {border: '2px dashed #cccccc'};  // style for file drop box
 
         var oneWeekDate = new Date();   //sets for next week
         oneWeekDate.setDate(oneWeekDate.getDate() + 7);
 
-        vm.department = 1;
-        vm.closingdate = oneWeekDate;
+        vm.department;
+        vm.closingdate  = oneWeekDate;
         vm.motion_id;
         vm.isactive;
         vm.text;
-        vm.title = "a testing title" + Math.random();
+        vm.title;
         vm.summary;
-        vm.submitted = false;
-        vm.departments = [];
+        vm.submitted    = false;
+        vm.creating     = false;
+        vm.departments  = [];
 
         /************************************* Motion File Functions ****************************/
         
-        vm.theseFiles = {};
-        vm.uploadMotionFile = uploadMotionFile;
-        vm.changeTitleName = changeTitleName;
+        vm.theseFiles        = {};
+        vm.uploadMotionFile  = uploadMotionFile;
+        vm.changeTitleName   = changeTitleName;
+        vm.removeFile        = removeFile;
 
         vm.upload = function(flow){
-            console.log(flow);
             angular.forEach(flow.files, function(flowObj, index){
                 vm.theseFiles[index] = new FormData();
                 vm.theseFiles[index].append("file", flowObj.file);
@@ -73,8 +74,8 @@
             motion.createMotion(data).then(function(result) {
                 $rootScope.$emit('refreshMotionSidebar');  
                 uploadMotionFile(result.id);
-            },function(error) {
-                ToastMessage.report_error(error);
+                vm.creating = false;
+                $state.go('motion', ({id:result.id}))
             });
 		}
 

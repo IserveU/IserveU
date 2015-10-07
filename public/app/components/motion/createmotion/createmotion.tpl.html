@@ -60,9 +60,9 @@
       <p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
     </div>
     <p style="font-size: 14px;" ng-repeat="file in $flow.files">
-    <md-icon class="mdi-small mdi-close" style="position:relative;top:4px;cursor:pointer" ng-click="create.removeFile($index)"></md-icon>
+    <md-icon class="mdi-small mdi-close" style="position:relative;top:4px;cursor:pointer" ng-click="create.removeFile($index); hideFile = true" ></md-icon>
     <md-input-container style="display:inline-block; padding:0px; width:96%" flex>
-      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name"/>
+      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name" ng-hide="hideFile"/>
     </md-input-container>
     </p>
   </fieldset>
@@ -71,7 +71,7 @@
 <span flex style="height: 15px"></span>
 
       <div layout layout-sm="column">
-        <md-datepicker ng-model="create.closingdate" style="background-color:transparent; padding-bottom: 17px;  margin-left:-14px" md-placeholder="Enter date" convert-closing-date >
+        <md-datepicker ng-model="create.closingdate" ng-model-options="{allowInvalid: 'true'}"style="background-color:transparent; padding-bottom: 17px;  margin-left:-14px" md-placeholder="Enter date" convert-closing-date >
       </md-datepicker>
 
       <md-input-container flex="45">
@@ -88,7 +88,10 @@
 </md-checkbox>
 </div>
 
-<md-button ng-click="create.submitted = true" type="submit" class="btn btn-sm btn-primary">Create motion</md-button>
+<md-button ng-click="create.submitted = true; create.creating=true" type="submit" class="btn btn-sm btn-primary">
+  <div ng-hide="create.creating">Create motion</div>
+  <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="create.creating"></md-icon>
+</md-button>
 
 
 </div>
