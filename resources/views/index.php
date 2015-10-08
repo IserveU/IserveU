@@ -43,7 +43,7 @@
 
                 <div>
                     <md-menu >
-                        <md-button class="md-primary" ng-click="$mdOpenMenu()" ng-cloak translate="{{ 'LANG_NAME' }}"></md-button>
+                        <md-button class="md-primary" ng-click="$mdOpenMenu()" ng-cloak translate="{{ 'LANG_NAME' }}" aria-label="Change language"></md-button>
                         <md-menu-content width="1" style="margin:0px">
                             <md-menu-item ng-repeat="language in user.languages">
                                 <md-button ng-click="user.changeLanguage(language.key)">
@@ -62,7 +62,7 @@
                             </md-button>
                             <md-menu-content width="4">
                                 <md-menu-item>
-                                    <md-button ng-click="user.logout()">
+                                    <md-button aria-label="logout" ng-click="user.logout()">
                                         <div layout="row">
                                             <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
                                             <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
@@ -70,7 +70,7 @@
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item ui-sref="user({id:authenticatedUser.id})">
-                                    <md-button>
+                                    <md-button aria-label="go to your profile">
                                         <div layout="row">
                                             <p flex translate="{{'YOUR_PROFILE'}}">Your Profile</p>
                                             <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
@@ -79,7 +79,7 @@
                                 </md-menu-item>
                                 <has-permission has-permission="show-users">
                                 <md-menu-item ui-sref="userlist">
-                                    <md-button>
+                                    <md-button aria-label="go to user list">
                                         <div layout="row">
                                             <p flex translate="{{'USER_LIST'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
@@ -89,7 +89,7 @@
                                 </has-permission>
                                 <has-permission has-permission="create-background_images">
                                 <md-menu-item ui-sref="backgroundimage">
-                                    <md-button>
+                                    <md-button aria-label="go to upload background image">
                                         <div layout="row">
                                             <p flex translate="{{'UPLOAD_BACKGROUND_IMG'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-file-image"></md-icon>
@@ -99,7 +99,7 @@
                                 </has-permission>
                                 <has-permission has-permission="create-motions">
                                 <md-menu-item ui-sref="department({id:1})">
-                                    <md-button>
+                                    <md-button aria-label="go to department manager">
                                         <div layout="row">
                                             <p flex translate="{{'DEPARTMENT_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
@@ -109,7 +109,7 @@
                                 </has-permission>
                                 <has-permission has-permission="administrate-properties">
                                 <md-menu-item ui-sref="property">
-                                    <md-button>
+                                    <md-button aria-label="go to property manager">
                                         <div layout="row">
                                             <p flex translate="{{'PROPERTY_MANAGER'}}"></p>
                                             <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
@@ -123,7 +123,7 @@
                 </div>
             </div>
           </md-toolbar>
-          <span ng-controller="ResetPasswordController as reset" ng-if="userIsLoggedIn" >
+          <span ng-controller="ResetPasswordController as reset" ng-if="userIsLoggedIn" > <!-- TODO: make into a directive --> 
         <md-content id="maincontent"  ng-if="reset.notification">
             <section class="md-whiteframe-z1" ng-cloak style="margin:8px">
                 <md-toolbar style="color:blue" class="section-toolbar md-tall" layout-padding>
@@ -148,7 +148,7 @@
                     </div>
                     </md-input-container>
                   <div style="padding-top:23px">
-                     <md-button type="submit" style="color:black; margin:0px" ng-click="reset.savePassword()">Okay</md-button>
+                     <md-button type="submit" style="color:black; margin:0px" ng-click="reset.savePassword()" aria-label="confirm reset password">Okay</md-button>
                   </div>
                 </div>
                 </form>

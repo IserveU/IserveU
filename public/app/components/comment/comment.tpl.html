@@ -16,7 +16,7 @@
 				    </md-input-container>
 			    </div>
 			    <div layout="row" layout-align="end center">
-			    	<md-button ng-click="vm.submitComment(motion.userVoteId, vm.commenttext)" class="btn btn-sm btn-primary" translate="{{'SUBMIT_COMMENT'}}"></md-button>
+			    	<md-button ng-click="vm.submitComment(motion.userVoteId, vm.commenttext)" class="btn btn-sm btn-primary" translate="{{'SUBMIT_COMMENT'}}" aria-label="submit comment"></md-button>
 				</div>
 			</div>
         </form>
@@ -26,8 +26,8 @@
 		<span ng-hide="vm.editComment">
 			<p ng-bind="vm.thisUsersComment.text"></p>
 				<div layout="row" layout-align="end center">
-					<md-button class="md-primary" ng-click="vm.editCommentFunction()" translate="{{'EDIT'}}"></md-button>
-					<md-button class="md-warn" ng-click="vm.deleteComment()" translate="{{'DELETE'}}"></md-button>
+					<md-button class="md-primary" ng-click="vm.editCommentFunction()" translate="{{'EDIT'}}" aria-label="edit comment"></md-button>
+					<md-button class="md-warn" ng-click="vm.deleteComment()" translate="{{'DELETE'}}" aria-label="delete comment"></md-button>
 				</div>
 		</span>
 		<span ng-show="vm.editComment">
@@ -35,8 +35,8 @@
 				<textarea layout-padding columns="1" aria-label="Your comment" ng-model="vm.thisUsersComment.text"></textarea>
 			</md-input-container>
 			<div layout="row" layout-align="end center">
-				<md-button class="md-primary" ng-click="vm.updateComment(vm.thisUsersComment.text); vm.editCommentFunction()" translate="{{'SAVE_COMMENT'}}"></md-button>
-				<md-button class="md-warn" ng-click="vm.editCommentFunction()" translate="{{'CLOSE'}}"></md-button>
+				<md-button class="md-primary" ng-click="vm.updateComment(vm.thisUsersComment.text); vm.editCommentFunction()" translate="{{'SAVE_COMMENT'}}" aria-label="update comment"></md-button>
+				<md-button class="md-warn" ng-click="vm.editCommentFunction()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
 			</div>
 		</span>
 	</div>

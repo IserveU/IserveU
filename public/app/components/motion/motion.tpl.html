@@ -7,9 +7,9 @@
 </md-toolbar>
 <div layout="row" layout-wrap fill-layout ng-hide="motion.editMotionMode" >
 	<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
-		<p class="md-headline" translate="{{'INTRODUCTION'}}"></p>
+		<p class="md-headline" translate="{{'INTRODUCTION'}}" aria-label="Motion Introduction text"></p>
 		<p class="md-body-1" ng-bind-html="motion.motionDetail.summary" aria-label="motionSummary"></p>
-		<p class="md-headline" translate="{{'DETAILS'}}"></p>
+		<p class="md-headline" translate="{{'DETAILS'}}" aria-label="Motion detail text"></p>
 		<p class="md-body-1" ng-bind-html="motion.motionDetail.text"></p>
 
 		<div layout-padding ng-if="motion.motion_files[0]">
