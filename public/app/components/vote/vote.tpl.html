@@ -33,25 +33,25 @@
 
 
   	  	<md-button ng-if="motion.motionVotes.agree.number != 0" style="width:{{ motion.motionVotes.agree.percent }}%" class="agree md-raised md-primary" aria-label="Number in agreement">
-  		  	<md-tooltip>{{ motion.motionVotes.agree.number }} Agree{{motion.motionDetail.MotionOpenForVoting ? '' : 'd'}}</md-tooltip>
+  		  	<md-tooltip>{{ motion.motionVotes.agree.number }} {{ motion.motionDetail.MotionOpenForVoting ? ('AGREE' | translate) : ('AGREED' | translate) }} </md-tooltip>
   	   	</md-button>
 
         <md-button ng-if="motion.motionVotes.deferred_agree.number != 0" style="width:{{ motion.motionVotes.deferred_agree.percent }}%; background-color:#00dbd5" class="md-raised" aria-label="Number in deferred agreement">
-          <md-tooltip>{{ motion.motionVotes.deferred_agree.number }} Agree deferrals</md-tooltip>
+          <md-tooltip>{{ motion.motionVotes.deferred_agree.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
         </md-button>
 
 
   	  	<md-button ng-if="motion.motionVotes.abstain.number != 0" style="width:{{ motion.motionVotes.abstain.percent }}%"  class="abstain md-raised md-grey" aria-label="Number abstaining">
-  	  		<md-tooltip>{{ motion.motionVotes.abstain.number }} Abstain{{motion.motionDetail.MotionOpenForVoting ? '' : 'ed'}}</md-tooltip>
+  	  		<md-tooltip>{{ motion.motionVotes.abstain.number }} {{ motion.motionDetail.MotionOpenForVoting ? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }} </md-tooltip>
   	  	</md-button>
 
         <md-button ng-if="motion.motionVotes.deferred_disagree.number != 0"  style="width:{{ motion.motionVotes.deferred_disagree.percent }}%; background-color: #ff9a00" class="deferred-disagree md-raised md-primary" aria-label="Number in deferred agreement">
-          <md-tooltip>{{ motion.motionVotes.deferred_disagree.number }} Disagree deferrals</md-tooltip>
+          <md-tooltip>{{ motion.motionVotes.deferred_disagree.number }} {{ 'DISAGREE_DEFERRALS' | translate }} </md-tooltip>
         </md-button>
 
 
   	  	<md-button ng-if="motion.motionVotes.disagree.number != 0" style="width:{{ motion.motionVotes.disagree.percent }}%" class="disagree md-raised md-accent" aria-label="Number in disagreement">
-  	  		<md-tooltip>{{ motion.motionVotes.disagree.number }} Disagree{{motion.motionDetail.MotionOpenForVoting ? '' : 'd'}}</md-tooltip>			  	  		
+  	  		<md-tooltip>{{ motion.motionVotes.disagree.number }} {{ motion.motionDetail.MotionOpenForVoting ? ('DISAGREE' | translate) : ('DISAGREED' | translate) }} </md-tooltip>			  	  		
   	  	</md-button>
 
 

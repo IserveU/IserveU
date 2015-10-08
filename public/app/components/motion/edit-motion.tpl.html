@@ -4,11 +4,11 @@
 
 
 		<fieldset>
-			<legend class="md-headline">Introduction</legend>
+			<legend class="md-headline" translate="{{'INTRODUCTION'}}"></legend>
 			<textarea rows="4" class="md-body-1" ng-model="motion.motionDetail.summary" aria-label="motionSummary" flex></textarea>
 		</fieldset>
 		<fieldset>
-			<legend class="md-headline">Details</legend>
+			<legend class="md-headline" translate="{{'DETAILS'}}"></legend>
 			<text-angular class="text-angular md-body-1" ng-model="motion.motionDetail.text" name="text">
 			</text-angular>
 		</fieldset>
@@ -18,7 +18,7 @@
 			<legend class="md-headline">{{motion.motionDetail.active ? 'Department' : 'Display'}}</legend>
 			<md-select ng-model="motion.motionDetail.department_id" placeholder="{{motion.motionDetail.department_id}}" aria-label="select Department">
 				<md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
-			<span ng-if="::!motion.motionDetail.active">
+			<span ng-if="::!motion.motionDetail.active || motion.motionDetail.motionRank">
 				<div layout layout-sm="column" layout-align="front end" layout-padding>
 					<md-datepicker style="background-color:transparent; margin-left:-14px" ng-model="motion.motionDetail.closing.carbon.date" md-placeholder="Enter Closing Date"></md-datepicker>
 					<span style="width:50px"></span>
@@ -57,7 +57,7 @@
 					<a href="/uploads/motion_files/{{::file.filename}}">
 						<img ng-src="/uploads/motion_files/{{::file.filename}}" />
 					</a>
-					<md-grid-tile-footer  style="padding-top: 12px;"><md-button ng-click="motion.deleteMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{motion.delete_motion_file[file.id].bool ? 'Cancel' : 'Remove'}}</p></md-button></md-grid-tile-footer>
+					<md-grid-tile-footer  style="padding-top: 12px;"><md-button ng-click="motion.deleteMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{ motion.delete_motion_file[file.id].bool ? ('CANCEL' | translate) : ('REMOVE' | translate) }}</p></md-button></md-grid-tile-footer>
 				</md-grid-tile>
 			</md-grid-list>
 			<md-input-container>
@@ -66,10 +66,10 @@
 
 	<div layout layout-align="center end">
 		<md-button ng-click="motion.updateMotion()">
-		<div ng-hide="motion.editingMotion">Save Changes</div>
+		<div ng-hide="motion.editingMotion" translate="{{'SAVE_CHANGES'}}"></div>
 		<md-icon ng-show="motion.editingMotion" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
 	</md-button>
-	<md-button ng-click="motion.editMotionSwitch()">Cancel</md-button>
+	<md-button ng-click="motion.editMotionSwitch()" translate="{{'CANCEL'}}"></md-button>
 	</div>
 
 </div>

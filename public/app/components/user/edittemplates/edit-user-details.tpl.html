@@ -5,12 +5,12 @@
          <md-icon style="padding-top:22px" class="mdi mdi-email-outline input-icon"></md-icon>
        <input type="email"ng-model="user.profile.email" ng-keypress="user.pressEnter($event, 'email', user.profile.email)" ng-disabled="user.edit.email"/>
     </md-input-container>
-      <md-icon ng-click="user.showEdit('email', user.profile.email)" class="edit-btn user-btn mdi mdi-pencil" ng-class="  {'clicked':!user.edit.email}"  ng-show="user.showEdits" ></md-icon>
+      <md-icon ng-click="user.showEdit('email', user.profile.email)" class="edit-btn user-btn mdi mdi-pencil" ng-class="  {'clicked':!user.edit.email}"  ng-show="user.showEdits"></md-icon>
     
 
     <md-input-container flex>
       <md-icon class="mdi mdi-earth input-icon"></md-icon>
-      <p class="md-caption" style="padding-left:37px; margin:0px;padding-top:4px;color:grey">Ethnicity</p>
+      <p class="md-caption" style="padding-left:37px; margin:0px;padding-top:4px;color:grey" translate="{{'ETHNIC_ORIGIN'}}"></p>
         <md-select ng-disabled="user.edit.ethnic_origin_id" aria-label="select" style="padding-left:36px; padding-bottom: 2px" ng-model="user.profile.ethnic_origin_id"  placeholder="{{'ETHNIC_ORIGIN' | translate }}{{user.profile.ethnic_origin_id == null ? ' not set' : ''}}">
           <md-option ng-click="user.showEdit('ethnic_origin_id', user.profile.ethnic_origin_id)" ng-repeat="ethnicity in user.ethnics" ng-value="ethnicity.id">{{ethnicity.region}}
               <md-tooltip>{{ethnicity.description}}</md-tooltip>
@@ -22,8 +22,8 @@
 
 
   <div layout layout-padding>
-    <div flex>
-  <p class="md-caption date-picker-label">Birthday</p>
+    <div class="column-form" flex>
+  <p class="md-caption date-picker-label" translate="{{'BIRTHDAY'}}"></p>
           <md-datepicker name="dateField" ng-model="user.profile.date_of_birth" md-placeholder="Birthday not set"
           required md-min-date="user.minDate" md-max-date="user.maxDate" flex="45" convert-date ng-disabled="user.edit.date_of_birth"></md-datepicker>
           <md-icon style="position: relative; left: 156px" ng-click="user.showEdit('date_of_birth', user.profile.date_of_birth)" class="edit-btn mdi mdi-pencil" ng-class="{'clicked':!user.edit.date_of_birth}"  ng-show="user.showEdits"></md-icon>
@@ -36,7 +36,7 @@
       <md-icon ng-click="user.showEdit('date_of_birth', user.profile.date_of_birth)" class="edit-btn user-btn mdi mdi-pencil" ng-class="{'clicked':!user.edit.date_of_birth}"  ng-show="user.showEdits"></md-icon> -->
 
     <md-input-container class="change-password" style="left: 13px" flex>
-      <label >Change Password</label>
+      <label translate="{{'CHANGE_PASSWORD'}}"></label>
         <md-icon class="mdi mdi-key-change input-icon"></md-icon>
         <input type="password" name="input" ng-keypress="user.pressEnter($event, 'password', newpassword)" ng-disabled="user.edit.password" ng-model="newpassword" required min-length="8"/>
     </md-input-container>
@@ -46,14 +46,14 @@
 
   <div layout layout-padding>
   <md-input-container flex="45">
-    <label style="color:grey">Address</label> 
+    <label style="color:grey" translate="{{'ADDRESS'}}"></label> 
     <md-icon class="mdi mdi-home input-icon"></md-icon>
     <input  type='text' placeholder="{{user.profile.property_id ? 'Edit current address' : 'Address not set'}}" ng-disabled="true"/>
   </md-input-container>
   <md-icon style="padding-top: 11px; padding-left:16px; margin-left:0px; margin-right:0px; margin-bottom:23px" ng-click="user.showAddress()" class="edit-btn user-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
   <has-permission has-permission="administrate-users" flex="50">
     <div style="padding-top:24px; padding-bottom:17px" >
-      <md-switch style="margin:0px" class="md-secondary"ng-model="user.profile.identity_verified" ng-click="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">User's identity{{user.profile.identity_verified ? ' verified.' : ' has not been verified.'}}</md-switch>
+      <md-switch style="margin:0px" class="md-secondary"ng-model="user.profile.identity_verified" ng-click="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
     </div>
   </has-permission>
 

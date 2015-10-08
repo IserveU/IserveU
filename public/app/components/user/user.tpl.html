@@ -8,7 +8,8 @@
       <div>
         <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
         <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}
-        {{user.profile.public ? '(Public)' : '(Private)'}}
+
+        ({{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}})
           <md-icon style="color:grey; padding-top:5px" ng-click="user.show_edit_name = !user.show_edit_name;" ng-show="user.showEdits" class="edit-btn mdi mdi-pencil"></md-icon>
         </h3>
         </div>

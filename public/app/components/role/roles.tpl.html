@@ -1,5 +1,4 @@
-<has-permission has-permission="administrate-permissions">
-<md-content id="maincontent">
+<md-content has-permission="administrate-permissions" id="maincontent">
 <section class="md-whiteframe-z1" style="margin:8px" layout-padding>
   <form layout-padding>
   <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc"  layout-padding>
@@ -8,13 +7,13 @@
         <td>
         </td>
         <td>
-            <p class="md-body-2">Name</p>
+            <p class="md-body-2" translate="{{'NAME'}}"></p>
         </td>
         <td>
-            <p class="md-body-2">Identity</p>
+            <p class="md-body-2" translate="{{'IDENTITY'}}"></p>
         </td>
         <td>
-            <p class="md-body-2" style="padding-left:10px">Roles</p>
+            <p class="md-body-2" style="padding-left:10px" translate="{{'ROLES'}}"></p>
         </td>
       </tr>
     </thead>
@@ -27,7 +26,7 @@
           <p class="md-caption" style="margin:0px;">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
         </td>
         <td>
-           <p class="md-caption" style="margin:0px;">{{::name.identity_verified ? "Verified" : "Unverified"}}</p>
+           <p class="md-caption" style="margin:0px;">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
         </td>
         <td style="padding-left:10px;">
           <span ng-repeat="role in ::name.user_role">
@@ -40,4 +39,3 @@
   </form>
 </section>
 </md-content>
-</has-permission> 

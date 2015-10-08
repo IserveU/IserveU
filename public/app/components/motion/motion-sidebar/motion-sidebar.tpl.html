@@ -29,7 +29,7 @@
 
 
       <div layout-padding>
-        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}" layout-padding>
+        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0, 'mdi-equal':!motion.motion_rank}" layout-padding>
         <md-tooltip md-direction="right" ng-if="motion.motion_rank != 0">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
         <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
         </md-icon>
@@ -57,7 +57,7 @@
            </div>
     </md-list-item> -->
 
-    <md-list-item ng-if="sidebar.emptyMotionsArray">
+    <md-list-item ng-if="::sidebar.emptyMotionsArray">
       <p class="md-body-1" translate="{{'NO_MOTIONS'}}"></p>
     <has-permission has-permission="create-motions">
     <md-list-item class="sidebar-list" ui-sref-active="active"> 
