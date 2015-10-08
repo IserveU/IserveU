@@ -50,9 +50,11 @@
 		}
 
 		/**************************************** Voting History Function **************************************** */
+		
+		// TODO: show more function
 		function getVotingHistory(){
-			vote.getMyVotes($stateParams.id).then(function(results){
-				vm.votes = results;
+			vote.getMyVotes($stateParams.id, {limit:5}).then(function(results){
+				vm.votes = results.data;
 			});
 		}
 

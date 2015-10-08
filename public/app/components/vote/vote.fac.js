@@ -12,14 +12,14 @@
 	        'update': { method:'PUT' }
 	    });
 
-		var MyVotes = $resource('api/user/:id/vote');
+		var MyVotes = $resource('api/user/:id/vote', {limit:'@limit'});
 
 	    var MotionVote = $resource('api/motion/:id/vote');
 
 
 	    // set into local storage array that updates
-	    function getMyVotes(id) {
-			return MyVotes.query({id:id}).$promise.then(function(results) {
+	    function getMyVotes(id, limit) {
+			return MyVotes.get({id:id}, limit).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);

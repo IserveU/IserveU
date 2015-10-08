@@ -8,9 +8,11 @@
 
 	function HomeController(motion, comment, vote, UserbarService, $timeout, notificationService, resetPasswordService) {
 		
+        UserbarService.setTitle("Home");
 
 		var vm = this;
 
+        /************************************** Variables **********************************/
         vm.shortNumber = 120;
         vm.user_id = JSON.parse(localStorage.getItem('user')).id;
 		vm.topMotion;
@@ -22,9 +24,7 @@
             myvotes: false
         };
 
-        $timeout(function(){
-            UserbarService.setTitle("Home");
-        }, 100);
+        /************************************** Home Functions **********************************/
 
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
@@ -40,7 +40,6 @@
         function getMyComments(){
         	comment.getMyComments(vm.user_id).then(function(result){
         		vm.myComments = result;
-                console.log(vm.myComments);
                 if(!vm.myComments[0]){                
                     vm.empty.mycomments = true;
                 }
@@ -59,8 +58,11 @@
         }
 
         function getMyVotes(){
-            vote.getMyVotes(vm.user_id).then(function(result){
-                vm.myVotes = result.slice(0,5);
+            vote.getMyVotes(vm.user_id, {limit:5}).then(function(result){
+                console.log(result);
+                // TODO: paginate on API-end
+                // vm.myVotes = result.slice(0,5);
+                vm.myVotes = result.data
                 if(vm.myVotes == undefined || !vm.myVotes[0]){
                     vm.empty.myvotes = true;
                 }
