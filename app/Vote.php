@@ -37,7 +37,7 @@ class Vote extends ApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['motion_id','position','id','deferred_to_id']; //Count is used in motion controller, motion is used to get user/{id}/vote and have the motion attached
+	protected $visible = ['motion_id','position','id','deferred_to_id', 'motion']; //Count is used in motion controller, motion is used to get user/{id}/vote and have the motion attached
 
 	/**
 	 * The attributes visible to an administrator of this model
