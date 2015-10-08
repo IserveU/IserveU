@@ -35,7 +35,8 @@
 			angular.forEach(roles, function(role, key){
 				role["this_users_role"] = false;
 				angular.forEach(this_users_roles, function(this_role, key){
-					if(role.id == this_role.id){
+					if(role.display_name == this_role){
+						console.log('foo');
 						role["this_users_role"] = true;
 					}
 				})
