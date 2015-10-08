@@ -5,7 +5,7 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, motion,
-    vote, motionfile, UserbarService, ToastMessage, VoteService) {
+    vote, motionfile, UserbarService, ToastMessage, VoteService, CommentVoteService) {
 
         var vm = this;
 
@@ -222,11 +222,15 @@
         function calculateVotes(vote_array){
             if(vote_array[-1]){
                 vm.motionVotes.disagree = vote_array[-1].active;
-                vm.motionVotes.deferred_disagree = vote_array[-1].passive;
+                if(vote_array[-1].passive){
+                    vm.motionVotes.deferred_disagree = vote_array[-1].passive;
+                }
             }
             if(vote_array[1]){
                 vm.motionVotes.agree = vote_array[1].active;
-                vm.motionVotes.deferred_agree = vote_array[1].passive;
+                if(vote_array[1].passive){
+                    vm.motionVotes.deferred_agree = vote_array[1].passive;
+                }
             }
             if(vote_array[0]){
                 vm.motionVotes.abstain = vote_array[0].active;
@@ -291,7 +295,8 @@
                         vm.usersVote = parseInt(value.position);
                         vm.userHasVoted = true;
                         vm.userVoteId = value.id;
-                        showCommentVoteColumn();
+                        // showCommentVoteColumn();
+                        CommentVoteService.showCommentVoteColumn(vm.usersVote, vm.showDisagreeCommentVotes, vm.showAgreeCommentVotes);
                     }
                 });
             });
