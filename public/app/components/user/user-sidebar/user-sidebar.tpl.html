@@ -1,4 +1,4 @@
-<md-content flex role="navigation" ng-controller="UserController as user">
+<md-content flex role="navigation" has-permission="administrate-users" ng-controller="UserController as user">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -10,7 +10,7 @@
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="thisuser in user.users">  
       <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
-      <md-switch style="margin:0px" class="md-secondary"ng-model="thisuser.identity_verified" ng-click="user.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
+      <md-switch  style="margin:0px" class="md-secondary"ng-model="thisuser.identity_verified" ng-click="user.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
   </md-list>
 </md-content>

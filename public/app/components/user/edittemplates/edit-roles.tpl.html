@@ -10,13 +10,13 @@
     </thead>
     
     <tbody>
-      <tr ng-repeat="role in ::user.roles">
+      <tr ng-repeat="role in user.roles">
         <td>
         <md-checkbox  
         ng-model="role.this_users_role"
         ng-click="user.test_role_name(role)" style="margin:0px">
-          <p class="md-caption" style="margin:0px">{{::role.display_name}}</p>
-          <md-tooltip>{{::role.description}}</md-tooltip>
+          <p class="md-caption" style="margin:0px">{{role.display_name}}</p>
+          <md-tooltip>{{role.description}}</md-tooltip>
         </md-checkbox>
         </td>
       </tr>

@@ -504,16 +504,26 @@ form.user-profile-form {
 
 	.date-picker-label {
 		color: grey;
-		padding-left: 37px;
+		padding-left: 39px;
 		margin: 0px;
+		padding-top: 2px;
 	}
 
 	md-datepicker {
 	    .md-datepicker-button.md-icon-button {
 	      padding-bottom:10px;
 	      padding-right:24px;
-	      bottom: 9px;
+	      bottom: 12px;
 	      right: 2px;
+	    }
+	    .md-datepicker-input-container{
+	      bottom: 10px;
+	      padding-left:2px;
+	    }
+
+	    .md-datepicker-input {
+	    	font-size: 16px;
+	    	min-width: 148px;
 	    }
 	  }
 
@@ -545,7 +555,8 @@ form.user-profile-form {
 	    }
 
 	    .md-datepicker-button.md-icon-button {
-	    	right: 6px;
+	    	padding-left:7px;
+	    	padding-top: 4px;
 	    }
 	  }
 }
