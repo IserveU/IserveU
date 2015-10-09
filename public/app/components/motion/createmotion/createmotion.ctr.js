@@ -15,11 +15,8 @@
         /************************************* Ng Model Variables ****************************/
         $scope.style    = {border: '2px dashed #cccccc'};  // style for file drop box
 
-        var oneWeekDate = new Date();   //sets for next week
-        oneWeekDate.setDate(oneWeekDate.getDate() + 7);
-
         vm.department;
-        vm.closingdate  = oneWeekDate;
+        vm.closingdate  = new Date();
         vm.motion_id;
         vm.isactive;
         vm.text;
@@ -62,6 +59,7 @@
         /************************************* Create Motion Functions ****************************/
 
     	vm.newMotion = function(){
+            console.log(vm.closingdate);
             var data = {
                 title: vm.title,
                 text: vm.text,
