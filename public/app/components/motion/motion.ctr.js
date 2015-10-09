@@ -91,6 +91,7 @@
 
             motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
+                console.log(result);
                 vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
@@ -215,27 +216,22 @@
 
         function getMotionVotes(id){
             vote.getMotionVotes(id).then(function(results){
-                calculateVotes(results);
+                calculateVotes(results.data);
             });
         }
 
         function calculateVotes(vote_array){
-            if(vote_array[-1]){
-                vm.motionVotes.disagree = vote_array[-1].active;
-                if(vote_array[-1].passive){
-                    vm.motionVotes.deferred_disagree = vote_array[-1].passive;
-                }
-            }
-            if(vote_array[1]){
-                vm.motionVotes.agree = vote_array[1].active;
-                if(vote_array[1].passive){
-                    vm.motionVotes.deferred_agree = vote_array[1].passive;
-                }
-            }
-            if(vote_array[0]){
-                vm.motionVotes.abstain = vote_array[0].active;
-            }
+            vm.motionVotes.disagree = ( vote_array[-1] ) ? vote_array[-1].active : {percent:0,number:0};
+            vm.motionVotes.agree = ( vote_array[1] ) ? vote_array[1].active : {percent:0,number:0};
+            vm.motionVotes.abstain = ( vote_array[0] ) ? vote_array[0].active : {percent:0,number:0};
 
+            if( vote_array[1] ){
+                vm.motionVotes.deferred_agree = ( vote_array[1].passive ) ? vote_array[1].passive : {percent:0,number:0};
+            }
+            if(vote_array[-1]){
+                vm.motionVotes.deferred_disagree = ( vote_array[-1].passive ) ? vote_array[-1].passive : {percent:0,number:0};
+            }
+   
             if(vm.motionVotes.disagree.number>vm.motionVotes.agree.number){
                 vm.motionVotes.position = "thumb-down";
             } else if(vm.motionVotes.disagree.number<vm.motionVotes.agree.number){
@@ -247,7 +243,6 @@
         }
 
         vm.castVote = function(position) {
-
             var data = {
                 motion_id:$stateParams.id,
                 position:position
@@ -279,6 +274,7 @@
 
             vote.updateVote(data).then(function(result) {
 
+                calculateVotes(result);
                 getMotionOnGetVoteSuccess();
                 ToastMessage.simple("You've updated your vote");
 
@@ -295,8 +291,7 @@
                         vm.usersVote = parseInt(value.position);
                         vm.userHasVoted = true;
                         vm.userVoteId = value.id;
-                        // showCommentVoteColumn();
-                        CommentVoteService.showCommentVoteColumn(vm.usersVote, vm.showDisagreeCommentVotes, vm.showAgreeCommentVotes);
+                        showCommentVoteColumn();
                     }
                 });
             });

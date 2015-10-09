@@ -37,7 +37,7 @@ class MotionVoteController  extends ApiController{
             $votesCount[strval($id)]['active']['percent'] = floor(($count/$totalVotes)*100);
         }
         
-        $votesCount[2] = "empty"; // this is a quick-fix for typecast error
+        
 
 
         return $votesCount;
