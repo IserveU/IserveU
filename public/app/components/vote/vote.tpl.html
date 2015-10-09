@@ -8,21 +8,21 @@
     	
         <!--Agree Side-->
         <div layout-padding flex> 
-            <md-button ng-disabled="::!motion.motionDetail.MotionOpenForVoting"ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote == 1}" aria-label="Agree" layout-fill>
+            <md-button ng-disabled="!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(1)" ng-class="{'md-raised agree':motion.usersVote == 1}" aria-label="Agree" layout-fill>
             	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ motion.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!motion.voting.agree"></md-icon>
             	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.agree"></md-icon>
             </md-button>
         </div>
         <!--Abstain Side-->
         <div layout-padding flex>
-       		 <md-button ng-disabled="::!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote == 0}" aria-label="Abstain" layout-fill>
+       		 <md-button ng-disabled="!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(0)" ng-class="{'md-raised':motion.usersVote == 0}" aria-label="Abstain" layout-fill>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ motion.usersVote==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!motion.voting.abstain"></md-icon>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.abstain"></md-icon>	       		 	
        		 </md-button>	
         </div>
         <!--Disagree Side-->
         <div layout-padding flex >
-				<md-button  ng-disabled="::!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote == -1}" aria-label="Disagree" layout-fill>
+				<md-button  ng-disabled="!motion.motionDetail.MotionOpenForVoting" ng-click="motion.castVote(-1)" ng-class="{'md-raised disagree':motion.usersVote == -1}" aria-label="Disagree" layout-fill>
 					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ motion.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!motion.voting.disagree"></md-icon>
 					<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="motion.voting.disagree"></md-icon>
 				</md-button>	   
