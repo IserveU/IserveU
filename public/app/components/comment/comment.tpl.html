@@ -1,11 +1,11 @@
-<!--  ng-if="vm.usersVote || vm.usersVote == 0" -->
-<section class="md-whiteframe-z1 comments" layout-margin ng-if="motion.usersVote || motion.usersVote==0" ng-hide="!motion.MotionOpenForVoting">
+<span ng-controller="MotionController as motion">
+<section class="md-whiteframe-z1 comments" ng-if="motion.userVoteId && motion.motionDetail.MotionOpenForVoting" layout-margin>
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 ng-bind="vm.thisUsersComment == null ? '{{'POST_COMMENT' | translate}}' : '{{'YOUR_COMMENT' | translate}}'"></h3>
        	</div>
 	</md-toolbar>
-	
+</span>	
 	<div flex ng-if="vm.thisUsersComment.text == null" layout-padding>
 		<form style="padding-bottom:20px">
      		<div layout="column"> 
@@ -16,7 +16,7 @@
 				    </md-input-container>
 			    </div>
 			    <div layout="row" layout-align="end center">
-			    	<md-button ng-click="vm.submitComment(motion.userVoteId, vm.commenttext)" class="btn btn-sm btn-primary" translate="{{'SUBMIT_COMMENT'}}" aria-label="submit comment"></md-button>
+			    	<md-button ng-click="vm.submitComment(vm.commenttext)" class="btn btn-sm btn-primary" translate="{{'SUBMIT_COMMENT'}}" aria-label="submit comment"></md-button>
 				</div>
 			</div>
         </form>
@@ -40,10 +40,10 @@
 			</div>
 		</span>
 	</div>
-
 </section>
+
+
 <!-- This is comment display content card --> 
-<!-- this section is the agree comments -->
 <section name="comments" layout="row">
 	<div class="md-whiteframe-z1 comments-agree" flex layout-margin>
 		<md-toolbar class="section-toolbar">
@@ -102,6 +102,7 @@
 				<md-tooltip>{{'DISAGREE_WITH_COMMENT' | translate}}</md-tooltip>
 			</md-button>	        					         
 	</div>
+<!-- TODO:		<comment-votes></comment-votes> -->
 		<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
 		</div>	
 		</div>

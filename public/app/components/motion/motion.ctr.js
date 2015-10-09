@@ -291,6 +291,7 @@
                         vm.usersVote = parseInt(value.position);
                         vm.userHasVoted = true;
                         vm.userVoteId = value.id;
+                        $state.current.data.userVote = value.id;
                         showCommentVoteColumn();
                     }
                 });

@@ -26,7 +26,8 @@
     	    templateUrl: 'app/components/motion/motion.tpl.html',
     	    controller: 'MotionController as motion',
     	    data: {
-    	        requireLogin: true
+    	        requireLogin: true,
+                voteId: ''
     	    },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'motion';
@@ -40,6 +41,7 @@
     			},
     			'votes': {
     				templateUrl: 'app/components/vote/vote.tpl.html',
+                    controller: 'MotionController as motion',
     			},
     			'comments': {
 		    	    templateUrl: 'app/components/comment/comment.tpl.html',

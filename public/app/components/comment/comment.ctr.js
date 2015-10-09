@@ -6,17 +6,15 @@
         .module('iserveu')
         .controller('CommentController', CommentController);
 
-    function CommentController($rootScope, $stateParams, $mdToast, comment, VoteService, ToastMessage, CommentVoteService) {
+    function CommentController($rootScope, $stateParams, $mdToast, $state, comment, VoteService, ToastMessage, CommentVoteService) {
 
         var vm = this;
-
-        vm.user_id;
 
         vm.disagreeComments = [];
         vm.agreeComments = [];
         vm.thisUsersComment = [];
 
-        vm.checkVotes = VoteService.getUsersVotes();
+        // vm.checkVotes = VoteService.getUsersVotes();
         vm.checkCommentVotes = CommentVoteService.checkCommentVotes;
 
         function getMotionComments(id) {
@@ -28,22 +26,23 @@
                 CommentVoteService.calculate(vm.agreeComments,vm.thisUsersCommentVotes);
                 CommentVoteService.calculate(vm.disagreeComments,vm.thisUsersCommentVotes);
             });
-
         }
 
         vm.editCommentFunction = function(){
             vm.editComment = !vm.editComment;
         }
 
-        vm.submitComment = function(vote_id, text) {
+        vm.submitComment = function(text) {
             var data = {
-                vote_id: vote_id,
+                vote_id: $state.current.data.userVote,
                 text: text
             }
 
-            comment.saveComment().then(function(result) {
+            comment.saveComment(data).then(function(result) {
                 getMotionComments($stateParams.id);
                 ToastMessage.simple("You've made a comment!");
+            }, function(error){
+                ToastMessage.report_error(error);
             });            
         }
 
