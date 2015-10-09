@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('PropertyController', PropertyController);
 
-	function PropertyController(property, user, $window, $scope, $stateParams) {
+	function PropertyController($stateParams, property, user, ToastMessage, SetPermissionsService) {
 
 		var vm = this;
 
@@ -34,7 +34,8 @@
 				search_query_apt_number: vm.searchApt,
 				search_query_address_number: vm.searchNumber,
 				search_query_street_name: vm.searchText,
-				search_query_roll_number: vm.searchRollNumber
+				search_query_roll_number: vm.searchRollNumber,
+				search_query_postal_code: vm.searchPostalCode
 			}
 			return property.searchProperty(data).then(function(result){
 				vm.property_queries = result;
@@ -77,9 +78,12 @@
 				postal_code: vm.address.postal_code
 			}
 
-			property.updateProperty(property_data).then(function(results){
-				console.log(results);
-			})
+			if(SetPermissionsService.can("administrate-properties")){
+				property.updateProperty(property_data).then(function(results){
+					console.log(results);
+				})
+			}
+
 
 			var user_data = {
 				id: $stateParams.id,
@@ -87,7 +91,11 @@
 			}
 
 			user.updateUser(user_data).then(function(results){
-				console.log(results);
+				ToastMessage.simple("Your address has been updated to the system. Thank you.")
+			}, function(error) {
+				if(error.message = '{"date_of_birth":["validation.date"]}'){
+					ToastMessage.double("Woops! You encountered an error!", "Please set your birthday before your address.", true, 1000);
+				}
 			})
 		}
 

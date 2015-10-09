@@ -39,13 +39,13 @@ class Property extends ApiModel {
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['id', 'street'];
+	protected $adminVisible = [];
 
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['id', 'street'];
+	protected $creatorVisible = [];
 
 	/**
 	 * The attributes visible if the entry is marked as public

@@ -42,7 +42,6 @@
 
 		role.getRoles().then(function(results){
 			vm.roles = results;
-
 		});
 
 		vm.checkRoles = function(){
@@ -67,7 +66,6 @@
 	    }
 
 	    vm.pressEnter = function($event, type, newdata, isValid) {
-	    	console.log(isValid);
 	    	if($event.keyCode == 13) {
 	    		vm.showEdit(type, newdata);
 	    	}

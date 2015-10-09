@@ -27,7 +27,6 @@
 	}
 
 	function updateProperty(data){
-		console.log(data);
 		return Property.update({id:data.id},data).$promise.then(function(results){
 			return results;
 		}, function(error) {

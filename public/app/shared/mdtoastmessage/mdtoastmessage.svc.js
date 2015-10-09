@@ -31,17 +31,18 @@
         console.log(error);
 	}
 
-    function simple(message){
+    function simple(message, time){
+        var timeDelay = ( time ) ? time : 3000;
         return $mdToast.show(
             $mdToast.simple()
             .content(message)
             .position('bottom right')
-            .hideDelay(3000)
+            .hideDelay(timeDelay)
         );
     }
 
-    vm.double = function(message1, message2, bool){
-        simple(message1).then(function(){
+    vm.double = function(message1, message2, bool, time){
+        simple(message1, time).then(function(){
             if (bool) { simple(message2); }
         });
     }

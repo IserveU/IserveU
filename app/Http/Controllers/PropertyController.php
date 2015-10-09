@@ -29,14 +29,9 @@ class PropertyController extends ApiController {
 	{
 		$filters = Request::all();
 
-		if(!Auth::user()->can('administrate-properties')){ //Logged in user will want to see if they voted on these things
-			abort(401,'You do not have permission to see property assessments');
-		}
-		else {
-			$property = Property::with(['propertyAssessments' => function($query) {
+		$property = Property::with(['propertyAssessments' => function($query) {
 
 			}]);
-		}
 
 		if(isset($filters['search_query_street_name'])){
 			$property->streetNameSearchQuery($filters['search_query_street_name']);
