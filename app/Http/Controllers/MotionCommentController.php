@@ -11,7 +11,7 @@ use Auth;
 use App\Comment;
 use App\CommentVote;
 use \Cache;
-
+use Setting;
 
 class MotionCommentController extends ApiController
 {
