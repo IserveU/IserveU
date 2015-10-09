@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('vote', vote);
 
-	function vote($resource, $q) {
+	function vote($resource, $q, $http) {
 
 		var Vote = $resource('api/vote/:id', {}, {
 	        'update': { method:'PUT' }
@@ -14,21 +14,27 @@
 
 		var MyVotes = $resource('api/user/:id/vote', {limit:'@limit'});
 
-	    var MotionVote = $resource('api/motion/:id/vote');
+		// This function uses an $http request as opposed to resource because 
+		// it doesn't expect an object or an array and uses tranformRequest
+		// to create an angular identity.
+
+	    var getMotionVotes = function(id) {
+	    	return $http.get('api/motion/'+id+'/vote', {
+		        withCredentials: true,
+		        headers: {'Content-Type': undefined },
+		        transformRequest: angular.identity
+		    }).success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			});
+	    }
 
 
 	    // set into local storage array that updates
 	    function getMyVotes(id, limit) {
 			return MyVotes.get({id:id}, limit).$promise.then(function(results) {
 				return results;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		function getMotionVotes(id){
-			return MotionVote.get({id:id}).$promise.then(function(results) {
-				return results
 			}, function(error) {
 				return $q.reject(error);
 			});
