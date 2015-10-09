@@ -6,11 +6,13 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController(motion, vote, $rootScope, $stateParams, $state, $scope) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department) {
 
 		var vm = this;
 
 		$scope.$state = $state;
+
+		vm.getMotions = getMotions;
 
 		vm.emptyMotionsArray = false;
 
@@ -20,6 +22,17 @@
 			page: ''
 		}
 
+		vm.orderByFilters = [
+			   // {name: "Popularity" 		,query: "search_query_popularity"}, 
+			   {name: "Oldest"     		,query: {oldest: true}},
+			   {name: "Newest"	   		,query: {newest: true}},
+			   {name: "Open for Voting" ,query: {is_active:true, is_current:true}},
+			   {name: "Closed"			,query: {is_expired:true}}]
+
+		vm.departmentFilter = {id: ''};
+		vm.orderByFilter;
+		vm.newFilter = [];
+
 		vm.next_page = 1;
 
 		vm.showSearchFilter = false;
@@ -27,26 +40,40 @@
 		vm.hide_show_more = true;
 		vm.paginate_loading = false;
 
+		vm.searchText = '';
+
+		vm.motion_is_loading = {};
+
+		vm.switchLoading = switchLoading;
+
+		vm.loadDepartments = function(){
+			department.getDepartments().then(function(result){
+				vm.departments = result;
+			})
+		}
+
+		vm.querySearch = function(filter){
+			if(angular.isNumber(vm.departmentFilter)){
+				filter['department_id'] = vm.departmentFilter;
+			}
+			return motion.getMotions(filter).then(function(result){
+				vm.newFilter = filter;
+				return vm.motions = result.data;
+			})
+		}
+
+		vm.querySearchDepartment = function(filter) {
+			vm.newFilter['department_id'] = filter.department_id;
+			return motion.getMotions(vm.newFilter).then(function(result){
+				vm.newFilter = vm.newFilter;
+				return vm.motions = result.data;
+			})
+		}
 
 		vm.showSearch = function(){
 			vm.searchOpened = !vm.searchOpened;
 			vm.showSearchFilter = !vm.showSearchFilter;
 		}
-
-		vm.searchText = '';
-
-		vm.motion_is_loading = {};
-
-		$rootScope.$on('sidebarLoadingFinished', function(events, data) {
-			switchLoading(data.bool, data.id);
-		});
-
-
-		$rootScope.$on('refreshMotionSidebar', function(events, data) {
-			getMotions();
-		});     
-
-		vm.switchLoading = switchLoading;
 
 		function switchLoading(bool, id){
 			vm.motion_is_loading[id] = bool;
@@ -57,7 +84,6 @@
 			motion.getMotions(vm.motion_filters).then(function(results) {
 				vm.paginate_loading = false;
 				vm.motions = results.data;
-
 				if(!results.data[0]){
 					vm.emptyMotionsArray = true;
 				}
@@ -115,6 +141,15 @@
 
 		getMotions();
 		switchLoading(true, $stateParams.id);
+
+		$rootScope.$on('sidebarLoadingFinished', function(events, data) {
+			switchLoading(data.bool, data.id);
+		});
+
+
+		$rootScope.$on('refreshMotionSidebar', function(events, data) {
+			getMotions();
+		});     
 
 	}
 

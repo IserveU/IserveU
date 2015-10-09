@@ -12,27 +12,40 @@
             <md-autocomplete ng-hide="!sidebar.showSearchFilter" class="search-input"
                 md-search-text-change="sidebar.searchTextChange(sidebar.searchText)" 
                 md-search-text="sidebar.searchText"
-                md-items="item in ctrl.querySearch(ctrl.searchText)"
+                md-items="item in items"
                 md-item-text="item.name"
-                md-min-length="0"
                 placeholder="Search ...">
             </md-autocomplete>
-                <md-icon style="padding-right:8px; " class="mdi mdi-magnify search-icon" ng-class="{'opened':sidebar.searchOpened}" ng-click="sidebar.showSearch()" style="max-height:30px"></md-icon>
-          <!-- <md-icon ng-click="sidebar.expandSearchFilters()" class="mdi mdi-dots-vertical search-icon"></md-icon> -->
+                <md-icon style="padding-right:8px; padding-top:1px" class="mdi mdi-magnify search-icon" ng-class="{'opened':sidebar.searchOpened}" ng-click="sidebar.showSearch()" style="max-height:30px"></md-icon>
+          <md-menu md-offset="27 32">
+          <md-icon class="mdi mdi-dots-vertical search-icon" ng-click="$mdOpenMenu()"></md-icon>
+            <md-menu-content width="4" class="md-body-1" >
+              <md-select aria-label="select filter motions by department" style="margin:4px" md-on-open="sidebar.loadDepartments()" ng-model="sidebar.departmentFilter" placeholder="Filter by City Department" layout-padding><md-option ng-mousedown="sidebar.querySearchDepartment({department_id:department.id})" ng-repeat="department in sidebar.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
+              <md-select aria-label="order motions by select box" style="margin:4px" ng-model="sidebar.orderByFilter" placeholder="Order by:" layout-padding><md-option ng-mousedown="sidebar.querySearch(filter.query);"  ng-repeat="filter in sidebar.orderByFilters" ng-value="filter.query">{{filter.name}}</md-option></md-select>
+              <md-menu-button style="text-align:center">
+                <md-button layout-align="center" ng-click="sidebar.getMotions()" >Show All</md-button>
+              </md-menu-button>
+          </md-menu-content>
+          </md-menu>
       </div>
     </div>
 
   </md-toolbar>
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active">
-     <!-- ng-class="{'sidebar-item-loading': sidebar.motion_is_loading[motion.id] && $state.includes('motion', {id:motion.id})}" >  -->
+<!--         <md-icon class="mdi mdi-flag-outline" layout-padding><md-tooltip md-direction="right">This has been edited, update your vote.</md-tooltip></md-icon> -->
+<!--         <md-icon class="mdi mdi-pulse" layout-padding><md-tooltip md-direction="right">This has been edited, update your vote.</md-tooltip></md-icon> -->
 
 
-      <div layout-padding>
-        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0, 'mdi-equal':!motion.motion_rank}" layout-padding>
-        <md-tooltip md-direction="right" ng-if="motion.motion_rank != 0">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+      <div layout-padding ng-hide="sidebar.motion_is_loading[motion.id]">
+        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}" layout-padding>
+        <md-tooltip md-direction="right" ng-if="motion.motion_rank !== 0 && motion.motion_rank != null">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
         <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
         </md-icon>
+     </div>
+
+     <div layout-padding ng-show="sidebar.motion_is_loading[motion.id]">
+            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" layout-padding></md-icon>
      </div>
 
       <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>

@@ -91,7 +91,6 @@
 
             motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
-                console.log(result);
                 vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});

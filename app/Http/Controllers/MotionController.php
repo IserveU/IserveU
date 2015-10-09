@@ -50,6 +50,26 @@ class MotionController extends ApiController {
 			$motions->department($filters['department_id']);
 		}
 
+		if(isset($filters['is_active'])){
+			$motions->active($filters['is_active']);
+		}
+
+		if(isset($filters['is_expired'])){
+			$motions->expired($filters['is_expired']);
+		}
+
+		if(isset($filters['is_current'])){
+			$motions->current($filters['is_current']);
+		}
+
+		if(isset($filters['newest'])){
+			$motions->orderByNewest($filters['newest']);
+		}
+
+		if(isset($filters['oldest'])){
+			$motions->orderByOldest($filters['oldest']);
+		}
+
 		if(isset($filters['take'])){
 			$motions->take($filters['take']);
 		} else {

@@ -269,7 +269,7 @@ class Motion extends ApiModel {
 	}
 
 	public function scopeCurrent($query){
-		return $query->where('closing', '>=', new DateTime('NOW'));
+		return $query->where('closing', '>=', Carbon::now());
 	}
 
 	public function scopeDepartment($query,$department_id){
@@ -291,6 +291,15 @@ class Motion extends ApiModel {
 	public function scopeClosingAfter($query,Carbon $time){
 		return $query->where('closing','>=',$time);
 	}
+
+	public function scopeOrderByNewest($query){
+		return $query->orderBy('created_at', 'asc');
+	}
+
+	public function scopeOrderByOldest($query){
+		return $query->orderBy('created_at', 'desc');
+	}
+
 
 	// public function scopePassing($query){
 	// 	return $query->whereHas('votes',function($query){
