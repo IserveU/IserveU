@@ -38,9 +38,14 @@ class SendResetEmail
 
         $user = $event->user;
 
+        $data = array(
+            'user'      =>      $user,
+            'title'     =>      "Password Reset"
+        );
+
         if($user->login_attempts == 5){ //Every 5 attempts, send this email?
  
-             Mail::send('emails.passwordreset',['user' => $user], function ($m) use ($user) {
+             Mail::send('emails.passwordreset',$data, function ($m) use ($user) {
                 $m->to($user->email, $user->first_name.' '.$user->last_name)->subject('Trouble Logging In?');
             });
             return 'password reset sent';

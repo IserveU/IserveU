@@ -31,12 +31,19 @@ class SendWelcomeEmail
     { 
         $user = $event->user;
 
+        $data = array(
+            'user'  =>  $user,
+            'title' =>  'Welcome'
+        );
+
         if($user->modificationTo->first()->modification_by_id == $user->id){ //If this created user created themselves
-            Mail::send('emails.welcome', ['user' => $user], function ($m) use ($user) {
+
+
+            Mail::send('emails.welcome',$data, function ($m) use ($user) {
                  $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
             });            
         } else { //This created user was made by another user
-            Mail::send('emails.welcomecreated', ['user' => $user], function ($m) use ($user) {
+            Mail::send('emails.welcomecreated', $data, function ($m) use ($user) {
                  $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
             });
         }
