@@ -71,9 +71,9 @@ class MotionFileController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Motion $motion, $motionFile) //MotionFile 
+	public function show(Motion $motion, MotionFile $motionFile) //MotionFile 
 	{	
-		return MotionFile::find($motionFile);
+		return $motionFile;
 	}
 
 	/**
@@ -82,7 +82,7 @@ class MotionFileController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit(Motion $motion, $motionFile)
+	public function edit(Motion $motion, MotionFile $motionFile)
 	{
 		if(!Auth::user()->can('create-motions')){
 			abort(403,'You do not have permission to create/update motions');
@@ -93,8 +93,6 @@ class MotionFileController extends ApiController {
 		}
 
 	
-		$motionFile = MotionFile::find($motionFile);
-
 		return array_merge($motionFile->file->fields,$motionFile->fields);
 	}
 
@@ -104,7 +102,7 @@ class MotionFileController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Motion $motion, $motionFile, Request $request)
+	public function update(Motion $motion, MotionFile $motionFile, Request $request)
 	{
 		if(!Auth::user()->can('create-motions')){
 			abort(403,'You do not have permission to update a motion');
@@ -113,8 +111,6 @@ class MotionFileController extends ApiController {
 		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
 			abort(401,"This user can not edit motion ($id)");
 		}
-
-		$motionFile = MotionFile::find($motionFile);
 
       	$motionFile->file->uploadFile('motion_files', $request);		
 		
@@ -131,13 +127,11 @@ class MotionFileController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Motion $motion, $motionFile)
+	public function destroy(Motion $motion, MotionFile $motionFile)
 	{
 		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motions')){
 			abort(401,"You do not have permission to delete this motion");
 		}
-
-		$motionFile = MotionFile::find($motionFile);
 
 		$motionFile->delete();
 		return $motionFile;

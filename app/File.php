@@ -98,8 +98,7 @@ class File extends ApiModel
 	 */
 	protected $fields = [
 		'title' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your filename'],
-		'file'	 	=>	['tag'=>'file','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-
+		'file'	 		=>	['tag'=>'file','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'filename'	 	=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'image'	 		=>	['tag'=>'md-switch','type'=>'hidden','label'=>'The file type of this','placeholder'=>''],
 		'category_id' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your file'],
@@ -124,6 +123,11 @@ class File extends ApiModel
 
 		static::updating(function($model){
 			if(!$model->validate()) return false;
+			return true;
+		});
+
+		static::deleted(function($model){
+			\File::delete(getcwd()."/uploads/".$model->fileCategory->name."/".$model->filename);
 			return true;
 		});
 
