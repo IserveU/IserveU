@@ -132,7 +132,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['verified_until','created_at','updated_at'];
+	protected $dates = ['verified_until','created_at','updated_at','locked_until'];
 	
 	/**
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)

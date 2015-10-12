@@ -21,9 +21,9 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\CreateDefaultDelegations'
 		],
 		'App\Events\UserLoginFailed' => [
-			'App\Listeners\User\LogAttempt',
-			'App\Listeners\User\SetRememberToken',
-			'App\Listeners\User\SendResetEmail'
+			'App\Listeners\User\LogAttempt', // Also locks accounts
+			'App\Listeners\User\SetRememberToken', //Doesn't reset password
+			'App\Listeners\User\SendAccountLockEmail',
 		],
 		'App\Events\UserLoginSucceeded' => [
 			'App\Listeners\User\ClearLockFields',
@@ -44,11 +44,6 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Vote\SetDeferedToVotes',
 			'App\Listeners\Motion\BalanceDeferredVotes'
 		],
-		'App\Events\UserForgotPassword' => [
-			'App\Listeners\User\SetRememberToken',
-			'App\Listeners\User\SendResetEmail',
-			'App\Listeners\User\SetRandomPassword'
-		],
 		'App\Events\MotionCreated' => [
 			'App\Listeners\Motion\CreateDeferredVotes',
 		],
@@ -58,7 +53,11 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\CommentDeleted' => [
 			'App\Listeners\Comment\DeleteCommentVotes',
 		],
-
+		'App\Events\SendPasswordReset' => [
+			'App\Listeners\User\SetRememberToken',
+			'App\Listeners\User\SetRandomPassword',
+			'App\Listeners\User\SendResetEmail'	
+		]
 	];
 
 	/**

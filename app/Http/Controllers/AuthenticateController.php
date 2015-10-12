@@ -10,7 +10,7 @@ use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Events\UserLoginFailed;
-use App\Events\UserForgotPassword;
+use App\Events\SendPasswordReset;
 use Carbon\Carbon;
 
 use App\Events\UserLoginSucceeded;
@@ -28,8 +28,13 @@ class AuthenticateController extends ApiController
     {
         $credentials = $request->only('email', 'password');
 
-        try {
-         
+        $checkUser = User::where('email',$credentials['email'])->first();
+
+        if($checkUser->locked_until && $checkUser->locked_until->gt(Carbon::now())){
+            abort(401,'Account is locked until '.$checkUser->locked_until);
+        }
+
+        try {         
             // attempt to verify the credentials and create a token for the user
            if (! $token = JWTAuth::attempt($credentials)) {
 
@@ -44,9 +49,6 @@ class AuthenticateController extends ApiController
 
         $user = Auth::user();
 
-        if($user->locked_until && $user->locked_until->gt(Carbon::now())){
-            abort(401,'Account is locked until '.$user->locked_until);
-        }
 
         event(new UserLoginSucceeded($user));
 
@@ -84,9 +86,9 @@ class AuthenticateController extends ApiController
     }
 
     public function resetPassword(Request $request){
-        $credentials = $request->only('email', 'password');
-        event(new UserLoginFailed($credentials));
-
+        $credentials = $request->only('email', 'password');       
+        event(new SendPasswordReset($credentials));
+        
         return response()->json(array('message'=>'password reset sent'));
     }
 }
