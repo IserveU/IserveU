@@ -11,7 +11,7 @@
 		var vm = this;
 
  		/*********************************** Variables ************************************/ 
-		vm.address 		    = {postal_code: '',city: "Yellowknife",territory: "Northwest Territories"}
+		vm.postal_code 		= '';
 	    vm.selectedItem     = null;
 	    vm.searchText       = null;
 	    vm.searchNumber     = null;
@@ -75,15 +75,16 @@
 		function saveProperty(){
 			var property_data = {
 				id: vm.selectedItem.id,
-				postal_code: vm.address.postal_code
+				postal_code: vm.postal_code,
+				unit: vm.searchApt,
+				roll_number: vm.searchRollNumber,
+				address: vm.searchNumber,
+				street: vm.searchText
 			}
 
-			if(SetPermissionsService.can("administrate-properties")){
-				property.updateProperty(property_data).then(function(results){
-					console.log(results);
-				})
-			}
-
+			property.updateProperty(property_data).then(function(results){
+				console.log(results);
+			})
 
 			var user_data = {
 				id: $stateParams.id,

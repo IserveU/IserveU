@@ -23,24 +23,16 @@
   </div>
 
   <div layout layout-sm="column">
-    <md-input-container>
-      <label>Postal Code</label><input ng-model="property.address.postal_code" required/>
+    <md-input-container ng-hide="!property.isMyAddress">
+      <label>Postal Code</label><input ng-model="property.postal_code" required/>
     </md-input-container>
     <md-input-container flex>
       <label>Roll Number</label><input ng-model="property.searchRollNumber">
     </md-input-container>
   </div>
-  <div layout layout-sm="column">
-    <md-input-container>
-      <label>City</label><input ng-model="property.address.city" required/>
-    </md-input-container>
-    <md-input-container flex>
-      <label>Province/Territory</label><input ng-model="property.address.territory" required/>
-    </md-input-container>
-  </div>
 </div>
   <div class="action buttons" layout-align="center end">
-    <md-button  ng-click="user.showAddress()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate }}</md-button>
+    <md-button ng-click="user.showAddress()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate }}</md-button>
     <md-button type="submit" ng-show="property.isMyAddress">Save</md-button>
   </div>
 </form>
@@ -84,7 +76,7 @@
         </td>
         <td style="padding-left:15px;">
             <md-radio-group ng-model="property.dataGroup">
-            <md-radio-button ng-value="query_result" ng-click="property.checkOut();property.assignPropertyData(query_result)"></md-radio-button>
+            <md-radio-button ng-value="query_result" ng-click="property.checkOut();property.assignPropertyData(query_result)" aria-label="choose your address"></md-radio-button>
         </td>
       </md-radio-group>
       </tr>
