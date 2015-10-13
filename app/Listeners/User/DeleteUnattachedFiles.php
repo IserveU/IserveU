@@ -33,14 +33,18 @@ class DeleteUnattachedFiles
         $original   = $user->getOriginal();
 
         if(array_key_exists('government_identification_id',$dirty)){
-            File::find($original['government_identification_id'])->delete();
+            $file = File::find($original['government_identification_id']);
+            if($file){
+                $file->delete();
+            }
+            
         }
 
         if(array_key_exists('avatar_id',$dirty)){
-            File::find($original['avatar_id'])->delete();
+            $file = File::find($original['avatar_id']);
+            if($file){
+                $file->delete();
+            }
         }
-
-
-
     }
 }
