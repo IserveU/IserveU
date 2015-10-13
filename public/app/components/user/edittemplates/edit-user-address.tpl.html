@@ -2,7 +2,7 @@
 <section class="md-whiteframe-z1" style="margin:8px"flex="50">
 <md-toolbar class="md-warn" style="padding-top: 15px">
   <div class="md-toolbar-tools">
-   <h2 class="md-flex">Verify your address<span style="display:block" class="md-caption">We will need to verify your identity for your Yellowknife vote to count.</span></h2>
+   <h2 class="md-flex">{{'VERIFY_ADDRESS' | translate}}<span style="display:block" class="md-caption">{{'ADDRESS_CAPTION' | translate}}</span></h2>
   </div>
 
 </md-toolbar>
@@ -12,28 +12,28 @@
 
   <div layout layout-sm="column">
     <md-input-container flex="20">
-      <label>Apt./Suite</label><input ng-model="property.searchApt"/>
+      <label translate="{{'APT_SUITE'}}"></label><input ng-model="property.searchApt"/>
     </md-input-container>
     <md-input-container flex="20">
-      <label>Street No.</label><input ng-change="property.querySearch()" ng-model="property.searchNumber"/>
+      <label translate="{{'STREET_NUM'}}"></label><input ng-change="property.querySearch()" ng-model="property.searchNumber"/>
     </md-input-container>
     <md-input-container flex>
-      <label>Address</label><input ng-change="property.querySearch()" ng-model="property.searchText"/>
+      <label translate="{{'ADDRESS'}}"></label><input ng-change="property.querySearch()" ng-model="property.searchText"/>
     </md-input-container>
   </div>
 
   <div layout layout-sm="column">
     <md-input-container ng-hide="!property.isMyAddress">
-      <label>Postal Code</label><input ng-model="property.searchPostalCode" required/>
+      <label translate="{{'POSTAL_CODE'}}"></label><input ng-model="property.searchPostalCode" required/>
     </md-input-container>
     <md-input-container flex>
-      <label>Roll Number</label><input ng-model="property.searchRollNumber">
+      <label translate="{{'ROLL_NUMBER'}}"></label><input ng-model="property.searchRollNumber">
     </md-input-container>
   </div>
 </div>
   <div class="action buttons" layout-align="center end">
     <md-button ng-click="user.showAddress()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate }}</md-button>
-    <md-button type="submit" ng-show="property.isMyAddress">Save</md-button>
+    <md-button type="submit" ng-show="property.isMyAddress">{{ 'SAVE' | translate }}</md-button>
   </div>
 </form>
 
@@ -42,22 +42,22 @@
   <section class="md-whiteframe-z1" style="margin:8px" flex="45">
   <md-toolbar class="md-warn" style="padding-top: 15px">
     <div class="md-toolbar-tools">
-     <h2 class="md-flex">Search Results<span style="display:block" class="md-caption">Select your address.</span></h2>
+     <h2 class="md-flex">{{ 'SEARCH_RESULTS' | translate }}<span style="display:block" class="md-caption">{{ 'SELECT_ADDRESS' | translate }}</span></h2>
     </div>
   </md-toolbar>
   <div layout-padding>
-  <p class="md-body-2" ng-hide="property.searching">Please fill in the fields on the left to begin searching.</p>
+  <p class="md-body-2" ng-hide="property.searching" translate="{{ 'FIELD_SEARCH' }}"></p>
   <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc" layout-padding ng-show="property.searching">
     <thead layout-padding>
       <tr>
         <td>
-            <p class="md-body-2">Unit Number</p>
+            <p class="md-body-2" translate="{{ 'UNIT_NUMBER' }}"></p>
         </td>
         <td>
-            <p class="md-body-2" style="padding-left:10px">Street Address</p>
+            <p class="md-body-2" style="padding-left:10px" translate="{{ 'STREET_ADDRESS' }}"></p>
         </td>
         <td>
-            <p class="md-body-2" style="padding-left:10px">Roll Number</p>
+            <p class="md-body-2" style="padding-left:10px" translate="{{ 'ROLL_NUMBER' }}"></p>
         </td>
         <td style="padding-left:10px;">
         </td>

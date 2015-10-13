@@ -58,6 +58,7 @@
 			SAVE_CHANGES: "Save Changes",
 			CLOSE: "Close",
 			BACK: "Back",
+			REMOVE: "Remove",
 			//field names
 			FIRST_NAME: "First Name",
 			MIDDLE_NAME: "Middle Name",
@@ -111,6 +112,11 @@
 			DISAGREE_ABSTAIN: "Disagree / Abstain",
 			WRITTEN: "written ",
 			EDITED: "edited ",
+			DEPARTMENT: "Department",
+			DISPLAY: "Display",
+			ACTIVATE_MOTION: "Activate motion.",
+			ATTACHMENTS: "Attachments",
+			DRAG_AND_DROP: "or drag and drop your files here",
 			//motion sidebar
 			NEUTRAL: "Neutral",
 			QUICK_VOTE: "Quick Vote",
@@ -118,6 +124,26 @@
 			CREATE_NEW_MOTION: "Create new motion",
 			//department state
 			EXISTING_DEPARTMENT: "Existing departments",
+			//Password Reset
+			PLEASE_RESET: "Please reset your password.",
+			NEW_PASSWORD: "New Password",
+			CONFIRM_PASSWORD: "Confirm Password",
+			LEAST_CHAR: "Must be at least 8 characters.",
+			PASS_NOT_MATCH: "Your password does not match.",
+			//Address keys
+			VERIFY_ADDRESS: "Verify your address",
+			ADDRESS_CAPTION: "We will need to verify your identity for your Yellowknife vote to count.",
+			APT_SUITE: "Apt./Suite",
+			STREET_NUM: "Street No.",
+			ADDRESS: "Address",
+			POSTAL_CODE: "Postal Code",
+			ROLL_NUMBER: "Roll Number",
+			SEARCH_RESULTS: "Search Results",
+			SELECT_ADDRESS: "Select your address.",
+			FIELD_SEARCH: "Please fill in the fields on the left to begin searching.",
+			UNIT_NUMBER: "Unit Number",
+			STREET_ADDRESS: "Street Address"
+
 
 		});
 
@@ -162,6 +188,7 @@
 			SAVE_CHANGES: "Changement sauvegardé",
 			CLOSE: "Fermé",
 			BACK: "Retour",
+			REMOVE: "Supprimer",
 			//field names
 			FIRST_NAME: "Prénom",
 			MIDDLE_NAME: "Second nom",
@@ -183,12 +210,12 @@
 			EDIT_YOUR_PUBLIC_PROFILE: "Modifier votre profile publique",
 			VOTING_HISTORY: "L'histoire de Vote",
 			// TODO: role state
-			NAME: "Name",
-			IDENTITY: "Identity",
-			ROLES: "Roles",
-			VERIFIED: "Verified",
-			UNVERIFIED: "Unverified",
-			USER_ROLES: "User roles",
+			NAME: "Nom",
+			IDENTITY: "Identité",
+			ROLES: "Rôles",
+			VERIFIED: "Vérifié",
+			UNVERIFIED: "Non-vérifier",
+			USER_ROLES: "Rôle de l’utilisateur",
 			//motion state
 			INTRODUCTION: "Introduction",
 			DETAILS: "Détails",
@@ -215,6 +242,11 @@
 			DISAGREE_ABSTAIN: "En désaccord/ S’abstenir",
 			WRITTEN: "écris ",
 			EDITED: "édité ",
+			DEPARTMENT: "Département",
+			DISPLAY: "Affichage",
+			ACTIVATE_MOTION: "Motion active.",
+			ATTACHMENTS: "Attachments",
+			DRAG_AND_DROP: "Attachez ou faites glisser votre document ici",
 			//motion sidebar
 			NEUTRAL: "Neutre",
 			QUICK_VOTE: "Vote rapide",
@@ -222,6 +254,25 @@
 			CREATE_NEW_MOTION: "Créer une nouvelle motion",
 			//department state
 			EXISTING_DEPARTMENT: "Département existant",
+			//Password Reset
+			PLEASE_RESET: "SVP réinitialisez votre mot de passe.",
+			NEW_PASSWORD: "Nouveau mot de passe",
+			CONFIRM_PASSWORD: "Confirmer votre mot de passe",
+			LEAST_CHAR: "Doit contenir au moins 8 caractères.",
+			PASS_NOT_MATCH: "Votre  de passe ne correspond pas.",
+			//Address keys
+			VERIFY_ADDRESS: "Vérifier votre adresse",
+			ADDRESS_CAPTION: "Nous auront besoin de vérifier votre identité pour que vote de Yellowknife compte.",
+			APT_SUITE: "App./Suite",
+			STREET_NUM: "Numéro civique",
+			ADDRESS: "Address",
+			POSTAL_CODE: "Code postal",
+			ROLL_NUMBER: "Numéro de lien",
+			SEARCH_RESULTS: "Résultats de la recherche",
+			SELECT_ADDRESS: "Sélectionnez votre adresse.",
+			FIELD_SEARCH: "SVP remplir les champs sur la gauche pour commencer la recherche.",
+			UNIT_NUMBER: "Numéro d’unité",
+			STREET_ADDRESS: "Numéro de rue"
 		}).fallbackLanguage('en');
 
 		//uses local storage to remember user's preferred language
