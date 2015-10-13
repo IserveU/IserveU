@@ -30,8 +30,8 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index() {
-		$limit = Request::get('limit') ?: 50;
+	public function index(Request $request) {
+		$limit = $request->get('limit') ?: 50;
 
 		if (Auth::user()->can('show-users')) { //An admin able to see all users
 			$users = User::paginate($limit);
@@ -58,9 +58,9 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(){
+	public function store(Request $request){
 		//Get input less the forgery token
-		$input = Request::except('_token');
+		$input = $request->except('_token');
 
 		//Create a new user and fill secure fields
 		$newUser = (new User)->secureFill($input);
@@ -73,7 +73,7 @@ class UserController extends ApiController {
 
 		Auth::loginUsingId($newUser->id);
 
-		$propertyId = Request::get('property_id');
+		$propertyId = $request->get('property_id');
 		if($propertyId){ //A property ID field has been submitted
 			$newUser->property_id = $propertyId; //If the property ID has been chosen, add it to the property_user table
 		}
