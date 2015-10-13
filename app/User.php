@@ -425,6 +425,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function avatar(){
-		return $this->belongsTo('App\File');
+		return $this->belongsTo('App\File','avatar_id');
 	}
 }
