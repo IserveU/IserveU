@@ -28,16 +28,16 @@ class DeleteUnattachedFiles
      */
     public function handle(UserUpdated $event)
     {
-        $user = $event->user;
+        $user       = $event->user;
         $dirty      = $user->getDirty();
         $original   = $user->getOriginal();
 
-        if(array_key_exists('government_identification_id',$dirty){
-            File::get($original['government_identification_id'])->delete();
+        if(array_key_exists('government_identification_id',$dirty)){
+            File::find($original['government_identification_id'])->delete();
         }
 
-        if(array_key_exists('avatar_id',$dirty){
-            File::get($original['avatar_id'])->delete();
+        if(array_key_exists('avatar_id',$dirty)){
+            File::find($original['avatar_id'])->delete();
         }
 
 
