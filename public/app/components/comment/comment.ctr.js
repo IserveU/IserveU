@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CommentController', CommentController);
 
-    function CommentController($rootScope, $stateParams, $mdToast, $state, comment, VoteService, ToastMessage, CommentVoteService) {
+    function CommentController($rootScope, $stateParams, $mdToast, $state, $timeout, comment, sharedVoteService, ToastMessage, CommentVoteService) {
 
         var vm = this;
 
@@ -14,7 +14,28 @@
         vm.agreeComments = [];
         vm.thisUsersComment = [];
 
-        // vm.checkVotes = VoteService.getUsersVotes();
+        vm.userHasVoted = false;
+
+        vm.showDisagreeCommentVotes = false;
+        vm.showAgreeCommentVotes = false;
+
+        // first gets the comment stuff
+        $timeout(function(){
+            vm.userHasVoted = sharedVoteService.data.userHasVoted;
+            showCommentVoteColumn(sharedVoteService.data.usersVote);
+        }, 3000);
+
+        function showCommentVoteColumn(usersVote){
+            if(usersVote == 1 && vm.userHasVoted && vm.motionOpen) {
+                vm.showDisagreeCommentVotes = false;
+                vm.showAgreeCommentVotes = true;
+            }
+            if(usersVote != 1  && vm.userHasVoted && vm.motionOpen) {
+                vm.showAgreeCommentVotes = false;
+                vm.showDisagreeCommentVotes = true;
+            }
+        }
+
         vm.checkCommentVotes = CommentVoteService.checkCommentVotes;
 
         function getMotionComments(id) {
@@ -25,7 +46,10 @@
                 vm.thisUsersCommentVotes = result.thisUsersCommentVotes;
                 CommentVoteService.calculate(vm.agreeComments,vm.thisUsersCommentVotes);
                 CommentVoteService.calculate(vm.disagreeComments,vm.thisUsersCommentVotes);
+               
+                vm.motionOpen =  $state.current.data.motionOpen;
             });
+
         }
 
         vm.editCommentFunction = function(){
@@ -34,7 +58,7 @@
 
         vm.submitComment = function(text) {
             var data = {
-                vote_id: $state.current.data.userVote,
+                vote_id: sharedVoteService.data.userVoteId,
                 text: text
             }
 
@@ -75,6 +99,11 @@
         // try to think of alternatives to rootScope event broadcasting!! 
         $rootScope.$on('getMotionComments', function(event, data){
             getMotionComments(data.id);
+        });
+
+        $rootScope.$on('udpateUserVote', function(event, data){
+            vm.userHasVoted = data;
+            showCommentVoteColumn(data.usersVote);
         });
 
 

@@ -33,9 +33,9 @@
 						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"><p style="margin-top:5px" class="md-caption" translate="{{'OPEN'}}"></p><md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-icon>
 					    </md-grid-tile>
 
-					    <md-grid-tile class="md-whiteframe-z1 {{motion.motionVotes.position}}">
-						  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.motionVotes.position}}.svg"  ng-if="motion.motionVotes.position"></md-icon>
-						  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.motionVotes.position"></md-icon>
+					    <md-grid-tile class="md-whiteframe-z1 {{motion.overallVotePosition}}">
+						  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.overallVotePosition}}.svg"  ng-if="motion.overallVotePosition"></md-icon>
+						  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.overallVotePosition"></md-icon>
 						 <!--   <md-grid-tile-footer><h3>Passing</h3></md-grid-tile-footer> -->							 
 					    </md-grid-tile>
 					    <md-grid-tile class="md-whiteframe-z1">

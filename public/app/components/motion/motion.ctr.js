@@ -4,26 +4,16 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, motion,
-    vote, motionfile, UserbarService, ToastMessage, VoteService, CommentVoteService) {
+    function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, $interval, motion,
+    motionfile, UserbarService, ToastMessage) {
 
         var vm = this;
+        vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
         vm.motionDetail = {};
 
-
-        vm.isLoading = true; // Used to turn loading circle on and off for motion page
-
         vm.editMotionMode = false;
         vm.editingMotion = false;
-
-        vm.motion_files;
-
-        vm.delete_motion_file = [{
-            bool: false,
-            motion_id: '',
-            file_id: ''
-        }];
 
         vm.updated_motion = [{
             title: null,
@@ -91,23 +81,46 @@
 
             motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
+                $state.current.data.motionOpen = result.MotionOpenForVoting;
                 vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
                 UserbarService.title = result.title;
+                getOverallVotePosition()
             });  
-
-            getMotionFiles(motion_id);
+             getMotionFiles(motion_id);
         }
+
+        function getOverallVotePosition(){
+            $interval(function(){
+                 vm.overallVotePosition = $state.current.data.overallPosition;
+            }, 1000, 5);
+        }
+
+
+        function refreshSidebar(){
+            $rootScope.$emit('refreshMotionSidebar');
+        }
+
+        getMotion($stateParams.id);
 
         /**************************************** Motion Files Functions **************************************** */
         // abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
+
+        vm.motion_files;
+
+        vm.delete_motion_file = [{
+            bool: false,
+            motion_id: '',
+            file_id: ''
+        }];
 
         vm.formData = {};
 
         function getMotionFiles(id){    // unnecessary step 
             motionfile.getMotionFiles(id).then(function(result) {
                 vm.motion_files = result;
+
             })
         }
 
@@ -179,144 +192,8 @@
 
         /**************************************** Motion Voting Functions **************************************** */
 
-        vm.motionVotes = {};
-        vm.usersVote;
+    
 
-        vm.voting = {
-            agree: false,
-            abstain: false,
-            disagree: false
-        }
-
-        vm.motionVotes = {
-            disagree:{percent:0,number:0},
-            agree:{percent:0,number:0},
-            abstain:{percent:0,number:0},
-            deferred_agree:{percent:0,number:0},
-            deferred_disagree:{percent:0,number:0}
-        }
-
-        vm.showDisagreeCommentVotes = false;
-        vm.showAgreeCommentVotes = false;
-
-        vm.userHasVoted = false;
-        vm.userVoteId;
-
-        function getMotionOnGetVoteSuccess(){
-            motion.getMotion($stateParams.id).then(function(result){
-                turnOffLoadingVotingAnimation();
-                vm.motionDetail = result;
-                getMotionVotes(result.id);
-                getUsersVotes();
-                $rootScope.$emit('getMotionComments', {id: $stateParams.id});
-                refreshSidebar();
-            })
-        }
-
-        function getMotionVotes(id){
-            vote.getMotionVotes(id).then(function(results){
-                calculateVotes(results.data);
-            });
-        }
-
-        function calculateVotes(vote_array){
-            vm.motionVotes.disagree = ( vote_array[-1] ) ? vote_array[-1].active : {percent:0,number:0};
-            vm.motionVotes.agree = ( vote_array[1] ) ? vote_array[1].active : {percent:0,number:0};
-            vm.motionVotes.abstain = ( vote_array[0] ) ? vote_array[0].active : {percent:0,number:0};
-
-            if( vote_array[1] ){
-                vm.motionVotes.deferred_agree = ( vote_array[1].passive ) ? vote_array[1].passive : {percent:0,number:0};
-            }
-            if(vote_array[-1]){
-                vm.motionVotes.deferred_disagree = ( vote_array[-1].passive ) ? vote_array[-1].passive : {percent:0,number:0};
-            }
-   
-            if(vm.motionVotes.disagree.number>vm.motionVotes.agree.number){
-                vm.motionVotes.position = "thumb-down";
-            } else if(vm.motionVotes.disagree.number<vm.motionVotes.agree.number){
-                vm.motionVotes.position = "thumb-up";
-            } else {
-                vm.motionVotes.position = "thumbs-up-down";
-            } 
-            
-        }
-
-        vm.castVote = function(position) {
-            var data = {
-                motion_id:$stateParams.id,
-                position:position
-            }
-            
-            if(!vm.userHasVoted) {
-                vote.castVote(data).then(function(result) {
-                    getMotionOnGetVoteSuccess();
-                    VoteService.showVoteMessage(position, vm.voting);
-                }, function(error) {
-                    turnOffLoadingVotingAnimation();
-                    ToastMessage.report_error(error);
-                });
-            }
-                else updateVote(data.position);
-            }
-
-        function turnOffLoadingVotingAnimation(){
-            angular.forEach(vm.voting, function(value, position){
-                vm.voting[position] = false;
-            })
-        }
-
-        function updateVote(position){
-            var data = {
-                id: vm.userVoteId,
-                position:position,
-            }
-
-            vote.updateVote(data).then(function(result) {
-
-                calculateVotes(result);
-                getMotionOnGetVoteSuccess();
-                ToastMessage.simple("You've updated your vote");
-
-            }, function(error) {
-                ToastMessage.report_error(error);
-                turnOffLoadingVotingAnimation();
-            });
-        }
-
-        function getUsersVotes() {
-            vote.getUsersVotes().then(function(result) {
-                angular.forEach(result, function(value, key) {
-                    if(value.motion_id == $stateParams.id) {
-                        vm.usersVote = parseInt(value.position);
-                        vm.userHasVoted = true;
-                        vm.userVoteId = value.id;
-                        $state.current.data.userVote = value.id;
-                        showCommentVoteColumn();
-                    }
-                });
-            });
-        }        
-
-        function showCommentVoteColumn(){
-            if(vm.usersVote == 1) {
-                vm.showDisagreeCommentVotes = false;
-                vm.showAgreeCommentVotes = true;
-            }
-            if(vm.usersVote != 1) {
-                vm.showAgreeCommentVotes = false;
-                vm.showDisagreeCommentVotes = true;
-            }
-        }
-
-        getUsersVotes();
-        getMotionVotes($stateParams.id);
-
-        // end refactor of vote ctr/svc
-        function refreshSidebar(){
-            $rootScope.$emit('refreshMotionSidebar');
-        }
-
-        getMotion($stateParams.id);
     }
 
 }());
