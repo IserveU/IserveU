@@ -14,6 +14,7 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\UserUpdated'	=> [
 			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
+			'App\Listeners\User\DeleteUnattachedFiles',
 		],
 		'App\Events\UserCreated' => [
 			'App\Listeners\User\SetRememberToken',
