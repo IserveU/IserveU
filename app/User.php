@@ -4,7 +4,10 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
+
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Sofa\Eloquence\Eloquence; // base trait
+use Sofa\Eloquence\Mappable; // extension trait
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use App\Role;
@@ -24,7 +27,7 @@ use DB;
 
 class User extends ApiModel implements AuthenticatableContract, CanResetPasswordContract {
 
-	use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait;
+	use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait, Eloquence, Mappable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -54,7 +57,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until','governmentIdentification'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until','government_identification'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
@@ -68,10 +71,18 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	protected $publicVisible =  ['first_name','last_name','public','id','votes','totalDelegationsTo'];
 
 	/**
+	 * The mapped attributes for 1:1 relations
+	 * @var array
+	 */
+   	protected $maps = [
+       	'government_identification'		=> 	'governmentIdentification'
+    ];
+
+	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','governmentIdentification'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','government_identification'];
 
     /**
      * The rules for all the variables
@@ -263,15 +274,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	/**
 	 * @return The permissions attached to this user through entrust
 	 */
-	public function getGovernmentIdentificationAttribute(){
-		if(!Auth::user()->can('administrate-users')){
-			return null;
-		}
+	// public function getGovernmentIdentificationAttribute(){
+	// 	if(!Auth::user()->can('administrate-users')){
+	// 		return null;
+	// 	}
 
-		if (!array_key_exists('governmentIdentification',$this->relations))
-	    	$this->load('governmentIdentification');		
-		return $this->getRelation('governmentIdentification');
-	}
+	// 	if (!array_key_exists('governmentIdentification',$this->relations))
+	//     	$this->load('governmentIdentification');		
+	// 	return $this->getRelation('governmentIdentification');
+	// }
 
 
 	public function getTotalDelegationsToAttribute(){
