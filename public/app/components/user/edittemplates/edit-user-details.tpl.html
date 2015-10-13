@@ -60,7 +60,7 @@
           <md-input-container flex="45">
            <label style="color:grey" translate="{{'ADDRESS'}}"></label> 
               <md-icon class="mdi mdi-home input-icon"></md-icon>
-            <input  type='text' placeholder="{{user.profile.property_id ? 'Edit current address' : 'Address not set'}}" ng-disabled="true"/>
+            <input  type='text' placeholder="{{user.profile.property_id ? (user.address.unit + ' ' + user.address.address + ' ' + user.address.street) : 'Address not set'}}" ng-disabled="true"/>
           </md-input-container>
         </td>
 

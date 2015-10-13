@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, RoleService, SetPermissionsService, vote, ethnic_origin, $mdDialog, $stateParams, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService, role) {
+	function UserController($rootScope, $scope, RoleService, SetPermissionsService, vote, ethnic_origin, $stateParams, user, $mdToast, UserbarService, $state, ToastMessage, role, property) {
 		
 		UserbarService.setTitle("");
 		
@@ -35,6 +35,14 @@
 	    vm.showAddress = function(){
 	    	vm.show_edit_address = !vm.show_edit_address;
 	    }
+
+	    function getUserAddress(id){
+	    	property.getProperty(id).then(function(result){
+	    		vm.address = result;
+	    	})
+	    }
+
+	    getUserAddress($stateParams.id);
 
 		vm.test_role_name = function(role){
 			RoleService.check_new_role(role, $stateParams.id);
@@ -147,6 +155,7 @@
 					vm.profile = result;
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
+
 				}, function(error){
 					if(error.status == 404 || 401){
 						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});

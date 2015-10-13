@@ -11,7 +11,6 @@
 		var vm = this;
 
  		/*********************************** Variables ************************************/ 
-		vm.postal_code 		= '';
 	    vm.selectedItem     = null;
 	    vm.searchText       = null;
 	    vm.searchNumber     = null;
@@ -58,6 +57,7 @@
 			vm.searchNumber = query.address;
 			vm.searchApt = query.unit;
 			vm.searchRollNumber = query.roll_number;
+			vm.searchPostalCode = query.postal_code;
 		}
 
 		function checkProperty(){
@@ -75,7 +75,7 @@
 		function saveProperty(){
 			var property_data = {
 				id: vm.selectedItem.id,
-				postal_code: vm.postal_code,
+				postal_code: vm.searchPostalCode,
 				unit: vm.searchApt,
 				roll_number: vm.searchRollNumber,
 				address: vm.searchNumber,
