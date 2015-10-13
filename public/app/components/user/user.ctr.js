@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, RoleService, SetPermissionsService, vote, ethnic_origin, $stateParams, user, $mdToast, UserbarService, $state, ToastMessage, role, property) {
+	function UserController($rootScope, $scope, $timeout, RoleService, SetPermissionsService, vote, ethnic_origin, $stateParams, user, $mdToast, UserbarService, $state, ToastMessage, role, property) {
 		
 		UserbarService.setTitle("");
 		
@@ -28,9 +28,10 @@
 
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
-		vm.this_users_roles = [];
-	    vm.show_edit_role = false;
-	    vm.show_edit_address = false;
+		vm.this_users_roles 	= [];
+	    vm.show_edit_role		= false;
+	    vm.show_edit_address	= false;
+	    vm.checkRoles 			= checkRoles;
 
 	    vm.showAddress = function(){
 	    	vm.show_edit_address = !vm.show_edit_address;
@@ -48,13 +49,22 @@
 			RoleService.check_new_role(role, $stateParams.id);
 		}
 
-		role.getRoles().then(function(results){
-			vm.roles = results;
-		});
-
-		vm.checkRoles = function(){
-			RoleService.check_roles(vm.roles, vm.this_users_roles);
+		vm.uponPressingBack = function(){
+			getUser($stateParams.id);
 		}
+
+		function getUserRoles(){
+			role.getRoles().then(function(results){
+				vm.roles = results;
+			});
+		}
+
+		function checkRoles(){
+			RoleService.check_roles(vm.roles, vm.this_users_roles);
+
+		}
+
+		getUserRoles();
 
 		/**************************************** Voting History Function **************************************** */
 		
