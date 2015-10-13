@@ -48,18 +48,18 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The default attributes included in any JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['public', 'user_role'];
+	protected $visible = ['public', 'user_role','avatar'];
 
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until','governmentIdentification'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until', 'property_id'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until','property_id'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -71,7 +71,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo', 'user_role'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','governmentIdentification'];
 
     /**
      * The rules for all the variables
@@ -251,6 +251,28 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		return $user_role;
 	}
 
+	/**
+	 * @return The permissions attached to this user through entrust
+	 */
+	public function getAvatarAttribute(){
+		if (!array_key_exists('avatar',$this->relations))
+	    	$this->load('avatar');		
+		return $this->getRelation('avatar');
+	}
+
+	/**
+	 * @return The permissions attached to this user through entrust
+	 */
+	public function getGovernmentIdentificationAttribute(){
+		if(!Auth::user()->can('administrate-users')){
+			return null;
+		}
+
+		if (!array_key_exists('governmentIdentification',$this->relations))
+	    	$this->load('governmentIdentification');		
+		return $this->getRelation('governmentIdentification');
+	}
+
 
 	public function getTotalDelegationsToAttribute(){
 		/*	$this->delegatedTo; */
@@ -260,13 +282,9 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    	$this->load('totalDelegationsTo');
 		$related = $this->getRelation('totalDelegationsTo');
 	 	
-	 	
 	  	// then return the count directly
 	  	return ($related) ? $related->total : 0;
-	
-		// $totalDelegations = DB::table('delegations')->select('delegate_to_id', DB::raw('count(*) as total'))->where('delegate_to_id','=',$this->id)->orderBy('total','ASC')->get();
-		
-		// return $totalDelegations[0]->total;
+
 	}
 
 
@@ -389,5 +407,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 	public function modificationBy(){
 		return $this->hasMany('App\UserModification','modification_by_id');
+	}
+
+	public function governmentIdentification(){
+		return $this->belongsTo('App\File','government_identification_id');
+	}
+
+	public function avatar(){
+		return $this->belongsTo('App\File');
 	}
 }

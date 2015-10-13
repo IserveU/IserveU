@@ -3,11 +3,8 @@
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
-//use Illuminate\Routing\Controller;
 
 use App\File;
 use App\MotionFile;

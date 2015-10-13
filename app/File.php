@@ -136,7 +136,7 @@ class File extends ApiModel
 
 	/************************************* Custom Methods *******************************************/
 	
-	public function uploadFile($file_category_name,Request $request){
+	public function uploadFile($file_category_name,$input_name="file",Request $request){
 
 		$file_category = FileCategory::where('name',$file_category_name)->first();
 		if(!$file_category){
@@ -146,7 +146,7 @@ class File extends ApiModel
 		$this->file_category_id = $file_category->id;
 		$this->title 			= $request->input('title');
 
-		$file = $request->file('file');
+		$file = $request->file($input_name);
 		if(!$file){
 			return false;
 		}
