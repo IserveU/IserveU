@@ -18,7 +18,6 @@
 				})
 
       			ngModelController.$formatters.push(function(data) {
-      				console.log(data);
       				if(data == "0000-00-00") {
       					return;
       				}
@@ -26,7 +25,6 @@
       					return;
       				}
       				else {
-
       					var transformedDate = new Date(data);
       					transformedDate.setTime(transformedDate.getTime()+transformedDate.getTimezoneOffset()*60000);
 						return transformedDate;

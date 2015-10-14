@@ -45,9 +45,9 @@
 
         function getUserVotes(){
             sharedVoteService.getUsersVotes().then(function(result){
-                vm.usersVote = sharedVoteService.data.usersVote;
+                vm.usersVote    = sharedVoteService.data.usersVote;
                 vm.userHasVoted = sharedVoteService.data.userHasVoted;
-                vm.userVoteId = sharedVoteService.data.userVoteId;
+                vm.userVoteId   = sharedVoteService.data.userVoteId;
                 $rootScope.$emit('udpateUserVote', {usersVote: vm.usersVote});
             }); 
         }
@@ -77,6 +77,8 @@
             getMotionOpenForVoting();
         }
 
+        // look into rootscope emits and intervals to make some sort of WATCH - instead of a consecutive broadcast - to just stop on time.
+        // best bet would be interval and once the item is set to cancel
         function getMotionOpenForVoting(){
             $interval(function(){
                  vm.motionOpen =  $state.current.data.motionOpen;

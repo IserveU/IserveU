@@ -33,7 +33,6 @@
 			        headers: {'Content-Type': undefined },
 			        transformRequest: angular.identity
 			    }).success(function() {
-			    	console.log('foo');
 			    	localStorage.removeItem('user');
     				auth.getSettings().then(function(result){
 						localStorage.setItem('user', JSON.stringify(result.data.user));

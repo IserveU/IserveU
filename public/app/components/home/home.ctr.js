@@ -59,9 +59,6 @@
 
         function getMyVotes(){
             vote.getMyVotes(vm.user_id, {limit:5}).then(function(result){
-                console.log(result);
-                // TODO: paginate on API-end
-                // vm.myVotes = result.slice(0,5);
                 vm.myVotes = result.data
                 if(vm.myVotes == undefined || !vm.myVotes[0]){
                     vm.empty.myvotes = true;
