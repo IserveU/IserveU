@@ -18,19 +18,19 @@
       <md-input-container>
 
                 <md-icon class="mdi" md-font-icon="mdi-account" ></md-icon>
-        <input ng-model="background.credited" translate translate-attr-placeholder="WHO_TOOK_THIS" required/>
+        <input ng-model="background.credited" translate translate-attr-placeholder="WHO_TOOK_THIS" aria-label="input field to put in who took the photo" required/>
       </md-input-container>
 
       <md-input-container>
                 <md-icon class="mdi" md-font-icon="mdi-link" ></md-icon>
-       <input ng-model="background.url" translate translate-attr-placeholder="EXAMPLE_WEBSITE" required/>
+       <input ng-model="background.url" translate translate-attr-placeholder="EXAMPLE_WEBSITE" aria-label="input field for image url source" required/>
       </md-input-container>
 
  
       <div flow-init="" flow-files-submitted="background.upload($flow)" layout layout-sm="column">
       <md-input-container>
                 <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
-        <input aria-label="backgroundImageFile" type="file" style="position:absolute"flow-btn/>
+        <input aria-label="backgroundImageFile upload" type="file" style="position:absolute" flow-btn/>
       </md-input-container>
       <span flex="30"></span>
         <p class="md-body-1" ng-repeat="file in $flow.files">{{file.name}}</p>
@@ -40,16 +40,16 @@
       </div>
 
       <div layout layout-sm="column">
-        <md-button ng-click="background.uploadFile(); background.uploading = true" ng-hide="background.uploading" type="submit" translate="{{'SUBMIT'}}"></md-button>
+        <md-button ng-click="background.uploadFile(); background.uploading = true" ng-hide="background.uploading" type="submit" translate="{{'SUBMIT'}}" aria-label="submit button"></md-button>
         <md-button aria-label="loading" ng-show="background.uploading"> <md-icon class="mdi" md-svg-src="/themes/default/loading.svg" ></md-icon>
         </md-button>
 
         <has-permission has-permission="administrate-background_images">
-        <md-checkbox ng-model="background.isactive" ng-true-value="1" ng-false-value="0" aria-label="Checkbox 1">
+        <md-checkbox ng-model="background.isactive" ng-true-value="1" ng-false-value="0" aria-label="Checkbox to set active">
             {{'ACTIVE' |  translate}}<md-tooltip>{{'DAILY_CYCLE_TOOLTIP' | translate}}</md-tooltip>
         </md-checkbox>
          <div ng-messages="{warning:background.showError}">
-          <div ng-message="warning" translate="{{'UPLOAD_PHOTO_ERROR'}}"></div>
+          <div ng-message="warning">{{'UPLOAD_PHOTO_ERROR' | translate}}</div>
          </div>
          </has-permission>
         
