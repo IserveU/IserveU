@@ -126,7 +126,7 @@
           
         <span ng-if="userIsLoggedIn">  
             <reset-password has-been="{{reset.notification}}"></reset-password>
-        <!-- <photo-id has="{{vm.uploaded}}"></photo-id> -->
+            <photo-id has="{{vm.uploaded}}"></photo-id>
         </span>
 
           <div flex ui-view>

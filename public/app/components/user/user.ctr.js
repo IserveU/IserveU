@@ -132,21 +132,29 @@
 		}
 
 		vm.verifyUser = function(userinfo){
+
 			var message = userinfo.first_name + ' ' + userinfo.last_name + ' has been ';
-			var data = {
+
+			user.updateUser({
+
 				id: userinfo.id,
 				identity_verified: userinfo.identity_verified
-			}
-			user.updateUser(data).then(function(result){
+
+			}).then(function(result){
+
 				if(userinfo.identity_verified == 1){
 					message = message+"verified.";
 				}
 				else {
 					message = message+"unverified.";
 				}
+
 				ToastMessage.simple(message);
+
 			}, function(error){
+
 				checkError(JSON.parse(error.data.message), "This user cannot be verified.");
+
 			});
 
 		}
@@ -165,13 +173,30 @@
 					vm.profile = result;
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
-
+					checkFileType();
 				}, function(error){
 					if(error.status == 404 || 401){
 						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});
 						ToastMessage.simple("That user was not found. You've been redirected to your own profile.");
 					}
 				});
+			}
+		}
+
+		vm.displayImgID = true;
+
+		function checkFileType(){
+
+			if(vm.profile.government_identification != null){
+
+				var str = vm.profile.government_identification.filename;
+
+				str = str.substring( str.length - 3, str.length );
+
+				if(str == 'pdf') {
+					vm.displayImgID = false;
+				}
+
 			}
 		}
 

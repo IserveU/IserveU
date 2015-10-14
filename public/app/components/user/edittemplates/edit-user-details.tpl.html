@@ -70,11 +70,33 @@
 
   <has-permission has-permission="administrate-users">
         <td>
-          <md-switch style="margin:0px" class="md-secondary"ng-model="user.profile.identity_verified" ng-click="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
+          <md-switch style="margin:0px" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
+
+          <a ng-cloak ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
+            <i class="md-caption">Government ID pending</i>
+          </a>
+
+
         </td>
-  </has-permission>
 
       </tr>
+      <tr>
+
+        <td>
+        </td>
+
+        <td>
+
+
+        </td>
+
+        <td>
+            <img ng-if="!user.profile.identity_verified && user.profile.government_identification && user.displayImgID" ng-src="uploads/government_identification/{{user.profile.government_identification.filename}}">
+        </td>
+
+      </tr>
+  </has-permission>
+
 
     </tbody>
   </table>
