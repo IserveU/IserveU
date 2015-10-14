@@ -167,7 +167,6 @@ class UserController extends ApiController {
 		}
 
 		$user->save();
-		dd($user);
 		return $user;		
 	}
 
