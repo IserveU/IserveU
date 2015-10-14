@@ -145,8 +145,6 @@ class UserController extends ApiController {
 		}
 		
 		if($request->file('government_identification')){
-
-
 			$file = new File;
 	      	$file->uploadFile('government_identification','government_identification',$request);		
 			if(!$file->save()){
@@ -156,8 +154,6 @@ class UserController extends ApiController {
 		}
 
 		if($request->file('avatar')){
-
-
 			$file = new File;
 	      	$file->uploadFile('avatars','avatar',$request);		
 			if(!$file->save()){

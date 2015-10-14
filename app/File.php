@@ -138,6 +138,8 @@ class File extends ApiModel
 	
 	public function uploadFile($file_category_name,$input_name="file",Request $request){
 
+
+
 		$file_category = FileCategory::where('name',$file_category_name)->first();
 		if(!$file_category){
 			$file_category = FileCategory::create(['name'=>$file_category_name]);
@@ -151,7 +153,16 @@ class File extends ApiModel
 			return false;
 		}
 
-		if(substr($file->getMimeType(), 0, 5) == 'image') {
+
+		try{
+			$mimeType = $file->getMimeType();
+		} catch (\Exception $e){
+			\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
+		}
+
+
+		if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
+
 			try {
 	      		$img = Image::make($file)->resize(1920, null, function($constraint){
 	      			$constraint->aspectRatio();
@@ -172,6 +183,7 @@ class File extends ApiModel
 			$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
 			$this->image = false;
 		}
+
 		$this->filename 	=	$filename;
 
 	}
