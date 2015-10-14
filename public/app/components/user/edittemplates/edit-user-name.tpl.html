@@ -16,7 +16,10 @@
 </div>
 
 <div layout layout-padding>
- <md-select layout-padding flex ng-model="user.profile.public" placeholder="Select public/private profile" ng-click="user.updateUser('public', user.profile.public)"><md-option ng-value="1" flex translate="{{'PUBLIC'}}"></md-option><md-option ng-value="0" translate="{{'PRIVATE'}}"></md-option></md-select>
+ <md-select layout-padding flex ng-model="user.profile.public" placeholder="Select public/private profile" >
+ 	<md-option ng-click="user.updateUser('public', 1, user.profile.id)" ng-value="1" flex translate="{{'PUBLIC'}}"></md-option>
+ 	<md-option ng-click="user.updateUser('public', 0, user.profile.id)" ng-value="0" translate="{{'PRIVATE'}}"></md-option>
+ </md-select>
 </div>
 <md-button ng-click="user.show_edit_name = !user.show_edit_name;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
 </form>

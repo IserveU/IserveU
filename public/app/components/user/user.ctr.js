@@ -43,8 +43,6 @@
 	    	})
 	    }
 
-	    getUserAddress($stateParams.id);
-
 		vm.test_role_name = function(role){
 			RoleService.check_new_role(role, $stateParams.id);
 		}
@@ -105,6 +103,8 @@
 	    	data[type] = newdata;
 
 	    	user.updateUser(data).then(function(results){
+	    		console.log(data);
+	    		console.log(results);
 	    		vm.edit[type] = true;
 	    		if(type !== 'password'){
 	    			$rootScope.$emit('refreshLocalStorageSettings');
@@ -174,6 +174,7 @@
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
 					checkFileType();
+				    getUserAddress(vm.profile.property_id);
 				}, function(error){
 					if(error.status == 404 || 401){
 						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});

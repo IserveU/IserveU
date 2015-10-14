@@ -19,7 +19,7 @@
           <md-icon class="mdi mdi-earth input-icon"></md-icon>
                <p class="md-caption" style="padding-left:37px; margin:0px;padding-top:5px;color:grey" translate="{{'ETHNIC_ORIGIN'}}"></p>
         <md-select ng-disabled="user.edit.ethnic_origin_id" aria-label="select" style="padding-left:36px; padding-bottom: 2px" ng-model="user.profile.ethnic_origin_id"  placeholder="{{'ETHNIC_ORIGIN' | translate }}{{user.profile.ethnic_origin_id == null ? ' not set' : ''}}">
-          <md-option ng-click="user.showEdit('ethnic_origin_id', user.profile.ethnic_origin_id)" ng-repeat="ethnicity in user.ethnics" ng-value="ethnicity.id">{{ethnicity.region}}
+          <md-option ng-click="user.showEdit('ethnic_origin_id', ethnicity.id)" ng-repeat="ethnicity in user.ethnics" ng-value="ethnicity.id">{{ethnicity.region}}
               <md-tooltip>{{ethnicity.description}}</md-tooltip>
           </md-option>
         </md-select>
@@ -68,11 +68,10 @@
             <md-icon ng-click="user.showAddress()" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
-  <has-permission has-permission="administrate-users">
         <td>
-          <md-switch style="margin:0px" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
+          <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
 
-          <a ng-cloak ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
+          <a ng-cloak has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
             <i class="md-caption">Government ID pending</i>
           </a>
 
@@ -91,11 +90,10 @@
         </td>
 
         <td>
-            <img ng-if="!user.profile.identity_verified && user.profile.government_identification && user.displayImgID" ng-src="uploads/government_identification/{{user.profile.government_identification.filename}}">
+            <img has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && user.displayImgID" ng-src="uploads/government_identification/{{user.profile.government_identification.filename}}">
         </td>
 
       </tr>
-  </has-permission>
 
 
     </tbody>
