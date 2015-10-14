@@ -9,7 +9,7 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=Setting::get('themename','default')?>/logo/symbol.png">                
     </head>
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
- <body back-img class="background-image"  ng-controller="SidebarController as sidebar"/>
+ <body back-img="{{vm.background_image}}" class="background-image"  ng-controller="SidebarController as sidebar"/>
 
         <!--   /uploads/background_images/{{settings.image}} -->
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
