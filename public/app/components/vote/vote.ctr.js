@@ -8,9 +8,12 @@
 
     	var vm = this;
        
+        vm.need_identification  = JSON.parse(localStorage.getItem('user')).need_identification;
+
         /**************************************** Vote Variables **************************************** */
 
         vm.motionVotes = {};
+
 
         vm.voting = {
             agree: false,
