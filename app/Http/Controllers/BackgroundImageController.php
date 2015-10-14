@@ -61,7 +61,7 @@ class BackgroundImageController extends ApiController
         }
         
         $file = new File;
-        $file->uploadFile('background_images',$request);     
+        $file->uploadFile('background_images', 'background_images', $request);     
 
         if(!$file->save()){
             abort(403,$file->errors);
@@ -120,7 +120,7 @@ class BackgroundImageController extends ApiController
         }
 
         $file = $backgroundImage->file;
-        $file->uploadFile('background_images',$request);
+        $file->uploadFile('background_images', 'background_images', $request);
 
         if(!$file->save()){
             abort(403,$file->errors);
