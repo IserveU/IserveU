@@ -12,6 +12,9 @@
 
 		$scope.$state = $state;
 
+		vm.need_identification = JSON.parse(localStorage.getItem('user')).need_identification;
+		console.log(vm.need_identification);
+
 		vm.getMotions = getMotions;
 
 		vm.emptyMotionsArray = false;
