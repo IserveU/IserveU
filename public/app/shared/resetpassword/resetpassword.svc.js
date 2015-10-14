@@ -14,19 +14,39 @@
 		vm.check = function(){
 			
 			if($state.current.name == 'login.resetpassword'){
-				auth.getNoPassword($stateParams.resetpassword).then(function(data) {
+
+				if($rootScope.userIsLoggedIn === true){
+					auth.logout();
+					localStorage.clear();
+					$rootScope.userIsLoggedIn = false;
+					postToken();
+				}
+				else{
+					postToken();
+				}
+
+			
+			}
+		}
+
+		function postToken(){
+
+			auth.getNoPassword($stateParams.resetpassword).then(function(data) {
 					
 					afterauth.setLoginAuthDetails(data, data.data.token);
 
 				}, function(error) {
 					if(error.status === 404){
-						console.log('invalid token');
+						localStorage.clear();
+						$rootScope.userIsLoggedIn = false;
+						$state.go('login');
+						ToastMessage.simple("Sorry! Your lost password token has expired.");
 					}
 					if(error.status === 403){
 						console.log('no token provided');
 					}
-				});
-			}
+			});
+
 		}	
 
 	}
