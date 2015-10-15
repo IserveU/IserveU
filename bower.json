@@ -30,7 +30,6 @@
   },
   "private": true,
   "resolutions": {
-    "angular": "1.3.20",
-    "angular-messages": "~1.3.16"
+    "angular": "1.3.20"
   }
 }

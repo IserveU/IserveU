@@ -30,7 +30,7 @@
 					voting.abstain = true;
 			}
 			
-			ToastMessage.simple(message+"this motion")
+			ToastMessage.simple(message+"this motion");
 
 		}
 
@@ -43,8 +43,8 @@
           			  vm.userHasVoted = true;
           			  vm.userVoteId = value.id;
 					}
-				})
-			})
+				});
+			});
 		}
 
 		getUsersVotes();

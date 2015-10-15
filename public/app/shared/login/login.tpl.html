@@ -24,6 +24,7 @@
                 <div ng-message="warning">Password and email combination do not match.</div>
               </div>
           </md-input-container>
+          <md-switch style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-switch>
           <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
             <div ng-hide="login.loggingIn">Login</div>
             <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.loggingIn"></md-icon>
@@ -67,11 +68,11 @@
               <div ng-message="minlength">Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>
+          <md-switch style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-switch>
           <md-button type="submit" name="create" class="btn btn-primary">
             <div ng-hide="login.creatingUser">Create</div>
             <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
-          </md-button>
-            
+          </md-button>            
           <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
         </form>
       </div>

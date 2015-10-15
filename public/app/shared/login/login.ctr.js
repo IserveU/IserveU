@@ -19,6 +19,7 @@
 		vm.passwordreminder = false;
 		vm.invalidCredentials = false;
 		vm.passwordreset = false;
+		vm.publicComputer = false;
 
 		vm.loggingIn = false;
 		vm.creatingUser = false;
@@ -33,7 +34,7 @@
 			};
 
 			auth.login(credentials).then(function(data) {
-				setLocalStorage(credentials);
+				setLocalStorage(credentials, vm.publicComputer);
 			}, function(error) {
 				vm.loggingIn = false;
 				if(error.data.error == "invalid_credentials"){
@@ -45,13 +46,14 @@
 			});		
 		};
 
-		function setLocalStorage(credentials) {
+		function setLocalStorage(credentials, publicComputer) {
 			auth.postAuthenticate(credentials).then(function(data) {
 				afterauth.setLoginAuthDetails(data);
+				localStorage.setItem('public_computer', publicComputer);
 				getSettings();
 			});
-		}   
-		
+		}
+
 		vm.extendregister = function() {
 			vm.registerform = !vm.registerform;
 		};
@@ -115,7 +117,7 @@
 		});
 
 		resetPasswordService.check();
-		getSettings();
+			getSettings();
     }
 
 }());
