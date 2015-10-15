@@ -484,16 +484,16 @@
         },
         {
             "name": "flow/jsonpath",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FlowCommunications/JSONPath.git",
-                "reference": "be3bc6868bfba8021023aa322fd4b9d498c72afc"
+                "reference": "e064398010089f9efb46044f85ee63c458ae89e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/be3bc6868bfba8021023aa322fd4b9d498c72afc",
-                "reference": "be3bc6868bfba8021023aa322fd4b9d498c72afc",
+                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/e064398010089f9efb46044f85ee63c458ae89e1",
+                "reference": "e064398010089f9efb46044f85ee63c458ae89e1",
                 "shasum": ""
             },
             "require-dev": {
@@ -518,7 +518,7 @@
                 }
             ],
             "description": "JSONPath implementation for parsing, searching and flattening arrays",
-            "time": "2015-06-25 12:39:45"
+            "time": "2015-10-12 07:39:47"
         },
         {
             "name": "fzaninotto/faker",
@@ -841,12 +841,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "44c9a6bb292e50cf8a1e4b5030c7954c2709c089"
+                "reference": "e6c9cd03d6b2a870e74da03332feeb97d477fc87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/44c9a6bb292e50cf8a1e4b5030c7954c2709c089",
-                "reference": "44c9a6bb292e50cf8a1e4b5030c7954c2709c089",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/e6c9cd03d6b2a870e74da03332feeb97d477fc87",
+                "reference": "e6c9cd03d6b2a870e74da03332feeb97d477fc87",
                 "shasum": ""
             },
             "require": {
@@ -895,7 +895,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-08-30 15:37:50"
+            "time": "2015-10-12 08:42:50"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1026,7 +1026,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
@@ -1832,16 +1832,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.3",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f"
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ef1ca6835468857944d5c3b48fa503d5554cff2f",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/eabf68b476ac7d0f73793aada060f1c1a9bf8979",
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979",
                 "shasum": ""
             },
             "require": {
@@ -1890,7 +1890,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-09-14 06:51:16"
+            "time": "2015-10-06 15:47:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2635,16 +2635,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01"
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
                 "shasum": ""
             },
             "require": {
@@ -2682,7 +2682,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2014-10-06 09:23:50"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2830,16 +2830,16 @@
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "6056f477ddcc66f5ee9f257834587d5b1926e7f6"
+                "reference": "dd3bd48258db41a9e0d4e483cc26681a97dee478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/6056f477ddcc66f5ee9f257834587d5b1926e7f6",
-                "reference": "6056f477ddcc66f5ee9f257834587d5b1926e7f6",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/dd3bd48258db41a9e0d4e483cc26681a97dee478",
+                "reference": "dd3bd48258db41a9e0d4e483cc26681a97dee478",
                 "shasum": ""
             },
             "require": {
@@ -2883,7 +2883,7 @@
                 "mysql",
                 "spatie"
             ],
-            "time": "2015-09-13 18:14:13"
+            "time": "2015-10-08 19:24:15"
         },
         {
             "name": "swiftmailer/swiftmailer",

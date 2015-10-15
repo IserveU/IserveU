@@ -96,7 +96,7 @@
 		    	return Object.keys(obj).map(function(key){return obj[key];});
 		    }
 	 	})
-		.run(function($rootScope, $auth, $state, auth) {
+		.run(function($rootScope, $auth, $state, auth, $window) {
 
 			$rootScope.themename = 'default';
 
@@ -125,7 +125,14 @@
 						$rootScope.userIsLoggedIn = true;
 					}
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
-			});		
+			});
+
+			$window.onbeforeunload = function(e) {
+				var publicComputer = localStorage.getItem('public_computer');
+				if(JSON.parse(publicComputer) == true) {
+					return localStorage.clear();
+				}
+			}
 
 		})
     .controller('AppCtrl', function($scope) {
