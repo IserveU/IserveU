@@ -1,5 +1,4 @@
-<span ng-controller="MotionController as motion">
-<section class="md-whiteframe-z1 comments" ng-if="motion.userVoteId && motion.motionDetail.MotionOpenForVoting" layout-margin>
+<section class="md-whiteframe-z1 comments" ng-if="vm.userHasVoted && vm.motionOpen" layout-margin>
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 ng-bind="vm.thisUsersComment == null ? '{{'POST_COMMENT' | translate}}' : '{{'YOUR_COMMENT' | translate}}'"></h3>
@@ -61,7 +60,7 @@
 				</div>
 			</div>
 			<p class="md-body-1" ng-bind="comment.text"></p>
-			<div layout="row" layout-align="end center" ng-if="motion.showAgreeCommentVotes">
+			<div layout="row" layout-align="end center" ng-if="vm.showAgreeCommentVotes">
 				<md-button ng-click="vm.checkCommentVotes(comment, 1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
 					<md-tooltip>{{'AGREE_WITH_COMMENT' | translate}}</md-tooltip>
@@ -92,7 +91,7 @@
 		 		</div>
 		 	</div>
         <p class="md-body-1 abstained" ng-bind="comment.text"></p>
-	 <div layout="row" layout-align="end center" ng-if="motion.showDisagreeCommentVotes"> 
+	 <div layout="row" layout-align="end center" ng-if="vm.showDisagreeCommentVotes"> 
 	        <md-button ng-click="vm.checkCommentVotes(comment, 1, vm.thisUsersCommentVotes)" class="md-icon-button" ng-class="{'md-primary':comment.this_users_comment_vote == 1}" aria-label="Agree"> 
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ comment.this_users_comment_vote == '1' && 'thumb-up' || 'thumb-up-outline' }}.svg"></md-icon>
 				<md-tooltip>{{'AGREE_WITH_COMMENT' | translate}}</md-tooltip>

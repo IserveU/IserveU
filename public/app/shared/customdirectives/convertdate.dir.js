@@ -25,7 +25,9 @@
       					return;
       				}
       				else {
-						return new Date(data);
+      					var transformedDate = new Date(data);
+      					transformedDate.setTime(transformedDate.getTime()+transformedDate.getTimezoneOffset()*60000);
+						return transformedDate;
       				}
 			    });
 			}

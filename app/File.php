@@ -98,8 +98,7 @@ class File extends ApiModel
 	 */
 	protected $fields = [
 		'title' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your filename'],
-		'file'	 	=>	['tag'=>'file','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-
+		'file'	 		=>	['tag'=>'file','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'filename'	 	=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
 		'image'	 		=>	['tag'=>'md-switch','type'=>'hidden','label'=>'The file type of this','placeholder'=>''],
 		'category_id' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your file'],
@@ -127,12 +126,19 @@ class File extends ApiModel
 			return true;
 		});
 
+		static::deleted(function($model){
+			\File::delete(getcwd()."/uploads/".$model->fileCategory->name."/".$model->filename);
+			return true;
+		});
+
 	}
 
 
 	/************************************* Custom Methods *******************************************/
 	
-	public function uploadFile($file_category_name,Request $request){
+	public function uploadFile($file_category_name,$input_name="file",Request $request){
+
+
 
 		$file_category = FileCategory::where('name',$file_category_name)->first();
 		if(!$file_category){
@@ -142,12 +148,21 @@ class File extends ApiModel
 		$this->file_category_id = $file_category->id;
 		$this->title 			= $request->input('title');
 
-		$file = $request->file('file');
+		$file = $request->file($input_name);
 		if(!$file){
 			return false;
 		}
 
-		if(substr($file->getMimeType(), 0, 5) == 'image') {
+
+		try{
+			$mimeType = $file->getMimeType();
+		} catch (\Exception $e){
+			\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
+		}
+
+
+		if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
+
 			try {
 	      		$img = Image::make($file)->resize(1920, null, function($constraint){
 	      			$constraint->aspectRatio();
@@ -168,6 +183,7 @@ class File extends ApiModel
 			$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
 			$this->image = false;
 		}
+
 		$this->filename 	=	$filename;
 
 	}

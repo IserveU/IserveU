@@ -10,7 +10,12 @@
 
 		var vm = this;
 
+
+		/**************************************** Motion Sidebar Variables **************************************** */
+
 		$scope.$state = $state;
+
+		vm.need_identification = JSON.parse(localStorage.getItem('user')).need_identification;
 
 		vm.getMotions = getMotions;
 
@@ -45,6 +50,8 @@
 		vm.motion_is_loading = {};
 
 		vm.switchLoading = switchLoading;
+
+		/**************************************** Motion Sidebar Function **************************************** */
 
 		vm.loadDepartments = function(){
 			department.getDepartments().then(function(result){
@@ -103,7 +110,7 @@
 		}
 
 
-		// make this into a service maybe?
+		// make this into a directive
 		vm.cycleVote = function(motion){
 			if(motion.votes[0] == undefined){
 				castVote(motion.id);

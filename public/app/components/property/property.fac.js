@@ -42,6 +42,14 @@
 		});
 	}
 
+	function getProperty(id){
+		return Property.get({id:id}).$promise.then(function(results){
+			return results;
+		}, function(error) {
+			return error;
+		})
+	}
+
 	function getPropertyAssessment(data){
 		return PropertyAssessment.get(data).$promise.then(function(results){
 			return results;
@@ -63,7 +71,8 @@
 	    	getPropertyBlock: getPropertyBlock,
 	    	uploadProperties: uploadProperties,
 	    	searchProperty: searchProperty,
-	    	updateProperty: updateProperty
+	    	updateProperty: updateProperty,
+	    	getProperty: getProperty
 	    }
 
 	}

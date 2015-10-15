@@ -6,6 +6,7 @@ use App\Events\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Carbon\Carbon;
+use Setting;
 
 class LogAttempt
 {
@@ -27,13 +28,12 @@ class LogAttempt
      */
     public function handle(UserLoginFailed $event)
     {
-
         if(!$event->user){
             return "no user with this email address";
         }
 
         $event->user->login_attempts = $event->user->login_attempts + 1;
-        if($event->user->login_attempts > 5 && $event->user->locked_until==null){
+        if($event->user->login_attempts > Setting::get('security.login_attempts_lock',5)){
             $event->user->locked_until = Carbon::now()->addHours(3);
         }
 

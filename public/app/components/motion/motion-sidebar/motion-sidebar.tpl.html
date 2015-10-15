@@ -50,7 +50,8 @@
 
       <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
-      <div ng-switch="{{ motion.votes[0].position }}">
+      <div ng-switch="{{ motion.votes[0].position }}" ng-if="!sidebar.need_identification" ng-cloak>
+      <md-tooltip ng-if="::!motion.MotionOpenForVoting">This motion is closed for voting.</md-tooltip>
         <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting">
           <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
           <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>
@@ -59,7 +60,6 @@
           <md-tooltip>{{'QUICK_VOTE' | translate}}</md-tooltip>
         </md-button>
       </div>
-
     </md-list-item>
 
 <!--     <md-list-item ng-hide="sidebar.hide_show_more">&nbsp;</md-list-item>

@@ -8,7 +8,7 @@
 
 	function BackgroundImageController($rootScope, $state, $scope, $timeout, ToastMessage, UserbarService, SetPermissionsService, backgroundimage) {	
 
-		// UserbarService.setTitle("IserveU");
+		UserbarService.setTitle("Upload");
 
 		var vm = this;
 
@@ -42,20 +42,12 @@
 		}
 
 		vm.uploadFile = function(){
-			var formData = new FormData();
-		    formData.append("file", vm.thisFile);
-		    formData.append("credited", vm.credited);
-		    if(vm.url && !/^(http):\/\//i.test(vm.url)) {vm.url = 'http://' + vm.url;}
-		    formData.append("url", vm.url);
-		    formData.append('active', vm.isactive);
 
-		    backgroundimage.saveBackgroundImage(formData).then(function(result) {
+		    backgroundimage.saveBackgroundImage(vm.thisFile).then(function(result) {
 	            $rootScope.$emit('refreshLocalStorageSettings', []);
-		    	var user = "Your image has been sent in for approval!"
-		    	var admin = "Upload successful!"
 		    	vm.onSuccess = true;
 		    	vm.uploading = false;
-		    	ToastMessage.double(admin, user, vm.isNotAdmin);
+		    	ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
 	            $state.reload();
 		    },function(error){
 		    	vm.uploading = false;
@@ -66,7 +58,19 @@
 
 		vm.upload = function(flow){
 			vm.preview = true;
-			vm.thisFile = flow.files[0].file;
+
+			var fd = new FormData();
+
+			fd.append("background_images", flow.files[0].file);
+		    fd.append("credited", vm.credited);
+		    if ( vm.url && !/^(http):\/\//i.test(vm.url) ) {
+		    	vm.url = 'http://' + vm.url; // appends http: if missing
+		    }
+		    fd.append("url", vm.url);
+		    fd.append('active', vm.isactive);
+
+		    vm.thisFile = fd;
+
 		}
 
 		backgroundImages();

@@ -124,6 +124,10 @@ class MotionFile extends ApiModel
 			return $model->validate();			
 		});
 
+		static::deleted(function($model){
+			$model->file->delete();	
+		});
+
 	}
 
 

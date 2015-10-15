@@ -105,9 +105,11 @@
 		};
 
 		function getSettings(){
-			auth.getSettings().then(function(result){
-				localStorage.setItem('settings', JSON.stringify(result.data));
-			})
+			if(!localStorage.getItem('settings')){
+				auth.getSettings().then(function(result){
+					localStorage.setItem('settings', JSON.stringify(result.data));
+				})
+			}
 		}
 	
 		$rootScope.$on('refreshLocalStorageSettings', function(event, data) {

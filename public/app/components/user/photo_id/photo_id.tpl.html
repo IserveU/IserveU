@@ -1,0 +1,21 @@
+<md-content id="maincontent" layout="row" layout-padding>
+<section class="md-whiteframe-z1" style="margin:8px; padding:0px" flex>
+<md-toolbar class="md-warn" style="padding-top: 15px">
+  <div class="md-toolbar-tools">
+   <h2 class="md-flex">Proof of Identification<span style="display:block; font-size:11px" class="md-caption">Upload a copy of government issued ID and we will cross-reference Elections Canada to check that you are on the voter's list.</span></h2>
+  </div>
+</md-toolbar>
+
+	<div flow-init="" flow-files-submitted="vm.upload($flow, $index)" layout-padding>
+      	<div layout layout-sm="column" layout-padding>
+	      <md-input-container flex="33">
+	                <md-icon class="mdi" md-font-icon="mdi-file-image-box" ></md-icon>
+	        <input aria-label="select" type="file" flow-btn/>
+	        <md-tooltip>Upload a copy of a government issued ID.</md-tooltip>
+	      </md-input-container>
+     	   <p class="md-body-1" ng-repeat="file in $flow.files">{{file.name}}, </p>
+        </div>
+    </div>
+    <md-button ng-click="vm.submit()">Submit</md-button>
+</section>
+</md-content>

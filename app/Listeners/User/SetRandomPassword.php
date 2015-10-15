@@ -2,7 +2,6 @@
 
 namespace App\Listeners\User;
 
-use App\Events\UserForgotPassword;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -21,10 +20,9 @@ class SetRandomPassword
     /**
      * Handle the event.
      *
-     * @param  UserForgotPassword  $event
      * @return void
      */
-    public function handle(UserForgotPassword $event)
+    public function handle($event)
     {
         $user = $event->user;
 

@@ -8,27 +8,45 @@
 
 	function backImg() {
 
-		var directive = {
-			link: linkMethod,
-		};
-		return directive;
-	}
+		function controllerMethod(auth){
 
-	function linkMethod(scope, element, attributes){
+			var vm = this;
 
-		var background_image;
-		
-		var settings = JSON.parse(localStorage.getItem('settings'));
+			vm.background_image;
 
-		if (settings != null) {
-			if(settings.background_image != null){
-				background_image = "url(/uploads/background_images/" + settings.background_image.filename +")";
-			}
+			auth.getSettings().then(function(result){
+				localStorage.setItem('settings', JSON.stringify(result.data));
+				if(JSON.parse(localStorage.getItem('settings')).background_image == null){
+					vm.background_image = "url(/themes/default/photos/background.png)";
+					return;
+				}
+				vm.background_image = "url(/uploads/background_images/" + JSON.parse(localStorage.getItem('settings')).background_image.filename+")";
+			})
+			
+
 		}
 
-		element.css({
-		    'background-image': ((background_image == null) ? "url(/themes/default/photos/background.png)" : background_image)
-		});
+
+		function linkMethod(scope, element, attrs, ctrl){
+
+			attrs.$observe('backImg', function(value){
+				element.css({
+				    'background-image': value
+				});
+			})
+
+		}
+
+
+		return {
+			controller: controllerMethod,
+			controllerAs: 'vm',
+			bindToController: true,
+			link: linkMethod
+		}
+
 	}
+
+
 
 }());

@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, RoleService, SetPermissionsService, vote, ethnic_origin, $mdDialog, $stateParams, user, $mdToast, $animate, UserbarService, $state, $timeout, ToastMessage, resetPasswordService, role) {
+	function UserController($rootScope, $scope, $timeout, RoleService, SetPermissionsService, vote, ethnic_origin, $stateParams, user, $mdToast, UserbarService, $state, ToastMessage, role, property) {
 		
 		UserbarService.setTitle("");
 		
@@ -28,25 +28,41 @@
 
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
-		vm.this_users_roles = [];
-	    vm.show_edit_role = false;
-	    vm.show_edit_address = false;
+		vm.this_users_roles 	= [];
+	    vm.show_edit_role		= false;
+	    vm.show_edit_address	= false;
+	    vm.checkRoles 			= checkRoles;
 
 	    vm.showAddress = function(){
 	    	vm.show_edit_address = !vm.show_edit_address;
+	    }
+
+	    function getUserAddress(id){
+	    	property.getProperty(id).then(function(result){
+	    		vm.address = result;
+	    	})
 	    }
 
 		vm.test_role_name = function(role){
 			RoleService.check_new_role(role, $stateParams.id);
 		}
 
-		role.getRoles().then(function(results){
-			vm.roles = results;
-		});
-
-		vm.checkRoles = function(){
-			RoleService.check_roles(vm.roles, vm.this_users_roles);
+		vm.uponPressingBack = function(){
+			getUser($stateParams.id);
 		}
+
+		function getUserRoles(){
+			role.getRoles().then(function(results){
+				vm.roles = results;
+			});
+		}
+
+		function checkRoles(){
+			RoleService.check_roles(vm.roles, vm.this_users_roles);
+
+		}
+
+		getUserRoles();
 
 		/**************************************** Voting History Function **************************************** */
 		
@@ -87,6 +103,8 @@
 	    	data[type] = newdata;
 
 	    	user.updateUser(data).then(function(results){
+	    		console.log(data);
+	    		console.log(results);
 	    		vm.edit[type] = true;
 	    		if(type !== 'password'){
 	    			$rootScope.$emit('refreshLocalStorageSettings');
@@ -114,21 +132,29 @@
 		}
 
 		vm.verifyUser = function(userinfo){
+
 			var message = userinfo.first_name + ' ' + userinfo.last_name + ' has been ';
-			var data = {
+
+			user.updateUser({
+
 				id: userinfo.id,
 				identity_verified: userinfo.identity_verified
-			}
-			user.updateUser(data).then(function(result){
+
+			}).then(function(result){
+
 				if(userinfo.identity_verified == 1){
 					message = message+"verified.";
 				}
 				else {
 					message = message+"unverified.";
 				}
+
 				ToastMessage.simple(message);
+
 			}, function(error){
+
 				checkError(JSON.parse(error.data.message), "This user cannot be verified.");
+
 			});
 
 		}
@@ -147,12 +173,31 @@
 					vm.profile = result;
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
+					checkFileType();
+				    getUserAddress(vm.profile.property_id);
 				}, function(error){
 					if(error.status == 404 || 401){
 						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});
 						ToastMessage.simple("That user was not found. You've been redirected to your own profile.");
 					}
 				});
+			}
+		}
+
+		vm.displayImgID = true;
+
+		function checkFileType(){
+
+			if(vm.profile.government_identification != null){
+
+				var str = vm.profile.government_identification.filename;
+
+				str = str.substring( str.length - 3, str.length );
+
+				if(str == 'pdf') {
+					vm.displayImgID = false;
+				}
+
 			}
 		}
 

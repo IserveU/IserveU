@@ -9,7 +9,7 @@
         <link rel="icon shortcut" type="image/png" href="/themes/<?=Setting::get('themename','default')?>/logo/symbol.png">                
     </head>
    <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
- <body back-img class="background-image"  ng-controller="SidebarController as sidebar"/>
+ <body back-img="{{vm.background_image}}" class="background-image"  ng-controller="SidebarController as sidebar"/>
 
         <!--   /uploads/background_images/{{settings.image}} -->
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
@@ -123,40 +123,12 @@
                 </div>
             </div>
           </md-toolbar>
-          <span ng-controller="ResetPasswordController as reset" ng-if="userIsLoggedIn" > <!-- TODO: make into a directive --> 
-        <md-content id="maincontent"  ng-if="reset.notification">
-            <section class="md-whiteframe-z1" ng-cloak style="margin:8px">
-                <md-toolbar style="color:blue" class="section-toolbar md-tall" layout-padding>
-                <div class="md-toolbar-tools">
-                    <h3>Please Reset Your Password</h3>
-                </div>
-                <form name="newpassword">
-                <div layout="row" style="font-size: 14px; padding-top:0px" layout-padding>
-                <md-input-container layout-padding>
-                    <label>New Password</label> 
-                    <input name="password" type="password" ng-model="reset.password" ng-minlength="8" required/>
-                    <div ng-messages="newpassword.password.$error">  
-                      <div ng-message="minlength">Must be atleast 8 characters.</div>
-                    </div>
-
-                    </md-input-container>
-                <md-input-container layout-padding>
-                    <label>Confirm Password</label> 
-                     <input name="confirmPassword" type="password" ng-model="reset.confirmpassword" compare-to="reset.password" required/>
-                    <div ng-messages="newpassword.confirmPassword.$error">
-                        <div ng-message="compareTo">Your password does not match.</div>
-                    </div>
-                    </md-input-container>
-                  <div style="padding-top:23px">
-                     <md-button type="submit" style="color:black; margin:0px" ng-click="reset.savePassword()" aria-label="confirm reset password">Okay</md-button>
-                  </div>
-                </div>
-                </form>
-
-                </md-toolbar>
-            </section>
-        </md-content>
+          
+        <span ng-if="userIsLoggedIn">  
+            <reset-password has-been="{{reset.notification}}"></reset-password>
+            <photo-id has="{{vm.uploaded}}"></photo-id>
         </span>
+
           <div flex ui-view>
               
 

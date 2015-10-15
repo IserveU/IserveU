@@ -7,7 +7,7 @@
 		.service('RoleService', RoleService);
 
 
-	function RoleService(role, $rootScope, $mdToast, ToastMessage) {
+	function RoleService($mdToast, $stateParams, role, auth, ToastMessage) {
 
 		var vm = this;
 
@@ -19,7 +19,7 @@
 			role.grantRole({
 				user_id: user_id,
 				role_name: role_name}).then(function(){
-				$rootScope.$emit('refreshLocalStorageSettings');
+					refreshLocalStorageSettings();
 			});
 		}
 
@@ -27,8 +27,21 @@
 			role.deleteUserRole({
 				user_id: user_id,
 				role_id: role_id}).then(function(){
-				$rootScope.$emit('refreshLocalStorageSettings');
+					refreshLocalStorageSettings();
 			});
+		}
+
+		function refreshLocalStorageSettings(){
+
+			if($stateParams.id == JSON.parse(localStorage.getItem('user')).id){
+					auth.getSettings().then(function(result){
+					localStorage.removeItem('user');
+					localStorage.removeItem('permissions');
+					localStorage.setItem('user', JSON.stringify(result.data.user));
+					localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
+				})
+			}
+
 		}
 
 		vm.check_roles = function(roles, this_users_roles) {
@@ -36,7 +49,6 @@
 				role["this_users_role"] = false;
 				angular.forEach(this_users_roles, function(this_role, key){
 					if(role.display_name == this_role){
-						console.log('foo');
 						role["this_users_role"] = true;
 					}
 				})

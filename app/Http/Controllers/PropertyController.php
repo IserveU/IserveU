@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use DB;
@@ -25,9 +25,9 @@ class PropertyController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
-		$filters = Request::all();
+		$filters = $request->all();
 
 		$property = Property::with(['propertyAssessments' => function($query) {
 
@@ -77,13 +77,13 @@ class PropertyController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
 		if(!Auth::user()->can('create-properties')){
 			abort(401,'You do not have permission to create a property assessment');
 		}
 
-		$property = (new Property)->secureFill(Request::all()); 
+		$property = (new Property)->secureFill($request->all()); 
 		if(!$property->save()){
 		 	abort(403,$property->errors);
 		}
@@ -127,18 +127,22 @@ class PropertyController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Property $property)
+	public function update(Property $property, Request $request)
 	{
-
 		if(!Auth::user()->can('create-properties')){
-			abort(403,'You do not have permission to update a property assessment');
+			if($request->has('postal_code') && !$property->postal_code){
+				$property->postal_code = $request->get('postal_code');
+				$property->save();
+				return "postal code updated";
+			}
+			abort(403,'You do not have permission to update a property');
 		}
 
 		if(!Auth::user()->can('administrate-properties')){ //Is not the user who made it, or the site admin
 			abort(401,"This user can not edit property assessment ($id)");
 		}
 
-		$property->secureFill(Request::all());
+		$property->secureFill($request->all());
 
 		if(!$property->save()){
 		 	abort(403,$property->errors);
@@ -160,8 +164,8 @@ class PropertyController extends ApiController {
 		//
 	}
 
-	public function uploadCSV(){
-		Request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
+	public function uploadCSV(Request $request){
+		$request::file('csvfile')->move(base_path()."/storage/uploads",'properties.csv');
 
 		$csv = Reader::createFromPath(base_path()."/storage/uploads/properties.csv");
 		$allrows = $csv->setOffset(1)->fetchAll(); //because we don't want to insert the header

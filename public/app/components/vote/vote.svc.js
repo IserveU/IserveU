@@ -4,13 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.service('VoteService', VoteService);
+		.factory('VoteService', VoteService);
 
-	function VoteService($stateParams, vote, ToastMessage) {
-
-		var vm = this;
-
-		vm.userVoteId;
+	function VoteService($stateParams, $timeout, vote, ToastMessage) {
 
 		function showVoteMessage(position, voting) {
 
@@ -18,40 +14,36 @@
 
 			switch(position){
 				case -1:
-					message = message+"disagreed with ";
+					message = message+"disagreed with";
 					voting.disagree = true;
 					break;
 				case 1:
-					message = message+"agreed with ";
+					message = message+"agreed with";
 					voting.agree = true;
 					break;
 				case 0:
-					message = message+"abstain with ";
+					message = message+"abstain with";
 					voting.abstain = true;
 			}
 			
-			ToastMessage.simple(message+"this motion");
+			ToastMessage.simple( message + " this motion" );
 
 		}
 
-		function getUsersVotes() {
+		function overallMotionPosition(motionVotes){
 
-			vote.getUsersVotes().then(function(result){
-				angular.forEach(result, function(value, key) {
-					if(value.motion_id == $stateParams.id){
-		              vm.usersVote = parseInt(value.position);
-          			  vm.userHasVoted = true;
-          			  vm.userVoteId = value.id;
-					}
-				});
-			});
+            if(motionVotes.disagree.number>motionVotes.agree.number){
+                motionVotes.position = "thumb-down";
+            } else if(motionVotes.disagree.number<motionVotes.agree.number){
+                motionVotes.position = "thumb-up";
+            } else {
+                motionVotes.position = "thumbs-up-down";
+            } 
 		}
-
-		getUsersVotes();
 
 		return {
 			showVoteMessage: showVoteMessage,
-			getUsersVotes: getUsersVotes
+			overallMotionPosition: overallMotionPosition,
 		}
 
 	}

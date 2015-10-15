@@ -27,7 +27,8 @@
     	    controller: 'MotionController as motion',
     	    data: {
     	        requireLogin: true,
-                voteId: ''
+                motionOpen: null,
+                overallPosition: null
     	    },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'motion';
@@ -41,7 +42,7 @@
     			},
     			'votes': {
     				templateUrl: 'app/components/vote/vote.tpl.html',
-                    controller: 'MotionController as motion',
+                    controller: 'VoteController as vm',
     			},
     			'comments': {
 		    	    templateUrl: 'app/components/comment/comment.tpl.html',

@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Vote;
-use Request;
+use App\File;
 use Auth;
 use Hash;
 use Zizaco\Entrust\Entrust;
@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
+use Illuminate\Http\Request;
 
 use App\Transformers\UserTransformer;  //Not doing anything at the moment
 
@@ -29,8 +30,8 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index() {
-		$limit = Request::get('limit') ?: 50;
+	public function index(Request $request) {
+		$limit = $request->get('limit') ?: 50;
 
 		if (Auth::user()->can('show-users')) { //An admin able to see all users
 			$users = User::paginate($limit);
@@ -57,9 +58,9 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(){
+	public function store(Request $request){
 		//Get input less the forgery token
-		$input = Request::except('_token');
+		$input = $request->except('_token');
 
 		//Create a new user and fill secure fields
 		$newUser = (new User)->secureFill($input);
@@ -72,7 +73,7 @@ class UserController extends ApiController {
 
 		Auth::loginUsingId($newUser->id);
 
-		$propertyId = Request::get('property_id');
+		$propertyId = $request->get('property_id');
 		if($propertyId){ //A property ID field has been submitted
 			$newUser->property_id = $propertyId; //If the property ID has been chosen, add it to the property_user table
 		}
@@ -125,22 +126,40 @@ class UserController extends ApiController {
 	 * @param  User   		$user
 	 * @return Response
 	 */
-	public function update(User $user){
+	public function update(User $user, Request $request){
 
 		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-users')){
 			abort(401,'You do not have permission to edit this user');
 		}
 
 		//If the user has the authentication level, they can change some things
-		$user->secureFill(Request::except('token'));
+		$user->secureFill($request->except('token'));
 
 		if(!$user->save()){ //Validation failed
 			abort(400,$user->errors);
 		}
 
-		$propertyId = Request::get('property_id');
+		$propertyId = $request->input('property_id');
 		if($propertyId){ //A property ID field has been submitted
 			$user->property_id = $propertyId;
+		}
+		
+		if($request->file('government_identification')){
+			$file = new File;
+	      	$file->uploadFile('government_identification','government_identification',$request);		
+			if(!$file->save()){
+			 	abort(403,$file->errors);
+	      	}
+	      	$user->government_identification_id		=	$file->id;
+		}
+
+		if($request->file('avatar')){
+			$file = new File;
+	      	$file->uploadFile('avatars','avatar',$request);		
+			if(!$file->save()){
+			 	abort(403,$file->errors);
+	      	}
+	      	$user->government_identification_id		=	$file->id;
 		}
 
 		$user->save();

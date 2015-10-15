@@ -26,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider {
 
 		$router->model('user','App\User');
 		$router->model('motion','App\Motion');
+		$router->model('motionfile','App\MotionFile');
 		$router->model('file','App\File');
 		$router->model('vote','App\Vote');
 		$router->model('comment','App\Comment');
