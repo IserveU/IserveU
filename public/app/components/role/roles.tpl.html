@@ -15,6 +15,9 @@
         <td>
             <p class="md-body-2" style="padding-left:10px" translate="{{'ROLES'}}"></p>
         </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px">ID submitted</p>
+        </td>
       </tr>
     </thead>
     <tbody layout-padding>
@@ -31,6 +34,11 @@
         <td style="padding-left:10px;">
           <span ng-repeat="role in ::name.user_role">
            <p class="md-caption" style="margin:0px; padding-bottom:5px; display:inline-block">{{role}}{{$last ? '' : ','}}</p>
+          </span>
+        </td>
+        <td style="padding-left:10px;">
+          <span>
+           <p class="md-caption" style="margin:0px; padding-bottom:5px; display:inline-block">{{name.government_identification && !name.identity_verified ? 'Pending' : ''}}</p>
           </span>
         </td>
       </tr>

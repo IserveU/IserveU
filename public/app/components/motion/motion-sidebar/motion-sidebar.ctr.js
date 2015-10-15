@@ -156,7 +156,15 @@
 
 		$rootScope.$on('refreshMotionSidebar', function(events, data) {
 			getMotions();
-		});     
+		});
+
+		$rootScope.$on('refreshSelectMotionOnSidebar', function(events, data){
+			angular.forEach(vm.motions, function(value, key) {
+				if(value.id == data.motion.id){
+					vm.motions[key] = data.motion;
+				}
+			})
+		})     
 
 	}
 

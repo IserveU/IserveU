@@ -21,7 +21,6 @@
 
         // first gets the comment stuff
         $timeout(function(){
-            vm.userHasVoted = sharedVoteService.data.userHasVoted;
             showCommentVoteColumn(sharedVoteService.data.usersVote);
         }, 3000);
 
@@ -48,6 +47,7 @@
                 CommentVoteService.calculate(vm.disagreeComments,vm.thisUsersCommentVotes);
                
                 vm.motionOpen =  $state.current.data.motionOpen;
+                vm.userHasVoted = $state.current.data.userVote;
             });
 
         }
@@ -58,7 +58,7 @@
 
         vm.submitComment = function(text) {
             var data = {
-                vote_id: sharedVoteService.data.userVoteId,
+                vote_id: vm.userHasVoted.id,
                 text: text
             }
 

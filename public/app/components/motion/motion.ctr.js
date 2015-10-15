@@ -81,6 +81,7 @@
 
             motion.getMotion(motion_id).then(function(result) {
                 vm.motionDetail = result;
+                $state.current.data.userVote = result.user_vote;
                 $state.current.data.motionOpen = result.MotionOpenForVoting;
                 vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
@@ -88,7 +89,8 @@
                 UserbarService.title = result.title;
                 getOverallVotePosition()
             });  
-             getMotionFiles(motion_id);
+
+            getMotionFiles(motion_id);
         }
 
         function getOverallVotePosition(){
@@ -105,7 +107,7 @@
         getMotion($stateParams.id);
 
         /**************************************** Motion Files Functions **************************************** */
-        // abstract this whole section ... figures.tpl.html, figures.ctr.js, etc.
+        // abstract this whole section and figure a way to avoid redundancy with these functions that are being used by edit motion ctrl 
 
         vm.motion_files;
 
@@ -189,10 +191,6 @@
                 }
             })
         }
-
-        /**************************************** Motion Voting Functions **************************************** */
-
-    
 
     }
 

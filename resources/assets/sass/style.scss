@@ -12,6 +12,33 @@ $padding: 16px;
 $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 
+@media screen and (max-width:420px) {
+    
+	table.user-table {
+
+		td{
+			display:block; float:left;
+		}
+		.mobile{
+			width:88%;
+		}
+		.edit-btn {
+		   position:relative;
+		   bottom: -25px;
+		   &.select-ctn{
+		   	bottom: -28px;
+		   }
+		   &.date-pick{
+		   	bottom: -22px;
+		   }
+		   &.pass-ctn{
+		   	bottom: -27px;
+		   }
+		}
+	}
+
+}
+
 html{
 	height: 100%;
 	

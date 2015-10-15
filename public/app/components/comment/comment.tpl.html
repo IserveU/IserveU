@@ -1,4 +1,6 @@
+<!-- <comment-section has-voted="{{ctrl.userHasVoted}}"> -->
 <section class="md-whiteframe-z1 comments" ng-if="vm.userHasVoted && vm.motionOpen" layout-margin>
+
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 ng-bind="vm.thisUsersComment == null ? '{{'POST_COMMENT' | translate}}' : '{{'YOUR_COMMENT' | translate}}'"></h3>
@@ -40,6 +42,7 @@
 		</span>
 	</div>
 </section>
+<!-- </comment-section> -->
 
 
 <!-- This is comment display content card --> 
@@ -107,3 +110,4 @@
 		</div>
 </div>
 </section> 
+

@@ -8,22 +8,19 @@
 
 	function VoteService($stateParams, $timeout, vote, ToastMessage) {
 
-		function showVoteMessage(position, voting) {
+		function showVoteMessage(position) {
 
 			var message = "You ";
 
 			switch(position){
 				case -1:
 					message = message+"disagreed with";
-					voting.disagree = true;
 					break;
 				case 1:
 					message = message+"agreed with";
-					voting.agree = true;
 					break;
 				case 0:
 					message = message+"abstain with";
-					voting.abstain = true;
 			}
 			
 			ToastMessage.simple( message + " this motion" );

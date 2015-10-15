@@ -1,20 +1,24 @@
 <form layout-padding class="user-profile-form">
 
-  <table layout-padding style="width:100%">
-
+  <table class="user-table" layout-padding style="width:100%">
     <tbody layout-padding>
+
       <tr>
-        <td>
+
+        <td class="mobile">
           <md-input-container>
           <label translate="{{'EMAIL_ADDRESS'}}"></label>
            <md-icon style="padding-top:22px" class="mdi mdi-email-outline input-icon"></md-icon>
              <input type="email"ng-model="user.profile.email" ng-keypress="user.pressEnter($event, 'email', user.profile.email)" ng-disabled="user.edit.email"/>
           </md-input-container>
         </td>
+
         <td style="width:10%">
           <md-icon ng-click="user.showEdit('email', user.profile.email)" class="edit-btn mdi mdi-pencil" ng-class="  {'clicked':!user.edit.email}"  ng-show="user.showEdits"></md-icon>
         </td>
-        <td>
+
+
+        <td class="mobile">
         <md-input-container flex>
           <md-icon class="mdi mdi-earth input-icon"></md-icon>
                <p class="md-caption" style="padding-left:37px; margin:0px;padding-top:5px;color:grey" translate="{{'ETHNIC_ORIGIN'}}"></p>
@@ -26,12 +30,14 @@
     </md-input-container>
         </td>
         <td>
-      <md-icon ng-click="user.showEdit('ethnic_origin_id', user.profile.ethnic_origin_id)" class="edit-btn mdi mdi-pencil" ng-class="{'clicked':!user.edit.ethnic_origin_id}"  ng-show="user.showEdits" ></md-icon>
+      <md-icon ng-click="user.showEdit('ethnic_origin_id', user.profile.ethnic_origin_id)" class="edit-btn mdi mdi-pencil select-ctn" ng-class="{'clicked':!user.edit.ethnic_origin_id}"  ng-show="user.showEdits" ></md-icon>
         </td>
+
+
       </tr>
 
       <tr>
-        <td>
+        <td class="mobile">
           <div class="column-form" style="display:inline-block" flex>
                <p class="md-caption date-picker-label" translate="{{'BIRTHDAY'}}"></p>
             <md-datepicker name="dateField" ng-model="user.profile.date_of_birth" md-placeholder="Birthday not set"
@@ -40,9 +46,11 @@
           </div>
         </td>
         <td>
-          <md-icon ng-click="user.showEdit('date_of_birth', user.profile.date_of_birth)" class="edit-btn mdi mdi-pencil" ng-class="{'clicked':!user.edit.date_of_birth}"  ng-show="user.showEdits"></md-icon>
+          <md-icon ng-click="user.showEdit('date_of_birth', user.profile.date_of_birth)" class="edit-btn mdi mdi-pencil date-pick" ng-class="{'clicked':!user.edit.date_of_birth}"  ng-show="user.showEdits"></md-icon>
         </td>
-        <td>
+
+
+        <td class="mobile">
           <md-input-container class="change-password" flex>
             <label translate="{{'CHANGE_PASSWORD'}}"></label>
               <md-icon class="mdi mdi-key-change input-icon"></md-icon>
@@ -50,13 +58,13 @@
           </md-input-container>
         </td>
         <td>
-            <md-icon ng-click="user.showEdit('password', newpassword)" class="edit-btn mdi mdi-pencil" ng-class="{'clicked':!user.edit.password}"  ng-show="user.showEdits"></md-icon>
+            <md-icon ng-click="user.showEdit('password', newpassword)" class="edit-btn mdi mdi-pencil pass-ctn" ng-class="{'clicked':!user.edit.password}"  ng-show="user.showEdits"></md-icon>
         </td>
       </tr>
 
 
       <tr>
-        <td>
+        <td class="mobile">
           <md-input-container flex="45">
            <label style="color:grey" translate="{{'ADDRESS'}}"></label> 
               <md-icon class="mdi mdi-home input-icon"></md-icon>
@@ -68,33 +76,27 @@
             <md-icon ng-click="user.showAddress()" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
-        <td>
+
+        <td class="mobile">
           <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
 
           <a ng-cloak has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
             <i class="md-caption">Government ID pending</i>
           </a>
-
-
         </td>
 
-      </tr>
-      <tr>
 
+        </tr>
+
+        <tr>
         <td>
         </td>
-
         <td>
-
-
         </td>
-
         <td>
             <img has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && user.displayImgID" ng-src="uploads/government_identification/{{user.profile.government_identification.filename}}">
         </td>
-
       </tr>
-
 
     </tbody>
   </table>

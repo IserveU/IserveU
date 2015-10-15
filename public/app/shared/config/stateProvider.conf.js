@@ -28,7 +28,8 @@
     	    data: {
     	        requireLogin: true,
                 motionOpen: null,
-                overallPosition: null
+                overallPosition: null,
+                userVote: null
     	    },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'motion';
