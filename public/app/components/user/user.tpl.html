@@ -4,22 +4,38 @@
 
   <div ng-hide="user.show_edit_address">
   <section class="md-whiteframe-z1" style="margin:8px">
-    <md-toolbar class="section-toolbar md-tall" layout-padding>
+    <md-toolbar class="section-toolbar md-tall" style="min-height: 144px" layout-padding>
       <div>
-        <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
-        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} {{user.profile.middle_name}} {{user.profile.last_name}}
+        <span hide-md hide-gt-md style="font-size:10px; position:absolute; color:grey; bottom: 10px; left: 55px">{{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}}</span>
 
-        ({{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}})
-          <md-icon style="color:grey; padding-top:5px" ng-click="user.show_edit_name = !user.show_edit_name;" ng-show="user.showEdits" class="edit-btn mdi mdi-pencil"></md-icon>
+        <md-icon class="mdi-big mdi-account-circle md-primary"></md-icon>
+        <div style="color:black; padding-left: 120px; padding-top: 12px"><h3 class="md-headline" style=" margin:0">{{user.profile.first_name}} 
+        <span hide-sm>{{user.profile.middle_name}} </span>
+
+        {{user.profile.last_name}}
+      
+
+            <span hide-sm style="font-size:18px">({{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}})</span>
+
+          
+          <md-icon style="color:grey;" ng-click="user.show_edit_name = !user.show_edit_name;" ng-show="user.showEdits" class="edit-btn mdi mdi-pencil"  hide-sm ></md-icon>
+          <md-icon style="color:grey; font-size:14px; padding-top:5px" ng-click="user.show_edit_name = !user.show_edit_name;" ng-show="user.showEdits" class="edit-btn mdi mdi-pencil" hide-md hide-gt-md></md-icon>
+
         </h3>
         </div>
         <div style="padding-left: 120px; position:absolute; color: grey; display:inline-block">
-          <p  class="md-caption" style="display:inline-block;" ng-repeat="user_role in user.this_users_roles">{{user_role}}{{$last ? '' : ',&nbsp;'}}</p>
+          <p  class="md-caption" style="display:inline-block; margin:0px" ng-repeat="user_role in user.this_users_roles">{{user_role}}{{$last ? '' : ',&nbsp;'}}</p>
           <has-permission has-permission="administrate-permissions">
-           <md-icon style="color:grey;" ng-click="user.show_edit_role = !user.show_edit_role; user.checkRoles()" class="edit-btn mdi mdi-pencil"></md-icon>
-          </has-permission>
+           <md-icon style="color:grey;" ng-click="user.show_edit_role = !user.show_edit_role; user.checkRoles()" class="edit-btn mdi mdi-pencil" hide-sm ></md-icon>
+           <md-icon style="color:grey; font-size:14px; padding-top:5px" ng-click="user.show_edit_role = !user.show_edit_role; user.checkRoles()" class="edit-btn mdi mdi-pencil" hide-md hide-gt-md></md-icon>
+
+        </has-permission>
         </div>
       </div>
+
+
+
+
     </md-toolbar>
 
     <div layout="column" ng-if="user.isSelfOrAdmin"  layout-fill>
