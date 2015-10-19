@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel {
 
 		$schedule->command('motions:rankgeneration')
 				 ->hourly();
-
+				 
 		//            if(!$motion->lastestRank || $motion->lastestRank->created_at['carbon']->diffInMinutes($now) >= Setting::get('motion.minutes_between_rank_calculations',60)){
 
 	}
