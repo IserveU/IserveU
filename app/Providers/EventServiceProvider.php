@@ -43,7 +43,8 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\Vote\CheckCommentVotes',
 			'App\Listeners\Vote\SetDeferedToVotes',
-			'App\Listeners\Motion\BalanceDeferredVotes'
+			'App\Listeners\Motion\BalanceDeferredVotes',
+			'App\Listeners\Comment\ClearMotionCommentCache',
 		],
 		'App\Events\MotionCreated' => [
 			'App\Listeners\Motion\CreateDeferredVotes',
@@ -53,6 +54,22 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\CommentDeleted' => [
 			'App\Listeners\Comment\DeleteCommentVotes',
+			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\CommentCreated' => [
+			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\CommentUpdated' => [
+			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\CommentVoteCreated' => [
+			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\CommentVoteUpdated' => [
+			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\CommentVoteDeleted' => [
+			'App\Listeners\Comment\ClearMotionCommentCache',
 		],
 		'App\Events\SendPasswordReset' => [
 			'App\Listeners\User\SetRememberToken',

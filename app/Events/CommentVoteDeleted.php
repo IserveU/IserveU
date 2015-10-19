@@ -2,26 +2,24 @@
 
 namespace App\Events;
 
-use App\Comment;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentDeleted extends Event
+use App\CommentVote;
+
+class CommentVoteDeleted extends Event
 {
     use SerializesModels;
-
-    public $comment;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Comment $comment)
+    public function __construct(CommentVote $commentvote)
     {
-        $this->comment = $comment;
-        $this->vote    = $comment->vote;
+        $this->vote = $commentvote->vote;
     }
 
     /**

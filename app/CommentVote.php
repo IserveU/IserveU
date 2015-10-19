@@ -7,6 +7,11 @@ use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
 
+use App\Events\CommentVoteUpdated;
+use App\Events\CommentVoteCreated;
+use App\Events\CommentVoteDeleted;
+
+
 
 class CommentVote extends ApiModel {
 
@@ -119,11 +124,18 @@ class CommentVote extends ApiModel {
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
+			event(new CommentVoteCreated($model));
 			return $model->validate();	
 		});
 
 		static::updating(function($model){
+			event(new CommentVoteUpdated($model));
 			return $model->validate();			
+		});
+
+		static::deleted(function($model){
+			event(new CommentVoteDeleted($model));
+			return true;
 		});		
 	}
 

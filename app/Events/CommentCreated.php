@@ -2,12 +2,12 @@
 
 namespace App\Events;
 
-use App\Comment;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Comment;
 
-class CommentDeleted extends Event
+class CommentCreated extends Event
 {
     use SerializesModels;
 

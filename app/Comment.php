@@ -13,6 +13,10 @@ use Carbon\Carbon;
 
 use App\Events\CommentDeleted;
 
+use App\Events\CommentUpdated;
+use App\Events\CommentCreated;
+
+
 
 class Comment extends ApiModel {
 	
@@ -132,11 +136,13 @@ class Comment extends ApiModel {
 
 		static::creating(function($model){
 			if(!$model->validate()) return false;
+			event(new CommentCreated($model));
 			return true;
 		});
 
 		static::updating(function($model){
 			if(!$model->validate()) return false;
+			event(new CommentUpdated($model));
 			return true;
 		});
 
