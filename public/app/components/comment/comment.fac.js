@@ -24,7 +24,7 @@
 	        transformResponse: function(data, header){
 	          //Getting string data in response
 	          var jsonData = JSON.parse(data); //or angular.fromJson(data)
-	          var comments = [];
+			  var comments = [];
 
 	          angular.forEach(jsonData, function(comment){
 	            comments.push(comment);
@@ -34,7 +34,6 @@
 	        }
 	      }
 	    });
-
 
 		function getComment() {
 			return Comment.query().$promise.then(function(results) {
@@ -83,9 +82,10 @@
 				return $q.reject(error);
 			});
 		}
-
+		var motion_comments;
 		function getMotionComments(id) {
 			return MotionComment.get({id:id}).$promise.then(function(result) {
+				motion_comments = result;
 				return result;
 			}, function(error) {
 				return $q.reject(error);
@@ -99,7 +99,11 @@
 			restoreComment: restoreComment,
 			getComment: getComment,
 			getMyComments: getMyComments,
-			getMotionComments: getMotionComments
+			getMotionComments: getMotionComments,
+			directiveData: function(){
+					return motion_comments
+				}
+
 		}
 	}
 })();

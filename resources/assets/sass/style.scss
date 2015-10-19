@@ -13,7 +13,6 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 
 @media screen and (max-width:544px) {
-    
 	table.user-table {
 
 		td{
@@ -397,6 +396,8 @@ div.motion-comments {
 	}
 }
 
+
+
 fieldset.standard {
   border-style: solid;
   border-width: 1px; 
@@ -653,3 +654,4 @@ form.user-profile-form {
 		color: $primaryColor;
 	}
 }
+

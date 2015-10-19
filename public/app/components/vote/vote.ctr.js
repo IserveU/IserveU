@@ -46,7 +46,9 @@
             motion.getMotion(id).then(function(result) {
 
                 $rootScope.$emit('refreshSelectMotionOnSidebar', {motion: result});
+                $rootScope.$emit('udpateUserVote', {vote: result.user_vote});
 
+                $state.current.data.userVote = result.user_vote;
                 vm.userHasVoted = result.user_vote;
                 vm.usersVote    = result.user_vote.position;
                 vm.userVoteId   = result.user_vote.id;

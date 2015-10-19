@@ -1,0 +1,16 @@
+<div flex layout-fill>
+ 	<div layout-padding ng-repeat="comment in vm.disagreeComments | object2Array | orderBy: 'commentRank':true" ng-animate="'repeat'">
+ 	<div class="motion-comments">
+ 	<h4 class="md-title">{{comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'}}<span ng-show="comment.vote.position==0">&nbsp;({{ 'ABSTAINED' | translate }})</span></h4>
+ 		<div>
+    		<i class="md-caption" ng-bind="comment.updated_at.database == comment.created_at.database ? 'written ' + comment.created_at.diff : 'edited ' + comment.updated_at.diff"></i>
+    		<p class="md-title" ng-bind="comment.commentRank > 0 ? '+' + comment.commentRank : '' + comment.commentRank"></p>
+ 		</div>
+ 	</div>
+		<p class="md-body-1 abstained" ng-bind="comment.text"></p>
+
+			<comment-vote id="disagreed-comment-vote-col" open-for-voting="{{vm.motionOpen}}" vote-position="{{comment_vote.position}}"></comment-vote>
+
+	<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
+	</div>	
+</div>

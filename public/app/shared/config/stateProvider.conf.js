@@ -46,7 +46,7 @@
                     controller: 'VoteController as vm',
     			},
     			'comments': {
-		    	    templateUrl: 'app/components/comment/comment.tpl.html',
+		    	    templateUrl: 'app/components/comment/templates/comment.tpl.html',
 		    	    controller: 'CommentController as vm',
     			}
     		},
