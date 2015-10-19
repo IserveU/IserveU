@@ -6,50 +6,42 @@
         .module('iserveu')
         .controller('CommentController', CommentController);
 
-    function CommentController($rootScope, $stateParams, $mdToast, $state, $timeout, comment, sharedVoteService, ToastMessage, CommentVoteService) {
+    function CommentController($rootScope, $stateParams, $mdToast, $state, $timeout, $interval, comment, ToastMessage, CommentVoteService) {
 
         var vm = this;
 
-        vm.disagreeComments = [];
-        vm.agreeComments = [];
-        vm.thisUsersComment = [];
+        /****************************************************** Comment Variables *************************************************** */
 
-        vm.userHasVoted = false;
+        vm.disagreeComments         = [];
+        vm.agreeComments            = [];
+        vm.thisUsersComment         = [];
+
+        vm.userHasVoted             = false;
 
         vm.showDisagreeCommentVotes = false;
-        vm.showAgreeCommentVotes = false;
+        vm.showAgreeCommentVotes    = false;
+
+        vm.checkCommentVotes        = CommentVoteService.checkCommentVotes;
 
         // first gets the comment stuff
-        $timeout(function(){
-            showCommentVoteColumn(sharedVoteService.data.usersVote);
-        }, 3000);
+        $interval(function(){
+            $timeout(function(){
+                vm.userHasVoted     =  $state.current.data.userVote;
+                vm.motionOpen       =  $state.current.data.motionOpen;
+            }, 3000);
+        }, 100, 3)
 
-        function showCommentVoteColumn(usersVote){
-            if(usersVote == 1 && vm.userHasVoted && vm.motionOpen) {
-                vm.showDisagreeCommentVotes = false;
-                vm.showAgreeCommentVotes = true;
-            }
-            if(usersVote != 1  && vm.userHasVoted && vm.motionOpen) {
-                vm.showAgreeCommentVotes = false;
-                vm.showDisagreeCommentVotes = true;
-            }
-        }
-
-        vm.checkCommentVotes = CommentVoteService.checkCommentVotes;
+        /****************************************************** Comment Function Variables ******************************************** */
 
         function getMotionComments(id) {
             comment.getMotionComments(id).then(function(result) {
-                vm.disagreeComments = result.disagreeComments;
-                vm.agreeComments = result.agreeComments;
-                vm.thisUsersComment = result.thisUsersComment;
+                vm.disagreeComments      = result.disagreeComments;
+                vm.agreeComments         = result.agreeComments;
+                vm.thisUsersComment      = result.thisUsersComment;
                 vm.thisUsersCommentVotes = result.thisUsersCommentVotes;
                 CommentVoteService.calculate(vm.agreeComments,vm.thisUsersCommentVotes);
                 CommentVoteService.calculate(vm.disagreeComments,vm.thisUsersCommentVotes);
-               
-                vm.motionOpen =  $state.current.data.motionOpen;
-                vm.userHasVoted = $state.current.data.userVote;
             });
-
         }
 
         vm.editCommentFunction = function(){
@@ -83,7 +75,7 @@
 
         vm.deleteComment = function() {
             var toast = ToastMessage.delete_toast(" comment");
-            var id = vm.thisUsersComment.id;
+            var id    = vm.thisUsersComment.id;
 
             $mdToast.show(toast).then(function(response) {
                 if (response == 'ok'){
@@ -94,6 +86,8 @@
             });
         }
 
+        /***************************************************** Comment Eventing ********************************************************* */
+
         getMotionComments($stateParams.id);
 
         // try to think of alternatives to rootScope event broadcasting!! 
@@ -102,10 +96,8 @@
         });
 
         $rootScope.$on('udpateUserVote', function(event, data){
-            vm.userHasVoted = data;
-            showCommentVoteColumn(data.usersVote);
+            vm.userHasVoted = data.vote;
         });
-
 
     }
 

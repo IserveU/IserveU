@@ -11,7 +11,7 @@
         <!--Agree Side-->
         <div layout-padding flex> 
             <md-button ng-disabled="!vm.motionOpen || vm.need_identification" ng-click="vm.castVote(1)" ng-class="{'md-raised agree':vm.usersVote == 1}" aria-label="Agree" layout-fill>
-            	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!vm.voting.agree"></md-icon>
+            	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" style="font-size:3.2vw;" ng-show="!vm.voting.agree"></md-icon>
             	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.agree"></md-icon>
             </md-button>
         </div>

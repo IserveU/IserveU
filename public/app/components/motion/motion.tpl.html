@@ -24,15 +24,16 @@
 
 
 			
-			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding  ><a id="top"></a>
+			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding ><a id="top"></a>
 				<div layout-padding class="listgrid">
 				    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 				    
 					   <md-grid-tile class="md-whiteframe-z1">
 						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:3.2vw;" hide-sm><md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip></md-icon>
-						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:72px;" hide-md hide-gt-md ><md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip></md-icon>
+						    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:86px;" hide-md hide-gt-md ><md-tooltip>{{'CLOSED' | translate}}</md-tooltip></md-icon>
 
-						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"><md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip></md-icon>
+						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check" style="font-size:3.2vw;" hide-sm><md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip></md-icon>
+						    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"  style="font-size:86px;" hide-md hide-gt-md ><md-tooltip>{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip></md-icon>
 					    </md-grid-tile>
 
 					    <md-grid-tile class="md-whiteframe-z1 {{motion.overallVotePosition}}">
