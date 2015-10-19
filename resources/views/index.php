@@ -147,6 +147,8 @@
 
     <script src="<?=elixir('js/dependencies.js')?>"></script>
     <script src="<?=elixir('js/app.js')?>"></script>
+    <script src="<?=elixir('js/app.js')?>"></script>
+    
 
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
