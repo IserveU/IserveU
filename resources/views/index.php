@@ -13,17 +13,17 @@
 
         <!--   /uploads/background_images/{{settings.image}} -->
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
-          <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:10px">
+          <p class="md-caption" style="color: white; margin-top:0px; padding-top:5px; padding-left:16px; font-size:12px">
           <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
           <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
-          <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
+          <span hide-gt-md show-md style="font-size: 10px" translate="{{'BETA_MESSAGE_MINI'}}"></span>
           <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
         </div>
 
     <div layout="row" >
         <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
             <sidebar sidebar="{{currentState}}">
-                <div id="sidebar-inner"></div>
+                <div id="sidebar-inner" ng-click="sidebar.closeSidenav('left')"></div>
             </sidebar>
         </md-sidenav>
 
