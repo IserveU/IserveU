@@ -8,7 +8,7 @@
 
     	var vm = this;
        
-        vm.need_identification  = JSON.parse(localStorage.getItem('user')).need_identification;
+        vm.need_identification  = JSON.parse(localStorage.getItem('user')).identity_verified;
 
         /**************************************** Vote Variables **************************************** */
 
@@ -68,6 +68,7 @@
         }
 
         function calculateVotes(vote_array){
+            // need to make a temporary array .... probbably?!?!?!
             vm.motionVotes.disagree = ( vote_array[-1] ) ? vote_array[-1].active : {percent:0,number:0};
             vm.motionVotes.agree    = ( vote_array[1] ) ? vote_array[1].active : {percent:0,number:0};
             vm.motionVotes.abstain  = ( vote_array[0] ) ? vote_array[0].active : {percent:0,number:0};

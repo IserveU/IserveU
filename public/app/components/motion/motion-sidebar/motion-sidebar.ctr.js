@@ -15,7 +15,7 @@
 
 		$scope.$state = $state;
 
-		vm.need_identification = JSON.parse(localStorage.getItem('user')).need_identification;
+		vm.need_identification = JSON.parse(localStorage.getItem('user')).identity_verified;
 
 		vm.getMotions = getMotions;
 
