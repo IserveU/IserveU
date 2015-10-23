@@ -33,14 +33,6 @@ class RouteServiceProvider extends ServiceProvider {
 		$router->model('comment_vote','App\CommentVote');
 		$router->model('background_image','App\BackgroundImage');
 		$router->model('department', 'App\Department');
-		$router->model('property', 'App\Property');
-		$router->model('propertyassessment', 'App\PropertyAssessment');
-		$router->model('propertyblock', 'App\PropertyBlock');
-		$router->model('propertycoordinate', 'App\PropertyCoordinate');
-		$router->model('propertydescription', 'App\PropertyDescription');
-		$router->model('propertyplan', 'App\PropertyPlan');
-		$router->model('propertypolldivision', 'App\PropertyPollDivision');
-		$router->model('propertyzone', 'App\PropertyZoning');
 
 	}
 
