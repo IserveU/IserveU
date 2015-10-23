@@ -20,7 +20,7 @@
           <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
         </div>
 
-    <div layout="row" >
+    <div layout="row"  layout-fill >
         <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner" ng-click="sidebar.closeSidenav('left')"></div>
@@ -129,13 +129,13 @@
             <photo-id has="{{vm.uploaded}}"></photo-id>
         </span>
 
-          <div flex ui-view>
+          <div flex ui-view layout-fill>
               
 
 
           </div>
 
-            <div layout layout-align="end end" layout-padding>
+            <div layout layout-align="end end" layout-padding id="footer">
                 <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
                     <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
                 </md-caption>
