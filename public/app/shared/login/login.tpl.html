@@ -1,5 +1,5 @@
 <div  layout-align="center center" layout-fill  layout="row">
-  <div flex-sm="100" flex="30">
+  <div flex-sm="70" flex="30">
       <div flex="100" layout-align="center center" layout-padding>
        <img class="logo" src="/themes/default/logo/logo.png"/>
       </div>
@@ -24,16 +24,25 @@
                 <div ng-message="warning">Password and email combination do not match.</div>
               </div>
           </md-input-container>
-          <md-switch style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-switch>
-          <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
-            <div ng-hide="login.loggingIn">Login</div>
-            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.loggingIn"></md-icon>
 
-          </md-button>
-          <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
-          <div layout-align="center center">
-          <md-button ng-show="login.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
+
+          <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
+            <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
+              <div ng-hide="login.loggingIn">Login</div>
+              <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.loggingIn"></md-icon>
+            </md-button>
+
+            <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
           </div>
+
+          <div style="right:12px">
+            <md-button ng-show="login.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
+          </div>
+
+          <div layout-padding style="padding-top:0px" layout-align="end end">
+            <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>
+          </div>
+
         </form>
         
         <!-- extends when Create is pressed -->
@@ -68,12 +77,16 @@
               <div ng-message="minlength">Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>
-          <md-switch style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-switch>
+          <div layout="row" layout-align="center center" layout-padding>
           <md-button type="submit" name="create" class="btn btn-primary">
             <div ng-hide="login.creatingUser">Create</div>
             <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
           </md-button>            
           <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
+          </div>
+          <div layout-padding>
+            <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>
+          </div>
         </form>
       </div>
     </md-content>
