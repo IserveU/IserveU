@@ -57,12 +57,12 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','address_verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -146,7 +146,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['verified_until','created_at','updated_at','locked_until'];
+	protected $dates = ['address_verified_until','created_at','updated_at','locked_until'];
 	
 	/**
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
@@ -360,7 +360,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 */
 
     public function scopeValidVoter($query){
-		return $query->where('verified_until','>=',Carbon::now())
+		return $query->where('address_verified_until','>=',Carbon::now())
 			->whereHas('roles',function($query){
 				$query->where('name','citizen');
 
@@ -368,7 +368,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
     }
 
     public function scopeCouncillor($query){
-		return $query->where('verified_until','>=',Carbon::now())
+		return $query->where('address_verified_until','>=',Carbon::now())
 			->where('public',1)
 			->whereHas('roles',function($query){
 				$query->where('name','councillor');
