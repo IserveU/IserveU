@@ -35,7 +35,7 @@ class MotionController extends ApiController {
 				$query->where('user_id',Auth::user()->id);
 			}]);
 		} else {
-			$motions = Motion::all();
+			$motions = Motion::where('id','>',0);
 		}
 
 		if(isset($filters['rank_greater_than']) && is_numeric($filters['rank_greater_than'])){
