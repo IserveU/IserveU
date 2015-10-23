@@ -55,24 +55,32 @@
 
         vm.updateMotion = function() {
             vm.editingMotion = true;
+          
             var data = {
                 text: vm.motionDetail.text,
                 summary: vm.motionDetail.summary,
-                active: vm.motionDetail.active,
-                closing: $filter('date')(vm.motionDetail.closing.carbon.date, "yyyy-MM-dd HH:mm:ss"),
                 id: $stateParams.id,
                 department_id: vm.motionDetail.department_id
             }
 
+            if(!vm.motionDetail.active){
+                console.log('foo');
+                data['active']  = vm.motionDetail.active;
+                data['closing'] = $filter('date')(vm.motionDetail.closing.carbon.date, "yyyy-MM-dd HH:mm:ss");
+            }
+
+
             motion.updateMotion(data).then(function(result) {
+                console.log(data);
                 vm.editMotion();
                 vm.editingMotion = false;
                 motionFileLogic();
                 getMotion(result.id);
                 ToastMessage.double("You've successfully updated this motion!", "Refresh to see your changes.");
             }, function(error) {
+                ToastMessage.simple(error.data.message);
                 vm.editingMotion = false;
-                ToastMessage.report_error(error);
+                vm.editMotion();
             });
         }
 
