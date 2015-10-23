@@ -89,11 +89,8 @@
 
         <tr>
         <td class="mobile">
+             <p class="md-caption" style="padding-left:40px; margin:0px;padding-top:5px;color:grey" translate="{{'IDENTITY'}}"></p>
           <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser()" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
-
-          <a ng-cloak has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
-            <i class="md-caption">Government ID pending</i>
-          </a>
         </td>
 
         <td>

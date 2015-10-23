@@ -45,7 +45,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-
 	protected $adminFillable = ['identity_verified', 'address_verified_until'];
 
 	/**
@@ -245,6 +244,16 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		$this->attributes['password'] = Hash::make($value);
 	}
 
+
+    public function getAddressVerifiedUntilAttribute($attr) {        
+        $carbon = Carbon::parse($attr);
+
+        return array(
+            'diff'          =>      $carbon->diffForHumans(),
+            'alpha_date'    =>      $carbon->format('j F Y'),
+            'carbon'        =>        $carbon
+        );
+    }
 
 	/**
 	 * @return The permissions attached to this user through entrust
