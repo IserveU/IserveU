@@ -162,7 +162,14 @@ form{
 	background-color: rgba(255,255,255,0.6) !important;
 }
 
- md-sidenav{
+#footer{
+	position: absolute;
+	bottom:0px;
+	width:100%;
+	background-color:#f00;
+}
+
+md-sidenav{
  	background-color: rgba(255,255,255,1) !important;	
  } 
 
