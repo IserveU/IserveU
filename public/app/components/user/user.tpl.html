@@ -2,7 +2,7 @@
 
 <md-content id="maincontent" layout="column" fill-layout ng-cloak>
 
-  <div ng-hide="user.show_edit_address">
+  <div>
   <section class="md-whiteframe-z1" style="margin:8px">
     <md-toolbar class="section-toolbar md-tall" style="min-height: 144px" layout-padding>
       <div>
@@ -47,9 +47,11 @@
     </md-toolbar>
 
     <div layout="column" ng-if="user.isSelfOrAdmin"  layout-fill>
-      <div ui-view="details"  ng-if="!user.show_edit_role && !user.show_edit_name"></div>
+      <div ui-view="details"  ng-if="!user.show_edit_role && !user.show_edit_name && !user.show_edit_address"></div>
       <div ui-view="editname" ng-if="user.show_edit_name"></div>
       <div ui-view="roles"    ng-if="user.show_edit_role"></div>
+      <div ui-view="address"  ng-if="user.show_edit_address"></div>
+
     </div>
 
   </section>
@@ -75,7 +77,6 @@
   </section>
   </div>
 
-<div ui-view="address" ng-if="user.show_edit_address"></div>
 
 
 

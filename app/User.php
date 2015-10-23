@@ -39,13 +39,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'property_id'];
+	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['identity_verified', 'property_id'];
+	protected $adminFillable = ['identity_verified'];
 
 	/**
 	 * The default attributes included in any JSON/Array
@@ -57,12 +57,12 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'property_id', 'permissions', 'user_role', 'votes','verified_until','government_identification','need_identification','avatar'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until','property_id','need_identification','avatar'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -101,7 +101,10 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    'login_attempts'		=>	'integer',
 	    'identity_verified'		=>	'boolean',
 	    'remember_token'		=>	'unique:users,remember_token',
-	    'property_id'			=>	'integer'
+		'postal_code'			=>  'string',
+		'street_name'			=>  'string',
+		'street_number'			=>  'integer',
+		'unit_number'			=>  'integer'
 	];
 
 	/**
@@ -404,10 +407,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 	public function comments(){
 		return $this->hasManyThrough('App\Comment','App\Vote');
-	}
-
-	public function property(){
-		return $this->hasOne('App\Property');
 	}
 
 	public function deferredVotes(){

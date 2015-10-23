@@ -1,88 +1,23 @@
-<div layout="row">
-<section class="md-whiteframe-z1" style="margin:8px"flex="50">
-<md-toolbar class="md-warn" style="padding-top: 15px">
-  <div class="md-toolbar-tools">
-   <h2 class="md-flex">{{'VERIFY_ADDRESS' | translate}}<span style="display:block" class="md-caption">{{'ADDRESS_CAPTION' | translate}}</span></h2>
-  </div>
+<form class="user-profile-form" layout-padding layout-wrap>
+  <div  layout="row" layout-sm="column" layout-padding flex>
 
-</md-toolbar>
-
-<form name="verifyAddress" ng-submit="verifyAddress.$valid && property.checkProperty()">
-<div layout-padding>
-
-  <div layout layout-sm="column">
-    <md-input-container flex="20">
-      <label translate="{{'APT_SUITE'}}"></label><input ng-model="property.searchApt"/>
+    <md-input-container flex="25" flex-sm="100">
+        <label style="padding-left:0px" translate="{{'APT_SUITE'}}"></label>
+      <input ng-blur="user.updateUser('unit_number', user.profile.unit_number, user.profile.id)" ng-model="user.profile.unit_number"/>
     </md-input-container>
-    <md-input-container flex="20">
-      <label translate="{{'STREET_NUM'}}"></label><input ng-change="property.querySearch()" ng-model="property.searchNumber"/>
+
+    <md-input-container flex="25" flex-sm="100">
+        <label style="padding-left:0px" translate="{{'STREET_NUM'}}"></label>
+      <input ng-blur="user.updateUser('street_number', user.profile.street_number, user.profile.id)" ng-model="user.profile.street_number"/>
     </md-input-container>
-    <md-input-container flex>
-      <label translate="{{'ADDRESS'}}"></label><input ng-change="property.querySearch()" ng-model="property.searchText"/>
+
+    <md-input-container flex="50" flex-sm="100">
+       <label  style="padding-left:0px" translate="{{'ADDRESS'}}"></label>
+      <input ng-blur="user.updateUser('street_name', user.profile.street_name, user.profile.id)" ng-model="user.profile.street_name"/>
     </md-input-container>
   </div>
 
-  <div layout layout-sm="column">
-    <md-input-container ng-hide="!property.isMyAddress">
-      <label translate="{{'POSTAL_CODE'}}"></label><input ng-model="property.searchPostalCode" required/>
-    </md-input-container>
-    <md-input-container flex>
-      <label translate="{{'ROLL_NUMBER'}}"></label><input ng-model="property.searchRollNumber">
-    </md-input-container>
-  </div>
-</div>
-  <div class="action buttons" layout-align="center end">
-    <md-button ng-click="user.showAddress()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate }}</md-button>
-    <md-button type="submit" ng-show="property.isMyAddress">{{ 'SAVE' | translate }}</md-button>
-  </div>
+<md-button ng-click="user.show_edit_address = !user.show_edit_address;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
+
+
 </form>
-
-</section>
-
-  <section class="md-whiteframe-z1" style="margin:8px" flex="45">
-  <md-toolbar class="md-warn" style="padding-top: 15px">
-    <div class="md-toolbar-tools">
-     <h2 class="md-flex">{{ 'SEARCH_RESULTS' | translate }}<span style="display:block" class="md-caption">{{ 'SELECT_ADDRESS' | translate }}</span></h2>
-    </div>
-  </md-toolbar>
-  <div layout-padding>
-  <p class="md-body-2" ng-hide="property.searching" translate="{{ 'FIELD_SEARCH' }}"></p>
-  <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc" layout-padding ng-show="property.searching">
-    <thead layout-padding>
-      <tr>
-        <td>
-            <p class="md-body-2" translate="{{ 'UNIT_NUMBER' }}"></p>
-        </td>
-        <td>
-            <p class="md-body-2" style="padding-left:10px" translate="{{ 'STREET_ADDRESS' }}"></p>
-        </td>
-        <td>
-            <p class="md-body-2" style="padding-left:10px" translate="{{ 'ROLL_NUMBER' }}"></p>
-        </td>
-        <td style="padding-left:10px;">
-        </td>
-      </tr>
-    </thead>
-    <tbody layout-padding>
-    <tr ng-repeat="query_result in property.property_queries">
-        <td>
-          <p class="md-caption" style="margin:0px;">{{query_result.unit}}</p>
-        </td>
-        <td style="padding-left:13px">
-           <p class="md-caption" style="margin:0px;">{{query_result.address}} {{query_result.street}}</p>
-        </td>
-        <td style="padding-left:13px;">
-           <p class="md-caption" style="margin:0px;">{{query_result.roll_number}}</p>
-        </td>
-        <td style="padding-left:15px;">
-            <md-radio-group ng-model="property.dataGroup">
-            <md-radio-button ng-value="query_result" ng-click="property.checkOut();property.assignPropertyData(query_result)" aria-label="choose your address"></md-radio-button>
-        </td>
-      </md-radio-group>
-      </tr>
-
-    </tbody>
-  </table>
-  </div>
-  </section>
-</div>

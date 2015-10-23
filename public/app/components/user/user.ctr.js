@@ -6,44 +6,41 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $timeout, RoleService, SetPermissionsService, vote, ethnic_origin, $stateParams, user, $mdToast, UserbarService, $state, ToastMessage, role, property) {
+	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, RoleService, SetPermissionsService, vote, ethnic_origin, user, UserbarService, ToastMessage, role) {
 		
 		UserbarService.setTitle("");
 		
 		var vm = this;
 
+		/**************************************** Variables **************************************** */
+
+
 		vm.nextpage;
 		vm.users = [];
 	    vm.profile = [];
 
-	   	vm.administrate_users = SetPermissionsService.can("administrate-users");
+	   	vm.administrate_users 	= SetPermissionsService.can("administrate-users");
 
-	    vm.show_edit_name = false; 
-	    vm.edit = {'email': true , 'date_of_birth': true, 'ethnic_origin_id': true, 'password': true};
-	    vm.showEdits = false;
-	    vm.isSelfOrAdmin = false;
-	    vm.myDate = new Date();
-	    vm.minDate = new Date(vm.myDate.getFullYear() - 99, vm.myDate.getMonth(), vm.myDate.getDate());
-	    vm.maxDate = new Date(vm.myDate.getFullYear() - 18, vm.myDate.getMonth(), vm.myDate.getDate());
+	    vm.show_edit_name 		= false; 
+	    vm.show_edit_address	= false;
+	    vm.show_edit_role		= false;
+
+	    vm.edit 				= {'email': true , 
+	    						   'date_of_birth': true, 
+	    						   'ethnic_origin_id': true, 
+	    						   'password': true, 
+	    						   'postal_code':true};
+
+	    vm.showEdits 			= false;
+	    vm.isSelfOrAdmin 		= false;
+	    vm.myDate 				= new Date();
+	    vm.minDate 				= new Date(vm.myDate.getFullYear() - 99, vm.myDate.getMonth(), vm.myDate.getDate());
+	    vm.maxDate 				= new Date(vm.myDate.getFullYear() - 18, vm.myDate.getMonth(), vm.myDate.getDate());
 
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
 		vm.this_users_roles 	= [];
-	    vm.show_edit_role		= false;
-	    vm.show_edit_address	= false;
 	    vm.checkRoles 			= checkRoles;
-	    vm.showAddress 			= showAddress;
-
-	    function showAddress(){
-	    	vm.show_edit_address = !vm.show_edit_address;
-	    }
-
-	    function getUserAddress(id){
-	    	console.log(id);
-	    	property.getProperty(id).then(function(result){
-	    		vm.address = result;
-	    	})
-	    }
 
 		vm.test_role_name = function(role){
 			RoleService.check_new_role(role, $stateParams.id);
@@ -64,11 +61,6 @@
 		}
 
 		getUserRoles();
-
-		$rootScope.$on('userSavedNewAddress', function(events, data){
-			getUserAddress(data.id);
-			showAddress();
-		})
 
 		/**************************************** Voting History Function **************************************** */
 		
@@ -180,7 +172,6 @@
 					vm.this_users_roles = vm.profile.user_role;
 					getVotingHistory();
 					checkFileType();
-				    getUserAddress(vm.profile.property_id);
 				}, function(error){
 					if(error.status == 404 || 401){
 						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});
@@ -229,7 +220,6 @@
 				ToastMessage.double(message, reason, true);
 			})
 		}
-
 
 		checkSelf($stateParams.id);
 		getUser($stateParams.id);

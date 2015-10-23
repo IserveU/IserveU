@@ -68,15 +68,30 @@
           <md-input-container>
            <label style="color:grey" translate="{{'ADDRESS'}}"></label> 
               <md-icon class="mdi mdi-home input-icon"></md-icon>
-            <input  type='text' placeholder="{{user.profile.property_id ? (user.address.unit + ' ' + user.address.address + ' ' + user.address.street) : 'Address not set'}}" ng-disabled="true"/>
+            <input  type='text' placeholder="{{user.profile.street_name ? (user.profile.unit_number + ' ' + user.profile.street_number + ' ' + user.profile.street_name) : 'Address not set'}}" ng-disabled="true"/>
           </md-input-container>
         </td>
 
         <td>
-            <md-icon ng-click="user.showAddress()" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
+            <md-icon ng-click="user.show_edit_address = !user.show_edit_address;" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
+        </td>
+
+        <td class="mobile">
+          <md-input-container>
+            <label translate="{{'POSTAL_CODE'}}"></label>
+              <md-icon class="mdi mdi-zip-box input-icon"></md-icon>
+            <input type='text' ng-model="user.profile.postal_code" placeholder="Postal code not set" ng-disabled="user.edit.postal_code"/>
+          </md-input-container>
+        </td>
+
+        <td>
+            <md-icon ng-click="user.showEdit('postal_code', user.profile.postal_code)"class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
 
+        </tr>
+
+        <tr>
         <td class="mobile">
           <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
 
@@ -85,12 +100,6 @@
           </a>
         </td>
 
-
-        </tr>
-
-        <tr>
-        <td>
-        </td>
         <td>
         </td>
         <td>

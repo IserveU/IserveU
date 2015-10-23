@@ -107,16 +107,6 @@
                                     </md-button>
                                 </md-menu-item>
                                 </has-permission>
-                                <has-permission has-permission="administrate-properties">
-                                <md-menu-item ui-sref="property">
-                                    <md-button aria-label="go to property manager">
-                                        <div layout="row">
-                                            <p flex translate="{{'PROPERTY_MANAGER'}}"></p>
-                                            <md-icon class="mdi"  md-font-icon="mdi-domain"></md-icon>
-                                        </div>
-                                    </md-button>
-                                </md-menu-item>
-                                </has-permission>
                             </md-menu-content>
                         </md-menu>
                     </div>
@@ -126,7 +116,7 @@
           
         <span ng-if="userIsLoggedIn">  
             <reset-password has-been="{{reset.notification}}"></reset-password>
-            <photo-id has="{{vm.uploaded}}"></photo-id>
+            <!-- <photo-id has="{{vm.uploaded}}"></photo-id> -->
         </span>
 
           <div flex ui-view layout-fill>
