@@ -78,11 +78,11 @@
             </div>
           </md-input-container>
           <div layout="row" layout-align="center center" layout-padding>
-          <md-button type="submit" name="create" class="btn btn-primary">
+          <md-button type="submit" name="create" class="btn btn-primary" terms-and-conditions ng-mousedown="ctrl.showTermsAndConditions($event, true)">
             <div ng-hide="login.creatingUser">Create</div>
             <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="login.creatingUser"></md-icon>
           </md-button>            
-          <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
+          <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();" >Cancel</md-button>
           </div>
           <div layout-padding>
             <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>

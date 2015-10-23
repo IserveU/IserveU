@@ -125,17 +125,14 @@
 
           </div>
 
-            <div layout layout-align="end end" layout-padding id="footer">
-                <md-button class="md-primary md-raised" ng-click="showTermsAndConditions($event)" flex-sm="50" flex-md="25" flex-gt-md="25">
+            <div layout layout-align="end end" layout-padding id="footer" ng-cloak>
+                <md-button class="md-primary md-raised" terms-and-conditions ng-click="ctrl.showTermsAndConditions($event, false)" flex-sm="50" flex-md="25" flex-gt-md="25">
                     Terms &amp; Conditions
                 </md-button>
 
                 <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
-                    <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
+                    <span  ng-if="vm.background.credited">{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
                 </md-caption>
-
-
-
             </div>
 
         </div>
