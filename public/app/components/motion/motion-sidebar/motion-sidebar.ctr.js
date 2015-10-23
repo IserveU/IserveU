@@ -6,16 +6,15 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department, SetPermissionsService) {
 
 		var vm = this;
-
 
 		/**************************************** Motion Sidebar Variables **************************************** */
 
 		$scope.$state = $state;
 
-		vm.need_identification = JSON.parse(localStorage.getItem('user')).identity_verified;
+        vm.can_create_vote  = SetPermissionsService.can('create-votes');
 
 		vm.getMotions = getMotions;
 
@@ -112,17 +111,17 @@
 
 		// make this into a directive
 		vm.cycleVote = function(motion){
-			if(motion.votes[0] == undefined){
+			if(!motion.user_vote){
 				castVote(motion.id);
 			}
 
 			else{
 				var data = {
-	                id: motion.votes[0].id,
+	                id: motion.user_vote.id,
 	                position: null
 	            }
-				if(motion.votes[0].position != 1){
-					data.position = motion.votes[0].position + 1; 
+				if(motion.user_vote.position != 1){
+					data.position = motion.user_vote.position + 1; 
 				}
 				else {
 					data.position = -1;

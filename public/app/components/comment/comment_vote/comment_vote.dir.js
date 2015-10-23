@@ -11,7 +11,7 @@
 		function controllerMethod($state, $timeout, comment) {
         	
         	var vm = this;
-	        vm.position = $state.current.data.userVote.position ? $state.current.data.userVote.position : null;
+	        vm.position = $state.current.data.userVote ? $state.current.data.userVote.position : 2;
   		}	
 
 		function linkMethod(scope, element, attrs, ctrl) {
@@ -26,6 +26,9 @@
 				}
 				if(value == -1 || value == 0){
 					agree_comments.remove();
+				}
+				if(value == 2){
+					element.remove();
 				}
 
 			});
