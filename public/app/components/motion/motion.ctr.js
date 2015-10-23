@@ -63,20 +63,25 @@
                 department_id: vm.motionDetail.department_id
             }
 
-            if(!vm.motionDetail.active){
-                console.log('foo');
+            if(!vm.originalActive){
                 data['active']  = vm.motionDetail.active;
                 data['closing'] = $filter('date')(vm.motionDetail.closing.carbon.date, "yyyy-MM-dd HH:mm:ss");
+                updateMotionFunction(data);
+            }
+            else{
+                updateMotionFunction(data);
             }
 
 
+        }
+
+        function updateMotionFunction(data){
             motion.updateMotion(data).then(function(result) {
-                console.log(data);
                 vm.editMotion();
                 vm.editingMotion = false;
                 motionFileLogic();
                 getMotion(result.id);
-                ToastMessage.double("You've successfully updated this motion!", "Refresh to see your changes.");
+                ToastMessage.simple("You've successfully updated this motion!", 800);
             }, function(error) {
                 ToastMessage.simple(error.data.message);
                 vm.editingMotion = false;
@@ -84,10 +89,10 @@
             });
         }
 
-
         function getMotion(motion_id) {
 
             motion.getMotion(motion_id).then(function(result) {
+                vm.originalActive = result.active;
                 vm.motionDetail = result;
                 $state.current.data.userVote = result.user_vote;
                 $state.current.data.motionOpen = result.MotionOpenForVoting;

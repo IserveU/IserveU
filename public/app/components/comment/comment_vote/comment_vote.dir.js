@@ -11,7 +11,7 @@
 		function controllerMethod($state, $timeout, comment) {
         	
         	var vm = this;
-	        vm.position = $state.current.data.userVote.position;
+	        vm.position = $state.current.data.userVote.position ? $state.current.data.userVote.position : null;
   		}	
 
 		function linkMethod(scope, element, attrs, ctrl) {

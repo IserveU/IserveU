@@ -76,16 +76,12 @@
             <md-icon ng-click="user.show_edit_address = !user.show_edit_address;" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
-        <td class="mobile">
-          <md-input-container>
-            <label translate="{{'POSTAL_CODE'}}"></label>
-              <md-icon class="mdi mdi-zip-box input-icon"></md-icon>
-            <input type='text' ng-model="user.profile.postal_code" placeholder="Postal code not set" ng-disabled="user.edit.postal_code"/>
-          </md-input-container>
+        <td>
+            <md-switch style="margin:0px" ng-model="user.verifyAddress" ng-if="user.profile.address_verified_until == null" has-permission="administrate-users" class="md-secondary" ng-change="user.verifyUserAddress(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">Verify the address.</md-switch>
+            <p class="md-body-2" ng-show="user.profile.address_verified_until != null">Address is verified until {{user.profile.address_verified_until | date: 'longDate'}}</p>
         </td>
 
         <td>
-            <md-icon ng-click="user.showEdit('postal_code', user.profile.postal_code)"class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
 
@@ -93,7 +89,7 @@
 
         <tr>
         <td class="mobile">
-          <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
+          <md-switch style="margin:0px" has-permission="administrate-users" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser()" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
 
           <a ng-cloak has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && !user.displayImgID"href="uploads/government_identification/{{user.profile.government_identification.filename}}"  target="_blank">
             <i class="md-caption">Government ID pending</i>
@@ -103,7 +99,7 @@
         <td>
         </td>
         <td>
-            <img has-permission="administrate-users" ng-if="!user.profile.identity_verified && user.profile.government_identification && user.displayImgID" ng-src="uploads/government_identification/{{user.profile.government_identification.filename}}">
+
         </td>
       </tr>
 

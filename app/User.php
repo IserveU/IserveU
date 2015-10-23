@@ -45,7 +45,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['identity_verified','address_verified_until'];
+
+	protected $adminFillable = ['identity_verified', 'address_verified_until'];
 
 	/**
 	 * The default attributes included in any JSON/Array

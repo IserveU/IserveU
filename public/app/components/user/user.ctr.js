@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, RoleService, SetPermissionsService, vote, ethnic_origin, user, UserbarService, ToastMessage, role) {
+	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, RoleService, SetPermissionsService, vote, ethnic_origin, user, UserbarService, ToastMessage, role) {
 		
 		UserbarService.setTitle("");
 		
@@ -20,6 +20,7 @@
 	    vm.profile = [];
 
 	   	vm.administrate_users 	= SetPermissionsService.can("administrate-users");
+	   	vm.verifyUserAddress    = 0;
 
 	    vm.show_edit_name 		= false; 
 	    vm.show_edit_address	= false;
@@ -28,8 +29,7 @@
 	    vm.edit 				= {'email': true , 
 	    						   'date_of_birth': true, 
 	    						   'ethnic_origin_id': true, 
-	    						   'password': true, 
-	    						   'postal_code':true};
+	    						   'password': true};
 
 	    vm.showEdits 			= false;
 	    vm.isSelfOrAdmin 		= false;
@@ -101,8 +101,6 @@
 	    	data[type] = newdata;
 
 	    	user.updateUser(data).then(function(results){
-	    		console.log(data);
-	    		console.log(results);
 	    		vm.edit[type] = true;
 	    		if(type !== 'password'){
 	    			$rootScope.$emit('refreshLocalStorageSettings');
@@ -154,6 +152,17 @@
 				checkError(JSON.parse(error.data.message), "This user cannot be verified.");
 
 			});
+
+		}
+
+		vm.verifyUserAddress = function(){
+
+			var id 	 = $stateParams.id;
+			var verifiedUntilDate = $filter('date')(new Date(vm.myDate.getFullYear() + 3, vm.myDate.getMonth(), vm.myDate.getDate()), "yyyy-MM-dd HH:mm:ss");
+
+			user.updateUser({id:id, address_verified_until: verifiedUntilDate}).then(function(result){
+				getUser(id);
+			})
 
 		}
 
