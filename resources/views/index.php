@@ -135,14 +135,16 @@
 
           </div>
 
+            <div layout layout-align="end end" layout-padding>
+                <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
+                    <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
+                </md-caption>
+            </div>
+
         </div>
 
         </div>
-        <div layout layout-align="end end" layout-padding>
-           <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
-            <span  ng-if="vm.background.credited" ng-cloak>{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
-          </md-caption>
-        </div>
+
     </body>        
 
     <script src="<?=elixir('js/dependencies.js')?>"></script>
