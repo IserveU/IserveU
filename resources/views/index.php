@@ -8,10 +8,9 @@
         <link rel="stylesheet" href="/themes/<?=Setting::get('themename','default')?>/theme.css">
         <link rel="icon shortcut" type="image/png" href="/themes/<?=Setting::get('themename','default')?>/logo/symbol.png">                
     </head>
-   <!--  <body class="background-image" style="background-image:url(/themes/default/photos/background.png)"  layout="row" >  -->
+
  <body back-img="{{vm.background_image}}" class="background-image"  ng-controller="SidebarController as sidebar"/>
 
-        <!--   /uploads/background_images/{{settings.image}} -->
         <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
           <p class="md-caption beta-message">
           <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
@@ -20,13 +19,12 @@
           <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
         </div>
 
-    <div layout="row"  layout-fill >
+    <div layout="row"  layout-fill>
         <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
             <sidebar sidebar="{{currentState}}">
                 <div id="sidebar-inner" ng-click="sidebar.closeSidenav('left')"></div>
             </sidebar>
         </md-sidenav>
-
 
         <div layout="column" tabIndex="-1" role="main" flex>
         
@@ -119,26 +117,23 @@
             <!-- <photo-id has="{{vm.uploaded}}"></photo-id> -->
         </span>
 
-          <div flex ui-view layout-fill>
-              
-
-
-          </div>
-
-
+          <div flex ui-view layout-fill></div>
 
         </div>
 
-        </div>
-            <div layout layout-align="end end" layout-padding id="footer" ng-cloak>
-                <md-button class="md-primary md-raised" terms-and-conditions ng-click="ctrl.showTermsAndConditions($event, false)" flex-sm="50" flex-md="25" flex-gt-md="25">
-                    Terms &amp; Conditions
-                </md-button>
 
-                <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
-                    <span  ng-if="vm.background.credited">{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
-                </md-caption>
-            </div>
+
+     </div>
+
+        <div layout layout-align="end end" layout-padding id="footer" ng-cloak flex>
+            <md-button class="md-primary md-raised" terms-and-conditions ng-click="ctrl.showTermsAndConditions($event, false)" flex-sm="50" flex-md="25" flex-gt-md="25">
+                Terms &amp; Conditions
+            </md-button>
+
+            <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
+                <span  ng-if="vm.background.credited">{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
+            </md-caption>
+        </div>
 
 
     </body>        

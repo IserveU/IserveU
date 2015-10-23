@@ -30,7 +30,6 @@
 				        	vm.agree = true;
 				    	}
 				    	if(create === true){
-				    		console.log(create);
 				    		vm.hasRead = true;
 				    	}
 				    	else {
