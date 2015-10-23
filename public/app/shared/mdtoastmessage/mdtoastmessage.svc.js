@@ -17,11 +17,11 @@
             .content("Something's not working!")
             .action("Report")
             .position('bottom right')
-            .hideDelay(3000);
+            .hideDelay(1000);
         var toast_error = $mdToast.simple()
             .content("We'll work on it.")
             .position('bottom right')
-            .hideDelay(3000);
+            .hideDelay(800);
         $mdToast.show(toast).then(function(response) {
             if (response == 'ok'){
               $mdToast.show(toast_error);
