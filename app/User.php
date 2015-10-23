@@ -45,7 +45,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['identity_verified'];
+	protected $adminFillable = ['identity_verified','address_verified_until'];
 
 	/**
 	 * The default attributes included in any JSON/Array
@@ -89,22 +89,23 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
      * @var array
      */
 	protected $rules = [	
-		'email' 				=>	'email|unique:users,email',
-	    'password'				=>	'min:8',
-	    'first_name'			=>	'string',
-	    'middle_name'			=>	'string',
-	    'last_name'				=>	'string',
-	    'ethnic_origin_id'		=>	'integer|exists:ethnic_origins,id',
-	    'date_of_birth'			=>	'date|sometimes',
-	    'public'				=>	'boolean',
-        'id'       				=>	'integer',
-	    'login_attempts'		=>	'integer',
-	    'identity_verified'		=>	'boolean',
-	    'remember_token'		=>	'unique:users,remember_token',
-		'postal_code'			=>  'string',
-		'street_name'			=>  'string',
-		'street_number'			=>  'integer',
-		'unit_number'			=>  'integer'
+		'email' 					=>	'email|unique:users,email',
+	    'password'					=>	'min:8',
+	    'first_name'				=>	'string',
+	    'middle_name'				=>	'string',
+	    'last_name'					=>	'string',
+	    'ethnic_origin_id'			=>	'integer|exists:ethnic_origins,id',
+	    'date_of_birth'				=>	'date|sometimes',
+	    'public'					=>	'boolean',
+        'id'       					=>	'integer',
+	    'login_attempts'			=>	'integer',
+	    'identity_verified'			=>	'boolean',
+	    'remember_token'			=>	'unique:users,remember_token',
+		'postal_code'				=>  'string',
+		'street_name'				=>  'string',
+		'street_number'				=>  'integer',
+		'unit_number'				=>  'integer',
+		'address_verified_until'	=>	"date|before:+1100 days"
 	];
 
 	/**
@@ -139,6 +140,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'BIRTHDAY','placeholder'=>'Date of Birth'],
 	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'PUBLIC','placeholder'=>'Enable Public Profile'],
 	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'IDENTITY_VERIFIED','placeholder'=>'User Is Verified'],
+
 	];
 
 
@@ -241,6 +243,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	public function setPasswordAttribute($value){
 		$this->attributes['password'] = Hash::make($value);
 	}
+
 
 	/**
 	 * @return The permissions attached to this user through entrust

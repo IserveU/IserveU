@@ -138,10 +138,7 @@ class UserController extends ApiController {
 			abort(400,$user->errors);
 		}
 
-		$propertyId = $request->input('property_id');
-		if($propertyId){ //A property ID field has been submitted
-			$user->property_id = $propertyId;
-		}
+
 		
 		if($request->file('government_identification')){
 			$file = new File;
