@@ -41,6 +41,7 @@
 </section>
 
 
+<div ng-if="!vm.emptyComments">
 <span class="desktop-comments" hide-sm>
 	<section name="comments" layout="row">
 		<div class="md-whiteframe-z1 comments-agree" flex layout-margin>
@@ -83,4 +84,11 @@
 		</md-tab>
 	</md-tabs>
 </span>
-
+</div>
+<div ng-if="vm.emptyComments">
+	<section>
+		<div class="md-whiteframe-z1 comments-agree" flex layout-margin layout-padding>
+		<p class="md-subhead" layout-padding layout-align="center center" style="text-align:center">There have been no comments posted.</p>
+		</div>
+	</section>
+</div>

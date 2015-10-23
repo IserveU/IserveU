@@ -35,6 +35,7 @@
 
         function getMotionComments(id) {
             comment.getMotionComments(id).then(function(result) {
+                checkEmptyCommentsArray(result);
                 vm.disagreeComments      = result.disagreeComments;
                 vm.agreeComments         = result.agreeComments;
                 vm.thisUsersComment      = result.thisUsersComment;
@@ -42,6 +43,12 @@
                 CommentVoteService.calculate(vm.agreeComments,vm.thisUsersCommentVotes);
                 CommentVoteService.calculate(vm.disagreeComments,vm.thisUsersCommentVotes);
             });
+        }
+
+        function checkEmptyCommentsArray(data){
+            if(data.disagreeComments[0] == undefined && data.agreeComments[0] == undefined){
+                vm.emptyComments = true;
+            }
         }
 
         vm.editCommentFunction = function(){
