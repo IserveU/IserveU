@@ -78,7 +78,6 @@ class UserController extends ApiController {
 			$newUser->property_id = $propertyId; //If the property ID has been chosen, add it to the property_user table
 		}
 
-		$newUser->addUserRoleByName('unverified');
 		$token = JWTAuth::fromUser($newUser);
 
 		$user = $newUser->toArray();
