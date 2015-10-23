@@ -4,11 +4,11 @@
         .module('iserveu')
         .controller('VoteController', VoteController);
 
-    function VoteController($rootScope, $stateParams, $state, $interval, $timeout, vote, motion, ToastMessage, VoteService) {
+    function VoteController($rootScope, $stateParams, $state, $interval, $timeout, vote, motion, ToastMessage, VoteService, SetPermissionsService) {
 
     	var vm = this;
        
-        vm.need_identification  = JSON.parse(localStorage.getItem('user')).identity_verified;
+        vm.can_create_vote  = SetPermissionsService.can('create-votes');
 
         /**************************************** Vote Variables **************************************** */
 

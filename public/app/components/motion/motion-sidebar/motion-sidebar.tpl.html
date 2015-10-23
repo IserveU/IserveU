@@ -1,4 +1,4 @@
-<md-content flex role="navigation" class="flex md-default-theme" style="overflow-y:hidden; overflow:hidden" ng-controller="MotionSidebarController as sidebar">
+<md-content flex role="navigation" class="flex md-default-theme" ng-controller="MotionSidebarController as sidebar">
   <md-toolbar>
     <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px">
       <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
@@ -50,7 +50,7 @@
 
       <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
-      <div ng-switch="{{ motion.user_vote.position }}" ng-if="!sidebar.need_identification" ng-cloak>
+      <div ng-switch="{{ motion.user_vote.position }}" ng-if="sidebar.can_create_vote" ng-cloak>
       <md-tooltip ng-if="!motion.MotionOpenForVoting" md-autohide="true">This motion is closed for voting.</md-tooltip>
         <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting">
           <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="motion.MotionOpenForVoting"></md-icon>

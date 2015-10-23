@@ -1,6 +1,6 @@
 <section class="md-whiteframe-z1"  class="voting"  layout-margin>
-          <md-tooltip ng-if="!vm.motionOpen && !vm.need_identification" md-autohide="true">This motion has been closed, you cannot vote on it any longer.</md-tooltip>
-          <md-tooltip ng-if="vm.need_identification"  md-autohide="true">Your identity has not been authorized. Upload your proof of identification to begin voting.</md-tooltip>
+          <md-tooltip ng-if="!vm.motionOpen && vm.can_create_vote" md-autohide="true">This motion has been closed, you cannot vote on it any longer.</md-tooltip>
+          <md-tooltip ng-if="!vm.can_create_vote"  md-autohide="true">Your identity has not been authorized. Upload your proof of identification to begin voting.</md-tooltip>
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 translate="{{'VOTING'}}"></h3>
@@ -10,7 +10,7 @@
     	
         <!--Agree Side-->
         <div layout-padding flex> 
-            <md-button ng-disabled="!vm.motionOpen || vm.need_identification" ng-click="vm.castVote(1)" ng-class="{'md-raised agree':vm.usersVote == 1}" aria-label="Agree" layout-fill>
+            <md-button ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-click="vm.castVote(1)" ng-class="{'md-raised agree':vm.usersVote == 1}" aria-label="Agree" layout-fill>
             	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" style="font-size:3.2vw;" ng-show="!vm.voting.agree"></md-icon>
             	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.agree"></md-icon>
             </md-button>
@@ -18,7 +18,7 @@
         <!--Abstain Side-->
         <div layout-padding flex>
 
-       		 <md-button ng-disabled="!vm.motionOpen || vm.need_identification" ng-click="vm.castVote(0)" ng-class="{'md-raised':vm.usersVote == 0}" aria-label="Abstain" layout-fill>
+       		 <md-button ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-click="vm.castVote(0)" ng-class="{'md-raised':vm.usersVote == 0}" aria-label="Abstain" layout-fill>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ vm.usersVote==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!vm.voting.abstain"></md-icon>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.abstain"></md-icon>	       		 	
        		 </md-button>	
@@ -27,7 +27,7 @@
         <div layout-padding flex >
           
 
-				<md-button  ng-disabled="!vm.motionOpen || vm.need_identification" ng-click="vm.castVote(-1)" ng-class="{'md-raised disagree':vm.usersVote == -1}" aria-label="Disagree" layout-fill>
+				<md-button  ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-click="vm.castVote(-1)" ng-class="{'md-raised disagree':vm.usersVote == -1}" aria-label="Disagree" layout-fill>
 					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!vm.voting.disagree"></md-icon>
 					<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.disagree"></md-icon>
 				</md-button>	   
