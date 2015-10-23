@@ -32,12 +32,14 @@
 	    vm.show_edit_role		= false;
 	    vm.show_edit_address	= false;
 	    vm.checkRoles 			= checkRoles;
+	    vm.showAddress 			= showAddress;
 
-	    vm.showAddress = function(){
+	    function showAddress(){
 	    	vm.show_edit_address = !vm.show_edit_address;
 	    }
 
 	    function getUserAddress(id){
+	    	console.log(id);
 	    	property.getProperty(id).then(function(result){
 	    		vm.address = result;
 	    	})
@@ -59,10 +61,14 @@
 
 		function checkRoles(){
 			RoleService.check_roles(vm.roles, vm.this_users_roles);
-
 		}
 
 		getUserRoles();
+
+		$rootScope.$on('userSavedNewAddress', function(events, data){
+			getUserAddress(data.id);
+			showAddress();
+		})
 
 		/**************************************** Voting History Function **************************************** */
 		

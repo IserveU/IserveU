@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('PropertyController', PropertyController);
 
-	function PropertyController($stateParams, property, user, ToastMessage, SetPermissionsService) {
+	function PropertyController($stateParams, $rootScope, property, user, ToastMessage, SetPermissionsService) {
 
 		var vm = this;
 
@@ -48,7 +48,7 @@
 		}
 
 		function checkOut(){
-			vm.isMyAddress = !vm.isMyAddress;
+			vm.isMyAddress = true;
 		}
 
 		function assignPropertyData(query){
@@ -83,7 +83,7 @@
 			}
 
 			property.updateProperty(property_data).then(function(results){
-				console.log(results);
+				$rootScope.$emit('userSavedNewAddress', {id:results.id});
 			})
 
 			var user_data = {
