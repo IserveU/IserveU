@@ -208,7 +208,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    $this->roles()->detach($userRole->id);
     }
 
-
     public function getFillableAttribute(){
         if(!Auth::check()){ //If not logged in, don't go to parent
 			return $this->fillable;
@@ -244,8 +243,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		$this->attributes['password'] = Hash::make($value);
 	}
 
+    public function getAddressVerifiedUntilAttribute($attr) {
+    	if(!$attr){
+    		return null;
+    	}
 
-    public function getAddressVerifiedUntilAttribute($attr) {        
         $carbon = Carbon::parse($attr);
 
         return array(
