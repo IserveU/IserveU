@@ -362,8 +362,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
     public function scopeValidVoter($query){
 		return $query->where('verified_until','>=',Carbon::now())
 			->whereHas('roles',function($query){
-				$query->where('name','citizen')
-				->orWhere('name','unverified');
+				$query->where('name','citizen');
 
 			});
     }
