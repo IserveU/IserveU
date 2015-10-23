@@ -101,7 +101,6 @@
                 },
                 'address': {
                     templateUrl: 'app/components/user/edittemplates/edit-user-address.tpl.html',
-                    controller: 'PropertyController as property'
                 }
             },
             onEnter: ['$rootScope', function($rootScope) {
