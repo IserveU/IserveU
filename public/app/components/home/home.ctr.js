@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController(motion, comment, vote, UserbarService, $timeout, notificationService, resetPasswordService) {
+	function HomeController(motion, comment, vote, UserbarService, $timeout, resetPasswordService) {
 		
         UserbarService.setTitle("Home");
 

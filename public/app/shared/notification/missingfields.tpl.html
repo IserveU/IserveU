@@ -1,27 +1,24 @@
-<md-dialog aria-label="Edit user form"  flex="45">
+<md-content id="maincontent">
 
-<div ng-controller="NotificationController as user">
+<section layout-padding>
 
-<md-toolbar class="md-warn" layout-padding>
+<md-toolbar class="md-warn" style="padding-top:10px; padding-bottom: 7px">
   <div class="md-toolbar-tools">
-    <h2 class="md-flex">Fill in these missing fields</h2>
+    <h2 class="md-flex">Fill in missing fields in your user profile
+    <span flex>&nbsp;</span>
+      <md-button class="md-icon-button" style="position:absolute; top:0px; right: 0px" ng-click="ctrl.closeNotificationBox()">
+        <md-icon class="mdi mdi-window-close" aria-label="Close notification box"></md-icon>
+      </md-button>
+    <span class="md-caption" style="display:block">You're missing some fields in your profile. These details are needed to verify your identification so you can begin voting. It wouldn't hurt to fill them out.</span></h2>
+  </div>
+
+  <div style="text-align:center">
+	<md-button class='md-raised' style="color:black" ui-sref="user({id:authenticatedUser.id})">Go to your user profile</md-button>
   </div>
 </md-toolbar>
-<form>
 
-<md-dialog-content style="height:80%;">
-<div layout-padding>
 
-	<formly-form model="user.model" fields="user.fields" flex>
-	<div layout layout-align="end">
-		<md-button type="submit" ng-click="submit(user.model)" ng-cloak>Save Changes</md-button>
-		<md-button ng-click="cancel()" ng-cloak>Not now</md-button>
-	</div>
-	</formly-form>
-</div>
 
-</md-dialog-content>
+</section>
 
-</form>
-</md-dialog>
-
+</md-content>
