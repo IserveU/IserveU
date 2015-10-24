@@ -101,7 +101,8 @@
 
                 $interval(function(){
                     $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
-                }, 100, 5);
+                    $state.current.data.motionOpen = result.MotionOpenForVoting;
+                }, 300, 5);
 
             });  
 
