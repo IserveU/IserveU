@@ -69,8 +69,8 @@
           <md-input-container flex>
             <label>Confirm Email</label>
             <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.email" required>
-            <div ng-messages="registerform.confirmemail.$error" ng-if="registerform.newemail.$dirty">
-              <div ng-message="required">Please confirm your email.</div>
+            <div ng-messages="registerform.confirmemail.$error" >
+              <div ng-message="required" ng-if="registerform.newemail.$touched">Please confirm your email.</div>
               <div ng-message="compareTo">Your email does not match.</div>
             </div>
           </md-input-container>
