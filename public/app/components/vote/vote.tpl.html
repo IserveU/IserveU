@@ -1,6 +1,6 @@
 <section class="md-whiteframe-z1"  class="voting"  layout-margin>
-          <md-tooltip ng-if="!vm.motionOpen && vm.can_create_vote" md-autohide="true">This motion has been closed, you cannot vote on it any longer.</md-tooltip>
-          <md-tooltip ng-if="!vm.can_create_vote"  md-autohide="true">Your identity has not been authorized. Once you fill in your user details, authorization will only take a short moment.</md-tooltip>
+          <md-tooltip ng-if="!vm.motionOpen && vm.can_create_vote" md-autohide="true" md-direction="top">This motion has been closed, you cannot vote on it any longer.</md-tooltip>
+          <md-tooltip ng-if="!vm.can_create_vote"  md-autohide="true" md-direction="top">Your identity has not been authorized. Once you fill in your user details, authorization will only take a short moment.</md-tooltip>
 	<md-toolbar class="section-toolbar">
     	<div class="md-toolbar-tools">
     		<h3 translate="{{'VOTING'}}"></h3>
