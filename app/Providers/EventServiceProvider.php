@@ -11,10 +11,13 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
+		// 'App\Events\UserUpdating'	=> [
+		// ],
 		'App\Events\UserUpdated'	=> [
 			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
 			'App\Listeners\User\DeleteUnattachedFiles',
+			'App\Listeners\User\CheckUserRoles',
 		],
 		'App\Events\UserCreated' => [
 			'App\Listeners\User\SetRememberToken',
