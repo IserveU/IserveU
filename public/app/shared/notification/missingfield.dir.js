@@ -8,19 +8,22 @@
 
 	function missingFields() {
 
-		function controllerMethod($mdDialog, $scope) {
+		function controllerMethod($rootScope, user) {
 
 			var vm = this;
-
-			vm.fill_in_fields		= false;
 			vm.closeNotificationBox = closeNotificationBox;
+			vm.fill_in_fields = false;
 
 			function getUserFields(){
-				var fields = JSON.parse(localStorage.getItem('user'));
-				getEmptyFields(fields);
+				user.getUser(
+					$rootScope.authenticatedUser.id
+				).then(function(results){
+					getEmptyFields(results);
+				})
 			}
 
 			function getEmptyFields(fields) {
+
 				angular.forEach(fields, function(value,key) {
 
 					if( key == 'ethnic_origin_id' && value == null ){
@@ -34,6 +37,7 @@
 					}
 
 				})
+
 			}
 
 			function closeNotificationBox(){
@@ -44,17 +48,8 @@
 
   		}	
 
-	  	function linkMethod(scope, element, attrs){
-	  		attrs.$observe('needsTo', function(value){
-				if(value == 'false'){
-					element.remove('missingFields');
-				}
-			})
-	  	}
-
 		return {
 			controller: controllerMethod,
-			link: linkMethod,
 			controllerAs: 'ctrl',
 			bindToController: true,
 		    templateUrl: 'app/shared/notification/missingfields.tpl.html'

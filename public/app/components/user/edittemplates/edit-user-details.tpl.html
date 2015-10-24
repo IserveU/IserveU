@@ -41,7 +41,7 @@
           <div class="column-form" style="display:inline-block" flex>
                <p class="md-caption date-picker-label" translate="{{'BIRTHDAY'}}"></p>
             <md-datepicker name="dateField" ng-model="user.profile.date_of_birth" md-placeholder="Birthday not set"
-            required md-min-date="user.minDate" ng-blur="user.showEdit('date_of_birth', user.profile.date_of_birth)" md-max-date="user.maxDate" convert-date ng-disabled="user.edit.date_of_birth"></md-datepicker>          
+            required md-min-date="user.minDate" ng-change="user.showEdit('date_of_birth', user.profile.date_of_birth)" md-max-date="user.maxDate" convert-date ng-disabled="user.edit.date_of_birth"></md-datepicker>          
              
           </div>
         </td>
@@ -96,7 +96,7 @@
              <p class="md-caption" style="padding-left:40px; margin:0px;padding-top:5px;color:grey" translate="{{'IDENTITY'}}"></p>
           <md-switch style="margin:0px" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
         </has-permission>
-          
+
         </td>
 
         <td>

@@ -114,7 +114,7 @@
           
         <span ng-if="userIsLoggedIn">  
             <reset-password has-been="{{reset.notification}}"></reset-password>
-            <missing-fields needs-to="{{ctrl.fill_in_fields}}"></missing-fields>
+            <missing-fields ng-show="ctrl.fill_in_fields"></missing-fields>
             <!-- <photo-id has="{{vm.uploaded}}"></photo-id> -->
         </span>
 
