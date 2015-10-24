@@ -175,9 +175,14 @@
         getMotionVotes($stateParams.id);
         getMotionOpenForVoting();
 
-        // $rootScope.$on('getMotionInsideVoteController', function(events, data){
-        //     getMotion($stateParams.id);
-        // })
+        $rootScope.$on('getMotionInsideVoteController', function(events, data){
+            $state.current.data.userVote.position = data.vote.position;
+            $state.current.data.userVote.id = data.vote.id;
+            vm.usersVote    = data.vote.position;
+            vm.userVoteId   = data.vote.id;
+            $rootScope.$emit('getMotionComments', {id: $stateParams.id});
+            
+        })
 
     }
     

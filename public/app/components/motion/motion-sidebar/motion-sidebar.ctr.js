@@ -145,13 +145,21 @@
 			// start at abstain
 			vote.castVote({motion_id:id, position:0}).then(function(result){
 				getMotions();
+				getMotionInsideVoteController(result);
 			});
 		}
 
 		function updateVote(data){
 			vote.updateVote(data).then(function(result) {
 				getMotions();
+				getMotionInsideVoteController(result);
 			});
+		}
+
+		function getMotionInsideVoteController(result) {
+			if($stateParams.id == result.motion_id){
+				$rootScope.$emit('getMotionInsideVoteController', {vote:result});
+			}
 		}
 
 		getMotions();

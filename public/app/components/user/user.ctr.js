@@ -120,6 +120,7 @@
 	    	}
 
 	    	user.updateUser(data).then(function(){
+	    		vm.showLoading = false;
 	    		vm.show_edit_address = !vm.show_edit_address;
 	    	}, function(error){
 	    		vm.showLoading = false;

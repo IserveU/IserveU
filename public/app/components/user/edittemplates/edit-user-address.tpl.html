@@ -25,8 +25,8 @@
   </div>
 
 <div>
-  <md-button ng-click="user.show_edit_address = !user.show_edit_address;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
-  <md-button ng-click="user.updateUserAddress(); user.showLoading = !user.showLoading">
+  <md-button type="button" ng-click="user.show_edit_address = !user.show_edit_address;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
+  <md-button type="submit" ng-click="user.updateUserAddress(); user.showLoading = !user.showLoading">
   <span ng-hide="user.showLoading">{{'SAVE' | translate}}</span>
   <md-icon ng-show="user.showLoading" md-svg-src="/themes/{{::themename}}/loading.svg"></md-icon>
   </md-button>
