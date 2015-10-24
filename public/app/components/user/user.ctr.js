@@ -200,8 +200,7 @@
 					checkFileType();
 				}, function(error){
 					if(error.status == 404 || 401){
-						$state.go("user", {id: JSON.parse(localStorage.getItem('user')).id});
-						ToastMessage.simple("That user was not found. You've been redirected to your own profile.");
+						$state.go("home");
 					}
 				});
 			}
