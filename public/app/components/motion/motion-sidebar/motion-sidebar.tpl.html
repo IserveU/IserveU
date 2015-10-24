@@ -51,11 +51,11 @@
       <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
       <div ng-switch="{{ motion.user_vote.position }}" ng-if="sidebar.can_create_vote" ng-cloak>
-        <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting">
-          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
-          <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
-          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
-          <md-icon ng-switch-when="undefined"class="mdi mdi-med mdi-checkbox-blank-circle-outline" ng-click="sidebar.cycleVote(motion)" aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+        <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting" ng-click="sidebar.cycleVote(motion)">
+          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg"  aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg"  aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="undefined"class="mdi mdi-med mdi-checkbox-blank-circle-outline" aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
           <md-tooltip>{{'QUICK_VOTE' | translate}}</md-tooltip>
         </md-button>
       </div>
