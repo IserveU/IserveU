@@ -57,7 +57,7 @@
 				return result;
 			})
 			  .error(function(error) {
-			  	return $q.reject(error);
+			  	return error;
 			});
 		};
 
