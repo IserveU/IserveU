@@ -28,11 +28,10 @@
             }
         });		
         // code to store error, or send to jessica 
-        console.log(error);
 	}
 
     function simple(message, time){
-        var timeDelay = ( time ) ? time : 3000;
+        var timeDelay = ( time ) ? time : 1000;
         return $mdToast.show(
             $mdToast.simple()
             .content(message)

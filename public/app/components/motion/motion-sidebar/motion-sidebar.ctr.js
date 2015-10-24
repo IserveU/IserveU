@@ -112,29 +112,31 @@
 		// make this into a directive
 		vm.cycleVote = function(motion){
 
-			console.log(motion);
-
 			if(!motion.MotionOpenForVoting){
 				ToastMessage.simple("Sorry! This motion is not open for voting.", 1000);
 			}
 
-			if(!motion.user_vote){
-				castVote(motion.id);
-			}
-
 			else{
-				var data = {
-	                id: motion.user_vote.id,
-	                position: null
-	            }
-				if(motion.user_vote.position != 1){
-					data.position = motion.user_vote.position + 1; 
-				}
-				else {
-					data.position = -1;
+
+				if(!motion.user_vote){
+					castVote(motion.id);
 				}
 
-				updateVote(data);
+				else{
+					var data = {
+		                id: motion.user_vote.id,
+		                position: null
+		            }
+					if(motion.user_vote.position != 1){
+						data.position = motion.user_vote.position + 1; 
+					}
+					else {
+						data.position = -1;
+					}
+
+					updateVote(data);
+				}
+
 			}
 
 		}
