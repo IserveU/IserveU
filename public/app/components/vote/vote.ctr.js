@@ -97,7 +97,7 @@
                     vm.userVoteId   = vm.userHasVoted.id;
                 }
 
-            }, 1000, 7);
+            }, 1000, 3);
         }
 
         vm.castVote = function(position) {
@@ -174,6 +174,10 @@
 
         getMotionVotes($stateParams.id);
         getMotionOpenForVoting();
+
+        // $rootScope.$on('getMotionInsideVoteController', function(events, data){
+        //     getMotion($stateParams.id);
+        // })
 
     }
     

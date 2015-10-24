@@ -112,12 +112,6 @@
 			}
 		}
 	
-		$rootScope.$on('refreshLocalStorageSettings', function(event, data) {
-			localStorage.clear();
-			getSettings();
-			login();
-		});
-
 		resetPasswordService.check();
 			getSettings();
     }

@@ -99,16 +99,33 @@
 	    	}
 
 	    	data[type] = newdata;
-
-	    	user.updateUser(data).then(function(results){
+	    	user.updateUser(data).then(function(){
 	    		vm.edit[type] = true;
 	    		if(type !== 'password'){
-	    			$rootScope.$emit('refreshLocalStorageSettings');
+	    			// $rootScope.$emit('refreshLocalStorageSettings');
 	    		}
 	    		else{
 	    			ToastMessage.simple("Your password has been reset!");
 	    		}
 	    	})
+	    }
+
+	    vm.updateUserAddress = function(){
+	    	var data = {
+	    		id: vm.profile.id,
+	    		unit_number: vm.profile.unit_number,
+	    		street_number: vm.profile.street_number,
+	    		postal_code: vm.profile.postal_code,
+	    		street_name: vm.profile.street_name
+	    	}
+
+	    	user.updateUser(data).then(function(){
+	    		vm.show_edit_address = !vm.show_edit_address;
+	    	}, function(error){
+	    		vm.showLoading = false;
+	    		ToastMessage.report_error(error);
+	    	})
+
 	    }
 
 		vm.deleteUser = function(id) {

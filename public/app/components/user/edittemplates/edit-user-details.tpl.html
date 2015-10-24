@@ -76,11 +76,14 @@
             <md-icon ng-click="user.show_edit_address = !user.show_edit_address;" class="edit-btn mdi mdi-pencil" ng-show="user.showEdits"></md-icon>
         </td>
 
-        <td  has-permission="administrate-users">
+        <td>
+        <has-permission has-permission="administrate-users">
+
             <md-switch style="margin:0px" ng-model="user.verifyAddress" ng-if="!user.profile.address_verified_until" class="md-secondary" ng-change="user.verifyUserAddress()" aria-label="Switch" ng-true-value="1" ng-false-value="0">Verify the address.</md-switch>
             <p class="md-body-2" ng-if="user.profile.address_verified_until" layout-padding>Address is verified until {{user.profile.address_verified_until.alpha_date}} {{}}</p>
-        </td>
+        </has-permission>
 
+        </td>
         <td>
         </td>
 
@@ -88,9 +91,12 @@
         </tr>
 
         <tr>
-        <td class="mobile" has-permission="administrate-users">
+        <td class="mobile" >
+        <has-permission has-permission="administrate-users">
              <p class="md-caption" style="padding-left:40px; margin:0px;padding-top:5px;color:grey" translate="{{'IDENTITY'}}"></p>
           <md-switch style="margin:0px" class="md-secondary" ng-model="user.profile.identity_verified" ng-change="user.verifyUser(user.profile)" aria-label="Switch" ng-true-value="1" ng-false-value="0">{{user.profile.identity_verified ? ('USER_VERIFIED' | translate) : ('USER_NOT_VERIFIED' | translate) }}</md-switch>
+        </has-permission>
+          
         </td>
 
         <td>

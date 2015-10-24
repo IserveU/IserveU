@@ -3,27 +3,35 @@
 
     <md-input-container flex="33" flex-sm="100">
         <label style="padding-left:0px" translate="{{'APT_SUITE'}}"></label>
-      <input ng-blur="user.updateUser('unit_number', user.profile.unit_number, user.profile.id)" ng-model="user.profile.unit_number"/>
+      <input  ng-model="user.profile.unit_number"/>
     </md-input-container>
 
     <md-input-container flex="33" flex-sm="100">
         <label style="padding-left:0px" translate="{{'STREET_NUM'}}"></label>
-      <input ng-blur="user.updateUser('street_number', user.profile.street_number, user.profile.id)" ng-model="user.profile.street_number"/>
+      <input  ng-model="user.profile.street_number"/>
     </md-input-container>
 
     <md-input-container flex="33" flex-sm="100">
       <label translate="{{'POSTAL_CODE'}}"></label>
-      <input type='text' ng-blur="user.updateUser('postal_code', user.profile.postal_code, user.profile.id)" ng-model="user.profile.postal_code"/>
+      <input type='text' ng-model="user.profile.postal_code"/>
     </md-input-container>
   </div>
 
   <div layout-padding flex>
     <md-input-container flex="100" flex-sm="100">
        <label  style="padding-left:0px" translate="{{'ADDRESS'}}"></label>
-      <input ng-blur="user.updateUser('street_name', user.profile.street_name, user.profile.id)" ng-model="user.profile.street_name"/>
+      <input ng-model="user.profile.street_name"/>
     </md-input-container>
   </div>
 
-<md-button ng-click="user.show_edit_address = !user.show_edit_address;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
+<div>
+  <md-button ng-click="user.show_edit_address = !user.show_edit_address;"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{'BACK' | translate}}</md-button>
+  <md-button ng-click="user.updateUserAddress(); user.showLoading = !user.showLoading">
+  <span ng-hide="user.showLoading">{{'SAVE' | translate}}</span>
+  <md-icon ng-show="user.showLoading" md-svg-src="/themes/{{::themename}}/loading.svg"></md-icon>
+  </md-button>
+
+</div>
+
 
 </form>
