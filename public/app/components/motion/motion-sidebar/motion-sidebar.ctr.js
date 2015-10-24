@@ -28,8 +28,8 @@
 
 		vm.orderByFilters = [
 			   // {name: "Popularity" 		,query: "search_query_popularity"}, 
-			   {name: "Oldest"     		,query: {oldest: true}},
-			   {name: "Newest"	   		,query: {newest: true}},
+			   {name: "Newest"     		,query: {oldest: true}},
+			   {name: "Oldest"	   		,query: {newest: true}},
 			   {name: "Open for Voting" ,query: {is_active:true, is_current:true}},
 			   {name: "Closed"			,query: {is_expired:true}}]
 
