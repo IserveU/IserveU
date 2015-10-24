@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department, SetPermissionsService) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department, SetPermissionsService, ToastMessage) {
 
 		var vm = this;
 
@@ -111,6 +111,13 @@
 
 		// make this into a directive
 		vm.cycleVote = function(motion){
+
+			console.log(motion);
+
+			if(!motion.MotionOpenForVoting){
+				ToastMessage.simple("Sorry! This motion is not open for voting.", 1000);
+			}
+
 			if(!motion.user_vote){
 				castVote(motion.id);
 			}

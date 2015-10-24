@@ -44,7 +44,7 @@
 			return Vote.save(data).$promise.then(function(success) {
 				return success;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			});
 		}
 
