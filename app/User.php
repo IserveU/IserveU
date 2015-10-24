@@ -17,6 +17,7 @@ use Request;
 use Carbon\Carbon;
 
 use App\Events\UserUpdated;
+use App\Events\UserUpdating;
 use App\Events\UserCreated;
 use App\Events\UserDeleted;
 
@@ -178,6 +179,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 		static::updating(function($model){
 			if(!$model->validate()) return false;
+			event(new UserUpdating($model));
 			return true;
 		});
 
@@ -201,6 +203,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
     public function addUserRoleByName($name){
 	    $userRole = Role::where('name','=',$name)->firstOrFail();
 	    $this->roles()->attach($userRole->id);
+    }
+
+    public function removeUserRoleByName($name){
+	    $userRole = Role::where('name','=',$name)->firstOrFail();
+	    $this->roles()->detach($userRole->id);
     }
 
     public function removeUserRole($id){
