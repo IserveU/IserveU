@@ -2,6 +2,11 @@
   <div  layout="row" layout-sm="column" layout-padding flex>
 
     <md-input-container flex="33" flex-sm="100">
+      <label translate="{{'POSTAL_CODE'}}"></label>
+      <input type='text' ng-model="user.profile.postal_code"/>
+    </md-input-container>
+
+    <md-input-container flex="33" flex-sm="100">
         <label style="padding-left:0px" translate="{{'APT_SUITE'}}"></label>
       <input  ng-model="user.profile.unit_number"/>
     </md-input-container>
@@ -11,13 +16,9 @@
       <input  ng-model="user.profile.street_number"/>
     </md-input-container>
 
-    <md-input-container flex="33" flex-sm="100">
-      <label translate="{{'POSTAL_CODE'}}"></label>
-      <input type='text' ng-model="user.profile.postal_code"/>
-    </md-input-container>
   </div>
 
-  <div layout-padding flex>
+  <div layout layout-sm="column" layout-padding flex>
     <md-input-container flex="100" flex-sm="100">
        <label  style="padding-left:0px" translate="{{'STREET'}}"></label>
       <input ng-model="user.profile.street_name"/>
