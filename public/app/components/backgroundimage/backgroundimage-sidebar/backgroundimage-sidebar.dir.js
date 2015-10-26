@@ -7,11 +7,11 @@
     .directive('backgroundimageSidebar', backgroundimageSidebar)
     .directive('backgroundimage.previewSidebar', backgroundimagePreviewSidebar);
 
-  function backgroundimageSidebar() {
+  function backgroundimageSidebar(SetPermissionsService) {
 
     return {
 
-      templateUrl: 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html'
+      templateUrl: SetPermissionsService.can('administrate-background_images') ? 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html' :'app/components/motion/motion-sidebar/motion-sidebar.tpl.html'
       
     }
   }
@@ -20,7 +20,7 @@
 
     return {
 
-      templateUrl: 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html'
+      templateUrl: SetPermissionsService.can('administrate-background_images') ? 'app/components/backgroundimage/backgroundimage-sidebar/backgroundimage-sidebar.tpl.html' :'app/components/motion/motion-sidebar/motion-sidebar.tpl.html'
       
     }
   }
