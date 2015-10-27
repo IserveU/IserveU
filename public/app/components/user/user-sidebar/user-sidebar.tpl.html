@@ -1,4 +1,4 @@
-<md-content flex role="navigation" has-permission="administrate-users" ng-controller="UserController as user">
+<md-content flex role="navigation" has-permission="administrate-users" style="overflow-y:auto" ng-controller="UserController as user">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -7,6 +7,11 @@
       <h2 translate="{{'USER_LIST'}}"></h2>
     </div>
   </md-toolbar>
+
+  <!-- <img style="display:block; margin: 0 auto;" ng-src="https://i2.wp.com/www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif"/> -->
+
+  <md-progress-circular class="sidebar-loading-circle" md-mode="indeterminate" ng-show="user.listLoading"></md-progress-circular>
+
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="thisuser in user.users">  
       <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      

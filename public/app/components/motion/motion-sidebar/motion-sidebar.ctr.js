@@ -14,6 +14,8 @@
 
 		$scope.$state = $state;
 
+		vm.listLoading = true;
+
         vm.can_create_vote  = SetPermissionsService.can('create-votes');
 
 		vm.getMotions = getMotions;
@@ -88,6 +90,7 @@
 
 		function getMotions(){
 			motion.getMotions(vm.motion_filters).then(function(results) {
+				vm.listLoading = false;
 				vm.paginate_loading = false;
 				vm.motions = results.data;
 				if(!results.data[0]){

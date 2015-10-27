@@ -14,6 +14,7 @@
 
 		/**************************************** Variables **************************************** */
 
+		vm.listLoading = true;
 
 		vm.nextpage;
 		vm.users = [];
@@ -189,6 +190,7 @@
 			user.getUserInfo().then(function(result) {
 				vm.nextpage = result.current_page + 1;
 				vm.users = result.data;
+				vm.listLoading = false;
             });         
 		}
 
