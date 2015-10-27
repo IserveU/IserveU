@@ -51,7 +51,7 @@
        flow-init
           flow-drop-enabled="true"
           flow-drop
-          flow-drag-enter="style={border: '2px dashed rgb(255,118,0)'};create.fileDrop()"
+          flow-drag-enter="style={border: '2px dashed rgb(255,118,0)'};create.fileDrop();"
           flow-drag-leave="style={border: '2px dashed #cccccc'}"
           flow-files-submitted="create.upload($flow)"
           >
@@ -60,9 +60,11 @@
       <p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
     </div>
     <p style="font-size: 14px;" ng-repeat="file in $flow.files">
-    <md-icon class="mdi-small mdi-close" style="position:relative;top:4px;cursor:pointer" ng-click="create.removeFile($index); hideFile = true" ></md-icon>
-    <md-input-container style="display:inline-block; padding:0px; width:96%" flex>
-      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name" ng-hide="hideFile"/>
+
+    <md-input-container ng-hide="hideFile[$index]" style="display:inline-block; padding:0px; width:96%" flex-gt-md="100" flex-md="90" flex-lg="90" flex-sm="80">
+        <md-icon class="mdi-small mdi-close" style="top:10px;cursor:pointer;display:inline-block" ng-click="create.removeFile($index); hideFile[$index] = true"></md-icon>
+      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name"/>
+      ({{file.size | bytes}})
     </md-input-container>
     </p>
   </fieldset>
