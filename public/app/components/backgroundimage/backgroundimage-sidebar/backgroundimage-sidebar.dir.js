@@ -16,7 +16,7 @@
     }
   }
 
-  function backgroundimagePreviewSidebar() {
+  function backgroundimagePreviewSidebar(SetPermissionsService) {
 
     return {
 

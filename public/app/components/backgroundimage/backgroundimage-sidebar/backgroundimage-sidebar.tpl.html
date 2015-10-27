@@ -1,4 +1,4 @@
-<md-content flex role="navigation"  ng-controller="BackgroundImageController as sidebar">
+<md-content flex role="navigation"  ng-controller="BackgroundImageSidebarController as sidebar">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button class="md-icon-button conference_logo" ui-sref="home" hide-lt-md aria-label="Toggle Menu">
@@ -10,7 +10,7 @@
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="image in sidebar.backgroundimages" md-ink-ripple ui-sref-active="active"> 
       <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
-      <p ng-click="sidebar.previewImage(image)" ui-sref="backgroundimage.preview({id:image.id})">{{ image.filename }}</p>
+      <p ui-sref="backgroundimage.preview({id:image.id})">{{ image.filename }}</p>
       <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="sidebar.isLoading"></md-icon>
     </md-list-item>
   </md-list>
