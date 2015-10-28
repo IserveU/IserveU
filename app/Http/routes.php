@@ -2,6 +2,8 @@
 
 use App\BackgroundImage;
 
+use App\Events\PermissionsUpdated;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -31,8 +33,8 @@ Route::get('/settings', function(){
 	return array('themename'=>Setting::get('themename','default'),'background_image'=>(new BackgroundImage)->today(),'user'=>$user);
 });
 
-
 Route::get('/', function() {
+
 	return view('index');
 });
 
