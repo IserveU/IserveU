@@ -14,4 +14,4 @@ npm-debug.log
 .env
 .DS_Store
 codeception.yml
-/tests
+tests/_output/*
