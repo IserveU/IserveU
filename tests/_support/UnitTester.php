@@ -16,26 +16,11 @@
  *
  * @SuppressWarnings(PHPMD)
 */
-class ApiTester extends \Codeception\Actor
+class UnitTester extends \Codeception\Actor
 {
-    use _generated\ApiTesterActions;
+    use _generated\UnitTesterActions;
 
    /**
     * Define custom actions here
     */
-
-
-   	public function loginAsAdmin(){
-		$user = [
-			'email' => 'info@iserveu.ca',
-			'password' => 'abcd1234'
-			];
-
-		$I = $this;
-		$I->sendPOST('/authenticate', $user);
-		$I->seeResponseIsJson();
-		$token = json_encode($I->grabDataFromResponseByJsonPath('token'));
-		$I->amBearerAuthenticated($token);
-
-	}
 }

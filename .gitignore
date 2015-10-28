@@ -13,5 +13,3 @@ _ide_helper.php
 npm-debug.log
 .env
 .DS_Store
-codeception.yml
-/tests
