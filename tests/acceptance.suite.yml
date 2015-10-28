@@ -7,6 +7,6 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://localhost/myapp
-        - \Helper\Acceptance
+      - PhpBrowser:
+            url: http://192.168.10.10
+      - \Helper\Acceptance
