@@ -1,0 +1,21 @@
+actor: Tester
+paths:
+    tests: tests
+    log: _output
+    data: _data
+    support: _support
+    envs: _envs
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;dbname=iserveu'
+            user: 'iserveu_user'
+            password: 'Pass34rksHALa4'
+            dump: 'tests/_data/dump.sql'
