@@ -8,10 +8,21 @@
     </div>
   </md-toolbar>
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="image in sidebar.backgroundimages" md-ink-ripple ui-sref-active="active"> 
-      <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi"></md-icon>
-      <p ui-sref="backgroundimage.preview({id:image.id})">{{ image.filename }}</p>
-      <md-icon md-svg-src="/themes/{{themename}}/loading.svg" ng-show="sidebar.isLoading"></md-icon>
+    <md-list-item class="sidebar-list" ng-repeat="image in sidebar.backgroundimages" ui-sref-active="active">
+      <div ng-show="image.hasBeenDisplayed"> 
+        <md-icon md-font-icon="mdi-check" ng-style="default" ng-class="mdi" aria-label="Visited" class="mdi">
+          <md-tooltip md-direction="right">This image has been displayed before.</md-tooltip>
+        </md-icon>
+      </div>
+      <div ng-hide="image.hasBeenDisplayed">
+        <md-icon>
+      </md-icon>
+      </div>
+
+      <p ui-sref="backgroundimage.preview({id:image.id})" class="sidebar-ellipsis" layout-padding md-ink-ripple>{{ image.filename }}</p>
+
+      <md-switch  style="margin:0px" class="md-secondary"ng-model="image.active"  ng-click="sidebar.activateMotion(image.id, image.active)" aria-label="Switch" ng-true-value="1" ng-false-value="0" layout-padding></md-switch>
+
     </md-list-item>
   </md-list>
 </md-content>
