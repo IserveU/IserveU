@@ -634,13 +634,8 @@ form.user-profile-form {
   -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   &:hover {
-  	cursor: pointer;
+	  	cursor: pointer;
   		font-size:26px;
-  	// color: $accentColor;
-  }
-  &.opened{
-  		font-size:26px;
-	// color: $accentColor;
   }
 }
 
@@ -672,7 +667,7 @@ input.sidebar-search-input {
 		
 		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 			font-size: 16px;
-		    color:    $lightGrey; d
+		    color:    $lightGrey;
 		}
 		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 			font-size: 16px;
@@ -688,14 +683,6 @@ input.sidebar-search-input {
 			font-size: 16px;
 		   color:    $lightGrey;
 		}
-}
-
-.search-input.ng-hide{
-   opacity: 0;
-   transition: opacity .1s ease-in-out;
-   -o-transition:	  .1s ease-in-out;
-   -moz-transition: opacity .1s ease-in-out;
-   -webkit-transition: opacity .1s ease-in-out;
 }
 
 #search-filter{

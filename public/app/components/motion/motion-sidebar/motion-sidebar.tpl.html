@@ -5,20 +5,12 @@
         <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg" ui-sref="home" ng-hide="sidebar.showSearchFilter"></md-icon>
         <md-icon class="mdi mdi-arrow-left" ng-show="sidebar.showSearchFilter" ng-click="sidebar.showSearch()"></md-icon>
       </md-button>
-      <h2 style="font-weight:500; cursor:pointer" ng-show="sidebar.showSearchFilter" translate="{{'BACK'}}"  ng-click="sidebar.showSearch()"></h2>
       <h2 style="font-weight:500" ng-hide="sidebar.showSearchFilter" translate="{{'MOTIONS'}}"></h2>
-      <span flex></span>
 
+            <input type='text' class="sidebar-search-input"  ng-show="sidebar.showSearchFilter" placeholder='Search motion ...' ng-model='sidebar.searchText'/>
 
-      <div class="searchFilter" layout layout-align="end end" layout-padding>
-            <md-autocomplete ng-hide="!sidebar.showSearchFilter" class="search-input"
-                md-search-text-change="sidebar.searchTextChange(sidebar.searchText)" 
-                md-search-text="sidebar.searchText"
-                md-items="item in items"
-                md-item-text="item.name"
-                placeholder="Search ...">
-            </md-autocomplete>
-                <md-icon style="padding-right:8px; padding-top:1px" class="mdi mdi-magnify search-icon" ng-class="{'opened':sidebar.searchOpened}" ng-click="sidebar.showSearch()" style="max-height:30px"></md-icon>
+        <div id="search-filter">
+                <md-icon style="left:10px" class="mdi mdi-magnify search-icon" ng-click="sidebar.showSearch()"></md-icon>
           <md-menu md-offset="27 32">
           <md-icon class="mdi mdi-dots-vertical search-icon" ng-click="$mdOpenMenu()"></md-icon>
             <md-menu-content width="4" class="md-body-1" >
