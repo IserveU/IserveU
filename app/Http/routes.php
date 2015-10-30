@@ -2,8 +2,6 @@
 
 use App\BackgroundImage;
 
-use App\Events\PermissionsUpdated;
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -34,7 +32,6 @@ Route::get('/settings', function(){
 });
 
 Route::get('/', function() {
-
 	return view('index');
 });
 
