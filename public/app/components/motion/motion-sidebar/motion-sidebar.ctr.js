@@ -86,6 +86,9 @@
 		}
 
 		vm.showSearch = function(){
+			if(vm.showSearchFilter){
+				vm.searchText = '';
+			}
 			vm.searchOpened = !vm.searchOpened;
 			vm.showSearchFilter = !vm.showSearchFilter;
 		}
