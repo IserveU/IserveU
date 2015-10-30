@@ -429,6 +429,27 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			});
     }
 
+    /**
+     * Searches for particular attributes to narrow down scope
+	 * @param query 
+	 */
+
+	public function scopeVerified($query){
+		return $query->where('identity_verified',1);
+	}
+
+	public function scopeUnverified($query){
+		return $query->where('identity_verified', 0);
+	}
+
+	public function scopeAddressUnverified($query){
+		return $query->where('address_verified_until', null);
+	}
+
+	public function scopeAddressNotSet($query){
+		return $query->whereNotNull('street_name'); 
+	}
+
 	/**********************************  Relationships *****************************************/
 
 

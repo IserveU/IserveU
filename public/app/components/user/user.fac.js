@@ -14,8 +14,8 @@
 		var UserEdit = $resource('api/user/:id/edit');
 		var YourUser = $resource('api/settings');
 
-		function getUserInfo(){
-			return User.get({limit:50}).$promise.then(function(results) {
+		function getUserInfo(data){
+			return User.get(data).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);

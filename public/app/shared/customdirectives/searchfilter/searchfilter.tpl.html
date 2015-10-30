@@ -1,0 +1,19 @@
+<div id="search-filter">
+
+      <md-icon style="left:10px" class="mdi mdi-magnify search-icon" ng-click="sidebar.showSearch();"></md-icon> 
+
+  <md-menu md-offset="27 32">
+          <md-icon class="mdi mdi-dots-vertical search-icon" ng-click="$mdOpenMenu()"></md-icon>
+      <md-menu-content width="4" class="md-body-1" >
+        <md-select aria-label="select filter for sidebar" style="margin:4px" md-on-open="sidebar.loadFilters()" ng-model="sidebar.searchFilter" placeholder="Filter by: {{sidebar.searchFilter}}" layout-padding>
+          <md-option ng-mousedown="sidebar.querySearch(filter.query)" ng-repeat="filter in sidebar.filters" ng-value="filter.name">{{filter.name}}</md-option>
+        </md-select>
+        <md-menu-button style="text-align:center;">
+          <md-button layout-align="center" ng-click="sidebar.searchShowAll()">Show All</md-button>
+        </md-menu-button>
+      </md-menu-content>
+  </md-menu>
+
+</div>
+
+

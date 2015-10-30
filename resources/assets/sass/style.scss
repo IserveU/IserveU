@@ -658,6 +658,38 @@ form.user-profile-form {
   	}
 }
 
+input.sidebar-search-input {
+			border: 0px;
+			background-color: transparent;
+			color: white;
+			font-size: inherit;
+		    border-style: solid;
+		    width: 79%;
+		    border-bottom: thin solid $midGrey;
+		    &:focus{
+			    border-bottom: thin solid $accentColor;
+		    }
+		
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			font-size: 16px;
+		    color:    $lightGrey; d
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			font-size: 16px;
+		   color:    $lightGrey;
+		   opacity:  1;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+			font-size: 16px;
+		   color:    $lightGrey;
+		   opacity:  1;
+		}
+		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			font-size: 16px;
+		   color:    $lightGrey;
+		}
+}
+
 .search-input.ng-hide{
    opacity: 0;
    transition: opacity .1s ease-in-out;
@@ -666,18 +698,15 @@ form.user-profile-form {
    -webkit-transition: opacity .1s ease-in-out;
 }
 
-.sidebar-header.ng-hide{
-   opacity: 0;
-   transition-property: left;
-   transition-duration: .05s;
-   left: 0px;
-   transition: transform .05s;
-   transition: opacity .05s ease-in-out;
-   -o-transition:	  .05s ease-in-out;
-   -moz-transition: opacity .05s ease-in-out;
-   -webkit-transition: opacity .05s ease-in-out;
+#search-filter{
+	right: 0px;
+	bottom: 22px;
+	margin: auto;
+	position: absolute;
+	@media screen and (max-width:600px) {
+		bottom: 15px;
+	}
 }
-
 .details-header {
 	border-bottom-color: rgba(0,0,0,0.12) !important; 
 	background-image: none !important;

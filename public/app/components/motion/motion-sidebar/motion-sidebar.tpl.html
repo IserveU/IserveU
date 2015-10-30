@@ -1,8 +1,8 @@
 <md-content flex role="navigation" class="flex md-default-theme" style="overflow-y: auto;" ng-controller="MotionSidebarController as sidebar">
   <md-toolbar ng-cloak>
     <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px">
-      <md-button class="md-icon-button" ui-sref="home" aria-label="Home Button">
-        <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg"  ng-hide="sidebar.showSearchFilter"></md-icon>
+      <md-button class="md-icon-button" aria-label="Home Button">
+        <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg" ui-sref="home" ng-hide="sidebar.showSearchFilter"></md-icon>
         <md-icon class="mdi mdi-arrow-left" ng-show="sidebar.showSearchFilter" ng-click="sidebar.showSearch()"></md-icon>
       </md-button>
       <h2 style="font-weight:500; cursor:pointer" ng-show="sidebar.showSearchFilter" translate="{{'BACK'}}"  ng-click="sidebar.showSearch()"></h2>

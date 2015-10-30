@@ -38,6 +38,49 @@
 	    vm.minDate 				= new Date(vm.myDate.getFullYear() - 99, vm.myDate.getMonth(), vm.myDate.getDate());
 	    vm.maxDate 				= new Date(vm.myDate.getFullYear() - 18, vm.myDate.getMonth(), vm.myDate.getDate());
 
+	    vm.hideSearch			= false;
+
+	    /**************************************** Search Functions **************************************** */
+
+	    vm.searchFilter = " Identity Unverified";
+	    vm.filters = [
+	    	{name: "Identity Unverified", query: {unverified: true}},
+	    	{name: "Identity Verified",   query: {verified: true}},
+	    	{name: "Address Pending",   query: {address_unverified: true, address_not_set: true}}
+	    ]
+
+	   	vm.showSearch = function(){
+	    	if(vm.hideSearch){
+	    		vm.text = '';
+	    	}
+    		vm.hideSearch = !vm.hideSearch;
+	    }
+
+
+	    vm.querySearch = function(filter){
+	    	vm.users = '';
+	    	vm.listLoading = true;
+
+	    	user.getUserInfo(filter).then(function(result){
+	    		vm.users = result.data;
+				vm.listLoading = false;
+	    	})
+	    }
+
+	    vm.searchShowAll = function(){
+	    	vm.users = '';
+	    	vm.listLoading = true;
+	    	getUsers();
+	    }
+
+	    function defaultSearch() {
+	    	user.getUserInfo({unverified:true}).then(function(result){
+	    		vm.users = result.data;
+				vm.listLoading = false;
+	    	})
+	    }
+
+
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
 		vm.this_users_roles 	= [];
@@ -251,8 +294,7 @@
 
 		checkSelf($stateParams.id);
 		getUser($stateParams.id);
-		getUsers();
-
+		defaultSearch();
 
 	}
 })();
