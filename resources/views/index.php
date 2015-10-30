@@ -22,7 +22,7 @@
     <div layout="row"  layout-fill>
         <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
             <sidebar sidebar="{{currentState}}">
-                <div id="sidebar-inner" ng-click="sidebar.closeSidenav('left')"></div>
+                <div id="sidebar-inner"></div>
             </sidebar>
         </md-sidenav>
 

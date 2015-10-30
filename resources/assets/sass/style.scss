@@ -636,12 +636,10 @@ form.user-profile-form {
   &:hover {
   	cursor: pointer;
   		font-size:26px;
-
   	// color: $accentColor;
   }
   &.opened{
   		font-size:26px;
-  	
 	// color: $accentColor;
   }
 }
@@ -668,7 +666,17 @@ form.user-profile-form {
    -webkit-transition: opacity .1s ease-in-out;
 }
 
-
+.sidebar-header.ng-hide{
+   opacity: 0;
+   transition-property: left;
+   transition-duration: .05s;
+   left: 0px;
+   transition: transform .05s;
+   transition: opacity .05s ease-in-out;
+   -o-transition:	  .05s ease-in-out;
+   -moz-transition: opacity .05s ease-in-out;
+   -webkit-transition: opacity .05s ease-in-out;
+}
 
 .details-header {
 	border-bottom-color: rgba(0,0,0,0.12) !important; 

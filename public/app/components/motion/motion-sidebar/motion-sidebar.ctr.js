@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department, SetPermissionsService, ToastMessage) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, $mdSidenav, $interval, motion, vote, department, SetPermissionsService, ToastMessage) {
 
 		var vm = this;
 
@@ -25,7 +25,10 @@
 		vm.motion_filters = {
 			take: 100,
 			limit: 100,
-			page: ''
+			page: '',
+			oldest: true,
+			is_active: true,
+			is_current: true
 		}
 
 		vm.orderByFilters = [
@@ -53,6 +56,10 @@
 		vm.switchLoading = switchLoading;
 
 		/**************************************** Motion Sidebar Function **************************************** */
+
+		vm.closeSidenav = function(menuId){
+			$mdSidenav(menuId).close();
+		}
 
 		vm.loadDepartments = function(){
 			department.getDepartments().then(function(result){
@@ -87,9 +94,8 @@
 			vm.motion_is_loading[id] = bool;
 		}
 
-
-		function getMotions(){
-			motion.getMotions(vm.motion_filters).then(function(results) {
+		function getMotions(filter){
+			motion.getMotions(filter).then(function(results) {
 				vm.listLoading = false;
 				vm.paginate_loading = false;
 				vm.motions = results.data;
@@ -165,7 +171,7 @@
 			}
 		}
 
-		getMotions();
+		getMotions(vm.motion_filters);
 		switchLoading(true, $stateParams.id);
 
 		$rootScope.$on('sidebarLoadingFinished', function(events, data) {
