@@ -21,27 +21,36 @@ class UserTestCept
     {
         $faker = Faker::create();
         $I->haveHttpHeader('Content-Type', 'application/json');
+
         for($i=0; $i<=10; $i++)
         {
-            
-            $first_name = $faker->firstName();
-            $last_name = $faker->lasName();
             $email = $faker->email();
-            $password = $faker->password();
-            $public = rand(0,1);
-            $I->sendPOST($this->path, array(
-                'first_name' => $first_name, 
-                'last_name' => $last_name,
-                'email' => $email,
-                'password' => $password,
-                'public' => $public
-                ));
-            $I->seeResponseCodeIs(200);
-            $I->seeResponseIsJson();
-            $I->seeResponseContainsJson(['first_name' => $first_name, 
-                                        'last_name' => $last_name,
-                                        'email' => $email,
-                                        'password' => $password]);
+            
+            //Can't create user with duplicate email
+            if($I->dontSeeInDataBase('users', array('email' => $email)))
+            {
+                $first_name = $faker->firstName();
+                $last_name = $faker->lasName();
+                $password = $faker->password();
+                $public = rand(0,1);
+                $I->sendPOST($this->path, array(
+                    'first_name' => $first_name, 
+                    'last_name' => $last_name,
+                    'email' => $email,
+                    'password' => $password,
+                    'public' => $public
+                    ));
+                $I->seeResponseCodeIs(200);
+                $I->seeResponseIsJson();
+                $I->seeResponseContainsJson(['first_name' => $first_name, 
+                                            'last_name' => $last_name,
+                                            'email' => $email,
+                                            'password' => $password]);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -51,6 +60,7 @@ class UserTestCept
     {
         $faker = Faker::create();
         $I->haveHttpHeader('Content-Type', 'application/json');
+
         for($i=0; $i<=5; $i++)
         {
             $first_name = $faker->firstName();
@@ -143,7 +153,7 @@ class UserTestCept
     
 
     //Delete user
-    public function deleteUser(ApiTester $I, $id)
+    public function deleteUser(ApiTester $I, $id, $user_id)
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendDELETE($this->path, array('id' => $id));
@@ -152,29 +162,58 @@ class UserTestCept
     }
 
 
+    //View user
+    public function viewUser(ApiTester $I, $id, $role_id)
+    {
+
+        //Test if the user is public or if role is an administrator
+        if(($I->seeInDataBase('users', array('id' => $id, 'public' =>1)))
+            || $role_id == 1)
+        {
+            $I->sendGET($this->path, array('id' => $id));
+            $I->seeResponseCodeIs(200);
+            $I->seeResponseIsJson();
+            $I->seeResponseContainsJson(['id' => $id]);
+        }
+        else
+        {
+            //If user is private
+            //If you're not user-administrator you can't see anything
+            return false;
+        }
+    }
+
+
     //Assign Permissions: the rol has not permissions yet
     public function assignPermissions(ApiTester $I, $role_id)
     {
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        //Create array with permissions
-        $permissions = array();
-        $j = 0;
-        for($i=0;$i<=20;$i++)
+
+
+        //Only role with "administrate-permissions"
+        if($I->seeInDataBase('permissions_role', array('role_id' => $role_id, 'permission_id' => 1)))
         {
-            $permission = rand(1,21);
-            $permissions[$j] = $permission;
-        }
-        //Remove duplicate values
-        $permissions = array_unique($permissions);
-        //Insert permissions
-        for($i=0; $i<count($permissions); $i++)
-        {
-            $I->sendPOST($this->path, array(
-                'role_id' => $role_id,
-                'permission_id' => $permissions[$i]));
-            $I->seeResponseCodeIs(200);
-            $I->seeResponseIsJson();
-            $I->seeResponseContainsJson(['permission' => $permissions[$i]]);
+            //Create array with permissions
+            $permissions = array();
+            $j = 0;
+            for($i=0;$i<=20;$i++)
+            {
+                $permission = rand(1,21);
+                $permissions[$j] = $permission;
+            }
+            //Remove duplicate values
+            $permissions = array_unique($permissions);
+            //Insert permissions
+            for($i=0; $i<count($permissions); $i++)
+            {
+                $I->sendPOST($this->path, array(
+                    'role_id' => $role_id,
+                    'permission_id' => $permissions[$i]));
+                $I->seeResponseCodeIs(200);
+                $I->seeResponseIsJson();
+                $I->seeResponseContainsJson(['permission' => $permissions[$i]]);
+            }
         }
     }
 
