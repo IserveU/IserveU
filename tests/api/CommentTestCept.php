@@ -1,4 +1,4 @@
-<?php 
+?php 
 use \ApiTester;
 use Faker\Factory as Faker;
 
@@ -85,7 +85,7 @@ class CommentTestCept
 
 
    	//Delete comment
-    public function deleteUser(ApiTester $I, $id, $role_id)
+    public function deleteComment(ApiTester $I, $id, $role_id)
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
         
@@ -118,3 +118,4 @@ class CommentTestCept
 
 }
 ?>
+
