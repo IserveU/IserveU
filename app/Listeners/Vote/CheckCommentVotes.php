@@ -43,10 +43,18 @@ class CheckCommentVotes
         	return true;
         }
 
-        $oldCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete();
-        $newCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($vote['position'])->restore();
+        $oldCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete(); // Comment Votes Cast by this user the original way
+        $newCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($vote['position'])->restore(); //Comment Votes Cast by this user the new way
 
-
+        if($vote->comment){
+            //echo $original['position']; Can not figure this out
+          //  DB::enableQueryLog();
+            //$commentsToDelete = CommentVote::where('comment_id',$vote->comment->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete(); // Delete the comment votes of this User
+           // return $commentsToDelete;
+            CommentVote::where('comment_id',$vote->comment->id)->forceDelete(); // Delete the comment votes of this User
+          //  print_r(DB::getQueryLog());
+        }
+  
         return true;
     }
 }
