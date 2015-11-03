@@ -222,6 +222,46 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         return parent::getFillableAttribute();
     }
 
+    public function createDefaultDelegations($departments = null,  $councillors = null){
+    	if(!$this->can('create-votes')){
+    		return true;
+    	}
+
+    	if(!$departments){
+			$departments =  Department::all();    		
+    	}
+    	if(!$councillors){
+    		$councillors = 	User::councillor()->get();
+    	}
+
+    	if($councillors->isEmpty()){
+            return true;// "there are no councillors";
+        }
+
+        if($this->hasRole('councillor')){
+        	return true; //A councillor cannot delegate
+        }
+
+        // Code to potentially do this more efficiently with fewer database calls
+        // $userDelegations = $user->delegatedFrom;
+        // $filteredDepartments = $departments->filter(function($item){
+        //     return $item->id; + is not in a flattened array of this users delegations
+        // });
+        //  $insertsArray = [];
+        //foreach($filteredDepartments as $filteredDepartment){
+            // Add to the inserts array, at the end do one huge insert
+        //}
+    	// $this->insert(Insert all these array items)
+ 		foreach($departments as $department){
+            $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
+            $newDelegation = new Delegation;
+            $newDelegation->department_id       =   $department->id;
+            $newDelegation->delegate_from_id    =   $this->id;
+            $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
+            $newDelegation->save();
+        }
+    }
+
 	/****************************************** Getters & Setters ************************************/
 
 	/**
@@ -315,8 +355,6 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 
 
 	public function getTotalDelegationsToAttribute(){
-		/*	$this->delegatedTo; */
-
 		// if relation is not loaded already, let's do it first
 	  	if (!array_key_exists('totalDelegationsTo',$this->relations))
 	    	$this->load('totalDelegationsTo');
@@ -324,8 +362,18 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 	
 	  	// then return the count directly
 	  	return ($related) ? $related->total : 0;
-
 	}
+
+	public function getTotalDelegationsFromAttribute(){
+		// if relation is not loaded already, let's do it first
+	  	if (!array_key_exists('totalDelegationsFrom',$this->relations))
+	    	$this->load('totalDelegationsFrom');
+		$related = $this->getRelation('totalDelegationsFrom');
+	 	
+	  	// then return the count directly
+	  	return ($related) ? $related->total : 0;
+	}
+
 
 	public function getNeedIdentificationAttribute(){
 		if($this->hasRole('citizen')){
@@ -335,6 +383,13 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			return false;
 		}
 		return true;
+	}
+
+	public function setPublicAttribute($value){
+		if($this->hasRole('councillor') && !$value){
+			abort(403,'A councillor must have a pubilc profile');
+		}
+		$this->attributes['public'] = 1;
 	}
 
 
@@ -350,8 +405,17 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	{
 	  return $this->hasOne('App\Delegation','delegate_to_id')
 	    ->select('delegate_to_id', DB::raw('count(*) as total'));
-	//    ->groupBy('delegate_to_id');
-		
+	}
+
+
+	/**
+	 * @return relation the sum of all the votes on this motion, negative means it's not passing, positive means it's passion
+	 */
+
+	public function totalDelegationsFrom()
+	{
+	  return $this->hasOne('App\Delegation','delegate_from_id')
+	    ->select('delegate_from_id', DB::raw('count(*) as total'));
 	}
 
 
@@ -385,14 +449,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		return $query->where('address_verified_until','>=',Carbon::now())
 			->whereHas('roles',function($query){
 				$query->where('name','citizen');
-
 			});
     }
 
     public function scopeCouncillor($query){
-		return $query->where('address_verified_until','>=',Carbon::now())
-			->where('public',1)
-			->whereHas('roles',function($query){
+		return $query->whereHas('roles',function($query){
 				$query->where('name','councillor');
 
 			});

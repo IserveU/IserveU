@@ -29,10 +29,14 @@ class SetDeferedToVotes
     public function handle($event)
     {
         $vote = $event->vote;
-
-        $deferredVotes = Vote::where('deferred_to_id',$vote->user_id)->get();
+       // \DB::enableQueryLog();
+        //DB::enableQueryLogging();
+       // \DB::table('votes')->where('deferred_to_id',$vote->user_id)->where('motion_id',$vote->motion_id)->update(['position'=>$vote->position]);
+        $deferredVotes = Vote::where('deferred_to_id',$vote->user_id)->where('motion_id',$vote->motion_id)->get(); //update(['position'=>$vote->position]);
+      //  echo print_r(\DB::getQueryLog());
 
         foreach($deferredVotes as $deferredVote){
+            // echo "\br HERE ".$deferredVote;
             $deferredVote->position = $vote->position;
             $deferredVote->save();
         }

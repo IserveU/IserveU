@@ -31,18 +31,20 @@ class BalanceDeferredVotes
      */
     public function handle($event)
     {
-       $motion = $event->motion;
+       // This doesn't really work, because what if a non-councilor is defered to
+       // $motion = $event->motion;
 
-       $votes = $motion->votes->groupBy('deferred_to_id')->toArray();
-       array_multisort(array_map('count', $votes), SORT_DESC, $votes);
+       // $votes = Vote::where('motion_id',$motion->id)->passive($motion->votes->groupBy('deferred_to_id')->toArray();
+       // dd($votes);
+       // array_multisort(array_map('count', $votes), SORT_DESC, $votes);
 
-       if(count(head($votes))-count(last($votes))>1){
-            $toMoveId = head($votes)[0]['id'];
-            $toMove = Vote::find($toMoveId);
-            $toDeferToId = last($votes)[0]['deferred_to_id'];
-            $toMove->deferred_to_id = $toDeferToId;
-            $toMove->save();
-       }
+       // if(count(head($votes))-count(last($votes))>1){
+       //      $toMoveId = head($votes)[0]['id'];
+       //      $toMove = Vote::find($toMoveId);
+       //      $toDeferToId = last($votes)[0]['deferred_to_id'];
+       //      $toMove->deferred_to_id = $toDeferToId;
+       //      $toMove->save();
+       // }
 
     }
 }

@@ -32,20 +32,8 @@ class CreateDefaultDelegations
     {
         $user = $event->user;
 
-        $departments = Department::all();
-        $councillors = User::councillor()->get();
+        $user->createDefaultDelegations();
 
-        if($councillors->isEmpty()){
-            return true;
-        }
-
-        foreach($departments as $department){
-            $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
-            $newDelegation = new Delegation;
-            $newDelegation->department_id       =   $department->id;
-            $newDelegation->delegate_from_id    =   $user->id;
-            $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
-            $newDelegation->save();
-        }
+        
     }
 }

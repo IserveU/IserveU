@@ -36,11 +36,16 @@ class CheckUserRoles
         if($user->hasRole('citizen')){
             if(!$user->identity_verified || $user->address_verified_until['carbon']->lt(Carbon::now())){
                 $user->removeUserRoleByName('citizen');
+                $user->delegatedTo->delete();
+                $user->delegatedFrom->delete();
+
             }
          
             return true;
         } else if($user->identity_verified && $user->address_verified_until['carbon']->gt(Carbon::now())) {
             $user->addUserRoleByName('citizen');
+            $user->createDefaultDelegations();
+            
             return true;
         }
 

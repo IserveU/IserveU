@@ -24,7 +24,6 @@ class DelegationController extends ApiController
     public function index()
     {
 
-     
 
     }
 

@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\UserCreated' => [
 			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendWelcomeEmail',
-			'App\Listeners\User\CreateDefaultDelegations'
+		//	'App\Listeners\User\CreateDefaultDelegations'
 		],
 		'App\Events\UserLoginFailed' => [
 			'App\Listeners\User\LogAttempt', // Also locks accounts
@@ -41,12 +41,12 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\VoteCreated' => [
 			'App\Listeners\Vote\SetDeferedToVotes',
-			'App\Listeners\Motion\BalanceDeferredVotes'
+			//'App\Listeners\Motion\BalanceDeferredVotes' //Not needed with one councilor, not a big issue immediately
 		],
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\Vote\CheckCommentVotes',
 			'App\Listeners\Vote\SetDeferedToVotes',
-			'App\Listeners\Motion\BalanceDeferredVotes',
+			//'App\Listeners\Motion\BalanceDeferredVotes',  //Not needed with one councilor, not a big issue immediately
 			'App\Listeners\Comment\ClearMotionCommentCache',
 		],
 		'App\Events\MotionCreated' => [
