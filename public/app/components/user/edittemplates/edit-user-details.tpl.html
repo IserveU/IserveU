@@ -68,7 +68,7 @@
           <md-input-container>
            <label style="color:grey" translate="{{'ADDRESS'}}"></label> 
               <md-icon class="mdi mdi-home input-icon"></md-icon>
-            <input  type='text' placeholder="{{user.profile.street_name ? (user.profile.unit_number + ' ' + user.profile.street_number + ' ' + user.profile.street_name) : 'Address not set'}}" ng-disabled="true"/>
+            <input  type='text' ng-model="user.profile" format-address ng-disabled="true"/>
           </md-input-container>
         </td>
 

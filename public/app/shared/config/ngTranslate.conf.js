@@ -134,14 +134,15 @@
 			VERIFY_ADDRESS: "Verify your address",
 			ADDRESS_CAPTION: "We will need to verify your identity for your Yellowknife vote to count.",
 			APT_SUITE: "Apt./Suite",
-			STREET_NUM: "Street No.",
+			STREET_NUM: "Street Number",
 			POSTAL_CODE: "Postal Code",
 			ROLL_NUMBER: "Roll Number",
 			SEARCH_RESULTS: "Search Results",
 			SELECT_ADDRESS: "Select your address.",
 			FIELD_SEARCH: "Please fill in the fields on the left to begin searching.",
 			UNIT_NUMBER: "Unit Number",
-			STREET_ADDRESS: "Street Address"
+			STREET_ADDRESS: "Street Address",
+			STREET: "Street Name"
 
 
 		});
@@ -270,7 +271,8 @@
 			SELECT_ADDRESS: "Sélectionnez votre adresse.",
 			FIELD_SEARCH: "SVP remplir les champs sur la gauche pour commencer la recherche.",
 			UNIT_NUMBER: "Numéro d’unité",
-			STREET_ADDRESS: "Numéro de rue"
+			STREET_ADDRESS: "Numéro de rue",
+			STREET: "Nom de rue"
 		}).fallbackLanguage('en');
 
 		//uses local storage to remember user's preferred language

@@ -44,11 +44,20 @@
 			})
 		}
 
+		var deleteBackgroundImage = function(id){
+			return $http.delete('api/background_image/'+id).success(function(result){
+				return result;
+			}).error(function(error){
+				return error;
+			})
+		}
+
 		return {
 		  	getBackgroundImages: getBackgroundImages,
 		  	saveBackgroundImage: saveBackgroundImage,
 		  	getBackgroundImage: getBackgroundImage,
-		  	updateBackgroundImage: updateBackgroundImage
+		  	updateBackgroundImage: updateBackgroundImage,
+		  	deleteBackgroundImage: deleteBackgroundImage
 		};
 	}
 

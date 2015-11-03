@@ -37,6 +37,13 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
+.sidebar-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 294px;
+}
+
 p.beta-message {
 	font-size: 11px; 
 	color: white; 
@@ -627,15 +634,8 @@ form.user-profile-form {
   -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   &:hover {
-  	cursor: pointer;
+	  	cursor: pointer;
   		font-size:26px;
-
-  	// color: $accentColor;
-  }
-  &.opened{
-  		font-size:26px;
-  	
-	// color: $accentColor;
   }
 }
 
@@ -653,16 +653,47 @@ form.user-profile-form {
   	}
 }
 
-.search-input.ng-hide{
-   opacity: 0;
-   transition: opacity .1s ease-in-out;
-   -o-transition:	  .1s ease-in-out;
-   -moz-transition: opacity .1s ease-in-out;
-   -webkit-transition: opacity .1s ease-in-out;
+input.sidebar-search-input {
+			border: 0px;
+			background-color: transparent;
+			color: white;
+			font-size: inherit;
+		    border-style: solid;
+		    width: 79%;
+		    border-bottom: thin solid $midGrey;
+		    &:focus{
+			    border-bottom: thin solid $accentColor;
+		    }
+		
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			font-size: 16px;
+		    color:    $lightGrey;
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			font-size: 16px;
+		   color:    $lightGrey;
+		   opacity:  1;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+			font-size: 16px;
+		   color:    $lightGrey;
+		   opacity:  1;
+		}
+		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			font-size: 16px;
+		   color:    $lightGrey;
+		}
 }
 
-
-
+#search-filter{
+	right: 0px;
+	bottom: 22px;
+	margin: auto;
+	position: absolute;
+	@media screen and (max-width:600px) {
+		bottom: 15px;
+	}
+}
 .details-header {
 	border-bottom-color: rgba(0,0,0,0.12) !important; 
 	background-image: none !important;
@@ -679,3 +710,8 @@ form.user-profile-form {
 	}
 }
 
+.sidebar-loading-circle {
+	display: block;
+	margin: 0px auto;
+	margin-top: 14%;
+}

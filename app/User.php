@@ -15,6 +15,7 @@ use Auth;
 use Hash;
 use Request;
 use Carbon\Carbon;
+use Redis;
 
 use App\Events\UserUpdated;
 use App\Events\UserUpdating;
@@ -184,7 +185,23 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		});
 
 		static::updated(function($model){
+
 			event(new UserUpdated($model));
+			$model->load('roles');
+
+			$data = [
+
+			'event' => 'UserWithId'.$model->id.'IsVerified',
+			'data'  => [
+
+					'permissions' => $model->permissions,
+					'identity_verified' => $model->identity_verified
+
+				]
+			];
+
+		 	Redis::publish('connection', json_encode($data));
+
 			return true;
 		});
 
@@ -203,6 +220,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
     public function addUserRoleByName($name){
 	    $userRole = Role::where('name','=',$name)->firstOrFail();
 	    $this->roles()->attach($userRole->id);
+
     }
 
     public function removeUserRoleByName($name){
@@ -471,6 +489,27 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 				$q->where('name','citizen');
 			});
     }
+
+    /**
+     * Searches for particular attributes to narrow down scope
+	 * @param query 
+	 */
+
+	public function scopeVerified($query){
+		return $query->where('identity_verified',1);
+	}
+
+	public function scopeUnverified($query){
+		return $query->where('identity_verified', 0);
+	}
+
+	public function scopeAddressUnverified($query){
+		return $query->where('address_verified_until', null);
+	}
+
+	public function scopeAddressNotSet($query){
+		return $query->whereNotNull('street_name'); 
+	}
 
 	/**********************************  Relationships *****************************************/
 

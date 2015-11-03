@@ -6,12 +6,13 @@
 		.module('iserveu')
 		.controller('PreviewImageController', PreviewImageController);
 
-	function PreviewImageController($rootScope, $state, $scope, $stateParams, ToastMessage, backgroundimage, UserbarService) {
+	function PreviewImageController($rootScope, $stateParams, $state, ToastMessage, backgroundimage, UserbarService) {
 
 		var vm = this;
 
 		vm.filename = "uploads/background_images/";
 		vm.updateBackgroundImage = updateBackgroundImage;
+		vm.deleteBackgroundImage = deleteBackgroundImage;
 		vm.updating = false;
 
 		backgroundimage.getBackgroundImage($stateParams.id).then(function(result){
@@ -33,9 +34,20 @@
 
 			backgroundimage.updateBackgroundImage(data).then(function(result){
 				ToastMessage.simple("Successfully updated.");
+				$rootScope.$emit('backgroundImageUpdated');
 				vm.updating = false;
 			}, function(error){
 				vm.updating = false;
+				ToastMessage.report_error(error);
+			})
+		}
+
+		function deleteBackgroundImage(){
+			backgroundimage.deleteBackgroundImage(vm.fileinfo.id).then(function(result){
+				ToastMessage.simple("Image deleted.");
+				$state.go('backgroundimage');
+				$rootScope.$emit('backgroundImageUpdated');
+			}, function(error) {
 				ToastMessage.report_error(error);
 			})
 		}

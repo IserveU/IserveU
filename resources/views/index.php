@@ -20,9 +20,9 @@
         </div>
 
     <div layout="row"  layout-fill>
-        <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
+        <md-sidenav id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
             <sidebar sidebar="{{currentState}}">
-                <div id="sidebar-inner" ng-click="sidebar.closeSidenav('left')"></div>
+                <div id="sidebar-inner"></div>
             </sidebar>
         </md-sidenav>
 
@@ -30,7 +30,7 @@
         
           <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" ng-if="userIsLoggedIn" >
             <div ng-controller="UserbarController as user" layout="column" class="md-toolbar-tools" tabIndex="-1">
-                <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-md aria-label="Toggle Menu">
+                <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-lg aria-label="Toggle Menu">
                   <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
                 </md-button>
                 <div flex>
@@ -142,7 +142,8 @@
     <script src="<?=elixir('js/dependencies.js')?>"></script>
     <script src="<?=elixir('js/app.js')?>"></script>
     <script src="<?=elixir('js/app.js')?>"></script>
-    
+    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+    <!-- difficulty including this in bower file for now, more research needs to be done --> 
 
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');

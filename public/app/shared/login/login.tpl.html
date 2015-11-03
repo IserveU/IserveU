@@ -6,7 +6,7 @@
     <md-content class="md-whiteframe-z5 loginbox" layout-padding layout-wrap layout="row" >
   
       <div flex="100">
-        <form name="loginform" id="loginform" ng-hide="login.registerform" novalidate>
+        <form name="loginform" id="loginform" ng-if="!login.registerform" novalidate>
           <md-input-container flex>
             <label>Email</label>
             <input type="email" label="email" name="email" ng-model="login.email" required>
@@ -58,7 +58,7 @@
           <md-input-container flex>
             <label>Email</label>
             <input type="email" name="newemail" ng-model="login.email" required>
-            <div ng-messages="{warning:login.emailValidation}" ng-if="registerform.create.$dirty">
+            <div ng-messages="{warning:login.emailValidation}">
             <div ng-message="warning">This email is already registered on the site!</div>
             </div>
             <div ng-messages="registerform.newemail.$error" ng-if="registerform.newemail.$dirty">
@@ -69,15 +69,15 @@
           <md-input-container flex>
             <label>Confirm Email</label>
             <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.email" required>
-            <div ng-messages="registerform.confirmemail.$error" ng-if="registerform.newemail.$dirty">
-              <div ng-message="required">Please confirm your email.</div>
+            <div ng-messages="registerform.confirmemail.$error" >
+              <div ng-message="required" ng-if="registerform.newemail.$touched">Please confirm your email.</div>
               <div ng-message="compareTo">Your email does not match.</div>
             </div>
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>
             <input ng-minlength="8" type="password" name="newpassword" ng-model="login.password"  required="">
-            <div ng-messages="registerform.password.$error"> 
+            <div ng-messages="registerform.newpassword.$error"> 
               <div ng-message="minlength">Password must be more than 8 characters long.</div>
             </div>
           </md-input-container>

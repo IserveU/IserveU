@@ -31,16 +31,36 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function index(Request $request) {
+
+		$filters = $request->all();
 		$limit = $request->get('limit') ?: 50;
 
 		if (Auth::user()->can('show-users')) { //An admin able to see all users
-			$users = User::paginate($limit);
-			return $users;
+			$users = User::whereExists(function($query){
+				$query->where('id','>',0);
+			});
+		} else {
+			//Other people can see a list of the public users
+			$users = User::arePublic();
 		}
 
-		//Other people can see a list of the public users
-		$users = User::arePublic()->paginate($limit);
-		return $users;
+		if(isset($filters['verified'])){
+			$users->verified($filters['verified']);
+		}
+
+		if(isset($filters['unverified'])){
+			$users->unverified($filters['unverified']);
+		}
+
+		if(isset($filters['address_unverified'])){
+			$users->addressUnverified($filters['address_unverified']);
+		}
+
+		if(isset($filters['address_not_set'])){
+			$users->addressNotSet($filters['address_not_set']);
+		}
+
+		return $users->paginate($limit);
 			
 	}
 

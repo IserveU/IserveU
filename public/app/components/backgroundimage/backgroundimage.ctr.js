@@ -29,26 +29,18 @@
 			vm.isNotAdmin = !SetPermissionsService.can('administrate-background_images');
 		}
 
-		function backgroundImages(){
-			backgroundimage.getBackgroundImages().then(function(result) {
-				vm.backgroundimages = result.data;
-			}, function(error) {
-				console.log(error);
-			});
-		}
-
-		vm.previewImage = function(image) {
-			$scope.image = "uploads/background_images/"+image.file;
-		}
-
 		vm.uploadFile = function(){
 
 		    backgroundimage.saveBackgroundImage(vm.thisFile).then(function(result) {
-	            $rootScope.$emit('refreshLocalStorageSettings', []);
+
+		    	vm.backgroundimages = '';
+
 		    	vm.onSuccess = true;
 		    	vm.uploading = false;
 		    	ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
-	            $state.reload();
+
+				$rootScope.$emit('backgroundImageUpdated');
+
 		    },function(error){
 		    	vm.uploading = false;
 		    	vm.showError = true;
@@ -73,7 +65,6 @@
 
 		}
 
-		backgroundImages();
 		isAdmin();
 
 

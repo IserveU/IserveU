@@ -6,13 +6,15 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController($rootScope, $stateParams, $state, $scope, motion, vote, department, SetPermissionsService, ToastMessage) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, $mdSidenav, $interval, motion, vote, department, SetPermissionsService, ToastMessage) {
 
 		var vm = this;
 
 		/**************************************** Motion Sidebar Variables **************************************** */
 
 		$scope.$state = $state;
+
+		vm.listLoading = true;
 
         vm.can_create_vote  = SetPermissionsService.can('create-votes');
 
@@ -23,13 +25,16 @@
 		vm.motion_filters = {
 			take: 100,
 			limit: 100,
-			page: ''
+			page: '',
+			oldest: true,
+			is_active: true,
+			is_current: true
 		}
 
 		vm.orderByFilters = [
 			   // {name: "Popularity" 		,query: "search_query_popularity"}, 
-			   {name: "Oldest"     		,query: {oldest: true}},
-			   {name: "Newest"	   		,query: {newest: true}},
+			   {name: "Newest"     		,query: {oldest: true}},
+			   {name: "Oldest"	   		,query: {newest: true}},
 			   {name: "Open for Voting" ,query: {is_active:true, is_current:true}},
 			   {name: "Closed"			,query: {is_expired:true}}]
 
@@ -51,6 +56,10 @@
 		vm.switchLoading = switchLoading;
 
 		/**************************************** Motion Sidebar Function **************************************** */
+
+		vm.closeSidenav = function(menuId){
+			$mdSidenav(menuId).close();
+		}
 
 		vm.loadDepartments = function(){
 			department.getDepartments().then(function(result){
@@ -77,6 +86,9 @@
 		}
 
 		vm.showSearch = function(){
+			if(vm.showSearchFilter){
+				vm.searchText = '';
+			}
 			vm.searchOpened = !vm.searchOpened;
 			vm.showSearchFilter = !vm.showSearchFilter;
 		}
@@ -85,9 +97,9 @@
 			vm.motion_is_loading[id] = bool;
 		}
 
-
-		function getMotions(){
-			motion.getMotions(vm.motion_filters).then(function(results) {
+		function getMotions(filter){
+			motion.getMotions(filter).then(function(results) {
+				vm.listLoading = false;
 				vm.paginate_loading = false;
 				vm.motions = results.data;
 				if(!results.data[0]){
@@ -162,7 +174,7 @@
 			}
 		}
 
-		getMotions();
+		getMotions(vm.motion_filters);
 		switchLoading(true, $stateParams.id);
 
 		$rootScope.$on('sidebarLoadingFinished', function(events, data) {

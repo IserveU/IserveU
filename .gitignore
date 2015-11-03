@@ -12,6 +12,10 @@
 _ide_helper.php
 npm-debug.log
 .env
+<<<<<<< HEAD
 .DS_Store
 codeception.yml
-/tests
+tests/_output/*
+=======
+.DS_Store
+>>>>>>> 8e8fa99ad10422abdfd7ef4afa50c5bab1e52fd9

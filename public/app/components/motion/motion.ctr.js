@@ -71,8 +71,6 @@
             else{
                 updateMotionFunction(data);
             }
-
-
         }
 
         function updateMotionFunction(data){
@@ -98,9 +96,14 @@
                 $state.current.data.motionOpen = result.MotionOpenForVoting;
                 vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
                 vm.isLoading = false; 
-                $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
                 UserbarService.title = result.title;
-                getOverallVotePosition()
+                getOverallVotePosition();
+
+                $interval(function(){
+                    $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
+                    $state.current.data.motionOpen = result.MotionOpenForVoting;
+                }, 300, 5);
+
             });  
 
             getMotionFiles(motion_id);

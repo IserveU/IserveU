@@ -47,7 +47,7 @@ class CheckCommentVotes
         $newCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($vote['position'])->restore(); //Comment Votes Cast by this user the new way
 
         if($vote->comment){
-            //echo $original['position']; Can not figure this out
+            //echo $original['position']; Can not figure this out, just want to delete the 
           //  DB::enableQueryLog();
             //$commentsToDelete = CommentVote::where('comment_id',$vote->comment->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete(); // Delete the comment votes of this User
            // return $commentsToDelete;
