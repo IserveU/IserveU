@@ -26,7 +26,7 @@ class MotionVoteController  extends ApiController{
         foreach($passiveVotes as $id => $vote){
             $count = count($vote);
             $votesCount[$vote[0]->position]['passive']['number'] = $count;
-            $votesCount[$vote[0]->position]['passive']['percent'] = floor(($count/$totalVotes)*100)/100;
+            $votesCount[$vote[0]->position]['passive']['percent'] = floor(($count/$totalVotes)*100);
         }
 
         $activeVotes = Vote::where('motion_id',$motion->id)->cast()->active()->get()->groupBy('position');
