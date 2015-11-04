@@ -511,6 +511,12 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		return $query->whereNotNull('street_name'); 
 	}
 
+    public function scopeHasRoles($query,$roles){
+       return $query->whereHas('roles',function($query) use ($roles){
+             $query->whereIn('name',$roles);
+      });
+   }
+
 	/**********************************  Relationships *****************************************/
 
 
