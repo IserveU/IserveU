@@ -25,7 +25,7 @@
 		vm.motion_filters = {
 			take: 100,
 			limit: 100,
-			page: '',
+			next_page: 1,
 			oldest: true,
 			is_active: true,
 			is_current: true
@@ -42,11 +42,9 @@
 		vm.orderByFilter;
 		vm.newFilter = [];
 
-		vm.next_page = 1;
-
 		vm.showSearchFilter = false;
 		vm.searchOpened = false;
-		vm.hide_show_more = true;
+		vm.show_more = false;
 		vm.paginate_loading = false;
 
 		vm.searchText = '';
@@ -68,21 +66,46 @@
 		}
 
 		vm.querySearch = function(filter){
+
+			var temp_arr = Object.getOwnPropertyNames(filter);
+			emptyMotionFilters();
+
+			vm.motion_filters[temp_arr[0]] = true;
+			if(temp_arr.length > 2){
+				vm.motion_filters[temp_arr[1]] = true;
+			}
+
 			if(angular.isNumber(vm.departmentFilter)){
 				filter['department_id'] = vm.departmentFilter;
+				vm.motion_filters.push(vm.departmentFilter);
 			}
 			return motion.getMotions(filter).then(function(result){
 				vm.newFilter = filter;
+				checkPaginate(result);
 				return vm.motions = result.data;
 			})
 		}
 
 		vm.querySearchDepartment = function(filter) {
+
 			vm.newFilter['department_id'] = filter.department_id;
+			emptyMotionFilters();
+			vm.motion_filters['department_id'] = filter.department_id;
+
 			return motion.getMotions(vm.newFilter).then(function(result){
 				vm.newFilter = vm.newFilter;
+				checkPaginate(result);
 				return vm.motions = result.data;
 			})
+		}
+
+		function emptyMotionFilters() {
+			var temp_filters = vm.motion_filters;
+
+			vm.motion_filters		   = [];
+			vm.motion_filters['take']  = temp_filters.take;
+			vm.motion_filters['limit'] = temp_filters.limit;
+			vm.motion_filters['next_page']  = temp_filters.next_page;
 		}
 
 		vm.showSearch = function(){
@@ -102,50 +125,57 @@
 				vm.listLoading = false;
 				vm.paginate_loading = false;
 				vm.motions = results.data;
+				checkPaginate(results);
 				if(!results.data[0]){
 					vm.emptyMotionsArray = true;
 				}
-				if(results.next_page_url == null){
-					vm.hide_show_more = false;
-				}
-				else{
-					vm.next_page = results.next_page_url.slice(-1);
-				}
+
 			});
 		};
 
+		function checkPaginate(results){
+			if(results.next_page_url == null){
+				vm.show_more = false;
+			}
+			else{
+				vm.show_more = true;
+				vm.motion_filters.next_page = results.next_page_url.slice(-1);
+			}
+		}
+
+		vm.showAll = function() {
+			vm.departmentFilter = '';
+			vm.orderByFilter 	= '';
+			emptyMotionFilters();
+			getMotions(vm.motion_filters);
+		}
+
 		vm.loadMoreMotions = function(){
-			vm.motion_filters.page = vm.next_page;
 			vm.paginate_loading = true;
-			getMotions();
+			getMotions(vm.motion_filters);
 		}
 
 
-		// make this into a directive
+		// make this into a directive, or a switch 
 		vm.cycleVote = function(motion){
 
 			if(!motion.MotionOpenForVoting){
 				ToastMessage.simple("Sorry! This motion is not open for voting.", 1000);
-			}
-
-			else{
+			} else{
 
 				if(!motion.user_vote){
 					castVote(motion.id);
-				}
+				} else{
 
-				else{
 					var data = {
 		                id: motion.user_vote.id,
 		                position: null
 		            }
 					if(motion.user_vote.position != 1){
 						data.position = motion.user_vote.position + 1; 
-					}
-					else {
+					} else {
 						data.position = -1;
 					}
-
 					updateVote(data);
 				}
 
