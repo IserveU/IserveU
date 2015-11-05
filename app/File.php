@@ -138,7 +138,12 @@ class File extends ApiModel
 	
 	public function uploadFile($file_category_name,$input_name="file",Request $request){
 
+		$file_max_size = $this->iniGetBytes('upload_max_filesize');
+		$post_max_size = $this->iniGetBytes('post_max_size');
 
+		if($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
+			abort(403, "The file is too big. There is a post limit of ".ini_get('post_max_size')." on the server.");
+		}
 
 		$file_category = FileCategory::where('name',$file_category_name)->first();
 		if(!$file_category){
@@ -147,19 +152,22 @@ class File extends ApiModel
 
 		$this->file_category_id = $file_category->id;
 		$this->title 			= $request->input('title');
-
 		$file = $request->file($input_name);
+
 		if(!$file){
 			return false;
 		}
 
+		$size = $file->getSize();
+		if($size > $file_max_size) {
+			abort(403, "The file is too big. Files should be less than ".ini_get('upload_max_filesize').".");
+		}
 
 		try{
 			$mimeType = $file->getMimeType();
 		} catch (\Exception $e){
 			\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
 		}
-
 
 		if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
 
@@ -188,6 +196,22 @@ class File extends ApiModel
 
 	}
 	
+	public function iniGetBytes($value){
+		$value = trim(ini_get($value));
+		$last = strtolower($value{strlen($value) -1});
+
+		switch ($last) {
+	        case 'g':
+	            $value *= 1024;
+	        case 'm':
+	            $value *= 1024;
+	        case 'k':
+	            $value *= 1024;
+	    }
+
+		return $value;
+	}
+
 	/************************************* Getters & Setters ****************************************/
 
 

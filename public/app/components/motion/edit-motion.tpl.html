@@ -1,8 +1,5 @@
-<div class="edit-motion-mode" flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
+<div id="edit-motion-mode" flex="100" flex-order="2" flex-order-gt-sm="1"  layout-padding >
 	<div flex>
-
-
-
 		<fieldset>
 			<legend class="md-headline" translate="{{'INTRODUCTION'}}"></legend>
 			<textarea rows="4" class="md-body-1" ng-model="motion.motionDetail.summary" aria-label="motionSummary" flex></textarea>
@@ -30,37 +27,45 @@
 		</fieldset>		
 		</div>
 
-		<fieldset>
+		<fieldset><a id="attachments"></a>
 		<legend class="md-subhead">Attachments</legend>
-			<div flow-init layout-sm="column" layout-padding 
-			     	  flow-files-submitted="motion.upload($flow)" 
-		 	          flow-drop-enabled="true"
-			          flow-drop
-			 >
-				<span style="display:inline-block">
-					<md-icon class="mdi" md-font-icon="mdi-file-image-box" style="display:inline-block"></md-icon>
-					<input aria-label="figures select" type="file" style="position:relative; display:inline-block; font-size:12px" flow-btn/>
-					<p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
+			<div class="file-upload-drag"
+				 flow-init layout-sm="column" layout-padding 
+		 	     flow-drop-enabled="true"
+			     flow-drop 
+			     flow-file-added="motion.validate($file, $index);">
+				<span>
+					<md-icon class="mdi" md-font-icon="mdi-file-image-box"></md-icon>
+					<input id="file-btn" aria-label="attachment input" type="file" flow-btn/>
+					<p class="md-body-1">Or drag and drop your files here</p>
 				</span>
 
-			    <md-input-container ng-repeat="file in $flow.files" style="display:inline-block; padding:0px; width:96%; font-size:14px" flex>
-			    <md-icon class="mdi-small mdi-close" style="cursor:pointer; top:10px" ng-click="motion.removeFile($index); hideFile = true" ng-hide="hideFile"></md-icon>
-			      <input type="text" style="width:100%" press-enter="motion.changeTitleName($index, file.name)" ng-blur="motion.changeTitleName($index, file.name)" ng-model="file.name" ng-hide="hideFile"/>
+			    <md-input-container id="title-input" ng-repeat="file in motion.viewFiles" flex>
+			    <md-icon class="mdi-close close" ng-click="motion.deleteTempMotionFile(file); hideFile = true" ng-hide="hideFile"></md-icon>
+			      <input type="text"  aria-label="attachment title textfield" press-enter="motion.changeTitleName(file)" ng-blur="motion.changeTitleName(file)" ng-model="file.name" ng-hide="hideFile"/>
+			    </md-input-container>
+		    
+			    <md-input-container>
+			      <div ng-messages="{uploadError:motion.uploadError}" ng-repeat="file in motion.errorFiles | limitTo:5">
+			        <div ng-message="uploadError">
+			           {{file.file.name}}:  {{file.error}}
+			        </div>
+			      </div>
 			    </md-input-container>
 			</div>
 
-			<md-grid-list  md-gutter="3px" md-cols-sm="1" md-cols-md="2" md-cols-gt-md="4" md-row-height-gt-md="1:1" md-row-height="4:3"  layout-padding>
-				<md-grid-tile ng-class="{'overlay':motion.delete_motion_file[file.id].bool}" ng-repeat="file in motion.motion_files"	md-colspan-sm="1">
+			<md-grid-list md-gutter="3px" md-cols-sm="1" md-cols-md="2" md-cols-gt-md="4" md-row-height-gt-md="1:1" md-row-height="4:3"  layout-padding>
+				<md-grid-tile ng-class="{'overlay':motion.delete_motion_file[file.id].bool}" ng-repeat="file in motion.motion_files"md-colspan-sm="1">
 					<md-grid-tile-header>
 						<h3><textarea ng-model="file.title" ng-blur="motion.updateMotionFile(file)"></textarea></h3>
 					</md-grid-tile-header>
 					<a href="/uploads/motion_files/{{::file.filename}}">
 						<img ng-src="/uploads/motion_files/{{::file.filename}}" />
 					</a>
-					<md-grid-tile-footer  style="padding-top: 12px;"><md-button ng-click="motion.deleteMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{ motion.delete_motion_file[file.id].bool ? ('CANCEL' | translate) : ('REMOVE' | translate) }}</p></md-button></md-grid-tile-footer>
+					<md-grid-tile-footer><md-button ng-click="motion.deleteOldMotionFile(motion.delete_motion_file[file.id].bool, motion.motionDetail.id, file.id)"><md-icon class="mdi-small mdi-close"></md-icon><p class="md-caption">{{ motion.delete_motion_file[file.id].bool ? ('CANCEL' | translate) : ('REMOVE' | translate) }}</p></md-button></md-grid-tile-footer>
 				</md-grid-tile>
 			</md-grid-list>
-			<md-input-container>
+
 		</fieldset>
 
 

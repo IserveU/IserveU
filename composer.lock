@@ -798,12 +798,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "e6c9cd03d6b2a870e74da03332feeb97d477fc87"
+                "reference": "33f848674c96b82b050fde2806ba4e55ee88078f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/e6c9cd03d6b2a870e74da03332feeb97d477fc87",
-                "reference": "e6c9cd03d6b2a870e74da03332feeb97d477fc87",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/33f848674c96b82b050fde2806ba4e55ee88078f",
+                "reference": "33f848674c96b82b050fde2806ba4e55ee88078f",
                 "shasum": ""
             },
             "require": {
@@ -852,7 +852,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-10-12 08:42:50"
+            "time": "2015-11-04 14:06:13"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -983,7 +983,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",

@@ -47,7 +47,7 @@ class MotionFileController extends ApiController {
 		}
 		
         $file = new File;
-      	$file->uploadFile('motion_files',$request);		
+      	$file->uploadFile('motion_files','file',$request);		
 
 		if(!$file->save()){
 		 	abort(403,$file->errors);
@@ -109,7 +109,7 @@ class MotionFileController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-      	$motionFile->file->uploadFile('motion_files', $request);		
+      	$motionFile->file->uploadFile('motion_files', 'file', $request);		
 		
 		if(!$motionFile->file->save()){
 		 	abort(403,$motionFile->file->errors);

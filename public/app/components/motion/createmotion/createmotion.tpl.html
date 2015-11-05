@@ -6,101 +6,81 @@
   <div class="md-toolbar-tools">
     <h3>New Motion</h3>
   </div>
-</md-toolbar>
-<div layout="column" >
-  <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding ></div>
+  </md-toolbar>
+<div layout="column" layout-padding>
+  <div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding></div>
   <div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2"  layout-padding>
-
 
     <form name="newmotionform" novalidate ng-submit="newmotionform.$valid && create.newMotion()">
 
-      <div layout-padding>
-       <md-input-container>
-       <label>Title</label>
-       <input ng-model="create.title" name="title" ng-minlength='8' required/>
-       <div ng-messages="newmotionform.title.$error">  
-        <div ng-message="minlength">Must be atleast 8 characters.</div>
-        <div ng-if="newmotionform.title.$dirty || create.submitted" ng-message="required">A title is required.</div>
-      </div>
-    </md-input-container>
+        <md-input-container>
+             <label>Title</label>
+         <input ng-model="create.title" name="title" ng-minlength='8' required/>
+           <div ng-messages="newmotionform.title.$error">  
+            <div ng-message="minlength">Must be atleast 8 characters.</div>
+            <div ng-if="newmotionform.title.$dirty || create.submitted" ng-message="required">A title is required.</div>
+          </div>
+        </md-input-container>
 
-    <md-input-container>
-    <label>Introduction</label>
-    <input ng-model="create.summary" name="introduction"></input>
-  </md-input-container>
+        <md-input-container>
+            <label>Introduction</label>
+          <input ng-model="create.summary" name="introduction"></input>
+        </md-input-container>
 
-  <md-input-container flex>
-    <input class="details-header box-clicked" translate disabled translate-attr-placeholder="DETAILS">
-  </md-input-container>
+        <md-input-container flex>
+          <input class="details-header box-clicked" translate disabled translate-attr-placeholder="DETAILS">
+        </md-input-container>
 
-<md-input-container>
-<text-angular class="text-angular" ng-model="create.text" name="text" layout-padding ng-length="300">
-<p class="md-body-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></text-angular>
-  <div ng-messages="newmotionform.text.$error">  
-    <div ng-message="minlength">Make it longer.</div>
-    <div ng-if="create.submitted" ng-message="required">Fill in your motion.</div>
+        <md-input-container>
+          <text-angular class="text-angular" ng-model="create.text" name="text" layout-padding ng-length="300">
+            <p class="md-body-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </text-angular>
+            <div ng-messages="newmotionform.text.$error">  
+              <div ng-message="minlength">Make it longer.</div>
+              <div ng-if="create.submitted" ng-message="required">Fill in your motion.</div>
+            </div>
+        </md-input-container>
+
+
+        <div layout-padding></div>
+
+        <div layout layout-sm="column" class="column-form">
+          <md-datepicker ng-model="create.closingdate" ng-model-options="{allowInvalid: 'true'}" md-placeholder="Enter date" convert-closing-date >
+          </md-datepicker>
+
+          <md-input-container flex="45" flex-sm="100">
+            <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>
+              <md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}
+            </md-option>
+            </md-select>
+            <div ng-messages="newmotionform.departmentname.$error">  
+              <div ng-if="create.submitted" ng-message="required">A department is required.</div>
+            </div>
+          </md-input-container>
+
+          <md-checkbox ng-model="create.isactive" aria-label="Activate motion checkbox" ng-true-value="1" ng-false-value="0">
+            <md-tooltip >This will make your motion stay active for a week on creation</md-tooltip>
+            Active
+          </md-checkbox>
+        </div>
+
+        <div layout="row">
+          <md-button ng-click="create.submitted = true; create.attachments = true;" type="submit" class="md-raised md-primary">
+            <span ng-hide="create.attachments">Add attachments</span>
+            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="create.attachments"></md-icon>
+          </md-button>
+
+          <md-button layout-align="center"ng-click="create.submitted = true;" type="submit" class="btn btn-sm btn-primary">
+            <span ng-hide="create.creating">Create motion</span>
+            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="create.creating"></md-icon>
+          </md-button>
+        </div>
+    </form>
+  </div>  
   </div>
-</md-input-container>
-
-
-  <fieldset ng-style="style" 
-       flow-init
-          flow-drop-enabled="true"
-          flow-drop
-          flow-drag-enter="style={border: '2px dashed rgb(255,118,0)'};create.fileDrop();"
-          flow-drag-leave="style={border: '2px dashed #cccccc'}"
-          flow-files-submitted="create.upload($flow)"
-          >
-    <div layout-padding>
-      <input type="file" multiple="multiple" flow-btn style="font-size: 12px"/>
-      <p style="display:inline-block" class="md-body-1">Or drag and drop your files here</p>
-    </div>
-    <p style="font-size: 14px;" ng-repeat="file in $flow.files">
-
-    <md-input-container ng-hide="hideFile[$index]" style="display:inline-block; padding:0px; width:96%" flex-gt-md="100" flex-md="90" flex-lg="90" flex-sm="80">
-        <md-icon class="mdi-small mdi-close" style="top:10px;cursor:pointer;display:inline-block" ng-click="create.removeFile($index); hideFile[$index] = true"></md-icon>
-      <input type="text" style="width:100%" press-enter="create.changeTitleName($index, file.name)" ng-blur="create.changeTitleName($index, file.name)" ng-model="file.name"/>
-      ({{file.size | bytes}})
-    </md-input-container>
-    </p>
-  </fieldset>
-
-
-<span flex style="height: 15px"></span>
-
-      <div layout layout-sm="column">
-        <md-datepicker ng-model="create.closingdate" ng-model-options="{allowInvalid: 'true'}"style="background-color:transparent; padding-bottom: 17px;  margin-left:-14px" md-placeholder="Enter date" convert-closing-date >
-      </md-datepicker>
-
-      <md-input-container flex="45">
-      <md-select ng-model="create.department" name="departmentname" aria-label="select Department" placeholder="Choose Department" required>
-      <md-option ng-repeat="department in create.departments" ng-value="department.id">{{department.name}}
-    </md-option>
-  </md-select>
-  <div ng-messages="newmotionform.departmentname.$error">  
-    <div ng-if="create.submitted" ng-message="required">A department is required.</div>
-  </div>
-</md-input-container>
-
-<md-checkbox ng-model="create.isactive" aria-label="Checkbox 1" ng-true-value="1" ng-false-value="0" flex>Active<md-tooltip >This will make your motion stay active for a week on creation</md-tooltip>
-</md-checkbox>
-</div>
-
-<md-button ng-click="create.submitted = true; create.creating=true" type="submit" class="btn btn-sm btn-primary">
-  <div ng-hide="create.creating">Create motion</div>
-  <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="create.creating"></md-icon>
-</md-button>
-
-
-</div>
-</div>
-</div>
-</form>
-</div>  
-</div>
 </section>
 </md-content>

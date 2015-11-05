@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, $filter, motion, motionfile, $state, UserbarService, department, ToastMessage) {
+    function CreateMotionController($rootScope, $scope, $stateParams, $filter, $timeout, motion, motionfile, $state, UserbarService, department, ToastMessage) {
 
 		UserbarService.setTitle("");
 
@@ -24,6 +24,7 @@
         vm.summary;
         vm.submitted    = false;
         vm.creating     = false;
+        vm.attachments  = false;
         vm.departments  = [];
 
         /************************************* Motion File Functions ****************************/
@@ -32,14 +33,18 @@
         vm.uploadMotionFile  = uploadMotionFile;
         vm.changeTitleName   = changeTitleName;
         vm.removeFile        = removeFile;
+        vm.viewFiles         = [];
+        vm.errorFiles        = [];
+        vm.uploadError       = false;
+        vm.upload            = upload;
+        var index            = 0;
 
-        vm.upload = function(flow){
-            angular.forEach(flow.files, function(flowObj, index){
-                vm.theseFiles[index] = new FormData();
-                vm.theseFiles[index].append("file", flowObj.file);
-                vm.theseFiles[index].append("file_category_name", "motionfiles");
-                vm.theseFiles[index].append("title", flowObj.name);
-            })
+        function upload(file){
+            vm.theseFiles[index] = new FormData();
+            vm.theseFiles[index].append("file", file.file);
+            vm.theseFiles[index].append("file_category_name", "motionfiles");
+            vm.theseFiles[index].append("title", file.name);
+            index++;
         }
 
         function uploadMotionFile(id) {
@@ -56,10 +61,21 @@
             delete vm.theseFiles[index];
         }
 
+        $scope.validate = function(file){
+            if(!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[file.getExtension()]){
+                vm.viewFiles.push(file);
+                upload(file);
+            }
+            else {
+                vm.uploadError = true;
+                vm.errorFiles.push({file:file, error: "File must be a png, jpeg, gif, jpg, or pdf."});
+            }
+        }
+
         /************************************* Create Motion Functions ****************************/
 
     	vm.newMotion = function(){
-            console.log(vm.closingdate);
+            vm.creating = true;
             var data = {
                 title: vm.title,
                 text: vm.text,
@@ -71,8 +87,13 @@
 
             motion.createMotion(data).then(function(result) {
                 $rootScope.$emit('refreshMotionSidebar');  
-                uploadMotionFile(result.id);
+                // uploadMotionFile(result.id);
                 vm.creating = false;
+                if(vm.attachments){
+                    $timeout(function(){
+                        $rootScope.$emit('createMotionAndAddAttachments');
+                    }, 1000);
+                }
                 $state.go('motion', ({id:result.id}))
             });
 		}

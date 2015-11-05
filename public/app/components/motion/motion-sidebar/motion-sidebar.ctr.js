@@ -183,7 +183,7 @@
 
 
 		$rootScope.$on('refreshMotionSidebar', function(events, data) {
-			getMotions();
+			getMotions(vm.motion_filters);
 		});
 
 		$rootScope.$on('refreshSelectMotionOnSidebar', function(events, data){
