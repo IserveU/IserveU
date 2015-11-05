@@ -78,6 +78,10 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SetRandomPassword',
 			'App\Listeners\User\SendResetEmail'	
+		],
+		'App\Events\SendDailyEmails' => [
+			'App\Listeners\Motion\SendDailyPublicMotionSummary',
+			'App\Listeners\User\SendDailyAdminUserSummary'
 		]
 	];
 
