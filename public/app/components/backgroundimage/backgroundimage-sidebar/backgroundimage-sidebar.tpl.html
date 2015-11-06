@@ -19,7 +19,7 @@
       </md-icon>
       </div>
 
-      <p ui-sref="backgroundimage.preview({id:image.id})" class="sidebar-ellipsis" layout-padding md-ink-ripple>{{ image.filename }}</p>
+      <p ui-sref="backgroundimage.preview({id:image.id})" class="ellipsis" layout-padding md-ink-ripple>{{ image.filename }}</p>
 
       <md-switch  style="margin:0px" class="md-secondary"ng-model="image.active"  ng-click="sidebar.activateMotion(image.id, image.active)" aria-label="Switch" ng-true-value="1" ng-false-value="0" layout-padding></md-switch>
 

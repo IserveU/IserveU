@@ -16,7 +16,7 @@
 
 		vm.listLoading = true;
 
-		vm.nextpage;
+		vm.next_page;
 		vm.users = [];
 	    vm.profile = [];
 
@@ -49,6 +49,12 @@
 	    	{name: "Address Pending",   query: {address_unverified: true, address_not_set: true}}
 	    ]
 
+	    vm.default_filter = {
+	    	unverified: true,
+	    	page: 1,
+	    	limit: 30
+	    }
+
 	   	vm.showSearch = function(){
 	    	if(vm.hideSearch){
 	    		vm.text = '';
@@ -61,25 +67,65 @@
 	    	vm.users = '';
 	    	vm.listLoading = true;
 
+	   		initDefaultFilters();
+	   		setDefaultFilters(filter);
+
 	    	user.getUserInfo(filter).then(function(result){
 	    		vm.users = result.data;
 				vm.listLoading = false;
+				checkPaginate(result);
 	    	})
 	    }
 
 	    vm.searchShowAll = function(){
+	    	initDefaultFilters();
+	    	vm.filters = '';
 	    	vm.users = '';
 	    	vm.listLoading = true;
 	    	getUsers();
 	    }
 
 	    function defaultSearch() {
-	    	user.getUserInfo({unverified:true}).then(function(result){
+	    	user.getUserInfo(vm.default_filter).then(function(result){
 	    		vm.users = result.data;
 				vm.listLoading = false;
+				checkPaginate(result);
 	    	})
 	    }
 
+	    function initDefaultFilters(){
+	    	vm.default_filter = {};
+	    	vm.default_filter['limit'] = 30;
+	    }
+
+	    function setDefaultFilters(filter){
+	    	var temp_filter = Object.getOwnPropertyNames(filter);
+	    	angular.forEach(temp_filter, function(fil, key){
+	    		vm.default_filter[fil] = true;
+	    	})
+	    }
+
+	    function checkPaginate(results) {
+	    	if(results.next_page_url == null){
+				vm.show_more = false;
+			}
+			else{
+				vm.show_more = true;
+				vm.default_filter.page = results.next_page_url.slice(-1);
+			}
+	    }
+
+	    vm.loadMore = function(){
+	    	vm.paginate_loading = true;
+	    	user.getUserInfo(vm.default_filter).then(function(result){
+	    		angular.forEach(result.data, function(value, key){
+	    			vm.users.push(value);
+	    		})
+		    	vm.paginate_loading = false;
+				vm.listLoading = false;
+				checkPaginate(result);
+	    	})
+	    }
 
 		/**************************************** Role Functions **************************************** */
 		vm.roles;
@@ -231,7 +277,6 @@
 
 		function getUsers(){
 			user.getUserInfo().then(function(result) {
-				vm.nextpage = result.current_page + 1;
 				vm.users = result.data;
 				vm.listLoading = false;
             });         

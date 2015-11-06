@@ -13,12 +13,18 @@
 
   </md-toolbar>
 
-  <md-progress-circular class="sidebar-loading-circle" md-mode="indeterminate" ng-show="sidebar.listLoading"></md-progress-circular>
+  <md-progress-circular class="loading-circle" md-mode="indeterminate" ng-show="sidebar.listLoading"></md-progress-circular>
 
   <md-list>
     <md-list-item class="sidebar-list" ng-repeat="thisuser in sidebar.users | filter:sidebar.text">  
       <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
       <md-switch  style="margin:0px" class="md-secondary"ng-model="thisuser.identity_verified" ng-click="sidebar.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
+    <md-list-item>
+        <span flex></span>
+            <md-button id="show-more-btn" ng-show="sidebar.show_more" ng-click="sidebar.loadMore()">{{sidebar.paginate_loading ? 'LOADING' : 'SHOW MORE'}} ...</md-button>
+    </md-list-item>
+
+
   </md-list>
 </md-content>

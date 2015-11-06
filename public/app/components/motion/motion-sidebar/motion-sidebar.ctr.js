@@ -14,10 +14,9 @@
 
 		$scope.$state = $state;
 
+		vm.motions = {};
 		vm.listLoading = true;
-
         vm.can_create_vote  = SetPermissionsService.can('create-votes');
-
 		vm.getMotions = getMotions;
 
 		vm.emptyMotionsArray = false;
@@ -68,12 +67,12 @@
 		vm.querySearch = function(filter){
 
 			var temp_arr = Object.getOwnPropertyNames(filter);
+			temp_arr.pop();			//removes $mdSelect event thats bundled with var filter
 			emptyMotionFilters();
 
-			vm.motion_filters[temp_arr[0]] = true;
-			if(temp_arr.length > 2){
-				vm.motion_filters[temp_arr[1]] = true;
-			}
+			angular.forEach(temp_arr, function(fil, key){
+				vm.motion_filters[fil] = true;
+			})
 
 			if(angular.isNumber(vm.departmentFilter)){
 				filter['department_id'] = vm.departmentFilter;
@@ -95,6 +94,7 @@
 			return motion.getMotions(vm.newFilter).then(function(result){
 				vm.newFilter = vm.newFilter;
 				checkPaginate(result);
+				console.log(result);
 				return vm.motions = result.data;
 			})
 		}
@@ -126,10 +126,9 @@
 				vm.paginate_loading = false;
 				vm.motions = results.data;
 				checkPaginate(results);
-				if(!results.data[0]){
+				if(results.data.length == 0){
 					vm.emptyMotionsArray = true;
 				}
-
 			});
 		};
 
