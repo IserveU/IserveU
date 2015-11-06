@@ -75,18 +75,18 @@ class ApiModel extends Model
         return $result;
     }
 
-    public function getLockedAttribute(){
-        if(Auth::user()->can('administrate-'.$this->table)){
-            $this->locked = [];
-        }
-        return $this->locked;
-    }
+    // public function getLockedAttribute(){
+    //     if(Auth::user()->can('administrate-'.$this->table)){
+    //         $this->locked = [];
+    //     }
+    //     return $this->locked;
+    // }
 
     public function getAlteredLockedFields(){
         $dirty = $this->getDirty();
         $changed = array();
         foreach($this->locked as $key){
-            if(in_array($key,$dirty)){
+            if(array_key_exists($key,$dirty)){
                 array_push($changed,$key);
             }
         }

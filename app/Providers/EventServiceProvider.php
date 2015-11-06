@@ -37,7 +37,7 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\Motion\SendNotificationEmail',
-			'App\Listeners\Motion\RemoveVotes'
+			'App\Listeners\Motion\AlertVoters'
 		],
 		'App\Events\VoteCreated' => [
 			'App\Listeners\Vote\SetDeferedToVotes',
