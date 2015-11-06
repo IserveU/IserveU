@@ -25,7 +25,8 @@
             agree:{percent:0,number:0},
             abstain:{percent:0,number:0},
             deferred_agree:{percent:0,number:0},
-            deferred_disagree:{percent:0,number:0}
+            deferred_disagree:{percent:0,number:0},
+            deferred_abstain:{percent:0,number:0}
         }
 
         /**************************************** Motion Voting Function **************************************** */
@@ -69,6 +70,9 @@
 
         function calculateVotes(vote_array){
             // need to make a temporary array .... probbably?!?!?!
+
+            console.log(vote_array);
+
             vm.motionVotes.disagree = ( vote_array[-1] ) ? vote_array[-1].active : {percent:0,number:0};
             vm.motionVotes.agree    = ( vote_array[1] ) ? vote_array[1].active : {percent:0,number:0};
             vm.motionVotes.abstain  = ( vote_array[0] ) ? vote_array[0].active : {percent:0,number:0};
@@ -79,6 +83,10 @@
             if(vote_array[-1]){
                 vm.motionVotes.deferred_disagree = ( vote_array[-1].passive ) ? vote_array[-1].passive : {percent:0,number:0};
             }
+            if(vote_array[0]){
+                vm.motionVotes.deferred_abstain = ( vote_array[0].passive ) ? vote_array[0].passive : {percent:0,number:0};
+            }
+
 
             VoteService.overallMotionPosition(vm.motionVotes);
             $state.current.data.overallPosition = vm.motionVotes.position;
