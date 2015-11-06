@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
-	function motion($resource, $q, $http, ToastMessage) {
+	function motion($resource, $q, $http, ToastMessage, motionCache) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
@@ -84,7 +84,7 @@
 			updateMotion: updateMotion,
 			deleteMotion: deleteMotion,
 			restoreMotion: restoreMotion,
-			getTopMotion: getTopMotion,
+			getTopMotion: getTopMotion
 		}
 	}
 })();

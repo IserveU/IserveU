@@ -7,30 +7,26 @@
       </div>
 	</md-toolbar>
     <div flex="100" layout="row" class="voting">
-    	
         <!--Agree Side-->
         <div layout-padding flex> 
             <md-button ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-mousedown="vm.castVote(1)" ng-class="{'md-raised agree':vm.usersVote == 1}" aria-label="Agree" layout-fill>
-            	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" style="font-size:3.2vw;" ng-show="!vm.voting.agree"></md-icon>
+            	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!vm.voting.agree"></md-icon>
             	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.agree"></md-icon>
             </md-button>
         </div>
         <!--Abstain Side-->
         <div layout-padding flex>
-
-       		 <md-button ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-mousedown="vm.castVote(0)" ng-class="{'md-raised':vm.usersVote == 0}" aria-label="Abstain" layout-fill>
+       		<md-button ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-mousedown="vm.castVote(0)" ng-class="{'md-raised':vm.usersVote == 0}" aria-label="Abstain" layout-fill>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ vm.usersVote==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!vm.voting.abstain"></md-icon>
        		 	<md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.abstain"></md-icon>	       		 	
-       		 </md-button>	
+       		</md-button>	
         </div>
         <!--Disagree Side-->
         <div layout-padding flex>
-          
-
-				<md-button  ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-mousedown="vm.castVote(-1)" ng-class="{'md-raised disagree':vm.usersVote == -1}" aria-label="Disagree" layout-fill>
-					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!vm.voting.disagree"></md-icon>
-					<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.disagree"></md-icon>
-				</md-button>	   
+  				<md-button  ng-disabled="!vm.motionOpen || !vm.can_create_vote" ng-mousedown="vm.castVote(-1)" ng-class="{'md-raised disagree':vm.usersVote == -1}" aria-label="Disagree" layout-fill>
+  					<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ vm.usersVote=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!vm.voting.disagree"></md-icon>
+  					<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="vm.voting.disagree"></md-icon>
+  				</md-button>	   
         </div>
     </div>
 
@@ -50,7 +46,7 @@
   	  		<md-tooltip>{{ vm.motionVotes.abstain.number }} {{ vm.motionOpen? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>
   	  	</md-button>
 
-        <md-button ng-if="vm.motionVotes.deferred_abstain.number != 0"  style="width:{{ vm.motionVotes.deferred_abstain.percent }}%; background-color: #c3c3c3" class="deferred_abstain md-raised md-primary" aria-label="Number in deferred agreement">
+        <md-button ng-if="vm.motionVotes.deferred_abstain.number != 0"  style="width:{{ vm.motionVotes.deferred_abstain.percent }}%; background-color: #c3c3c3" class="deferred_abstain md-raised md-primary" aria-label="Number in deferred abstained">
           <md-tooltip>{{ vm.motionVotes.deferred_abstain.number }} {{ 'ABSTAIN_DEFERRALS' | translate }} </md-tooltip>
         </md-button>
 

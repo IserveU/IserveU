@@ -229,6 +229,19 @@ md-sidenav{
 	}
 
 	.voting{
+
+	    transition: all 0.3s ease;
+	    opacity: 1;
+
+	    &.ng-hide-add, 
+	    &.ng-hide-remove{ 
+	        display: inline-block !important;
+	    }
+
+	    &.ng-hide{
+	        opacity: 0;
+	    }
+
 		button{
 			margin: 0px;
 			height: 100px;

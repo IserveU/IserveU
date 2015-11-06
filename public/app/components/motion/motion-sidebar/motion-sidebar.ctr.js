@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('MotionSidebarController', MotionSidebarController);
 
-	function MotionSidebarController($rootScope, $stateParams, $state, $scope, $mdSidenav, $interval, motion, vote, department, SetPermissionsService, ToastMessage) {
+	function MotionSidebarController($rootScope, $stateParams, $state, $scope, $mdSidenav, $interval, motion, vote, department, motionCache, SetPermissionsService, ToastMessage) {
 
 		var vm = this;
 
@@ -129,6 +129,7 @@
 				if(results.data.length == 0){
 					vm.emptyMotionsArray = true;
 				}
+				// motionCache.put('motionCache', results);
 			});
 		};
 

@@ -5,12 +5,58 @@
         .controller('MotionController', MotionController);
 
     function MotionController($rootScope, $stateParams, $mdToast, $filter, $state, $location, $anchorScroll, $interval, $timeout, motion,
-    motionfile, UserbarService, ToastMessage) {
+    motionfile, UserbarService, ToastMessage, motionCache) {
 
         var vm = this;
-        vm.isLoading = true; // Used to turn loading circle on and off for motion page
 
-        vm.motionDetail = {};
+        vm.isLoading           = true; // Used to turn loading circle on and off for motion page
+        vm.motionDetail        = {};
+        vm.goTo                = goTo;
+        vm.overallVotePosition = null;
+
+        function getMotion(motion_id) {
+            var motionData = motionCache.get('motionCache');
+            if(motionData) {
+                angular.forEach(motionData, function(data, key) {
+                    if(data.id == motion_id){
+                        postGetMotion(data);
+                    }
+                })
+            } else {
+                motion.getMotion(motion_id).then(function(result) {
+                    postGetMotion(result);
+                });     
+            }
+            getMotionFiles(motion_id);
+        }
+
+        function postGetMotion(motion){
+            vm.originalActive = motion.active;  // this is used for editing
+            vm.motionDetail = motion;
+            vm.motionDetail.closing.carbon.date = new Date(motion.closing.carbon.date);
+            vm.isLoading = false; 
+            UserbarService.title = motion.title;
+            getOverallVotePosition();
+
+            $interval(function(){
+                $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: motion.id});
+            }, 300, 5);
+        }
+
+        function getOverallVotePosition(){
+            $interval(function(){
+                 vm.overallVotePosition = $state.current.data.overallPosition;
+            }, 1000, 5);
+        }
+
+        function goTo(id){
+            $location.hash(id);
+            $anchorScroll();
+        }
+
+        getMotion($stateParams.id);
+
+         /**************************************** Editing Motion Functions **************************************** */
 
         vm.editMotionMode = false;
         vm.editingMotion = false;
@@ -19,13 +65,6 @@
             title: null,
         }];
 
-        vm.goTo = goTo;
-
-        function goTo(id){
-            $location.hash(id);
-            $anchorScroll();
-        }
-
         vm.deleteMotion = function() {
             var toast = ToastMessage.delete_toast(" motion");
 
@@ -33,7 +72,7 @@
                 if(response == 'ok') {
                     motion.deleteMotion($stateParams.id).then(function(result) {
                         $state.go('home');
-                        refreshSidebar();    
+                        $rootScope.$emit('refreshMotionSidebar');  
                     }, function(error) {
                         ToastMessage.report_error(error);
                     });
@@ -69,11 +108,9 @@
             if(!vm.originalActive){
                 data['active']  = vm.motionDetail.active;
                 data['closing'] = $filter('date')(vm.motionDetail.closing.carbon.date, "yyyy-MM-dd HH:mm:ss");
-                updateMotionFunction(data);
             }
-            else{
-                updateMotionFunction(data);
-            }
+
+            updateMotionFunction(data);
         }
 
         function updateMotionFunction(data){
@@ -90,43 +127,8 @@
             });
         }
 
-        function getMotion(motion_id) {
-
-            motion.getMotion(motion_id).then(function(result) {
-                vm.originalActive = result.active;
-                vm.motionDetail = result;
-                $state.current.data.userVote = result.user_vote;
-                $state.current.data.motionOpen = result.MotionOpenForVoting;
-                vm.motionDetail.closing.carbon.date = new Date(result.closing.carbon.date);
-                vm.isLoading = false; 
-                UserbarService.title = result.title;
-                getOverallVotePosition();
-
-                $interval(function(){
-                    $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: result.id});
-                    $state.current.data.motionOpen = result.MotionOpenForVoting;
-                }, 300, 5);
-
-            });  
-
-            getMotionFiles(motion_id);
-        }
-
-        function getOverallVotePosition(){
-            $interval(function(){
-                 vm.overallVotePosition = $state.current.data.overallPosition;
-            }, 1000, 5);
-        }
-
-
-        function refreshSidebar(){
-            $rootScope.$emit('refreshMotionSidebar');
-        }
-
-        getMotion($stateParams.id);
-
         /**************************************** Motion Files Functions **************************************** */
-        // abstract this whole section and figure a way to avoid redundancy with these functions that are being used by create motion ctrl 
+        // abstract this section and figure a way to avoid redundancy with these functions that are being used by create motion ctrl 
 
         vm.motion_files;
 

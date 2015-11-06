@@ -6,7 +6,7 @@
         .module('iserveu')
         .controller('CommentController', CommentController);
 
-    function CommentController($rootScope, $stateParams, $mdToast, $state, $timeout, $interval, comment, ToastMessage, CommentVoteService) {
+    function CommentController($rootScope, $stateParams, $mdToast, comment, motion, motionCache, ToastMessage, CommentVoteService) {
 
         var vm = this;
 
@@ -23,13 +23,26 @@
 
         vm.checkCommentVotes        = CommentVoteService.checkCommentVotes;
 
-        // first gets the comment stuff
-        $interval(function(){
-            $timeout(function(){
-                vm.userHasVoted     =  $state.current.data.userVote;
-                vm.motionOpen       =  $state.current.data.motionOpen;
-            }, 3000);
-        }, 100, 3)
+        // first gets variables that determine how the comment section appears
+        function initDetermineCommentShow(id){
+            var motionData = motionCache.get('motionCache');
+            if(motionData){
+                angular.forEach(motionData, function(motion, key){
+                    if(motion.id == id){
+                        assignMotionVariables(motion);
+                    }
+                })
+            } else {
+                motion.getMotion(id).then(function(motion){
+                    assignMotionVariables(motion);
+                })
+            }
+        } 
+
+        function assignMotionVariables(motion){
+            vm.userHasVoted   = motion.user_vote;
+            vm.motionOpen     = motion.MotionOpenForVoting;
+        }
 
         /****************************************************** Comment Function Variables ******************************************** */
 
@@ -95,6 +108,7 @@
 
         /***************************************************** Comment Eventing ********************************************************* */
 
+        initDetermineCommentShow($stateParams.id);
         getMotionComments($stateParams.id);
 
         // try to think of alternatives to rootScope event broadcasting!! 
@@ -102,7 +116,7 @@
             getMotionComments(data.id);
         });
 
-        $rootScope.$on('udpateUserVote', function(event, data){
+        $rootScope.$on('updateUserVote', function(event, data){
             vm.userHasVoted = data.vote;
         });
 

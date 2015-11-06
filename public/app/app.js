@@ -105,10 +105,9 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
-		.run(function($rootScope, $auth, $state, auth, $window) {
+		.run(function($rootScope, $auth, $state, auth, $window, motion, motionCache) {
 
-			$rootScope.themename = 'default';
-
+			// runs everytime a state changes
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 				if(toState.name !== 'login'){
 					if(toState.name !== 'login.resetpassword'){
@@ -117,7 +116,6 @@
 						$rootScope.previousUrlID = fromParams.id;
 					}
 				}
-
 
 				var requireLogin = toState.data.requireLogin;
 				var auth = $auth.isAuthenticated();
@@ -129,12 +127,19 @@
 				}
 
 				var user = JSON.parse(localStorage.getItem('user'));
-					if(user) {
-						$rootScope.authenticatedUser = user;
-						$rootScope.userIsLoggedIn = true;
-					}
+				if(user) {
+					$rootScope.authenticatedUser = user;
+					$rootScope.userIsLoggedIn = true;
+				}
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
 			});
+
+			// runs once on app start
+			motion.getMotions().then(function(results){
+				motionCache.put('motionCache', results.data);
+			});
+
+			$rootScope.themename = 'default';
 
 			$window.onbeforeunload = function(e) {
 				var publicComputer = localStorage.getItem('public_computer');
@@ -142,6 +147,8 @@
 					return localStorage.clear();
 				}
 			}
+
+
 
 		})
     .controller('AppCtrl', function($scope) {

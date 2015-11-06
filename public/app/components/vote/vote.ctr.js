@@ -4,15 +4,16 @@
         .module('iserveu')
         .controller('VoteController', VoteController);
 
-    function VoteController($rootScope, $stateParams, $state, $interval, $timeout, vote, motion, ToastMessage, VoteService, SetPermissionsService) {
+    function VoteController($rootScope, $stateParams, $state, $timeout, vote, motion, ToastMessage, VoteService, SetPermissionsService, motionCache) {
 
     	var vm = this;
        
         vm.can_create_vote  = SetPermissionsService.can('create-votes');
 
-        /**************************************** Vote Variables **************************************** */
+        /********************************************* Vote Variables ******************************************** */
 
-        vm.motionVotes = {};
+        vm.motionVotes = null;
+        vm.motionOpen  = null;
 
         vm.voting = {
             agree: false,
@@ -20,46 +21,21 @@
             disagree: false
         }
 
-        vm.motionVotes = {
-            disagree:{percent:0,number:0},
-            agree:{percent:0,number:0},
-            abstain:{percent:0,number:0},
-            deferred_agree:{percent:0,number:0},
-            deferred_disagree:{percent:0,number:0},
-            deferred_abstain:{percent:0,number:0}
-        }
+        /**************************************** Motion Voting Functions **************************************** */
 
-        /**************************************** Motion Voting Function **************************************** */
-
-        function getMotionOnGetVoteSuccess(){
-
-            $interval.cancel(vm.getVoteDetails);
-            getMotion($stateParams.id);
-            getMotionVotes($stateParams.id);
-            $rootScope.$emit('getMotionComments', {id: $stateParams.id});
-
-        }
-
-        function getMotion(id){
-
-            var oldVote = vm.usersVote;
-
-            motion.getMotion(id).then(function(result) {
-
-                $rootScope.$emit('refreshSelectMotionOnSidebar', {motion: result});
-                $rootScope.$emit('udpateUserVote', {vote: result.user_vote});
-
-                $state.current.data.userVote = result.user_vote;
-                vm.userHasVoted = result.user_vote;
-                vm.usersVote    = result.user_vote.position;
-                vm.userVoteId   = result.user_vote.id;
-
-                if(oldVote != vm.usersVote){
-                    $timeout(function(){
-                        turnOffLoadingVotingAnimation();
-                    }, 300);
-                }
-            })
+        // accesses motionCache that was created on app init
+        function initMotionOpenForVoting(id){
+            var motionData = motionCache.get('motionCache');
+            if(motionData) {
+                angular.forEach(motionData, function(motion, key){
+                    if(motion.id == id){
+                        vm.motionOpen   = motion.MotionOpenForVoting;
+                        vm.userHasVoted = motion.user_vote
+                        vm.usersVote    = motion.user_vote.position;
+                        vm.userVoteId   = motion.user_vote.id;
+                    }
+                })
+            } else getMotion(id);
         }
 
         function getMotionVotes(id){
@@ -69,44 +45,33 @@
         }
 
         function calculateVotes(vote_array){
-            // need to make a temporary array .... probbably?!?!?!
-
-            console.log(vote_array);
-
-            vm.motionVotes.disagree = ( vote_array[-1] ) ? vote_array[-1].active : {percent:0,number:0};
-            vm.motionVotes.agree    = ( vote_array[1] ) ? vote_array[1].active : {percent:0,number:0};
-            vm.motionVotes.abstain  = ( vote_array[0] ) ? vote_array[0].active : {percent:0,number:0};
-
-            if( vote_array[1] ){
-                vm.motionVotes.deferred_agree = ( vote_array[1].passive ) ? vote_array[1].passive : {percent:0,number:0};
-            }
-            if(vote_array[-1]){
-                vm.motionVotes.deferred_disagree = ( vote_array[-1].passive ) ? vote_array[-1].passive : {percent:0,number:0};
-            }
-            if(vote_array[0]){
-                vm.motionVotes.deferred_abstain = ( vote_array[0].passive ) ? vote_array[0].passive : {percent:0,number:0};
-            }
-
-
-            VoteService.overallMotionPosition(vm.motionVotes);
-            $state.current.data.overallPosition = vm.motionVotes.position;
+            vm.motionVotes = VoteService.calculateVotes(vote_array);
+            $state.current.data.overallPosition = VoteService.overallMotionPosition(vm.motionVotes);
         }
 
-        // look into rootscope emits and intervals to make some sort of WATCH - instead of a consecutive broadcast - to just stop on time.
-        // best bet would be interval and once the item is set to cancel
-        function getMotionOpenForVoting(){
+        function refreshMotionOnVoteSuccess(id){
+            turnOffLoadingVotingAnimation();
+            getMotion(id);
+            getMotionVotes(id);
+            $rootScope.$emit('getMotionComments', {id:id});
+        }
 
-            vm.getVoteDetails = $interval(function(){
-
-                vm.motionOpen   = $state.current.data.motionOpen;
-                if($state.current.data.userVote && $state.current.data.userVote.motion_id == $stateParams.id){
-                    vm.userHasVoted = $state.current.data.userVote;
-                    vm.usersVote    = vm.userHasVoted.position;
-                    vm.userVoteId   = vm.userHasVoted.id;
+        function getMotion(id){
+            motion.getMotion(id).then(function(result) {
+                $rootScope.$emit('refreshSelectMotionOnSidebar', {motion: result});
+                $rootScope.$emit('updateUserVote', {vote: result.user_vote});   // hits comment controller
+                if(result.user_vote) {
+                    vm.userHasVoted = result.user_vote;
+                    vm.usersVote    = result.user_vote.position;
+                    vm.userVoteId   = result.user_vote.id;
                 }
-
-            }, 1000, 3);
+                if(!vm.motionOpen) {
+                    vm.motionOpen = result.MotionOpenForVoting;
+                }
+            })
         }
+
+        /**************************************** UI Voting Functions **************************************** */
 
         vm.castVote = function(position) {
             var data = {
@@ -115,24 +80,40 @@
             }
 
             if(!vm.userHasVoted) {
-
                 turnOnLoadingVotingAnimation(position);
-
                 vote.castVote(data).then(function(result) {
-
                     calculateVotes(result);
-                    getMotionOnGetVoteSuccess();
+                    refreshMotionOnVoteSuccess(result.motion_id);
                     VoteService.showVoteMessage(position, vm.voting);
                 }, function(error) {
                     turnOffLoadingVotingAnimation();
                     ToastMessage.report_error(error);
                 });
+            } else updateVote(data.position);
+        }
+
+        function updateVote(position){
+            var data = {
+                id: vm.userVoteId,
+                position:position,
             }
-                else updateVote(data.position);
-            }
+
+            if(position != vm.usersVote) {
+                    turnOnLoadingVotingAnimation(position);
+                
+                vote.updateVote(data).then(function(result) {
+                    calculateVotes(result);
+                    refreshMotionOnVoteSuccess(result.motion_id);
+                    ToastMessage.simple("You've updated your vote");
+                }, function(error) {
+                    ToastMessage.report_error(error);
+                    turnOffLoadingVotingAnimation();
+                });
+
+            } else return;
+        }
 
         function turnOnLoadingVotingAnimation(position){
-
             switch(position){
                 case -1:
                     vm.voting.disagree = true;
@@ -143,7 +124,6 @@
                 case 0:
                     vm.voting.abstain = true;
             }
-            
         }
 
         function turnOffLoadingVotingAnimation(){
@@ -152,44 +132,17 @@
             })
         }
 
-        function updateVote(position){
-            var data = {
-                id: vm.userVoteId,
-                position:position,
-            }
-
-            if(data.position == vm.usersVote){
-                return;
-            }
-            else{
-                turnOnLoadingVotingAnimation(position);
-
-                vote.updateVote(data).then(function(result) {
-
-                    calculateVotes(result);
-                    getMotionOnGetVoteSuccess();
-
-                    $timeout(function(){
-                      ToastMessage.simple("You've updated your vote");
-                    }, 1000);
-
-                }, function(error) {
-                    ToastMessage.report_error(error);
-                    turnOffLoadingVotingAnimation();
-                });
-            }
-        }
+        /**************************************** Functions On State Load **************************************** */
 
         getMotionVotes($stateParams.id);
-        getMotionOpenForVoting();
+        initMotionOpenForVoting($stateParams.id);
+
+        /****************************************** Event Listeners ********************************************** */
 
         $rootScope.$on('getMotionInsideVoteController', function(events, data){
-            $state.current.data.userVote.position = data.vote.position;
-            $state.current.data.userVote.id = data.vote.id;
             vm.usersVote    = data.vote.position;
             vm.userVoteId   = data.vote.id;
             $rootScope.$emit('getMotionComments', {id: $stateParams.id});
-            
         })
 
     }
