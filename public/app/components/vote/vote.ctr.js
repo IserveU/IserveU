@@ -12,9 +12,13 @@
 
         /********************************************* Vote Variables ******************************************** */
 
-        vm.motionVotes = null;
+        vm.motionVotes = {disagree:{percent:0,number:0},
+                          agree:{percent:0,number:0},
+                          abstain:{percent:0,number:0},
+                          deferred_agree:{percent:0,number:0},
+                          deferred_disagree:{percent:0,number:0},
+                          deferred_abstain:{percent:0,number:0}};
         vm.motionOpen  = null;
-
         vm.voting = {
             agree: false,
             abstain: false,
@@ -30,9 +34,11 @@
                 angular.forEach(motionData, function(motion, key){
                     if(motion.id == id){
                         vm.motionOpen   = motion.MotionOpenForVoting;
-                        vm.userHasVoted = motion.user_vote
-                        vm.usersVote    = motion.user_vote.position;
-                        vm.userVoteId   = motion.user_vote.id;
+                        if(motion.user_vote){
+                            vm.userHasVoted = motion.user_vote
+                            vm.usersVote    = motion.user_vote.position;
+                            vm.userVoteId   = motion.user_vote.id;    
+                        }
                     }
                 })
             } else getMotion(id);
@@ -46,7 +52,8 @@
 
         function calculateVotes(vote_array){
             vm.motionVotes = VoteService.calculateVotes(vote_array);
-            $state.current.data.overallPosition = VoteService.overallMotionPosition(vm.motionVotes);
+            $rootScope.$emit('initMotionOverallPosition', 
+                { overall_position: VoteService.overallMotionPosition(vm.motionVotes) });
         }
 
         function refreshMotionOnVoteSuccess(id){

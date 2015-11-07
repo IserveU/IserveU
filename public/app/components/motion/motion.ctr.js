@@ -36,17 +36,10 @@
             vm.motionDetail.closing.carbon.date = new Date(motion.closing.carbon.date);
             vm.isLoading = false; 
             UserbarService.title = motion.title;
-            getOverallVotePosition();
 
             $interval(function(){
                 $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: motion.id});
             }, 300, 5);
-        }
-
-        function getOverallVotePosition(){
-            $interval(function(){
-                 vm.overallVotePosition = $state.current.data.overallPosition;
-            }, 1000, 5);
         }
 
         function goTo(id){
@@ -55,6 +48,10 @@
         }
 
         getMotion($stateParams.id);
+
+        $rootScope.$on('initMotionOverallPosition', function(events, data){
+            vm.overallVotePosition = data.overall_position;
+        });
 
          /**************************************** Editing Motion Functions **************************************** */
 

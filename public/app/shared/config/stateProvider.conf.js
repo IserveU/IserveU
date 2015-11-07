@@ -26,10 +26,7 @@
     	    templateUrl: 'app/components/motion/motion.tpl.html',
     	    controller: 'MotionController as motion',
     	    data: {
-    	        requireLogin: true,
-                motionOpen: null,
-                overallPosition: null,
-                userVote: null
+    	        requireLogin: true
     	    },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'motion';
