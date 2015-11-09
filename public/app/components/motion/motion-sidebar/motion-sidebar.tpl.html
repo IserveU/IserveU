@@ -31,18 +31,16 @@
   <md-list> 
     <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active"   ng-click="sidebar.closeSidenav('left')">
 
-      <div layout-padding ng-hide="sidebar.motion_is_loading[motion.id]">
-        <md-icon aria-label="Visited" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}" layout-padding>
+    <loading-spinner check-if="{{motionIsLoading[motion.id]}}" layout-padding>
+      <div>
+        <md-icon aria-label="Motion Popularity" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}">
         <md-tooltip md-direction="right" ng-if="motion.motion_rank !== 0 && motion.motion_rank != null">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
         <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
         </md-icon>
       </div>
+    </loading-spinner>
 
-     <div layout-padding ng-show="sidebar.motion_is_loading[motion.id]">
-            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" layout-padding></md-icon>
-     </div>
-
-      <p ng-click="sidebar.switchLoading(true, motion.id);"ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
+      <p ng-click="sidebar.switchLoading(true, motion.id);" ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
       <div ng-switch="{{ motion.user_vote.position }}" ng-if="sidebar.can_create_vote" ng-cloak>
         <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting" ng-mousedown="sidebar.cycleVote(motion)">

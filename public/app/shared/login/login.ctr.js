@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
-	function login($rootScope, $state, $stateParams, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage, $mdDialog) {	
+	function login($rootScope, $state, $stateParams, $scope, auth, afterauth, backgroundimage, resetPasswordService, ToastMessage, $mdDialog) {	
 
 		var vm = this;
 
@@ -28,6 +28,7 @@
 
 		function login(email, password) {
 			vm.loggingIn = true;
+
 			var credentials = { 
 				email: vm.email, 
 				password: vm.password

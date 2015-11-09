@@ -9,10 +9,13 @@
 
         var vm = this;
 
+        $rootScope.motionIsLoading[$stateParams.id] = true; // used to turn loading circle on and off for motion sidebar
         vm.isLoading           = true; // Used to turn loading circle on and off for motion page
         vm.motionDetail        = {};
         vm.goTo                = goTo;
         vm.overallVotePosition = null;
+
+        /*********************************************** Motion Functions ****************************************** */
 
         function getMotion(motion_id) {
             var motionData = motionCache.get('motionCache');
@@ -34,12 +37,9 @@
             vm.originalActive = motion.active;  // this is used for editing
             vm.motionDetail = motion;
             vm.motionDetail.closing.carbon.date = new Date(motion.closing.carbon.date);
+            $rootScope.motionIsLoading[$stateParams.id] = false;
             vm.isLoading = false; 
             UserbarService.title = motion.title;
-
-            $interval(function(){
-                $rootScope.$emit('sidebarLoadingFinished', {bool: false, id: motion.id});
-            }, 300, 5);
         }
 
         function goTo(id){

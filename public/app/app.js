@@ -135,11 +135,12 @@
 			});
 
 			// runs once on app start
+			$rootScope.themename = 'default';
+	        $rootScope.motionIsLoading = [];
+
 			motion.getMotions().then(function(results){
 				motionCache.put('motionCache', results.data);
 			});
-
-			$rootScope.themename = 'default';
 
 			$window.onbeforeunload = function(e) {
 				var publicComputer = localStorage.getItem('public_computer');
@@ -147,7 +148,6 @@
 					return localStorage.clear();
 				}
 			}
-
 
 
 		})

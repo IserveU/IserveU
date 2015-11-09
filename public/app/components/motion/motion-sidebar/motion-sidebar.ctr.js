@@ -48,10 +48,6 @@
 
 		vm.searchText = '';
 
-		vm.motion_is_loading = {};
-
-		vm.switchLoading = switchLoading;
-
 		/**************************************** Motion Sidebar Function **************************************** */
 
 		vm.closeSidenav = function(menuId){
@@ -94,7 +90,6 @@
 			return motion.getMotions(vm.newFilter).then(function(result){
 				vm.newFilter = vm.newFilter;
 				checkPaginate(result);
-				console.log(result);
 				return vm.motions = result.data;
 			})
 		}
@@ -114,10 +109,6 @@
 			}
 			vm.searchOpened = !vm.searchOpened;
 			vm.showSearchFilter = !vm.showSearchFilter;
-		}
-
-		function switchLoading(bool, id){
-			vm.motion_is_loading[id] = bool;
 		}
 
 		function getMotions(filter){
@@ -205,12 +196,6 @@
 		}
 
 		getMotions(vm.motion_filters);
-		switchLoading(true, $stateParams.id);
-
-		$rootScope.$on('sidebarLoadingFinished', function(events, data) {
-			switchLoading(data.bool, data.id);
-		});
-
 
 		$rootScope.$on('refreshMotionSidebar', function(events, data) {
 			getMotions(vm.motion_filters);
