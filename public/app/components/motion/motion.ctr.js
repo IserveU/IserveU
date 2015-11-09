@@ -248,9 +248,7 @@
         }
 
         function deleteMotionFiles(){
-            console.log('here');
             if(vm.delete_motion_file.length > 0){
-                console.log('foo');
                 angular.forEach(vm.delete_motion_file, function(file, key) {
                     if(file.bool){
                         motionfile.deleteMotionFile(file.motion_id, file.file_id);
