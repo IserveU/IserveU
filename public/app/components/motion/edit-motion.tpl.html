@@ -41,7 +41,7 @@
 				</span>
 
 			    <md-input-container id="title-input" ng-repeat="file in motion.viewFiles" flex>
-			    <md-icon class="mdi-close close" ng-click="motion.deleteTempMotionFile(file); hideFile = true" ng-hide="hideFile"></md-icon>
+			    <md-icon class="mdi mdi-close close" ng-click="motion.deleteTempMotionFile(file); hideFile = true" ng-hide="hideFile"></md-icon>
 			      <input type="text"  aria-label="attachment title textfield" press-enter="motion.changeTitleName(file)" ng-blur="motion.changeTitleName(file)" ng-model="file.name" ng-hide="hideFile"/>
 			    </md-input-container>
 		    
