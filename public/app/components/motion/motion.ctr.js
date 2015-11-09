@@ -16,12 +16,19 @@
 
         function getMotion(motion_id) {
             var motionData = motionCache.get('motionCache');
+            var motionExists = false;
             if(motionData) {
                 angular.forEach(motionData, function(data, key) {
                     if(data.id == motion_id){
                         postGetMotion(data);
+                        motionExists = true;
                     }
                 })
+                if(!motionExists){
+                    motion.getMotion(motion_id).then(function(result) {
+                        postGetMotion(result);
+                    });    
+                }
             } else {
                 motion.getMotion(motion_id).then(function(result) {
                     postGetMotion(result);
@@ -248,9 +255,7 @@
         }
 
         function deleteMotionFiles(){
-            console.log('here');
             if(vm.delete_motion_file.length > 0){
-                console.log('foo');
                 angular.forEach(vm.delete_motion_file, function(file, key) {
                     if(file.bool){
                         motionfile.deleteMotionFile(file.motion_id, file.file_id);
