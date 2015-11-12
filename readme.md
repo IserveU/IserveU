@@ -27,7 +27,7 @@ else {
 
 More [here](http://laravel.com/docs/5.0/errors#http-exceptions) and [here](http://laravel-recipes.com/recipes/202/throwing-httpexceptions)
 
-##Beginner's Guide to Installing/Setting up Laravel on Homestead on a Mac
+##Beginner's Guide to Installing/Setting up IserveU
 
 Install Laravel [Homestead](http://laravel.com/docs/5.0/homestead) or if you have a linux machine go through the [install requirements](http://laravel.com/docs/5.1) for laravel.
 
