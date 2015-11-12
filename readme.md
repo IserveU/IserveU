@@ -29,7 +29,7 @@ More [here](http://laravel.com/docs/5.0/errors#http-exceptions) and [here](http:
 
 ##Beginner's Guide to Installing/Setting up Laravel on Homestead on a Mac
 
-Install Laravel [Homestead](http://laravel.com/docs/5.0/homestead).
+Install Laravel [Homestead](http://laravel.com/docs/5.0/homestead) or if you have a linux machine go through the [install requirements](http://laravel.com/docs/5.1) for laravel.
 
 Follow doc instructions and once you have your VM setup ssh into your machine (vagrant ssh), get into your root directory and run:
 
