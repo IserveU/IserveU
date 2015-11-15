@@ -111,7 +111,7 @@ class MotionController extends ApiController {
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
-     	
+
      	return $motion;
 	}
 

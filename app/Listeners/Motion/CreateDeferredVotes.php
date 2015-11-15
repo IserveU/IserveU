@@ -41,12 +41,8 @@ class CreateDeferredVotes
 
         $votes = array();
 
-
-
         foreach($validVoters as $validVoter){
             
-            echo $validVoter;
-
             if(!$validVoter->delegatedFrom->isEmpty()){
                 $votes[] = [
                     'motion_id'         =>       $motion->id,

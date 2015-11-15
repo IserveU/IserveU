@@ -11,8 +11,6 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		// 'App\Events\UserUpdating'	=> [
-		// ],
 		'App\Events\UserUpdated'	=> [
 			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
@@ -33,7 +31,8 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\ClearLockFields',
 		],
 		'App\Events\UserDeleted' => [
-			'App\Listeners\User\DeleteUser'
+			'App\Listeners\User\DeleteUser',
+			'App\Listeners\User\DeleteActiveVotes'
 		],
 		'App\Events\MotionUpdated' => [
 			'App\Listeners\Motion\SendNotificationEmail',
@@ -48,6 +47,9 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Vote\SetDeferedToVotes',
 			//'App\Listeners\Motion\BalanceDeferredVotes',  //Not needed with one councilor, not a big issue immediately
 			'App\Listeners\Comment\ClearMotionCommentCache',
+		],
+		'App\Events\VoteDeleting' => [
+			'App\Listeners\Vote\DeleteVoteComment',
 		],
 		'App\Events\MotionCreated' => [
 			'App\Listeners\Motion\CreateDeferredVotes',
