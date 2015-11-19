@@ -34,7 +34,7 @@
 		
 		return {
 			link: linkMethod,
-			templateUrl: 'app/components/comment/comment_vote/comment_vote.tpl.html'
+			templateUrl: 'app/components/comment/components/comment_vote/comment_vote.tpl.html'
 		}
 
 	}

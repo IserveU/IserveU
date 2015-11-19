@@ -9,8 +9,9 @@
   function motionSidebar() {
 
     return {
-      templateUrl: 'app/components/motion/motion-sidebar/motion-sidebar.tpl.html'
+      templateUrl: 'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
     }
+    
   }
   
 })();

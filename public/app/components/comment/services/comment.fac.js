@@ -35,6 +35,8 @@
 	      }
 	    });
 
+	    var motion_comments = [];
+
 		function getComment() {
 			return Comment.query().$promise.then(function(results) {
 				return results
@@ -82,7 +84,7 @@
 				return $q.reject(error);
 			});
 		}
-		var motion_comments;
+
 		function getMotionComments(id) {
 			return MotionComment.get({id:id}).$promise.then(function(result) {
 				motion_comments = result;
@@ -92,6 +94,11 @@
 			});
 		}
 
+		function saveLocalMotionComments(data) {
+			motion_comments = data;
+		}
+
+
 		return {
 			saveComment: saveComment,
 			updateComment: updateComment,
@@ -100,10 +107,7 @@
 			getComment: getComment,
 			getMyComments: getMyComments,
 			getMotionComments: getMotionComments,
-			directiveData: function(){
-					return motion_comments
-				}
-
+			saveLocalMotionComments: saveLocalMotionComments,
 		}
 	}
 })();
