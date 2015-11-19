@@ -61,6 +61,8 @@
         function checkEmptyCommentsArray(data){
             if(data.disagreeComments[0] == undefined && data.agreeComments[0] == undefined){
                 vm.emptyComments = true;
+            } else {
+                vm.emptyComments = false;
             }
         }
 
@@ -96,7 +98,6 @@
         vm.deleteComment = function() {
             var toast = ToastMessage.delete_toast(" comment");
             var id    = vm.thisUsersComment.id;
-
             $mdToast.show(toast).then(function(response) {
                 if (response == 'ok'){
                     comment.deleteComment(id).then(function(result) {

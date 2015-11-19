@@ -9,12 +9,14 @@
 	function sidebar($compile) {
 
 		function linkMethod(scope, element, attrs) {
+
 			scope.$watch('currentState', function() {
 				angular
 					.element(document.getElementById('sidebar-inner'))
 					.empty()
 					.append($compile("<div class='" + attrs.sidebar + "-sidebar'" + attrs.sidebar + "-sidebar></div>")(scope));
 			});
+
 		}
 
 		function controllerMethod(motion, $scope, $location, $state, $rootScope) {
@@ -30,3 +32,4 @@
 	}
 
 }());
+

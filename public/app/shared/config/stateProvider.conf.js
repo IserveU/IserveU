@@ -36,14 +36,14 @@
     		url: '/',
     		views: {
     			'editmotion': {
-    				templateUrl: 'app/components/motion/edit-motion.tpl.html'
+    				templateUrl: 'app/components/motion/partials/edit-motion.tpl.html'
     			},
     			'votes': {
     				templateUrl: 'app/components/vote/vote.tpl.html',
                     controller: 'VoteController as vm',
     			},
     			'comments': {
-		    	    templateUrl: 'app/components/comment/templates/comment.tpl.html',
+		    	    templateUrl: 'app/components/comment/partials/comment.tpl.html',
 		    	    controller: 'CommentController as vm',
     			}
     		},
@@ -53,7 +53,7 @@
     	})
     	.state( 'createmotion', {
     	    url: '/createmotion',
-    	    templateUrl: 'app/components/motion/createmotion/createmotion.tpl.html',
+    	    templateUrl: 'app/components/motion/components/createmotion/createmotion.tpl.html',
     	    controller: 'CreateMotionController as create',
     	    data: {
     	        requireLogin: true
@@ -64,7 +64,7 @@
     	})
         .state( 'userlist', {
             url: '^/userlist',
-            templateUrl: 'app/components/role/roles.tpl.html',
+            templateUrl: 'app/components/user/components/role/roles.tpl.html',
             controller: 'UserController as user',
             data: {
                 requireLogin: true
@@ -75,7 +75,7 @@
         })
         .state( 'user', {
             url: '/user/:id',
-            templateUrl: 'app/components/user/user.tpl.html',
+            templateUrl: 'app/components/user/partials/user.tpl.html',
             controller: 'UserController as user',
             data: {
                 requireLogin: true
@@ -88,16 +88,16 @@
             url: '/profile',
             views: {
                 'details': {
-                    templateUrl: 'app/components/user/edittemplates/edit-user-details.tpl.html'
+                    templateUrl: 'app/components/user/partials/user-details.tpl.html'
                 },
                 'editname': {
-                    templateUrl: 'app/components/user/edittemplates/edit-user-name.tpl.html'
+                    templateUrl: 'app/components/user/partials/user-name.tpl.html'
                 },
                 'roles': {
-                    templateUrl: 'app/components/user/edittemplates/edit-roles.tpl.html',
+                    templateUrl: 'app/components/user/partials/user-roles.tpl.html',
                 },
                 'address': {
-                    templateUrl: 'app/components/user/edittemplates/edit-user-address.tpl.html',
+                    templateUrl: 'app/components/user/partials/user-address.tpl.html',
                 }
             },
             onEnter: ['$rootScope', function($rootScope) {
@@ -106,7 +106,7 @@
         })
         .state( 'createuser', {
             url: '/create/user',
-            templateUrl: 'app/components/user/createuser/createuser.tpl.html',
+            templateUrl: 'app/components/user/componentscreateuser/createuser.tpl.html',
             controller: 'CreateUserController as create',
             data: {
                 requireLogin: true
@@ -118,7 +118,7 @@
     	.state('login', {
             url: '/login',
         	controller: 'loginController as login',
-        	templateUrl: 'app/shared/login/login.tpl.html',
+        	templateUrl: 'app/shared/auth/login/login.tpl.html',
             data: {
                 requireLogin: false
             } 
@@ -140,21 +140,10 @@
                 $rootScope.currentState = 'department';
             }]    
     	})
-    	.state('property' , {
-    		url: '/property',
-        	controller: 'PropertyController as property',
-        	templateUrl: 'app/components/property/property.tpl.html',
-            data: {
-                requireLogin: true
-            }, 
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'property';
-            }]  
-    	})
     	.state('backgroundimage', {
             url: '/upload',
         	controller: 'BackgroundImageController as background',
-        	templateUrl: 'app/components/backgroundimage/backgroundimage.tpl.html',
+        	templateUrl: 'app/components/backgroundimage/partials/backgroundimage.tpl.html',
             data: {
                 requireLogin: true
             }, 
@@ -165,7 +154,7 @@
     	.state('backgroundimage.preview', {
             url: '^/preview/:id',
         	controller: 'PreviewImageController as preview',
-        	templateUrl: 'app/components/backgroundimage/preview_image.tpl.html',
+        	templateUrl: 'app/components/backgroundimage/components/preview_image/preview_image.tpl.html',
             data: {
                 requireLogin: true
             }, 

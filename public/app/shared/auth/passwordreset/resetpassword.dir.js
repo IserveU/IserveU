@@ -48,7 +48,7 @@
 		controllerAs: 'reset',
 		bindToController: true,
 		link: linkMethod,
-		templateUrl: 'app/shared/resetpassword/resetpassword.tpl.html'
+		templateUrl: 'app/shared/auth/passwordreset/resetpassword.tpl.html'
 	}
 
 	}
