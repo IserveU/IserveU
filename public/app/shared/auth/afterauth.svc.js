@@ -4,15 +4,13 @@
 
 	angular
 		.module('iserveu')
-		.service('afterauth', afterauth);
+		.factory('afterauth', afterauth);
 
 
-	function afterauth($stateParams, $state, $mdToast, auth, user, $rootScope, SetPermissionsService) {
+	function afterauth($stateParams, $state, $mdToast, $rootScope, auth, user, SetPermissionsService) {
 
-		var vm = this;
-
-		vm.setLoginAuthDetails = function(data, token){
-			if(token){localStorage.setItem('satellizer_token', JSON.stringify(token));}
+		 function setLoginAuthDetails (data, token){
+			if(token){  localStorage.setItem('satellizer_token', JSON.stringify(token));  }
 			SetPermissionsService.set(JSON.stringify(data.data.user.permissions));
 			localStorage.setItem('user', JSON.stringify(data.data.user));
 			$rootScope.authenticatedUser = data.data.user;
@@ -20,14 +18,27 @@
 		}
 
 		function redirect(){
-			if($rootScope.redirectUrlName){
-				$state.go($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID});
-			}
-			else{
-				$state.go('home');
-			}
+
 			$rootScope.userIsLoggedIn = true;
+
+			return $rootScope.redirectUrlName ? 
+				$state.go($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) :
+				$state.go('home');
 		}
+
+		function clearCredentials(){
+			localStorage.clear();
+			$rootScope.authenticatedUser = null;
+			$rootScope.userIsLoggedIn = false;
+			$state.go('login', {});		
+		}
+
+		return {
+			setLoginAuthDetails: setLoginAuthDetails,
+			redirect: redirect,
+			clearCredentials: clearCredentials
+		}
+
 
 	}
 })();

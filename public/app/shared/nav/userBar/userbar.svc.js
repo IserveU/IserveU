@@ -16,13 +16,5 @@
  			vm.title = value
  		}
 
-		function setTheme(){
-			if(localStorage.getItem('settings') != null){
-				$rootScope.themename = JSON.parse(localStorage.getItem('settings')).themename;
-			}
-		}	    
-
-		setTheme();
-
 	}	
 })();
