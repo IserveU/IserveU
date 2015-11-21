@@ -16,7 +16,7 @@
 		function set(permissions_array){
 			if(permissions_array == undefined){auth.logout();}
 			localStorage.setItem('permissions', permissions_array);
-			vm.permissions = $.parseJSON(permissions_array);
+			vm.permissions = JSON.parse(permissions_array);
 		}
 
 
