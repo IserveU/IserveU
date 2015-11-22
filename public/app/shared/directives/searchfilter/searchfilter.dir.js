@@ -22,7 +22,7 @@
 			controller: controllerMethod,
 			controllerAs: 'search',
 			bindToController: true, 
-			templateUrl: 'app/shared/customdirectives/searchfilter/searchfilter.tpl.html'			
+			templateUrl: 'app/shared/directives/searchfilter/searchfilter.tpl.html'			
 		}
 	}
 
