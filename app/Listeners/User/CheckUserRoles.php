@@ -34,11 +34,19 @@ class CheckUserRoles
         $user = $event->user;
         $user->load('roles');
         if($user->hasRole('citizen')){
-            if(!$user->identity_verified || $user->address_verified_until || $user->address_verified_until['carbon']->lt(Carbon::now())){
+            if(!$user->identity_verified //User is not verified
+                 || $user->address_verified_until // Has verified until set
+                 || $user->address_verified_until['carbon']->lt(Carbon::now())) //Address is verified prior to this date
+            {
                 $user->removeUserRoleByName('citizen');
-                $user->delegatedTo->delete();
-                $user->delegatedFrom->delete();
 
+                if($count($user->delegatedTo)){
+                    $user->delegatedTo->delete();
+                }
+
+                if($count($user->delegatedFrom)){
+                    $user->delegatedFrom->delete();
+                }
             }
          
             return true;

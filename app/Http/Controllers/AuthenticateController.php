@@ -27,24 +27,25 @@ class AuthenticateController extends ApiController
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+        
         $checkUser = User::where('email',$credentials['email'])->first();
 
-        if($checkUser->locked_until && $checkUser->locked_until->gt(Carbon::now())){
+        if($checkUser && $checkUser->locked_until && $checkUser->locked_until->gt(Carbon::now())){
             abort(401,'Account is locked until '.$checkUser->locked_until);
         }
 
         try {         
             // attempt to verify the credentials and create a token for the user
            if (! $token = JWTAuth::attempt($credentials)) {
-
                 event(new UserLoginFailed($credentials));
-                return response()->json(['error' => 'invalid_credentials'], 401);
+               
+                abort(401,"Invalid credentials");
             }
 
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            abort(500,'Unable to create token');
+            
         }
 
         $user = Auth::user();
@@ -74,7 +75,7 @@ class AuthenticateController extends ApiController
             Auth::loginUsingId($user->id);
             
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            abort(500,'could not create token');
         }
   
         event(new UserLoginSucceeded($user));
