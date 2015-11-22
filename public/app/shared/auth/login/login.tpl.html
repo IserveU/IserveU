@@ -66,7 +66,7 @@
             <label>Email</label>
             <input type="email" name="newemail" ng-model="login.email" required>
             <div ng-messages="{warning:login.emailValidation}">
-            <div ng-message="warning">This email is already registered on the site!</div>
+            <div ng-message="warning">This email is already being used on the site.</div>
             </div>
             <div ng-messages="registerform.newemail.$error" ng-if="registerform.newemail.$dirty">
             <div ng-message="email">Example: yourname@example.ca</div>

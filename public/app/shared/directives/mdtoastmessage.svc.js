@@ -11,21 +11,33 @@
 	var vm = this;
 
     vm.simple = simple;
+    vm.double = double;
 
 	vm.report_error = function(error){
         var toast = $mdToast.simple()
-            .content("Something's not working!")
-            .action("Report")
+            .content("Sorry, something went wrong.")
+            .action("Message")
             .position('bottom right')
-            .hideDelay(1000);
+            .highlightAction(true)
+            .hideDelay(2000);
+        var error_message = $mdToast.simple()
+            .content(error.message)
+            .position('bottom right')
+            .action("Report")
+            .hideDelay(3000);
         var toast_error = $mdToast.simple()
-            .content("We'll work on it.")
+            .content("Thanks! We'll work on it.")
             .position('bottom right')
             .hideDelay(800);
+
         $mdToast.show(toast).then(function(response) {
             if (response == 'ok'){
-              $mdToast.show(toast_error);
-            }
+                $mdToast.show(error_message).then(function(response){
+                    if (response == 'ok'){
+                      $mdToast.show(toast_error);
+                    }    
+                })
+            }            
         });		
         // code to store error, or send to jessica 
 	}
@@ -40,7 +52,7 @@
         );
     }
 
-    vm.double = function(message1, message2, bool, time){
+    function double (message1, message2, bool, time){
         simple(message1, time).then(function(){
             if (bool) { simple(message2); }
         });
