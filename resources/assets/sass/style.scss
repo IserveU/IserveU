@@ -114,45 +114,22 @@ md-caption.imagecredit{
 }
 
 .mdi {
-  display: inline-block;
-  font: normal normal normal 24px/1 MaterialDesignIcons;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0);
+  font-size:24px;
 }
 
 .mdi-small {
-  display: inline-block;
-  font: normal normal normal 15px/1 MaterialDesignIcons;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transform: translate(0, 0);
-  transform: translate(0, 0); }
-
-//   .mdi-med {
- 	// font: normal normal normal 36px/1 MaterialDesignIcons;
-  //   padding-right: 12px;
-  //   padding-bottom: 13px;
-// }
+  font-size:15px; 
+}
 
 .mdi-big {
-  display: inline-block;
-  font: normal normal normal 120px/1 MaterialDesignIcons;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transform: translate(0, 0);
-  transform: translate(0, 0); }
+  font-size:120px;
+}
 
 
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {
 	display: none !important; 
 }
-
-
 
 form{
   margin-bottom: 0em;
