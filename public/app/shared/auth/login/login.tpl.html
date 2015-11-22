@@ -13,6 +13,9 @@
               <div ng-messages="loginform.email.$error" ng-if="loginform.email.$dirty">
                 <div ng-message="required">Email is required</div>
               </div>
+              <div ng-messages="{email_warning:login.invalidEmail}">
+                <div ng-message="email_warning">This email is not registered to the site.</div>
+              </div>
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>

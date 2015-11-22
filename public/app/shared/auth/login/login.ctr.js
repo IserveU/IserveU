@@ -18,6 +18,7 @@
 		vm.emailValidation = false;
 		vm.passwordreminder = false;
 		vm.invalidCredentials = false;
+		vm.invalidEmail = false;
 		vm.passwordreset = false;
 		vm.publicComputer = false;
 
@@ -38,8 +39,14 @@
 				setLocalStorage(credentials, vm.publicComputer);
 			}, function(error) {
 				vm.loggingIn = false;
-				if(error.data.error == "invalid_credentials"){
+
+				console.log(error.data);
+				var message = error.data.message;
+				if(message == "Invalid credentials"){
 					vm.invalidCredentials = true;
+				}
+				else if(message == "Email address not in database"){
+					vm.invalidEmail = true;
 				}
 				else{
 					ToastMessage.report_error(error.data);
