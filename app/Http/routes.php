@@ -47,6 +47,8 @@ Route::group(array('prefix' => 'api'), function(){
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
+		Route::resource('setting', 'SettingController');
+
 		Route::resource('role', 'RoleController');
 				
 		Route::resource('background_image', 'BackgroundImageController');
