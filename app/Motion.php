@@ -182,7 +182,7 @@ class Motion extends ApiModel {
 
 		if(!$this->closing && $value == 1){
 			$closing = new Carbon;
-			$closing->addHours(Setting::get('motion.default.closing_delay',72));
+			$closing->addHours(Setting::get('motion.default_closing_time_delay',72));
 			$this->closing = $closing;
 		}
 		return true;

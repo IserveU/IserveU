@@ -8,9 +8,9 @@
 	@foreach($closingSoonMotions as $motion)
 		<div>
 			@if(isset($motion->motion_rank) && $motion->motion_rank>0)
-				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-top-right.png')?>">
+				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-top-right.png')?>">
 			@else
-				<img src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-bottom-right.png')?>">
+				<img src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-bottom-right.png')?>">
 			@endif
 			<h4><a style="text-decoration: none; color:#1F1C22" href="<?=url()?>#/motion/<?=$motion->id?>">{{$motion->title}}</a></h4>
 			<p>{{$motion->summary}}</p>
@@ -23,9 +23,9 @@
 	@foreach($latestLaunchedMotions as $motion)
 		<div>
 			@if(isset($motion->motion_rank) && $motion->motion_rank>0)
-				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-top-right.png')?>">
+				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-top-right.png')?>">
 			@else
-				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-bottom-right.png')?>">
+				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-bottom-right.png')?>">
 			@endif
 			<h4><a style="text-decoration: none; color:#1F1C22" href="<?=url()?>#/motion/<?=$motion->id?>">{{$motion->title}}</a></h4>
 			<p>{{$motion->summary}}</p>
@@ -38,9 +38,9 @@
 	@foreach($recentlyClosedMotions as $motion)
 		<div>
 			@if(isset($motion->motion_rank) && $motion->motion_rank>0)
-				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-top-right.png')?>">
+				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-top-right.png')?>">
 			@else
-				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('themename','default').'/icons/arrow-bottom-right.png')?>">
+				<img style="width:10%; padding-right:15px; padding-bottom:15px; float: left" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/icons/arrow-bottom-right.png')?>">
 			@endif
 			<h4><a style="text-decoration: none; color:#1F1C22" href="<?=url()?>#/motion/<?=$motion->id?>">{{$motion->title}}</a></h4>
 			<p>{{$motion->summary}}</p>
