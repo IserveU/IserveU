@@ -12,7 +12,6 @@ class FilesMigration extends Migration
      */
     public function up()
     {
-        Schema::drop('figures'); //Easier to just drop this
 
         Schema::create('file_categories', function(Blueprint $table) {
             $table->increments('id');
@@ -58,7 +57,20 @@ class FilesMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('figures'); //Easier to just drop this
+
+        Schema::table('users', function($table){
+            $table->dropForeign('users_avatar_id_foreign');
+            $table->dropForeign('users_government_identification_id_foreign');
+            $table->dropColumn('government_identification_id');
+            $table->dropColumn('avatar_id');
+        });
+
+        
+
+        Schema::drop('motion_files'); //Easier to just drop this
+        Schema::drop('files'); //Easier to just drop this
+
+        Schema::drop('file_categories'); //Easier to just drop this
 
     }
 }

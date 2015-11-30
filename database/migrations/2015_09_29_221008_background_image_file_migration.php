@@ -28,6 +28,8 @@ class BackgroundImageFileMigration extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('background_images', function($table){
+            $table->dropForeign('background_images_file_id_foreign');
+        });
     }
 }

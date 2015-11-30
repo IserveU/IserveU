@@ -13,7 +13,6 @@ class ChangeVerifiedUntilField extends Migration
     public function up()
     {
         Schema::table('users', function($table){
-            $table->dropColumn('verified_until');
             $table->date('address_verified_until')->nullable();
         });
     }
