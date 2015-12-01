@@ -38,9 +38,24 @@ $ composer install
 $ npm install --global gulp
 $ npm install
 $ bower install
-$ npm install node-sass
-$ npm install gulp-sass
 </code></pre>
+
+###Problem's With Node?
+Due to Node sucking you're probably finding that something went awry after "composer install". Let's just strip everything back to the basics on your server:
+<pre><code>
+sudo rm -rf /usr/local/lib/node_modules/ /usr/local/bin/node /usr/local/include/node/ /usr/local/share/man/man1/node.1 ~/.npm
+sudo unlink /usr/local/bin/npm
+sudo apt-get remove nodejs
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo apt-get purge
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+sudo apt-get install nodejs
+sudo chown -R $(whoami) ~/.npm
+npm install -g npm gulp lodash
+</code></pre>
+
+This pretty much straightens it out
 
 Now run <pre><code>$ gulp</code></pre> to make sure you've install everything correctly. It should run pretty well. If you get an error that asks you to "Try reinstalling `node-sass`"
 go into your command line and enter in:
