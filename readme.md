@@ -55,7 +55,7 @@ sudo chown -R $(whoami) ~/.npm
 npm install -g npm gulp lodash
 </code></pre>
 
-This pretty much straightens it out
+This pretty much straightens it out, if not checkout: https://laracasts.com/discuss/channels/elixir/problems-installing-elixir
 
 Now run <pre><code>$ gulp</code></pre> to make sure you've install everything correctly. It should run pretty well. If you get an error that asks you to "Try reinstalling `node-sass`"
 go into your command line and enter in:
