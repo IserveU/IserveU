@@ -23,7 +23,6 @@ class SettingController extends ApiController
     }
 
 
-
     /**
      * Display a listing of the resource.
      *
