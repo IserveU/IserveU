@@ -40,7 +40,7 @@ $ npm install
 $ bower install
 </code></pre>
 
-###Problem's With Node?
+###Problems With Node?
 Due to Node sucking you're probably finding that something went awry after "composer install". Let's just strip everything back to the basics on your server:
 <pre><code>
 sudo rm -rf /usr/local/lib/node_modules/ /usr/local/bin/node /usr/local/include/node/ /usr/local/share/man/man1/node.1 ~/.npm
