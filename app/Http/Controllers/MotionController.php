@@ -26,7 +26,6 @@ class MotionController extends ApiController {
 	 */
 	public function index()
 	{	
-
 		$filters = Request::all();
 		$limit = Request::get('limit') ?: 30;
 

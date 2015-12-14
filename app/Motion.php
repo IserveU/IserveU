@@ -33,7 +33,7 @@ class Motion extends ApiModel {
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['active'];
+	protected $adminFillable = ['status'];
 	
 	/**
 	 * The attributes included in the JSON/Array
@@ -52,13 +52,13 @@ class Motion extends ApiModel {
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['active','user_id'];
+	protected $adminVisible = ['stauts','user_id'];
 
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['active','user_id'];
+	protected $creatorVisible = ['status','user_id'];
 
 	/**
 	 * The mapped attributes for 1:1 relations
@@ -81,7 +81,7 @@ class Motion extends ApiModel {
      */
 	protected $rules = [
 		'title' 			=>	'min:8|unique:motions,title',
-        'active'			=>	'boolean',
+        'status'			=>	'integer',
         'department_id'		=>	'exists:departments,id',
         'closing' 			=>	'date',
         'text'				=>	'min:10',
@@ -165,28 +165,7 @@ class Motion extends ApiModel {
 	/************************************* Getters & Setters ****************************************/
 
 
-	/**
-	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
-	 */
-	public function setActiveAttribute($value){
 
-		if(Auth::check() && !Auth::user()->can('administrate-motions')){
-			abort(401,"Unable to set  user does not have permission to set motions as active");
-		}
-
-		if($value && !$this->motionRanks->isEmpty()){
-			abort(403,"This motion has already been voted on, it cannot be reactivated after closing");
-		}
-
-		$this->attributes['active'] = $value;
-
-		if(!$this->closing && $value == 1){
-			$closing = new Carbon;
-			$closing->addHours(Setting::get('motion.default_closing_time_delay',72));
-			$this->closing = $closing;
-		}
-		return true;
-	}
 
 	public function setClosingAttribute($value){
 		if(!$this->motionRanks->isEmpty()){
@@ -238,8 +217,8 @@ class Motion extends ApiModel {
 
 
 	public function getMotionOpenForVotingAttribute(){
-		if(!$this->active){
-			$this->errors = "This motion is not active and cannot be voted on";
+		if($this->status != 2) {
+			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
 
@@ -252,6 +231,101 @@ class Motion extends ApiModel {
 	}
 
 
+	public function getStatusAttribute(){
+		switch ($this->status){
+			case 0:
+				return 'draft';
+				break;
+			case 1:
+				return 'review';
+				break;
+			case 2:
+				return 'published';
+				break;
+			case 3:
+				return 'closed';
+				break;
+		}
+		return 'unknown';
+	}
+
+	// public function setStatusAttribute($value){
+	// 	if(!is_numeric($value)){
+	// 		switch ($value){
+	// 			case 'draft':
+	// 				$this->attributes['status'] = 0;
+	// 				break;
+	// 			case 'review':
+	// 				$this->attributes['status'] = 1;
+	// 				break;
+	// 			case 'published':
+	// 				$this->attributes['status'] = 2;
+	// 				break;
+	// 			case 'closed':
+	// 				$this->attributes['status'] = 3;
+	// 				break;
+	// 		}
+	// 	}
+		
+	// 	$this->attributes['status'] = $value;
+	// 	return true;
+	// }
+
+	/**
+	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
+	 */
+	public function setStatusAttribute($value){
+		//Coverts value to the integer if not set
+		if(!is_numeric($value)){
+			switch ($value){
+				case 'draft':
+					$value = 0;
+					break;
+				case 'review':
+					$value = 1;
+					break;
+				case 'published':
+					$value = 2;
+					break;
+				case 'closed':
+					$value = 3;
+					break;
+			}
+		}
+
+		switch ($value){
+			case 0:
+				$this->attributes['status'] = 0;
+				break;
+			case 'review':
+				$this->attributes['status'] = 1;
+				break;
+			case 'published':
+				if(Auth::check() && !Auth::user()->can('administrate-motions')){
+					abort(401,"Unable to set user does not have permission to set motions as active");
+				}
+				if($value && !$this->motionRanks->isEmpty()){
+					abort(403,"This motion has already been voted on, it cannot be reactivated after closing");
+				}
+				
+				$this->attributes['status'] = 2;
+
+				if(!$this->closing && $value == 1){
+					$closing = new Carbon;
+					$closing->addHours(Setting::get('motion.default_closing_time_delay',72));
+					$this->closing = $closing;
+				}
+				break;
+			case 'closed':
+				$this->attributes['status'] = 3;
+
+				break;
+		}
+	
+		return true;
+	}
+
+
 
 	/************************************* Casts & Accesors *****************************************/
 
@@ -259,8 +333,8 @@ class Motion extends ApiModel {
 
 	/************************************* Scopes ***************************************************/
 
-	public function scopeActive($query){
-		return $query->where('active',1);
+	public function scopePublished($query){
+		return $query->where('status',2);
 	}
 
 	public function scopeExpired($query){
@@ -300,19 +374,6 @@ class Motion extends ApiModel {
 	}
 
 
-	// public function scopePassing($query){
-	// 	return $query->whereHas('votes',function($query){
-	// 		$query->havingRaw('SUM(position) > 0');
-	// 	});
-	// 	//return $query->votes->where('commentRank','>',0);
-	// }
-
-	// public function scopeFailing($query){
-	// 	return $query->whereHas('votes',function($query){
-	// 		$query->havingRaw('SUM(position) <= 0');
-	// 	});
-	// 	//return $query->votes->where('commentRank','<=',0);
-	// }
 
 	public function scopeRankGreaterThan($query,$rank){
 		return $query->whereHas('votes',function($query) use ($rank){
