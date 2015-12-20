@@ -39,7 +39,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote'];
+	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote','status'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
@@ -52,7 +52,7 @@ class Motion extends ApiModel {
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['stauts','user_id'];
+	protected $adminVisible = ['status','user_id'];
 
 	/**
 	 * The attributes visible to the user that created this model
@@ -217,7 +217,7 @@ class Motion extends ApiModel {
 
 
 	public function getMotionOpenForVotingAttribute(){
-		if($this->status != 2) {
+		if($this->attributes['status'] != 2) {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
@@ -232,7 +232,7 @@ class Motion extends ApiModel {
 
 
 	public function getStatusAttribute(){
-		switch ($this->status){
+		switch ($this->attributes['status']){
 			case 0:
 				return 'draft';
 				break;
@@ -248,28 +248,6 @@ class Motion extends ApiModel {
 		}
 		return 'unknown';
 	}
-
-	// public function setStatusAttribute($value){
-	// 	if(!is_numeric($value)){
-	// 		switch ($value){
-	// 			case 'draft':
-	// 				$this->attributes['status'] = 0;
-	// 				break;
-	// 			case 'review':
-	// 				$this->attributes['status'] = 1;
-	// 				break;
-	// 			case 'published':
-	// 				$this->attributes['status'] = 2;
-	// 				break;
-	// 			case 'closed':
-	// 				$this->attributes['status'] = 3;
-	// 				break;
-	// 		}
-	// 	}
-		
-	// 	$this->attributes['status'] = $value;
-	// 	return true;
-	// }
 
 	/**
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
@@ -291,6 +269,10 @@ class Motion extends ApiModel {
 					$value = 3;
 					break;
 			}
+		}
+
+		if($value<$this->attributes['status']){
+			abort(403,"You can not switch a status back");
 		}
 
 		switch ($value){
@@ -318,7 +300,6 @@ class Motion extends ApiModel {
 				break;
 			case 'closed':
 				$this->attributes['status'] = 3;
-
 				break;
 		}
 	
