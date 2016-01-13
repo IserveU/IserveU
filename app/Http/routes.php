@@ -72,17 +72,5 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
 		Route::resource('user.role', 'UserRoleController'); 
 
-		Route::resource('property', 'PropertyController');
-
-		Route::group(['middleware' => 'role:administrator'], function(){
-			Route::post('property/uploadcsv', 'PropertyController@uploadCSV');
- 			Route::resource('propertyassessment', 'PropertyAssessmentController');
- 			Route::resource('propertydescription', 'PropertyDescriptionController');
- 			Route::resource('propertypolldivision', 'PropertyPollDivisionController');
- 			Route::resource('propertycoordinate', 'PropertyCoordinateController');
- 			Route::resource('propertyblock', 'PropertyBlockController');
- 			Route::resource('propertyplan', 'PropertyPlanController');
- 			Route::resource('propertyzone', 'PropertyZoneController');
- 		});
 	});
 });
