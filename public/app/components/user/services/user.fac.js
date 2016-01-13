@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('user', user);
 
-	function user($resource, $q) {
+	function user($resource, $q, $rootScope) {
 
 		var User = $resource('api/user/:id', {}, {
 	        'update': { method:'PUT' }
@@ -69,7 +69,8 @@
 			editUser: editUser,
 			updateUser: updateUser,
 			deleteUser: deleteUser,
-			storeUser: storeUser
+			storeUser: storeUser,
+			self: $rootScope.authenticatedUser
 		}
 
 

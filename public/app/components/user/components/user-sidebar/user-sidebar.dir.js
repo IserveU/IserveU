@@ -10,7 +10,11 @@
 
   	return {
 
-      templateUrl: SetPermissionsService.can('administrate-users') ? 'app/components/user/user-sidebar/user-sidebar.tpl.html' :'app/components/motion/motion-sidebar/motion-sidebar.tpl.html'
+      templateUrl: SetPermissionsService.can('administrate-users') ? 
+
+      	'app/components/user/components/user-sidebar/user-sidebar.tpl.html' :
+      
+      	'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
       
       }
 

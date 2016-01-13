@@ -75,8 +75,8 @@
         })
         .state( 'user', {
             url: '/user/:id',
-            templateUrl: 'app/components/user/partials/user.tpl.html',
-            controller: 'UserController as user',
+            templateUrl: 'app/components/user/partials/user-production.tpl.html',
+            controller: 'UserController as vm',
             data: {
                 requireLogin: true
             },
@@ -87,17 +87,8 @@
         .state( 'user.details', {
             url: '/profile',
             views: {
-                'details': {
-                    templateUrl: 'app/components/user/partials/user-details.tpl.html'
-                },
-                'editname': {
-                    templateUrl: 'app/components/user/partials/user-name.tpl.html'
-                },
                 'roles': {
                     templateUrl: 'app/components/user/partials/user-roles.tpl.html',
-                },
-                'address': {
-                    templateUrl: 'app/components/user/partials/user-address.tpl.html',
                 }
             },
             onEnter: ['$rootScope', function($rootScope) {

@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, RoleService, SetPermissionsService, vote, ethnic_origin, user, UserbarService, ToastMessage, role) {
+	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, RoleService, SetPermissionsService, vote, user, UserbarService, ToastMessage, role) {
 		
 		UserbarService.setTitle("");
 		
@@ -18,7 +18,7 @@
 
 		vm.next_page;
 		vm.users = [];
-	    vm.profile = [];
+	    vm.profile1 = [];
 
 	   	vm.administrate_users 	= SetPermissionsService.can("administrate-users");
 	   	vm.verifyUserAddress    = 0;
@@ -146,8 +146,8 @@
 			});
 		}
 
-		function checkRoles(){
-			RoleService.check_roles(vm.roles, vm.this_users_roles);
+		function checkRoles(this_users_roles){
+			RoleService.check_roles(vm.roles, this_users_roles);
 		}
 
 		getUserRoles();
@@ -178,9 +178,9 @@
 		/**************************************** API Functions **************************************** */
 	    vm.updateUser = updateUser;
 
-	    ethnic_origin.getEthnicOrigins().then(function(result){
-	    	vm.ethnics = result;
-	    })
+	    // ethnic_origin.getEthnicOrigins().then(function(result){
+	    // 	vm.ethnics = result;
+	    // })
 
 	    function updateUser(type, newdata, user_id) {
 

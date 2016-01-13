@@ -1,5 +1,5 @@
-<has-permission has-permission="administrate-permissions">
-  <form layout-padding>
+<!-- <has-permission has-permission="administrate-permissions"> -->
+  <form layout-padding ng-controller="UserRoleController as role">
   <table layout-padding>
     <thead>
       <tr>
@@ -10,19 +10,19 @@
     </thead>
     
     <tbody>
-      <tr ng-repeat="role in user.roles">
-        <td>
-        <md-checkbox  
-        ng-model="role.this_users_role"
-        ng-click="user.test_role_name(role)" style="margin:0px">
-          <p class="md-caption" style="margin:0px">{{role.display_name}}</p>
-          <md-tooltip>{{role.description}}</md-tooltip>
-        </md-checkbox>
-        </td>
+      <tr ng-repeat="r in role.roles">
+          <td>
+          <md-checkbox  
+          ng-model="r.this_users_roles"
+          ng-click="user.test_role_name(r)" style="margin:0px">
+            <p class="md-caption" style="margin:0px">{{r.display_name}}</p>
+            <md-tooltip>{{r.description}}</md-tooltip>
+          </md-checkbox>
+          </td>
       </tr>
 
     </tbody>
   </table>
-  <md-button ng-click="user.show_edit_role = !user.show_edit_role; user.uponPressingBack()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate}}</md-button>
+  <md-button ng-click="user.edit_role = !user.edit_role; role.uponPressingBack()"><md-icon class="mdi mdi-arrow-left"></md-icon>&nbsp;{{ 'BACK' | translate}}</md-button>
   </form>
-</has-permission> 
+<!-- </has-permission>  -->

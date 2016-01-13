@@ -4,34 +4,43 @@
 
 	angular
 		.module('iserveu')
-		.factory('ethnic_origin', ethnic_origin);
+		.factory('ethnicOriginService', ethnicOriginService);
 
-	function ethnic_origin($resource, $q) {
+	function ethnicOriginService($http) {
 
-		var EthnicOrigin = $resource('api/ethnic_origin/:id', {}, {
-	        'update': { method:'PUT' }
-	    });
+		function getEthnicOrigins(){
+	        return $http.get('api/ethnic_origin/').then(function(r){
+	            return r.data;
+	        });
+		}
 
+		function getEthnicOrigin(id){
+	    	return $http.get('api/ethnic_origin/'+id).then(function(r){
+	            return r.data;
+	        });
+		}
 
-	   	function getEthnicOrigins(){
-	   		return EthnicOrigin.query().$promise.then(function(results){
-	   			return results;
-	   		}, function(error){
-	   			return $q.reject(error);
-	   		});
-	   	}
+		var factObj = {
+		    ethnicOrigins: null,
+		    getEthnicOrigins: function(){
+		        return $http.get('api/ethnic_origin/').then(function(r){
+		            factObj.ethnicOrigins = r.data;
+		        });
+		    },
+		    getEthnicOrigin: function(id){
+		    	$http.get('api/ethnic_origin/'+id).then(function(r){
+		    		console.log(r.data.region);
+		            return r.data;
+		        });
+		    }
+		}
 
-	   	function getEthnicOrigin(id){
-	   		return EthnicOrigin.get({id:id}).$promise.then(function(results){
-	   			return results;
-	   		}, function(error){
-	   			return $q.reject(error);
-	   		});
-	   	}
+		// factObj.getEthnicOrigins();
 
-	   	return {
-	   		getEthnicOrigins: getEthnicOrigins
-	   	}
+		return {
+			getEthnicOrigins: getEthnicOrigins,
+			getEthnicOrigin: getEthnicOrigin
+		};
 
 	}
 
