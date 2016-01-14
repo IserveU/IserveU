@@ -7,7 +7,7 @@
 		.controller('editUserController', editUserController);
 
 
-	function editUserController($timeout, $stateParams, user, ethnicOriginService) {
+	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj) {
 
 		var vm = this;
 
@@ -16,12 +16,15 @@
 		// json object for user profile info
 		vm.profile = {};
 
-		// function access from html; TODO: switch to angular.extend
+		// function access from html; 
+		// TODO: switch to angular.extend
+		// TODO: make each function into a factory object; 
 		vm.pressEnter = pressEnter;
 		vm.expand = expand;
 		vm.save = save;
 		vm.lock = lock;
 		vm.changeLock = changeLock;
+		vm.roleObj = roleObj;	// factory object for user roles
 
 		// arrays used in html
 		vm.field   = [];
@@ -39,9 +42,6 @@
 			ethnicity: null,
 			password: null
 		}
-
-		// bool to switch form; TODO: more elegant...
-		vm.edit_role = false;
 
 	    function pressEnter($event, type) {
 	    	if($event.keyCode == 13) {
@@ -84,10 +84,7 @@
 
 		function save(fieldType) {
 			var data = {
-				//TODO: varying for admin edits
-				// if ($state.name == 'myprofile')
-				// else ($stateParams.id)
-				id: user.self.id,
+				id: vm.profile.id
 			}
 
 			angular.forEach(vm.new, function(value, key) {
@@ -114,7 +111,7 @@
 			user.updateUser(data).then(function(result) {
 				postSaveSuccess(fieldType);
 			}, function(error) {
-
+				// error_handler
 			});
 		}
 
@@ -147,6 +144,7 @@
 
 		var onPageLoad = {
 			getUser: function() {
+				// warning: SRP
 				user.getUser($stateParams.id).then(function(r) {
 					vm.profile = r;
 					onPageLoad.getUsersEthnicOrigin(r.ethnic_origin_id);
@@ -164,6 +162,7 @@
 				});		
 			},
 			checkAuthenticatedUser: function(r) {
+				// TODO: php a better security screen
 				if(!r.date_of_birth) {
 					vm.disabled_unauthenticated = true;
 				};
@@ -173,7 +172,7 @@
 		onPageLoad.getUser();
 		onPageLoad.getEthnicOrigin();
 
-
+		vm.pressBack = onPageLoad.getUser;
 	}
 
 })();

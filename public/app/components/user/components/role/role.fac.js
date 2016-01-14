@@ -18,7 +18,7 @@
 			return Role.query().$promise.then(function(results){
 				return results;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			})
 		}
 
@@ -26,7 +26,7 @@
 			return UserRole.save({id:data.user_id}, data).$promise.then(function(results){
 				return results;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			})
 		}
 
@@ -34,7 +34,7 @@
 			return UserRole.query({id:id}).$promise.then(function(results){
 				return results;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			})
 		}
 
@@ -42,7 +42,7 @@
 			return UserRole.delete({id:data.user_id, role_id:data.role_id}).$promise.then(function(results){
 				return results;
 			}, function(error) {
-				return error;
+				return $q.reject(error);
 			})
 		}
 

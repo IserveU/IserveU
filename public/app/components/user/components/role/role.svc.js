@@ -4,90 +4,78 @@
 
 	angular
 		.module('iserveu')
-		.service('RoleService', RoleService);
+		.service('roleService', roleService);
 
+		// TODO: another abstract if possible; things seem pretty messy here
+		// this is all business logic though, keep that in mind; it might
+		// just be like that?
 
-	function RoleService($mdToast, $stateParams, role, auth, ToastMessage) {
+	function roleService($mdToast, role, user, ToastMessage, refreshLocalStorage) {
 
 		var vm = this;
 
-		vm.grant_role = grant_role;
-		vm.delete_role = delete_role;
-		vm.check_new_role = check_new_role;
+		//TODO: angular.extend on these :) 
+		vm.grant = grant;
+		vm.remove = remove;
+		vm.checkIfNew = checkIfNew;
+		vm.checkMatchingRoles = checkMatchingRoles;
 
-		function grant_role(role_name, user_id){
+		function grant(role_name, user_id){
 			role.grantRole({
 				user_id: user_id,
 				role_name: role_name}).then(function(){
-					refreshLocalStorageSettings();
+					refreshLocalStorage.init();
 			});
 		}
 
-		function delete_role(role_id, user_id){
+		function remove(role_id, user_id){
 			role.deleteUserRole({
 				user_id: user_id,
 				role_id: role_id}).then(function(){
-					refreshLocalStorageSettings();
+					refreshLocalStorage.init();
 			});
 		}
 
-		function refreshLocalStorageSettings(){
-
-			if($stateParams.id == JSON.parse(localStorage.getItem('user')).id){
-					auth.getSettings().then(function(result){
-					localStorage.removeItem('user');
-					localStorage.removeItem('permissions');
-					localStorage.setItem('user', JSON.stringify(result.data.user));
-					localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
-				})
-			}
-
-		}
-
-		vm.check_roles = function(roles, this_users_roles) {
+		function checkMatchingRoles(roles, this_users_roles) {
 			angular.forEach(roles, function(role, key){
-				role["this_users_role"] = false;
+				role["ifUserHasRole"] = false;
 				angular.forEach(this_users_roles, function(this_role, key){
 					if(role.display_name == this_role){
-						role["this_users_role"] = true;
+						role["ifUserHasRole"] = true;
 					}
 				})
-			})
+			});
 		}
 
-		function check_new_role(role, id){
-			if(id == JSON.parse(localStorage.getItem('user')).id){
+		// TODO: make this into an UNDO
+		function checkIfNew(role, id){
+			if(id == user.self.id){
 				var toast = ToastMessage.action("Are you sure you want to modify your own role?", "Yes");
 				$mdToast.show(toast).then(function(response){
 					if(response == 'ok'){
-						editMyOwnRole(role, id);
+						editSelfRole(role, id);
 					}
-				})
-			}
-			else {
+				});
+			} else {
 				editUserRole(role, id);
 			}
 		}
 
-		function editMyOwnRole(role, my_id){
-			if(role.this_users_role){
-				grant_role(role.name, my_id);
-			}
-			else if (!role.this_users_role){
-				delete_role(role.id, my_id);
+		function editSelfRole(role, my_id){
+			if(role.ifUserHasRole){
+				grant(role.name, my_id);
+			} else if (!role.ifUserHasRole){
+				remove(role.id, my_id);
 			}
 		}
 
 		function editUserRole(role, user_id){
-			if(!role.this_users_role){
-				grant_role(role.name, user_id);
-			}
-			else if (role.this_users_role){
-				delete_role(role.id, user_id);
+			if(!role.ifUserHasRole){
+				grant(role.name, user_id);
+			} else if (role.ifUserHasRole){
+				remove(role.id, user_id);
 			}
 		}
-
-
 
 	}
 

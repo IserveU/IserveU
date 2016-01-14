@@ -11,10 +11,10 @@
         </h2>
         </div>
 
-      <div class="user-role-toolbar" ng-controller="UserRoleController as role">
+      <div class="user-role-toolbar">
           <p class="md-caption" ng-repeat="r in user.profile.user_role">{{ r }}{{ $last ? '' : ',&nbsp;' }}</p>
           <has-permission has-permission="administrate-permissions">
-             <md-icon ng-click="user.edit_role = !user.edit_role; role.checkRoles(user.profile.user_role)" class="edit-btn mdi mdi-pencil"></md-icon>
+             <md-icon ng-click="user.roleObj.showRoles(); user.roleObj.checkForMatches(user.profile.user_role)" class="edit-btn mdi mdi-pencil"></md-icon>
           </has-permission>
       </div>
     </div>
@@ -22,9 +22,9 @@
 
   </md-toolbar>
 
-  <ng-include src="'app/components/user/partials/user-roles.tpl.html'" ng-if="user.edit_role"></ng-include>
+  <ng-include src="'app/components/user/partials/user-role.tpl.html'" ng-if="user.roleObj.editRole"></ng-include>
 
-  <md-card-content ng-if="!user.edit_role">
+  <md-card-content ng-if="!user.roleObj.editRole">
     <div layout-padding>
         <div layout="row" id="email">
           <md-icon class="mdi mdi-email" style="padding-right:10px"></md-icon>
@@ -171,3 +171,6 @@
     </div>
   </md-card-content>
 </md-card>
+
+  <ng-include src="'app/components/user/partials/user-fab-toolbar.tpl.html'"></ng-include>
+

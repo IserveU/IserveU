@@ -1,0 +1,23 @@
+<has-permission has-permission="hasAllusers">
+<md-fab-toolbar class="md-right" >
+  <md-fab-trigger class="align-with-text">
+    <md-button aria-label="menu" class="md-fab md-primary">
+      <md-icon class="mdi" md-font-icon="mdi-menu" ></md-icon>
+    </md-button>
+    </md-fab-trigger>
+    <md-toolbar>
+    <md-fab-actions class="md-toolbar-tools">
+      <has-permission has-permission="administrate-users">
+      <md-button aria-label="create" ui-sref="createuser" class="md-icon-button">
+        <md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
+      </md-button>
+      </has-permission>
+      <has-permission has-permission="delete-users">
+        <md-button aria-label="delete" ng-click="user.deleteUser(user.profile.id)" class="md-icon-button md-warn">
+        <md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
+      </md-button>
+      </has-permission>
+    </md-fab-actions>
+  </md-toolbar>
+</md-fab-toolbar>
+</has-permission>

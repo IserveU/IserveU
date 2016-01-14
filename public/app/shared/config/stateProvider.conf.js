@@ -75,7 +75,7 @@
         })
         .state( 'user', {
             url: '/user/:id',
-            templateUrl: 'app/components/user/partials/user-production.tpl.html',
+            templateUrl: 'app/components/user/partials/user-profile.tpl.html',
             controller: 'UserController as vm',
             data: {
                 requireLogin: true
@@ -86,11 +86,6 @@
         })
         .state( 'user.details', {
             url: '/profile',
-            views: {
-                'roles': {
-                    templateUrl: 'app/components/user/partials/user-roles.tpl.html',
-                }
-            },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'user';
             }]

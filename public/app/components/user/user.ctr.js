@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
-	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, RoleService, SetPermissionsService, vote, user, UserbarService, ToastMessage, role) {
+	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, roleService, SetPermissionsService, vote, user, UserbarService, ToastMessage, role) {
 		
 		UserbarService.setTitle("");
 		
