@@ -14,7 +14,6 @@ class CreateCommentsTable extends Migration {
 	{
 		Schema::create('comments', function(Blueprint $table) {
             $table->increments('id');
-    //        $table->integer('motion_id')->unsigned(); Not good design
             $table->text('text');
             $table->softDeletes();
             $table->integer('vote_id')->unsigned()->unique();
@@ -26,9 +25,6 @@ class CreateCommentsTable extends Migration {
         	$table->foreign('vote_id')->references('id')->on('votes'); //The user votes and can then make a comment
         });
         
-        Schema::table('votes', function($table){
-        });
-
 	}
 
 	/**
@@ -38,11 +34,6 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function down()
 	{
-
-		Schema::table('votes',function($table){
- //           $table->dropForeign('votes_comment_id_foreign');
-        });
-
 		Schema::drop('comments');
 	}
 

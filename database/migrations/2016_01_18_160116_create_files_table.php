@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FilesMigration extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -57,6 +57,14 @@ class FilesMigration extends Migration
      */
     public function down()
     {
+        Schema::table('motion_files', function($table){
+            $table->dropForeign('motion_files_motion_id_foreign');
+            $table->dropForeign('motion_files_file_id_foreign');
+        });
+
+        Schema::table('files', function($table){
+            $table->dropForeign('files_file_category_id_foreign');
+        });
 
         Schema::table('users', function($table){
             $table->dropForeign('users_avatar_id_foreign');
@@ -65,12 +73,8 @@ class FilesMigration extends Migration
             $table->dropColumn('avatar_id');
         });
 
-        
-
-        Schema::drop('motion_files'); //Easier to just drop this
-        Schema::drop('files'); //Easier to just drop this
-
-        Schema::drop('file_categories'); //Easier to just drop this
-
+        Schema::drop('motion_files');
+        Schema::drop('files');
+        Schema::drop('file_categories');
     }
 }
