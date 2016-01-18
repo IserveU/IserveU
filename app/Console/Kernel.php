@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\EmailDailySummary',
 		'App\Console\Commands\RankGeneration',
-		'App\Console\Commands\ShuffleDefaultDelegations'
+		'App\Console\Commands\ShuffleDefaultDelegations',
+		'App\Console\Commands\CreateInitialAdmin'
 	];
 
 	/**
