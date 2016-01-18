@@ -121,10 +121,6 @@ md-caption.imagecredit{
   font-size:15px; 
 }
 
-.mdi-big {
-  font-size:120px;
-}
-
 
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {
@@ -490,128 +486,6 @@ div.display-department {
 	}
 }
 
-form.user-profile-form {
-	label {
-		padding-left:50px;
-		display:inline-block;
-	}
-
-	.input-icon {
-		display:inline-block;
-		padding-top:20px;
-	}
-	md-input-container .md-input{
-		display:inline-block;
-	}
-	md-input-container .md-input[disabled]{
-		display:inline-block;
-		color:black;
-		border-bottom-color: transparent; 
-		background-image: none !important;
-	}
-	.user-btn {
-		padding-top:30px;
-		&.clicked{
-			color:$primaryColor;
-		}
-	}
-	md-select {
-		top: 20px;
-	}
-	md-select[disabled] md-select-value .md-select-icon {
-		color:transparent;
-	}
-	md-select[disabled] .md-select-value {
-		color:black;
-		border-bottom-color: transparent; 
-		background-image: none !important;
-	}
-	md-progress-circular {
-		top:22px;
-		right:34px;
-		max-height: 25px;
-	}
-	// md-input-container.md-input-focused label:not(.md-no-float)  {
-	// 	color:$primaryColor; padding-left:38px;
-	// }
-
-		md-input-container:not(.md-input-invalid).md-input-focused label {
-		padding-left: 50px;
-		}
-	::-webkit-input-placeholder {
-		color: black;
-	}
-	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   		color:    black;
-   		opacity:  1;
-	}
-	::-moz-placeholder { /* Mozilla Firefox 19+ */
-	   color:    black;
-	   opacity:  1;
-	}
-	:-ms-input-placeholder { /* Internet Explorer 10-11 */
-	   color:    black;
-	}
-
-	.date-picker-label {
-		color: grey;
-		padding-left: 39px;
-		margin: 0px;
-		padding-top: 2px;
-	}
-
-	md-datepicker {
-	    .md-datepicker-button.md-icon-button {
-	      padding-bottom:10px;
-	      padding-right:24px;
-	      bottom: 12px;
-	      right: 2px;
-	    }
-	    .md-datepicker-input-container{
-	      bottom: 10px;
-	      padding-left:2px;
-	    }
-
-	    .md-datepicker-input {
-	    	font-size: 16px;
-	    	min-width: 148px;
-	    }
-	  }
-
-	.change-password {
-
-		label {
-			padding-left:37px;
-			color:black;
-		}
-	}	
-}
-
-.column-form {
-
-	md-datepicker {
-		background-color: transparent;
-	    position: relative;
-	    right: 10px;
-
-	    .md-datepicker-input-container{
-	      margin: 0px;
-	      bottom: 7px;
-	      right: 14px;
-	    }
-
-	    .md-datepicker-input {
-	    	font-size: 16px;
-	    }
-
-	    .md-datepicker-button.md-icon-button {
-	      bottom: 7px;
-	    }
-	  }
-}
-
-
-
 
 .search-icon {
   position: relative;
@@ -719,3 +593,27 @@ input.sidebar-search-input {
 		padding-top:12px;
 	}
 }
+
+
+#edit-user-form {
+	md-toolbar {
+		background-color: $lightGrey;
+		h2 {
+			color:black; padding-left: 124px; padding-top: 12px; margin:0;
+		}
+		.public-display-name { font-size:18px; } 
+		.user-role-toolbar {
+			padding-left: 124px;
+			display: inline-block;
+			color:$darkGrey;
+			p { display:inline-block;}
+			md-icon { display:inline-block; color:$darkGrey; }
+		}
+		.display-avatar-preset{
+			font-size: 120px;
+		}
+	}
+	input { color: black; }
+}
+
+

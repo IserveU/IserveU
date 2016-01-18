@@ -1,25 +1,21 @@
 <md-card ng-controller="editUserController as user" id="edit-user-form">
   <md-toolbar class="md-tall">
     <div>
-      <md-icon class="mdi mdi-big mdi-account-circle"></md-icon>
-        <div class="user-toolbar" style="color:black; padding-left: 97px; padding-top: 12px">
-        <h2 class="md-headline" style=" margin:0">
+      <md-icon class="mdi display-avatar-preset mdi-account-circle"></md-icon>
+        <h2 class="md-headline">
           {{user.profile.first_name}} 
           <span hide-sm>{{user.profile.middle_name}}</span>
           {{user.profile.last_name}}    
-          <span hide-sm class="user-public-setting" style="font-size:18px">({{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}})</span>
+          <span hide-sm class="public-display-name">({{user.profile.public ? ('PUBLIC' | translate) : ('PRIVATE' | translate)}})</span>
         </h2>
-        </div>
 
       <div class="user-role-toolbar">
           <p class="md-caption" ng-repeat="r in user.profile.user_role">{{ r }}{{ $last ? '' : ',&nbsp;' }}</p>
-          <has-permission has-permission="administrate-permissions">
+          <!-- <has-permission has-permission="administrate-permissions"> -->
              <md-icon ng-click="user.roleObj.showRoles(); user.roleObj.checkForMatches(user.profile.user_role)" class="edit-btn mdi mdi-pencil"></md-icon>
-          </has-permission>
+          <!-- </has-permission> -->
       </div>
     </div>
-
-
   </md-toolbar>
 
   <ng-include src="'app/components/user/partials/user-role.tpl.html'" ng-if="user.roleObj.editRole"></ng-include>
@@ -61,7 +57,7 @@
 
         <div layout="row" id="date_of_birthEdit" ng-show="user.field.date_of_birth">
           <md-input-container flex style="padding-left:38px">
-            <label>Enter in your Birthday</label>
+            <label>Enter in your birthday</label>
             <input type='date' ng-model='user.new.date_of_birth' ng-keypress="user.pressEnter($event, 'date_of_birth')" />
           </md-input-container>
             <md-icon class="mdi mdi-lock" ng-show="user.locking.date_of_birth"></md-icon>
