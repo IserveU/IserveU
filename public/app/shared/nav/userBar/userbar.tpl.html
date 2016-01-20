@@ -1,13 +1,22 @@
- <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" ng-if="userIsLoggedIn">
-    <div layout="column" class="md-toolbar-tools" tabIndex="-1">
-        <md-button class="md-icon-button" ng-click="sidebar.toggleSidenav('left')" hide-gt-lg aria-label="Toggle Menu">
-          <md-icon class="mdi" md-font-icon="mdi-menu"></md-icon>
+ <!-- color maybes for loading circles and other input fields: 009cd3 -->
+ 
+ <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" style="height:56px; top: -10px"  ng-if="userIsLoggedIn">
+    <div layout="column" class="md-toolbar-tools" tabIndex="-1" style="padding-left: 0; background-color:#009cd3; height: 56px; position: fixed; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26); z-index:5">
+
+
+        <!-- TODO: make this into a universal directive, like sidebar --> 
+        <motion-searchbar hide-sm hide-md hide-lg></motion-searchbar>
+
+
+
+        <md-button class="md-icon-button" style="margin:0" ng-click="user.toggleSidebar('left')" hide-gt-lg aria-label="Toggle Menu">
+          <md-icon class="mdi mdi-menu"></md-icon>
         </md-button>
-        <div flex>
-            <h2 style="font-weight:500" hide-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
-            <h2 style="font-size: 15px" hide-gt-sm show-sm ng-cloak translate="{{user.userbarservice.title}}"></h2>
-            <span flex></span> <!-- use up the empty space -->
-         </div>
+
+        <p translate="{{user.userbarservice.title}}" style="margin:0;  padding-left: 18px" ng-cloak></p>
+
+
+        <span flex></span>
 
         <div>
             <md-menu >
@@ -15,7 +24,7 @@
                 <md-menu-content width="1" style="margin:0px">
                     <md-menu-item ng-repeat="language in user.languages">
                         <md-button ng-click="user.changeLanguage(language.key)">
-                            <p flex ng-cloak >{{language.name}}</p>
+                            <p flex ng-cloak>{{language.name}}</p>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>

@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
+		
+		$this->call(MotionTableSeeder::class);
+		$this->command->info('Fake motions seeded'); 
+
+
 		$this->call(EthnicOriginTableSeeder::class);
 		$this->command->info('Ethnic origins seeded'); 
 
@@ -26,6 +31,12 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call(EntrustRoleTableSeeder::class);
 		$this->command->info('Entrust roles and seeded'); 
+
+		$this->call(MotionTableSeeder::class);
+		$this->command->info('Fake motions seeded'); 
+
+		Model::guard();
+
 	}
 
 }

@@ -20,6 +20,7 @@
 
 		function getMotions(data) {
 			return Motion.get(data).$promise.then(function(results) {
+				console.log(results);
 				return results
 			}, function(error) {
 				return $q.reject(error);

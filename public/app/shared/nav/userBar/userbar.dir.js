@@ -9,7 +9,7 @@
 
 	function userBar(){
 		
-		function UserbarController($translate, auth, afterauth, UserbarService, SetPermissionsService) {
+		function UserbarController($translate, $mdSidenav, auth, afterauth, UserbarService, SetPermissionsService) {
 
 			var vm = this;
 
@@ -27,6 +27,10 @@
 				auth.logout().then(function() {
 					afterauth.clearCredentials();
 				});
+			}
+
+			vm.toggleSidebar = function(id) {
+				$mdSidenav(id).toggle(); 
 			}
 		};
 

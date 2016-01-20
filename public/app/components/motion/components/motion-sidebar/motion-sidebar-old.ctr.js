@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.controller('MotionSidebarController', MotionSidebarController);
+		.controller('MotionSidebarOldController', MotionSidebarController);
 
 	function MotionSidebarController($rootScope, $stateParams, $state, $scope, $mdSidenav, $interval, motion, vote, department, motionCache, SetPermissionsService, ToastMessage) {
 
@@ -47,6 +47,10 @@
 		vm.paginate_loading = false;
 
 		vm.searchText = '';
+
+		vm.showMoreMotions = function() {
+			console.log('foo');
+		}
 
 		/**************************************** Motion Sidebar Function **************************************** */
 
@@ -195,7 +199,7 @@
 			}
 		}
 
-		getMotions(vm.motion_filters);
+		getMotions();
 
 		$rootScope.$on('refreshMotionSidebar', function(events, data) {
 			getMotions(vm.motion_filters);

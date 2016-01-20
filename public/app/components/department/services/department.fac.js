@@ -6,18 +6,27 @@
 		.module('iserveu')
 		.factory('department', department);
 
-	function department($resource, $q) {
+	function department($resource, $http, $q) {
 
 		var Department = $resource('api/department/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
-		function getDepartments(){
-			return Department.query().$promise.then(function(results) {
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
+
+
+		var self = {
+			data: {},
+			initDepartments: function() {
+				Department.query().$promise.then(function(r) {
+					self.data = r;
+				});
+			},
+			getDepartments: function() {
+				return $http.get('api/department/').success(function(result) {
+					console.log(result);
+					return result.data;
+				});
+			}
+		};
 
 		function addDepartment(data){
 			return Department.save(data).$promise.then(function(success) {
@@ -43,11 +52,13 @@
 			});
 		}
 
+		self.initDepartments();
+
 	return {
-			getDepartments: getDepartments,
+			self: self,
 			addDepartment: addDepartment,
 			deleteDepartment: deleteDepartment,
-			updateDepartment: updateDepartment
+			updateDepartment: updateDepartment,
 		}
 
 

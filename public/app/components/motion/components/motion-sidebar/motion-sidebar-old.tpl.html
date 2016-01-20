@@ -1,0 +1,75 @@
+<md-content flex role="navigation" class="flex md-default-theme" style="overflow-y: auto;" ng-controller="MotionSidebarController as sidebar">
+  <md-toolbar ng-cloak>
+    <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px">
+      <md-button class="md-icon-button" aria-label="Home Button">
+        <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg" ui-sref="home" ng-hide="sidebar.showSearchFilter"></md-icon>
+        <md-icon class="mdi mdi-arrow-left" ng-show="sidebar.showSearchFilter" ng-click="sidebar.showSearch()"></md-icon>
+      </md-button>
+      <h2 style="font-weight:500" ng-hide="sidebar.showSearchFilter" translate="{{'MOTIONS'}}"></h2>
+
+            <input type='text' class="sidebar-search-input"  ng-show="sidebar.showSearchFilter" placeholder='Search motion ...' ng-model='sidebar.searchText'/>
+
+        <div id="search-filter">
+                <md-icon style="left:10px" class="mdi mdi-magnify search-icon" ng-click="sidebar.showSearch()"></md-icon>
+          <md-menu md-offset="27 32">
+          <md-icon class="mdi mdi-dots-vertical search-icon" ng-click="$mdOpenMenu()"></md-icon>
+            <md-menu-content width="4" class="md-body-1" >
+              <md-select aria-label="select filter motions by department" style="margin:4px" md-on-open="sidebar.loadDepartments()" ng-model="sidebar.departmentFilter" placeholder="Filter by City Department" layout-padding><md-option ng-mousedown="sidebar.querySearchDepartment({department_id:department.id})" ng-repeat="department in sidebar.departments" ng-value="department.id">{{department.name}}</md-option></md-select>
+              <md-select aria-label="order motions by select box" style="margin:4px" ng-model="sidebar.orderByFilter" placeholder="Order by:" layout-padding><md-option ng-mousedown="sidebar.querySearch(filter.query);"  ng-repeat="filter in sidebar.orderByFilters" ng-value="filter.query">{{filter.name}}</md-option></md-select>
+              <md-menu-button style="text-align:right">
+                <md-button layout-align="center end" ng-click="sidebar.showAll()">See All</md-button>
+              </md-menu-button>
+          </md-menu-content>
+          </md-menu>
+      </div>
+    </div>
+
+  </md-toolbar>
+
+  <md-progress-circular class="loading-circle" md-mode="indeterminate" ng-show="sidebar.listLoading"></md-progress-circular>
+
+  <md-list> 
+    <md-list-item class="sidebar-list" ng-repeat="motion in sidebar.motions | filter:sidebar.searchText" ui-sref-active="active"   ng-click="sidebar.closeSidenav('left')">
+
+    <loading-spinner check-if="{{motionIsLoading[motion.id]}}" layout-padding>
+      <div>
+        <md-icon aria-label="Motion Popularity" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}">
+        <md-tooltip md-direction="right" ng-if="motion.motion_rank !== 0 && motion.motion_rank != null">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+        <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
+        </md-icon>
+      </div>
+    </loading-spinner>
+
+      <p ng-click="sidebar.switchLoading(true, motion.id);" ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
+
+      <div ng-switch="{{ motion.user_vote.position }}" ng-if="sidebar.can_create_vote" ng-cloak>
+        <md-button aria-label="User Menu"  class="md-icon-button" ng-disabled="!motion.MotionOpenForVoting" ng-mousedown="sidebar.cycleVote(motion)">
+          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{themename}}/icons/thumb-up.svg"  aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="0" md-svg-src="/themes/{{themename}}/icons/thumbs-up-down.svg" aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{themename}}/icons/thumb-down.svg"  aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-icon ng-switch-when="undefined"class="mdi mdi-med mdi-checkbox-blank-circle-outline" aria-label="cycle vote"ng-disabled="!motion.MotionOpenForVoting"></md-icon>
+          <md-tooltip>{{'QUICK_VOTE' | translate}}</md-tooltip>
+        </md-button>
+      </div>
+    </md-list-item>
+
+    <md-list-item>
+        <span flex></span>
+            <md-button id="show-more-btn" ng-if="sidebar.show_more" ng-click="sidebar.loadMoreMotions()">{{sidebar.paginate_loading ? 'LOADING' : 'SHOW MORE'}} ...</md-button>
+    </md-list-item>
+
+    <md-list-item ng-if="sidebar.emptyMotionsArray">
+      <p class="md-body-1" translate="{{'NO_MOTIONS'}}"></p>
+    </md-list-item>
+
+    <has-permission has-permission="create-motions">
+      <md-list-item class="sidebar-list" ui-sref-active="active"> 
+        <md-icon class="mdi" md-font-icon="mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
+        <p ui-sref="createmotion" translate="{{'CREATE_NEW_MOTION'}}"></p>
+      </md-list-item>
+    </has-permission>
+
+
+  </md-list>
+
+</md-content>

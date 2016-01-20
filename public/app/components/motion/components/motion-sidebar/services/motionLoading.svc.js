@@ -15,7 +15,6 @@
 		}
 
 		function get (id) {
-			console.log(motion_loading[id]);
 			return motion_loading[id];
 		}
 

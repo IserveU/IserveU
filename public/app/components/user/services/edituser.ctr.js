@@ -7,9 +7,12 @@
 		.controller('editUserController', editUserController);
 
 
-	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj) {
+	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj, refreshLocalStorage) {
 
 		var vm = this;
+
+
+		refreshLocalStorage.init();
 
 		var arrayOfFieldTypes = [];
 

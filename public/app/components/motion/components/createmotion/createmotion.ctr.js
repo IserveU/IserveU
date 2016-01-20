@@ -25,7 +25,10 @@
         vm.submitted    = false;
         vm.creating     = false;
         vm.attachments  = false;
-        vm.departments  = [];
+        
+        vm.departments  = department.self.data.length > 0 ? department.self.data : department.self.getDepartments().then(function(r){
+            vm.departments = r.data;
+        });
 
         /************************************* Motion File Functions ****************************/
         
@@ -97,13 +100,6 @@
                 $state.go('motion', ({id:result.id}))
             });
 		}
-
-        /************************************* Deparment Functions ****************************/
-        
-        department.getDepartments().then(function(result){
-            vm.departments = result;
-        });
-
 
 
 	}

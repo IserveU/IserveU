@@ -14,7 +14,9 @@
 			'formly',
 			'ngMessages',
 			'pascalprecht.translate',
-			'ngCookies'
+			'ngCookies',
+            'summernote',
+            'infinite-scroll',
 		])
 		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 
