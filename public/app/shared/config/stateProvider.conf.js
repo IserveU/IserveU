@@ -23,7 +23,7 @@
     	.state( 'motion', {
             // cache: true,
     	    url: '/motion/:id',
-    	    templateUrl: 'app/components/motion/motion.tpl.html',
+    	    templateUrl: 'app/components/motion/partials/motion-production.tpl.html',
     	    controller: 'MotionController as motion',
     	    data: {
     	        requireLogin: true
@@ -84,7 +84,7 @@
                 $rootScope.currentState = 'user';
             }]
         })
-        .state( 'user.details', {
+        .state( 'user.profile', {
             url: '/profile',
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'user';

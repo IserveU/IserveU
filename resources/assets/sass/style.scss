@@ -629,3 +629,20 @@ input.sidebar-search-input {
 	}
 }
 
+.voting-disabled {
+	md-icon {
+		color: $midGrey !important;
+	}
+	&:hover{
+		background-color:transparent !important;
+		cursor: default;
+		.md-focused {
+			background-color: transparent;
+		}
+		.md-button {
+			background-color: transparent;
+		}
+	}
+
+}
+

@@ -1,14 +1,10 @@
 <md-content id="maincontent" layout="column" fill-layout ng-class="motion.isLoading?'loading':''">
 <section class="md-whiteframe-z1" style="margin:8px">
-	<!-- <md-toolbar md-scroll-shrink ng-if="true" class="section-toolbar">
+	<md-toolbar md-scroll-shrink ng-if="true" class="section-toolbar">
 	<div class="md-toolbar-tools">
 		<h3 translate="{{'DESCRIPTION'}}"></h3>
 	</div>
-	</md-toolbar> -->
-
-	<md-subheader class="md-primary">Description</md-subheader>
-
-
+</md-toolbar>
 <div layout="row" layout-wrap fill-layout ng-hide="motion.editMotionMode" >
 	<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding:16px">
 		<p class="md-headline" translate="{{'INTRODUCTION'}}" aria-label="Motion Introduction text"></p>
@@ -52,12 +48,13 @@
 
 			</div>	
 		</div>
-	<div ui-view="editmotion" ng-if="motion.editMotionMode"></div>
+	<div  ui-view="editmotion" ng-if="motion.editMotionMode"></div>
 </section>
 
 	
 		
 		
+	<!-- implement when the user is close to scrolling near comments begin to load the DOM -->
 		<!--vote.tpl.html-->
 	<div ui-view="votes"></div>
 		<!--comment.tpl.html-->

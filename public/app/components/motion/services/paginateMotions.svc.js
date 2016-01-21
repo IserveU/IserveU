@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motionObj', motionObj);
 
-	function motionObj($http) {
+	function motionObj($http, motion) {
 
 		var motionObj = {
 			data: [],
@@ -28,7 +28,21 @@
 				}, function errorCallback(e){
 					console.log('cannot get motions');
 				});
-
+			},
+			getMotionObj: function(id) {
+				for(var i in motionObj.data) {
+					if( id == motionObj.data[i].id )
+						return motionObj.data[i];
+				}
+				return null;
+			},
+			reloadMotionObj: function(id) {
+				motion.getMotion(id).then(function(r){
+					for(var i in motionObj.data) {
+						if( id == motionObj.data[i].id )
+							motionObj.data[i] = r;
+					}
+				})
 			}
 		};
 

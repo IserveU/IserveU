@@ -1,0 +1,80 @@
+<md-content id="maincontent" layout="column" fill-layout ng-class="motion.isLoading?'loading':''" style="position:relative">
+	
+	<section class="md-whiteframe-z1" style="margin:8px">
+
+
+		<div class="motion-contents" layout="row" ng-if="!motion.editMode">
+		<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding style="padding: 16px">
+			
+			<md-icon class="mdi mdi-information-outline"  style="display:inline-block; font-size: 19px; left: 3px; position: relative; bottom: 1px"></md-icon>
+				<h3 style="font-size: 16px; margin-bottom: 18px; display:inline-block">Introduction</h3>
+					<p class="md-body-1"  ng-bind-html="motion.motionDetail.summary" aria-label="motionSummary"></p>
+			
+
+			<md-icon class="mdi mdi-file-document"  style="display:inline-block; font-size: 19px; left: 3px; position: relative; bottom: 1px"></md-icon>
+				<h3 style="font-size: 16px; margin-bottom: 18px; display: inline-block">Details</h3>
+					<p class="md-body-1" ng-bind-html="motion.motionDetail.text"></p>
+
+			<!-- <div layout-padding ng-if="motion.motion_files[0]"> -->
+			<md-icon class="mdi mdi-chart-bar" style="display:inline-block; font-size: 19px; left: 3px; position: relative; bottom: 1px"></md-icon>
+				<h3 style="font-size: 16px; margin-bottom: 18px; display:inline-block">Figures</h3>
+
+<!-- 				<div flex ng-repeat="file in motion.motion_files">
+					<a class="md-subhead" href="/uploads/motion_files/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)"></a>
+						<img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" />
+				</div> -->
+			<!-- </div> -->
+		</div>
+				
+			<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2" layout-padding>
+				<a id="top"></a>
+					<div layout-padding class="listgrid">
+					    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
+					    
+						   <md-grid-tile class="md-whiteframe-z1">
+							    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:3.2vw;" hide-sm>
+							    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
+							    </md-icon>
+
+							    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:86px;" hide-md hide-gt-md>
+							    	<md-tooltip>{{'CLOSED' | translate}}</md-tooltip>
+							    </md-icon>
+
+							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check" style="font-size:3.2vw;" hide-sm>
+							    	<md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip>
+							    </md-icon>
+
+							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"  style="font-size:86px;" hide-md hide-gt-md >
+							    	<md-tooltip>{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip>
+							    </md-icon>
+						    </md-grid-tile>
+
+						    <md-grid-tile class="md-whiteframe-z1 {{motion.voteObj.getOverallPosition()}}">
+							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.voteObj.getOverallPosition()}}.svg"  ng-if="motion.voteObj.getOverallPosition()"></md-icon>
+							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.voteObj.getOverallPosition()"></md-icon>
+						    </md-grid-tile>
+
+						    <md-grid-tile class="md-whiteframe-z1">
+							  <!--  <md-icon md-svg-icon="/departments/{{motion.motionDetail.department_id || '1' }}.svg"></md-icon> comment out until departments assigned-->
+							    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
+						    </md-grid-tile>
+					    </md-grid-list>
+					
+					</div>
+				</div>	
+			</div>
+
+			<edit-motion ng-if="motion.editMode"></edit-motion>
+
+	</section>
+
+	<motion-fab-toolbar></motion-fab-toolbar>	
+		
+	<vote-on-motion></vote-on-motion>
+
+	<div ui-view="comments"></div>
+
+
+
+		    	
+</md-content>

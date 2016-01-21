@@ -38,7 +38,7 @@ elixir(function(mix) {
         '/bower/angular-cookies/angular-cookies.min.js',
         '/bower/summernote/dist/summernote.min.js',
         '/bower/angular-summernote/dist/angular-summernote.min.js',
-        '/bower/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
+        '/bower/ngInfiniteScroll/build/ng-infinite-scroll.min.js'
     ],'public/js/dependencies.js', './resources');// added resources as third argument to point directly to the resources directory and not have /js in there
 
  	mix.scriptsIn("public/app",'public/js/app.js');

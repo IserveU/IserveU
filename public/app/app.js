@@ -16,7 +16,7 @@
 			'pascalprecht.translate',
 			'ngCookies',
             'summernote',
-            'infinite-scroll',
+            'infinite-scroll'
 		])
 		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 

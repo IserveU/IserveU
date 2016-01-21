@@ -17,7 +17,7 @@
 		            deferred_agree:{percent:0,number:0},
 		            deferred_disagree:{percent:0,number:0},
 		            deferred_abstain:{percent:0,number:0}
-		        }
+		    }
 
             if(vote_array[1]){
             	motionVotes.agree = ( vote_array[1].active ) ? vote_array[1].active  : motionVotes.agree; 

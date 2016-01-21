@@ -106,7 +106,7 @@
             }
 
             if(position != vm.usersVote) {
-                    turnOnLoadingVotingAnimation(position);
+                turnOnLoadingVotingAnimation(position);
                 
                 vote.updateVote(data).then(function(result) {
                     calculateVotes(result);
