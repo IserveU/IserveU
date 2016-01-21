@@ -28,9 +28,6 @@
 		    	}
 
 		    	vote.getMotionVotes(id).then(function(r){
-		    		console.log(r.data);
-		    		
-
 		    		var votes = voteObj.votes = r.data;
 
 

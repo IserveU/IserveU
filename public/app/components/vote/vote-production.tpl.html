@@ -3,24 +3,24 @@
 
     <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-            <md-button ng-click="c.castVote(motion.motionDetail.id, 1)" ng-class="{'md-raised agree':c.userVote.position == 1, 'voting-disabled':c.isVotingEnabled() }" aria-label="Agree" layout-fill>
-              <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ c.userVote.position==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!c.voting[1]"></md-icon>
-              <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="c.voting[1]"></md-icon>
+            <md-button ng-click="ctr.castVote(motion.motionDetail.id, 1)" ng-class="{'md-raised agree':ctr.userVote.position == 1, 'voting-disabled':ctr.isVotingEnabled() }" aria-label="Agree" layout-fill>
+              <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ ctr.userVote.position==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!ctr.voting[1]"></md-icon>
+              <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="ctr.voting[1]"></md-icon>
             </md-button>
 
-            <md-tooltip>{{ c.voteButtonMessage('Agree with this motion') }}</md-tooltip>
+            <md-tooltip>{{ ctr.voteButtonMessage('Agree with this motion') }}</md-tooltip>
 
       </md-card-content>
     </md-card>
 
     <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-          <md-button  ng-click="c.castVote(motion.motionDetail.id, 0)" ng-class="{'md-raised':c.userVote.position == 0, 'voting-disabled':c.isVotingEnabled()}" aria-label="Abstain" layout-fill>
-            <md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ c.userVote.position==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!c.voting[0]"></md-icon>
-            <md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="c.voting[0]"></md-icon>             
+          <md-button  ng-click="ctr.castVote(motion.motionDetail.id, 0)" ng-class="{'md-raised':ctr.userVote.position == 0, 'voting-disabled':ctr.isVotingEnabled()}" aria-label="Abstain" layout-fill>
+            <md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ ctr.userVote.position==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!ctr.voting[0]"></md-icon>
+            <md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="ctr.voting[0]"></md-icon>             
           </md-button>  
 
-            <md-tooltip>{{ c.voteButtonMessage('Abstain on this motion') }}</md-tooltip>
+            <md-tooltip>{{ ctr.voteButtonMessage('Abstain on this motion') }}</md-tooltip>
 
 
       </md-card-content>
@@ -29,12 +29,12 @@
 
         <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-        <md-button  ng-click="c.castVote(motion.motionDetail.id, -1)" ng-class="{'md-raised disagree':c.userVote.position == -1, 'voting-disabled':c.isVotingEnabled()}" aria-label="Disagree" layout-fill>
-            <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ c.userVote.position=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!c.voting[-1]"></md-icon>
-            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="c.voting[-1]"></md-icon>
+        <md-button  ng-click="ctr.castVote(motion.motionDetail.id, -1)" ng-class="{'md-raised disagree':ctr.userVote.position == -1, 'voting-disabled':ctr.isVotingEnabled()}" aria-label="Disagree" layout-fill>
+            <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ ctr.userVote.position=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!ctr.voting[-1]"></md-icon>
+            <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="ctr.voting[-1]"></md-icon>
           </md-button>   
 
-            <md-tooltip>{{ c.voteButtonMessage('Disagree with this motion') }}</md-tooltip>
+            <md-tooltip>{{ ctr.voteButtonMessage('Disagree with this motion') }}</md-tooltip>
 
 
       </md-card-content>
@@ -48,31 +48,31 @@
     <div class="statusbar" layout="row" layout-align="center center" flex> 
 
 
-        <md-button ng-if="c.voteObj.votes['1'] && c.voteObj.votes['1'].active" style="width:{{ c.voteObj.votes['1'].active.percent }}%; margin:0" class="agree md-raised md-primary" aria-label="Number in agreement">
-          <md-tooltip>{{ c.voteObj.votes['1'].active.number }} {{vm.motionOpen ? ('AGREE' | translate) : ('AGREED' | translate) }} </md-tooltip>
+        <md-button ng-if="ctr.voteObj.votes['1'] && ctr.voteObj.votes['1'].active" style="width:{{ ctr.voteObj.votes['1'].active.percent }}%; margin:0" class="agree md-raised md-primary" aria-label="Number in agreement">
+          <md-tooltip>{{ ctr.voteObj.votes['1'].active.number }} {{vm.motionOpen ? ('AGREE' | translate) : ('AGREED' | translate) }} </md-tooltip>
         </md-button>
 
-        <md-button ng-if="c.voteObj.motionVotes.deferred_agree.number != 0" style="width:{{ c.voteObj.motionVotes.deferred_agree.percent }}%; background-color:#00dbd5; margin:0" class="md-raised" aria-label="Number in deferred agreement">
-          <md-tooltip>{{ c.voteObj.motionVotes.deferred_agree.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
-        </md-button>
-
-
-        <md-button ng-if="c.voteObj.votes['0']" style="width:{{ c.voteObj.votes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey; margin:0" aria-label="Number abstaining">
-          <md-tooltip>{{ c.voteObj.votes['0'].active.number }} {{ vm.motionOpen? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>
-        </md-button>
-
-        <md-button ng-if="c.voteObj.motionVotes.deferred_abstain.number != 0"  style="width:{{ c.voteObj.motionVotes.deferred_abstain.percent }}%; background-color: #c3c3c3; margin:0" class="deferred_abstain md-raised md-primary" aria-label="Number in deferred abstained">
-          <md-tooltip>{{ c.voteObj.motionVotes.deferred_abstain.number }} {{ 'ABSTAIN_DEFERRALS' | translate }} </md-tooltip>
+        <md-button ng-if="ctr.voteObj.motionVotes.deferred_agree.number != 0" style="width:{{ ctr.voteObj.motionVotes.deferred_agree.percent }}%; background-color:#00dbd5; margin:0" class="md-raised" aria-label="Number in deferred agreement">
+          <md-tooltip>{{ ctr.voteObj.motionVotes.deferred_agree.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
         </md-button>
 
 
-        <md-button ng-if="c.voteObj.motionVotes.deferred_disagree.number != 0"  style="width:{{ c.voteObj.motionVotes.deferred_disagree.percent }}%; background-color: #ff9a00; margin:0" class="deferred-disagree md-raised md-primary" aria-label="Number in deferred agreement">
-          <md-tooltip>{{ c.voteObj.motionVotes.deferred_disagree.number }} {{ 'DISAGREE_DEFERRALS' | translate }} </md-tooltip>
+        <md-button ng-if="ctr.voteObj.votes['0']" style="width:{{ ctr.voteObj.votes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey; margin:0" aria-label="Number abstaining">
+          <md-tooltip>{{ ctr.voteObj.votes['0'].active.number }} {{ vm.motionOpen? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>
+        </md-button>
+
+        <md-button ng-if="ctr.voteObj.motionVotes.deferred_abstain.number != 0"  style="width:{{ ctr.voteObj.motionVotes.deferred_abstain.percent }}%; background-color: #c3c3c3; margin:0" class="deferred_abstain md-raised md-primary" aria-label="Number in deferred abstained">
+          <md-tooltip>{{ ctr.voteObj.motionVotes.deferred_abstain.number }} {{ 'ABSTAIN_DEFERRALS' | translate }} </md-tooltip>
         </md-button>
 
 
-        <md-button ng-if="c.voteObj.votes['-1']" style="width:{{ c.voteObj.votes['-1'].active.percent }}%; margin:0" class="disagree md-raised md-accent" aria-label="Number in disagreement">
-          <md-tooltip>{{ c.voteObj.votes['-1'].active.number }} {{ vm.motionOpen ? ('DISAGREE' | translate) : ('DISAGREED' | translate) }} </md-tooltip>
+        <md-button ng-if="ctr.voteObj.motionVotes.deferred_disagree.number != 0"  style="width:{{ ctr.voteObj.motionVotes.deferred_disagree.percent }}%; background-color: #ff9a00; margin:0" class="deferred-disagree md-raised md-primary" aria-label="Number in deferred agreement">
+          <md-tooltip>{{ ctr.voteObj.motionVotes.deferred_disagree.number }} {{ 'DISAGREE_DEFERRALS' | translate }} </md-tooltip>
+        </md-button>
+
+
+        <md-button ng-if="ctr.voteObj.votes['-1']" style="width:{{ ctr.voteObj.votes['-1'].active.percent }}%; margin:0" class="disagree md-raised md-accent" aria-label="Number in disagreement">
+          <md-tooltip>{{ ctr.voteObj.votes['-1'].active.number }} {{ vm.motionOpen ? ('DISAGREE' | translate) : ('DISAGREED' | translate) }} </md-tooltip>
         </md-button>
 
     </div>

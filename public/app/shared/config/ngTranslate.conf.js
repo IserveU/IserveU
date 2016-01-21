@@ -94,6 +94,8 @@
 			CLOSES_ON: "closes on ",
 			DESCRIPTION: "Description",
 			VOTING: "Voting",
+			POST: "Post",
+			SUBMIT: "Submit",
 			POST_COMMENT: "Post Comment",
 			YOUR_COMMENT: "Your Comment",
 			SUBMIT_COMMENT: "Submit Comment",

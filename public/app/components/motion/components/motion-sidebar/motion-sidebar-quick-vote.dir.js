@@ -6,20 +6,19 @@
     .module('iserveu')
     .directive('quickVote', motionSidebarQuickVote);
 
-  function motionSidebarQuickVote(vote, SetPermissionsService) {
+  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
 
-  	console.log('quickVote');
   	function controllerMethod() {
 
   		var vm = this;
 
-        vm.canCreateVote     = SetPermissionsService.can('create-votes');
+        vm.canCreateVote = SetPermissionsService.can('create-votes');
+        vm.cycleVote = cycleVote;
 
-		// make this into a directive, or a switch 
-		vm.cycleVote = function(motion){
+		function cycleVote (motion){
 
 			if(!motion.MotionOpenForVoting)
-				ToastMessage.simple("Sorry! This motion is not open for voting.", 1000);
+				ToastMessage.simple("This motion is not open for voting.", 1000);
 			else{ 
 				if(!motion.user_vote)
 					castVote(motion.id);
@@ -38,45 +37,26 @@
 					updateVote(data);
 				};
 			};
-
 		}
 
 		function castVote(id){
 			vote.castVote({motion_id:id, position:0}).then(function(r){
-				// getMotions();
-				// getMotionInsideVoteController(r);
+				successFunc(r.motion_id, 0);
 			});
 		}
 
 		function updateVote(data){
-			vote.updateVote(data).then(function(result) {
-				// getMotions();
-				// getMotionInsideVoteController(result);
+			vote.updateVote(data).then(function(r) {
+				successFunc(r.motion_id, data.position);
 			});
 		}
 
-		function getMotionInsideVoteController(result) {
-			// if($stateParams.id == result.motion_id){
-			// 	$rootScope.$emit('getMotionInsideVoteController', {vote:result});
-			// }
+		function successFunc(id, pos) {
+			motionObj.reloadMotionObj(id);
+			voteObj.calculateVotes(id);
+			voteObj.showMessage(pos);
 		}
-
-		// getMotions();
-
-		// $rootScope.$on('refreshMotionSidebar', function(events, data) {
-		// 	getMotions(vm.motion_filters);
-		// });
-
-		// $rootScope.$on('refreshSelectMotionOnSidebar', function(events, data){
-		// 	angular.forEach(vm.motions, function(value, key) {
-		// 		if(value.id == data.motion.id){
-		// 			vm.motions[key] = data.motion;
-		// 		}
-		// 	})
-		// })     
   	}
-
-
 
 
     return {

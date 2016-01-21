@@ -106,8 +106,8 @@
 
 		return {
 			controller: voteController,
-			controllerAs: 'c',
-			templateUrl: 'app/components/vote/vote-production.tpl.html'
+			controllerAs: 'v',
+			templateUrl: 'app/components/vote/vote-test-production.tpl.html'
 		}
 
 	}
