@@ -69,10 +69,10 @@
         return toast;
     }
 
-	vm.delete_toast = function(message){
+	vm.delete_toast = function(message, affirmative){
        var toast = $mdToast.simple()
-            .content("Are you sure?")
-            .action("Delete" + message)
+            .content(message)
+            .action(affirmative)
             .highlightAction(true)
             .position('bottom right')
             .hideDelay(6500);

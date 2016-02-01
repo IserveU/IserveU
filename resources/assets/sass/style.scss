@@ -31,7 +31,7 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	font-size: 14px; margin-bottom: 18px; display:inline-block;
 	color: $darkGrey;
 }
-.title-icon-svg {
+.title-svg-icon {
 	display:inline-block; 
 	width: 18px;
 }
@@ -283,7 +283,7 @@ md-sidenav{
 
 		.statusbar button.md-raised.md-button.md-default-theme{
 			border-radius: 0px;
-			margin: 0;
+			margin: 8px;
 			display: block !important;
 			.deferred-agree{
 				background-color: #22e7ec;
@@ -464,6 +464,9 @@ div.motion-comments {
 		float: right;
 		color: grey;
 	}
+}
+.abstained {
+	background-color: $lightGrey;
 }
 
 

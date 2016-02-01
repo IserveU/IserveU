@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj) {
+    function MotionController($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
 
         var vm = this;
 
@@ -23,6 +23,8 @@
 
             var catchMotion = motionObj.getMotionObj(id);
 
+            commentObj.comment = null;
+
             if (catchMotion) 
                 postGetMotion(catchMotion)
             else {
@@ -35,7 +37,8 @@
         function postGetMotion(motion){
             vm.motionDetail = motion;
             UserbarService.title = motion.title;
-            vm.isLoading = $rootScope.motionIsLoading[motion.id] = false;         
+            vm.isLoading = $rootScope.motionIsLoading[motion.id] = false;
+            commentObj.getMotionComments(motion.id);          
         }
 
         function editMotion(){

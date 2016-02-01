@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
-	function voteOnMotion($stateParams, vote, voteObj, VoteService, motionObj, SetPermissionsService, ToastMessage) {
+	function voteOnMotion($stateParams, vote, voteObj, VoteService, motionObj, commentObj, SetPermissionsService, ToastMessage) {
 
 
 		function voteController($scope) {
@@ -33,7 +33,7 @@
 					position: pos
 				}
 
-				if( vm.userVote && (vm.userVote.position != pos) ) {
+				if( voteObj.user && (voteObj.user.position != pos) ) {
 					vm.voting[pos] = true;
 					isMotionOpen = false;
 					updateVote(pos);
@@ -51,7 +51,7 @@
 			function updateVote(pos) {
 
 				var data = {
-					id: vm.userVote.id,
+					id: voteObj.user.id,
 					position: pos
 				}
 
@@ -64,7 +64,8 @@
 				vm.voting[pos] = false;
 				isMotionOpen = true;
 
-				motionObj.reloadMotionObj(r.motion_id);
+				commentObj.getMotionComments(r.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
+				voteObj.user.position = pos;
 				voteObj.showMessage(pos);
 				voteObj.calculateVotes(r.motion_id);	// vm.motionVotes will be an object Factory;
 			}
@@ -97,7 +98,7 @@
 				function(motion) {
 	                if( motion != null ) {
 	                	isMotionOpen  = motion.MotionOpenForVoting
-	                    vm.userVote   = motion.user_vote;
+	                    voteObj.user = motion.user_vote;
 	                }
 				}, true
 			);
@@ -107,7 +108,7 @@
 		return {
 			controller: voteController,
 			controllerAs: 'v',
-			templateUrl: 'app/components/vote/vote-test-production.tpl.html'
+			templateUrl: 'app/components/vote/components/vote.tpl.html'
 		}
 
 	}

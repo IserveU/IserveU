@@ -3,7 +3,7 @@
 <div infinite-scroll="c.loadMoreMotions()" 
      infinite-scroll-container="'.site-sidenav'" 
      infinite-scroll-distance="0" 
-     infinite-scroll-disabled="!c.motionObj.next_page || c.paginating">
+     infinite-scroll-disabled="!c.motionObj.next_page || c.paginating || c.motionObj.motionsAreEmpty">
 
   <md-progress-circular class="loading-circle" md-mode="indeterminate" ng-show="!c.motionObj.data.length && c.motionListLoading"></md-progress-circular>
 

@@ -30,6 +30,7 @@
 
 		function deleteCommentVote(id) {
 			return CommentVote.delete({id:id}).$promise.then(function(success) {
+				return success;
 			}, function(error) {
 				return $q.reject(error);
 			});

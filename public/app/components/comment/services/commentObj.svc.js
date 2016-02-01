@@ -11,10 +11,10 @@
 
 		var cObj = {
 			comment: null,
-			motionComments: {},
+			comments: { agree: null, disagree: null, vote: null },
 			editing: false,
 			writing: false,
-			loading: false,
+			posting: false,
 			getUserComment: function(r){
 				cObj.comment = r;
 				if(cObj.comment && cObj.comment.text)
@@ -25,11 +25,14 @@
 			getMotionComments: function(id){
 				comment.getMotionComments(id).then(function(r) {
 					cObj.getUserComment(r.thisUsersComment);
+					cObj.comments.agree = r.agreeComments;
+					cObj.comments.disagree = r.disagreeComments;
+					cObj.comments.vote = r.thisUsersCommentVotes;
 				});
 			},
 			submit: function(vote_id, text){
-				cObj.loading = true;
-				
+				cObj.posting = true;
+
 				var data = {
 	                vote_id: vote_id,
 	                text: text
@@ -38,13 +41,12 @@
 	            comment.saveComment(data).then(function(r) {
 	            	cObj.getMotionComments($stateParams.id);
 	                ToastMessage.simple("Comment post successful!");
-	                cObj.writing = cObj.loading = false;
+	                cObj.writing = cObj.posting = false;
 	            }, function(error){
 	                ToastMessage.report_error(error);
 	            });    
 			},
 			editComment: function() {
-				console.log('foo');
 				cObj.editing = !cObj.editing;
 			},
 			update: function(text) {
@@ -58,11 +60,12 @@
 	            });
 			},
 			delete: function(){
-	            var toast = ToastMessage.delete_toast(" comment");
+	            var toast = ToastMessage.delete_toast("Delete this comment?", "Yes");
 	            $mdToast.show(toast).then(function(response) {
 	                if (response == 'ok')
 	                    comment.deleteComment(cObj.comment.id).then(function(r) {
 							cObj.getMotionComments($stateParams.id);
+							ToastMessage.simple("Comment deleted.")
 	                    }); 
 	            });
 			},

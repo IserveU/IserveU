@@ -1,10 +1,9 @@
 <section>
   <div flex="100" layout="row" class="voting">
-
     <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-            <md-button ng-click="v.castVote(motion.motionDetail.id, 1)" ng-class="{'md-raised agree':v.userVote.position == 1, 'voting-disabled':v.isVotingEnabled() }" aria-label="Agree" layout-fill>
-              <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ v.userVote.position==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!v.voting[1]"></md-icon>
+            <md-button ng-click="v.castVote(motion.motionDetail.id, 1)" ng-class="{'md-raised agree':v.voteObj.user.position == 1, 'voting-disabled':v.isVotingEnabled() }" aria-label="Agree" layout-fill>
+              <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ v.voteObj.user.position==1 && 'thumb-up' || 'thumb-up-outline' }}.svg" ng-show="!v.voting[1]"></md-icon>
               <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="v.voting[1]"></md-icon>
             </md-button>
 
@@ -15,8 +14,8 @@
 
     <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-          <md-button  ng-click="v.castVote(motion.motionDetail.id, 0)" ng-class="{'md-raised':v.userVote.position == 0, 'voting-disabled':v.isVotingEnabled()}" aria-label="Abstain" layout-fill>
-            <md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ v.userVote.position==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!v.voting[0]"></md-icon>
+          <md-button  ng-click="v.castVote(motion.motionDetail.id, 0)" ng-class="{'md-raised':v.voteObj.user.position == 0, 'voting-disabled':v.isVotingEnabled()}" aria-label="Abstain" layout-fill>
+            <md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ v.voteObj.user.position==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!v.voting[0]"></md-icon>
             <md-icon md-svg-icon="/themes/{{::themename}}/loading.svg" ng-show="v.voting[0]"></md-icon>             
           </md-button>  
 
@@ -29,8 +28,8 @@
 
         <md-card style="margin: 8px" flex>
       <md-card-content style="padding: 0">
-        <md-button  ng-click="v.castVote(motion.motionDetail.id, -1)" ng-class="{'md-raised disagree':v.userVote.position == -1, 'voting-disabled':v.isVotingEnabled()}" aria-label="Disagree" layout-fill>
-            <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ v.userVote.position=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!v.voting[-1]"></md-icon>
+        <md-button  ng-click="v.castVote(motion.motionDetail.id, -1)" ng-class="{'md-raised disagree':v.voteObj.user.position == -1, 'voting-disabled':v.isVotingEnabled()}" aria-label="Disagree" layout-fill>
+            <md-icon md-svg-src="/themes/{{::themename}}/icons/{{ v.voteObj.user.position=='-1' && 'thumb-down' || 'thumb-down-outline' }}.svg" ng-show="!v.voting[-1]"></md-icon>
             <md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="v.voting[-1]"></md-icon>
           </md-button>   
 
@@ -45,7 +44,7 @@
 </section>
 
 <section class="voting-section-status-bar" ng-if="true">
-    <div class="statusbar" layout="row" layout-align="center center" flex> 
+    <div class="statusbar" layout="row" layout-align="center center" style="margin: 8px" flex> 
 
 
         <md-button ng-if="v.voteObj.votes['1'] && v.voteObj.votes['1'].active" style="width:{{ v.voteObj.votes['1'].active.percent }}%; margin:0" class="agree md-raised md-primary" aria-label="Number in agreement">

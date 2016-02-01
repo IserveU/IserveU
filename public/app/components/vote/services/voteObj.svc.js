@@ -10,6 +10,7 @@
 
 	
 		var voteObj = {
+			user: {position: null},
 			motionVotes: {
 		            disagree:{percent:0,number:0},
 		            agree:{percent:0,number:0},
@@ -28,6 +29,7 @@
 		    	}
 
 		    	vote.getMotionVotes(id).then(function(r){
+
 		    		var votes = voteObj.votes = r.data;
 
 

@@ -11,6 +11,7 @@
 		var motionObj = {
 			data: [],
 			next_page: 1,
+			motionsAreEmpty: false,
 			getMotions: function() {
 				return $http({
                     method: "GET",
@@ -27,6 +28,7 @@
 
 				}, function errorCallback(e){
 					console.log('cannot get motions');
+					motionObj.motionsAreEmpty = true;
 				});
 			},
 			getMotionObj: function(id) {

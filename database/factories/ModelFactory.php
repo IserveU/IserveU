@@ -62,17 +62,17 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
 // });
 
 
-$factory->define(App\Motion::class, function ($faker){
+// $factory->define(App\Motion::class, function ($faker){
 
-    return [
-        'title' => $faker->sentence($nbWords = 6),
-        'summary' => $faker->sentence($nbWords = 15),
-        'active' => 1,
-        'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
-        'closing' => 2015-08-7,
-        'user_id' => 1,
-        'text' => $faker->paragraph($nbSentences =10),
-        'created_at' => 2015-08-01
-    ];
+//     return [
+//         'title' => $faker->sentence($nbWords = 6),
+//         'summary' => $faker->sentence($nbWords = 15),
+//         'active' => 1,
+//         'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
+//         'closing' => 2015-08-7,
+//         'user_id' => 1,
+//         'text' => $faker->paragraph($nbSentences =10),
+//         'created_at' => 2015-08-01
+//     ];
 
-});
+// });
