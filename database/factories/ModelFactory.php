@@ -74,7 +74,7 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
     $admin = DB::table('role_user')->where('role_id', '=', 1)->first();
 
     if(!$admin) {
-        $admin = $factory->raw(App\User::class)->make();
+        $admin = factory(App\User::class)->create();
         $admin->addUserRoleByName('administrator');
         $admin->user_id = $admin->id;
     }

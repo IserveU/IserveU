@@ -120,7 +120,7 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_cannot_see_a_private_users_details()
     {
-        $user = factory(App\User::class, 'private')->create();
+        $user = factory(App\User::class)->create();
 
         dd($user);
 
