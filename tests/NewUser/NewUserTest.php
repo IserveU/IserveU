@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewUserTest extends TestCase
 {
+    use DatabaseTransactions;
 
     public function setUp(){
         parent::setUp();
@@ -15,92 +16,92 @@ class NewUserTest extends TestCase
         $this->signIn();
     }
 
-    // /** @test */
-    // public function it_can_be_created()
-    // {
-    //     $faker = Faker\Factory::create();
+    /** @test */
+    public function it_can_be_created()
+    {
+        $faker = Faker\Factory::create();
 
-    //     $user = [ 'first_name'        => $faker->firstName,
-    //               'middle_name'       => $faker->name,
-    //               'last_name'         => $faker->lastName,
-    //               'email'             => $faker->email,
-    //               'password'          => str_random(10)
-    //             ];
+        $user = [ 'first_name'        => $faker->firstName,
+                  'middle_name'       => $faker->name,
+                  'last_name'         => $faker->lastName,
+                  'email'             => $faker->email,
+                  'password'          => str_random(10)
+                ];
 
-    //     $this->expectsEvents(App\Events\UserCreated::class);
+        $this->expectsEvents(App\Events\UserCreated::class);
 
-    //     $this->call('POST', '/api/user', $user);
+        $this->call('POST', '/api/user', $user);
 
-    //     $this->assertResponseOk();
+        $this->assertResponseOk();
 
-    //     $this->seeInDatabase( 'users', [ 'email' => $user['email'] ] );
-    // }
+        $this->seeInDatabase( 'users', [ 'email' => $user['email'] ] );
+    }
 
-    // /** @test */
-    // public function it_can_see_a_closed_motion()
-    // {
-    //     $motion = factory(App\Motion::class, 'closed')->create();
+    /** @test */
+    public function it_can_see_a_closed_motion()
+    {
+        $motion = factory(App\Motion::class, 'closed')->create();
 
-    //     $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
 
-    //     $this->seeJson( [ 'id' => $motion->id, 'text' => $motion->text ] );
-    // }
+        $this->seeJson( [ 'id' => $motion->id, 'text' => $motion->text ] );
+    }
 
-    // /** @test */
-    // public function it_cannot_see_an_unpublished_motion()
-    // {
-    //     $motion = factory(App\Motion::class, 'draft')->create();
+    /** @test */
+    public function it_cannot_see_an_unpublished_motion()
+    {
+        $motion = factory(App\Motion::class, 'draft')->create();
 
-    //     $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
 
-    //     $this->assertEquals(403, $response->status());
-    // }
+        $this->assertEquals(403, $response->status());
+    }
 
-    // /** @test */
-    // public function it_can_see_comments_made_on_the_motion()
-    // {
-    //     $motion = $this->published_motion;
+    /** @test */
+    public function it_can_see_comments_made_on_the_motion()
+    {
+        $motion = $this->published_motion;
 
-    //     $this->call('GET', '/api/motion/'.$motion->id.'/comment', ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id.'/comment', ['token' => $this->token]);
 
-    //     $this->assertResponseOk();
-    // }
+        $this->assertResponseOk();
+    }
 
-    // /** @test */
-    // public function it_can_see_the_total_votes_of_the_motion()
-    // {
-    //     $motion = $this->published_motion;
+    /** @test */
+    public function it_can_see_the_total_votes_of_the_motion()
+    {
+        $motion = $this->published_motion;
 
-    //     $this->call('GET', '/api/motion/'.$motion->id.'/vote', ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id.'/vote', ['token' => $this->token]);
 
-    //     $this->assertResponseOk();
-    // }
+        $this->assertResponseOk();
+    }
 
-    // /** @test */
-    // public function it_cannot_create_a_motion()
-    // {
-    //     $draft = factory(App\Motion::class, 'draft')->make()->toArray();
-    //     $review = factory(App\Motion::class, 'review')->make()->toArray();
+    /** @test */
+    public function it_cannot_create_a_motion()
+    {
+        $draft = factory(App\Motion::class, 'draft')->make()->toArray();
+        $review = factory(App\Motion::class, 'review')->make()->toArray();
 
-    //     $response = $this->call('POST', '/api/motion?token='.$this->token, $draft);
-    //     $this->assertEquals(401, $response->status());
+        $response = $this->call('POST', '/api/motion?token='.$this->token, $draft);
+        $this->assertEquals(401, $response->status());
 
-    //     $response = $this->call('POST', '/api/motion?token='.$this->token, $review);
-    //     $this->assertEquals(401, $response->status());
-    // }
+        $response = $this->call('POST', '/api/motion?token='.$this->token, $review);
+        $this->assertEquals(401, $response->status());
+    }
 
-    // /** @test */
-    // public function it_cannot_create_a_vote()
-    // {
-    //     $motion = $this->published_motion;
+    /** @test */
+    public function it_cannot_create_a_vote()
+    {
+        $motion = $this->published_motion;
 
-    //     $vote = ['position'  => 1, 
-    //              'motion_id' => $motion->id];
+        $vote = ['position'  => 1, 
+                 'motion_id' => $motion->id];
 
-    //     $response = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $response = $this->call('POST', '/api/vote?token='.$this->token, $vote);
 
-    //     $this->assertEquals(401, $response->status());
-    // }
+        $this->assertEquals(401, $response->status());
+    }
 
     /** @test */
     public function it_cannot_create_a_comment()
@@ -120,54 +121,65 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_cannot_see_a_private_users_details()
     {
-        $user = factory(App\User::class)->create();
-
-        dd($user);
+        $user = factory(App\User::class, 'private')->create();
 
         $response = $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
 
-        dd($response);
-
         $this->assertEquals(401, $response->status());
-
-        // $this->seeJson( [ 'id' => $user->id, 'text' => $motion->text ] );
-
     }
 
-    // /** @test */
-    // public function it_cannot_update_another_users_details()
-    // {
+    /** @test */
+    public function it_cannot_update_another_users_details()
+    {
+        $user = factory(App\User::class, 'private')->create();
 
-    // }
+        $updateData = ['first_name' => 'updated_first_name', 
+                       'last_name'  => 'updated_last_name'];
 
-    // /** @test */
-    // public function it_can_see_a_public_users_details()
-    // {
+        $response = $this->call('PATCH', '/api/user/'.$user->id.'?token='.$this->token, $updateData);
 
-    // }
+        $this->assertEquals(401, $response->status());
+    }
 
-    // /** @test */
-    // public function it_can_see_its_own_details()
-    // {
-    //     $user = $this->user;
+    /** @test */
+    public function it_can_see_a_public_users_details()
+    {
+        $user = factory(App\User::class, 'public')->create();
 
-    //     $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
+        $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
 
-    //     $this->seeJson([ 'email' => $user->email, 'date_of_birth' => $user->date_of_birth]);
-    // }
+        $this->assertResponseOk();
 
-    // /** @test */
-    // public function it_can_update_its_own_details()
-    // {
+        $this->seeJson(['id' => $user->id, 'first_name' => $user->first_name]);
+    }
 
-    // }
+    /** @test */
+    public function it_can_see_its_own_details()
+    {
+        $user = $this->user;
 
-    // /** @test */
-    // public function it_can_see_its_updated_details()
-    // {
+        $response = $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
 
-    // }
+        $this->assertResponseOk();
 
+        $this->seeJson([ 'id' => $user->id, 'email' => $user->email ]);
+    }
+
+    /** @test */
+    public function it_can_update_its_own_details()
+    {
+        $user = $this->user;
+
+        $updateData = ['first_name' => 'updated_first_name', 
+                       'last_name'  => 'updated_last_name'];
+
+        $this->call('PATCH', '/api/user/'.$user->id.'?token='.$this->token, $updateData);
+
+        $this->assertResponseOk();
+
+        $this->seeJson(array_merge($updateData, ['id' => $user->id]));
+
+    }
 
 
     /*****************************************************************
