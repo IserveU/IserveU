@@ -271,18 +271,18 @@ class Motion extends ApiModel {
 			}
 		}
 
-		if($value<$this->attributes['status']){
-			abort(403,"You can not switch a status back");
-		}
+		// if($value < $this->attributes['status']){
+		// 	abort(403,"You can not switch a status back");
+		// }
 
 		switch ($value){
 			case 0:
 				$this->attributes['status'] = 0;
 				break;
-			case 'review':
+			case 1:
 				$this->attributes['status'] = 1;
 				break;
-			case 'published':
+			case 2:
 				if(Auth::check() && !Auth::user()->can('administrate-motions')){
 					abort(401,"Unable to set user does not have permission to set motions as active");
 				}
@@ -298,7 +298,7 @@ class Motion extends ApiModel {
 					$this->closing = $closing;
 				}
 				break;
-			case 'closed':
+			case 3:
 				$this->attributes['status'] = 3;
 				break;
 		}

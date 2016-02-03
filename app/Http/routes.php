@@ -37,7 +37,7 @@ Route::get('/', function() {
 
 
 
-Route::group(array('prefix' => 'api'), function(){
+Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 
 
 	Route::resource('user', 'UserController');

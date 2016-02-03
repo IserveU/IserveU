@@ -20,7 +20,7 @@ use App\Transformers\UserTransformer;  //Not doing anything at the moment
 class UserController extends ApiController {
 
 	public function __construct()
-	{
+	{		
 		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 

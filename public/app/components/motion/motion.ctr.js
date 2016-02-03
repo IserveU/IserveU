@@ -4,7 +4,7 @@
         .module('iserveu')
         .controller('MotionController', MotionController);
 
-    function MotionController($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
+    function MotionController($rootScope, $stateParams, $mdToast, $templateCache, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
 
         var vm = this;
 
