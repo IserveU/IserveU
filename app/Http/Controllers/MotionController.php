@@ -95,11 +95,13 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
 		if(!Auth::user()->can('create-motions')){
 			abort(401,'You do not have permission to create a motion');
 		}
+
+		// $motion = Motion::create($request->all());
 
 		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
 	
@@ -124,6 +126,10 @@ class MotionController extends ApiController {
 	{
 		if(Auth::check()){
 			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
+		}
+
+		if(!Auth::user()->can('create-motions') && $motion->status === 'draft' || $motion->status === 'review'){
+			abort(403, 'Forbidden access point.');
 		}
 
 		return $motion;
@@ -200,7 +206,7 @@ class MotionController extends ApiController {
 			return $motion;
 		} 
 
-		$motion->active = 0;
+		$motion->status = 0;
 		$motion->save();
 		$motion->delete(); //Motion kept in the database	
 		return $motion;

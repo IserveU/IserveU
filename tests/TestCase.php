@@ -33,17 +33,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             $user = factory(App\User::class)->create();
         }
 
+
         $this->user = $user;
         $this->post( '/authenticate', ['email' => $user->email, 'password' => 'abcd1234'] );
         $content = json_decode($this->response->getContent());
 
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
         $this->token = $content->token;
+        $this->actingAs($user);
 
         return $this;
 
     }
-
 
     public function loginAsAdmin() {
 
@@ -52,18 +53,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->user->addUserRoleByName('administrator');
         
         return $this;
-
-        // if(!$user){
-        //     $user = factory(App\User::class)->create();
-        // }
-
-        // $this->user = $user;
-
-        // $this->user->addUserRoleByName('administrator');
-
-        // $this->actingAs($this->user);
-
-        // return $this;
     }
 
 }

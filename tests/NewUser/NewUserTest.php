@@ -13,6 +13,13 @@ class NewUserTest extends TestCase
 
         $this->published_motion = factory(App\Motion::class, 'published')->create();
 
+        // Doesn't work, sadly. Remains as a proof of concept.
+        // for($i = 0; $i <= 10; $i++) {
+        //     $user = factory(App\User::class, 'verified')->create();
+        //     $vote = factory(App\Vote::class)->create(['motion_id' => $this->published_motion->id, 'user_id' => $user->id]);
+        //     $comment = factory(App\Comment::class)->create(['vote_id' => $vote->id]);
+        // }
+
         $this->signIn();
     }
 
@@ -42,7 +49,9 @@ class NewUserTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'closed')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+
+        $this->assertResponseOk();
 
         $this->seeJson( [ 'id' => $motion->id, 'text' => $motion->text ] );
     }
@@ -186,7 +195,12 @@ class NewUserTest extends TestCase
     *
     *                          For Ike:
     *
+    *   - fulfill the conditions of the function names and anything else
+    *     you can think of!
+    *
+    *
     ******************************************************************/
+
     // /** @test */
     // public function it_cannot_create_a_motion_file()
     // {

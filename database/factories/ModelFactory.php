@@ -46,9 +46,7 @@ $factory->defineAs(App\User::class, 'verified', function (Faker\Generator $faker
 
     $user = $factory->raw(App\User::class);
 
-    $user['identity_verified'] = 1;
-
-    return $user;
+    return array_merge($user, ['identity_verified' => 1]);
 });
 
 $factory->defineAs(App\User::class, 'public', function (Faker\Generator $faker)  use ($factory) {
@@ -83,13 +81,26 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
-        'closing'       => $faker->date(),
+        'closing'       => \Carbon\Carbon::now()->addWeek(),
         'user_id'       => $admin->user_id,
         'text'          => $faker->paragraph($nbSentences =10),
         'created_at'    => \Carbon\Carbon::now()
     ];
 });
 
+
+$factory->defineAs(App\Motion::class, 'as_this_user', function (Faker\Generator $faker)  use ($factory) {
+
+    return [
+        'title'         => $faker->sentence($nbWords = 6),
+        'summary'       => $faker->sentence($nbWords = 15),
+        'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
+        'closing'       => '2016-02-12',
+        'status'        => $faker->numberBetween($min = 0, $max = 3),
+        'text'          => $faker->paragraph($nbSentences = 10),
+    ];
+
+});
 
 $factory->defineAs(App\Motion::class, 'draft', function (Faker\Generator $faker)  use ($factory) {
 
@@ -122,14 +133,36 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
 });
 
 
-/************************* Different Comment Factories ***********************************/
+/************************* Comment Factories ***********************************/
 
 
 $factory->define(App\Comment::class, function ($faker) use ($factory) {
 
     return [
-        'title'         => $faker->sentence($nbWords = 6),
-        'summary'       => $faker->sentence($nbWords = 15),
+        'text' => $faker->sentence($nbWords = 10),
+    ];
+
+});
+
+
+/************************* Vote Factories ***********************************/
+
+
+$factory->define(App\Vote::class, function ($faker) use ($factory) {
+
+    return [
+        'position' => $faker->numberBetween($min = -1, $max = 1)
+    ];
+
+});
+
+
+/************************* Comment Factories ***********************************/
+
+$factory->define(App\CommentVote::class, function ($faker) use ($factory) {
+
+    return [
+        'position' => $faker->numberBetween($min = -1, $max = 1)
     ];
 
 });

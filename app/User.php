@@ -222,6 +222,10 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	    $userRole = Role::where('name','=',$name)->firstOrFail();
 	    $this->roles()->attach($userRole->id);
 
+	    // Default users are not assigned a role. Once any role is
+	    // assigned (Admin, Councillor, Citizen), it means their identity
+	    // has been verified and you will update this field for 4 years in time.
+    	$this->addressVerifiedUntil = Carbon::now()->addYears(4);
     }
 
     public function removeUserRoleByName($name){
@@ -309,7 +313,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		$this->attributes['password'] = Hash::make($value);
 	}
 
-    public function getAddressVerifiedUntilAttribute($attr) {
+	public function setAddressVerifiedUntilAttribute($input){
+		if ($this->getAttributes('identity_verified') === 0){
+			return false;
+		}
+
+		$this->attributes['address_verified_until'] = Carbon::now()->addYears(4);
+	}
+
+    public function getAddressVerifiedUntilAttribute($attr){
     	if(!$attr){
     		return null;
     	}
@@ -319,7 +331,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'carbon'        =>        $carbon
+            'carbon'        =>      $carbon
         );
     }
 

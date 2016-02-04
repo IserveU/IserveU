@@ -166,7 +166,6 @@ class Motion extends ApiModel {
 
 
 
-
 	public function setClosingAttribute($value){
 		if(!$this->motionRanks->isEmpty()){
 			abort(403, "People have already began voting on this motion, you can not change its closing date");
@@ -182,7 +181,11 @@ class Motion extends ApiModel {
     		return $attr;
     	}
 
-        $carbon = Carbon::parse($attr);
+    	if(is_string($attr)){
+	        $carbon = Carbon::parse($attr);
+		} else {
+			$carbon = Carbon::instance($attr);
+		}
 
         return array(
             'diff'          =>      $carbon->diffForHumans(),
@@ -271,7 +274,12 @@ class Motion extends ApiModel {
 			}
 		}
 
-		// if($value < $this->attributes['status']){
+		/* I am not exactly sure I agree with this. I think this is too opinionated. Especially
+		* if a motion gets published before it was ready to be. Doesn't really give the user
+		* much leeway. 
+		*/
+		
+		// if(isset($this->attributes['status']) && $value < $this->attributes['status']){
 		// 	abort(403,"You can not switch a status back");
 		// }
 

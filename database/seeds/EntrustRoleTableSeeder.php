@@ -19,30 +19,12 @@ class EntrustRoleTableSeeder extends Seeder
 		$admin->display_name 			= 'Full Administrator';
 		$admin->description  			= 'User is able to perform all database functions';
 		$admin->save();
-
-		$userManager = new Role();
-		$userManager->name         		= 'user-admin';
-		$userManager->display_name 		= 'User Administrator';
-		$userManager->description  		= 'User is able to update, verify and delete users';
-		$userManager->save();
-
-		$motionManager = new Role();
-		$motionManager->name         	= 'motion-admin';
-		$motionManager->display_name 	= 'Motion Administrator';
-		$motionManager->description  	= 'User is able to edit, translate and delete motions';
-		$motionManager->save();
-
+		
 		$citizen = new Role();
 		$citizen->name         			= 'citizen';
 		$citizen->display_name 			= 'Citizen';
 		$citizen->description  			= 'A verified citizen';
 		$citizen->save();
-
-		$unverified = new Role();
-		$unverified->name         		= 'unverified';
-		$unverified->display_name 		= 'Unverified Citizen';
-		$unverified->description  		= 'A person who is not verified';
-		$unverified->save();
 
 		$councillor = new Role();
 		$councillor->name         		= 'councillor';
@@ -177,11 +159,8 @@ class EntrustRoleTableSeeder extends Seeder
 		$editDepartment->description 			=	'Can activate and departments';
 		$editDepartment->save();
 
-		$councillor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion));
+		$councillor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion, $createCommentVote, $viewCommentVote));
 		$citizen->attachPermissions(array($createComment,$createVote,$createCommentVote,$createBackgroundImage));
-		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote,$createCommentVote,$viewCommentVote,$editPermission,$createBackgroundImage,$editBackgroundImage,$createDepartment,$editDepartment));
-		$userManager->attachPermissions(array($editUser,$showUser,$deleteUser));
-		$unverified->attachPermissions(array($createComment,$createVote,$createCommentVote,$createBackgroundImage));
-    
+		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote,$createCommentVote,$viewCommentVote,$editPermission,$createBackgroundImage,$editBackgroundImage,$createDepartment,$editDepartment));    
     }
 }
