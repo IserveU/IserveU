@@ -10,7 +10,7 @@
 
 	
 		var voteObj = {
-			user: {position: null},
+			user: { position: null },
 			motionVotes: {
 		            disagree:{percent:0,number:0},
 		            agree:{percent:0,number:0},

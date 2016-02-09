@@ -81,13 +81,12 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
-        'closing'       => \Carbon\Carbon::now()->addWeek(),
+        'closing'       => new DateTime(),
         'user_id'       => $admin->user_id,
         'text'          => $faker->paragraph($nbSentences =10),
-        'created_at'    => \Carbon\Carbon::now()
+        'created_at'    => new DateTime()
     ];
 });
-
 
 $factory->defineAs(App\Motion::class, 'as_this_user', function (Faker\Generator $faker)  use ($factory) {
 
@@ -95,7 +94,6 @@ $factory->defineAs(App\Motion::class, 'as_this_user', function (Faker\Generator 
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
-        'closing'       => '2016-02-12',
         'status'        => $faker->numberBetween($min = 0, $max = 3),
         'text'          => $faker->paragraph($nbSentences = 10),
     ];
@@ -120,7 +118,9 @@ $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $fa
 
     $motion = $factory->raw(App\Motion::class);
 
-    return array_merge($motion, ['status' => 2]);
+
+
+    return array_merge($motion, array_merge(createClosingDate(), ['status' => 2]) );
 });
 
 $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker)  use ($factory) {

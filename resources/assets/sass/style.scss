@@ -1,7 +1,7 @@
 
 /* variables */
-$primaryColor: rgb(0,172,177);
-$accentColor: rgb(255,118,0);
+$primary: rgb(0,172,177);
+$accent: rgb(255,118,0);
 
 $darkGrey: #666666;
 $midGrey: #cccccc;
@@ -15,7 +15,6 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	md-card {margin: 10px;}
 	md-card-content { padding: 10px;}
 }
-
 
 .title-icon {
 	display:inline-block; 
@@ -51,7 +50,7 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		display: inline-block; margin-right: 10px; float: right !important;
 	}
 	.save-btn {
-		color: $primaryColor;
+		color: $primary;
 	}
 }
 
@@ -118,7 +117,7 @@ html,body{
 a{
 	text-decoration: none;
 	font-weight: 700;
-	color:$accentColor;
+	color:$accent;
 }
 
 md-caption.imagecredit{
@@ -201,10 +200,8 @@ md-sidenav{
 
 #maincontent{
 
-	
-
 	&.loading{
-		section{
+		md-card-content{
 			filter: blur(5px) grayscale(0.5);
 		}
 
@@ -224,7 +221,7 @@ md-sidenav{
 
 	transition: 1s filter linear;
 
-
+	position: relative;
 	padding: $padding/2;
 
 
@@ -240,12 +237,12 @@ md-sidenav{
 		}
 
 		&.thumb_up md-icon{
-			color: $primaryColor;
+			color: $primary;
 
 		}
 
 		&.thumb_down md-icon{
-			color: $accentColor;
+			color: $accent;
 		}
 	}
 
@@ -274,11 +271,11 @@ md-sidenav{
 		}
 
 		.agree md-icon{ 
-			color: $primaryColor;
+			color: $primary;
 		}
 		
 		.disagree md-icon{
-			color: $accentColor;
+			color: $accent;
 		}
 
 		.statusbar button.md-raised.md-button.md-default-theme{
@@ -560,7 +557,7 @@ div.display-department {
   -webkit-transition: $cubicBezierFadeIn;
   transition:         $cubicBezierFadeIn;
   	&:hover{
-  		// color: $accentColor;
+  		// color: $accent;
 		-o-transition:rotate(40deg);
 	    -moz-transition:rotate(40deg);
 		-webkit-transform: rotate(40deg);
@@ -577,7 +574,7 @@ input.sidebar-search-input {
 		    line-height: 120%;
 		    border-bottom: thin solid white;
 		    &:focus{
-			    border-bottom: thin solid $accentColor;
+			    border-bottom: thin solid $accent;
 		    }
 		
 		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -620,7 +617,7 @@ input.sidebar-search-input {
 	display: inline-block;
 	&:hover {
   		cursor: pointer;
-		color: $primaryColor;
+		color: $primary;
 	}
 }
 
@@ -678,7 +675,7 @@ input.sidebar-search-input {
 
 .voting-disabled {
 	md-icon {
-		color: $midGrey !important;
+		// color: $midGrey !important;
 	}
 	&:hover{
 		background-color:transparent !important;

@@ -163,7 +163,7 @@ return [
 		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'anlutro\LaravelSettings\ServiceProvider',
+		'anlutro\LaravelSettings\ServiceProvider'
 	],
 
 	/*

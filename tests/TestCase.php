@@ -33,26 +33,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             $user = factory(App\User::class)->create();
         }
 
-
-        $this->user = $user;
         $this->post( '/authenticate', ['email' => $user->email, 'password' => 'abcd1234'] );
+
         $content = json_decode($this->response->getContent());
 
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
         $this->token = $content->token;
+        $this->user = $user;
         $this->actingAs($user);
 
         return $this;
 
-    }
-
-    public function loginAsAdmin() {
-
-        $this->signIn();
-        
-        $this->user->addUserRoleByName('administrator');
-        
-        return $this;
     }
 
 }

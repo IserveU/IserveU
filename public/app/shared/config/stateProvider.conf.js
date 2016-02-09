@@ -8,6 +8,8 @@
 
 	function($stateProvider){
 
+    // TODO: add state permissions to each state.
+
     $stateProvider
     	.state( 'home', {
     		url: '/home',
@@ -21,9 +23,8 @@
             }]
     	})
     	.state( 'motion', {
-            // cache: true,
     	    url: '/motion/:id',
-    	    templateUrl: 'app/components/motion/partials/motion-production.tpl.html',
+    	    templateUrl: 'app/components/motion/partials/motion.tpl.html',
     	    controller: 'MotionController as motion',
     	    data: {
     	        requireLogin: true
@@ -32,25 +33,23 @@
                 $rootScope.currentState = 'motion';
             }]
     	})
-    	.state( 'motion.components', {
-    		url: '/',
-    		views: {
-    			'editmotion': {
-    				templateUrl: 'app/components/motion/partials/edit-motion.tpl.html'
-    			},
-    			'votes': {
-    				templateUrl: 'app/components/vote/vote.tpl.html',
-                    controller: 'VoteController as vm',
-    			},
-    			'comments': {
-		    	    templateUrl: 'app/components/comment/partials/comment.tpl.html',
-		    	    controller: 'CommentController as vm',
-    			}
-    		},
+        .state( 'dashboard', {
+            url: '/dashboard',
+            template: '<admin-dashboard />',
+            data: {
+                requireLogin: true
+            },   
+        })
+        .state( 'drafts', {
+            url: '/drafts',
+            template: '<motion-drafts />',
+            data: {
+                requireLogin: true
+            },
             onEnter: ['$rootScope', function($rootScope) {
                 $rootScope.currentState = 'motion';
             }]
-    	})
+        })
     	.state( 'createmotion', {
     	    url: '/createmotion',
     	    templateUrl: 'app/components/motion/components/createmotion/createmotion.tpl.html',

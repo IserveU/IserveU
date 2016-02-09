@@ -1,5 +1,7 @@
-<div id="edit-motion-mode" flex="100" flex-order="2" flex-order-gt-sm="1"  layout-padding >
-	<div flex>
+<section layout-margin  id="edit-motion-mode">
+	<md-card style="margin:0"flex >
+		<md-card-content style="padding: 0">
+
 		<fieldset>
 			<legend class="md-headline" translate="{{'INTRODUCTION'}}"></legend>
 			<textarea rows="4" class="md-body-1" ng-model="motion.motionDetail.summary" aria-label="motionSummary" flex></textarea>
@@ -77,5 +79,7 @@
 	<md-button ng-click="motion.editMotionSwitch()" translate="{{'CANCEL'}}"></md-button>
 	</div>
 
-</div>
-</div>
+
+</md-card-content>
+</md-card>
+</section>

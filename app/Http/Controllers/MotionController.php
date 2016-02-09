@@ -13,11 +13,17 @@ use App\Vote;
 use Auth;
 use DB;
 use Setting;
-use Carbon\Carbon;
 
-
+use App\Transformers\MotionTransformer;
 
 class MotionController extends ApiController {
+
+	protected $motionTransformer;
+
+	function __construct(MotionTransformer $motionTransformer)
+	{
+		$this->motionTransformer = $motionTransformer;
+	}
 
 	/**
 	 * Display a listing of the resource. If the user is logged in they will see the position they took on votes
@@ -74,6 +80,7 @@ class MotionController extends ApiController {
 		} else {
 			$motions->take(1);
 		}
+
 		return $motions->simplePaginate($limit);
 	}
 
@@ -101,10 +108,8 @@ class MotionController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-		// $motion = Motion::create($request->all());
+		$motion = (new Motion)->secureFill( Request::all() ); //Does the fields specified as fillable in the model
 
-		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-	
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
 		}
@@ -128,11 +133,12 @@ class MotionController extends ApiController {
 			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
 		}
 
-		if(!Auth::user()->can('create-motions') && $motion->status === 'draft' || $motion->status === 'review'){
+		if(!Auth::user()->can('create-motions') && ($motion->status === 'draft' || $motion->status === 'review') ){
 			abort(403, 'Forbidden access point.');
 		}
 
-		return $motion;
+		// runs this through the transformer
+		return $this->motionTransformer->transform($motion->toArray());
 	}
 
 	/**
@@ -170,16 +176,12 @@ class MotionController extends ApiController {
 			abort(401,"This user can not edit motion ($id)");
 		}
 
-		if(!$motion->active && $motion->latestRank){ //Motion has closed/expired
+		if($motion->expired){ //Motion has closed/expired
 			abort(403,'This motion has expired and can not be edited');
 		}
 
 		$motion->secureFill(Request::all());
 
-		if(Request::get('active')){ //If you tried to set active, but failed with permissions
-			$motion->setActiveAttribute(1);
-		}
-		
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}

@@ -41,7 +41,7 @@
     return {
     	controller: MotionSidebarController,
     	controllerAs: 'c',
-      	templateUrl: 'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
+      	templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar.tpl.html'
     }
     
   }

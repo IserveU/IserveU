@@ -39,7 +39,7 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote','status'];
+	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote','status', 'updated_at'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
@@ -175,81 +175,18 @@ class Motion extends ApiModel {
 		return true;
 	}
 
-
-    public function getClosingAttribute($attr) {
-    	if(!$attr){
-    		return $attr;
-    	}
-
-    	if(is_string($attr)){
-	        $carbon = Carbon::parse($attr);
-		} else {
-			$carbon = Carbon::instance($attr);
-		}
-
-        return array(
-            'diff'          =>      $carbon->diffForHumans(),
-            'alpha_date'    =>      $carbon->format('j F Y'),
-            'carbon'     	=>      $carbon
-        );
-    }
-
-	public function getActivelyAgreeAttribute($value){
-		
-	}
-
-	public function getActivelyDisagreeAttribute($value){
-
-	}
-
-	public function getActivelyAbstainAttribute($value){
-
-	}
-
-	public function getPassivelyDisagreeAttribute($value){
-
-	}
-
-	public function getPassivelyAgreeAttribute($value){
-
-	}
-
-	public function getPassivelyAbstainAttribute($value){
-
-	}
-
-
 	public function getMotionOpenForVotingAttribute(){
 		if($this->attributes['status'] != 2) {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
 
-		if($this->closing['carbon']->lt(Carbon::now())){
+		if($this->closing !== null && $this->closing->lt(Carbon::now())){
 			$this->errors = "This motion is closed for voting";
 			return false;
 		}		
 
 		return true;
-	}
-
-
-	public function getStatusAttribute(){
-		switch ($this->attributes['status']){
-			case 0:
-				return 'draft';
-				break;
-			case 1:
-				return 'review';
-				break;
-			case 2:
-				return 'published';
-				break;
-			case 3:
-				return 'closed';
-				break;
-		}
-		return 'unknown';
 	}
 
 	/**

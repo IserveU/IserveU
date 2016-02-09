@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
-	function motion($resource, $q, $http, ToastMessage, motionCache) {
+	function motion($resource, $q, $http, ToastMessage) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }

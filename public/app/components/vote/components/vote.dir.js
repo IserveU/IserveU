@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
-	function voteOnMotion($stateParams, vote, voteObj, VoteService, motionObj, commentObj, SetPermissionsService, ToastMessage) {
+	function voteOnMotion($stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
 
 
 		function voteController($scope) {
@@ -33,7 +33,7 @@
 					position: pos
 				}
 
-				if( voteObj.user && (voteObj.user.position != pos) ) {
+				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					vm.voting[pos] = true;
 					isMotionOpen = false;
 					updateVote(pos);
@@ -65,7 +65,8 @@
 				isMotionOpen = true;
 
 				commentObj.getMotionComments(r.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
-				voteObj.user.position = pos;
+			
+				voteObj.user = r;
 				voteObj.showMessage(pos);
 				voteObj.calculateVotes(r.motion_id);	// vm.motionVotes will be an object Factory;
 			}
@@ -94,12 +95,18 @@
 					return type;
 			}
 
+			// TODO: refactor this beast.
+
 			$scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
-				function(motion) {
-	                if( motion != null ) {
-	                	isMotionOpen  = motion.MotionOpenForVoting
-	                    voteObj.user = motion.user_vote;
-	                }
+				function(motionDetail) {
+	                if( motionDetail != null ) {
+	                	isMotionOpen  = motionDetail.MotionOpenForVoting
+	                    voteObj.user  = motionDetail.user_vote;
+	                } else 
+	                	motion.getMotion($stateParams.id).then(function(r) {
+		                	isMotionOpen  = r.MotionOpenForVoting
+		                    voteObj.user  = r.user_vote ? r.user_vote : {position: null} ;
+	                	});
 				}, true
 			);
 
@@ -108,7 +115,7 @@
 		return {
 			controller: voteController,
 			controllerAs: 'v',
-			templateUrl: 'app/components/vote/partials/vote-test.tpl.html'
+			templateUrl: 'app/components/vote/partials/vote.tpl.html'
 		}
 
 	}

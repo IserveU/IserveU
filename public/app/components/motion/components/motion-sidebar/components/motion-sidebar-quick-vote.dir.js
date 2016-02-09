@@ -62,7 +62,7 @@
     return {
     	controller: controllerMethod,
     	controllerAs: 'c',
-    	templateUrl: 'app/components/motion/components/motion-sidebar/quick-vote.tpl.html'
+    	templateUrl: 'app/components/motion/components/motion-sidebar/partials/quick-vote.tpl.html'
     }
     
   }

@@ -119,15 +119,12 @@
 				getMotions(vm.motion_filters);
 			}
 
-
-
-
       }
 
       return {
 	      	controller: controllerMethod,
 	        controllerAs: 'c',
-	        templateUrl: 'app/components/motion/components/motion-sidebar/motion-sidebar-search.tpl.html'
+	        templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar-search.tpl.html'
       }
       
     }

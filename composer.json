@@ -18,7 +18,7 @@
 		"intervention/image": "dev-master",
 		"spatie/laravel-backup": "^2.5",
 		"flow/jsonpath": "~0.3",
-		"anlutro/l4-settings": "^0.4.2",
+		"anlutro/l4-settings": "^0.4.7",
 		"predis/predis": "^1.0"
 	},
 	"require-dev": {
@@ -29,7 +29,8 @@
 	},
 	"autoload": {
 		"classmap": [
-			"database"
+			"database",
+			"app/Transformers"
 		],
 		"psr-4": {
 			"App\\": "app/"
@@ -39,7 +40,10 @@
 	"autoload-dev": {
 		"classmap": [
             "tests/TestCase.php"
-		]
+		],
+		"files": [
+			"tests/helpers/functions.php"
+		] 
 	},
 	"scripts": {
 		"post-install-cmd": [

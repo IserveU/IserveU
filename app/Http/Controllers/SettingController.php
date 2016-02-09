@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Setting;
 use App\Http\Requests\StoreSetting;
+use App\BackgroundImage;
+use Auth;
+use DB;
 
 class SettingController extends ApiController
 {
@@ -19,7 +22,7 @@ class SettingController extends ApiController
      */
     public function __construct()
     {
-        $this->middleware('role:administrator'); 
+        // $this->middleware('setting.autosave'); 
     }
 
 
@@ -34,7 +37,7 @@ class SettingController extends ApiController
     }
 
     /**
-     * Creating the default settings
+     * Creating the default settings.
      *
      * @return \Illuminate\Http\Response
      */
@@ -57,9 +60,52 @@ class SettingController extends ApiController
             'security'  =>  array(
                 'login_attempts_lock'   =>  5
             ),
+            //TODO: make a job to seed these as ISU colors
             'theme' =>      array(
-                'name'      =>  'default'
-            )
+                'name'              => 'default',
+                'logo'              => 'default',
+                'primary'           => array(
+                    '50'   => '61d3d8',
+                    '100'  => '61d3d8',
+                    '200'  => '61d3d8',
+                    '300'  => '61d3d8',
+                    '400'  => '00acb1',
+                    '500'  => '00acb1',
+                    '600'  => '00acb1',
+                    '700'  => '006e73',
+                    '800'  => '006e73',
+                    '900'  => '006e73',
+                    'A100' => 'ff0000',
+                    'A200' => 'ff0000',
+                    'A400' => 'ff0000',
+                    'A700' => 'ff0000',
+                    'contrastDefaultColor' => 'light', 
+                ),
+                'accent'            => array(
+                    '50'   => 'ffb473',
+                    '100'  => 'ffb473',
+                    '200'  => 'ffb473',
+                    '300'  => 'ffb473',
+                    '400'  => 'ff7600',
+                    '500'  => 'ff7600',
+                    '600'  => 'ff7600',
+                    '700'  => 'a64d00',
+                    '800'  => 'a64d00',
+                    '900'  => 'a64d00',
+                    'A100' => 'ffb473',
+                    'A200' => 'ffb473',
+                    'A400' => 'ffb473',
+                    'A700' => 'a64d00',
+                    'contrastDefaultColor' => 'light'
+                ),
+                'background_image'  => (new BackgroundImage)->today(),
+            ),
+            'home' =>  array(
+                'introduction'  => '',
+                'widgets'       => []
+            ),
+            // depcrecated but being used on Javascript frontend, must switch to dot notation
+            'themename' => 'default'
         );
 
         foreach($settings as $name => $content){
@@ -67,8 +113,8 @@ class SettingController extends ApiController
                 Setting::set($name,$content);
             }
         }
-
-       return json_encode(Setting::all());
+    
+        return json_encode(Setting::all());
     }
 
     /**

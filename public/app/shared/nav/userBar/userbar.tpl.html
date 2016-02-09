@@ -1,7 +1,6 @@
  <!-- color maybes for loading circles and other input fields: 009cd3 -->
- 
- <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" style="height:56px; top: -10px"  ng-if="userIsLoggedIn">
-    <div layout="column" class="md-toolbar-tools" tabIndex="-1" style="padding-left: 0; background-color:#009cd3; height: 56px; position: fixed; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26); z-index:5">
+ <md-toolbar class="md-toolbar-tools site-content-toolbar md-whiteframe-glow-z1" style="height:10px; top: -30px"  ng-if="userIsLoggedIn" ng-cloak>
+    <div layout="column" class="md-toolbar-tools" tabIndex="-1" style="padding-left: 0; background-color:#009cd3; height: 56px; position: fixed; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26); z-index:5; top:0">
 
 
         <!-- TODO: make this into a universal directive, like sidebar --> 
@@ -13,18 +12,18 @@
           <md-icon class="mdi mdi-menu"></md-icon>
         </md-button>
 
-        <p translate="{{user.userbarservice.title}}" style="margin:0;  padding-left: 18px" ng-cloak></p>
+        <p translate="{{user.userbarservice.title}}" style="margin:0;  padding-left: 18px"></p>
 
 
         <span flex></span>
 
         <div>
             <md-menu >
-                <md-button class="md-primary" ng-click="$mdOpenMenu()" ng-cloak translate="{{ 'LANG_NAME' }}" aria-label="Change language"></md-button>
+                <md-button ng-click="$mdOpenMenu()" translate="{{ 'LANG_NAME' }}" aria-label="Change language"></md-button>
                 <md-menu-content width="1" style="margin:0px">
                     <md-menu-item ng-repeat="language in user.languages">
                         <md-button ng-click="user.changeLanguage(language.key)">
-                            <p flex ng-cloak>{{language.name}}</p>
+                            <p flex>{{language.name}}</p>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -33,7 +32,7 @@
 
         <div >
             <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
-                <md-menu md-position-mode="target-right target" ng-cloak>
+                <md-menu md-position-mode="target-right target">
                     <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
                         <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
                     </md-button>
@@ -64,6 +63,16 @@
                             </md-button>
                         </md-menu-item>
                         </has-permission>
+                        <has-permission has-permission="administrate-motions">
+                        <md-menu-item ui-sref="drafts">
+                            <md-button aria-label="go to upload motion drafts">
+                                <div layout="row">
+                                    <p flex>Motion Drafts</p>
+                                    <md-icon class="mdi"  md-font-icon="mdi-file-document"></md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                        </has-permission>
                         <has-permission has-permission="create-background_images">
                         <md-menu-item ui-sref="backgroundimage">
                             <md-button aria-label="go to upload background image">
@@ -75,10 +84,10 @@
                         </md-menu-item>
                         </has-permission>
                         <has-permission has-permission="create-motions">
-                        <md-menu-item ui-sref="department({id:1})">
-                            <md-button aria-label="go to department manager">
+                        <md-menu-item ui-sref="dashboard">
+                            <md-button aria-label="go to admin dashboard">
                                 <div layout="row">
-                                    <p flex translate="{{'DEPARTMENT_MANAGER'}}"></p>
+                                    <p flex>Admin Dashboard</p>
                                     <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
                                 </div>
                             </md-button>
@@ -90,3 +99,4 @@
         </div>
     </div>
   </md-toolbar>
+

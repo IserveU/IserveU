@@ -4,9 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CouncillorTest extends TestCase
+class CitizenTest extends TestCase
 {
-
     use DatabaseTransactions;
 
     public function setUp()
@@ -16,30 +15,18 @@ class CouncillorTest extends TestCase
         $this->published_motion = factory(App\Motion::class, 'published')->create();
 
         $this->signIn();
-        $this->user->addUserRoleByName('councillor');
+        $this->user->addUserRoleByName('citizen');
     }
 
-    /*****************************************************************
-    *
-    *                   Basic CRUD functions:
-    *
-    ******************************************************************/
-
-
     /** @test */
-    public function it_can_create_a_motion()
+    public function it_can_see_a_motion()
     {
-        $motion = factory(App\Motion::class, 'as_this_user')->make()->toArray();
+        $motion = $this->published_motion;
+        $user   = $this->user;
 
-        $closing = new DateTime();
-        $closing->add(new DateInterval('P7D'));
-        
-        $motion = array_merge($motion, ['closing' => $closing]);
-        $motion = $this->call('POST', '/api/motion?token='.$this->token, $motion);
-        $motion = $motion->getOriginalContent();
-
+        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
         $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary, 'closing' => $closing]);
+        $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
 
     /** @test */
@@ -101,32 +88,6 @@ class CouncillorTest extends TestCase
         $this->assertResponseOk();
         $this->seeInDatabase('comment_votes', [ 'comment_id' => $comment->id, 'vote_id' => $vote->id, 'position' => $comment_vote['position']  ]);
 
-    }
-
-    /** @test */
-    public function it_can_update_a_motion()
-    {
-        $motion = factory(App\Motion::class, 'as_this_user')->make()->toArray();
-        $closing = new DateTime();
-        $closing->add(new DateInterval('P7D'));
-        
-        // Make motion
-        $motion = array_merge($motion, ['closing' => $closing]);
-        $motion = $this->call('POST', '/api/motion?token='.$this->token, $motion);
-        $motion = $motion->getOriginalContent();
-
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary,  'closing' => $closing]);
-
-        // Update Motion
-
-        $updated = factory(App\Motion::class, 'as_this_user')->make()->toArray();
-        $updated = array_merge($updated, ['closing' => $closing]);
-        $updated = $this->call('PATCH', '/api/motion/'.$motion->id.'?token='.$this->token, $updated);
-        $updated = $updated->getOriginalContent();
-
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $updated->title, 'summary' => $updated->summary, 'closing' => $closing]);
     }
 
     /** @test */
@@ -192,14 +153,10 @@ class CouncillorTest extends TestCase
         $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
         $comment = $comment->getOriginalContent();
 
-        $this->assertResponseOk();
-
         // Make a comment vote
         $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
         $comment_vote = $this->call('POST', '/api/comment_vote?token='.$this->token, $comment_vote);
         $comment_vote = $comment_vote->getOriginalContent();
-
-        $this->assertResponseOk();
 
         // Update comment vote
         $new_position = $faker->shuffle(array(-1, 0, 1));
@@ -210,55 +167,6 @@ class CouncillorTest extends TestCase
         $this->assertResponseOk();
         $this->seeInDatabase('comment_votes', ['position' => $new_position, 'comment_id' => $comment->id]);
 
-    }
-
-    /** @test */
-    public function it_can_delete_a_motion()
-    {
-        $motion = factory(App\Motion::class, 'as_this_user')->make()->toArray();
-
-        $closing = new DateTime();
-        $closing->add(new DateInterval('P7D'));
-        
-        // Make motion
-        $motion = array_merge($motion, ['closing' => $closing]);
-        $motion = $this->call('POST', '/api/motion?token='.$this->token, $motion);
-        $motion = $motion->getOriginalContent();
-
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary, 'closing' => $closing]);
-
-        // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$motion->id.'?token='.$this->token);
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
-    }
-
-  /** @test */
-    public function it_can_restore_a_motion()
-    {
-        $motion = factory(App\Motion::class, 'as_this_user')->make()->toArray();
-
-        $closing = new DateTime();
-        $closing->add(new DateInterval('P7D'));
-        
-        // Make motion
-        $motion = array_merge($motion, ['closing' => $closing]);
-        $motion = $this->call('POST', '/api/motion?token='.$this->token, $motion);
-        $motion = $motion->getOriginalContent();
-
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary, 'closing' => $closing]);
-
-        // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$motion->id.'?token='.$this->token);
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
-
-        // Restore motion
-        $this->call('GET', '/api/motion/'.$motion->id.'/restore?token='.$this->token);
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['deleted_at' => null]);
     }
 
     /** @test */
@@ -332,6 +240,7 @@ class CouncillorTest extends TestCase
         $this->assertResponseOk();
         $this->seeInDatabase('comments', [ 'vote_id' => $vote->id, 'text' => $comment['text'] ]);
 
+
         // Make a comment vote
         $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
         $comment_vote = $this->call('POST', '/api/comment_vote?token='.$this->token, $comment_vote);
@@ -343,22 +252,114 @@ class CouncillorTest extends TestCase
     }
 
 
-
     /*****************************************************************
     *
     *                          For Ike:
-    *  - be able to switch the status of a motion from 'draft' to 'published', etc.
-    *  - be able to do everything to motions
-    *  - write a function that tests overall votes of a motion with the councillors deferred votes; should return a complex
-    *    multidimensional array. This is something you may need to create many factory users submitting multiple votes
-    *    with the deferrals involved. 
-    * 
-    *    Negative tests (The above tests are meant to pass, expect a typical response. They are higher priority than negative ones atm.):
-    *  - unable to CRUD users (read: for private users only)
-    *  - unable to CRUD comments/votes (note: councillors can read)
-    *  - unable to CRUD background images
+    *  - Fulfill the conditions of the function names and anything
+    *    else that comes up.
     *
     ******************************************************************/
 
+
+    // /** @test */
+    // public function it_cannot_create_or_update_a_comment_without_having_voted()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_create_or_update_a_comment_vote_without_having_voted()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_create_a_motion()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_update_a_motion()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_delete_a_motion()
+    // {
+
+    // }
+    // /** @test */
+    // public function it_cannot_see_an_unpublished_motion()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_see_a_private_users_details()
+    // {
+
+    // }
+
+    // * @test 
+    // public function it_can_see_a_public_users_details()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_can_see_its_own_details()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_can_update_its_own_details()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_can_see_its_updated_details()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_update_another_users_details()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_assign_permissions_or_roles()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_upload_a_background_image()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_update_the_deparments()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_update_the_ethnic_origins()
+    // {
+
+    // }
+
+    // /** @test */
+    // public function it_cannot_create_a_motion_file()
+    // {
+
+    // }
 
 }

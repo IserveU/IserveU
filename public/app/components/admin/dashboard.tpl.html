@@ -1,0 +1,116 @@
+<md-card flex>
+  <md-card-content>
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="Appearance">
+      <md-content class="md-padding" layout="column">
+
+        <md-input-container>
+          <label>Theme</label>
+          <md-select placeholder="Default" ng-model="c.themeSelect">
+            <md-option value="default">Default</md-option> 
+            <md-option value="custom">Customize</md-option>
+          </md-select>
+        </md-input-container>
+
+        <div layout="column" ng-if="c.themeSelect === 'custom' ">
+          <label>Warning Color</label>
+          <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.primary.warning" open-on-input="true"></div>
+
+
+          <label>Primary Color</label>
+
+          <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.primary.hue_one" open-on-input="true"></div>
+          <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.primary.hue_two" open-on-input="true"></div>
+          <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.primary.hue_three" open-on-input="true"></div>
+          
+
+
+          <md-input-container flex>
+            <label>Contrast</label>
+              <md-select ng-model="c.primary.contrast" aria-label="Theme Primary Contrast">
+                <md-option value="light">Light</md-option>
+                <md-option value="dark">Dark</md-option>
+              </md-select>
+          </md-input-container>
+
+
+
+
+          <label>Accent Color</label>
+          <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.accent.hue_one" open-on-input="true"></div>
+          <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.accent.hue_two" open-on-input="true"></div>
+          <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="c.accent.hue_three" open-on-input="true"></div>
+          <md-input-container flex>
+            <label>Contrast</label>
+              <md-select ng-model="c.accent.contrast" aria-label="Theme Accent Contrast">
+                <md-option value="light">Light</md-option>
+                <md-option value="dark">Dark</md-option>
+              </md-select>
+          </md-input-container>
+        </div>
+
+        <div flow-init="{target: '/upload'}"
+             flow-files-submitted="$flow.upload()"
+             flow-file-success="$file.msg = $message">
+          <md-button flow-btn>Upload logo</md-button>
+
+          <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+        </div>
+
+        <div flow-init="{target: '/upload'}"
+             flow-files-submitted="$flow.upload()"
+             flow-file-success="$file.msg = $message">
+          <md-button flow-btn>Upload favicon</md-button>
+
+          <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+        </div>
+
+
+        <md-button ng-click="c.saveAppearanceSettings()">Save</md-button>
+
+      </md-content>
+    </md-tab>
+    <md-tab label="Content Manager">
+      <md-content class="md-padding">
+        <h1 class="md-display-2">Tab Two</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+        <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
+        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+      </md-content>
+    </md-tab>
+    <md-tab>
+      <md-tab-label>
+         <!-- <md-icon class="mdi mdi-camera"></md-icon> -->
+         Images
+      </md-tab-label>
+      <md-content class="md-padding">
+        <h1 class="md-display-2">Tab Three</h1>
+        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+      </md-content>
+    </md-tab> 
+    <md-tab label="User Management">
+      <md-content class="md-padding">
+        <h1 class="md-display-2">Tab Three</h1>
+        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+      </md-content>
+    </md-tab>
+
+
+    <md-tab label="Motions">
+      <md-content class="md-padding">
+        <h1 class="md-display-2">Tab Three</h1>
+        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+      </md-content>
+    </md-tab>
+
+    <md-tab label="Advanced">
+      <md-content class="md-padding">
+        <h1 class="md-display-2">Tab Three</h1>
+        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+      </md-content>
+    </md-tab>
+
+  </md-tabs>
+  </md-card-content>
+</md-card>
+

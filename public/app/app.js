@@ -4,21 +4,20 @@
 
 	angular
 		.module('iserveu', [
+			'ngCookies',
 			'ngResource',
 			'ngMaterial',
-			'ui.router',
+			'ngMessages',
 			'ngSanitize', 
 			'satellizer',
 			'textAngular',
+			'ui.router',
 			'flow',
-			'formly',
-			'ngMessages',
+            'infinite-scroll',
 			'pascalprecht.translate',
-			'ngCookies',
-            'summernote',
-            'infinite-scroll'
+			'mdColorPicker'
 		])
-		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
+		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider, $mdThemingProvider) {
 
 			// speeds up the app, the debug info are for {{}}
 			$compileProvider.debugInfoEnabled(false);
@@ -53,15 +52,15 @@
 			});
 
 		    // the overall default route for the app. If no matching route is found, then go here
-			
-			$urlRouterProvider.when('/', ['$state', '$match', function($state, $match) {
-				$state.go('home');
-			}])	
-
-			$urlRouterProvider.when("/motion/:id", "/motion/:id/");
 			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
 
 		    $urlRouterProvider.otherwise('/home');
+  	    
+  	    $mdThemingProvider.theme('default')
+            .primaryPalette('blue')
+            .accentPalette('deep-orange');
+
+
 
 		})
 		.filter('dateToDate', function() {
@@ -107,7 +106,7 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
-		.run(function($rootScope, $auth, $state, auth, $window, motion, motionCache) {
+		.run(function($rootScope, $auth, $state, auth, $window) {
 
 			// runs everytime a state changes
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
@@ -140,10 +139,6 @@
 			$rootScope.themename = 'default';
 	        $rootScope.motionIsLoading = [];
 
-			motion.getMotions().then(function(results){
-				motionCache.put('motionCache', results.data);
-			});
-
 			$window.onbeforeunload = function(e) {
 				var publicComputer = localStorage.getItem('public_computer');
 				if(JSON.parse(publicComputer) == true) {
@@ -153,40 +148,7 @@
 
 
 		})
-    .controller('AppCtrl', function($scope) {
-      $scope.isOpen = false;
-      $scope.demo = {
-        isOpen: false,
-        count: 0,
-        selectedAlignment: 'md-left'
-      };
-    });
 
-
-
-
-	// var AppController = function($scope, $mdUtil, $mdSidenav, $log) {
-
-	// 	$scope.toggleSidebar = buildToggler('sidebar');
-    	
- 	//	$scope.toggleUserbar = buildToggler('user-bar');
-	    
-	//  function buildToggler(navID) {
-	    	
-	//       var debounceFn = $mdUtil.debounce(function(){
-	//             $mdSidenav(navID)
-	//               .toggle()
-	//               .then(function () {
-	//                 $log.debug("toggle " + navID + " is done");
-	//               });
-	//           },300);
-	//       return debounceFn;
-	//     }
-	// };
-	
-	// AppController.$inject = module.controller.injectables;
-
-	
 			
 
 

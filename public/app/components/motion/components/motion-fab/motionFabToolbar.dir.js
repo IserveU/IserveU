@@ -8,9 +8,8 @@
 
 	function motionFabToolbar(){
 
-		console.log('foo');
 		return {
-			templateUrl: 'app/components/motion/partials/motion-fab-toolbar.tpl.html'
+			templateUrl: 'app/components/motion/components/motion-fab/motion-fab-toolbar.tpl.html'
 		}
 
 	}
