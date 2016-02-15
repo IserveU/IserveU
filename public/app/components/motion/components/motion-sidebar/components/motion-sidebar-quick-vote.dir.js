@@ -6,7 +6,7 @@
     .module('iserveu')
     .directive('quickVote', motionSidebarQuickVote);
 
-  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
+  function motionSidebarQuickVote($rootScope, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
 
   	function controllerMethod() {
 
@@ -52,6 +52,9 @@
 		}
 
 		function successFunc(id, pos) {
+
+			$rootScope.$broadcast('usersVoteHasChanged');
+
 			motionObj.reloadMotionObj(id);
 			voteObj.calculateVotes(id);
 			voteObj.showMessage(pos);

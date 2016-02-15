@@ -6,13 +6,14 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController(motion, comment, vote, user, UserbarService) {
+	function HomeController($rootScope, settings, motion, comment, vote, user, UserbarService) {
 		
         UserbarService.setTitle("Home");
 
 		var vm = this;
 
         /************************************** Variables **********************************/
+        vm.settings = settings.data;
         vm.shortNumber = 120;
 		vm.topMotion;
 		vm.myComments = [];
@@ -54,13 +55,17 @@
 
         function getMyVotes(){
             vote.getMyVotes(user.self.id, {limit:5}).then(function(result){
-                vm.myVotes = result.data
-                if(vm.myVotes == undefined || !vm.myVotes[0])
-                    vm.empty.myvotes = true;
+                vm.myVotes = result.data;
+                if( result.total == 0 ) vm.empty.myvotes = true;
             },function(error) {
                 vm.empty.myvotes = true;
             });
         }
+
+        $rootScope.$on('usersVoteHasChanged', function(event, args) {
+            console.log('foo');
+            getMyVotes();
+        });
 
         getTopMotion();
         getMyComments();

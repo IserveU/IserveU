@@ -35,7 +35,6 @@ class Kernel extends HttpKernel {
     	'role' => 'App\Http\Middleware\AdministratorMiddleware',
     	'testing' => 'App\Http\Middleware\ReplaceTestVars',
     	'setting.autosave' => 'anlutro\LaravelSettings\SaveMiddleware'
-
 	];
 
 }

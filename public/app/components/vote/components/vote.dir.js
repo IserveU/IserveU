@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
-	function voteOnMotion($stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
+	function voteOnMotion($rootScope, $stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
 
 
 		function voteController($scope) {
@@ -28,11 +28,6 @@
 				if( isVotingEnabled() )
 					return 0;
 
-				var data = {
-					motion_id: id,
-					position: pos
-				}
-
 				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					vm.voting[pos] = true;
 					isMotionOpen = false;
@@ -41,7 +36,11 @@
 				else {
 					vm.voting[pos] = true;
 					isMotionOpen = false;
-					vote.castVote(data).then(function(r) {
+
+					vote.castVote({
+						motion_id: id,
+						position: pos
+					}).then(function(r) {
 						successFunc(r, pos);
 					}, function(e){ errorFunc(e, pos); });
 				}
@@ -61,6 +60,9 @@
 			}
 
 			function successFunc(r, pos){
+
+				$rootScope.$broadcast('usersVoteHasChanged');
+
 				vm.voting[pos] = false;
 				isMotionOpen = true;
 
@@ -85,18 +87,14 @@
 				if ( !SetPermissionsService.can('create-votes') )
 					return "You have not been verified as Yellowknife resident.";
 				else if ( !isMotionOpen ) {
-					for(var i in vm.voting) {
-						if (vm.voting[i]) 
-							return type;
-					}
+					for(var i in vm.voting) 
+						if ( vm.voting[i] ) return type;
 					return "This motion is closed.";
 				}
-				else
-					return type;
+				else return type;
 			}
 
 			// TODO: refactor this beast.
-
 			$scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
 				function(motionDetail) {
 	                if( motionDetail != null ) {
