@@ -36,6 +36,7 @@
 			};
 
 			auth.login(credentials).then(function(data) {
+				$rootScope.authenticatedUser = data.data.user;
 				setLocalStorage(credentials, vm.publicComputer);
 			}, function(error) {
 				vm.loggingIn = false;

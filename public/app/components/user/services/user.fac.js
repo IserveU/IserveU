@@ -71,6 +71,12 @@
 			})
 		}
 
+		function getSelf() {
+			if ( $rootScope.authenticatedUser ) return $rootScope.authenticatedUser;
+			else if ( localStorage.getItem('user') ) return JSON.parse(localStorage.getItem('user'));
+			else if( $rootScope.userIsLoggedIn ) getSelf();
+		}
+
 		return {
 			getIndex: getIndex,
 			getUserInfo: getUserInfo,
@@ -79,10 +85,8 @@
 			updateUser: updateUser,
 			deleteUser: deleteUser,
 			storeUser: storeUser,
-			self: $rootScope.authenticatedUser ? $rootScope.authenticatedUser : JSON.parse(localStorage.getItem('user'))
+			self: getSelf()
 		}
-
-
 
 
 

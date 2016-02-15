@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-	function HomeController($rootScope, settings, motion, comment, vote, user, UserbarService) {
+	function HomeController($rootScope, $scope, settings, motion, comment, vote, user, UserbarService) {
 		
         UserbarService.setTitle("Home");
 
@@ -54,6 +54,9 @@
         }
 
         function getMyVotes(){
+
+            console.log(user.self);
+
             vote.getMyVotes(user.self.id, {limit:5}).then(function(result){
                 vm.myVotes = result.data;
                 if( result.total == 0 ) vm.empty.myvotes = true;
@@ -63,14 +66,28 @@
         }
 
         $rootScope.$on('usersVoteHasChanged', function(event, args) {
-            console.log('foo');
             getMyVotes();
         });
 
         getTopMotion();
-        getMyComments();
         getTopComment();
-        getMyVotes();
+
+
+        // this is the dumbest thing i've ever written. too tired to write well...
+
+        $scope.$watch( function() { return user.self },
+            function(details) {
+                if( details ) {
+                    getMyComments();
+                    getMyVotes();
+                } else {
+                    user.self = $rootScope.authenticatedUser
+                    getMyComments();
+                    getMyVotes();
+                }
+            }, true
+        );
+
 	}
 	
 }());

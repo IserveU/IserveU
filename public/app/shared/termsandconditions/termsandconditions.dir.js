@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('termsAndConditions', termsAndConditions);
 
-	function termsAndConditions() {
+	function termsAndConditions(settings) {
 
 		function controllerMethod($mdDialog, $scope) {
         	
@@ -15,7 +15,7 @@
         	vm.showTermsAndConditions = showTermsAndConditions;
         	vm.agree   = false;
     		vm.hasRead = false;
-
+    		
         	function showTermsAndConditions(ev, create){
 			    if(vm.hasRead === false){
 				    $mdDialog.show({
@@ -49,6 +49,9 @@
 			  $scope.answer = function(answer) {
 			    $mdDialog.hide(answer);
 			  };
+        	
+			  $scope.settings = settings.getData();
+
         	}
 
   		}	

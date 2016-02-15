@@ -14,11 +14,11 @@
 			localStorage.removeItem('permissions');
 			localStorage.removeItem('settings');
 
-			auth.getSettings().then(function(result){
+			auth.getSettings().then(function(r){
 
-				localStorage.setItem('user', JSON.stringify(result.data.user));
-				localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
-				localStorage.setItem('settings', JSON.stringify(result.data.settings));
+				if(r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
+				if(r.data.permissions) localStorage.setItem('permissions', JSON.stringify(r.data.user.permissions));
+				if(r.data.settings) localStorage.setItem('settings', JSON.stringify(r.data.settings));
 			
 			});
 		};
@@ -27,9 +27,9 @@
 
 			localStorage.removeItem(name);
 
-			auth.getSettings().then(function(result){
+			auth.getSettings().then(function(r){
 
-				localStorage.setItem(name, JSON.stringify(result.data.settings));
+				localStorage.setItem(name, JSON.stringify(r.data.settings));
 			
 			});
 		};

@@ -10,11 +10,11 @@
 
 		var settingsObj =  {
 			initialData: {},
-			data: function() {
+			getData: function() {
 				if (settingsObj.initialData) return settingsObj.initialData;
 				else {
 					settingsObj.get();
-					settingsObj.data();
+					settingsObj.getData();
 				}
 			},
 			get: function() {

@@ -72,6 +72,8 @@ class SettingController extends ApiController
                     'motions' => 'Motions'
                 ),
                 'fr' => array(
+                    'motion'  => 'Motion',
+                    'motions' => 'Motions'
                 )
             ),
             //TODO: make a job to seed these as ISU colors

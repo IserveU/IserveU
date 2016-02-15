@@ -13,7 +13,7 @@
 
 			this.pageObj = pageObj;
 
-			this.settings = settings.data();
+			this.settings = settings.getData();
 
 			this.createNewPage = function() {
 

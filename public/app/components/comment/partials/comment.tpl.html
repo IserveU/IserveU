@@ -1,5 +1,5 @@
-<section layout-margin>
-	<md-card style="margin:0"flex>
+<section layout-margin style="margin: 0; margin-top: 8px" flex>
+	<md-card style="margin:0px" flex>
 		<md-card-content style="padding: 0">
 
 		<div class="create-comment" ng-if="!c.obj.comment && c.vote.user.id" ng-click="c.obj.writing = !c.obj.writing" layout-padding>
@@ -7,8 +7,8 @@
 			<h3 class="title-header">Write a comment</h3>
 		</div>
 		<div flex layout="column" ng-if="!c.obj.writing  && !c.obj.comment && c.vote.user.id" layout-padding>
-			<form name="commentForm"> 
-				<md-input-container>
+			<form layout="column" name="commentForm" flex="100"> 
+				<md-input-container flex>
 					<textarea columns="4" ng-model="text" focus-input="!c.obj.writing"></textarea>
 				</md-input-container>
 

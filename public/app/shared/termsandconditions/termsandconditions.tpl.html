@@ -1,4 +1,4 @@
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+<md-dialog aria-label="Terms and Conditions"  ng-cloak>
   <form>
   <md-toolbar>
     <div class="md-toolbar-tools">
@@ -14,7 +14,9 @@
       <h2>By using our website, you accept these terms and conditions in full</h2><p class="md-body-1">
       Accordingly, if you disagree with these terms and conditions or any part of these terms and conditions, you must not use our website.
       </p>
-      <p>Terms and Conditions from settings array</p>
+
+      <p>{{ settings.site.terms }}</p>
+
     </div>
   </md-dialog-content>
   <div class="md-actions" layout="row">

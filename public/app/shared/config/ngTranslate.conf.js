@@ -20,9 +20,8 @@
 				jargon = r.data.jargon;
 			});
 
-		} else {
+		} else 
 			jargon = JSON.parse(jargon).jargon;
-		} 
 
 
 		$translateProvider.preferredLanguage('en');
