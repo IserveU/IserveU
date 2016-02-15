@@ -40,7 +40,7 @@ elixir(function(mix) {
  	mix.scriptsIn("public/app",'public/js/app.js');
  
     mix.styles([
-        '/bower/angular-material/angular-material.css',
+        '/bower/angular-material/angular-material.min.css',
         '/bower/mdi/css/materialdesignicons.min.css',
         '/bower/textAngular/dist/textAngular.css',
         '/bower/bootstrap/dist/css/bootstrap.min.css',

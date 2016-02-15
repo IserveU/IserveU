@@ -1,7 +1,8 @@
-<md-content role="navigation" class="flex md-default-theme" ng-cloak>
+<md-content role="navigation" class="flex md-default-theme">
+  
+<motion-searchbar hide-gt-lg hide-lg flex></motion-searchbar>
 
 <div infinite-scroll="c.loadMoreMotions()" 
-     infinite-scroll-container="'.site-sidenav'" 
      infinite-scroll-distance="0" 
      infinite-scroll-disabled="!c.motionObj.next_page || c.paginating || c.motionObj.motionsAreEmpty">
 
@@ -37,8 +38,8 @@
 
     <has-permission has-permission="create-motions">
       <md-list-item class="sidebar-list" ui-sref-active="active"> 
-        <md-icon class="mdi mdi-plus" aria-label="add" ui-sref="createmotion"></md-icon>
-        <p ui-sref="createmotion" translate="{{'CREATE_NEW_MOTION'}}"></p>
+        <md-icon class="mdi mdi-plus" aria-label="create motion" ui-sref="create-motion"></md-icon>
+        <p ui-sref="create-motion" translate="{{'CREATE_NEW_MOTION'}}"></p>
       </md-list-item>
     </has-permission>
   

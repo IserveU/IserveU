@@ -13,21 +13,21 @@ class CreateFilesTable extends Migration
     public function up()
     {
 
-        Schema::create('file_categories', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
+        // Schema::create('file_categories', function(Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name')->unique();
+        //     $table->timestamps();
+        // });
 
         Schema::create('files', function(Blueprint $table) {
             $table->increments('id');
             $table->string('filename');
             $table->string('title')->nullable();
             $table->boolean('image')->default(0);
-            $table->integer('file_category_id')->unsigned();
+            // $table->integer('file_category_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('file_category_id')->references('id')->on('file_categories');
+            // $table->foreign('file_category_id')->references('id')->on('file_categories');
         });
 
         Schema::create('motion_files', function(Blueprint $table) {
@@ -62,9 +62,9 @@ class CreateFilesTable extends Migration
             $table->dropForeign('motion_files_file_id_foreign');
         });
 
-        Schema::table('files', function($table){
-            $table->dropForeign('files_file_category_id_foreign');
-        });
+        // Schema::table('files', function($table){
+        //     $table->dropForeign('files_file_category_id_foreign');
+        // });
 
         Schema::table('users', function($table){
             $table->dropForeign('users_avatar_id_foreign');
@@ -75,6 +75,6 @@ class CreateFilesTable extends Migration
 
         Schema::drop('motion_files');
         Schema::drop('files');
-        Schema::drop('file_categories');
+        // Schema::drop('file_categories');
     }
 }

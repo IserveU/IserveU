@@ -1,5 +1,4 @@
-<md-content id="maincontent" class="home">
-
+<div class="home">
 
 
 
@@ -120,6 +119,12 @@
         <md-divider ng-if="!$last"></md-divider>
         </md-list>
 
+
+          <md-list layout-padding ng-if="home.empty.mycomments" ng-cloak>
+            <p class="md-body-1">You don't have any votes.</p>
+          </md-list>
+
+
       </md-card-content>
     </md-card>
 
@@ -128,4 +133,4 @@
 
 
 
-</md-content>
+</div>

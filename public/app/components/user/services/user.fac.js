@@ -14,6 +14,14 @@
 		var UserEdit = $resource('api/user/:id/edit');
 		var YourUser = $resource('api/settings');
 
+		function getIndex() {
+			return User.get().$promise.then(function(results) {
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
+
 		function getUserInfo(data){
 			return User.get(data).$promise.then(function(results) {
 				return results;
@@ -64,13 +72,14 @@
 		}
 
 		return {
+			getIndex: getIndex,
 			getUserInfo: getUserInfo,
 			getUser: getUser,
 			editUser: editUser,
 			updateUser: updateUser,
 			deleteUser: deleteUser,
 			storeUser: storeUser,
-			self: $rootScope.authenticatedUser
+			self: $rootScope.authenticatedUser ? $rootScope.authenticatedUser : JSON.parse(localStorage.getItem('user'))
 		}
 
 

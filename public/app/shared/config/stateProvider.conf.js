@@ -17,88 +17,61 @@
     		controller: 'HomeController as home',
     		data: {
     	        requireLogin: true
-    	    },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'motion';
-            }]
+    	    }
     	})
     	.state( 'motion', {
     	    url: '/motion/:id',
-    	    templateUrl: 'app/components/motion/partials/motion.tpl.html',
-    	    controller: 'MotionController as motion',
+    	    template: '<display-motion />',
     	    data: {
     	        requireLogin: true
-    	    },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'motion';
-            }]
+    	    }
     	})
         .state( 'dashboard', {
             url: '/dashboard',
-            template: '<admin-dashboard />',
+            templateUrl: 'app/components/admin/dashboard.tpl.html',
             data: {
                 requireLogin: true
-            },   
+            }   
         })
-        .state( 'drafts', {
-            url: '/drafts',
-            template: '<motion-drafts />',
+        .state( 'pages', {
+            url: '/page/:id',
+            template: '<page-content />',
             data: {
                 requireLogin: true
-            },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'motion';
-            }]
+            }  
         })
-    	.state( 'createmotion', {
-    	    url: '/createmotion',
-    	    templateUrl: 'app/components/motion/components/createmotion/createmotion.tpl.html',
-    	    controller: 'CreateMotionController as create',
+        .state( 'edit-page', {
+            url: '^/page/:id/edit',
+            template: '<edit-page-content />',
+            data: {
+                requireLogin: true
+            }  
+        })
+    	.state( 'create-motion', {
+    	    url: '^/motion/create',
+    	    templateUrl: '<create-motion />',
     	    data: {
     	        requireLogin: true
-    	    },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'motion';
-            }]
+    	    }
     	})
-        .state( 'userlist', {
-            url: '^/userlist',
-            templateUrl: 'app/components/user/components/role/roles.tpl.html',
-            controller: 'UserController as user',
-            data: {
-                requireLogin: true
-            },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'user';
-            }]
-        })
         .state( 'user', {
             url: '/user/:id',
             templateUrl: 'app/components/user/partials/user-profile.tpl.html',
             controller: 'UserController as vm',
             data: {
                 requireLogin: true
-            },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'user';
-            }]
+            }
         })
         .state( 'user.profile', {
             url: '/profile',
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'user';
-            }]
         })
-        .state( 'createuser', {
-            url: '/create/user',
-            templateUrl: 'app/components/user/componentscreateuser/createuser.tpl.html',
+        .state( 'create-user', {
+            url: '^/user/create',
+            templateUrl: 'app/components/user/components/create-user/create-user.tpl.html',
             controller: 'CreateUserController as create',
             data: {
                 requireLogin: true
-            },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'user';
-            }]
+            }
         })
     	.state('login', {
             url: '/login',
@@ -113,39 +86,6 @@
     		data: {
     			requireLogin: false
     		}
-    	})
-    	.state('department' , {
-    		url: '/departments/:id',
-        	controller: 'DepartmentController as department',
-        	templateUrl: 'app/components/department/department.tpl.html',
-            data: {
-                requireLogin: true
-            },
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'department';
-            }]    
-    	})
-    	.state('backgroundimage', {
-            url: '/upload',
-        	controller: 'BackgroundImageController as background',
-        	templateUrl: 'app/components/backgroundimage/partials/backgroundimage.tpl.html',
-            data: {
-                requireLogin: true
-            }, 
-           onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'backgroundimage';
-            }] 
-    	})
-    	.state('backgroundimage.preview', {
-            url: '^/preview/:id',
-        	controller: 'PreviewImageController as preview',
-        	templateUrl: 'app/components/backgroundimage/components/preview_image/preview_image.tpl.html',
-            data: {
-                requireLogin: true
-            }, 
-            onEnter: ['$rootScope', function($rootScope) {
-                $rootScope.currentState = 'backgroundimage';
-            }]
     	})
     	.state('permissionfail' , {
     		url: '/invalidentry',

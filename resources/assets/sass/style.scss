@@ -35,6 +35,15 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	width: 18px;
 }
 
+.inline-icon {
+	display:inline-block; 
+	font-size: 17px !important; 
+	left: -1px !important; 
+	position: relative; 
+	bottom: 1px !important;
+	cursor: pointer;
+}
+
 .display-user-comment {
 	.md-icon-button {
 		max-width: 35px;
@@ -80,9 +89,9 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
-md-backdrop.md-sidenav-backdrop {
-  display: none;
-}
+// md-backdrop.md-sidenav-backdrop {
+//   display: none;
+// }
 
 p.beta-message {
 	font-size: 11px; 
@@ -115,9 +124,9 @@ html,body{
 }
 
 a{
-	text-decoration: none;
-	font-weight: 700;
-	color:$accent;
+	// text-decoration: none;
+	// font-weight: 700;
+	// color:$accent;
 }
 
 md-caption.imagecredit{
@@ -195,6 +204,15 @@ md-sidenav{
 	margin: auto;
 	display: block;
 	margin-bottom: 30px;
+}
+
+
+.loading{
+	md-card-content{
+		filter: blur(5px) grayscale(0.5);
+	}
+
+	position:absolute;
 }
 
 
@@ -417,10 +435,10 @@ md-menu-item{
 
 }
 
-md-input-container ng-message, md-input-container data-ng-message, md-input-container x-ng-message, md-input-container [ng-message], md-input-container [data-ng-message], md-input-container [x-ng-message], md-input-container .md-char-counter {
-position: relative; //INSTEAD OF ABSOLUTE
-font-size: 12px;
-line-height: 24px; }
+// md-input-container ng-message, md-input-container data-ng-message, md-input-container x-ng-message, md-input-container [ng-message], md-input-container [data-ng-message], md-input-container [x-ng-message], md-input-container .md-char-counter {
+// position: relative; //INSTEAD OF ABSOLUTE
+// font-size: 12px;
+// line-height: 24px; }
 
 
 md-toast{

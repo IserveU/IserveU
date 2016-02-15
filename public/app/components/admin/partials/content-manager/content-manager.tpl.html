@@ -1,0 +1,148 @@
+<md-content>
+
+	
+
+	<md-card style="margin: 0">
+		<md-card-content>
+		
+		<div ng-click="showCustomPages = !showCustomPages">
+		<md-icon class="mdi mdi-file-multiple title-icon"></md-icon>
+			<h3 class="title-header">Custom Pages</h3>
+		</div>
+
+		<div ng-if="showCustomPages">
+	    <ul ng-repeat="page in content.pageObj.index">
+		    <li>
+		    	<a ng-bind="page.title" ui-sref="pages({id:page.slug})"></a>
+			    	<md-icon ng-click="content.editPage(page.slug)" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
+			    	<md-icon ng-click="content.deletePage(page.slug)" class="mdi mdi-delete inline-icon"></md-icon>
+		    </li>
+	    </ul>
+
+		    <div style="margin-bottom: 8px">
+				<a ng-click="content.createNewPage()" style="cursor:pointer">Create new page</a>
+					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
+			</div>
+
+	    </div>
+
+
+		<form name="newPage" layout="column" ng-if="content.create_new_page" ng-submit="newPage.$valid && content.pageObj.save(content.data) && content.createNewPage()">
+		    
+		    <md-input-container style="margin-bottom: 0">
+		    	<label>Page Title</label>	
+		    	<input name='title' type='text' ng-model='content.data.title' autofocus required/>
+		    	<div ng-messages="newPage.title.$error">
+		    		<div ng-message="required">A page title is required.</div>
+		    	</div>
+			</md-input-container>
+
+		   	<text-angular ng-model="content.data.content" ta-file-drop="content.dropHandler"></text-angular>
+
+		    <div layout="row">
+			    <md-button>Create new page</md-button>
+			    <md-button ng-click="content.createNewPage()">Cancel</md-button>
+		    </div>
+		</form>
+		</md-card-content>
+	</md-card>
+
+
+
+
+
+	<md-card style="margin:0">
+		<md-card-content>
+
+		<div ng-click="showSiteModules = !showSiteModules">
+		<md-icon class="mdi mdi-view-quilt title-icon"></md-icon>
+			<h3 class="title-header">Site Modules</h3>
+		</div>
+
+		<div ng-if="showSiteModules" layout="column" style="margin-top: 15px">
+		    <md-checkbox ng-model="content.settings.module.motions">{{ content.settings.jargon.motion }}</md-checkbox>
+		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
+		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
+	    </div>
+
+	    </md-card-content>
+	</md-card>
+
+
+
+
+	<md-card style="margin:0">
+		<md-card-content>
+
+		<div ng-click="showHomePageWidgets = !showHomePageWidgets">
+			<md-icon class="mdi mdi-google-pages title-icon"></md-icon>
+				<h3 class="title-header">Home Page Widgets</h3>
+		</div>
+
+
+		<div ng-if="showHomePageWidgets">
+		    <ul>
+			    <li>
+			    	<a style="cursor:pointer">Introduction</a>
+				    	<md-icon ng-click="editHomeIntro = !editHomeIntro" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
+				    	<md-icon ng-click="editHomeIntro = !editHomeIntro"  class="mdi mdi-delete inline-icon"></md-icon>
+				    	<md-input-container ng-if="editHomeIntro">
+				    		<label>Introduction</label>	
+				    		<input type='text' ng-model='content.settings.home.introduction'/>
+			    		</md-input-container>
+			    </li>
+		    </ul>
+
+		    <div style="margin-bottom: 8px">
+				<a ng-click="content.createNewPage()" style="cursor:pointer">Create new widget</a>
+					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
+			</div>
+			<div layout="column" style="margin-top: 15px">
+			    <md-checkbox ng-model="content.settings.home.widgets.your_votes">Your votes</md-checkbox>
+			    <md-checkbox ng-model="content.settings.home.widgets.your_comments">Your comments</md-checkbox>
+			    <md-checkbox ng-model="content.settings.home.widgets.top_comments">Top comments</md-checkbox>
+			    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top motions</md-checkbox>
+		    </div>
+	    </div>
+		</md-card-content>
+	</md-card>
+
+
+
+
+	<md-card style="margin:0">
+		<md-card-content>
+		<div ng-click="showSiteJargon = !showSiteJargon">
+			<md-icon class="mdi mdi-alpha title-icon"></md-icon>
+			<h3 class="title-header">Site Jargon</h3>
+		</div>
+
+		<div layout="column" ng-if="showSiteJargon">
+			<md-input-container>
+				<input type='text' ng-model='content.settings.jargon.motion'/>
+			</md-input-container>
+		</div>
+		</md-card-content>
+	</md-card>
+
+
+
+
+	<md-card style="margin:0">
+		<md-card-content>
+		<div ng-click="showTermsAndConditions = !showTermsAndConditions">
+			<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
+			<h3 class="title-header">Terms & Conditions</h3>
+		</div>
+		<div ng-if="showTermsAndConditions" layout="column">
+			<md-input-container>
+				<textarea ng-model="content.settings.site.terms"></textarea>
+			</md-input-container>
+		</div>
+		</md-card-content>
+	</md-card>
+	
+	<div>
+		<md-button class="md-raised">Save changes</md-button>
+	</div>
+</md-content>

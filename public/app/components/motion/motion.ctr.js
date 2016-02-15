@@ -1,3 +1,6 @@
+/// Deprecated in favour of directive component based in prepartion for AngularJS 2.0
+
+
     (function() {
 
     angular

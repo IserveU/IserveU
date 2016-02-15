@@ -1,0 +1,76 @@
+ <md-content class="md-padding" layout="column">
+
+    <md-input-container>
+      <label>Sitename</label> 
+      <input type='text' ng-model='ctrl.site.name'/>
+    </md-input-container>
+
+    <md-input-container>
+      <label>Theme</label>
+      <md-select placeholder="Default" ng-model="ctrl.themeSelect">
+        <md-option value="default">Default</md-option> 
+        <md-option value="custom">{{ ctrl.theme.name === 'default' && 'Custom' || ctrl.theme.name }}</md-option>
+      </md-select>
+    </md-input-container>
+
+    <div layout="column" ng-if="ctrl.themeSelect === 'custom' ">
+
+      <md-input-container>
+        <label>Theme Label</label> 
+        <input type='text' ng-model='ctrl.themename' required/>
+      </md-input-container>
+
+      <label>Warning Color</label>
+      <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.primary.warning" open-on-input="true"></div>
+
+
+      <label>Primary Color</label>
+
+      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.primary.hue_one" open-on-input="true"></div>
+      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.primary.hue_two" open-on-input="true"></div>
+      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.primary.hue_three" open-on-input="true"></div>
+      
+
+      <md-input-container flex>
+        <label>Contrast</label>
+          <md-select ng-model="ctrl.primary.contrast" aria-label="Theme Primary Contrast">
+            <md-option value="light">Light</md-option>
+            <md-option value="dark">Dark</md-option>
+          </md-select>
+      </md-input-container>
+
+
+
+      <label>Accent Color</label>
+      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.accent.hue_one" open-on-input="true"></div>
+      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.accent.hue_two" open-on-input="true"></div>
+      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="ctrl.accent.hue_three" open-on-input="true"></div>
+      <md-input-container flex>
+        <label>Contrast</label>
+          <md-select ng-model="ctrl.accent.contrast" aria-label="Theme Accent Contrast">
+            <md-option value="light">Light</md-option>
+            <md-option value="dark">Dark</md-option>
+          </md-select>
+      </md-input-container>
+    </div>
+
+    <p>For best quality, upload a SVG file.</p>
+
+    <div flow-init="{target: '/file', testChunks:false}"
+         flow-files-submitted="$flow.upload()"
+         flow-file-success="ctrl.logo = $message">
+      <md-button flow-btn>Upload logo</md-button>
+      <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+    </div>
+
+    <div flow-init="{target: '/file', testChunks:false}"
+         flow-files-submitted="$flow.upload()"
+         flow-file-success="ctrl.favicon = $message">
+      <md-button flow-btn>Upload favicon</md-button>
+      <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+    </div>
+
+
+    <md-button ng-click="ctrl.saveAppearanceSettings()">Save</md-button>
+
+</md-content>

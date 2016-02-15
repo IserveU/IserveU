@@ -7,10 +7,11 @@
         <motion-searchbar hide-sm hide-md hide-lg></motion-searchbar>
 
 
-
-        <md-button class="md-icon-button" style="margin:0" ng-click="user.toggleSidebar('left')" hide-gt-lg aria-label="Toggle Menu">
-          <md-icon class="mdi mdi-menu"></md-icon>
-        </md-button>
+        <div>
+            <md-button class="md-icon-button" style="margin:0;" ng-click="user.toggleSidebar('left')" hide-gt-lg aria-label="Toggle Menu">
+              <md-icon class="mdi mdi-menu"></md-icon>
+            </md-button>
+        </div>
 
         <p translate="{{user.userbarservice.title}}" style="margin:0;  padding-left: 18px"></p>
 
@@ -18,7 +19,7 @@
         <span flex></span>
 
         <div>
-            <md-menu >
+            <md-menu>
                 <md-button ng-click="$mdOpenMenu()" translate="{{ 'LANG_NAME' }}" aria-label="Change language"></md-button>
                 <md-menu-content width="1" style="margin:0px">
                     <md-menu-item ng-repeat="language in user.languages">
@@ -30,7 +31,7 @@
             </md-menu>
         </div>
 
-        <div >
+        <div>
             <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
                 <md-menu md-position-mode="target-right target">
                     <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
@@ -45,6 +46,7 @@
                                 </div>
                             </md-button>
                         </md-menu-item>
+                        
                         <md-menu-item ui-sref="user({id:authenticatedUser.id})">
                             <md-button aria-label="go to your profile">
                                 <div layout="row">
@@ -53,27 +55,9 @@
                                 </div>
                             </md-button>
                         </md-menu-item>
-                        <has-permission has-permission="show-users">
-                        <md-menu-item ui-sref="userlist">
-                            <md-button aria-label="go to user list">
-                                <div layout="row">
-                                    <p flex translate="{{'USER_LIST'}}"></p>
-                                    <md-icon class="mdi"  md-font-icon="mdi-account-multiple"></md-icon>
-                                </div>
-                            </md-button>
-                        </md-menu-item>
-                        </has-permission>
-                        <has-permission has-permission="administrate-motions">
-                        <md-menu-item ui-sref="drafts">
-                            <md-button aria-label="go to upload motion drafts">
-                                <div layout="row">
-                                    <p flex>Motion Drafts</p>
-                                    <md-icon class="mdi"  md-font-icon="mdi-file-document"></md-icon>
-                                </div>
-                            </md-button>
-                        </md-menu-item>
-                        </has-permission>
-                        <has-permission has-permission="create-background_images">
+
+
+<!--                         <has-permission has-permission="create-background_images">
                         <md-menu-item ui-sref="backgroundimage">
                             <md-button aria-label="go to upload background image">
                                 <div layout="row">
@@ -82,7 +66,7 @@
                                 </div>
                             </md-button>
                         </md-menu-item>
-                        </has-permission>
+                        </has-permission> -->
                         <has-permission has-permission="create-motions">
                         <md-menu-item ui-sref="dashboard">
                             <md-button aria-label="go to admin dashboard">

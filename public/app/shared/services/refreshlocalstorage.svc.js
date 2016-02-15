@@ -6,18 +6,21 @@
 		.module('iserveu')
 		.service('refreshLocalStorage', refreshLocalStorage);
 
-	function refreshLocalStorage($stateParams, auth, user, SetPermissionsService) {
+	function refreshLocalStorage(auth, user, SetPermissionsService) {
 
 		this.init = function(){
 
-			if($stateParams.id == user.self.id){
-				auth.getSettings().then(function(result){
-					localStorage.removeItem('user');
-					localStorage.removeItem('permissions');
-					localStorage.setItem('user', JSON.stringify(result.data.user));
-					localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
-				});
-			}
+			auth.getSettings().then(function(result){
+
+				localStorage.removeItem('user');
+				localStorage.removeItem('permissions');
+				localStorage.removeItem('settings');
+
+				localStorage.setItem('user', JSON.stringify(result.data.user));
+				localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
+				localStorage.setItem('settings', JSON.stringify(result.data.settings));
+			
+			});
 		};
 
 	

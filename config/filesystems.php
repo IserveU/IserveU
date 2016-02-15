@@ -69,6 +69,16 @@ return [
 		'csv' => [
 			'driver' => 'local',
 			'root'   => storage_path().'/csv',
+		],
+
+		'logo' => [
+			'driver' => 'local',
+			'root'   => storage_path().'/uploads/logo'
+		],
+
+		'favicon' => [
+			'driver' => 'local',
+			'root'   => storage_path().'/uploads/favicon'
 		]
 
 	],

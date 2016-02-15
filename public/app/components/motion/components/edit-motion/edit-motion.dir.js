@@ -78,7 +78,7 @@
 		return {
 			controller: editMotionController,
 			controllerAs: 'c',
-			templateUrl: 'app/components/motion/components/editmotion/edit-motion.tpl.html'
+			templateUrl: 'app/components/motion/components/edit-motion/edit-motion.tpl.html'
 		}
 		
 	}

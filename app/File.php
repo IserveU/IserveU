@@ -11,6 +11,8 @@ use Illuminate\Routing\Controller;
 
 use App\FileCategory;
 
+use Storage;
+
 use Illuminate\Support\Facades\Validator;
 
 class File extends ApiModel
@@ -28,7 +30,7 @@ class File extends ApiModel
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['filename','title','file_category_id','file'];
+	protected $fillable = ['filename','title', 'file'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -70,8 +72,6 @@ class File extends ApiModel
         'file'					=>	'mimes:png,pdf,jpg,jpeg,gif',
         'image'					=>	'boolean',
         'file_category_id'		=>	'integer',
-        'id'					=>	'integer',
-        'file'					=>	'file'
 	];
 
 	/**
@@ -84,7 +84,7 @@ class File extends ApiModel
 	 * The variables requied when you do the initial create
 	 * @var array
 	 */
-	protected $onCreateRequired = ['filename','file_category_id'];
+	protected $onCreateRequired = ['filename'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
@@ -215,6 +215,42 @@ class File extends ApiModel
 	/************************************* Getters & Setters ****************************************/
 
 
+    //Upload a file from a URL, could add local storage
+    public function setUploadFileAttribute($url){
+        
+        $fileHeaders = get_headers($url);
+       
+        if($fileHeaders[0] != 'HTTP/1.1 404 Not Found'){
+
+            $file = file_get_contents($url);
+            $tmp = explode(".", $url);
+            $ext = end($tmp);
+            $name = md5(preg_replace('#^https?://#', '', $url)).".$ext";
+
+            //Upload image
+            Storage::put($name,$file);
+
+            $file->move(getcwd()."/uploads/pages", $name);
+
+            $this->attributes['filename'] = $name;
+ 
+        }
+    }
+
+    public function setFileAttribute(\Symfony\Component\HttpFoundation\File\UploadedFile $file){
+        if(!$file){
+            return false;
+        }
+
+        $filename       = md5($file).".".$file->getClientOriginalExtension();
+        $this->attributes['filename'] = $filename;
+
+        Storage::put($filename,file_get_contents($file->getRealPath()));
+
+        $file->move(getcwd()."/uploads/pages", $filename);
+    }
+
+
 
 
 	/************************************* Casts & Accesors *****************************************/
@@ -228,7 +264,7 @@ class File extends ApiModel
 	/************************************* Relationships ********************************************/
 
 	public function motion(){
-		return $this->belongsToManyThrough('App\Motion','App\Figure');
+		return $this->belongsToManyThrough('App\Motion','App\MotionFile');
 	}
 
 	public function userIdentification(){

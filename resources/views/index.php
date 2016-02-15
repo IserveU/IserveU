@@ -1,64 +1,60 @@
 <!doctype html>
 <html ng-app="iserveu">
     <head>
-        <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title>
+        <!-- <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title> -->
+        <title><?=Setting::get('site.name','IserveU')?></title>
         <meta name="viewport" content="initial-scale=1" />  
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
-        <link rel="stylesheet" href="<?=elixir('css/app.css')?>">/
-        <link rel="icon shortcut" type="image/png" href="/themes/<?=Setting::get('theme.name','default')?>/logo/symbol.png">                
+        <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
+        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('theme.logo','default')?>">                
     </head>
 
-    <user-bar id="site-content-toolbar"></user-bar>
+
+    <body back-img="{{vm.background_image}}" class="background-image" ng-cloak layout-fill>
 
 <!--             <div flex style="background-color:#f44336;height:25px; color: white; margin-top:0px" ng-cloak>
-          <p class="md-caption beta-message">
-          <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
-          <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
-          <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
-          <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
-        </div>
+              <p class="md-caption beta-message">
+              <span hide-sm translate="{{'BETA_HEADER'}}"></span>&nbsp;
+              <span hide-md hide-sm translate="{{'BETA_MESSAGE'}}"></span>
+              <span hide-gt-md show-md translate="{{'BETA_MESSAGE_MINI'}}"></span>
+              <a style="color:#f2aa4f" href="mailto:support@iserveu.com"><u>support@iserveu.ca</u></a></p>
+            </div>
+     -->
+
+
+            <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn"></user-bar>
+
+
+        <div layout="row" layout-fill>
+
+            <md-sidenav ng-if="userIsLoggedIn"
+            class="md-sidenav-left md-whiteframe-z2" 
+            md-component-id="left" 
+            md-is-locked-open="$mdMedia('lg')" >
+                <motion-sidebar />
+            </md-sidenav>
+
+
+<!--             <div  ng-controller="SidebarController as sidebar">
+                <md-sidenav ng-cloak
+                style="top: 56px; position: fixed;  overflow-y: scroll; z-index: 3; max-width: 322px"
+                id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
+                    <sidebar sidebar="{{currentState}}">
+                        <div id="sidebar-inner"></div>
+                    </sidebar>
+                </md-sidenav>
+            </div>
  -->
 
-    <div ng-controller="SidebarController as sidebar">
-        <md-sidenav ng-cloak
-        style="top: 56px; position: fixed;  overflow-y: scroll; z-index: 3; max-width: 322px"
-        id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
-            <sidebar sidebar="{{currentState}}">
-                <div id="sidebar-inner"></div>
-            </sidebar>
-        </md-sidenav>
-    </div>
-
-
-    <body back-img="{{vm.background_image}}" class="background-image" flex layout-fill>
-
-            <md-content style="z-index: 1;" ng-style="$mdMedia('gt-lg') && {'margin-left': '400px'} || {'margin':'auto'}" flex
-            layout-fill>
-                    <div layout="column" tabIndex="-1" role="main">
-
-                            <!-- <span ng-if="userIsLoggedIn"> -->
-                                <!-- <reset-password has-been="{{reset.notification}}"></reset-password> -->
-                                <!-- <missing-fields ng-show="ctrl.fill_in_fields"></missing-fields> -->
-                                <!-- <photo-id has="{{vm.uploaded}}"></photo-id> -->
-                            <!-- </span> -->
-
-
-                    <!-- main body of app -->                            
-                    <div flex ui-view layout-fill></div>  
-
-                    </div>
+            <md-content role="main" tabIndex="-1"  flex layout-fill>
+                <!-- main body of app -->                            
+                <div ui-view flex ></div>  
             </md-content>
+        </div>
+        <show-footer />    
     </body>        
 
-        <footer layout layout-align="end end" layout-padding id="footer" ng-cloak flex>
-            <md-button class="md-primary md-raised" terms-and-conditions ng-click="ctrl.showTermsAndConditions($event, false)" flex-sm="50" flex-md="25" flex-gt-md="25">
-                Terms &amp; Conditions
-            </md-button>
 
-            <md-caption layout-padding ng-controller="BackgroundImageController as vm" class="imagecredit">
-                <span  ng-if="vm.background.credited">{{'PHOTO_COURTESY' | translate}}<a href="{{::vm.background.url}}" ng-bind="::vm.background.credited"></a></span>
-            </md-caption>
-        </footer>
 
 
     <script src="<?=elixir('js/dependencies.js')?>"></script>

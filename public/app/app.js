@@ -17,14 +17,13 @@
 			'pascalprecht.translate',
 			'mdColorPicker'
 		])
-		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider, $mdThemingProvider) {
+		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 
+			$authProvider.loginUrl = '/authenticate';
 			// speeds up the app, the debug info are for {{}}
 			$compileProvider.debugInfoEnabled(false);
 
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-
-			$authProvider.loginUrl = '/authenticate';
 
 			$httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope) {
 
@@ -56,12 +55,6 @@
 
 		    $urlRouterProvider.otherwise('/home');
   	    
-  	    $mdThemingProvider.theme('default')
-            .primaryPalette('blue')
-            .accentPalette('deep-orange');
-
-
-
 		})
 		.filter('dateToDate', function() {
 		  	return function(input) {
@@ -106,7 +99,7 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
-		.run(function($rootScope, $auth, $state, auth, $window) {
+		.run(function($rootScope, $auth, $state, $window, auth, pageObj) {
 
 			// runs everytime a state changes
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
@@ -145,7 +138,6 @@
 					return localStorage.clear();
 				}
 			}
-
 
 		})
 

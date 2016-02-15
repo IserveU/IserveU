@@ -1,0 +1,43 @@
+<md-content class="md-padding">
+  <form flex='100'>
+  <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc"  layout-padding>
+    <thead layout-padding>
+      <tr>
+        <td>
+        </td>
+        <td>
+            <p class="md-body-2" translate="{{'NAME'}}"></p>
+        </td>
+        <td>
+            <p class="md-body-2" translate="{{'IDENTITY'}}"></p>
+        </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px" translate="{{'ROLES'}}"></p>
+        </td>
+        <td>
+            <p class="md-body-2" style="padding-left:10px">ID submitted</p>
+        </td>
+      </tr>
+    </thead>
+    <tbody layout-padding>
+      <tr ng-repeat="name in user.users" >
+        <td ui-sref="user({id:name.id})" style="margin-right: 5px">
+          <md-icon style="cursor:pointer; margin-right: 5px" class="mdi mdi-arrow-left-bold-circle-outline"></md-icon>
+        </td>
+        <td>
+          <p class="md-caption" style="margin:0px; margin-right: 5px">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
+        </td>
+        <td>
+           <p class="md-caption" style="margin:0px;">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
+        </td>
+        <td style="padding-left:10px;">
+          <span ng-repeat="role in ::name.user_role">
+           <p class="md-caption" style="margin:0px; padding-bottom:5px; display:inline-block">{{role}}{{$last ? '' : ','}}</p>
+          </span>
+        </td>
+    
+      </tr>
+    </tbody>
+  </table>
+  </form>
+</md-content>

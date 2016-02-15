@@ -1,3 +1,5 @@
+// deprecated in favor of component driven format; in prep for angularjs 2 
+
  (function() {
 
     'use strict';

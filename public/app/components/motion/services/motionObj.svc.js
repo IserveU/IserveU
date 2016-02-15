@@ -29,6 +29,7 @@
 				}, function errorCallback(e){
 					console.log('cannot get motions');
 					motionObj.motionsAreEmpty = true;
+					return e;
 				});
 			},
 			getMotionObj: function(id) {

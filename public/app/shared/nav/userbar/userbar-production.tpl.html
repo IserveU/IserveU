@@ -1,27 +1,59 @@
-<md-toolbar>
+<md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar" layout="row" layout-align="center center" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
 
-    <md-toolbar-filler layout layout-align="center center">
-        <md-icon  class="mdi mdi-pencil" ></md-icon>
+
+
+    <md-toolbar-filler hide-xs hide-sm hide-md style="max-width: 400px; margin-right: 21px" flex>
+        <motion-searchbar flex></motion-searchbar>
     </md-toolbar-filler>
 
+    <md-button hide-gt-lg hide-lg class="md-icon-button" style="margin:0" ng-click="user.toggleSidebar('left')" aria-label="Toggle Sidebar">
+      <md-icon class="mdi mdi-menu"></md-icon>
+    </md-button>
 
- <md-menu-bar>
-  <md-menu>
- <!-- Trigger element is a md-button with an icon -->
-   <md-button ng-click="$mdOpenMenu($event)" class="mdi mdi-settings" aria-label="Open sample menu">
-     <md-icon></md-icon>
-   </md-button>
+    <div ng-repeat="page in user.pageObj.index">
+        <md-button style="margin:0" aria-label="Open sample menu" ui-sref="pages({id:page.slug})">
+          {{ page.title }}
+        </md-button>
+    </div>
 
-            <md-menu-content>
-              <md-menu-item>
-                <button >
-                  Share...
-                </button>
-              </md-menu-item>
-            </md-menu-content>
+  <span flex></span>
 
+  <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
+    <md-menu md-position-mode="target-right target">
+        <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+            <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-button aria-label="logout" ng-click="user.logout()">
+                    <div layout="row">
+                        <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
+                        <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
+                    </div>
+                </md-button>
+            </md-menu-item>
+            
+            <md-menu-item ui-sref="user({id:authenticatedUser.id})">
+                <md-button aria-label="go to your profile">
+                    <div layout="row">
+                        <p flex translate="{{'YOUR_PROFILE'}}"></p>
+                        <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
+                    </div>
+                </md-button>
+            </md-menu-item>
 
-  </md-menu>
+            <has-permission has-permission="create-motions">
+            <md-menu-item ui-sref="dashboard">
+                <md-button aria-label="go to admin dashboard">
+                    <div layout="row">
+                        <p flex>Admin Dashboard</p>
+                        <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
+                    </div>
+                </md-button>
+            </md-menu-item>
+            </has-permission>
+        </md-menu-content>
+    </md-menu>
+  </div>
 
-  </md-menu-bar>
 </md-toolbar>

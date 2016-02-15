@@ -133,7 +133,7 @@
 	    vm.checkRoles 			= checkRoles;
 
 		vm.test_role_name = function(role){
-			RoleService.check_new_role(role, $stateParams.id);
+			roleService.check_new_role(role, $stateParams.id);
 		}
 
 		vm.uponPressingBack = function(){
@@ -147,7 +147,7 @@
 		}
 
 		function checkRoles(this_users_roles){
-			RoleService.check_roles(vm.roles, this_users_roles);
+			roleService.check_roles(vm.roles, this_users_roles);
 		}
 
 		getUserRoles();
@@ -177,10 +177,6 @@
 
 		/**************************************** API Functions **************************************** */
 	    vm.updateUser = updateUser;
-
-	    // ethnic_origin.getEthnicOrigins().then(function(result){
-	    // 	vm.ethnics = result;
-	    // })
 
 	    function updateUser(type, newdata, user_id) {
 

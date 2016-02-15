@@ -23,6 +23,8 @@ Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
 Route::get('background_image', 'BackgroundImageController@index');
 
+Route::resource('file', 'FileController');
+
 // access across site because users need it to see what's going on, maybe?? 
 Route::resource('setting', 'SettingController');
 
@@ -58,7 +60,9 @@ Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 
 
 			Route::resource('role', 'RoleController');
-					
+
+			Route::resource('page', 'PageController');
+
 			Route::resource('background_image', 'BackgroundImageController');
 
 			Route::get('motion/{id}/restore','MotionController@restore');

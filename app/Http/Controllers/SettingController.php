@@ -51,8 +51,13 @@ class SettingController extends ApiController
                 'minutes_between_rank_calculations' =>  60
             ),
             'site'      =>   array(
-                'name'      =>      'IserveU Site',
+                'name'      =>      'IserveU',
                 'terms'     =>      'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.'
+            ),
+            'module' => array(
+                'motions'   => true,
+                'voting'    => true,
+                'comments'  => true
             ),
             'comment'  =>  array(
                 'cachetime' =>  60
@@ -60,10 +65,15 @@ class SettingController extends ApiController
             'security'  =>  array(
                 'login_attempts_lock'   =>  5
             ),
+            // TODO: write a script to tie this into ngTranslate.
+            'jargon'   => array(
+                'motion'  => 'Motion',
+            ),
             //TODO: make a job to seed these as ISU colors
             'theme' =>      array(
                 'name'              => 'default',
                 'logo'              => 'default',
+                'favicon'           => 'default',
                 'primary'           => array(
                     '50'   => '61d3d8',
                     '100'  => '61d3d8',
@@ -102,7 +112,12 @@ class SettingController extends ApiController
             ),
             'home' =>  array(
                 'introduction'  => '',
-                'widgets'       => []
+                'widgets'       => array(
+                    'your_votes' => true,
+                    'your_comments' => true,
+                    'top_comments'  => true,
+                    'top_motions'   => true
+                )
             ),
             // depcrecated but being used on Javascript frontend, must switch to dot notation
             'themename' => 'default'
@@ -125,7 +140,10 @@ class SettingController extends ApiController
      */
     public function store(StoreSetting $request)
     {
+
         Setting::set($request->input('name'),$request->input('value'));
+
+        return Setting::all();
     }
 
    

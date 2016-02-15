@@ -6,7 +6,7 @@
     <md-content class="md-whiteframe-z5 loginbox" layout-padding layout-wrap layout="row" >
   
       <div flex="100">
-        <form name="loginform" id="loginform" ng-if="!login.registerform" novalidate>
+        <form name="loginform" id="loginform" ng-if="!login.registerform" novalidate layout="column">
           <md-input-container flex>
             <label>Email</label>
             <input type="email" label="email" name="email" ng-model="login.email" required>
@@ -33,13 +33,13 @@
 
 
 
-            <md-button type="submit" name="login"class="btn btn-primary" ng-click="login.login()">
+            <md-button type="submit" name="login" ng-click="login.login()">
               <loading-spinner check-if="{{login.loggingIn}}">
                 <div>Login</div>
               </loading-spinner>
             </md-button>
 
-            <md-button class="btn btn-primary" name="creationextend" ng-click="login.extendregister()">Create</md-button>
+            <md-button name="creationextend" ng-click="login.extendregister()">Create</md-button>
           </div>
 
           <div style="right:12px">
@@ -53,7 +53,7 @@
         </form>
         
         <!-- extends when Create is pressed -->
-        <form name="registerform" ng-if="login.registerform" ng-submit="registerform.$valid && login.createUser()" novalidate>
+        <form name="registerform" ng-if="login.registerform" ng-submit="registerform.$valid && login.createUser()" novalidate layout="column" style='margin-bottom: 100px'>
           <md-input-container flex>
             <label>First Name</label>
             <input type="name" name="firstname" ng-model="login.first_name" required>
@@ -89,12 +89,12 @@
             </div>
           </md-input-container>
           <div layout="row" layout-align="center center" layout-padding>
-          <md-button type="submit" name="create" class="btn btn-primary" terms-and-conditions ng-mousedown="ctrl.showTermsAndConditions($event, true)">
+          <md-button type="submit" name="create" terms-and-conditions ng-mousedown="ctrl.showTermsAndConditions($event, true)">
             <loading-spinner check-if="{{login.creatingUser}}">
               <div>Create</div>
             </loading-spinner>
           </md-button>            
-          <md-button class="btn btn-primary" name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
+          <md-button name="createcancel" ng-click="login.extendregister();">Cancel</md-button>
           </div>
           <div layout-padding>
             <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>

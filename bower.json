@@ -23,11 +23,10 @@
     "svg-morpheus": "latest",
     "textAngular": "*",
     "themes": "git@github.com:/IserveU/themes.git",
-    "angular-minicolors": "~0.0.7",
-    "angular-color-picker": "~1.0.10",
-    "bootstrap-colorpicker": "*",
-    "angular-bootstrap-colorpicker": "~3.0.24",
     "md-color-picker": "*"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "angular": "1.5.0"
+  }
 }
