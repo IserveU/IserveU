@@ -5,15 +5,15 @@
 		.module('iserveu')
 		.directive('appearanceManager', appearance);
 
-	function appearance($timeout, appearanceService, refreshLocalStorage) {
+	function appearance($timeout, appearanceService, refreshLocalStorage, settings) {
 
 		function appearanceController() {
 
-			var settings = JSON.parse(localStorage.getItem('settings'));
+			var settingsData = JSON.parse(localStorage.getItem('settings'));
 
-			this.theme = settings.theme;
-			this.themeSelect = settings.theme.name;
-			this.site = settings.site;
+			this.theme = settingsData.theme;
+			this.themeSelect = settingsData.theme.name;
+			this.site = settingsData.site;
 			this.logo = null;
 			this.favicon = null;
 
@@ -42,7 +42,7 @@
 			this.saveAppearanceSettings = function() {
 				if(this.themeSelect !== this.theme.name){
 					
-					appearanceService.assign('theme.name', this.themename);
+					settings.saveArray('theme.name', this.themename);
 
 					assignSettingValue(this.primary, 'primary');
 
@@ -51,14 +51,17 @@
 					assignSettingValue(this.accent, 'accent');
 				}
 
-				appearanceService.assign('site.name', this.site.name);
-				appearanceService.assign('theme.favicon', this.favicon);	
-				appearanceService.assign('theme.logo', this.logo);	
+				settings.saveArray('site.name', this.site.name);
 
-				$timeout(function() {
-					refreshLocalStorage.init();
-				}, 500);
+				if(this.favicon) settings.saveArray('theme.favicon', this.favicon.filename);	
+				if(this.logo) settings.saveArray('theme.logo', this.logo.filename);	
+
 			};
+
+
+			function check() {
+				console.log('really is it async?');
+			}
 
 		}
 

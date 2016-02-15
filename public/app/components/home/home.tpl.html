@@ -23,7 +23,7 @@
     <md-card flex>
       <md-card-content> 
           <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
-          <h3 class="title-header">Top Motions</h3>
+          <h3 class="title-header">Top {{ 'MOTIONS' | translate }}</h3>
             <md-list layout-padding>
               <md-list-item ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})">
                 <p class="md-body-1">{{home.topMotion.title}}</p>

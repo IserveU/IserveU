@@ -17,7 +17,7 @@
         <div class="main-div-layout" layout="row" layout-fill>
 
             <md-sidenav ng-if="userIsLoggedIn"
-            class="md-sidenav-left md-whiteframe-z2" 
+            class="md-sidenav-left md-whiteframe-z1" 
             md-component-id="left" 
             md-is-locked-open="$mdMedia('lg')" >
                 <motion-sidebar />
@@ -37,7 +37,7 @@
 
             <md-content role="main" tabIndex="-1"  flex layout-fill>
                 <!-- main body of app -->                            
-                <div ui-view flex></div>  
+                <div id="maincontent" ui-view flex></div>  
             </md-content>
         
         </div>

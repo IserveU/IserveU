@@ -25,11 +25,6 @@
 			});
 		}
 
-
-		vm.testingInfinite = function(){
-			console.log('triggered');
-		}
-
 	}
 
 })();

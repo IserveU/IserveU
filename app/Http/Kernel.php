@@ -33,7 +33,9 @@ class Kernel extends HttpKernel {
 		'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
     	'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
     	'role' => 'App\Http\Middleware\AdministratorMiddleware',
-    	'testing' => 'App\Http\Middleware\ReplaceTestVars'
+    	'testing' => 'App\Http\Middleware\ReplaceTestVars',
+    	'setting.autosave' => 'anlutro\LaravelSettings\SaveMiddleware'
+
 	];
 
 }

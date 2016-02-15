@@ -25,9 +25,6 @@ class MotionTest extends TestCase
     {
         $index = $this->call('GET', 'api/motion', ['token' => $this->token]);
 
-
-        dd($index);
-
         $this->assertResponseOk();
     }
 

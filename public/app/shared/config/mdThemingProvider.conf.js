@@ -10,7 +10,7 @@
 
 		var theme = localStorage.getItem('settings');
 
-		if ( !theme || theme.length <= 2){
+		if ( !theme || theme.length <= 2 || theme == 'undefined'){
 
 		    var initInjector = angular.injector(['ng']);
 		    var $http = initInjector.get('$http');
@@ -20,8 +20,7 @@
 				theme = r.data.theme;
 				setTheme();
 			});
-
-		} else {
+		} else if (theme != undefined) {
 			setTheme();
 		} 
 

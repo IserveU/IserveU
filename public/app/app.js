@@ -57,6 +57,11 @@
 			$authProvider.loginUrl = '/authenticate';
   	    
 		})
+		.filter('capitalize', function() {
+		    return function(input) {
+		      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+		    }
+		})
 		.filter('dateToDate', function() {
 		  	return function(input) {
 		    	input = new Date(input);

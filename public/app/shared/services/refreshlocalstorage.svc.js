@@ -10,11 +10,11 @@
 
 		this.init = function(){
 
-			auth.getSettings().then(function(result){
+			localStorage.removeItem('user');
+			localStorage.removeItem('permissions');
+			localStorage.removeItem('settings');
 
-				localStorage.removeItem('user');
-				localStorage.removeItem('permissions');
-				localStorage.removeItem('settings');
+			auth.getSettings().then(function(result){
 
 				localStorage.setItem('user', JSON.stringify(result.data.user));
 				localStorage.setItem('permissions', JSON.stringify(result.data.user.permissions));
@@ -23,6 +23,23 @@
 			});
 		};
 
+		this.item = function(name) {
+
+			localStorage.removeItem(name);
+
+			auth.getSettings().then(function(result){
+
+				localStorage.setItem(name, JSON.stringify(result.data.settings));
+			
+			});
+		};
+
+		this.setItem = function(name, jsonArray) {
+			
+			localStorage.removeItem(name);
+
+			localStorage.setItem(name, JSON.stringify( jsonArray ));
+		};
 	
 	}
 	

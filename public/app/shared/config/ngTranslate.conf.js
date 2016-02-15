@@ -8,6 +8,23 @@
 
 	function($translateProvider){
 
+		var jargon = localStorage.getItem('settings');
+
+		if ( !jargon || jargon.length <= 2){
+
+		    var initInjector = angular.injector(['ng']);
+		    var $http = initInjector.get('$http');
+
+			$http.get('settings').then(function(r){
+				localStorage.setItem('settings', JSON.stringify(r.data));
+				jargon = r.data.jargon;
+			});
+
+		} else {
+			jargon = JSON.parse(jargon).jargon;
+		} 
+
+
 		$translateProvider.preferredLanguage('en');
 
 		// $translateProvider.determinePreferredLanguage(function(){
@@ -18,7 +35,8 @@
 
 		$translateProvider.translations('en', {
 			LANG_NAME: "Languages",
-			MOTIONS: "Motions",
+			MOTION: jargon.en.motion ? jargon.en.motion : "Motion",
+			MOTIONS: jargon.en.motions ? jargon.en.motions : "Motions", //depecrated
 			BETA_HEADER: "IserveU is currently in BETA. ",
 			BETA_MESSAGE: "Features and improvements are constantly being added. If you would like give feedback and help us test the software, please email ",
 			BETA_MESSAGE_MINI: "If you encounter any issues, please email ",
@@ -124,7 +142,7 @@
 			NEUTRAL: "Neutral",
 			QUICK_VOTE: "Quick Vote",
 			NO_MOTIONS: "No Motions",
-			CREATE_NEW_MOTION: "Create new motion",
+			CREATE_NEW_MOTION: jargon.en.motion ? "Create new " + jargon.en.motion : "Create new motion",
 			//department state
 			EXISTING_DEPARTMENT: "Existing departments",
 			//Password Reset
@@ -152,7 +170,8 @@
 
 		$translateProvider.translations('fr', {
 			LANG_NAME: "Langue",
-			MOTIONS: "Motions",
+			MOTION: jargon.fr.motion ? jargon.fr.motion : "Motion",
+			MOTIONS: jargon.fr.motions ? jargon.fr.motions : "Motions",
 			BETA_HEADER: "IserveU est présentement en BETA. ",
 			BETA_MESSAGE: "Les caractéristiques et les améliorations sont constamment ajoutées. Si vous désirez nous aider en testant notre programme, envoyez-nous un courriel à ",
 			BETA_MESSAGE_MINI: "Pour tous problèmes, communiquez avec nous par courriel ",
@@ -255,7 +274,7 @@
 			NEUTRAL: "Neutre",
 			QUICK_VOTE: "Vote rapide",
 			NO_MOTIONS: "Aucune motion",
-			CREATE_NEW_MOTION: "Créer une nouvelle motion",
+			CREATE_NEW_MOTION: jargon.fr.motion ? "Créer une nouvelle" + jargon.fr.motion : "Créer une nouvelle motion",
 			//department state
 			EXISTING_DEPARTMENT: "Département existant",
 			//Password Reset

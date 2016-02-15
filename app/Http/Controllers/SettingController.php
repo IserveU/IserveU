@@ -22,7 +22,7 @@ class SettingController extends ApiController
      */
     public function __construct()
     {
-        // $this->middleware('setting.autosave'); 
+        $this->middleware('setting.autosave'); 
     }
 
 
@@ -67,7 +67,12 @@ class SettingController extends ApiController
             ),
             // TODO: write a script to tie this into ngTranslate.
             'jargon'   => array(
-                'motion'  => 'Motion',
+                'en' => array(
+                    'motion'  => 'Motion',
+                    'motions' => 'Motions'
+                ),
+                'fr' => array(
+                )
             ),
             //TODO: make a job to seed these as ISU colors
             'theme' =>      array(
@@ -138,10 +143,9 @@ class SettingController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSetting $request)
+    public function store(Request $request)
     {
-
-        Setting::set($request->input('name'),$request->input('value'));
+        Setting::set( $request->input('name'),$request->input('value') );
 
         return Setting::all();
     }

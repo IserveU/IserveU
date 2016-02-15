@@ -2,15 +2,19 @@
   <md-card-content>
   <md-tabs md-dynamic-height md-border-bottom>
 
-    <md-tab label="Appearance">
-      <appearance-manager />
-    </md-tab>
-
 
     <md-tab label="Site Content">
       <content-manager />
     </md-tab>
     
+
+
+    <md-tab label="Appearance">
+      <appearance-manager />
+    </md-tab>
+
+
+
 
 <!--     <md-tab label="Images">
       <image-manager />
@@ -22,7 +26,11 @@
     </md-tab>
 
 
-    <md-tab label="Motion Drafts">
+    <md-tab>
+
+      <md-tab-label>
+        {{ 'MOTION' | translate }} Drafts
+      </md-tab-label>
 
       <motion-drafts />
 

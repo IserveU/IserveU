@@ -8,11 +8,6 @@
 
 	function appearanceService(settings) {
 
-		/*	 
-		*	Accessible to be used as a singleton.
-		*/
-		this.assign = assign;
-
 		/**
 		*	Because mdThemingProvider accepts a large pallette of colors,
 		*	but realistically we only want 3 colors for our pallette 
@@ -39,7 +34,7 @@
 					setHue(100, 700, val.substr(1), type, true);
 					break;
 				default: 
-					assign( name + 'contrastDefaultColor', array[key] );
+					settings.saveArray( name + 'contrastDefaultColor', array[key] );
 					break;
 			};
 
@@ -60,31 +55,9 @@
 					name = name + 'A';
 				}
 
-				console.log('name: ' + name + hue + '; value: ' + val );
-
-				assign( (name+hue), val );
+				settings.saveArray( (name+hue), val );
 			}
 		}
-
-		/*	
-		*	Arranges data into an array to be saved to the api.
-		*
-		*/
-		function assign(name, value) {
-
-			if (!value)
-				return 0;
-
-			if (value.filename)
-				value = value.filename;
-
-			settings.save({
-				name: name, 
-				value: value
-			});
-		}
-
-
 
 	}
 

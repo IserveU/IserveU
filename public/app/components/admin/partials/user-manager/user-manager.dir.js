@@ -16,7 +16,6 @@
 			vm.users = {};
 
 			user.getIndex().then(function(r) {
-				console.log(r.data);
 				vm.users = r.data;
 			}, function(e) {
 				console.log(e);

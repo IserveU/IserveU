@@ -1,7 +1,5 @@
 <md-content>
 
-	
-
 	<md-card style="margin: 0">
 		<md-card-content>
 		
@@ -60,9 +58,13 @@
 		</div>
 
 		<div ng-if="showSiteModules" layout="column" style="margin-top: 15px">
-		    <md-checkbox ng-model="content.settings.module.motions">{{ content.settings.jargon.motion }}</md-checkbox>
+		    <md-checkbox ng-model="content.settings.module.motions">{{ 'MOTIONS' | translate }}</md-checkbox>
 		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
 		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
+	   
+			<div>
+				<md-button ng-click="content.save('module');">Save</md-button>
+			</div>
 	    </div>
 
 	    </md-card-content>
@@ -97,12 +99,20 @@
 				<a ng-click="content.createNewPage()" style="cursor:pointer">Create new widget</a>
 					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
 			</div>
+
+			<h2 class="title-subhead">Display</h2>
+
 			<div layout="column" style="margin-top: 15px">
 			    <md-checkbox ng-model="content.settings.home.widgets.your_votes">Your votes</md-checkbox>
 			    <md-checkbox ng-model="content.settings.home.widgets.your_comments">Your comments</md-checkbox>
 			    <md-checkbox ng-model="content.settings.home.widgets.top_comments">Top comments</md-checkbox>
-			    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top motions</md-checkbox>
+			    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
 		    </div>
+	    
+			<div>
+				<md-button ng-click="content.save('home');">Save</md-button>
+			</div>
+
 	    </div>
 		</md-card-content>
 	</md-card>
@@ -118,13 +128,42 @@
 		</div>
 
 		<div layout="column" ng-if="showSiteJargon">
-			<md-input-container>
-				<input type='text' ng-model='content.settings.jargon.motion'/>
-			</md-input-container>
+
+			<h2 class="title-subhead">English</h2>
+
+				<md-input-container>
+					<label>Singular</label>
+					<input type='text' ng-model='content.settings.jargon.en.motion'/>
+				</md-input-container>
+
+
+				<md-input-container>
+					<label>Plural</label>
+					<input type='text' ng-model='content.settings.jargon.en.motions'/>
+				</md-input-container>
+
+			<h2 class="title-subhead">French</h2>
+
+				<md-input-container>
+					<label>Singulier</label>
+					<input type='text' ng-model='content.settings.jargon.fr.motion'/>
+				</md-input-container>
+
+
+				<md-input-container>
+					<label>Pluriel</label>
+					<input type='text' ng-model='content.settings.jargon.fr.motions'/>
+				</md-input-container>
+
+
+			<div>
+				<md-button ng-click="content.save('jargon'); showSiteJargon = !showSiteJargon">Save</md-button>
+			</div>
+
 		</div>
+
 		</md-card-content>
 	</md-card>
-
 
 
 
@@ -138,11 +177,14 @@
 			<md-input-container>
 				<textarea ng-model="content.settings.site.terms"></textarea>
 			</md-input-container>
+		
+			<div>
+				<md-button ng-click="content.save('terms');">Save</md-button>
+			</div>
+
 		</div>
 		</md-card-content>
 	</md-card>
 	
-	<div>
-		<md-button class="md-raised">Save changes</md-button>
-	</div>
+
 </md-content>

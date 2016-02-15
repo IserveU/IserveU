@@ -7,7 +7,7 @@
 
     <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}"></h2>
 
-  <input class="sidebar-search-input" type='text' flex ng-show="search.showSearch" placeholder='Search motions ...' ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch"/>
+  <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" flex/>
 
       <md-icon style="left:10px; margin: 0; margin-left: 200px; position: relative" class="mdi mdi-magnify search-icon" ng-click="search.showSearchFunc()" ng-style="!search.showSearch && {'margin-left': '200px'} || {'margin-left': '0px'}" ng-class="{'search-icon':search.showSearch}"></md-icon>
 

@@ -40,7 +40,7 @@
     <has-permission has-permission="create-motions">
       <md-list-item class="sidebar-list" ui-sref-active="active"> 
         <md-icon class="mdi mdi-plus" aria-label="create motion" ui-sref="create-motion"></md-icon>
-        <p ui-sref="create-motion" translate="{{'CREATE_NEW_MOTION'}}"></p>
+        <p ui-sref="create-motion"> {{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
       </md-list-item>
     </has-permission>
   
