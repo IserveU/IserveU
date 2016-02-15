@@ -30,17 +30,25 @@
 		*/
 		function loadMoreMotions() {
 
+			console.log('foo');
+
 			vm.motionListLoading = vm.paginating = true;
 
 			motionObj.getMotions().then(function(r){
+				console.log(motionObj.data);
+
 				vm.motionListLoading = vm.paginating = false;
 			});
 		};
+	
+		loadMoreMotions();
+
+
 	};
 
     return {
     	controller: MotionSidebarController,
-    	controllerAs: 'c',
+    	controllerAs: 'sidebar',
       	templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar.tpl.html'
     }
     

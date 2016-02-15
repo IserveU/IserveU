@@ -30,19 +30,19 @@
 					    
 						   <md-grid-tile class="md-whiteframe-z1">
 								<!-- TODO: upload the SVG file -->
-							    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:3.2vw;" hide-sm>
+							    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" ng-if="!motion.motionDetail.MotionOpenForVoting" hide-sm>
 							    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
 							    </md-icon>
 
-							    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-remove" style="font-size:86px;" hide-md hide-gt-md>
+							    <md-icon ng-if="!motion.motionDetail.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" hide-md hide-gt-md>
 							    	<md-tooltip>{{'CLOSED' | translate}}</md-tooltip>
 							    </md-icon>
 
-							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check" style="font-size:3.2vw;" hide-sm>
+							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-sm>
 							    	<md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip>
 							    </md-icon>
 
-							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" class="mdi mdi-calendar-check"  style="font-size:86px;" hide-md hide-gt-md >
+							    <md-icon ng-if="motion.motionDetail.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-md hide-gt-md >
 							    	<md-tooltip>{{ 'CLOSES_ON' | translate }} {{ motion.motionDetail.closing.alpha_date }}</md-tooltip>
 							    </md-icon>
 						    </md-grid-tile>

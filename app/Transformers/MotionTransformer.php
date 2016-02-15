@@ -12,8 +12,8 @@ class MotionTransformer extends Transformer {
 		$transformedMotion = [
 
 			'slug'		 => str_slug($motion['title']),
-	 		'closing'	 => formatIntoReadableDate( $motion['closing'] ),
-	 		'updated_at' => formatIntoReadableDate( $motion['updated_at'] )
+	 		'closing'	 => is_array($motion['closing']) ?: formatIntoReadableDate( $motion['closing'] ),
+	 		'updated_at' => is_array($motion['updated_at']) ?: formatIntoReadableDate( $motion['updated_at'] )
 
 		];
 

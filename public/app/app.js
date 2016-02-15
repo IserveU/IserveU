@@ -19,7 +19,6 @@
 		])
 		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 
-			$authProvider.loginUrl = '/authenticate';
 			// speeds up the app, the debug info are for {{}}
 			$compileProvider.debugInfoEnabled(false);
 
@@ -54,6 +53,8 @@
 			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
 
 		    $urlRouterProvider.otherwise('/home');
+
+			$authProvider.loginUrl = '/authenticate';
   	    
 		})
 		.filter('dateToDate', function() {

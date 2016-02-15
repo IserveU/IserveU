@@ -21,6 +21,8 @@
                     }
               	}).then(function successCallback(r){
 
+              		console.log(r);
+
 					motionObj.data = motionObj.data.length > 0 ? motionObj.data.concat(r.data.data) : r.data.data;
 					motionObj.next_page = r.data.next_page_url ? r.data.next_page_url.slice(-1) : null;
 

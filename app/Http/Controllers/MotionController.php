@@ -133,7 +133,8 @@ class MotionController extends ApiController {
 			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
 		}
 
-		if(!Auth::user()->can('create-motions') && ($motion->status === 'draft' || $motion->status === 'review') ){
+
+		if(!Auth::user()->can('create-motions') && $motion->status < 2 ){
 			abort(403, 'Forbidden access point.');
 		}
 

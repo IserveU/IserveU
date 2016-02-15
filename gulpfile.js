@@ -13,7 +13,7 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.scripts([
-    	'/bower/angular/angular.js',
+    	'/bower/angular/angular.min.js',
     	'/bower/jquery/dist/jquery.min.js',
         '/bower/angular-animate/angular-animate.min.js',
         '/bower/angular-aria/angular-aria.min.js',

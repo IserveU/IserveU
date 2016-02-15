@@ -123,7 +123,7 @@
 
       return {
 	      	controller: controllerMethod,
-	        controllerAs: 'c',
+	        controllerAs: 'search',
 	        templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar-search.tpl.html'
       }
       
