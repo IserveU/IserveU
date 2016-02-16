@@ -1,0 +1,22 @@
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=xQ49dEof9c8zuzGVOuOKTfT9axS9QEAP
+
+DB_HOST=localhost
+DB_DATABASE=localhost
+DB_USERNAME=iserveu_user
+DB_PASSWORD=qwasE311!!
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=25
+MAIL_USERNAME=username
+MAIL_PASSWORD=password
+MAIL_FROM_ADDRESS=no.reply@address.ca
+MAIL_FROM_NAME=My IserveU Install
+
+TIMEZONE=America/Yellowknife
+URL=http://localhost
