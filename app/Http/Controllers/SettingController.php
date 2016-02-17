@@ -9,8 +9,6 @@ use App\Http\Controllers\Controller;
 use Setting;
 use App\Http\Requests\StoreSetting;
 use App\BackgroundImage;
-use Auth;
-use DB;
 
 class SettingController extends ApiController
 {
@@ -115,7 +113,7 @@ class SettingController extends ApiController
                     'A700' => 'a64d00',
                     'contrastDefaultColor' => 'light'
                 ),
-                'background_image'  => (new BackgroundImage)->today(),
+                'background_image'  => (new BackgroundImage)->today()
             ),
             'home' =>  array(
                 'introduction'  => array(

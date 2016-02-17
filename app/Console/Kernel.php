@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\EmailDailySummary',
 		'App\Console\Commands\RankGeneration',
 		'App\Console\Commands\ShuffleDefaultDelegations',
-		'App\Console\Commands\CreateInitialAdmin'
+		'App\Console\Commands\CreateInitialAdmin',
+		'App\Console\Commands\SetDefaultSettings'
 	];
 
 	/**
@@ -34,6 +35,9 @@ class Kernel extends ConsoleKernel {
 				 ->daily();
 
 		$schedule->command('motions:rankgeneration')
+				 ->hourly();
+
+		$schedule->command('settings:default')
 				 ->hourly();
 				 
 		//            if(!$motion->lastestRank || $motion->lastestRank->created_at['carbon']->diffInMinutes($now) >= Setting::get('motion.minutes_between_rank_calculations',60)){
