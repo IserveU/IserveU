@@ -80,8 +80,8 @@ class SetDefaultSettings extends Command
                 'fr' => array(
                     'motion'  => 'Motion',
                     'motions' => 'Motions',
-                    'department' => 'Department',
-                    'departments' => 'Departments'
+                    'department' => 'Département',
+                    'departments' => 'Départements'
                 )
             ), $overwrite);
 
