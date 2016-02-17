@@ -35,7 +35,6 @@ Follow doc instructions and once you have your VM setup ssh into your machine (v
 
 <pre><code>
 $ composer install
-$ npm install --global gulp
 $ npm install
 $ bower install
 </code></pre>
