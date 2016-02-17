@@ -15,14 +15,14 @@ class CreateInitialAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'user:initialadmin {email} {password}';
+    protected $signature = 'app:admin {email} {password}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create the initial admin. @params {email} {password}';
+    protected $description = 'Create the admin account. @params {email} {password}';
 
     /**
      * Create a new command instance.
