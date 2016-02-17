@@ -47,9 +47,16 @@
                 requireLogin: true
             }  
         })
-    	.state( 'create-motion', {
-    	    url: '^/motion/create',
-    	    templateUrl: '<create-motion />',
+        .state('edit-motion', {
+            url: '/edit-motion/:id',
+            template: '<edit-motion />',
+            data: {
+                requireLogin: true
+            }
+        })
+    	.state( 'createmotion', {
+    	    url: '/create-motion',
+    	    template: '<create-motion />',
     	    data: {
     	        requireLogin: true
     	    }

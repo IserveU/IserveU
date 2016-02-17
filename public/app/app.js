@@ -105,7 +105,7 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
-		.run(function($rootScope, $auth, $state, $window, auth, pageObj) {
+		.run(function($rootScope, $auth, $state, $window, $http, auth, pageObj) {
 
 			// runs everytime a state changes
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
@@ -144,6 +144,8 @@
 					return localStorage.clear();
 				}
 			}
+
+			$http.defaults.headers.common['X-CSRFToken'] = localStorage.getItem('satellizer_token');
 
 		})
 

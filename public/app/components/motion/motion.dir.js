@@ -62,7 +62,6 @@
 	            });
 	        }
 
-
 	        getMotion($stateParams.id);
 
 	        $rootScope.$on('initMotionOverallPosition', function(events, data){

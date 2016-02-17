@@ -15,26 +15,26 @@
 		* 	for the user. This function parses and pushes these values
 		* 	to settings API.
 		*/
-		this.assignHueColors = function(array, key, type) {
+		this.assignHueColors = function(array, key, pallette) {
 
-			var name = 'theme.'+type+'.', val = array[key];
+			var val = array[key];
 
 			switch (key) {
 				case 'hue_one': 
-					assign( name + 50, val.substr(1) );
-					setHue(100, 300, val.substr(1), type);
+					pallette[ '50' ] = val.substr(1);
+					setHue(100, 300, val.substr(1), pallette);
 					break;
 				case 'hue_two':
-					setHue(400, 600, val.substr(1), type);
+					setHue(400, 600, val.substr(1), pallette);
 					break;
 				case 'hue_three':
-					setHue(700, 900, val.substr(1), type);
+					setHue(700, 900, val.substr(1), pallette);
 					break;
 				case 'warning':
-					setHue(100, 700, val.substr(1), type, true);
+					setHue(100, 700, val.substr(1), pallette, true);
 					break;
-				default: 
-					settings.saveArray( name + 'contrastDefaultColor', array[key] );
+				default:
+					pallette['contrastDefaultColor'] = val;
 					break;
 			};
 
@@ -44,18 +44,15 @@
 		*	Sets the hues to fill the pallette given by mdThemingProvider.
 		*
 		*/
-		function setHue(min, max, val, type, prefix)
+		function setHue(min, max, val, pallette, prefix)
 		{
 			for(var hue = min; hue <= max; hue = hue + 100) {
 				
-				var name = 'theme.'+type+'.';
-
 				if(prefix) {
 					hue = hue == 200 ? 400 : ( hue == 400 ? 700 : hue);
-					name = name + 'A';
-				}
-
-				settings.saveArray( (name+hue), val );
+					pallette['A' + hue ] = val;
+				} 
+				else pallette[ hue ] = val;
 			}
 		}
 

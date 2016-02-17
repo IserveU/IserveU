@@ -67,24 +67,17 @@
 			// export this into a service singleton
 			this.save = function(type) {
 				if(type === 'jargon') {
-					var enName = 'jargon.en.', frName = 'jargon.fr.';
-
-					for ( var i in this.settings.jargon.en )
-						settings.saveArray( enName+i, this.settings.jargon.en[i] );
-
-					for ( var j in this.settings.jargon.fr )
-						settings.saveArray( frName+j, this.settings.jargon.fr[j] );
-
+					settings.saveArray( 'jargon.en', this.settings.jargon.en );
+					settings.saveArray( 'jargon.fr', this.settings.jargon.fr );
 				} 
-				else if (type === 'home') {
-					for ( var i in this.settings.home.widgets )
-						settings.saveArray( type+'.widgets.'+i, this.settings.home.widgets[i] );
-					settings.saveArray(type+'.introduction', this.settings.home.introduction);
-				}
+				else if (type === 'home')
+					settings.saveArray( type+'.widgets', this.settings.home.widgets );
 				else if (type === 'module') 
-					for ( var i in this.settings.module )
-						settings.saveArray( type+'.'+i, this.settings.module[i] );
-				else if (type === 'terms') settings.saveArray( 'site.terms', this.settings.site.terms ); 		
+					settings.saveArray( type, this.settings.module );
+				else if (type === 'terms') 
+					settings.saveArray( 'site.terms', this.settings.site.terms );
+				else if (type === 'introduction')
+					settings.saveArray( 'home.introduction', this.settings.home.introduction );	
 			}
 
 		};

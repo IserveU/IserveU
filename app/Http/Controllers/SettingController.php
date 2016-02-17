@@ -118,7 +118,11 @@ class SettingController extends ApiController
                 'background_image'  => (new BackgroundImage)->today(),
             ),
             'home' =>  array(
-                'introduction'  => '',
+                'introduction'  => array(
+                    'icon' => '/themes/default/logo/symbol_onlight.svg',
+                    'title' => 'Welcome to Iserveu',
+                    'text' => "This is brand new eDemocracy platform software. It's super easy to get started."
+                ),
                 'widgets'       => array(
                     'your_votes' => true,
                     'your_comments' => true,
@@ -147,7 +151,7 @@ class SettingController extends ApiController
      */
     public function store(Request $request)
     {
-        Setting::set( $request->input('name'),$request->input('value') );
+        Setting::set( $request->input('name'), $request->input('value') );
 
         return Setting::all();
     }

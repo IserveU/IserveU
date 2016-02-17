@@ -5,11 +5,10 @@
   <div layout="row" flex="100" layout-sm="column" layout-wrap>
     <md-card flex>
       <md-card-content>
-            <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_onlight.svg" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
-        <h3 class="title-header">Welcome to IserveU</h3>
+            <md-icon md-svg-src="{{ home.settings.home.introduction.icon }}" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
+        <h3 class="title-header"> {{ home.settings.home.introduction.title }} </h3>
         <div layout-padding>
-          <p class="md-body-1">{ Introduction Message, subtle link to change their profile. Also do not show once their credentials have been verified. }</p>
-          <md-button layout-align="center" class="md-raised">Got it!</md-button>
+          <p class="md-body-1" ng-bind-html="home.settings.home.introduction.text"></p>
         </div>
       </md-card-content>
     </md-card>

@@ -10,32 +10,22 @@
 	function motionDrafts(motionObj, UserbarService){
 
 
-		function motionDraftController() {
+		console.log('motiondrafts');
 
-            UserbarService.setTitle('Drafts');
+
+		function motionDraftController() {
 
 			this.motionObj = motionObj;
 
-			this.item = 'adsf';
-
 			this.getDrafts = function(motion) {
 				console.log(motion);
-
 			}
-
 		};
-
-
-		function motionDraftLink() {
-            UserbarService.title = 'Motion Drafts';
-
-		};
-
 
 		return {
 
 			controller: motionDraftController,
-			controllerAs: 'c',
+			controllerAs: 'draft',
 			templateUrl: 'app/components/motion/components/motion-drafts/motion-drafts.tpl.html'
 
 		}

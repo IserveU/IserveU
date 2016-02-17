@@ -1,0 +1,96 @@
+<section layout-margin layout="column">
+<md-card flex>
+	<md-card-content>
+
+		<form class="createMotion" name="newMotion" layout="column" novalidate ng-submit="newMotion.$valid && create.newMotion()">
+
+			<div layout="column" flex>
+				<div flex>
+				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
+					<h3 class="title-header">Introduction</h3>
+
+					<div layout="column" flex>
+						<md-input-container flex style="margin-top: 0">
+							<input type='text' ng-model='create.motion.title'/>
+						</md-input-container>
+					</div>
+				</div>
+
+
+				<div>
+				<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+					<h3  class="title-header">Details</h3>
+					<text-angular class="text-angular md-body-1" ng-model="create.motion.text" name="text"></text-angular>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
+						<h3 class="title-header">Figures</h3>
+
+					<div flow-init="{target: '/file'}"
+					     flow-files-submitted="$flow.upload()"
+					     flow-file-success="$file.msg = $message">
+
+
+					  <md-button flow-btn>
+					  	<md-icon class="mdi mdi-upload"></md-icon>
+						 Upload Files
+					  </md-button>
+
+					  <table>
+					    <tr ng-repeat="file in $flow.files">
+					        <td>{{$index+1}} </td>
+					        <td>{{file.name}}</td>
+					        <td>{{file.msg}}</td>
+					    </tr>
+					  </table>
+					</div>
+
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-view-list title-icon"></md-icon>
+						<h3 class="title-header">Options</h3>
+				</div>
+
+				<div>
+					<md-select ng-model="create.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department">
+						<md-option ng-repeat="d in create.departments" ng-value="d.id">{{d.name}}</md-option>
+						<md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option>
+					</md-select>
+
+
+					<md-select ng-model="create.motion.status" placeholder="{{ 'MOTION' | translate}} Status">
+						<md-option value="0">Draft</md-option>
+						<md-option value="1">In review</md-option>
+						<md-option value="2">Publish</md-option>
+					</md-select>
+
+					<div ng-show="create.motion.status == 2">
+						<md-datepicker ng-model="create.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>
+					</div>
+				</div>
+
+				
+				<div layout layout-align="center end">
+					<md-button ng-click="create.newMotion()">
+						<div ng-hide="create.creating" translate="{{'SAVE'}}"></div>
+						<md-icon ng-show="create.creating" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
+					</md-button>
+					<md-button ng-click="motion.cancelCreateMotion()" translate="{{'CANCEL'}}"></md-button>
+				</div>
+
+			</div>
+
+
+
+
+
+		</form>
+
+
+
+
+	</md-card-content>
+</md-card>
+</section>

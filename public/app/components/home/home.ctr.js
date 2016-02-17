@@ -13,7 +13,7 @@
 		var vm = this;
 
         /************************************** Variables **********************************/
-        vm.settings = settings.data;
+        vm.settings = settings.getData();
         vm.shortNumber = 120;
 		vm.topMotion;
 		vm.myComments = [];
@@ -55,7 +55,7 @@
 
         function getMyVotes(){
 
-            console.log(user.self);
+            console.log(vm.settings);
 
             vote.getMyVotes(user.self.id, {limit:5}).then(function(result){
                 vm.myVotes = result.data;

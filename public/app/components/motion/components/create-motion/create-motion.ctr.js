@@ -8,14 +8,14 @@
         .module('iserveu')
         .controller('CreateMotionController', CreateMotionController);
 
-    function CreateMotionController($rootScope, $scope, $stateParams, $filter, $timeout, motion, motionfile, $state, UserbarService, department, ToastMessage) {
+    function CreateMotionController($rootScope, $stateParams, $filter, $timeout, motion, motionfile, $state, UserbarService, department, ToastMessage) {
 
 		UserbarService.setTitle("");
 
     	var vm = this;
 
         /************************************* Ng Model Variables ****************************/
-        $scope.style    = {border: '2px dashed #cccccc'};  // style for file drop box
+        // $scope.style    = {border: '2px dashed #cccccc'};  // style for file drop box
 
         vm.department;
         vm.closingdate  = new Date();

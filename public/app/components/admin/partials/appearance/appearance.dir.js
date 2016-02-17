@@ -11,7 +11,9 @@
 
 			var settingsData = JSON.parse(localStorage.getItem('settings'));
 
-			this.theme = settingsData.theme;
+			var vm = this;
+
+			vm.theme = settingsData.theme;
 			this.themeSelect = settingsData.theme.name;
 			this.site = settingsData.site;
 			this.logo = null;
@@ -33,8 +35,11 @@
 			};
 		
 			function assignSettingValue(array, type) {
+
 				for(var i in array)
-					appearanceService.assignHueColors(array, i, type);
+					appearanceService.assignHueColors(array, i, vm.theme[type]);
+
+				settings.saveArray('theme.'+type, vm.theme[type] );
 
 				return true;
 			};
@@ -57,11 +62,6 @@
 				if(this.logo) settings.saveArray('theme.logo', this.logo.filename);	
 
 			};
-
-
-			function check() {
-				console.log('really is it async?');
-			}
 
 		}
 

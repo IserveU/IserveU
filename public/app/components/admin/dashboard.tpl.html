@@ -3,17 +3,27 @@
   <md-tabs md-dynamic-height md-border-bottom>
 
 
+
+
+    <md-tab label=" {{ 'MOTION' | translate }} Drafts" >
+    
+      <motion-drafts />
+
+    </md-tab>
+
+
     <md-tab label="Site Content">
+
       <content-manager />
     </md-tab>
     
-
 
     <md-tab label="Appearance">
       <appearance-manager />
     </md-tab>
 
 
+ 
 
 
 <!--     <md-tab label="Images">
@@ -25,16 +35,6 @@
       <user-manager />
     </md-tab>
 
-
-    <md-tab>
-
-      <md-tab-label>
-        {{ 'MOTION' | translate }} Drafts
-      </md-tab-label>
-
-      <motion-drafts />
-
-    </md-tab>
 
 
   </md-tabs>

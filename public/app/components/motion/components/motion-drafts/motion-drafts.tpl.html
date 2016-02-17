@@ -1,13 +1,18 @@
-<div ng-repeat="motion in c.motionObj.data">
-	<md-card ng-if="motion.status < 2">
-		<md-card-content>
+<div ng-repeat="motion in draft.motionObj.data">
+	<md-card ng-if="motion.status < 2" style="margin: 0">
+		<md-card-content style="">
 
-          <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
-          <h3 class="title-header">{{ motion.title }}</h3>
 
+
+		<div layout="row">
+		<div >
+          <md-icon class="mdi mdi-pencil title-icon"></md-icon>
+          <h3 class="title-header md-ink-ripple" ui-sref="edit-motion({id:motion.id})" style="cursor:pointer">{{ motion.title }}</h3>
+         </div>
           <span flex></span>
-
+		
 			{{ motion.updated_at.alpha_date }}
+		</div>
 		</md-card-content>
 	</md-card>
 </div>

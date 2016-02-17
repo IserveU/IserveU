@@ -88,29 +88,41 @@
 			    	<a style="cursor:pointer">Introduction</a>
 				    	<md-icon ng-click="editHomeIntro = !editHomeIntro" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
 				    	<md-icon ng-click="editHomeIntro = !editHomeIntro"  class="mdi mdi-delete inline-icon"></md-icon>
-				    	<md-input-container ng-if="editHomeIntro">
-				    		<label>Introduction</label>	
-				    		<input type='text' ng-model='content.settings.home.introduction'/>
-			    		</md-input-container>
 			    </li>
 		    </ul>
 
-		    <div style="margin-bottom: 8px">
-				<a ng-click="content.createNewPage()" style="cursor:pointer">Create new widget</a>
-					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
-			</div>
+		    <form layout="column" ng-if="editHomeIntro" flex>
 
-			<h2 class="title-subhead">Display</h2>
+		    	<md-input-container>
+		    		<label>Display Icon</label>	
+		    		<md-icon md-svg-src="{{ content.settings.home.introduction.icon }}"></md-icon>
+		    		<input type='file' ng-model='content.settings.home.introduction.icon'/>
+	    		</md-input-container>
+				<md-input-container>
+		    		<label>Title</label>	
+		    		<input type='text' ng-model='content.settings.home.introduction.title'/>
+	    		</md-input-container>
+	    		<text-angular ng-model='content.settings.home.introduction.text'></text-angular>
 
-			<div layout="column" style="margin-top: 15px">
-			    <md-checkbox ng-model="content.settings.home.widgets.your_votes">Your votes</md-checkbox>
-			    <md-checkbox ng-model="content.settings.home.widgets.your_comments">Your comments</md-checkbox>
-			    <md-checkbox ng-model="content.settings.home.widgets.top_comments">Top comments</md-checkbox>
-			    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
-		    </div>
-	    
-			<div>
-				<md-button ng-click="content.save('home');">Save</md-button>
+				<div>
+					<md-button ng-click="content.save('introduction');">Save</md-button>
+				</div>
+		    </form>
+
+
+		    <div ng-if="!editHomeIntro"> 
+				<h2 class="title-subhead">Display</h2>
+
+				<div layout="column" style="margin-top: 15px">
+				    <md-checkbox ng-model="content.settings.home.widgets.your_votes">Your votes</md-checkbox>
+				    <md-checkbox ng-model="content.settings.home.widgets.your_comments">Your comments</md-checkbox>
+				    <md-checkbox ng-model="content.settings.home.widgets.top_comments">Top comments</md-checkbox>
+				    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
+			    </div>
+		    
+				<div>
+					<md-button ng-click="content.save('home');">Save</md-button>
+				</div>
 			</div>
 
 	    </div>

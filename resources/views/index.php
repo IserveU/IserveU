@@ -37,7 +37,7 @@
 
             <md-content role="main" tabIndex="-1"  flex layout-fill>
                 <!-- main body of app -->                            
-                <div id="maincontent" ui-view flex></div>  
+                <div id="maincontent" ui-view flex ng-cloak></div>  
             </md-content>
         
         </div>
