@@ -4,35 +4,26 @@
 
 	angular
 		.module('iserveu')
-		.directive('pagesFab', pagesFab);
+		.directive('homeFab', homeFab);
 
-	function pagesFab($window, $stateParams, pageObj, ToastMessage) {
+	function homeFab($window, $stateParams, pageObj, ToastMessage) {
 
-		function pagesFabController() {
-
-			this.pageObj = pageObj;
+		function homeFabController() {
 
 			this.isOpen = false;
 
-			this.destroy = function () {
+			this.edit = function () {
 
-				ToastMessage.destroyThis("page", function() {
-					pageObj.delete($stateParams.id);
-				});
 			};
 		}
 
-		function pagesFabLink(scope, el, attrs) {
+		function homeFabLink(scope, el, attrs) {
 
 			var container = document.getElementById('maincontent');
 
 			angular
 				.element(container)
 				.bind('scroll', function() {
-
-					console.log(content.clientHeight);
-					console.log(content.scrollTop);
-
 
 					if( !isElementInViewport(document.getElementById('userbar')) 
 						&& container.clientHeight == (container.scrollTop + 130)) {
@@ -82,10 +73,10 @@
 
 
 		return {
-			controller: pagesFabController,
+			controller: homeFabController,
 			controllerAs: 'fab',
-			link: pagesFabLink,
-			templateUrl: 'app/components/pages/pages-fab/pages-fab.tpl.html'
+			link: homeFabLink,
+			templateUrl: 'app/components/home/home-fab/home-fab.tpl.html'
 		}
 
 	}

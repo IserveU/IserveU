@@ -10,37 +10,29 @@
     </head>
 
 
-    <body ng-controller="CommonController as commons" ng-cloak> 
+    <body ng-controller="CommonController as commons" ng-cloak  back-img class="background-image" > 
+
+            
 
         <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn" style="z-index: 20"></user-bar>
-            
-        <div layout="row" layout-fill flex back-img class="background-image">
 
 
-                <!-- sidebar --> 
-                <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
-                class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open"
-                md-component-id="left" 
-                md-is-locked-open="$mdMedia('lg')" tabIndex="-1" flex >
-                    <motion-sidebar />
-                </md-sidenav>
+        <md-content id="maincontent" layout="row" role="main" tabIndex="-1" flex layout-fill>
 
+            <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
+            class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open"
+            md-component-id="left" 
+            md-is-locked-open="$mdMedia('lg')" tabIndex="-1" flex>
+                <motion-sidebar flex></motion-sidebar>
+            </md-sidenav>
 
-                <!-- main body of app -->    
-
-                <div layout="column" flex>
-
-                    <md-content id="maincontent" role="main" tabIndex="-1" flex layout-fill>
-                        <div ui-view flex></div>
-
-                        <show-footer></show-footer>    
-
-
-                    </md-content>
+            <div column="column" layout-fill flex>
+                <div ui-view flex></div>
+                <show-footer></show-footer>    
+            </div>
+        </md-content>
                 
 
-                </div>
-        </div>
 
 
     </body>        

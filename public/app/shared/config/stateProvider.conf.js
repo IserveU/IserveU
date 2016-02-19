@@ -24,6 +24,13 @@
                 }
             }
     	})
+        .state('edit-home', {
+            url: '/edit-home',
+            template: '<edit-home>',
+            data: {
+                requireLogin: true
+            }
+        })
         .state( 'dashboard', {
             url: '/dashboard',
             templateUrl: 'app/components/admin/dashboard.tpl.html',

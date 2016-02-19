@@ -1,6 +1,6 @@
 <div class="home" ng-cloak ng-controller="CommonController as common">
 
-
+<home-fab></home-fab>
 
   <div layout="row" flex="100" layout-sm="column" layout-wrap>
     <md-card flex>
@@ -114,7 +114,7 @@
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
        <span ng-switch="{{ vote.position }}">
           <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
-          <md-icon ng-switch-when="-1" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
           <md-icon ng-switch-when="0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
         </span>
 
