@@ -10,12 +10,9 @@
     </head>
 
 
-    <body ng-controller="CommonController as commons" ng-cloak  back-img class="background-image" > 
-
-            
+    <body ng-controller="CommonController as commons" ng-cloak  back-img class="background-image"> 
 
         <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn" style="z-index: 20"></user-bar>
-
 
         <md-content id="maincontent" layout="row" role="main" tabIndex="-1" flex layout-fill>
 
