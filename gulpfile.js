@@ -43,7 +43,7 @@ elixir(function(mix) {
         '/bower/angular-material/angular-material.min.css',
         '/bower/mdi/css/materialdesignicons.min.css',
         '/bower/textAngular/dist/textAngular.css',
-        '/bower/bootstrap/dist/css/bootstrap.min.css',
+        '/bower/bootstrap-css-only/css/bootstrap.min.css',
         '/bower/font-awesome/css/font-awesome.css',
         '/bower/md-color-picker/dist/mdColorPicker.min.css'
     ],'public/css/dependencies.css', './resources'); 
