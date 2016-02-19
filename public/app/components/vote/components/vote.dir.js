@@ -95,18 +95,18 @@
 			}
 
 			// TODO: refactor this beast.
-			$scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
-				function(motionDetail) {
-	                if( motionDetail != null ) {
-	                	isMotionOpen  = motionDetail.MotionOpenForVoting
-	                    voteObj.user  = motionDetail.user_vote;
-	                } else 
-	                	motion.getMotion($stateParams.id).then(function(r) {
-		                	isMotionOpen  = r.MotionOpenForVoting
-		                    voteObj.user  = r.user_vote ? r.user_vote : {position: null} ;
-	                	});
-				}, true
-			);
+			// $scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
+			// 	function(motionDetail) {
+	  //               if( motionDetail != null ) {
+	  //               	isMotionOpen  = motionDetail.MotionOpenForVoting
+	  //                   voteObj.user  = motionDetail.user_vote;
+	  //               } else 
+	  //               	motion.getMotion($stateParams.id).then(function(r) {
+		 //                	isMotionOpen  = r.MotionOpenForVoting
+		 //                    voteObj.user  = r.user_vote ? r.user_vote : {position: null} ;
+	  //               	});
+			// 	}, true
+			// );
 
 		}
 

@@ -17,9 +17,6 @@
 
 			this.motionObj = motionObj;
 
-			this.getDrafts = function(motion) {
-				console.log(motion);
-			}
 		};
 
 		return {

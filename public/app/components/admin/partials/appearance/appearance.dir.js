@@ -5,13 +5,15 @@
 		.module('iserveu')
 		.directive('appearanceManager', appearance);
 
-	function appearance($timeout, appearanceService, refreshLocalStorage, settings) {
+	function appearance($timeout, appearanceService, refreshLocalStorage, settings, ToastMessage) {
 
 		function appearanceController() {
 
 			var settingsData = JSON.parse(localStorage.getItem('settings'));
 
 			var vm = this;
+
+			this.settings = settings.getData();
 
 			vm.theme = settingsData.theme;
 			this.themeSelect = settingsData.theme.name;
@@ -34,33 +36,37 @@
 				contrast: this.theme.accent['contrastDefaultColor']
 			};
 		
-			function assignSettingValue(array, type) {
+			function assignThemePalette(array, type) {
 
 				for(var i in array)
 					appearanceService.assignHueColors(array, i, vm.theme[type]);
 
-				settings.saveArray('theme.'+type, vm.theme[type] );
+				$timeout(function(){ 
+					settings.saveArray('theme.'+type, vm.theme[type] );
+				}, 400); 
 
 				return true;
 			};
 
-			this.saveAppearanceSettings = function() {
-				if(this.themeSelect !== this.theme.name){
-					
-					settings.saveArray('theme.name', this.themename);
-
-					assignSettingValue(this.primary, 'primary');
-
+			// TODO: make into a service singleton
+			this.save = function(type) {
+				if(type === 'palette') {
 					this.accent.warning = this.accent.hue_one;
-
-					assignSettingValue(this.accent, 'accent');
-				}
-
-				settings.saveArray('site.name', this.site.name);
-
-				if(this.favicon) settings.saveArray('theme.favicon', this.favicon.filename);	
-				if(this.logo) settings.saveArray('theme.logo', this.logo.filename);	
-
+					assignThemePalette(this.accent, 'accent');
+					$timeout(function(){
+						assignThemePalette(this.primary, 'primary');
+					}, 100);
+				} 
+				else if (type === 'site') 
+					settings.saveArray('site', settingsData.site);					
+				else if (type === 'favicon')
+					settings.saveArray('theme.favicon', this.favicon.filename);	
+				else if (type === 'logo')
+					settings.saveArray('theme.logo', this.logo.filename);	
+				
+				$timeout(function() {
+					ToastMessage.reload();
+				}, 2000);
 			};
 
 		}
@@ -68,7 +74,7 @@
 
 		return {
 			controller: appearanceController,
-			controllerAs: 'ctrl',
+			controllerAs: 'app',
 			templateUrl: 'app/components/admin/partials/appearance/appearance.tpl.html'
 		}
 

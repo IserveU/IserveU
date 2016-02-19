@@ -24,30 +24,31 @@
 
 			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-			$httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope) {
+			//being unused ... it's a good concept that will come in handy later as an error handler
+			// as well as a trigger for 200 triggers!
 
-				var $state, $http;
+			// $httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope) {
+			// 	var $state, $http;
 
-				$timeout(function() {
-					$http = $injector.get('$http');
-					$state = $injector.get('$state');
-				});
-
-				return {
-					responseError: function(rejection) {
-						//this is way too explicit, 400 errors return on a lot.
-						if(rejection.status === 400) {
-							// $rootScope.userIsLoggedIn = false;
-							// localStorage.clear();
-							// if(!localStorage.satellizer_token){$state.go('login');}
-						}
-						if(rejection.status === 401){
-							// $state.go('permissionfail');
-						}
-						return $q.reject(rejection);
-					}
-				}
-			});
+			// 	$timeout(function() {
+			// 		$http = $injector.get('$http');
+			// 		$state = $injector.get('$state');
+			// 	});
+			// 	return {
+			// 		responseError: function(rejection) {
+			// 			//this is way too explicit, 400 errors return on a lot.
+			// 			if(rejection.status === 400) {
+			// 				// $rootScope.userIsLoggedIn = false;
+			// 				// localStorage.clear();
+			// 				// if(!localStorage.satellizer_token){$state.go('login');}
+			// 			}
+			// 			if(rejection.status === 401){
+			// 				// $state.go('permissionfail');
+			// 			}
+			// 			return $q.reject(rejection);
+			// 		}
+			// 	}
+			// });
 
 		    // the overall default route for the app. If no matching route is found, then go here
 			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
@@ -57,58 +58,12 @@
 			$authProvider.loginUrl = '/authenticate';
   	    
 		})
-		.filter('capitalize', function() {
-		    return function(input) {
-		      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
-		    }
-		})
-		.filter('dateToDate', function() {
-		  	return function(input) {
-		    	input = new Date(input);
-		    	return input;
-	  		};
-		})
-
-		.filter('proComment', function() {
-			return function(input) {
-				var out = [];
-				for(var i = 0; i < input.length; i++) {
-					if(input[i].position == "1") {
-						out.push(input[i])
-					}				
-				}
-				return out;
-			}
-		})
-		.filter('conComment', function() {
-			return function(input) {
-				var out = [];
-				for(var i = 0; i < input.length; i++) {
-					if(input[i].position == "0" || input[i].position == "-1") {
-						out.push(input[i])
-					}				
-				}
-				return out;
-			}
-		})
-		.filter('object2Array', function() {
-		    return function(obj) {
-		    	return Object.keys(obj).map(function(key){return obj[key];});
-		    }
-	 	})
-	 	.filter('bytes', function() {
-			return function(bytes, precision) {
-				if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
-				if (typeof precision === 'undefined') precision = 1;
-				var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-					number = Math.floor(Math.log(bytes) / Math.log(1024));
-				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
-			}
-		})
-		.run(function($rootScope, $auth, $state, $window, $http, auth, pageObj) {
+		.run(function($rootScope, $auth, $state, $window, $http, auth) {
 
 			// runs everytime a state changes
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
+				
+				// for redirects on fails
 				if(toState.name !== 'login'){
 					if(toState.name !== 'login.resetpassword'){
 						$rootScope.redirectUrlName = toState.name;
@@ -126,12 +81,22 @@
 					}
 				}
 
+				// make sure user is logged in each time
 				var user = JSON.parse(localStorage.getItem('user'));
 				if(user) {
 					$rootScope.authenticatedUser = user;
 					$rootScope.userIsLoggedIn = true;
 				}
+
 			    $rootScope.currentState = toState.name;	// used for sidebar directive
+
+
+			    if(toState.data.motionModule) {
+			    	console.log('motionModule===true');
+			    }
+
+				$http.defaults.headers.common['X-CSRFToken'] = localStorage.getItem('satellizer_token');
+
 			});
 
 			// runs once on app start
@@ -145,7 +110,6 @@
 				}
 			}
 
-			$http.defaults.headers.common['X-CSRFToken'] = localStorage.getItem('satellizer_token');
 
 		})
 

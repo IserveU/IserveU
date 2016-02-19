@@ -7,7 +7,7 @@
 		.module('iserveu')
 		.directive('createMotion', createMotion);
 
-	function createMotion($state, $filter, motion, UserbarService, department) {
+	function createMotion($state, motion, UserbarService, department, dateService) {
 
 		function createMotionController() {
 
@@ -15,19 +15,13 @@
 
 	        vm.motion = { closing: new Date() };
 	        vm.creating     = false;
-	        
-	        vm.departments 	= department.self.data.length > 0 
-					        ? department.self.data 
-					        : department.self.getDepartments().then(function(r){
-					            vm.departments = r.data;
-					        });
+	        vm.departments 	= department.self.getData();
 
 
 	    	vm.newMotion = function(){
 	            
 	            vm.creating = true;
-
-	            vm.motion.closing = $filter('date')(vm.motion.closing, "yyyy-MM-dd HH:mm:ss")
+	            vm.motion.closing = dateService.stringify(vm.motion.closing);
 
 	            motion.createMotion( vm.motion ).then(function(r) {
 	            	// TODO: something like this;

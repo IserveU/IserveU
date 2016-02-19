@@ -1,4 +1,4 @@
-<div class="home">
+<div class="home" ng-cloak ng-controller="CommonController as common">
 
 
 
@@ -14,16 +14,16 @@
     </md-card>
   </div>
 
-
-
-
-
-  <div layout="row" flex="100" layout-sm="column" layout-wrap>
-    <md-card flex>
-      <md-card-content> 
+  <div layout="row" flex layout-sm="column" layout-wrap>
+    <md-card flex ng-if="common.settings.home.widgets.top_motions || common.settings.module.motions">
+      <md-card-content flex> 
           <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
           <h3 class="title-header">Top {{ 'MOTIONS' | translate }}</h3>
-            <md-list layout-padding>
+
+            <md-progress-circular md-mode="indeterminate" ng-if="home.loading.topmotion"></md-progress-circular>
+
+
+            <md-list layout-padding ng-if="!home.loading.topmotion">
               <md-list-item ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})">
                 <p class="md-body-1">{{home.topMotion.title}}</p>
                 <md-button class="md-icon-button" aria-label="topMotionRedirect" ui-sref="motion({id:home.topMotion.id})">
@@ -36,11 +36,15 @@
     </md-card>
 
 
-    <md-card flex>
+    <md-card flex ng-if="common.settings.home.widgets.top_comments || common.settings.module.comments">
       <md-card-content>
         <md-icon class="mdi mdi-playlist-minus title-icon"></md-icon>
         <h3 class="title-header">Top Comments</h3>
-          <md-list layout-padding>
+
+          <md-progress-circular md-mode="indeterminate"  ng-if="home.loading.topcomment"></md-progress-circular>
+
+
+          <md-list layout-padding  ng-if="!home.loading.topcomment">
             <div  ng-if="home.topComments" ng-repeat="comment in home.topComments">
 
             <md-list-item ui-sref-active="active" ui-sref="motion({id:comment[0].vote.motion_id})">
@@ -69,12 +73,16 @@
   </div>
 
 
-  <div layout="row" flex="100" layout-sm="column" layout-wrap>
+  <div layout="row" flex="100" layout-sm="column" layout-wrap> 
 
-    <md-card flex>
+    <md-card flex ng-if="common.settings.home.widgets.your_comments || common.settings.module.comments">
       <md-card-content>
         <md-icon class="mdi mdi-comment-text-outline title-icon"></md-icon>
         <h3 class="title-header">Your comments</h3>
+
+        <md-progress-circular md-mode="indeterminate" ng-if="home.loading.mycomments"></md-progress-circular>
+
+        <div ng-if="!home.loading.mycomments">
           <md-list layout-padding ng-if="!home.empty.mycomments" ng-repeat="comment in home.myComments | limitTo: 5">
             <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
               <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
@@ -88,17 +96,20 @@
           <md-list layout-padding ng-if="home.empty.mycomments" ng-cloak>
             <p class="md-body-1">You don't have any comments.</p>
           </md-list>
-
+        </div>
       </md-card-content>
     </md-card>
 
-    <md-card flex>
+    <md-card flex ng-if="common.settings.home.widgets.your_votes || common.settings.module.voting">
       <md-card-content>
         
         <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
         <h3 class="title-header">Your votes</h3>
 
 
+        <md-progress-circular md-mode="indeterminate" ng-if="home.loading.myvotes"></md-progress-circular>
+
+        <div ng-if="!home.loading.myvotes">
       <md-list layout-padding ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
        <span ng-switch="{{ vote.position }}">
@@ -122,7 +133,7 @@
           <md-list layout-padding ng-if="home.empty.myvotes" ng-cloak>
             <p class="md-body-1">You don't have any votes.</p>
           </md-list>
-
+        </div>
 
       </md-card-content>
     </md-card>

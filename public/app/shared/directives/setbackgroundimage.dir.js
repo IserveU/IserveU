@@ -6,42 +6,27 @@
 		.module('iserveu')
 		.directive('backImg', backImg);
 
-	function backImg() {
+	function backImg($timeout, $http) {
 
-		function controllerMethod(auth){
+		function linkMethod(scope, element, attrs){
+				
+			$http.get('settings').success(function(r){
+				set( r.theme.background_image 
+					 ? r.theme.background_image 
+		    		 : "themes/default/photos/background.png");
+			}).error(function(e){
+				console.log(e);
+			});
 
-			var vm = this;
-
-			vm.background_image;
-
-			auth.getSettings().then(function(result){
-				localStorage.setItem('settings', JSON.stringify(result.data));
-				if(JSON.parse(localStorage.getItem('settings')).background_image == null){
-					vm.background_image = "url(/themes/default/photos/background.png)";
-					return;
-				}
-				vm.background_image = "url(/uploads/background_images/" + JSON.parse(localStorage.getItem('settings')).background_image.filename+")";
-			})
-			
-
-		}
-
-
-		function linkMethod(scope, element, attrs, ctrl){
-
-			attrs.$observe('backImg', function(value){
+			function set(background_image){
 				element.css({
-				    'background-image': value
+				    'background-image': 'url(/'+background_image+')'
 				});
-			})
-
+			}
 		}
 
 
 		return {
-			controller: controllerMethod,
-			controllerAs: 'vm',
-			bindToController: true,
 			link: linkMethod
 		}
 

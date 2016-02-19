@@ -14,6 +14,9 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 .home {
 	md-card {margin: 10px;}
 	md-card-content { padding: 10px;}
+	md-progress-circular {
+		margin: auto;
+	}
 }
 
 .title-icon {
@@ -64,6 +67,12 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
+.fab-tool-animate {
+	  transition-duration: .5s;
+	   -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	  -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
 @media screen and (max-width:544px) {
 	table.user-table {
@@ -112,16 +121,19 @@ p.beta-message {
 
 html{
 	height: 100%;
-	
+
 }
 
 body{
-	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
+	// height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
+	// overflow: hidden; // this is for md-content box to avoid double scroll
 
 }
 
 html,body{
 	min-height: 100% !important;
+	// overflow: hidden; // this is for md-content box to avoid double scroll
+
 }
 
 a{
@@ -189,7 +201,7 @@ form{
 }
 
 .md-whiteframe-z1, .loginbox, #maincontent, #footer{
-	background-color: rgba(255,255,255,0.6) !important;
+	background-color: rgba(255,255,255,0.3) !important;
 }
 
 #footer{
@@ -215,6 +227,7 @@ md-sidenav{
 
 	position:absolute;
 }
+
 
 
 #maincontent{
@@ -394,6 +407,14 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 
 md-toolbar.site-content-toolbar{
 	padding:0px;
+	md-toolbar-filler {
+		margin-right: 21px;		
+		&.motion-enabled {
+			max-width: 400px;
+			min-width: 400px;
+		}
+	}
+
 }
 
 // .md-toolbar-tools md-icon{
@@ -680,6 +701,9 @@ input.sidebar-search-input {
 			font-size: 120px;
 		}
 	}
+	md-icon {
+		position: relative; bottom: 12px;
+	}
 	input { color: black; }
 }
 
@@ -690,6 +714,43 @@ input.sidebar-search-input {
 	md-autocomplete-wrap {
 		border-radius: 500px;
 	}
+	.home-btn {
+		min-width: 48px;
+	}
+	.motion-enabled {
+		max-width: 400px;
+		min-width: 400px;
+	}
+	// .search-icon {
+	// 	left:10px; margin: 0; 
+	// 	margin-left: 200px; 
+	// 	position: relative;
+	// }
+	.action-buttons {
+		position: relative;
+		left: 200px;
+		// top: 17px;
+	}
+	.mdi-magnify {
+		position:relative;
+		left: 9px;
+	}
+	.mdi-dots-vertical {
+		margin: 0;
+	}
+	md-menu {
+		margin: 0;
+		.search-icon {
+			left:10px; margin: 0; margin-bottom: 4px; margin-right: 17px;
+		}
+		md-select {
+			margin: 4px;
+		}
+	}
+	h2 {
+		position: relative; top: 7px;
+	}
+	padding-right:0px;
 }
 
 .voting-disabled {

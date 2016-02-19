@@ -7,13 +7,9 @@
 		.controller('editUserController', editUserController);
 
 
-	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj, refreshLocalStorage) {
+	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj) {
 
 		var vm = this;
-
-
-		refreshLocalStorage.init();
-
 		var arrayOfFieldTypes = [];
 
 		// json object for user profile info

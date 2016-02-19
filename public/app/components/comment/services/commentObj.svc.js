@@ -7,7 +7,7 @@
 		.module('iserveu')
 		.factory('commentObj', commentObj);
 
-	function commentObj($stateParams, $mdToast, comment, ToastMessage) {
+	function commentObj($stateParams, comment, ToastMessage) {
 
 		var cObj = {
 			comment: null,
@@ -60,14 +60,12 @@
 	            });
 			},
 			delete: function(){
-	            var toast = ToastMessage.delete_toast("Delete this comment?", "Yes");
-	            $mdToast.show(toast).then(function(response) {
-	                if (response == 'ok')
-	                    comment.deleteComment(cObj.comment.id).then(function(r) {
-							cObj.getMotionComments($stateParams.id);
-							ToastMessage.simple("Comment deleted.")
-	                    }); 
-	            });
+				ToastMessage.destroyThis("comment", function() {
+                    comment.deleteComment(cObj.comment.id).then(function(r) {
+						cObj.getMotionComments($stateParams.id);
+						ToastMessage.simple("Comment deleted.")
+                    }); 
+				});
 			},
 		};
 

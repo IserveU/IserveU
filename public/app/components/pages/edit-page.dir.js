@@ -7,34 +7,43 @@
 		.module('iserveu')
 		.directive('editPageContent', editPageContent);
 
-	function editPageContent($stateParams, pageObj) {
+	function editPageContent($state, $stateParams, ToastMessage, pageObj, dropHandler) {
 
 
 		function editPageController() {
 
 			this.pageObj = pageObj;
+			this.dropHandler = dropHandler;
+			this.saveString = "Save";
 
-			pageObj.initLoad($stateParams.id);
-
-
-			this.saveChanges = function() {
-
-				var data = {
+			this.save = function() {
+				console.log('saving');
+				pageObj.processing = true;
+				pageObj.update($stateParams.id, {
 					'title': this.pageObj.title,
 					'content': this.pageObj.content
-				}
+				});
+			};
 
-				pageObj.update($stateParams.id, data);
+			this.cancel = function() {
+	            ToastMessage.cancelChanges(function(){
+	            	$state.go('pages', {id: $stateParams.id});
+	            });
+			};
 
-			}
-
+			pageObj.initLoad($stateParams.id);
 		}
 
 
 		return {
 			controller: editPageController,
 			controllerAs: 'edit',
-			template: '<md-card><md-card-content><input ng-model="edit.pageObj.title"/><text-angular ng-model="edit.pageObj.content"></text-angular><md-button ng-click="edit.saveChanges()">Save</md-button></md-card-content></md-card>'
+			template: ['<md-card><md-card-content><md-input-container style="width: 100%; margin-bottom: 0">',
+					   '<input ng-model="edit.pageObj.title"/></md-input-container>',
+					   '<text-angular ng-model="edit.pageObj.content" ta-file-drop="edit.dropHandler"></text-angular><div layout="row">',
+					   '<spinner name="edit.saveString" ng-click="edit.save()" on-hide="edit.pageObj.processing"></spinner>',
+					   '<md-button ng-click="edit.cancel()">Cancel</md-button></div>',
+					   '</md-card-content></md-card>'].join('')
 		}
 
 	}

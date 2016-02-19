@@ -1,38 +1,43 @@
-<div>
-  <div class="md-toolbar-tools sidebar-toolbar" style="padding-right:0px; max-width: 400px; min-width: 400px">
-    <md-button class="md-icon-button" aria-label="Home Button" style="min-width: 48px">
+<div ng-controller="CommonController as common">
+  <div class="md-toolbar-tools sidebar-toolbar" ng-class="common.settings.module.motions?'motion-enabled flex':''">
+
+    <md-button class="md-icon-button home-btn" aria-label="Home Button">
       <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg" ui-sref="home" ng-hide="search.showSearch"></md-icon>
       <md-icon class="mdi mdi-arrow-left" ng-show="search.showSearch" ng-click="search.showSearchFunc()"></md-icon>
     </md-button>
 
-    <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}"></h2>
 
-  <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" flex/>
+      <div ng-if="common.settings.module.motions" layout="row">
 
-      <md-icon style="left:10px; margin: 0; margin-left: 200px; position: relative" class="mdi mdi-magnify search-icon" ng-click="search.showSearchFunc()" ng-style="!search.showSearch && {'margin-left': '200px'} || {'margin-left': '0px'}" ng-class="{'search-icon':search.showSearch}"></md-icon>
+        <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}"></h2>
 
-      <md-menu md-offset="27 32" style="margin: 0">
-        <md-icon class="mdi mdi-dots-vertical search-icon" style="left:10px; margin: 0; margin-bottom: 4px; margin-right: 17px" ng-click="$mdOpenMenu()"></md-icon>
-        
-        <md-menu-content width="4" class="md-body-1" >
+        <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" flex/>
 
-          <md-select ng-model="search.departmentFilter" style="margin:4px"  placeholder="Filter by City Department" layout-padding aria-label="filter motions by department" >
-            <md-option ng-value="''" ng-mousedown="search.querySearchDepartment({department_id:''})" >None</md-option>
-            <md-option ng-repeat="department in search.departmentObj.data" ng-mousedown="search.querySearchDepartment({department_id:department.id})"  ng-value="department.id">{{department.name}}</md-option>
-          </md-select>
+        <div ng-class="search.showSearch?'':'action-buttons'" layout-align="end end">
+          <md-icon class="mdi mdi-magnify search-icon" ng-click="search.showSearchFunc()" ng-class="{'search-icon':search.showSearch}"></md-icon>
 
-          <md-select ng-model="search.orderByFilter" placeholder="Order by:" layout-padding aria-label="filter motions by properties" style="margin:4px">
-            <md-option ng-mousedown="search.querySearch(filter.query);"  ng-repeat="filter in search.orderByFilters" ng-value="filter.query">{{filter.name}}</md-option></md-select>
+          <md-menu md-offset="27 32">
+            <md-icon class="mdi mdi-dots-vertical" ng-click="$mdOpenMenu()"></md-icon>
+            
+            <md-menu-content width="4" class="md-body-1" >
 
-          <md-menu-button class="action-btns" layout="row">
-            <md-button layout-align="center end" ng-click="search.showAll()">See All</md-button>
-            <md-icon ng-show="search.searching" layout-align="center front" md-svg-src='/themes/{{::themename}}/loading.svg'></md-icon>
-          </md-menu-button>
-        
+              <md-select ng-model="search.departmentFilter" placeholder="Filter by City Department" layout-padding aria-label="filter motions by department" >
+                <md-option ng-value="''" ng-mousedown="search.querySearchDepartment({department_id:''})" >None</md-option>
+                <md-option ng-repeat="department in search.departmentObj.data" ng-mousedown="search.querySearchDepartment({department_id:department.id})"  ng-value="department.id">{{department.name}}</md-option>
+              </md-select>
 
+              <md-select ng-model="search.orderByFilter" placeholder="Order by:" layout-padding aria-label="filter motions by properties">
+                <md-option ng-mousedown="search.querySearch(filter.query);"  ng-repeat="filter in search.orderByFilters" ng-value="filter.query">{{filter.name}}</md-option></md-select>
 
-        </md-menu-content>
-      </md-menu>
+              <md-menu-button class="action-btns" layout="row">
+                <md-button layout-align="center end" ng-click="search.showAll()">See All</md-button>
+                <md-icon ng-show="search.searching" layout-align="center front" md-svg-src='/themes/{{::themename}}/loading.svg'></md-icon>
+              </md-menu-button>
+            
+            </md-menu-content>
+          </md-menu>
+        </div>
+      </div>
 
   </div>
 

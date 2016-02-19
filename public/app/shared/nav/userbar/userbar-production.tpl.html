@@ -1,9 +1,7 @@
-<md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar" layout="row" layout-align="center center" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+<md-toolbar id="userbar" class="md-whiteframe-glow-z1 site-content-toolbar" layout="row" layout-align="center center" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);" ng-controller="CommonController as common">
 
-
-
-    <md-toolbar-filler hide-xs hide-sm hide-md style="max-width: 400px; margin-right: 21px" flex>
-        <motion-searchbar flex></motion-searchbar>
+    <md-toolbar-filler ng-class="common.settings.module.motions?'motion-enabled flex':''" hide-xs hide-sm hide-md>
+        <motion-searchbar ></motion-searchbar>
     </md-toolbar-filler>
 
     <md-button hide-gt-lg hide-lg class="md-icon-button" style="margin:0" ng-click="user.toggleSidebar('left')" aria-label="Toggle Sidebar">
@@ -24,6 +22,15 @@
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
         </md-button>
         <md-menu-content width="4">
+
+            <md-menu-item>
+                <md-button aria-label="logout" ng-click="user.logout()">
+                    <div layout="row">
+                        <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
+                        <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
+                    </div>
+                </md-button>
+            </md-menu-item>
 
             
             <md-menu-item ui-sref="user({id:authenticatedUser.id})">
@@ -46,14 +53,7 @@
             </md-menu-item>
             </has-permission>
 
-            <md-menu-item>
-                <md-button aria-label="logout" ng-click="user.logout()">
-                    <div layout="row">
-                        <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
-                        <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
-                    </div>
-                </md-button>
-            </md-menu-item>
+
 
             
         </md-menu-content>

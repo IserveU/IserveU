@@ -43,7 +43,7 @@ class CreateInitialAdmin extends Command
      */
     public function handle()
     {
-        $user = $this->user->create(
+        $user = User::create(
             ['email'      => $this->argument('email'), 
              'password'   => $this->argument('password'),
              'first_name' => 'Change',
@@ -51,13 +51,7 @@ class CreateInitialAdmin extends Command
              'public'     => 1,
             ]);
 
-        $user->save();
-
-        $userId = DB::table('users')->where('email', '=', $this->argument('email'))->first();
-        $user->id = $userId->id;
-        $admin = Role::where('name','=','administrator')->first();
-
-        $user->attachRole($admin);
+        $user->addUserRoleByName('administrator');
 
         echo "\n\nADMIN LOGIN WITH: Password: (".$this->argument('password').") Email:".$user->email."\n\n";
 

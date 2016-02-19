@@ -9,57 +9,54 @@
 
 
 	// This is a todo
-	function editMotion($rootScope, $stateParams, $state, $mdToast, motionObj, motion, ToastMessage, department){
+	function editMotion($rootScope, $stateParams, $state, $mdToast, motionObj, motion, ToastMessage, department, dateService){
 
 		function editMotionController() {
 
 			var vm = this;
 
-			vm.motion = motionObj.getMotionObj($stateParams.id);
-
-			console.log(motionObj.getMotionObj($stateParams.id));
-
-			vm.departments = department.self;
+			vm.departments = department;
 
 	        vm.editMotionMode = false;
 	        vm.editingMotion = false;
+
+	        vm.minDate = new Date();
 
 	        vm.updated_motion = [{
 	            title: null,
 	        }];
 
-	        vm.deleteMotion = function() {
-	            var toast = ToastMessage.delete_toast(" motion");
+	        vm.updateMotion = updateMotion;
+	        vm.cancelEditMotion = cancelEditMotion;
+	        vm.deleteMotion = deleteMotion;
 
-	            $mdToast.show(toast).then(function(response) {
-	                if(response == 'ok') {
-	                    motion.deleteMotion($stateParams.id).then(function(r) {
-	                        $state.go('home');
-	                        $rootScope.$emit('refreshMotionSidebar');  
-	                    }, function(error) {
-	                        ToastMessage.report_error(error);
-	                    });
-	                }
+
+	        function initMotion(id) {
+
+        		vm.motion = motionObj.getMotionObj(id);
+
+	        	if ( !vm.motion )
+	        		motion.getMotion(id).then(function(r){
+	        			vm.motion = r;
+	        		});
+	        }
+
+	        function cancelEditMotion() {
+	            ToastMessage.cancelChanges(function(){
+	            	 $state.go('motion', {id: vm.motion.id});
 	            });
 	        }
 
 
-	        vm.updateMotion = function() {
-
+	        function updateMotion() {
 	            vm.editingMotion = true;
-	          
-	            var closing_date  = vm.motion.closing.carbon.date;
-	            vm.motion.closing = null;
-             	vm.motion.closing = $filter('date')(closing_date, "yyyy-MM-dd HH:mm:ss");
-	            
+	           	dateService.updateForPost( vm.motion.closing );
 	            updateMotionFunction();
 	        }
 
 	        function updateMotionFunction(){
 	            motion.updateMotion(vm.motion).then(function(r) {
-
-	            	// TODO: update the motion stuff....
-
+	            	reloadMotionObj(r.id);
 	                vm.editingMotion = false;
 	                ToastMessage.simple("You've successfully updated this motion!", 800);
 	                $state.go( 'motion', ( {id:r.id} ) );
@@ -68,8 +65,9 @@
 	                ToastMessage.simple(error.data.message);
 	                vm.editingMotion = false;
 	            });
-	        }			
+	        }
 
+	        initMotion($stateParams.id);
 		}
 
 		return {

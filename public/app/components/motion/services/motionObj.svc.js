@@ -1,3 +1,4 @@
+
 (function() {
 
 	'use strict';
@@ -34,10 +35,10 @@
 			},
 			getMotionObj: function(id) {
 				for(var i in motionObj.data) {
+					console.log(i);
 					if( id == motionObj.data[i].id )
 						return motionObj.data[i];
 				}
-				return null;
 			},
 			reloadMotionObj: function(id) {
 				motion.getMotion(id).then(function(r){

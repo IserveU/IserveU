@@ -1,4 +1,4 @@
-<md-content>
+<md-content class="content-manager">
 
 	<md-card style="margin: 0">
 		<md-card-content>
@@ -18,30 +18,11 @@
 	    </ul>
 
 		    <div style="margin-bottom: 8px">
-				<a ng-click="content.createNewPage()" style="cursor:pointer">Create new page</a>
+				<a style="cursor:pointer" ui-sref="create-page">Create new page</a>
 					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
 			</div>
 
 	    </div>
-
-
-		<form name="newPage" layout="column" ng-if="content.create_new_page" ng-submit="newPage.$valid && content.pageObj.save(content.data) && content.createNewPage()">
-		    
-		    <md-input-container style="margin-bottom: 0">
-		    	<label>Page Title</label>	
-		    	<input name='title' type='text' ng-model='content.data.title' autofocus required/>
-		    	<div ng-messages="newPage.title.$error">
-		    		<div ng-message="required">A page title is required.</div>
-		    	</div>
-			</md-input-container>
-
-		   	<text-angular ng-model="content.data.content" ta-file-drop="content.dropHandler"></text-angular>
-
-		    <div layout="row">
-			    <md-button>Create new page</md-button>
-			    <md-button ng-click="content.createNewPage()">Cancel</md-button>
-		    </div>
-		</form>
 		</md-card-content>
 	</md-card>
 
@@ -62,9 +43,8 @@
 		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
 		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
 	   
-			<div>
-				<md-button ng-click="content.save('module');">Save</md-button>
-			</div>
+			<spinner ng-click="content.save('module')" name="'Save'" on-hide="content.settings.saving"></spinner>
+	    
 	    </div>
 
 	    </md-card-content>
@@ -104,9 +84,9 @@
 	    		</md-input-container>
 	    		<text-angular ng-model='content.settings.home.introduction.text'></text-angular>
 
-				<div>
-					<md-button ng-click="content.save('introduction');">Save</md-button>
-				</div>
+
+				<spinner ng-click="content.save('introduction')" name="'Save'" on-hide="content.settings.saving"></spinner>
+
 		    </form>
 
 
@@ -120,9 +100,7 @@
 				    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
 			    </div>
 		    
-				<div>
-					<md-button ng-click="content.save('home');">Save</md-button>
-				</div>
+				<spinner ng-click="content.save('home')" name="'Save'" on-hide="content.settings.saving"></spinner>
 			</div>
 
 	    </div>
@@ -131,7 +109,7 @@
 
 
 
-
+    <!-- TODO: this whole god damn thing -->
 	<md-card style="margin:0">
 		<md-card-content>
 		<div ng-click="showSiteJargon = !showSiteJargon">
@@ -182,9 +160,8 @@
 					<input type='text' ng-model='content.settings.jargon.fr.departments'/>
 				</md-input-container>
 
-			<div>
-				<md-button ng-click="content.save('jargon'); showSiteJargon = !showSiteJargon">Save</md-button>
-			</div>
+
+			<spinner ng-click="content.save('jargon')" name="'Save'" on-hide="content.settings.saving"></spinner>
 
 		</div>
 
@@ -204,9 +181,9 @@
 				<textarea ng-model="content.settings.site.terms"></textarea>
 			</md-input-container>
 		
-			<div>
-				<md-button ng-click="content.save('terms');">Save</md-button>
-			</div>
+
+			<spinner ng-click="content.save('terms');" name="'Save'" on-hide="content.settings.saving"></spinner>
+
 
 		</div>
 		</md-card-content>

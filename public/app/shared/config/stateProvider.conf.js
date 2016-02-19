@@ -17,50 +17,70 @@
     		controller: 'HomeController as home',
     		data: {
     	        requireLogin: true
-    	    }
-    	})
-    	.state( 'motion', {
-    	    url: '/motion/:id',
-    	    template: '<display-motion />',
-    	    data: {
-    	        requireLogin: true
-    	    }
+    	    },
+            resolve: {
+                settingsData: function(settings) {
+                    return settings.getData();
+                }
+            }
     	})
         .state( 'dashboard', {
             url: '/dashboard',
             templateUrl: 'app/components/admin/dashboard.tpl.html',
             data: {
                 requireLogin: true
-            }   
+            },
+            resolve: {
+                settingsData: function(settings) {
+                    return settings.getData();
+                }
+            }
+        })
+    	.state( 'motion', {
+    	    url: '/motion/:id',
+    	    template: '<display-motion></display-motion>',
+    	    data: {
+    	        requireLogin: true,
+                moduleMotion: true
+    	    }
+    	})
+        .state('edit-motion', {
+            url: '/edit-motion/:id',
+            template: '<edit-motion></edit-motion>',
+            data: {
+                requireLogin: true,
+                moduleMotion: true
+            }
+        })
+        .state( 'create-motion', {
+            url: '/create-motion',
+            template: '<create-motion></create-motion>',
+            data: {
+                requireLogin: true,
+                moduleMotion: true
+            }
         })
         .state( 'pages', {
             url: '/page/:id',
-            template: '<page-content />',
+            template: '<page-content></page-content>',
             data: {
                 requireLogin: true
             }  
         })
         .state( 'edit-page', {
             url: '^/page/:id/edit',
-            template: '<edit-page-content />',
+            template: '<edit-page-content></edit-page-content>',
             data: {
                 requireLogin: true
             }  
         })
-        .state('edit-motion', {
-            url: '/edit-motion/:id',
-            template: '<edit-motion />',
+       .state( 'create-page', {
+            url: '/create-page',
+            template: '<create-page-content></create-page-content>',
             data: {
                 requireLogin: true
-            }
+            }  
         })
-    	.state( 'createmotion', {
-    	    url: '/create-motion',
-    	    template: '<create-motion />',
-    	    data: {
-    	        requireLogin: true
-    	    }
-    	})
         .state( 'user', {
             url: '/user/:id',
             templateUrl: 'app/components/user/partials/user-profile.tpl.html',
@@ -69,12 +89,24 @@
                 requireLogin: true
             }
         })
+        // this is a good place for resolves
         .state( 'user.profile', {
             url: '/profile',
+            data: {
+                requireLogin: true
+            }
         })
         .state( 'create-user', {
             url: '^/user/create',
             templateUrl: 'app/components/user/components/create-user/create-user.tpl.html',
+            controller: 'CreateUserController as create',
+            data: {
+                requireLogin: true
+            }
+        })
+        .state('show-user', {
+            url: '/showuser',
+            templateUrl: 'app/components/user/components/show-user/show-user.tpl.html',
             controller: 'CreateUserController as create',
             data: {
                 requireLogin: true

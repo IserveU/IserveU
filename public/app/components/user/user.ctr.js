@@ -217,18 +217,11 @@
 
 		vm.deleteUser = function(id) {
 
-			var toast = ToastMessage.delete_toast(" user");
-
-			$mdToast.show(toast).then(function(response){
-				if(response == 'ok'){
-					user.deleteUser(id).then(function(result){
-						ToastMessage.simple("User deleted.");
-						$state.go('user', {id:1});
-					}, function(error){
-						ToastMessage.report_error(error);
-					})
-				}
-			})
+			ToastMessage.destroyThis("user", function() {
+				user.deleteUser(id).then(function(r){
+					$state.go('dashboard');
+				}, function(e){ ToastMessage.report_error(e); })
+			});
 		}
 
 		vm.verifyUser = function(userinfo){

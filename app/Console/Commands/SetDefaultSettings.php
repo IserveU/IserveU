@@ -74,8 +74,8 @@ class SetDefaultSettings extends Command
                 'en' => array(
                     'motion'  => 'Motion',
                     'motions' => 'Motions',
-                    'department' => 'Deparment',
-                    'departments' => 'Deparments'
+                    'department' => 'Department',
+                    'departments' => 'Departments'
                 ),
                 'fr' => array(
                     'motion'  => 'Motion',

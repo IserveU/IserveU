@@ -1,40 +1,31 @@
-<md-card flex>
+<md-card flex ng-cloak>
   <md-card-content>
   <md-tabs md-dynamic-height md-border-bottom>
 
-
-
-
-    <md-tab label=" {{ 'MOTION' | translate }} Drafts" >
-    
-      <motion-drafts />
-
-    </md-tab>
-
-
     <md-tab label="Site Content">
-
-      <content-manager />
+      <content-manager></content-manager>
     </md-tab>
-    
 
     <md-tab label="Appearance">
-      <appearance-manager />
+      <appearance-manager></appearance-manager>
+    </md-tab>    
+
+    <md-tab label=" {{ 'MOTION' | translate }} Drafts" >
+      <motion-drafts></motion-drafts>
     </md-tab>
 
-
- 
-
-
-<!--     <md-tab label="Images">
-      <image-manager />
-    </md-tab>  -->
-    
+    <md-tab label="Background Images">
+      <background-image-manager></background-image-manager>
+    </md-tab>
 
     <md-tab label="User Management">
-      <user-manager />
+      <user-manager></user-manager>
     </md-tab>
-
+<!-- 
+    <md-tab label=" {{ 'DEPARTMENT' | translate }} Manager" >
+        
+    </md-tab>
+ -->
 
 
   </md-tabs>

@@ -4,82 +4,85 @@
 
 	angular
 		.module('iserveu')
-		.service('ToastMessage', ToastMessageService);
+		.factory('ToastMessage', ToastMessage);
 
-	function ToastMessageService($mdToast) {
+	function ToastMessage($mdToast, $timeout, utils) {
 	
-	var vm = this;
+        function simple(message, time){
+            var timeDelay = ( time ) ? time : 1000;
+            return $mdToast.show(
+                $mdToast.simple()
+                .content(message)
+                .position('bottom right')
+                .hideDelay(timeDelay)
+            );
+        }
 
-    vm.simple = simple;
-    vm.double = double;
+        function double(message1, message2, bool, time){
+            simple(message1, time).then(function(){
+                if (bool) { simple(message2); }
+            });
+        }
 
-	vm.report_error = function(error){
-        var toast = $mdToast.simple()
-            .content("Sorry, something went wrong.")
-            .action("Message")
-            .position('bottom right')
-            .highlightAction(true)
-            .hideDelay(2000);
-        var error_message = $mdToast.simple()
-            .content(error.message)
-            .position('bottom right')
-            .action("Report")
-            .hideDelay(3000);
-        var toast_error = $mdToast.simple()
-            .content("Thanks! We'll work on it.")
-            .position('bottom right')
-            .hideDelay(800);
+        function action(message, affirmative, warning){
+           var toast = $mdToast.simple()
+                .content(message)
+                .action(affirmative)
+                .highlightAction(warning)
+                .position('bottom right')
+                .hideDelay(5000);
+                
+            return toast;
+        }
 
-        $mdToast.show(toast).then(function(response) {
-            if (response == 'ok'){
-                $mdToast.show(error_message).then(function(response){
-                    if (response == 'ok'){
-                      $mdToast.show(toast_error);
-                    }    
-                })
-            }            
-        });		
-        // code to store error, or send to jessica 
-	}
-
-    function simple(message, time){
-        var timeDelay = ( time ) ? time : 1000;
-        return $mdToast.show(
-            $mdToast.simple()
-            .content(message)
-            .position('bottom right')
-            .hideDelay(timeDelay)
-        );
-    }
-
-    function double (message1, message2, bool, time){
-        simple(message1, time).then(function(){
-            if (bool) { simple(message2); }
-        });
-    }
-
-    vm.action = function(message1, affirmative){
-       var toast = $mdToast.simple()
-            .content(message1)
-            .action(affirmative)
-            .highlightAction(false)
-            .position('bottom right')
-            .hideDelay(5000);
+        function reload(){
+            simple("The page will now refresh.", 1500);
             
-        return toast;
-    }
+            $timeout(function() {
+                location.reload();
+            }, 2000);
+        }
 
-	vm.delete_toast = function(message, affirmative){
-       var toast = $mdToast.simple()
-            .content(message)
-            .action(affirmative)
-            .highlightAction(true)
-            .position('bottom right')
-            .hideDelay(6500);
-            
-        return toast;
-    }
+        function destroyThis(type, fn){
+            var toast = action("Destroy this " + type + "?", "Yes", true);
+            $mdToast.show(toast).then(function(r){
+                if(r == 'ok'){
+                    fn();
+                    simple( utils.capitalize(type) + " destroyed", 1000 );
+                }
+            });
+        }
 
+        function cancelChanges(fn){
+            var toast = action("Discard changes?", "Yes");
+            $mdToast.show(toast).then(function(r){
+                if(r == 'ok') fn();
+            });
+        }
+
+        // TODO: implment Error Handler Service
+        function report_error(error){
+            var toast = action("Sorry, something went wrong.", "See", true); 
+            var error = action(error.message, "Report");
+            var thanks = simple("Thanks for your help! We'll work on it.", 800);
+
+            $mdToast.show(toast).then(function(r) {
+                if (r == 'ok')
+                    $mdToast.show(error).then(function(r){
+                        if (r == 'ok') $mdToast.show(thanks);
+                    });
+            });
+        }
+
+        return {
+            simple: simple,
+            double: double,
+            action: action,
+            reload: reload,
+            report_error: report_error,
+            destroyThis: destroyThis,
+            cancelChanges: cancelChanges,
+        }
 
 
 	}

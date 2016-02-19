@@ -55,17 +55,12 @@
         }
 
         vm.deleteDepartment = function() {
-            var toast = ToastMessage.delete_toast(" department");
-
-            $mdToast.show(toast).then(function(response){
-                if(response == 'ok'){
-                    department.deleteDepartment(vm.edit_department.id).then(function(result) {
-                        ToastMessage.simple("Department deleted");
-                        refresh();
-                        $state.reload();
-                    }); 
-                }
-            })
+            ToastMessage.destroyThis("department", function() {
+                department.deleteDepartment(vm.edit_department.id).then(function(r) {
+                    refresh();
+                    $state.reload();
+                }); 
+            });
         }
 
         vm.addDepartment = function(){

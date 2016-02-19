@@ -10,38 +10,39 @@
     </head>
 
 
-    <body back-img="{{vm.background_image}}" class="background-image" ng-cloak layout-fill>
+    <body ng-controller="CommonController as commons" ng-cloak> 
 
-        <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn"></user-bar>
-
-        <div class="main-div-layout" layout="row" layout-fill>
-
-            <md-sidenav ng-if="userIsLoggedIn"
-            class="md-sidenav-left md-whiteframe-z1" 
-            md-component-id="left" 
-            md-is-locked-open="$mdMedia('lg')" >
-                <motion-sidebar />
-            </md-sidenav>
+        <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn" style="z-index: 20"></user-bar>
+            
+        <div layout="row" layout-fill flex back-img class="background-image">
 
 
-<!--             <div  ng-controller="SidebarController as sidebar">
-                <md-sidenav ng-cloak
-                style="top: 56px; position: fixed;  overflow-y: scroll; z-index: 3; max-width: 322px"
-                id="sidebar-outer" class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')" ng-if="userIsLoggedIn" md-swipe-left="sidebar.closeSidenav('left')">
-                    <sidebar sidebar="{{currentState}}">
-                        <div id="sidebar-inner"></div>
-                    </sidebar>
+                <!-- sidebar --> 
+                <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
+                class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open"
+                md-component-id="left" 
+                md-is-locked-open="$mdMedia('lg')" tabIndex="-1" flex >
+                    <motion-sidebar />
                 </md-sidenav>
-            </div>
- -->
 
-            <md-content role="main" tabIndex="-1"  flex layout-fill>
-                <!-- main body of app -->                            
-                <div id="maincontent" ui-view flex ng-cloak></div>  
-            </md-content>
-        
+
+                <!-- main body of app -->    
+
+                <div layout="column" flex>
+
+                    <md-content id="maincontent" role="main" tabIndex="-1" flex layout-fill>
+                        <div ui-view flex></div>
+
+                        <show-footer></show-footer>    
+
+
+                    </md-content>
+                
+
+                </div>
         </div>
-        <show-footer />    
+
+
     </body>        
 
 

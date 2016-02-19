@@ -26,7 +26,8 @@
 		return {
 			controller: pageController,
 			controllerAs: 'p',
-			template: '<md-card ng-class="p.pageObj.pageLoading ? p.loading : none "><md-card-content><p ng-bind-html="p.pageObj.content"></p></md-card-content></md-card>'
+			template: ['<pages-fab></pages-fab><md-card ng-class="p.pageObj.pageLoading ? p.loading : none "><md-card-content>',
+					   '<p ng-bind-html="p.pageObj.content"></p></md-card-content></md-card>'].join('')
 		}
 
 	}
