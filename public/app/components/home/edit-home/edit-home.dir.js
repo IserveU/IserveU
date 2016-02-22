@@ -10,23 +10,30 @@
 
 		function editHomeController() {
 
-			this.settings = settings.getData();
+			var vm = this;
 
-			this.dropHandler = dropHandler;
+			vm.settings = settings.getData();
 
-			this.save = function() {
-				settings.saveArray('home', this.introduction);
+			vm.dropHandler = dropHandler;
+
+			vm.save = function() {
+				settings.saveArray('home', vm.settings.home);
 				$timeout(function(){
 					$state.go('home');
-				}, 1000);
+				}, 2000);
 			}
 
-			this.cancel = function() {
+			vm.cancel = function() {
 	            ToastMessage.cancelChanges(function(){
 	            	$state.go('home');
 	            });
 			};
 
+			vm.setLogo = function(json) {
+
+				vm.settings.home.introduction.icon = "/uploads/"+JSON.parse(json).filename;
+
+			}
 
 		}
 

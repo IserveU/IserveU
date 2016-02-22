@@ -16,7 +16,7 @@
 
 			return this.settings.theme.logo == 'default' 
 				   ? '/themes/default/logo/symbol_mono.svg'
-				   : this.settings.theme.logo;
+				   : '/uploads/'+this.settings.theme.logo;
 
 		}
 

@@ -13,7 +13,7 @@
 
 			var vm = this;
 
-			this.settings = settings.getData();
+			this.settings = settings;
 
 			vm.theme = settingsData.theme;
 			this.themeSelect = settingsData.theme.name;
@@ -62,11 +62,13 @@
 				else if (type === 'favicon')
 					settings.saveArray('theme.favicon', this.favicon.filename);	
 				else if (type === 'logo')
-					settings.saveArray('theme.logo', this.logo.filename);	
+					settings.saveArray('theme.logo', JSON.parse(this.logo).filename);	
+
 				
 				$timeout(function() {
 					ToastMessage.reload();
 				}, 2000);
+
 			};
 
 		}
@@ -74,7 +76,7 @@
 
 		return {
 			controller: appearanceController,
-			controllerAs: 'app',
+			controllerAs: 'appearance',
 			templateUrl: 'app/components/admin/partials/appearance/appearance.tpl.html'
 		}
 

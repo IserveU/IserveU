@@ -1,8 +1,23 @@
 <md-card>
 	<md-card-content>
-	<md-input-container style="width: 100%; margin-bottom: 0">
+
+
+	<div layout="row">
+
+    <div flow-init="{target: '/file', testChunks:false, query: {type: 'logo'} }"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="edit.setLogo($message)" style="margin-top:22px">
+		<md-icon ng-if="!$flow.files[0]" md-svg-src="{{ edit.settings.home.introduction.icon }}" flow-btn></md-icon>
+
+		<img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+
+	</div>
+
+	<md-input-container style="margin-bottom: 0" flex="95">
 		<input ng-model="edit.settings.home.introduction.title"/>
 	</md-input-container>
+
+	</div>
 
 	<text-angular ng-model="edit.settings.home.introduction.text" ta-file-drop="edit.dropHandler"></text-angular>
 
