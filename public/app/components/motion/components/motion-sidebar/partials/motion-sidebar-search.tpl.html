@@ -2,7 +2,7 @@
   <div class="md-toolbar-tools sidebar-toolbar" ng-class="common.settings.module.motions?'motion-enabled flex':''">
 
     <md-button class="md-icon-button home-btn" aria-label="Home Button">
-      <md-icon md-svg-src="/themes/{{themename}}/logo/symbol_mono.svg" ui-sref="home" ng-hide="search.showSearch"></md-icon>
+      <md-icon md-svg-src="{{ common.getLogoUrl() }}" ui-sref="home" ng-hide="search.showSearch"></md-icon>
       <md-icon class="mdi mdi-arrow-left" ng-show="search.showSearch" ng-click="search.showSearchFunc()"></md-icon>
     </md-button>
 
