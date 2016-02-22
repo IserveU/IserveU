@@ -33,7 +33,7 @@
 						reader.onload = function() {
 							if(reader.result !== '')
 								fileService.upload(file).then(function(r){
-									insertAction('insertImage', 'uploads/pages/'+r.data.filename, true);
+									insertAction('insertImage', '/uploads/'+r.data.filename, true);
 								}, function(e) { console.log(e); });
 						};
 

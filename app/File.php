@@ -230,7 +230,7 @@ class File extends ApiModel
             //Upload image
             Storage::put($name,$file);
 
-            $file->move(getcwd()."/uploads/pages", $name);
+            $file->move(getcwd()."/uploads/", $name);
 
             $this->attributes['filename'] = $name;
  
@@ -247,7 +247,7 @@ class File extends ApiModel
 
         Storage::put($filename,file_get_contents($file->getRealPath()));
 
-        $file->move(getcwd()."/uploads/pages", $filename);
+        $file->move(getcwd()."/uploads/", $filename);
     }
 
 

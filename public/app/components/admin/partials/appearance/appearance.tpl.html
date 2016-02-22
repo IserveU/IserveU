@@ -1,5 +1,14 @@
  <md-content layout="column">
 
+    <div flow-init="{target: '/file', testChunks:false, query: {type: 'logo'} }"
+         flow-files-submitted="$flow.upload()"
+         flow-file-success="app.logo = $message">
+      <md-button flow-btn>Upload logo</md-button>
+      <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
+    </div>
+
+
+
 
   <md-card style="margin: 0">
     <md-card-content>
@@ -84,22 +93,6 @@
 
 
 
- <!--    <p>For best quality, upload a SVG file.</p>
 
-    <div flow-init="{target: '/file', testChunks:false}"
-         flow-files-submitted="$flow.upload()"
-         flow-file-success="app.logo = $message">
-      <md-button flow-btn>Upload logo</md-button>
-      <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
-    </div>
-
-    <div flow-init="{target: '/file', testChunks:false}"
-         flow-files-submitted="$flow.upload()"
-         flow-file-success="app.favicon = $message">
-      <md-button flow-btn>Upload favicon</md-button>
-      <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
-    </div>
-
- -->
 
 </md-content>

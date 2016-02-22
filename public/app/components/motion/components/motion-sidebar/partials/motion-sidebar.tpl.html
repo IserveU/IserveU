@@ -1,9 +1,9 @@
-<md-content role="navigation" class="flex md-default-theme" layout-fill flex >
+<md-content role="navigation" class="flex md-default-theme" layout-fill>
   
 <motion-searchbar hide-gt-lg hide-lg flex></motion-searchbar>
 
 <div infinite-scroll="sidebar.loadMoreMotions()" 
-     infinite-scroll-container="'.md-sidenav-left'"
+     infinite-scroll-container="'.site-sidenav'"
      infinite-scroll-distance="0" 
      infinite-scroll-disabled="!sidebar.motionObj.next_page || sidebar.paginating || sidebar.motionObj.motionsAreEmpty">
 
@@ -25,7 +25,7 @@
       <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
 
       <quick-vote></quick-vote>
-    
+
     </md-list-item>
 
 

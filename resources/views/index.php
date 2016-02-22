@@ -12,26 +12,24 @@
 
     <body ng-controller="CommonController as commons" ng-cloak  back-img class="background-image"> 
 
-        <user-bar id="site-content-toolbar" ng-if="userIsLoggedIn" style="z-index: 20"></user-bar>
+        <user-bar ng-if="userIsLoggedIn"></user-bar>
 
-        <md-content id="maincontent" layout="row" role="main" tabIndex="-1" flex layout-fill>
+        <md-content id="maincontent" layout="row" layout-fill fkex>
 
-            <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
-            class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open"
-            md-component-id="left" 
-            md-is-locked-open="$mdMedia('lg')" tabIndex="-1" flex>
-                <motion-sidebar flex></motion-sidebar>
-            </md-sidenav>
+                <!-- class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" -->
 
-            <div column="column" layout-fill flex>
-                <div ui-view flex></div>
-                <show-footer></show-footer>    
-            </div>
+                <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
+                style="height: 200vh;"
+                class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
+                md-component-id="left" 
+                md-is-locked-open="$mdMedia('gt-md')">
+                    <motion-sidebar flex></motion-sidebar>
+                </md-sidenav>
+
+                <div ui-view flex layout-fill role="main" tabIndex="-1" ></div>
         </md-content>
                 
-
-
-
+        <show-footer></show-footer>    
     </body>        
 
 
@@ -41,7 +39,7 @@
     <script src="<?=elixir('js/app.js')?>"></script>
     
     <!-- difficulty including this in bower file for now, more research needs to be done --> 
-    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+    <!-- <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script> -->
     <script>
         angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
     </script>

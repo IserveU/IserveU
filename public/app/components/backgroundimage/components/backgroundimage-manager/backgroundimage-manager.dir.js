@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('backgroundImageManager', backgroundImageManager);
 
-	function backgroundImageManager(settings, fileService) {
+	function backgroundImageManager($timeout, settings, fileService, ToastMessage) {
 
 		function backgroundimageController() {
 
@@ -17,7 +17,12 @@
 						'/themes/default/photos/background.png';
 
 			this.save = function(file) {
-				settings.saveArray('theme.background_image', 'uploads/pages/'+JSON.parse(this.uploaded).filename);
+				settings.saveArray('theme.background_image', '/uploads/'+JSON.parse(this.uploaded).filename);
+
+				$timeout(function() {
+					ToastMessage.reload();
+				}, 1000);
+
 			}
 		}
 

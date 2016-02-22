@@ -9,14 +9,16 @@ $lightGrey:  #f2f2f2;
 
 $padding: 16px;
 
+$backgroundTransparency: 0;
+
+
 $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+
 
 .home {
 	md-card {margin: 10px;}
 	md-card-content { padding: 10px;}
-	md-progress-circular {
-		margin: auto;
-	}
 }
 
 #dashboard {
@@ -25,33 +27,39 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
-.title-icon {
-	display:inline-block; 
-	font-size: 19px !important; 
-	left: 3px !important; 
-	position: relative; 
-	bottom: 1px !important;
-	vertical-align:inherit;
+md-progress-circular {
+	margin: auto;
 }
-.title-header{
-	font-size: 16px; margin-bottom: 18px; display:inline-block;
-}
-.title-subhead{
-	font-size: 14px; margin-bottom: 18px; display:inline-block;
-	color: $darkGrey;
-}
-.title-svg-icon {
-	display:inline-block; 
-	width: 18px;
-}
+// style preset for md-card style that emulates angular.io's material style.
+md-card{
+	.title-icon {
+		display:inline-block; 
+		font-size: 19px !important; 
+		left: 3px !important; 
+		position: relative; 
+		bottom: 1px !important;
+		vertical-align:inherit;
+	}
+	.title-header{
+		font-size: 16px; margin-bottom: 18px; display:inline-block;
+	}
+	.title-subhead{
+		font-size: 14px; margin-bottom: 18px; display:inline-block;
+		color: $darkGrey;
+	}
+	.title-svg-icon {
+		display:inline-block; 
+		width: 18px;
+	}
 
-.inline-icon {
-	display:inline-block; 
-	font-size: 17px !important; 
-	left: -1px !important; 
-	position: relative; 
-	bottom: 1px !important;
-	cursor: pointer;
+	.inline-icon {
+		display:inline-block; 
+		font-size: 17px !important; 
+		left: -1px !important; 
+		position: relative; 
+		bottom: 1px !important;
+		cursor: pointer;
+	}
 }
 
 .display-user-comment {
@@ -131,7 +139,7 @@ html{
 }
 
 body{
-	// height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
+	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
 	// overflow: hidden; // this is for md-content box to avoid double scroll
 
 }
@@ -207,7 +215,7 @@ form{
 }
 
 .md-whiteframe-z1, .loginbox, #maincontent, #footer{
-	background-color: rgba(255,255,255,0.3) !important;
+	background-color: rgba(255,255,255, $backgroundTransparency) !important;
 }
 
 #footer{
