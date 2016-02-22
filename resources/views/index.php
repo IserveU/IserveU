@@ -19,7 +19,7 @@
                 <!-- class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" -->
 
                 <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
-                style="height: 200vh;"
+                style="height: 90vh;"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 md-component-id="left" 
                 md-is-locked-open="$mdMedia('gt-md')">
