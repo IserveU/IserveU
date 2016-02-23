@@ -23,21 +23,13 @@
         </md-button>
         <md-menu-content width="4">
 
-            <md-menu-item>
-                <md-button aria-label="logout" ng-click="user.logout()">
-                    <div layout="row">
-                        <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
-                        <md-icon class="mdi" md-font-icon="mdi-logout"></md-icon>
-                    </div>
-                </md-button>
-            </md-menu-item>
 
             
             <md-menu-item ui-sref="user({id:authenticatedUser.id})">
                 <md-button aria-label="go to your profile">
                     <div layout="row">
                         <p flex translate="{{'YOUR_PROFILE'}}"></p>
-                        <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
+                        <md-icon class="mdi mdi-account-circle"></md-icon>
                     </div>
                 </md-button>
             </md-menu-item>
@@ -47,11 +39,21 @@
                 <md-button aria-label="go to admin dashboard">
                     <div layout="row">
                         <p flex>Admin Dashboard</p>
-                        <md-icon class="mdi"  md-font-icon="mdi-folder-multiple-outline"></md-icon>
+                        <md-icon class="mdi mdi-view-dashboard"></md-icon>
                     </div>
                 </md-button>
             </md-menu-item>
             </has-permission>
+
+
+            <md-menu-item>
+                <md-button aria-label="logout" ng-click="user.logout()">
+                    <div layout="row">
+                        <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
+                        <md-icon class="mdi mdi-logout"></md-icon>
+                    </div>
+                </md-button>
+            </md-menu-item>
 
 
 
