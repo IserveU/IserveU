@@ -1,4 +1,7 @@
 <section layout-margin layout="column" ng-class="motion.isLoading?'loading':''">
+
+	<motion-fab-toolbar></motion-fab-toolbar>	
+
 	<md-card flex ng-if="!motion.editMode">
 		<md-card-content style="padding: 0">
 
@@ -66,7 +69,6 @@
 
 
 	<edit-motion ng-if="motion.editMode"></edit-motion>
-	<motion-fab-toolbar></motion-fab-toolbar>	
 		
 
 	<span ng-if="!motion.editMode">

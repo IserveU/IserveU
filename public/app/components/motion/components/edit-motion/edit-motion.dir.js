@@ -28,7 +28,6 @@
 
 	        vm.updateMotion = updateMotion;
 	        vm.cancelEditMotion = cancelEditMotion;
-	        vm.deleteMotion = deleteMotion;
 
 
 	        function initMotion(id) {

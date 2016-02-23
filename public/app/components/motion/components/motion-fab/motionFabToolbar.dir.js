@@ -6,11 +6,12 @@
 		.module('iserveu')
 		.directive('motionFabToolbar', motionFabToolbar);
 
-	function motionFabToolbar($state, $stateParams, motion, motionObj, ToastMessage){
+	function motionFabToolbar($state, $stateParams, motion, motionObj, fabLink, ToastMessage){
 
 		function motionFabToolbarController() {
 
 			this.deleteMotion = deleteMotion;
+			this.isOpen = false;
 
 	        function deleteMotion() {
 	        	ToastMessage.destroyThis("motion", function(){
@@ -22,12 +23,15 @@
 	        };
 		}
 
-
+		function motionFabLink(scope,el,attrs) {
+			fabLink(el);
+		}
 
 
 		return {
 			controller: motionFabToolbarController,
 			controllerAs: 'fab',
+			link: motionFabLink,
 			templateUrl: 'app/components/motion/components/motion-fab/motion-fab-toolbar.tpl.html'
 		}
 

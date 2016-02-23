@@ -14,9 +14,6 @@
 			this.pageObj = pageObj;
 			this.saveString = "Create";
 
-
-			console.log('create');
-
 			this.cancel = function() {
 				ToastMessage.cancelChanges(function(){
 					$state.go('dashboard');

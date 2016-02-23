@@ -1,28 +1,31 @@
 <has-permission has-permission="hasAllmotions">
-	<md-fab-toolbar  md-direction="left" >
-	<md-fab-trigger class="align-with-text">
-		<md-button aria-label="menu" class="md-fab md-primary">
-			<md-icon class="mdi" md-font-icon="mdi-menu" ></md-icon>
+ <md-fab-speed-dial class="md-scale fab-tool-animate" md-open="fab.isOpen" ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false" md-hover-full md-direction="down" style="position:fixed; right: 15px;">
+  <md-fab-trigger>
+    <md-button aria-label="menu" class="md-fab md-primary">
+      <md-icon class="mdi mdi-menu"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+
+ 	<has-permission has-permission="create-motions">
+		<md-button aria-label="create" ui-sref="create-motion" class="md-fab md-raised md-mini">
+			<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
 		</md-button>
-    </md-fab-trigger>
-    <md-toolbar>
-		<md-fab-actions class="md-toolbar-tools">
-			<has-permission has-permission="create-motions">
-			<md-button aria-label="create" ui-sref="create.motion" class="md-icon-button">
-				<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>
-			</md-button>
-			</has-permission>
-			<has-permission has-permission="administrate-motions">
-		    <md-button aria-label="edit" ng-click="motion.editMotion(); motion.goTo('top')" class="md-icon-button">
-				<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
-			</md-button>
-			</has-permission>
-			<has-permission has-permission="delete-motions">
-		    <md-button aria-label="delete" ng-click="fab.deleteMotion()" class="md-icon-button md-warn">
-				<md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
-			</md-button>
-			</has-permission>
-		</md-fab-actions>
-	</md-toolbar>
-	</md-fab-toolbar>
+	</has-permission>
+
+	<has-permission has-permission="administrate-motions">
+	    <md-button aria-label="edit" ng-click="motion.editMotion(); motion.goTo('top')" class="md-fab md-raised md-mini">
+			<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>
+		</md-button>
+	</has-permission>
+
+	<has-permission has-permission="delete-motions">
+	    <md-button aria-label="delete" ng-click="fab.deleteMotion()" class="md-fab md-raised md-mini md-warn">
+			<md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>
+		</md-button>
+	</has-permission>
+
+  </md-fab-actions>
+</md-fab-speed-dial>
+
 </has-permission>
