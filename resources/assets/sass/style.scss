@@ -195,6 +195,21 @@ md-caption.imagecredit{
   font-size:15px; 
 }
 
+.main-nav-button {
+	line-height: 64px;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    padding: 0 16px;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 16px;
+    border: none;
+    background: none;
+    border-radius: 0;
+    position: relative;
+    margin: 0;
+}
 
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {
@@ -220,7 +235,7 @@ form{
 
 md-sidenav{
  	background-color: rgba(255,255,255,1) !important;	
- } 
+} 
 
 .logo{
 	margin: auto;
@@ -622,9 +637,9 @@ input.sidebar-search-input {
 		    border-style: solid;
 		    line-height: 120%;
 		    border-bottom: thin solid white;
-		    &:focus{
-			    border-bottom: thin solid $accent;
-		    }
+		    // &:focus{
+			   //  border-bottom: thin solid $accent;
+		    // }
 		
 		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 			font-size: 16px;
@@ -729,16 +744,6 @@ input.sidebar-search-input {
 	.motion-enabled {
 		max-width: 400px;
 		min-width: 400px;
-	}
-	// .search-icon {
-	// 	left:10px; margin: 0; 
-	// 	margin-left: 200px; 
-	// 	position: relative;
-	// }
-	.action-buttons {
-		// position: relative;
-		// left: 200px;
-		// top: 17px;
 	}
 	.mdi-magnify {
 		position:relative;

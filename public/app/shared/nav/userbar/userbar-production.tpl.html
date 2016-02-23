@@ -8,10 +8,13 @@
       <md-icon class="mdi mdi-menu"></md-icon>
     </md-button>
 
-    <div ng-repeat="page in user.pageObj.index">
-        <md-button style="margin:0" aria-label="Open sample menu" ui-sref="pages({id:page.slug})">
+    <div ng-repeat="page in user.pageObj.index" >
+      
+        <button class="main-nav-button md-button md-ink-ripple" aria-label="Open new page" ui-sref="pages({id:page.slug})">
           {{ page.title }}
-        </md-button>
+        </button>
+
+
     </div>
 
   <span flex></span>
