@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('editHome', editHome);
 
-	function editHome($state, $timeout, settings, ToastMessage, dropHandler) {
+	function editHome($state, settings, ToastMessage, dropHandler) {
 
 		function editHomeController() {
 
@@ -18,9 +18,6 @@
 
 			vm.save = function() {
 				settings.saveArray('home', vm.settings.home);
-				$timeout(function(){
-					$state.go('home');
-				}, 2000);
 			}
 
 			vm.cancel = function() {
@@ -30,10 +27,21 @@
 			};
 
 			vm.setLogo = function(json) {
-
 				vm.settings.home.introduction.icon = "/uploads/"+JSON.parse(json).filename;
-
 			}
+
+		}
+
+
+		function editHomeLink(scope, el, attrs) {
+
+			scope.$watch(
+				'edit.settings.saving',
+				function redirect(newValue, oldValue) {
+					if(newValue == false && oldValue == true)
+						$state.go('home');
+				}
+			);
 
 		}
 
@@ -42,6 +50,7 @@
 		return {
 			controller: editHomeController,
 			controllerAs: 'edit',
+			link: editHomeLink,
 			templateUrl: 'app/components/home/edit-home/edit-home.tpl.html'
 		}
 

@@ -13,27 +13,27 @@
 
 			var vm = this;
 
-			this.settings = settings;
+			vm.settings = settings.getData();
 
 			vm.theme = settingsData.theme;
-			this.themeSelect = settingsData.theme.name;
-			this.site = settingsData.site;
-			this.logo = null;
-			this.favicon = null;
+			vm.themeSelect = settingsData.theme.name;
+			vm.site = settingsData.site;
+			vm.logo = null;
+			vm.favicon = null;
 
-			this.primary = {
-				hue_one: '#'+this.theme.primary['50'],
-				hue_two: '#'+this.theme.primary['400'],
-				hue_three: '#'+this.theme.primary['700'],
-				warning: '#'+this.theme.primary['A700'],
-				contrast: this.theme.primary['contrastDefaultColor']
+			vm.primary = {
+				hue_one: '#'+vm.theme.primary['50'],
+				hue_two: '#'+vm.theme.primary['400'],
+				hue_three: '#'+vm.theme.primary['700'],
+				warning: '#'+vm.theme.primary['A700'],
+				contrast: vm.theme.primary['contrastDefaultColor']
 			};
 
-			this.accent = {
-				hue_one: '#'+this.theme.accent['50'],
-				hue_two: '#'+this.theme.accent['400'],
-				hue_three: '#'+this.theme.accent['700'],
-				contrast: this.theme.accent['contrastDefaultColor']
+			vm.accent = {
+				hue_one: '#'+vm.theme.accent['50'],
+				hue_two: '#'+vm.theme.accent['400'],
+				hue_three: '#'+vm.theme.accent['700'],
+				contrast: vm.theme.accent['contrastDefaultColor']
 			};
 		
 			function assignThemePalette(array, type) {
@@ -49,27 +49,32 @@
 			};
 
 			// TODO: make into a service singleton
-			this.save = function(type) {
+			vm.save = function(type) {
 				if(type === 'palette') {
-					this.accent.warning = this.accent.hue_one;
-					assignThemePalette(this.accent, 'accent');
-					$timeout(function(){
-						assignThemePalette(this.primary, 'primary');
-					}, 100);
+					vm.accent.warning = vm.accent.hue_one;
+					assignThemePalette(vm.accent, 'accent');
+					assignThemePalette(vm.primary, 'primary');
 				} 
 				else if (type === 'site') 
 					settings.saveArray('site', settingsData.site);					
 				else if (type === 'favicon')
-					settings.saveArray('theme.favicon', this.favicon.filename);	
+					settings.saveArray('theme.favicon', vm.favicon.filename);	
 				else if (type === 'logo')
-					settings.saveArray('theme.logo', JSON.parse(this.logo).filename);	
-
+					settings.saveArray('theme.logo', JSON.parse(vm.logo).filename);	
 				
-				$timeout(function() {
-					ToastMessage.reload();
-				}, 2000);
-
 			};
+
+		}
+
+
+		function appearanceLink(scope, el, attrs) {
+
+			scope.$watch(
+				'appearance.settings.saving',
+				function redirect(newValue, oldValue){
+					if(newValue == false && oldValue == true)
+						ToastMessage.reload();
+				});
 
 		}
 
@@ -77,6 +82,7 @@
 		return {
 			controller: appearanceController,
 			controllerAs: 'appearance',
+			link: appearanceLink,
 			templateUrl: 'app/components/admin/partials/appearance/appearance.tpl.html'
 		}
 

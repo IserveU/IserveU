@@ -12,8 +12,6 @@
 
 		this.getLogoUrl = function() {
 
-			console.log('foo');
-
 			return this.settings.theme.logo == 'default' 
 				   ? '/themes/default/logo/symbol_mono.svg'
 				   : '/uploads/'+this.settings.theme.logo;

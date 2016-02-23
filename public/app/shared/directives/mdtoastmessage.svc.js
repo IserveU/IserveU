@@ -36,11 +36,11 @@
         }
 
         function reload(){
-            simple("The page will now refresh.", 1500);
+            simple("The page will now refresh.", 500);
             
             $timeout(function() {
                 location.reload();
-            }, 2000);
+            }, 1000);
         }
 
         function destroyThis(type, fn){
