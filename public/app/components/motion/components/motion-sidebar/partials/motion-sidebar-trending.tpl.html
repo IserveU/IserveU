@@ -1,0 +1,6 @@
+<div>
+	<md-icon aria-label="Motion Popularity" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}">
+	<md-tooltip md-direction="right" ng-if="motion.motion_rank !== 0 && motion.motion_rank != null">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
+	<md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
+	</md-icon>
+</div>
