@@ -214,8 +214,12 @@ form{
   margin-bottom: 0em;
 }
 
-.md-whiteframe-z1, .loginbox, #maincontent, #footer{
+.md-whiteframe-z1, #maincontent, #footer{
 	background-color: rgba(255,255,255, $backgroundTransparency) !important;
+}
+
+.loginbox{
+	background-color: rgba(255,255,255, .8) !important;
 }
 
 #footer{
