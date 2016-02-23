@@ -90,7 +90,7 @@
         })
         .state( 'user', {
             url: '/user/:id',
-            templateUrl: 'app/components/user/partials/user-profile.tpl.html',
+            templateUrl: 'app/components/user/partials/user-profile-production.tpl.html',
             controller: 'UserController as vm',
             data: {
                 requireLogin: true
