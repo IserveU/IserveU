@@ -118,8 +118,7 @@
             data: {
                 requireLogin: true
             }
-        })
-    	.state('login', {
+        }) .state('login', {
             url: '/login',
         	controller: 'loginController as login',
         	templateUrl: 'app/shared/auth/login/login.tpl.html',

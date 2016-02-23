@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('termsAndConditions', termsAndConditions);
 
-	function termsAndConditions(settings) {
+	function termsAndConditions(settings, loginService) {
 
 		function controllerMethod($mdDialog, $scope) {
         	
@@ -25,17 +25,15 @@
 				      targetEvent: ev,
 				      clickOutsideToClose:false
 				    }).then(function(answer){
-				    	if(answer === 'agree'){
-				    		// find a way to validate form before creating user
+				    	if( answer === 'agree' )
 				        	vm.agree = true;
-				    	}
-				    	if(create === true){
+				    	if( answer === 'agree' && create === true ) {
+				    		loginService.createUser();
 				    		vm.hasRead = true;
 				    	}
-				    	else {
+				    	else
 				    		vm.hasRead = false;
-				    	}
-				    })
+				    });
 				}
         	}
 

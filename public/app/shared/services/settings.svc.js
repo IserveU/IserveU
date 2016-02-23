@@ -32,7 +32,6 @@
 				console.log(data);
 				settingsObj.initialData.saving = true;
 				$http.post('/setting', data).success(function(r){
-					console.log(r);	
 					refreshLocalStorage.setItem('settings', r);
 					settingsObj.initialData.saving = false;
 				}).error(function(e) {

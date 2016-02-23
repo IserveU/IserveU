@@ -40,7 +40,7 @@
             
             $timeout(function() {
                 location.reload();
-            }, 1000);
+            }, 800);
         }
 
         function destroyThis(type, fn){

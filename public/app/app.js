@@ -17,7 +17,7 @@
 			'pascalprecht.translate',
 			'mdColorPicker'
 		])
-		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
+		.config(function($urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
 
 			// speeds up the app, the debug info are for {{}}
 			$compileProvider.debugInfoEnabled(false);
@@ -50,9 +50,9 @@
 			// 	}
 			// });
 
-		    // the overall default route for the app. If no matching route is found, then go here
 			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
 
+		    // the overall default route for the app. If no matching route is found, then go here
 		    $urlRouterProvider.otherwise('/home');
 
 			$authProvider.loginUrl = '/authenticate';

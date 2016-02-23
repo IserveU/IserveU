@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.directive('backImg', backImg);
 
-	function backImg($timeout, $http) {
+	function backImg($http) {
 
 		function linkMethod(scope, element, attrs){
 				

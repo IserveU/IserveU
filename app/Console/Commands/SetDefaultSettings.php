@@ -51,6 +51,10 @@ class SetDefaultSettings extends Command
                 'minutes_between_rank_calculations' =>  60
             ), $overwrite);
 
+        $this->ifNullSet('login', array(
+                'logo' => '/themes/default/logo/logo.png'
+            ), $overwrite);
+
         $this->ifNullSet('site', array(
                 'name'      =>      'IserveU',
                 'terms'     =>      'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.'

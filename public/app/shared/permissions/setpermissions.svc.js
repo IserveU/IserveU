@@ -6,6 +6,8 @@
 		.module('iserveu')
 		.service('SetPermissionsService', SetPermissionsService);
 
+
+	// This is a TODO!
 	function SetPermissionsService($rootScope, $state, auth) {
 
 		var vm = this;
