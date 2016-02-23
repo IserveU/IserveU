@@ -5,9 +5,11 @@
 		.module('iserveu')
 		.directive('appearanceManager', appearance);
 
+
+		// Refactor ToDo
 	function appearance($timeout, appearanceService, refreshLocalStorage, settings, ToastMessage) {
 
-		function appearanceController() {
+		function appearanceController($scope) {
 
 			var settingsData = JSON.parse(localStorage.getItem('settings'));
 
@@ -61,28 +63,20 @@
 					settings.saveArray('theme.favicon', vm.favicon.filename);	
 				else if (type === 'logo')
 					settings.saveArray('theme.logo', JSON.parse(vm.logo).filename);	
-				
 			};
 
-		}
-
-
-		function appearanceLink(scope, el, attrs) {
-
-			scope.$watch(
+			$scope.$watch(
 				'appearance.settings.saving',
 				function redirect(newValue, oldValue){
 					if(newValue == false && oldValue == true)
 						ToastMessage.reload();
-				});
-
+			});
 		}
 
 
 		return {
 			controller: appearanceController,
 			controllerAs: 'appearance',
-			link: appearanceLink,
 			templateUrl: 'app/components/admin/partials/appearance/appearance.tpl.html'
 		}
 

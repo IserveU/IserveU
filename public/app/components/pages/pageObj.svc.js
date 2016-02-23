@@ -41,7 +41,6 @@
 				$http.post('/api/page', data).then(function(r){
 					pageObj.getIndex();
 					pageObj.processing = false;
-					console.log(r);
 					$state.go('pages', {id: r.slug});
 
 				});
@@ -57,7 +56,6 @@
 				$http.patch('/api/page/'+slug, data).then(function(r){
 					pageObj.getIndex();
 					pageObj.processing = false;
-					console.log(r);
 					$state.go('pages', {id: r.slug});
 				});
 			}

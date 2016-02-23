@@ -17,7 +17,6 @@
 			this.saveString = "Save";
 
 			this.save = function() {
-				console.log('saving');
 				pageObj.processing = true;
 				pageObj.update($stateParams.id, {
 					'title': this.pageObj.title,

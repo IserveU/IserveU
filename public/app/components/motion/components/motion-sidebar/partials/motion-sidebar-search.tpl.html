@@ -7,13 +7,15 @@
     </md-button>
 
 
-      <div ng-if="common.settings.module.motions" layout="row">
+      <div ng-if="common.settings.module.motions" layout="row" style="max-width: 400px" flex>
 
-        <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}"></h2>
+        <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}" flex></h2>
 
-        <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" flex/>
+        <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" style="width: 80%" flex/>
+
 
         <div ng-class="search.showSearch?'':'action-buttons'" layout-align="end end">
+
           <md-icon class="mdi mdi-magnify search-icon" ng-click="search.showSearchFunc()" ng-class="{'search-icon':search.showSearch}"></md-icon>
 
           <md-menu md-offset="27 32">

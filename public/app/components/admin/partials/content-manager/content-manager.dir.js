@@ -8,7 +8,7 @@
 
 	function contentManager($state, pageObj, settings, dropHandler, ToastMessage) {
 
-		function contentController() {
+		function contentController($scope) {
 
 			this.pageObj = pageObj;
 
@@ -30,7 +30,6 @@
 				});
 			};
 
-			// TODO: export this into a service singleton
 			this.save = function(type) {
 				if(type === 'jargon') {
 					settings.saveArray( 'jargon.en', this.settings.jargon.en );
@@ -45,6 +44,13 @@
 				else if (type === 'introduction')
 					settings.saveArray( 'home.introduction', this.settings.home.introduction );	
 			}
+
+			$scope.$watch('content.settings.save',
+				function(newValue, oldValue){
+					if(newValue == false && oldValue == true)
+						$state.reload();
+			});
+
 		};
 
 

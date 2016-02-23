@@ -13,7 +13,6 @@
 			var vm = this;
 
 			vm.settings = settings.getData();
-
 			vm.dropHandler = dropHandler;
 
 			vm.save = function() {

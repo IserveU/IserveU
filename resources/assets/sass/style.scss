@@ -11,10 +11,7 @@ $padding: 16px;
 
 $backgroundTransparency: 0;
 
-
 $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-
 
 .home {
 	md-card {margin: 10px;}
@@ -31,38 +28,33 @@ md-progress-circular {
 	margin: auto;
 }
 
-md-fab-speed-dial {
-	position: fixed;
-}
 // style preset for md-card style that emulates angular.io's material style.
 md-card{
-	.title-icon {
+	.inline-icon {
 		display:inline-block; 
+		position: relative; 
+		cursor: pointer;
+		font-size: 17px !important; 
+		left: -1px !important; 
+		bottom: 1px !important;
+	}	
+	.title-icon {
+		@extend .inline-icon;
 		font-size: 19px !important; 
 		left: 3px !important; 
-		position: relative; 
-		bottom: 1px !important;
 		vertical-align:inherit;
 	}
 	.title-header{
 		font-size: 16px; margin-bottom: 18px; display:inline-block;
 	}
 	.title-subhead{
-		font-size: 14px; margin-bottom: 18px; display:inline-block;
+		@extend .title-header;
+		font-size: 14px;
 		color: $darkGrey;
 	}
 	.title-svg-icon {
 		display:inline-block; 
 		width: 18px;
-	}
-
-	.inline-icon {
-		display:inline-block; 
-		font-size: 17px !important; 
-		left: -1px !important; 
-		position: relative; 
-		bottom: 1px !important;
-		cursor: pointer;
 	}
 }
 
@@ -86,10 +78,10 @@ md-card{
 }
 
 .fab-tool-animate {
-	  transition-duration: .5s;
-	   -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	  -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	  -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-duration: .5s;
+   -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @media screen and (max-width:544px) {
@@ -139,19 +131,14 @@ p.beta-message {
 
 html{
 	height: 100%;
-
 }
 
 body{
 	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
-	// overflow: hidden; // this is for md-content box to avoid double scroll
-
 }
 
 html,body{
 	min-height: 100% !important;
-	// overflow: hidden; // this is for md-content box to avoid double scroll
-
 }
 
 a{
@@ -749,8 +736,8 @@ input.sidebar-search-input {
 	// 	position: relative;
 	// }
 	.action-buttons {
-		position: relative;
-		left: 200px;
+		// position: relative;
+		// left: 200px;
 		// top: 17px;
 	}
 	.mdi-magnify {
@@ -770,7 +757,7 @@ input.sidebar-search-input {
 		}
 	}
 	h2 {
-		position: relative; top: 7px;
+		position: relative; top: 5px;
 	}
 	padding-right:0px;
 }
