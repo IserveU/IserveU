@@ -13,14 +13,14 @@
 			$http.get('settings').success(function(r){
 				set( r.theme.background_image 
 					 ? r.theme.background_image 
-		    		 : "themes/default/photos/background.png");
+		    		 : "/themes/default/photos/background.png");
 			}).error(function(e){
 				console.log(e);
 			});
 
 			function set(background_image){
 				element.css({
-				    'background-image': 'url(/'+background_image+')'
+				    'background-image': 'url('+background_image+')'
 				});
 			}
 		}

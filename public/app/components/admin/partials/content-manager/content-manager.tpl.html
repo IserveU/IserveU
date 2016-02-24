@@ -9,10 +9,10 @@
 		</div>
 
 		<div ng-if="showCustomPages">
-	    <ul ng-repeat="page in content.pageObj.index">
+	    <ul ng-repeat="page in content.pages.index">
 		    <li>
 		    	<a ng-bind="page.title" ui-sref="pages({id:page.slug})"></a>
-			    	<md-icon ng-click="content.editPage(page.slug)" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
+			    	<md-icon ui-sref="edit-page({id:page.slug})" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
 			    	<md-icon ng-click="content.deletePage(page.slug)" class="mdi mdi-delete inline-icon"></md-icon>
 		    </li>
 	    </ul>
@@ -43,7 +43,7 @@
 		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
 		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
 	   
-			<spinner ng-click="content.save('module')" name="'Save'" on-hide="content.settings.saving"></spinner>
+			<spinner ng-click="content.service.saveTypeOf('module', content.settings.module)" name="'Save'" on-hide="content.settings.saving"></spinner>
 	    
 	    </div>
 
@@ -85,7 +85,7 @@
 	    		<text-angular ng-model='content.settings.home.introduction.text'></text-angular>
 
 
-				<spinner ng-click="content.save('introduction')" name="'Save'" on-hide="content.settings.saving"></spinner>
+				<spinner ng-click="content.service.saveTypeOf('introduction', content.settings.home.introduction)" name="'Save'" on-hide="content.settings.saving"></spinner>
 
 		    </form>
 
@@ -100,7 +100,7 @@
 				    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
 			    </div>
 		    
-				<spinner ng-click="content.save('home')" name="'Save'" on-hide="content.settings.saving"></spinner>
+				<spinner ng-click="content.service.saveTypeOf('home', content.settings.home.widgets)" name="'Save'" on-hide="content.settings.saving"></spinner>
 			</div>
 
 	    </div>
@@ -161,7 +161,7 @@
 				</md-input-container>
 
 
-			<spinner ng-click="content.save('jargon')" name="'Save'" on-hide="content.settings.saving"></spinner>
+			<spinner ng-click="content.service.saveTypeOf('jargon', content.settings.jargon)" name="'Save'" on-hide="content.settings.saving"></spinner>
 
 		</div>
 
@@ -182,7 +182,7 @@
 			</md-input-container>
 		
 
-			<spinner ng-click="content.save('terms');" name="'Save'" on-hide="content.settings.saving"></spinner>
+			<spinner ng-click="content.service.saveTypeOf('terms', content.settings.site.terms);" name="'Save'" on-hide="content.settings.saving"></spinner>
 
 
 		</div>

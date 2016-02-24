@@ -8,48 +8,18 @@
 
 	function contentManager($state, pageObj, settings, dropHandler, ToastMessage) {
 
-		function contentController($scope) {
+		function contentController() {
 
-			this.pageObj = pageObj;
-
+			this.pages = pageObj;
+			this.service = settings;
 			this.settings = settings.getData();
-
 			this.dropHandler = 	dropHandler;
-
-			this.createNewPage = function() {
-				this.create_new_page = !this.create_new_page;
-			};
-
-			this.editPage = function(slug) {
-				$state.go( 'edit-page', {id: slug} );
-			};
 
 			this.deletePage = function(slug) {
 				ToastMessage.destroyThis("page", function() {
 					pageObj.delete(slug);
 				});
 			};
-
-			this.save = function(type) {
-				if(type === 'jargon') {
-					settings.saveArray( 'jargon.en', this.settings.jargon.en );
-					settings.saveArray( 'jargon.fr', this.settings.jargon.fr );
-				} 
-				else if (type === 'home')
-					settings.saveArray( type+'.widgets', this.settings.home.widgets );
-				else if (type === 'module') 
-					settings.saveArray( type, this.settings.module );
-				else if (type === 'terms') 
-					settings.saveArray( 'site.terms', this.settings.site.terms );
-				else if (type === 'introduction')
-					settings.saveArray( 'home.introduction', this.settings.home.introduction );	
-			}
-
-			$scope.$watch('content.settings.save',
-				function(newValue, oldValue){
-					if(newValue == false && oldValue == true)
-						$state.reload();
-			});
 
 		};
 

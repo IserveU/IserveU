@@ -6,15 +6,15 @@
 		.module('iserveu')
 		.factory('settings', settings);
 
-	function settings ($http, auth, refreshLocalStorage) {
+	function settings ($http, auth, refreshLocalStorage, appearanceService) {
 
 		var settingsObj =  {
 			initialData: { saving: false },
 			getData: function() {
-				if (settingsObj.initialData) return settingsObj.initialData;
+				if (this.initialData) return this.initialData;
 				else {
-					settingsObj.get();
-					settingsObj.getData();
+					this.get();
+					this.getData();
 				}
 			},
 			get: function() {
@@ -26,26 +26,50 @@
 						console.log(e);
 					});
 				else 
-					settingsObj.initialData = JSON.parse(data);
+					this.initialData = JSON.parse(data);
 			},
 			save: function(data) {
 				console.log(data);
-				settingsObj.initialData.saving = true;
 				$http.post('/setting', data).success(function(r){
+
 					refreshLocalStorage.setItem('settings', r);
 					settingsObj.initialData.saving = false;
-				}).error(function(e) {
-					console.log(e);
-				});
+					
+				}).error(function(e) { console.log(e); });
 			},
 			saveArray: function(name, value) {
 				if( angular.isUndefined(value) || value == null || value.length == 0 )
 					return 0;
 
-				settingsObj.save({
+				this.initialData.saving = true;
+
+				this.save({
 					'name': name,
 					'value': value
 				});
+			},
+			saveTypeOf: function (type, data) {
+
+				if(type === 'jargon') 
+					this.saveArray( 'jargon', data );
+				else if (type === 'home')
+					this.saveArray( type+'.widgets', data );
+				else if (type === 'module') 
+					this.saveArray( type, data );
+				else if (type === 'terms') 
+					this.saveArray( 'site.terms', data );
+				else if (type === 'introduction')
+					this.saveArray( 'home.introduction', data );
+				else if (type === 'palette')
+					this.saveArray( 'theme', appearanceService.assignThemePalette(data) );
+				else if (type === 'site') 
+					this.saveArray( 'site', data );					
+				else if (type === 'favicon')
+					this.saveArray( 'theme.favicon', JSON.parse(data).filename );	
+				else if (type === 'logo')
+					this.saveArray( 'theme.logo', JSON.parse(data).filename );	
+				else 
+					this.initialData.saving = false;
 			}
 		}
 

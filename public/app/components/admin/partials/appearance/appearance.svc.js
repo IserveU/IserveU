@@ -6,7 +6,23 @@
 		.module('iserveu')
 		.service('appearanceService', appearanceService);
 
-	function appearanceService(settings) {
+	function appearanceService() {
+
+		/**
+		*	Parses the palette arrays and passes to assignHueColors.
+		*/
+		this.assignThemePalette = function(palette) {
+
+			var result = {};
+
+			palette.accent.warning = palette.accent.hue_one;
+
+			for(var i in palette) 
+				if( i !== 'blank')
+				result[i] = assignHueColors( palette[i], palette.blank[i] );
+				
+			return result;
+		};
 
 		/**
 		*	Because mdThemingProvider accepts a large palette of colors,
@@ -15,29 +31,34 @@
 		* 	for the user. This function parses and pushes these values
 		* 	to settings API.
 		*/
-		this.assignHueColors = function(array, key, palette) {
+		function assignHueColors(array, palette) {
 
-			var val = array[key];
 
-			switch (key) {
-				case 'hue_one': 
-					palette[ '50' ] = val.substr(1);
-					setHue(100, 300, val.substr(1), palette);
-					break;
-				case 'hue_two':
-					setHue(400, 600, val.substr(1), palette);
-					break;
-				case 'hue_three':
-					setHue(700, 900, val.substr(1), palette);
-					break;
-				case 'warning':
-					setHue(100, 700, val.substr(1), palette, true);
-					break;
-				default:
-					palette['contrastDefaultColor'] = val;
-					break;
+			for(var i in array) {
+
+				var val = array[i];
+
+				switch (i) {
+					case 'hue_one': 
+						palette[ '50' ] = val.substr(1);
+						setHue(100, 300, val.substr(1), palette);
+						break;
+					case 'hue_two':
+						setHue(400, 600, val.substr(1), palette);
+						break;
+					case 'hue_three':
+						setHue(700, 900, val.substr(1), palette);
+						break;
+					case 'warning':
+						setHue(100, 700, val.substr(1), palette, true);
+						break;
+					default:
+						palette['contrastDefaultColor'] = val;
+						break;
+				};
 			};
 
+			return palette;
 		};
 
 		/*	

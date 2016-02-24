@@ -35,12 +35,14 @@
             return toast;
         }
 
-        function reload(){
-            simple("The page will now refresh.", 500);
+        function reload(time){
+            time = time ? time : 1000;
+
+            simple("The page will now refresh.", time);
             
             $timeout(function() {
                 location.reload();
-            }, 800);
+            }, time * 1.8 );
         }
 
         function destroyThis(type, fn){

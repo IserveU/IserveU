@@ -5,14 +5,14 @@
     <md-card-content layout="row">
     <div flow-init="{target: '/file', testChunks:false, query: {type: 'logo'} }"
          flow-files-submitted="$flow.upload()"
-         flow-file-success="appearance.logo = $message">
+         flow-file-success="logo = $message">
       
       <md-button flow-btn>Upload logo</md-button>
 
       <div layout="row">
         <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
         <md-icon ng-if="!$flow.files[0]" style="max-width: 100px; height: auto;" md-svg-icon="{{ ::common.getLogoUrl() }}"></md-icon>
-        <spinner ng-if="$flow.files[0]" ng-click="appearance.save('logo')" name="'Save'" on-hide="appearance.settings.saving"></spinner>
+        <spinner ng-if="$flow.files[0]" ng-click="appearance.service.saveTypeOf('logo', logo)" name="'Save'" on-hide="appearance.settings.saving"></spinner>
       </div>
 
     </div>
@@ -32,10 +32,10 @@
 
         <md-input-container>
           <label>Sitename</label> 
-          <input type='text' ng-model='appearance.site.name'/>
+          <input type='text' ng-model='site.name'/>
         </md-input-container>
 
-        <spinner ng-click="appearance.save('site')" name="'Save'" on-hide="appearance.settings.saving"></spinner>
+        <spinner ng-click="appearance.service.saveTypeOf('site', site.name)" name="'Save'" on-hide="appearance.settings.saving"></spinner>
 
       </div>
     </md-card-content>
@@ -63,19 +63,19 @@
     <div ng-if="showColorPalette" layout="column">
 
       <label>Warning Color</label>
-      <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.primary.warning" open-on-input="true"></div>
+      <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.warning" open-on-input="true"></div>
 
 
       <label>Primary Color</label>
 
-      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.primary.hue_one" open-on-input="true"></div>
-      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.primary.hue_two" open-on-input="true"></div>
-      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.primary.hue_three" open-on-input="true"></div>
+      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_one" open-on-input="true"></div>
+      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_two" open-on-input="true"></div>
+      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_three" open-on-input="true"></div>
       
 
       <md-input-container flex>
         <label>Contrast</label>
-          <md-select ng-model="appearance.primary.contrast" aria-label="Theme Primary Contrast">
+          <md-select ng-model="appearance.palette.primary.contrast" aria-label="Theme Primary Contrast">
             <md-option value="light">Light</md-option>
             <md-option value="dark">Dark</md-option>
           </md-select>
@@ -84,18 +84,18 @@
 
 
       <label>Accent Color</label>
-      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.accent.hue_one" open-on-input="true"></div>
-      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.accent.hue_two" open-on-input="true"></div>
-      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.accent.hue_three" open-on-input="true"></div>
+      <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.accent.hue_one" open-on-input="true"></div>
+      <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.accent.hue_two" open-on-input="true"></div>
+      <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.accent.hue_three" open-on-input="true"></div>
       <md-input-container flex>
         <label>Contrast</label>
-          <md-select ng-model="appearance.accent.contrast" aria-label="Theme Accent Contrast">
+          <md-select ng-model="appearance.palette.accent.contrast" aria-label="Theme Accent Contrast">
             <md-option value="light">Light</md-option>
             <md-option value="dark">Dark</md-option>
           </md-select>
       </md-input-container>
 
-      <spinner ng-click="appearance.save('palette')" name="'Save'" on-hide="appearance.settings.saving"></spinner>
+      <spinner ng-click="appearance.service.saveTypeOf('palette', appearance.palette)" name="'Save'" on-hide="appearance.settings.saving"></spinner>
     </div>
 
       </md-card-content>
@@ -114,8 +114,6 @@
          <!-- content goes here --> 
 
       </div>
-
-
     </md-card-content>
   </md-card>
 
