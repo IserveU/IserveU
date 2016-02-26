@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('CreateUserController', CreateUserController);
 
+  	 /** @ngInject */
 	function CreateUserController($rootScope, $scope, $state, user, ToastMessage){
 		var vm = this;
 

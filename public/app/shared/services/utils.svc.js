@@ -30,6 +30,17 @@
 		}
 
 
+		this.objectIsGreaterThan = function(obj, max) {
+
+			var count = 0;
+
+			for (var i in obj)
+				if(obj[i])
+					count++;
+
+			return count > max;
+		}
+
 
 
 	}

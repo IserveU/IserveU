@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('ethnicOriginService', ethnicOriginService);
 
+  	 /** @ngInject */
 	function ethnicOriginService($http) {
 
 		function getEthnicOrigins(){

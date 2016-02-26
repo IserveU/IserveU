@@ -6,6 +6,7 @@
     .module('iserveu')
     .directive('userSidebar', userSidebar);
 
+   /** @ngInject */
   function userSidebar($rootScope, SetPermissionsService) {
 
   	return {

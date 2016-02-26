@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.controller('editUserController', editUserController);
 
-
+  	 /** @ngInject */
 	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj) {
 
 		var vm = this;

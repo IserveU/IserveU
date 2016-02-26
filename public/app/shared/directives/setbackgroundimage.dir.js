@@ -6,13 +6,14 @@
 		.module('iserveu')
 		.directive('backImg', backImg);
 
+  	 /** @ngInject */
 	function backImg($http) {
 
 		function linkMethod(scope, element, attrs){
 				
 			$http.get('settings').success(function(r){
-				set( r.theme.background_image 
-					 ? r.theme.background_image 
+				set( r.background_image 
+					 ? r.background_image 
 		    		 : "/themes/default/photos/background.png");
 			}).error(function(e){
 				console.log(e);

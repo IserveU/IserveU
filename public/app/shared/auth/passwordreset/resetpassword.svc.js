@@ -6,28 +6,20 @@
 		.module('iserveu')
 		.service('resetPasswordService', resetPasswordService);
 
-
+  	 /** @ngInject */
 	function resetPasswordService($stateParams, $state, ToastMessage, auth, afterauth, user, $timeout, $rootScope, $mdDialog) {
 
-		var vm = this;
-
-		vm.check = function(){
+		this.check = function(){
 			
-			if($state.current.name == 'login.resetpassword'){
+			if($state.current.name == 'login.resetpassword')
 
 				if($rootScope.userIsLoggedIn === true){
 					auth.logout();
 					localStorage.clear();
 					$rootScope.userIsLoggedIn = false;
 					postToken();
-				}
-				else{
-					postToken();
-				}
-
-			
-			}
-		}
+				} else postToken();	
+		};
 
 		function postToken(){
 
@@ -42,9 +34,8 @@
 						$state.go('login');
 						ToastMessage.simple("Sorry! Your lost password token has expired.");
 					}
-					if(error.status === 403){
+					if(error.status === 403)
 						console.log('no token provided');
-					}
 			});
 
 		}	

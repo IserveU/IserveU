@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('comment', comment);
 
+	/** @ngInject */
 	function comment($resource, $q) {
 
 		var Comment = $resource('api/comment/:id', {}, {

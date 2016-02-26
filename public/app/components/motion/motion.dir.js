@@ -6,6 +6,9 @@
 		.module('iserveu')
 		.directive('displayMotion', displayMotion);
 
+
+	//TODO: refactor
+	 /** @ngInject */
 	function displayMotion($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
 
 	  function MotionController() {

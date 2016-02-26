@@ -6,11 +6,12 @@
 		.module('iserveu')
 		.factory('role', role);
 
+  	 /** @ngInject */
 	function role($resource, $q) {
 
 		var Role = $resource('api/role');
 
-		var UserRole = $resource('api/user/:id/role/:role_id', {id:'@user_id', role_id:'@role_id'}, {
+		var UserRole = $resource('api/user/:id/role/:role_id', {id:'@id', role_id:'@role_id'}, {
 	        'update': { method:'PUT' }
 	    });
 
@@ -23,7 +24,7 @@
 		}
 
 		function grantRole(data){
-			return UserRole.save({id:data.user_id}, data).$promise.then(function(results){
+			return UserRole.save({id:data.id}, data).$promise.then(function(results){
 				return results;
 			}, function(error) {
 				return $q.reject(error);
@@ -31,7 +32,7 @@
 		}
 
 		function getUserRole(id){
-			return UserRole.query({id:id}).$promise.then(function(results){
+			return UserRole.query(id).$promise.then(function(results){
 				return results;
 			}, function(error) {
 				return $q.reject(error);
@@ -39,7 +40,7 @@
 		}
 
 		function deleteUserRole(data){
-			return UserRole.delete({id:data.user_id, role_id:data.role_id}).$promise.then(function(results){
+			return UserRole.delete(data).$promise.then(function(results){
 				return results;
 			}, function(error) {
 				return $q.reject(error);

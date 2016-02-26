@@ -6,8 +6,9 @@
 		.module('iserveu')
 		.service('dateService', dateService);
 
-	function dateService($filter) {
 
+  	 /** @ngInject */
+	function dateService($filter) {
 
 		this.stringify = stringify;
 		this.updateForPost = updateForPost;

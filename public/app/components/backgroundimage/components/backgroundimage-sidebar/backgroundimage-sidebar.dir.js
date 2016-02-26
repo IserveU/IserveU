@@ -7,6 +7,8 @@
     .directive('backgroundimageSidebar', backgroundimageSidebar)
     .directive('backgroundimage.previewSidebar', backgroundimagePreviewSidebar);
 
+
+      /** @ngInject */
   function backgroundimageSidebar(SetPermissionsService) {
 
     return {
@@ -15,7 +17,7 @@
       
     }
   }
-
+  /** @ngInject */
   function backgroundimagePreviewSidebar(SetPermissionsService) {
 
     return {

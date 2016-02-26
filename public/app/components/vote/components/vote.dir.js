@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
+  	 /** @ngInject */
 	function voteOnMotion($rootScope, $stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
 
 

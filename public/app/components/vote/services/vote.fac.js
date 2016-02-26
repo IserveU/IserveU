@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('vote', vote);
 
+  	 /** @ngInject */
 	function vote($resource, $q, $http) {
 
 		var Vote = $resource('api/vote/:id', {}, {

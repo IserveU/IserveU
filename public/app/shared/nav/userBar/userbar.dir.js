@@ -9,6 +9,7 @@
 
 	function userBar(){
 		
+	  	 /** @ngInject */
 		function UserbarController($translate, $mdSidenav, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
 
 			var vm = this;

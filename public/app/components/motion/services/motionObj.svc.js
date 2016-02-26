@@ -7,6 +7,7 @@
 		.module('iserveu')
 		.factory('motionObj', motionObj);
 
+	 /** @ngInject */
 	function motionObj($http, motion) {
 
 		var motionObj = {

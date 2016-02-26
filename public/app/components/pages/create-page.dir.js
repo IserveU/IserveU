@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('createPageContent', createPage);
 
+  	/** @ngInject */
 	function createPage($state, pageObj, ToastMessage, dropHandler) {
 
 		function createPageController() {

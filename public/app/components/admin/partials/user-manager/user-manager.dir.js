@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('userManager', userManager);
 
+	/** @ngInject */
 	function userManager(user) {
 
 

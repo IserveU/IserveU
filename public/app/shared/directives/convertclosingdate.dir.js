@@ -6,6 +6,8 @@
 		.module('iserveu')
 		.directive('convertClosingDate', convertClosingDate);
 
+
+  	 /** @ngInject */
 	function convertClosingDate($filter) {
 
 		return {

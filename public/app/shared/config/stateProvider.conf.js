@@ -4,8 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.config(
+		.config(['$stateProvider',
 
+     /** @ngInject */
 	function($stateProvider){
 
     // TODO: add state permissions to each state.
@@ -90,10 +91,20 @@
         })
         .state( 'user', {
             url: '/user/:id',
-            templateUrl: 'app/components/user/partials/user-profile-production.tpl.html',
-            controller: 'UserController as vm',
+            template: '<display-profile></display-profile>',
             data: {
                 requireLogin: true
+            },
+            resolve: {
+                profile: function(user, $stateParams) {
+                    var profile;
+                    return user.getUser($stateParams.id)
+                        .then(function(r) {
+                            return profile = r; });
+                }
+            },
+            controller: function($scope, profile) {
+                $scope.profile = profile;
             }
         })
         // this is a good place for resolves
@@ -103,6 +114,24 @@
                 requireLogin: true
             }
         })
+        .state('edit-user', {
+            url: '/edit-user/:id',
+            template: '<edit-user></edit-user>',
+            data: {
+                requireLogin: true
+            },  
+            resolve: {
+                profile: function(user, $stateParams) {
+                    var profile;
+                    return user.getUser($stateParams.id)
+                        .then(function(r) {
+                            return profile = r; });
+                }
+            },
+            controller: function($scope, profile) {
+                $scope.profile = profile;
+            }
+        }) 
         .state( 'create-user', {
             url: '^/user/create',
             templateUrl: 'app/components/user/components/create-user/create-user.tpl.html',
@@ -111,14 +140,7 @@
                 requireLogin: true
             }
         })
-        .state('show-user', {
-            url: '/showuser',
-            templateUrl: 'app/components/user/components/show-user/show-user.tpl.html',
-            controller: 'CreateUserController as create',
-            data: {
-                requireLogin: true
-            }
-        }) .state('login', {
+        .state('login', {
             url: '/login',
         	controller: 'loginController as login',
         	templateUrl: 'app/shared/auth/login/login.tpl.html',
@@ -141,6 +163,6 @@
             } 
     	});    
         	
-	});
+	}]);
 
 })();

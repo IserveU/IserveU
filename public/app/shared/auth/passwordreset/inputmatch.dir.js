@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('compareTo', compareTo);
 
+  	 /** @ngInject */
 	function compareTo($compile) {
 
 		function linkMethod(scope, element, attrs, ngModel) {

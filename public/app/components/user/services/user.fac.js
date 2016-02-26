@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('user', user);
 
+  	 /** @ngInject */
 	function user($resource, $q, $rootScope) {
 
 		var User = $resource('api/user/:id', {}, {

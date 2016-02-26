@@ -4,8 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.config(
+		.config(['$translateProvider',
 
+  	 /** @ngInject */
 	function($translateProvider){
 
 		var jargon = localStorage.getItem('settings');
@@ -302,7 +303,7 @@
 		//uses local storage to remember user's preferred language
 		$translateProvider.useLocalStorage();
 
-	});
+	}]);
 
 
 })();

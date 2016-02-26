@@ -4,8 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.config(
+		.config(['$provide',
 
+  	 /** @ngInject */
 	function($provide){
 
 		$provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
@@ -25,7 +26,7 @@
 	        return taOptions;
 	    }]);
 
-	});
+	}]);
 
 
 })();

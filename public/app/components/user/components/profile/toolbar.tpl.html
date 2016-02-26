@@ -1,0 +1,20 @@
+<md-toolbar class="md-hue-1 md-tall profile-toolbar" layout="row">
+    <md-icon class="mdi mdi-account-circle toolbar-avatar" layout-align="front front"></md-icon>
+    <div class="toolbar-name" layout="column" style="margin: auto; margin-left: 0px">
+      <h2 class="md-title" style="margin: 0; margin-top: 20px; margin-bottom: 5px">
+
+          {{ profile.first_name }}
+          <span hide-sm>
+            {{ profile.middle_name }}
+          </span>
+          {{ profile.last_name }}
+
+          <has-permission has-permission="administrate-users">
+            <span hide-sm>{{profile.public ? '' : '('+('PRIVATE' | translate)+')'}}</span>
+          </has-permission>
+      </h2>
+      <p class="md-caption" ng-repeat="r in profile.user_role">
+        {{ r }}{{ $last ? '' : ',&nbsp;' }}
+      </p>
+    </div>
+</md-toolbar>

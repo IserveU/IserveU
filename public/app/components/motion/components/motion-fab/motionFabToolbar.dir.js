@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('motionFabToolbar', motionFabToolbar);
 
+	 /** @ngInject */
 	function motionFabToolbar($state, $stateParams, motion, motionObj, fabLink, ToastMessage){
 
 		function motionFabToolbarController() {

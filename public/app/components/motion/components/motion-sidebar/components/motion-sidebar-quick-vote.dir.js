@@ -6,6 +6,7 @@
     .module('iserveu')
     .directive('quickVote', motionSidebarQuickVote);
 
+ /** @ngInject */
   function motionSidebarQuickVote($rootScope, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
 
   	function controllerMethod() {

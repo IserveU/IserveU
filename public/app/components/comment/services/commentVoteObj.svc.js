@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('commentVoteObj', commentVoteObj);
 
+	/** @ngInject */
 	function commentVoteObj($stateParams, commentvote, commentObj, ToastMessage) {
 
 		var obj = {

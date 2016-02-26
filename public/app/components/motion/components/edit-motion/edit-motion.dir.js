@@ -9,6 +9,8 @@
 
 
 	// This is a todo
+
+	 /** @ngInject */
 	function editMotion($rootScope, $stateParams, $state, $mdToast, motionObj, motion, ToastMessage, department, dateService){
 
 		function editMotionController() {

@@ -59,6 +59,8 @@ Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
 
+			Route::resource('community', 'CommunityController');
+
 			Route::resource('role', 'RoleController');
 
 			Route::resource('page', 'PageController');

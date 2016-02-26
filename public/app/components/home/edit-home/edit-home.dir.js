@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('editHome', editHome);
 
+	/** @ngInject */
 	function editHome($state, settings, ToastMessage, dropHandler) {
 
 		function editHomeController() {

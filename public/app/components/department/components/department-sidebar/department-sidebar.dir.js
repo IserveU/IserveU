@@ -6,6 +6,7 @@
     .module('iserveu')
     .directive('departmentSidebar', departmentSidebar);
 
+	/** @ngInject */
   function departmentSidebar() {
 
     return {

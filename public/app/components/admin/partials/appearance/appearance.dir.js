@@ -5,6 +5,7 @@
 		.module('iserveu')
 		.directive('appearanceManager', appearance);
 
+	/** @ngInject */
 	function appearance(settings, palette, ToastMessage) {
 
 		function appearanceController($scope) {

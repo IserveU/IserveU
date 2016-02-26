@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('RedirectController', RedirectController);
 
+  	 /** @ngInject */
 	function RedirectController(UserbarService, $timeout, $state) {
 
 		UserbarService.setTitle("Woops!");

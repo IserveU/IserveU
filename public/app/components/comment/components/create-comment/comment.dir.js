@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('commentOnMotion', commentOnMotion);
 
+	/** @ngInject */
 	function commentOnMotion($stateParams, commentObj, voteObj, motionObj) {
 
 		function commentController($scope) {

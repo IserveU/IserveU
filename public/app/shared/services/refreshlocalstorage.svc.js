@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.service('refreshLocalStorage', refreshLocalStorage);
 
+  	 /** @ngInject */
 	function refreshLocalStorage(auth, user, SetPermissionsService) {
 
 		this.init = function(){

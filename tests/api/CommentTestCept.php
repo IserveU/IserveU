@@ -1,4 +1,4 @@
-?php 
+<?php 
 use \ApiTester;
 use Faker\Factory as Faker;
 

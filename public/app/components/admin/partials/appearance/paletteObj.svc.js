@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('palette', paletteObj);
 
+	/** @ngInject */
 	function paletteObj(settings) {
 
 		var settings = settings.getData();
@@ -14,7 +15,7 @@
 		*	UI models for theming palette.
 		*/
 		return {
-			// This is required for the parsing. It reuses the object array given 
+			// 'Blank' is required for the parsing. It reuses the object array given 
 			// from settings. If you were to create an object array, it creates
 			// a 901 length array because of the key identifiers. 
 			blank: settings.theme, 

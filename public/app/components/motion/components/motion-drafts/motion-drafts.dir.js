@@ -7,6 +7,7 @@
 		.module('iserveu')
 		.directive('motionDrafts', motionDrafts);
 
+	 /** @ngInject */
 	function motionDrafts(motionObj, UserbarService){
 
 

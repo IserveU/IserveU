@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('photoId', photoId);
 
+  	 /** @ngInject */
 	function photoId($compile) {
 		
 		function controllerMethod($http, $rootScope, auth) {

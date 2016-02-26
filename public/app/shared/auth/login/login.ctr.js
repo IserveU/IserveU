@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('loginController', login);
 
+  	 /** @ngInject */
 	function login(settings, loginService, auth, resetPasswordService, ToastMessage) {	
 
 		this.service = loginService;

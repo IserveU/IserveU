@@ -8,6 +8,7 @@
 
 	function missingFields() {
 
+	  	 /** @ngInject */
 		function controllerMethod($rootScope, user) {
 
 			var vm = this;

@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('focusInput', focusInput);
 
+  	 /** @ngInject */
 	function focusInput($timeout) {
 
 	    return {

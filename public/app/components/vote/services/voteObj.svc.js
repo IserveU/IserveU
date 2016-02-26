@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('voteObj', voteObj);
 
+  	 /** @ngInject */
 	function voteObj($stateParams, vote, ToastMessage) {
 
 	

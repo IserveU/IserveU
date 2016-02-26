@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('formatAddress', formatAddress);
 
+  	 /** @ngInject */
 	function formatAddress($filter) {
 
 		return {

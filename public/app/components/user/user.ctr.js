@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('UserController', UserController);
 
+  	 /** @ngInject */
 	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, roleService, SetPermissionsService, vote, user, UserbarService, ToastMessage, role) {
 		
 		UserbarService.setTitle("");
@@ -322,7 +323,6 @@
 					error = " is missing.";
 				}
 				var message = "This user's "+key+error;
-				ToastMessage.double(message, reason, true);
 			})
 		}
 

@@ -9,6 +9,7 @@
 
 
     // TODO: start refactoring and cleaning up the code. Simplifying.
+     /** @ngInject */
     function motionSidebarSearch($timeout, department, motionObj, motion, searchFactory) {
 
     	function controllerMethod() {

@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('DepartmentController', DepartmentController);
 
+    /** @ngInject */
 	function DepartmentController($rootScope, $mdToast, $state, $stateParams, department, ToastMessage) {
 
 		var vm = this;

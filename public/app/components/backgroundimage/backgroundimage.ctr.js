@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('BackgroundImageController', BackgroundImageController);
 
+	/** @ngInject */
 	function BackgroundImageController($rootScope, $state, $scope, $timeout, ToastMessage, UserbarService, SetPermissionsService, backgroundimage) {	
 
 		UserbarService.setTitle("Upload");
@@ -37,7 +38,7 @@
 
 		    	vm.onSuccess = true;
 		    	vm.uploading = false;
-		    	ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
+		    	// ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
 
 				$rootScope.$emit('backgroundImageUpdated');
 

@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('motion', motion);
 
+	 /** @ngInject */
 	function motion($resource, $q, $http, ToastMessage) {
 
 		var Motion = $resource('api/motion/:id', {}, {

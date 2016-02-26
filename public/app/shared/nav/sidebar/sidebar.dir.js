@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('sidebar', sidebar);
 
+  	 /** @ngInject */
 	function sidebar($compile) {
 
 		function linkMethod(scope, element, attrs) {

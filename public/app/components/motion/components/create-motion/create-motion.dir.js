@@ -7,6 +7,7 @@
 		.module('iserveu')
 		.directive('createMotion', createMotion);
 
+	/** @ngInject */
 	function createMotion($state, motion, UserbarService, department, dateService) {
 
 		function createMotionController() {
@@ -36,7 +37,7 @@
 		return {
 			controller: createMotionController,
 			controllerAs: 'create',
-			templateUrl: 'app/components/motion/components/create-motion/create-motion-production.tpl.html'
+			templateUrl: 'app/components/motion/components/create-motion/create-motion.tpl.html'
 		}
 
 

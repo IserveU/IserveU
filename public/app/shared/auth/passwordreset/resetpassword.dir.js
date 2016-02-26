@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('resetPassword', resetPassword);
 
+  	 /** @ngInject */
 	function resetPassword($compile) {
 		
 		function controllerMethod($state, user, ToastMessage) {

@@ -5,10 +5,10 @@
   angular
     .module('iserveu')
     .directive('motionSidebar', motionSidebar);
-
+   
   function motionSidebar() {
 
-
+  	 /** @ngInject */
 	function MotionSidebarController($mdSidenav, motionObj, searchFactory, department) {
 
 		var vm = this;

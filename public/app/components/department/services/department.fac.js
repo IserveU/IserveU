@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('department', department);
 
+	/** @ngInject */
 	function department($resource, $http, $q, $timeout) {
 
 		var Department = $resource('api/department/:id', {}, {

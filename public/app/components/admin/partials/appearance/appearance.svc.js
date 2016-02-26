@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.service('appearanceService', appearanceService);
 
+	/** @ngInject */
 	function appearanceService() {
 
 		/**

@@ -6,8 +6,10 @@
 		.module('iserveu')
 		.directive('termsAndConditions', termsAndConditions);
 
-	function termsAndConditions(settings, loginService) {
 
+  	 /** @ngInject */
+	function termsAndConditions(settings, loginService) {
+	  	 /** @ngInject */
 		function controllerMethod($mdDialog, $scope) {
         	
         	var vm = this;

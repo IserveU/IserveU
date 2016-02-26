@@ -8,6 +8,7 @@
 
 
 	// This is a TODO!
+  	 /** @ngInject */
 	function SetPermissionsService($rootScope, $state, auth) {
 
 		var vm = this;

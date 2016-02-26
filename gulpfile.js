@@ -1,4 +1,6 @@
-var elixir = require('laravel-elixir');
+var gulp = require('gulp'),
+    elixir = require('laravel-elixir')
+    ngAnnotate = require('gulp-ng-annotate');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,9 +13,21 @@ var elixir = require('laravel-elixir');
  |
  */
 
+elixir.extend('ngAnnotate', function() {
+    gulp.task('ngAnnotate', function() {
+        gulp.src('public/js/app.js')
+        .pipe(ngAnnotate({
+            add: true
+        }))
+        .pipe(gulp.dest('dist'));
+    });
+    return this.queueTask('ngAnnotate');
+});
+
 elixir(function(mix) {
+    
     mix.scripts([
-    	'/bower/angular/angular.min.js',
+    	'/bower/angular/angular.js',
     	'/bower/jquery/dist/jquery.min.js',
         '/bower/angular-animate/angular-animate.min.js',
         '/bower/angular-aria/angular-aria.min.js',
@@ -50,10 +64,14 @@ elixir(function(mix) {
     
     mix.sass(['style.scss'],'public/css');
 
+
+
     mix.copy('./resources/bower/mdi/fonts', './public/build/fonts'); //The default icon set
     mix.copy('./resources/bower/themes', './public/themes');
     mix.copy('./resources/bower/font-awesome/fonts', './public/fonts');
 
+    mix.ngAnnotate();
+    
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
 
 

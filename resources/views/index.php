@@ -1,4 +1,5 @@
 <!doctype html>
+ <!-- ng-strict-di -->
 <html ng-app="iserveu">
     <head>
         <!-- <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title> -->

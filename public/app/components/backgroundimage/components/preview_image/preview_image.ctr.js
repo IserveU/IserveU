@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('PreviewImageController', PreviewImageController);
 
+	/** @ngInject */
 	function PreviewImageController($rootScope, $stateParams, $state, ToastMessage, backgroundimage, UserbarService) {
 
 		var vm = this;

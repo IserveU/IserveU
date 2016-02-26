@@ -4,8 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.config(
-
+		.config(['$mdThemingProvider',
 	function($mdThemingProvider){
 
 		var theme = localStorage.getItem('settings');
@@ -85,6 +84,6 @@
 	    };
 
 
-	});
+	}]);
 
 })();

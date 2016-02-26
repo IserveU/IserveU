@@ -7,6 +7,7 @@
 		.module('iserveu')
 		.directive('editPageContent', editPageContent);
 
+  	 /** @ngInject */
 	function editPageContent($state, $stateParams, ToastMessage, pageObj, dropHandler) {
 
 

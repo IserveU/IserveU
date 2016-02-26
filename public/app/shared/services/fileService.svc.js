@@ -7,6 +7,8 @@
 		.module('iserveu')
 		.factory('fileService', fileService);
 
+
+  	 /** @ngInject */
 	function fileService($http) {
 
 		var upload = function(file) {

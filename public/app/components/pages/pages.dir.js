@@ -7,6 +7,7 @@
 		.module('iserveu')
 		.directive('pageContent', pageContent);
 
+  	 /** @ngInject */
 	function pageContent($stateParams, pageObj, UserbarService) {
 
 

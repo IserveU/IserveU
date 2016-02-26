@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.service('UserbarService', UserbarService);
 
+  	 /** @ngInject */
 	function UserbarService($rootScope) {
  		
  		var vm = this;

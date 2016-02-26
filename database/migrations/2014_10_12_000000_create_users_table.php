@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration {
             $table->string('street_number')->nullable();
             $table->string('unit_number')->nullable();
 
+            $table->integer('community_id')->unsigned()->nullable();
+            
 			$table->boolean('public')->default(0);
 
 			$table->integer('ethnic_origin_id')->unsigned()->nullable();

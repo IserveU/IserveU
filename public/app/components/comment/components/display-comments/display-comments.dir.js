@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('displayComments', displayComments);
 
+	/** @ngInject */
 	function displayComments(commentObj, commentVoteObj, voteObj){
 
 		function displayCommentsController() {

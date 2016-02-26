@@ -6,7 +6,8 @@
 		.module('iserveu')
 		.directive('pagesFab', pagesFab);
 
-	function pagesFab($window, $stateParams, pageObj, fabLink, ToastMessage) {
+  	 /** @ngInject */
+	function pagesFab($stateParams, pageObj, fabLink, ToastMessage) {
 
 		function pagesFabController() {
 

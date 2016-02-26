@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('backgroundimage', backgroundimage);
 
+	/** @ngInject */
 	function backgroundimage($resource, $http, CSRF_TOKEN, $auth) {
 
 		var getBackgroundImages = function() {

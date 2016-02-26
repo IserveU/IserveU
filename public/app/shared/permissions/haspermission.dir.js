@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('hasPermission', hasPermission);
 
+  	 /** @ngInject */
 	function hasPermission(SetPermissionsService, $state) {
 
 		function linkMethod(scope, element, attrs) {

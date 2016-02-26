@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('motionfile', motionfile);
 
+	 /** @ngInject */
 	function motionfile($resource, $q, $http) {
 
 		function uploadMotionFile(motion_id, fd){

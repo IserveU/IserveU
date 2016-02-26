@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('contentManager', contentManager);
 
+	/** @ngInject */
 	function contentManager($state, pageObj, settings, dropHandler, ToastMessage) {
 
 		function contentController() {

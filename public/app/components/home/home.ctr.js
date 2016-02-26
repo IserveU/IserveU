@@ -6,7 +6,8 @@
 		.module('iserveu')
 		.controller('HomeController', HomeController);
 
-        // this is a todo !
+    /** @ngInject */
+    // this is a TODO    
 	function HomeController($rootScope, $scope, settingsData, motion, comment, vote, user, UserbarService) {
 		
         UserbarService.setTitle("Home");

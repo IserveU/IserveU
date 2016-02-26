@@ -1,3 +1,5 @@
+// @import 'materialoverrides'
+
 
 /* variables */
 $primary: rgb(0,172,177);
@@ -97,7 +99,7 @@ md-card{
 		}
 		.edit-btn {
 		   position:relative;
-		   bottom: -25px;
+		   // bottom: -25px;
 		   &.select-ctn{
 		   	bottom: -28px;
 		   }
@@ -683,13 +685,25 @@ input.sidebar-search-input {
 	background-image: none !important;
 }
 
-.edit-btn {
-	font-size: 18px;
-	padding-bottom:3px;
-	display: inline-block;
-	&:hover {
-  		cursor: pointer;
-		color: $primary;
+
+
+.edit-user-profile {
+	.mdi-pencil, .mdi-content-save {
+  		cursor: pointer;	
+		font-size: 18px;
+		margin-top: 29px;
+		display: inline-block;
+		&:hover {
+			color: $primary;
+		}
+	}
+	md-progress-circular {
+		margin: 0;
+		margin-top: 20px;
+	}
+	input[disabled] {
+		color: black;
+		background-image:none;
 	}
 }
 
@@ -715,24 +729,32 @@ input.sidebar-search-input {
 }
 
 
-#edit-user-form {
-	md-toolbar {
-		background-color: $lightGrey;
-		h2 {
-			color:black; padding-left: 124px; padding-top: 12px; margin:0;
-		}
-		.public-display-name { font-size:18px; } 
-		.user-role-toolbar {
-			padding-left: 124px;
-			display: inline-block;
-			color:$darkGrey;
-			p { display:inline-block;}
-			md-icon { display:inline-block; color:$darkGrey; }
-		}
-		.display-avatar-preset{
-			font-size: 120px;
-		}
+.profile-toolbar {
+	background-color: $lightGrey !important;
+	h2 {
+		color:black; 
 	}
+	.toolbar-avatar{
+		font-size: 120px;
+		margin: 5px 100px 0 5px;
+	}
+	.toolbar-name{
+		margin-top: 15px;
+	}
+	p {
+		color: $darkGrey;
+	}
+}
+
+.profile-display {
+	md-icon {
+		position: relative;
+		bottom: 3px !important;
+	}
+}
+
+
+#edit-user-form {
 	md-icon {
 		position: relative; bottom: 12px;
 	}

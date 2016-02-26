@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.directive('spinner', spinner);
 
+  	 /** @ngInject */
 	function spinner(settings) {
 
 		// TODO: make loading circle changeable from settings array

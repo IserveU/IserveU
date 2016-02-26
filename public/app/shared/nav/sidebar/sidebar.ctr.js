@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('SidebarController', SidebarController);
 
+  	 /** @ngInject */
 	function SidebarController(motion, $rootScope, $mdSidenav, $mdMedia) {
 
 		var vm = this;

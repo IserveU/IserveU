@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('BackgroundImageSidebarController', backgroundSidebar);
 
+		/** @ngInject */
 		function backgroundSidebar($rootScope, $scope, $filter, backgroundimage, ToastMessage){
 
 			var vm = this;

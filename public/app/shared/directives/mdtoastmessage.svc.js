@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('ToastMessage', ToastMessage);
 
+     /** @ngInject */
 	function ToastMessage($mdToast, $timeout, utils) {
 	
         function simple(message, time){
@@ -16,12 +17,6 @@
                 .position('bottom right')
                 .hideDelay(timeDelay)
             );
-        }
-
-        function double(message1, message2, bool, time){
-            simple(message1, time).then(function(){
-                if (bool) { simple(message2); }
-            });
         }
 
         function action(message, affirmative, warning){
@@ -43,6 +38,15 @@
             $timeout(function() {
                 location.reload();
             }, time * 1.8 );
+        }
+
+
+        function customFunction(message, affirmative, fn){
+            var toast = action(message, affirmative);
+            $mdToast.show(toast).then(function(r){
+                if(r == 'ok')
+                    fn();
+            });
         }
 
         function destroyThis(type, fn){
@@ -76,14 +80,15 @@
             });
         }
 
+        // exports
         return {
             simple: simple,
-            double: double,
             action: action,
             reload: reload,
-            report_error: report_error,
+            customFunction: customFunction,
             destroyThis: destroyThis,
             cancelChanges: cancelChanges,
+            report_error: report_error
         }
 
 

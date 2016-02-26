@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.factory('afterauth', afterauth);
 
-
+  	 /** @ngInject */
 	function afterauth($stateParams, $state, $mdToast, $rootScope, auth, user, SetPermissionsService) {
 
 		 function setLoginAuthDetails (user, token){

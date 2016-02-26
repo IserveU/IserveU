@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('loginService', loginService);
 
+  	 /** @ngInject */
 	function loginService($rootScope, auth, afterauth, ToastMessage) {
 
 		var loginObj = {
