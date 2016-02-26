@@ -12,7 +12,8 @@
 		this.post = {
 			makeData: function (type, data) {
 				var fd = { id: $stateParams.id };
-				if ( type === 'address' ) // Object.keys(data).length just isn't working here so it's not very reusable...
+				// Object.keys(data).length just isn't working here so it's not very reusable...
+				if ( type === 'address' ) 
 					fd = this.makeMutlipleData(fd, data);
 				else
 					fd[type] = data;

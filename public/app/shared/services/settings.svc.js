@@ -6,7 +6,6 @@
 		.module('iserveu')
 		.factory('settings', settings);
 
-
   	 /** @ngInject */
 	function settings ($http, auth, refreshLocalStorage, appearanceService) {
 
