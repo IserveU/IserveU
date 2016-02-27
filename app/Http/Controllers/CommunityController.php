@@ -50,7 +50,7 @@ class CommunityController extends ApiController
      */
     public function show($id)
     {
-        //
+        return Community::findOrFail($id);
     }
 
     /**

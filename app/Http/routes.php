@@ -58,7 +58,6 @@ Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
-
 			Route::resource('community', 'CommunityController');
 
 			Route::resource('role', 'RoleController');
@@ -85,6 +84,5 @@ Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 			Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
 			Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
 			Route::resource('user.role', 'UserRoleController'); 
-
 	});
 });

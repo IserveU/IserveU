@@ -5,15 +5,18 @@
 
 	angular
 		.module('iserveu')
-		.factory('editUserObj', editUserObj);
+		.factory('editUserFactory', editUserFactory);
 
 	/** @ngInject */
-	function editUserObj($stateParams, $http, user, REST){
+	function editUserFactory($stateParams, $http, user, REST){
 
-		var editUserObj = {
+		var factory = {
 			/* Function to map form input variables to the variable. */
 			map: function(bool){
 				return {
+					first_name: bool,
+					middle_name: bool,
+					last_name: bool,
 					email: bool,
 					date_of_birth: bool,
 					address: bool,
@@ -40,12 +43,12 @@
 				this.success[type] = true;
 
 				user.updateUser(fd).then(function(r){
-					editUserObj.successHandler(type);
-				}, function(e) { editUserObj.errorHandler(e); });
+					factory.successHandler(type);
+				}, function(e) { factory.errorHandler(e); });
 			},
 			/** Function to emulate user press down enter to save. */
 			pressEnter: function(ev, type, data){
-		    	if( ev.keyCode == 13 )
+		    	if( ev.keyCode === 13 )
 		    		this.save(type, data);
 			},
 			successHandler: function(type){
@@ -59,16 +62,16 @@
 		};
 
 		/** Initializes UI variables to control form inputs */
-		editUserObj.success  = editUserObj.map(false);
-		editUserObj.disabled = editUserObj.map(true);
+		factory.success  = factory.map(false);
+		factory.disabled = factory.map(true);
 
 		/** Grabs community list and initalizes object for UI select. */
 		$http.get('/api/community').success(function(r){
-			editUserObj.communities = r;
+			factory.communities = r;
 		}).error(function(e){ console.log(e); });
 
 
-		return editUserObj;
+		return factory;
 	}
 
 })();

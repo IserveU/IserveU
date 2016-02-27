@@ -26,8 +26,6 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
-
-
 md-progress-circular {
 	margin: auto;
 }
@@ -686,21 +684,16 @@ input.sidebar-search-input {
 }
 
 
-
 .edit-user-profile {
 	.mdi-pencil, .mdi-content-save {
   		cursor: pointer;	
 		font-size: 18px;
 		margin-top: 29px;
 		display: inline-block;
-		&:hover {
-			color: $primary;
-		}
+		&:hover { color: $primary; }
 	}
-	md-progress-circular {
-		margin: 0;
-		margin-top: 20px;
-	}
+	md-select { margin-top: 0; }
+	md-progress-circular { margin: 20px 0 0 0; }
 	input[disabled] {
 		color: black;
 		background-image:none;
@@ -799,7 +792,7 @@ input.sidebar-search-input {
 
 .voting-disabled {
 	md-icon {
-		// color: $midGrey !important;
+		color: $midGrey !important;
 	}
 	&:hover{
 		background-color:transparent !important;

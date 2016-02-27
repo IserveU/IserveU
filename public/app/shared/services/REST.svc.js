@@ -13,7 +13,7 @@
 			makeData: function (type, data) {
 				var fd = { id: $stateParams.id };
 				// Object.keys(data).length just isn't working here so it's not very reusable...
-				if ( type === 'address' ) 
+				if ( type === 'address' || type === 'last_name' ) 
 					fd = this.makeMutlipleData(fd, data);
 				else
 					fd[type] = data;
