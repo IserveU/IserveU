@@ -27,7 +27,9 @@
       // 					var transformedDate = new $filter('date')(data, 'MMMM d, yyyy');
 						// return transformedDate;
       // 				}
-					return $filter('date')(data, "yyyy-MM-dd HH:mm:ss");
+					// return $filter('date')(data);
+
+					return new Date(data);
       				
 
 			    });

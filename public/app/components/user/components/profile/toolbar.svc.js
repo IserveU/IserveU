@@ -8,7 +8,7 @@
 
 	function userToolbarService($state, $timeout, editUserFactory) {
 
-		this.state = $state.current.name !== 'edit-user' ? "{'cursor':'default'}" : '';
+		this.state = '';
 		this.edit = editUserFactory;
 		this.save = save;
 		this.editField = editField;
@@ -24,22 +24,22 @@
 				user[j] = data[i];
 
 			editUserFactory.save('last_name', user);
-		}
+		};
 
 		function isOfTypeName(_str) {
 			var l = _str.length;
 			return _str.substr( l - 4, l ) === 'name';
-		}
+		};
 
 		function editField() {
 			if($state.current.name === 'edit-user')
 				this.showInputField = true;
-		}
+		};
 
 		function pressEnter(ev, data) {
 			if( ev.keyCode === 13 )
 				save(data);
-		}
+		};
 
 	}
 

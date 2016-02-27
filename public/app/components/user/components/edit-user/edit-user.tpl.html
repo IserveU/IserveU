@@ -44,7 +44,7 @@
         <md-input-container flex>
           <label>Address</label>
           <md-icon class="mdi mdi-home"></md-icon>
-          <input type="text" ng-model="profile" ng-disabled="edit.disabled.address" format-address/>
+          <input type="text" ng-model="profile" ng-disabled="edit.disabled.address" format-address="communities"/>
         </md-input-container>
           <md-icon class="mdi mdi-pencil" ng-click="edit.switch('address')"></md-icon>
 
@@ -76,7 +76,7 @@
       </div>
 
       <md-select style="margin-top: 0" placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required>
-        <md-option ng-repeat="c in edit.communities" ng-value="c.id" required>{{c.name}}</md-option>
+        <md-option ng-repeat="c in communities" ng-value="c.id" required>{{c.name}}</md-option>
       </md-select>
       
     </div>

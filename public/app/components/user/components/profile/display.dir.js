@@ -6,9 +6,12 @@
 		.module('iserveu')
 		.directive('displayProfile', displayProfile);
 
-	function displayProfile($stateParams, user, vote) {
+	function displayProfile($stateParams, userToolbarService, user, vote) {
 
 		function displayProfileController() {
+
+			userToolbarService.showInputField = false;
+			userToolbarService.state = "{'cursor':'default'}";
 
 			var vm = this;
 

@@ -101,10 +101,18 @@
                     return user.getUser($stateParams.id)
                         .then(function(r) {
                             return profile = r; });
+                },
+                communityIndex: function($http) {
+                    var community;
+                    return $http.get('/api/community')
+                        .success(function(r){
+                            return community = r;
+                    });
                 }
             },
-            controller: function($scope, profile) {
+            controller: function($scope, profile, communityIndex) {
                 $scope.profile = profile;
+                $scope.communities = communityIndex.data;
             }
         })
         // this is a good place for resolves
@@ -126,10 +134,18 @@
                     return user.getUser($stateParams.id)
                         .then(function(r) {
                             return profile = r; });
+                },
+                communityIndex: function($http) {
+                    var community;
+                    return $http.get('/api/community')
+                        .success(function(r){
+                            return community = r;
+                    });
                 }
             },
-            controller: function($scope, profile) {
+            controller: function($scope, profile, communityIndex) {
                 $scope.profile = profile;
+                $scope.communities = communityIndex.data;
             }
         }) 
         .state( 'create-user', {

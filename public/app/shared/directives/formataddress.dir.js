@@ -7,7 +7,7 @@
 		.directive('formatAddress', formatAddress);
 
   	 /** @ngInject */
-	function formatAddress($filter) {
+	function formatAddress($filter, community) {
 
 		return {
 			require: "ngModel",
@@ -20,22 +20,25 @@
 
       			ngModelController.$formatters.push(function(data) {
 
-      				if( !data.street_name ){
+      				var address = '';
+
+      				if( !data.street_name )
       					return "Enter your address";
-      				}
-      				else if ( !data.unit_number && !data.street_number){
-      					return toTitleCase(data.street_name);
-      				}
-      				else if( !data.unit_number ){
-      					return data.street_number + ' ' + toTitleCase(data.street_name);
-      				}
-      				else if ( !data.street_number ) {
-      					return "Unit #" + data.unit_number + ' ' + toTitleCase(data.street_name);
-      				}
-      				else{
-						return data.unit_number + '-' + data.street_number + ' ' + toTitleCase(data.street_name);
-      				}
+      				else if ( !data.unit_number && !data.street_number)
+      					address = toTitleCase(data.street_name);
+      				else if( !data.unit_number )
+      					address = data.street_number + ' ' + toTitleCase(data.street_name);
+      				else if ( !data.street_number )
+      					address = "Unit #" + data.unit_number + ' ' + toTitleCase(data.street_name);
+      				else
+						address = data.unit_number + '-' + data.street_number + ' ' + toTitleCase(data.street_name);
       				
+					if(data.community_id)
+						for(var i in scope.communities)
+							if (data.community_id === scope.communities[i].id)
+								return address + ', ' + scope.communities[i].name;
+					else return address;
+
 			    });
 			}
 		}

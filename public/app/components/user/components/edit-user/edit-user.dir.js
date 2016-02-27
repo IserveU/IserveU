@@ -7,10 +7,13 @@
 		.directive('editUser', editUser);
 
 	/** @ngInject */
-	function editUser(editUserFactory) {
+	function editUser(editUserFactory, userToolbarService) {
 
 		function editUserController($scope) {
+
+			userToolbarService.state = '';
 			$scope.edit = editUserFactory;
+		
 		}
 
 		return {

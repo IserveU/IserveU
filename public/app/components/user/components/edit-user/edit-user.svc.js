@@ -23,10 +23,9 @@
 					password: bool
 				}
 			},
-			/** Front end conditionals and variables. */
+			/** Front end conditionals. */
 			success: {},
 			disabled: {},
-			communities: {},
 			/**
 			*  Switch to open and close control form inputs.
 			*  UI acts similar to an Accordian. When one
@@ -38,6 +37,8 @@
 			},
 			/** Function to post to API. */
 			save: function(type, data){
+
+				console.log(data);
 
 				var fd = REST.post.makeData(type, data);
 				this.success[type] = true;
@@ -65,10 +66,6 @@
 		factory.success  = factory.map(false);
 		factory.disabled = factory.map(true);
 
-		/** Grabs community list and initalizes object for UI select. */
-		$http.get('/api/community').success(function(r){
-			factory.communities = r;
-		}).error(function(e){ console.log(e); });
 
 
 		return factory;

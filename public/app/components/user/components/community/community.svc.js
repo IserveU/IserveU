@@ -8,18 +8,18 @@
 
 	function community($http) {
 
-		function getIndex() {
-
-
-
-
+		var factory = {
+			getIndex: function () {
+				$http.get('/api/community').success(function(r){
+					factory.index = r;
+				}).error(function(e){ console.log(e); });
+			},
+			index: {}
 		}
 
+		factory.getIndex();
 
-		function get(id) {
-
-
-		}
+		return factory;
 
 
 	}

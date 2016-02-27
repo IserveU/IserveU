@@ -18,7 +18,7 @@
 
   <div ng-show="profile.postal_code">
       <md-icon class="mdi mdi-home"></md-icon>
-      <p class="title-header" style="margin-bottom: 0">123 Street of some sort</p>
+      <input disabled class="title-header" style="margin-bottom: 0; width: 90%; border:none" ng-model="profile" format-address/>
   </div>
 
   <h3 ng-show="profile.date_of_birth" class="title-header" style="margin-bottom: 0">About</h3>

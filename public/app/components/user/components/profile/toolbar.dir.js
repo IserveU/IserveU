@@ -7,7 +7,7 @@
 		.directive('profileToolbar', profileToolbar);
 
 	/** @ngInject */
-	function profileToolbar($state, user, editUserFactory, userToolbarService) {
+	function profileToolbar(userToolbarService) {
 
 
 		function profileToolbarController($scope) {
@@ -19,6 +19,7 @@
 					if(newValue === false && oldValue === true)
 						userToolbarService.showInputField = false;
 			}, true);	
+		
 		}
 
 		return {
