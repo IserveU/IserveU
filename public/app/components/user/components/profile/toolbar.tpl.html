@@ -30,7 +30,11 @@
       </h2>
       <p class="md-caption" ng-repeat="r in profile.user_role">
         {{ r }}{{ $last ? '' : ',&nbsp;' }}
+        <has-permission has-permission="administrate-permissions">
+          <md-icon ng-click="roles.showRoles()" class="mdi mdi-pencil edit-btn" style="color:gray; margin: 0"></md-icon>
+        </has-permission>
       </p>
+
     </div>
 
     <spinner ng-show="toolbar.showInputField" ng-click="toolbar.save(profile)" style="color:black; position:relative; top: 78px"  name="'Save'" on-hide="toolbar.edit.success['last_name']"></spinner>

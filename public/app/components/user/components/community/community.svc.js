@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.factory('community', community);
 
+	/** @ngInject */
 	function community($http) {
 
 		var factory = {

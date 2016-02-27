@@ -37,9 +37,6 @@
 			},
 			/** Function to post to API. */
 			save: function(type, data){
-
-				console.log(data);
-
 				var fd = REST.post.makeData(type, data);
 				this.success[type] = true;
 

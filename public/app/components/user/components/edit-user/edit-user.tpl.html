@@ -1,8 +1,8 @@
 <md-card class="edit-user-profile">
   
-  <profile-toolbar></profile-toolbar>
+<profile-toolbar></profile-toolbar>
 
-  <md-card-content layout-margin>
+  <md-card-content layout-margin ng-hide="roles.showEdit">
 
     <div layout="row">
         <md-input-container flex>
@@ -93,4 +93,26 @@
           <md-icon class="mdi mdi-check" ng-show="edit.disabled.password && edit.success.password"></md-icon>
     </div>
   </md-card-content>
+
+
+
+<md-card-content layout-margin ng-init="roles.user = profile.user_role" ng-show="roles.showEdit">
+  <p class="md-subhead" translate="{{'USER_ROLES'}}" style="margin-bottom: 20px"></p>
+
+  <div ng-repeat="role in roles.list">
+    <md-checkbox ng-model="role.hasRole" ng-click="roles.set(role)" style="margin:0px" ng-disabled="role.id == 1">
+      <p class="md-caption" style="margin:0px">{{role.display_name}}</p>
+      <md-tooltip>{{role.description}}</md-tooltip>
+    </md-checkbox>
+  </div>
+
+  <md-button ng-click="roles.showRoles()">
+    <md-icon class="mdi mdi-arrow-left"></md-icon>
+    {{ 'BACK' | translate }}
+  </md-button>
+
+</md-card-content>
+
+
 </md-card>
+

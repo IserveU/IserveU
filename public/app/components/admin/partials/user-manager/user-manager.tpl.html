@@ -1,5 +1,5 @@
 <md-content class="md-padding">
-  <form flex='100'>
+  <form flex='100' style="width: 100%">
   <table style="border-bottom: 1px #cccccc;" table border='1' cellpadding="3" cellspacing="1" frame=void rules=rows bordercolor="#cccccc"  layout-padding>
     <thead layout-padding>
       <tr>
@@ -21,7 +21,7 @@
     </thead>
     <tbody layout-padding>
       <tr ng-repeat="name in user.users" >
-        <td ui-sref="user({id:name.id})" style="margin-right: 5px">
+        <td ui-sref="edit-user({id:name.id})" style="margin-right: 5px">
           <md-icon style="cursor:pointer; margin-right: 5px" class="mdi mdi-arrow-left-bold-circle-outline"></md-icon>
         </td>
         <td>
