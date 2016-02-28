@@ -7,7 +7,7 @@
 		.factory('ToastMessage', ToastMessage);
 
      /** @ngInject */
-	function ToastMessage($mdToast, $timeout, utils) {
+	function ToastMessage($state, $mdToast, $timeout, utils) {
 	
         function simple(message, time){
             var timeDelay = ( time ) ? time : 1000;

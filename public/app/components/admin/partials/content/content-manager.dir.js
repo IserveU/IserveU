@@ -28,7 +28,7 @@
 		return {
 			controller: contentController,
 			controllerAs: 'content',
-			templateUrl: 'app/components/admin/partials/content-manager/content-manager.tpl.html',
+			templateUrl: 'app/components/admin/partials/content/content-manager.tpl.html',
 		}
 
 

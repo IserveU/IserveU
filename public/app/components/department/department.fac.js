@@ -6,6 +6,8 @@
 		.module('iserveu')
 		.factory('department', department);
 
+		// TODO: refactor
+
 	/** @ngInject */
 	function department($resource, $http, $q, $timeout) {
 
@@ -75,6 +77,7 @@
 			addDepartment: addDepartment,
 			deleteDepartment: deleteDepartment,
 			updateDepartment: updateDepartment,
+			get: self.getDepartments
 		}
 
 

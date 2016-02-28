@@ -10,8 +10,6 @@
   	 /** @ngInject */
 	function roleFactory($stateParams, role, user){
 
-
-		// this should be merged with role.svc.js and role.dir.js
 		var factory = {
 			list: {},
 			editRole: false,

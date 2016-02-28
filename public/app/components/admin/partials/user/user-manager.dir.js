@@ -5,7 +5,7 @@
 	angular
 		.module('iserveu')
 		.directive('userManager', userManager);
-
+		// TODO: refactor the CSS of the template.
 	/** @ngInject */
 	function userManager(user) {
 
@@ -18,9 +18,7 @@
 
 			user.getIndex().then(function(r) {
 				vm.users = r.data;
-			}, function(e) {
-				console.log(e);
-			})
+			}, function(e) { console.log(e); });
 
 		};
 
@@ -28,7 +26,7 @@
 		return {
 			controller: userController,
 			controllerAs: 'user',
-			templateUrl: 'app/components/admin/partials/user-manager/user-manager.tpl.html',
+			templateUrl: 'app/components/admin/partials/user/user-manager.tpl.html',
 		}
 
 

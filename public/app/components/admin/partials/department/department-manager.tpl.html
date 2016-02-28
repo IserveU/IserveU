@@ -1,0 +1,23 @@
+<md-content class="md-padding department-manager">
+
+  <div style="margin-bottom: 14px">
+    <md-icon class="mdi mdi-information-outline title-icon"></md-icon>
+      <h3 class="title-header">{{ 'DEPARTMENTS' | translate}}</h3>
+  </div>
+
+  <div ng-repeat="d in department.list">
+
+      <md-input-container style="display: inline-block; width: 90%; margin: 0" >
+        <input aria-label="{{d.name}}" type="text" ng-model="d.name" ng-disabled="department.disabled[d.id]"/>
+      </md-input-container>
+
+      <md-icon class="mdi mdi-pencil inline-icon" style="left: 5px !important" ng-click="department.edit(d.id)" ng-show="department.disabled[d.id]"></md-icon>
+      <md-icon class="mdi mdi-content-save inline-icon" style="left: 5px !important" ng-click="department.save(d.name, d.id)" ng-hide="department.disabled[d.id] || department.success[d.id]"></md-icon>
+      <md-progress-circular md-diameter="30px" md-mode="indeterminate" ng-show="!department.disabled[d.id] && department.success[d.id]" style="margin:0; display: inline-block; top: 7px"></md-progress-circular>
+
+      <md-icon class="mdi mdi-delete inline-icon" ng-click="department.destroy(d.name, d.id)"></md-icon>
+  
+  </div>
+
+
+</md-content>
