@@ -33,7 +33,6 @@
 			auth.login( credentials )
 				.then(function(r) {
 
-				loginObj.loggingIn = false;
 				$rootScope.authenticatedUser = r.data.user;
 				setLocalStorage( credentials );
 			

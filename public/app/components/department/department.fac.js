@@ -18,15 +18,11 @@
 		var self = {
 			data: {},
 			getData: function() {
-				console.log(self.data.hasOwnProperty(0));
 
-				if(self.data.hasOwnProperty(0)){
-					console.log('foo');
+				if(self.data.hasOwnProperty(0))
 					return self.data;
-				}
 				else {
 					self.initDepartments();
-					console.log(self.data);
 					$timeout(function() {
 						self.getData();
 					}, 600);
@@ -34,13 +30,11 @@
 			},
 			initDepartments: function() {
 				Department.query().$promise.then(function(r) {
-					console.log(r.hasOwnProperty(0));
 					self.data = r;
 				});
 			},
 			getDepartments: function() {
 				return $http.get('api/department/').success(function(result) {
-					console.log(result);
 					return result.data;
 				});
 			}

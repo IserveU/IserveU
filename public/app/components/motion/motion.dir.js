@@ -9,22 +9,17 @@
 
 	//TODO: refactor
 	 /** @ngInject */
-	function displayMotion($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
+	function displayMotion($rootScope, $stateParams, motion, motionObj, UserbarService, voteObj, commentObj, isMotionOpen) {
 
 	  function MotionController() {
 
-	        var vm = this;
-
 	        $rootScope.motionIsLoading[$stateParams.id] = true; // used to turn loading circle on and off for motion sidebar
-	        vm.isLoading           = true; // Used to turn loading circle on and off for motion page
-	        vm.motionDetail        = {};
-	        vm.overallVotePosition = null;
-	        vm.voteObj             = voteObj;
-	        vm.editMode            = false;
-	        vm.editMotion          = editMotion;
-	        vm.cancelEditMotion    = cancelEditMotion;
 
-	        /*********************************************** Motion Functions ****************************************** */
+	  		/* Variables */
+	  		var vm = this;
+			vm.details = {};
+			vm.isLoading = true;
+			vm.voteObj = voteObj;
 
 	        function getMotion(id) {
 
@@ -42,35 +37,20 @@
 	        }
 
 	        function postGetMotion(motion){
+	        	// service setters
 	        	UserbarService.title = motion.title;
-	            vm.motionDetail = motion;
-	            vm.isLoading = $rootScope.motionIsLoading[motion.id] = false;
-	            commentObj.getMotionComments(motion.id);          
-	        }
+	            isMotionOpen.set(motion.MotionOpenForVoting);
+	            voteObj.user  = motion.user_vote ? motion.user_vote : {position: null} ;
 
-	        function editMotion(){
-	            if(!vm.editMode)
-	                UserbarService.title = "Edit: " + vm.motionDetail.title;
-
-	            vm.editMode = !vm.editMode;
-	        }
-
-	        function cancelEditMotion(){
-
-	            var toast = ToastMessage.action("Discard changes?", "Yes");
-
-	            $mdToast.show(toast).then(function(response){
-	                if(response == 'ok')
-	                    editMotion();
-	            });
+	            // UI animation and dependencies
+	            vm.details = motion;
+	            vm.isLoading    = $rootScope.motionIsLoading[motion.id] = false;
+	            commentObj.getMotionComments(motion.id);  
+	            voteObj.calculateVotes(motion.id);   
 	        }
 
 	        getMotion($stateParams.id);
-
-	        $rootScope.$on('initMotionOverallPosition', function(events, data){
-	            vm.overallVotePosition = data.overall_position;
-	        });
-
+	        
 	    }
 
 

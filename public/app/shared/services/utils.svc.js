@@ -12,6 +12,9 @@
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
+		this.toTitleCase = function(str) {
+		    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		}
 
 		this.isElementInViewport = function(el) {
 
@@ -30,16 +33,6 @@
 		}
 
 
-		this.objectIsGreaterThan = function(obj, max) {
-
-			var count = 0;
-
-			for (var i in obj)
-				if(obj[i])
-					count++;
-
-			return count > max;
-		}
 		
 	}
 

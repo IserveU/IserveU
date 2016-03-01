@@ -15,9 +15,7 @@
 
         <user-bar ng-if="userIsLoggedIn"></user-bar>
 
-        <md-content id="maincontent" layout="row" layout-fill fkex>
-
-                <!-- class="site-sidenav md-sidenav-left md-whiteframe-z2 md-closed ng-isolate-scope md-locked-open" -->
+        <md-content id="maincontent" layout="row" style="overflow:hidden" layout-fill flex>
 
                 <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
                 style="height: 90vh;"
@@ -27,7 +25,11 @@
                     <motion-sidebar flex></motion-sidebar>
                 </md-sidenav>
 
-                <div ui-view flex layout-fill role="main" tabIndex="-1" ></div>
+                <div layout="column" layout-fill>
+                    <incomplete-profile ng-if="userIsLoggedIn"></incomplete-profile>
+                    <div ui-view flex role="main" tabIndex="-1"></div>
+                </div>
+
         </md-content>
                 
         <show-footer></show-footer>    

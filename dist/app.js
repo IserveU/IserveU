@@ -103,7 +103,7 @@
 
 		    	vm.onSuccess = true;
 		    	vm.uploading = false;
-		    	ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
+		    	// ToastMessage.double("Upload successful!", "Your image has been sent in for approval!", vm.isNotAdmin);
 
 				$rootScope.$emit('backgroundImageUpdated');
 
@@ -141,89 +141,81 @@
 
 	'use strict';
 
-	DepartmentController.$inject = ["$rootScope", "$mdToast", "$state", "$stateParams", "department", "ToastMessage"];
+	department.$inject = ["$resource", "$http", "$q", "$timeout"];
 	angular
 		.module('iserveu')
-		.controller('DepartmentController', DepartmentController);
+		.factory('department', department);
 
-    /** @ngInject */
-	function DepartmentController($rootScope, $mdToast, $state, $stateParams, department, ToastMessage) {
+		// TODO: refactor
 
-		var vm = this;
+	/** @ngInject */
+	function department($resource, $http, $q, $timeout) {
 
-		vm.departments = [];
-		vm.create_mode = false;
-		vm.edit_mode = false;
+		var Department = $resource('api/department/:id', {}, {
+	        'update': { method:'PUT' }
+	    });
 
-        vm.edit_department = {
-            name: '',
-            id: $stateParams.id,
-            active: null
-        }
+		var self = {
+			data: {},
+			getData: function() {
 
-        vm.new_department = {
-            name: '',
-            active: 0
-        }
+				if(self.data.hasOwnProperty(0))
+					return self.data;
+				else {
+					self.initDepartments();
+					$timeout(function() {
+						self.getData();
+					}, 600);
+				}
+			},
+			initDepartments: function() {
+				Department.query().$promise.then(function(r) {
+					self.data = r;
+				});
+			},
+			getDepartments: function() {
+				return $http.get('api/department/').success(function(result) {
+					return result.data;
+				});
+			}
+		};
 
-		function getDepartments (){
-            department.getDepartments().then(function(result){
-                vm.departments = result;
-            });
-        } 
+		function addDepartment(data){
+			return Department.save(data).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
 
-        vm.editDepartment = function() {
-        	vm.edit_mode = !vm.edit_mode;
-        }
+		function deleteDepartment(id){
+			return Department.delete({id:id}).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
 
-        vm.createDepartment = function() {
-        	vm.create_mode = !vm.create_mode;
-        }
+		function updateDepartment(data){
+			return Department.update({id:data.id}, data).$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
 
-        vm.edit = function() {
-        	department.updateDepartment(vm.edit_department).then(function(result){
-                vm.editDepartment();
-                refresh();
-        	});
-        }
+		self.initDepartments();
 
-        vm.activate = function(department) {
-            vm.data = {
-                id: department.id,
-                active: department.active
-            }
-            setactive();
-        }
-
-        vm.deleteDepartment = function() {
-            ToastMessage.destroyThis("department", function() {
-                department.deleteDepartment(vm.edit_department.id).then(function(r) {
-                    refresh();
-                    $state.reload();
-                }); 
-            });
-        }
-
-        vm.addDepartment = function(){
-            department.addDepartment(vm.new_department).then(function(result){
-                vm.createDepartment();
-                ToastMessage.simple("Department " + vm.new_department.name + " added!");
-                refresh();
-            })
-        }
-
-        function setactive(){
-            department.updateDepartment(vm.data).then(function(result){
-                refresh();
-            });
-        }
-
-        function refresh(){
-            $rootScope.$emit('departmentSidebarRefresh');
-        }
+	return {
+			self: self,
+			addDepartment: addDepartment,
+			deleteDepartment: deleteDepartment,
+			updateDepartment: updateDepartment,
+			get: self.getDepartments
+		}
 
 
-        getDepartments();
+
 
 	}
 
@@ -349,7 +341,7 @@
 
 	'use strict';
 
-	displayMotion.$inject = ["$rootScope", "$stateParams", "$mdToast", "motion", "motionObj", "UserbarService", "ToastMessage", "voteObj", "commentObj"];
+	displayMotion.$inject = ["$rootScope", "$stateParams", "motion", "motionObj", "UserbarService", "voteObj", "commentObj", "isMotionOpen"];
 	angular
 		.module('iserveu')
 		.directive('displayMotion', displayMotion);
@@ -357,22 +349,17 @@
 
 	//TODO: refactor
 	 /** @ngInject */
-	function displayMotion($rootScope, $stateParams, $mdToast, motion, motionObj, UserbarService, ToastMessage, voteObj, commentObj) {
+	function displayMotion($rootScope, $stateParams, motion, motionObj, UserbarService, voteObj, commentObj, isMotionOpen) {
 
 	  function MotionController() {
 
-	        var vm = this;
-
 	        $rootScope.motionIsLoading[$stateParams.id] = true; // used to turn loading circle on and off for motion sidebar
-	        vm.isLoading           = true; // Used to turn loading circle on and off for motion page
-	        vm.motionDetail        = {};
-	        vm.overallVotePosition = null;
-	        vm.voteObj             = voteObj;
-	        vm.editMode            = false;
-	        vm.editMotion          = editMotion;
-	        vm.cancelEditMotion    = cancelEditMotion;
 
-	        /*********************************************** Motion Functions ****************************************** */
+	  		/* Variables */
+	  		var vm = this;
+			vm.details = {};
+			vm.isLoading = true;
+			vm.voteObj = voteObj;
 
 	        function getMotion(id) {
 
@@ -390,35 +377,20 @@
 	        }
 
 	        function postGetMotion(motion){
+	        	// service setters
 	        	UserbarService.title = motion.title;
-	            vm.motionDetail = motion;
-	            vm.isLoading = $rootScope.motionIsLoading[motion.id] = false;
-	            commentObj.getMotionComments(motion.id);          
-	        }
+	            isMotionOpen.set(motion.MotionOpenForVoting);
+	            voteObj.user  = motion.user_vote ? motion.user_vote : {position: null} ;
 
-	        function editMotion(){
-	            if(!vm.editMode)
-	                UserbarService.title = "Edit: " + vm.motionDetail.title;
-
-	            vm.editMode = !vm.editMode;
-	        }
-
-	        function cancelEditMotion(){
-
-	            var toast = ToastMessage.action("Discard changes?", "Yes");
-
-	            $mdToast.show(toast).then(function(response){
-	                if(response == 'ok')
-	                    editMotion();
-	            });
+	            // UI animation and dependencies
+	            vm.details = motion;
+	            vm.isLoading    = $rootScope.motionIsLoading[motion.id] = false;
+	            commentObj.getMotionComments(motion.id);  
+	            voteObj.calculateVotes(motion.id);   
 	        }
 
 	        getMotion($stateParams.id);
-
-	        $rootScope.$on('initMotionOverallPosition', function(events, data){
-	            vm.overallVotePosition = data.overall_position;
-	        });
-
+	        
 	    }
 
 
@@ -432,342 +404,6 @@
 	}
 
 
-})();
-(function() {
-
-	'use strict';
-
-	UserController.$inject = ["$rootScope", "$scope", "$mdToast", "$stateParams", "$state", "$filter", "roleService", "SetPermissionsService", "vote", "user", "UserbarService", "ToastMessage", "role"];
-	angular
-		.module('iserveu')
-		.controller('UserController', UserController);
-
-  	 /** @ngInject */
-	function UserController($rootScope, $scope, $mdToast, $stateParams, $state, $filter, roleService, SetPermissionsService, vote, user, UserbarService, ToastMessage, role) {
-		
-		UserbarService.setTitle("");
-		
-		var vm = this;
-
-		/**************************************** Variables **************************************** */
-
-		vm.listLoading = true;
-
-		vm.next_page;
-		vm.users = [];
-	    vm.profile1 = [];
-
-	   	vm.administrate_users 	= SetPermissionsService.can("administrate-users");
-	   	vm.verifyUserAddress    = 0;
-
-	    vm.show_edit_name 		= false; 
-	    vm.show_edit_address	= false;
-	    vm.show_edit_role		= false;
-
-	    vm.edit 				= {'email': true , 
-	    						   'date_of_birth': true, 
-	    						   'ethnic_origin_id': true, 
-	    						   'password': true};
-
-	    vm.showEdits 			= false;
-	    vm.isSelfOrAdmin 		= false;
-	    vm.myDate 				= new Date();
-	    vm.minDate 				= new Date(vm.myDate.getFullYear() - 99, vm.myDate.getMonth(), vm.myDate.getDate());
-	    vm.maxDate 				= new Date(vm.myDate.getFullYear() - 18, vm.myDate.getMonth(), vm.myDate.getDate());
-
-	    vm.hideSearch			= false;
-
-	    /**************************************** Search Functions **************************************** */
-
-	    vm.searchFilter = " Identity Unverified";
-	    vm.filters = [
-	    	{name: "Identity Unverified", query: {unverified: true}},
-	    	{name: "Identity Verified",   query: {verified: true}},
-	    	{name: "Address Pending",   query: {address_unverified: true, address_not_set: true}}
-	    ]
-
-	    vm.default_filter = {
-	    	unverified: true,
-	    	page: 1,
-	    	limit: 30
-	    }
-
-	   	vm.showSearch = function(){
-	    	if(vm.hideSearch){
-	    		vm.text = '';
-	    	}
-    		vm.hideSearch = !vm.hideSearch;
-	    }
-
-
-	    vm.querySearch = function(filter){
-	    	vm.users = '';
-	    	vm.listLoading = true;
-
-	   		initDefaultFilters();
-	   		setDefaultFilters(filter);
-
-	    	user.getUserInfo(filter).then(function(result){
-	    		vm.users = result.data;
-				vm.listLoading = false;
-				checkPaginate(result);
-	    	})
-	    }
-
-	    vm.searchShowAll = function(){
-	    	initDefaultFilters();
-	    	vm.filters = '';
-	    	vm.users = '';
-	    	vm.listLoading = true;
-	    	getUsers();
-	    }
-
-	    function defaultSearch() {
-	    	user.getUserInfo(vm.default_filter).then(function(result){
-	    		vm.users = result.data;
-				vm.listLoading = false;
-				checkPaginate(result);
-	    	})
-	    }
-
-	    function initDefaultFilters(){
-	    	vm.default_filter = {};
-	    	vm.default_filter['limit'] = 30;
-	    }
-
-	    function setDefaultFilters(filter){
-	    	var temp_filter = Object.getOwnPropertyNames(filter);
-	    	angular.forEach(temp_filter, function(fil, key){
-	    		vm.default_filter[fil] = true;
-	    	})
-	    }
-
-	    function checkPaginate(results) {
-	    	if(results.next_page_url == null){
-				vm.show_more = false;
-			}
-			else{
-				vm.show_more = true;
-				vm.default_filter.page = results.next_page_url.slice(-1);
-			}
-	    }
-
-	    vm.loadMore = function(){
-	    	vm.paginate_loading = true;
-	    	user.getUserInfo(vm.default_filter).then(function(result){
-	    		angular.forEach(result.data, function(value, key){
-	    			vm.users.push(value);
-	    		})
-		    	vm.paginate_loading = false;
-				vm.listLoading = false;
-				checkPaginate(result);
-	    	})
-	    }
-
-		/**************************************** Role Functions **************************************** */
-		vm.roles;
-		vm.this_users_roles 	= [];
-	    vm.checkRoles 			= checkRoles;
-
-		vm.test_role_name = function(role){
-			roleService.check_new_role(role, $stateParams.id);
-		}
-
-		vm.uponPressingBack = function(){
-			getUser($stateParams.id);
-		}
-
-		function getUserRoles(){
-			role.getRoles().then(function(results){
-				vm.roles = results;
-			});
-		}
-
-		function checkRoles(this_users_roles){
-			roleService.check_roles(vm.roles, this_users_roles);
-		}
-
-		getUserRoles();
-
-		/**************************************** Voting History Function **************************************** */
-		
-		// TODO: show more function
-		function getVotingHistory(){
-			vote.getMyVotes($stateParams.id, {limit:5}).then(function(results){
-				vm.votes = results.data;
-			});
-		}
-
-		/**************************************** UI Functions **************************************** */
-	    vm.showEdit = function(type, newdata) {
-	    	if(!vm.edit[type]){
-	    		updateUser(type, newdata, $stateParams.id);
-	    	}
-	    	vm.edit[type] = !vm.edit[type];
-	    }
-
-	    vm.pressEnter = function($event, type, newdata, isValid) {
-	    	if($event.keyCode == 13) {
-	    		vm.showEdit(type, newdata);
-	    	}
-	    }
-
-		/**************************************** API Functions **************************************** */
-	    vm.updateUser = updateUser;
-
-	    function updateUser(type, newdata, user_id) {
-
-	    	var data = {
-	    		id: user_id
-	    	}
-
-	    	data[type] = newdata;
-	    	user.updateUser(data).then(function(){
-	    		vm.edit[type] = true;
-	    		if(type !== 'password'){
-	    			// $rootScope.$emit('refreshLocalStorageSettings');
-	    		}
-	    		else{
-	    			ToastMessage.simple("Your password has been reset!");
-	    		}
-	    	})
-	    }
-
-	    vm.updateUserAddress = function(){
-	    	var data = {
-	    		id: vm.profile.id,
-	    		unit_number: vm.profile.unit_number,
-	    		street_number: vm.profile.street_number,
-	    		postal_code: vm.profile.postal_code,
-	    		street_name: vm.profile.street_name
-	    	}
-
-	    	user.updateUser(data).then(function(){
-	    		vm.showLoading = false;
-	    		vm.show_edit_address = !vm.show_edit_address;
-	    	}, function(error){
-	    		vm.showLoading = false;
-	    		ToastMessage.report_error(error);
-	    	})
-
-	    }
-
-		vm.deleteUser = function(id) {
-
-			ToastMessage.destroyThis("user", function() {
-				user.deleteUser(id).then(function(r){
-					$state.go('dashboard');
-				}, function(e){ ToastMessage.report_error(e); })
-			});
-		}
-
-		vm.verifyUser = function(userinfo){
-
-			var message = userinfo.first_name + ' ' + userinfo.last_name + ' has been ';
-
-			user.updateUser({
-
-				id: userinfo.id,
-				identity_verified: userinfo.identity_verified
-
-			}).then(function(result){
-
-				if(userinfo.identity_verified == 1){
-					message = message+"verified.";
-				}
-				else {
-					message = message+"unverified.";
-				}
-
-				ToastMessage.simple(message);
-
-			}, function(error){
-
-				checkError(JSON.parse(error.data.message), "This user cannot be verified.");
-
-			});
-
-		}
-
-		vm.verifyUserAddress = function(){
-
-			var id 	 = $stateParams.id;
-			var verifiedUntilDate = $filter('date')(new Date(vm.myDate.getFullYear() + 3, vm.myDate.getMonth(), vm.myDate.getDate()), "yyyy-MM-dd HH:mm:ss");
-
-			user.updateUser({id:id, address_verified_until: verifiedUntilDate}).then(function(result){
-				getUser(id);
-			})
-
-		}
-
-
-		function getUsers(){
-			user.getUserInfo().then(function(result) {
-				vm.users = result.data;
-				vm.listLoading = false;
-            });         
-		}
-
-		function getUser(id){
-			if(id && $state.current.name.substr(0,4) == 'user'){
-				user.getUser(id).then(function(result){
-					vm.profile = result;
-					vm.this_users_roles = vm.profile.user_role;
-					getVotingHistory();
-					checkFileType();
-				}, function(error){
-					if(error.status == 404 || 401){
-						$state.go("home");
-					}
-				});
-			}
-		}
-
-		vm.displayImgID = true;
-
-		function checkFileType(){
-
-			if(vm.profile.government_identification != null){
-
-				var str = vm.profile.government_identification.filename;
-
-				str = str.substring( str.length - 3, str.length );
-
-				if(str == 'pdf') {
-					vm.displayImgID = false;
-				}
-
-			}
-		}
-
-		function checkSelf(stateId){
-			var id = JSON.parse(localStorage.getItem('user')).id;
-			if(id == stateId){
-				vm.showEdits = true;
-				vm.isSelfOrAdmin = true;
-			}
-			else if (vm.administrate_users){
-				vm.showEdits = true;
-				vm.isSelfOrAdmin = true;
-			}
-		}
-
-		function checkError(error, reason) {
-			angular.forEach(error, function(value, key){
-				value = JSON.stringify(value);
-				if(value.substr(0,12)=='["validation'){
-					error = " is missing.";
-				}
-				var message = "This user's "+key+error;
-				ToastMessage.double(message, reason, true);
-			})
-		}
-
-		checkSelf($stateParams.id);
-		getUser($stateParams.id);
-		defaultSearch();
-
-	}
 })();
 (function() {
 
@@ -981,6 +617,177 @@
 
 })();
 (function() {
+
+	'use strict';
+
+	afterauth.$inject = ["$stateParams", "$state", "$mdToast", "$rootScope", "auth", "user", "SetPermissionsService"];
+	angular
+		.module('iserveu')
+		.factory('afterauth', afterauth);
+
+  	 /** @ngInject */
+	function afterauth($stateParams, $state, $mdToast, $rootScope, auth, user, SetPermissionsService) {
+
+		 function setLoginAuthDetails (user, token){
+			if(token)
+				localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
+
+			SetPermissionsService.set( JSON.stringify( user.permissions ) );
+			localStorage.setItem( 'user', JSON.stringify(user) );
+			$rootScope.authenticatedUser = user;
+			redirect();
+		}
+
+		function redirect(){
+
+			$rootScope.userIsLoggedIn = true;
+
+			return $rootScope.redirectUrlName 
+				   ? $state.go($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
+				   : $state.go('home');
+		}
+
+		function clearCredentials(){
+			localStorage.clear();
+			$rootScope.authenticatedUser = null;
+			$rootScope.userIsLoggedIn = false;
+			$state.go('login', {});		
+		}
+
+		return {
+			setLoginAuthDetails: setLoginAuthDetails,
+			redirect: redirect,
+			clearCredentials: clearCredentials
+		}
+
+
+	}
+})();
+
+(function() {
+
+	'use strict';
+
+	auth.$inject = ["$resource", "$http", "$sanitize", "CSRF_TOKEN", "$auth", "$q"];
+	angular
+		.module('iserveu')
+		.factory('auth', auth);
+
+  	 /** @ngInject */
+	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth, $q) {
+
+		var login = function(credentials) {
+			return $auth.login(sanitizeCredentials(credentials)).then(function(user) {
+				return user;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		};
+
+		var logout = function() {
+			return $auth.logout();
+		};
+
+		var sanitizeCredentials = function(credentials) {
+			return {
+		    	email: $sanitize(credentials.email),
+		    	password: $sanitize(credentials.password),
+		    	csrf_token: CSRF_TOKEN
+		  	};
+		};
+
+		var getAuthenticatedUser = function() {
+			return $http.get('api/user/authenticateduser').success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			});
+		};
+		
+		var postAuthenticate = function(credentials) {
+			return $http.post('authenticate', credentials).success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			})
+		};
+
+		var getNoPassword = function(remember_token) {
+			return $http.get('authenticate/' + remember_token).success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			})
+		}
+
+		var postUserCreate = function(credentials) {
+			return $http.post('api/user', credentials).success(function(result) {					
+				return result;
+			})
+			  .error(function(error) {
+			  	return error;
+			});
+		};
+
+		var getSettings = function() {
+			return $http.get('settings').success(function(result) {
+				return result;
+			}).error(function(error) {
+				return error;
+			});
+		};
+
+		var getResetPassword = function(credentials) {
+			return $http.post('authenticate/resetpassword', credentials).success(function(result) {
+				return result;
+			})
+			.error(function(error){
+				return error;
+			})
+		}
+
+		return {
+			login: login,
+		  	logout: logout,
+		  	getAuthenticatedUser: getAuthenticatedUser,
+		  	postAuthenticate: postAuthenticate,
+		  	getNoPassword: getNoPassword,
+		  	postUserCreate: postUserCreate,
+		  	getSettings: getSettings,
+		  	getResetPassword: getResetPassword
+		};
+	}
+
+	
+})();
+(function() {
+
+	'use strict';
+
+	CommonController.$inject = ["settings"];
+	angular
+		.module('iserveu')
+		.controller('CommonController', CommonController);
+
+  	 /** @ngInject */
+	function CommonController(settings) {
+
+		this.settings = settings.getData();
+
+		this.getLogoUrl = function() {
+
+			return this.settings.logo == 'default' 
+				   ? '/themes/default/logo/symbol_mono.svg'
+				   : '/uploads/'+this.settings.theme.logo;
+
+		}
+
+	}
+
+
+
+})();
+(function() {
 	
 	'use strict';
 
@@ -1141,7 +948,7 @@
 
 		var jargon = localStorage.getItem('settings');
 
-		if ( !jargon || jargon.length <= 2){
+		if ( !jargon || jargon.length <= 2 || jargon.en){
 
 		    var initInjector = angular.injector(['ng']);
 		    var $http = initInjector.get('$http');
@@ -1540,10 +1347,18 @@
                     return user.getUser($stateParams.id)
                         .then(function(r) {
                             return profile = r; });
+                }],
+                communityIndex: ["$http", function($http) {
+                    var community;
+                    return $http.get('/api/community')
+                        .success(function(r){
+                            return community = r;
+                    });
                 }]
             },
-            controller: ["$scope", "profile", function($scope, profile) {
+            controller: ["$scope", "profile", "communityIndex", function($scope, profile, communityIndex) {
                 $scope.profile = profile;
+                $scope.communities = communityIndex.data;
             }]
         })
         // this is a good place for resolves
@@ -1565,10 +1380,18 @@
                     return user.getUser($stateParams.id)
                         .then(function(r) {
                             return profile = r; });
+                }],
+                communityIndex: ["$http", function($http) {
+                    var community;
+                    return $http.get('/api/community')
+                        .success(function(r){
+                            return community = r;
+                    });
                 }]
             },
-            controller: ["$scope", "profile", function($scope, profile) {
+            controller: ["$scope", "profile", "communityIndex", function($scope, profile, communityIndex) {
                 $scope.profile = profile;
+                $scope.communities = communityIndex.data;
             }]
         }) 
         .state( 'create-user', {
@@ -1719,14 +1542,19 @@
 				})
 
       			ngModelController.$formatters.push(function(data) {
-      				if(data === "0000-00-00" || data === null ) {
-      					// TODO: make this more flexible to reuse this directive not just for birthdays
-      					return "Enter your birthday";
-      				}
-      				else {
-      					var transformedDate = new $filter('date')(data, 'MMMM d, yyyy');
-						return transformedDate;
-      				}
+      // 				if(data === "0000-00-00" || data === null ) {
+      // 					// TODO: make this more flexible to reuse this directive not just for birthdays
+      // 					return "Enter your birthday";
+      // 				}
+      // 				else {
+      // 					var transformedDate = new $filter('date')(data, 'MMMM d, yyyy');
+						// return transformedDate;
+      // 				}
+					// return $filter('date')(data);
+
+					return new Date(data);
+      				
+
 			    });
 			}
 		}
@@ -1739,41 +1567,40 @@
 	
 	'use strict';
 
-	formatAddress.$inject = ["$filter"];
+	formatAddress.$inject = ["$filter", "community", "utils"];
 	angular
 		.module('iserveu')
 		.directive('formatAddress', formatAddress);
 
   	 /** @ngInject */
-	function formatAddress($filter) {
+	function formatAddress($filter, community, utils) {
 
 		return {
 			require: "ngModel",
 			link: function(scope, element, attrs, ngModelController) {
 
-				function toTitleCase(str)
-				{
-				    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-				}
-
       			ngModelController.$formatters.push(function(data) {
 
-      				if( !data.street_name ){
+      				var address = '';
+
+      				if( !data.street_name )
       					return "Enter your address";
-      				}
-      				else if ( !data.unit_number && !data.street_number){
-      					return toTitleCase(data.street_name);
-      				}
-      				else if( !data.unit_number ){
-      					return data.street_number + ' ' + toTitleCase(data.street_name);
-      				}
-      				else if ( !data.street_number ) {
-      					return "Unit #" + data.unit_number + ' ' + toTitleCase(data.street_name);
-      				}
-      				else{
-						return data.unit_number + '-' + data.street_number + ' ' + toTitleCase(data.street_name);
-      				}
-      				
+      				else if ( !data.unit_number && !data.street_number)
+      					address = utils.toTitleCase(data.street_name);
+      				else if( !data.unit_number )
+      					address = data.street_number + ' ' + utils.toTitleCase(data.street_name);
+      				else if ( !data.street_number )
+      					address = "Unit #" + data.unit_number + ' ' + utils.toTitleCase(data.street_name);
+      				else
+						address = data.unit_number + '-' + data.street_number + ' ' + utils.toTitleCase(data.street_name);
+
+					if(data.community_id)
+						for(var i in scope.communities){
+							if (data.community_id === scope.communities[i].id)
+								return address + ', ' + scope.communities[i].name;
+						}
+					else return address;
+
 			    });
 			}
 		}
@@ -1786,13 +1613,13 @@
 
 	'use strict';
 
-	ToastMessage.$inject = ["$mdToast", "$timeout", "utils"];
+	ToastMessage.$inject = ["$state", "$mdToast", "$timeout", "utils"];
 	angular
 		.module('iserveu')
 		.factory('ToastMessage', ToastMessage);
 
      /** @ngInject */
-	function ToastMessage($mdToast, $timeout, utils) {
+	function ToastMessage($state, $mdToast, $timeout, utils) {
 	
         function simple(message, time){
             var timeDelay = ( time ) ? time : 1000;
@@ -1802,12 +1629,6 @@
                 .position('bottom right')
                 .hideDelay(timeDelay)
             );
-        }
-
-        function double(message1, message2, bool, time){
-            simple(message1, time).then(function(){
-                if (bool) { simple(message2); }
-            });
         }
 
         function action(message, affirmative, warning){
@@ -1829,6 +1650,15 @@
             $timeout(function() {
                 location.reload();
             }, time * 1.8 );
+        }
+
+
+        function customFunction(message, affirmative, fn){
+            var toast = action(message, affirmative);
+            $mdToast.show(toast).then(function(r){
+                if(r == 'ok')
+                    fn();
+            });
         }
 
         function destroyThis(type, fn){
@@ -1862,14 +1692,15 @@
             });
         }
 
+        // exports
         return {
             simple: simple,
-            double: double,
             action: action,
             reload: reload,
-            report_error: report_error,
+            customFunction: customFunction,
             destroyThis: destroyThis,
             cancelChanges: cancelChanges,
+            report_error: report_error
         }
 
 
@@ -1997,62 +1828,183 @@
 	
 	'use strict';
 
+	hasPermission.$inject = ["SetPermissionsService", "$state"];
 	angular
 		.module('iserveu')
-		.directive('missingFields', missingFields);
+		.directive('hasPermission', hasPermission);
 
-	function missingFields() {
+  	 /** @ngInject */
+	function hasPermission(SetPermissionsService, $state) {
 
-	  	 /** @ngInject */
-  		controllerMethod.$inject = ["$rootScope", "user"];
-		function controllerMethod($rootScope, user) {
-
-			var vm = this;
-			vm.closeNotificationBox = closeNotificationBox;
-			vm.fill_in_fields = false;
-
-			function getUserFields(){
-				user.getUser(
-					$rootScope.authenticatedUser.id
-				).then(function(results){
-					getEmptyFields(results);
-				})
+		function linkMethod(scope, element, attrs) {
+			var redirect = false;
+			if(attrs.hasPermission.substring(0,16) == "redirectIfCannot"){
+				attrs.hasPermission = attrs.hasPermission.substring(16);
+				redirect = true;
 			}
-
-			function getEmptyFields(fields) {
-
-				angular.forEach(fields, function(value,key) {
-
-					if( key == 'ethnic_origin_id' && value == null ){
-						vm.fill_in_fields = true;
-					}
-					if( key == 'date_of_birth' && value == null){
-						vm.fill_in_fields = true;
-					}  
-					if( key == 'street_name' && value == null) {
-						vm.fill_in_fields = true;
-					}
-
-				})
-
+			if(attrs.hasPermission.substring(0,6) == 'hasAll'){	//when the permission attribute begins with 'hasAll'
+				if(!SetPermissionsService.canAll(attrs.hasPermission.substring(6))){ //passes in the next part after, hasAll[ 'type' ]
+					element.remove(attrs.hasPermission);
+				}
 			}
-
-			function closeNotificationBox(){
-				vm.fill_in_fields = false;
+			else if(!SetPermissionsService.can(attrs.hasPermission)){ 
+				element.remove(attrs.hasPermission);
+				if(redirect){
+					$state.go('permissionfail');
+				}
 			}
-
-			getUserFields();
-
-  		}	
+		}
 
 		return {
-			controller: controllerMethod,
-			controllerAs: 'ctrl',
-			bindToController: true,
-		    templateUrl: 'app/shared/notification/missingfields.tpl.html'
+			restrict: 'AE',
+			link: linkMethod
 		}
+
 	}
+
 }());
+(function() {
+
+	'use strict';
+
+	SetPermissionsService.$inject = ["$rootScope", "$state", "auth"];
+	angular
+		.module('iserveu')
+		.service('SetPermissionsService', SetPermissionsService);
+
+
+	// This is a TODO!
+  	 /** @ngInject */
+	function SetPermissionsService($rootScope, $state, auth) {
+
+		var vm = this;
+
+		vm.set = set;
+		vm.permissions;
+
+		function set(permissions_array){
+			if(permissions_array == undefined){auth.logout();}
+			localStorage.setItem('permissions', permissions_array);
+			vm.permissions = JSON.parse(permissions_array);
+		}
+
+
+		vm.can = function(action){
+			var result = false;
+			angular.forEach(vm.permissions, function(value, key){
+				if(value == action){
+					result = true;
+				}
+			});
+			return result;
+		}
+
+		vm.canAll = function(section_name){
+			var iterator = 0;
+			var result = false;
+
+			angular.forEach(vm.permissions, function(value, key){
+				var splitpermissions = value.split('-');
+				if(splitpermissions[1] == section_name){
+					iterator++;
+				}
+			});
+
+			if(iterator > 1){
+				result = true;
+			}
+			
+			return result;
+		}
+
+		if(!vm.permissions){set(localStorage.getItem('permissions'));}
+		
+
+	}
+})();
+(function() {
+	
+	incompleteProfile.$inject = ["$state", "user"];
+	angular
+		.module('iserveu')
+		.directive('incompleteProfile', incompleteProfile);
+
+	/** @ngInject */
+	function incompleteProfile($state, user) {
+
+		incompleteProfileController.$inject = ["$scope"];
+		function incompleteProfileController($scope) {
+			
+			// not checking this on every state change :(
+
+			$scope.state = $state;
+
+			for( var i in user.self )
+				if ( i === 'date_of_birth' ||
+					 i === 'street_name'   ||
+					 i === 'postal_code'   ||
+					 i === 'community_id' )
+
+			$scope.show = user.self[i] === null ? true : false;
+		}
+
+		function incompleteProfileLink(scope, el, attrs) {
+
+			if( !scope.show )
+				el.remove(attrs.incompleteProfile);
+		
+		}
+
+
+		return {
+			restrict: 'EA',
+			controller: incompleteProfileController,
+			link: incompleteProfileLink,
+			templateUrl: 'app/shared/notifications/incomplete-profile.tpl.html'
+		}
+
+
+	}
+
+})();
+(function() {
+
+
+	'use strict';
+
+	restService.$inject = ["$stateParams"];
+	angular
+		.module('iserveu')
+		.service('REST', restService);
+
+	function restService($stateParams) {
+
+		this.post = {
+			makeData: function (type, data) {
+				var fd = { id: $stateParams.id };
+				// Object.keys(data).length just isn't working here so it's not very reusable...
+				if ( type === 'address' || type === 'last_name' ) 
+					fd = this.makeMutlipleData(fd, data);
+				else
+					fd[type] = data;
+				return fd;
+			},
+		 	makeMutlipleData: function (fd, data) {
+				for( var i in data )
+					if( data[i] )
+						fd[i] = data[i];
+				return fd;
+			}
+		}
+
+
+
+
+
+
+	}
+
+})();
 (function() {
 
 	'use strict';
@@ -2334,7 +2286,6 @@
 		.module('iserveu')
 		.factory('settings', settings);
 
-
   	 /** @ngInject */
 	function settings ($http, auth, refreshLocalStorage, appearanceService) {
 
@@ -2478,6 +2429,9 @@
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
+		this.toTitleCase = function(str) {
+		    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		}
 
 		this.isElementInViewport = function(el) {
 
@@ -2496,109 +2450,10 @@
 		}
 
 
-
-
-	}
-
-
-})();
-(function() {
-	
-	'use strict';
-
-	hasPermission.$inject = ["SetPermissionsService", "$state"];
-	angular
-		.module('iserveu')
-		.directive('hasPermission', hasPermission);
-
-  	 /** @ngInject */
-	function hasPermission(SetPermissionsService, $state) {
-
-		function linkMethod(scope, element, attrs) {
-			var redirect = false;
-			if(attrs.hasPermission.substring(0,16) == "redirectIfCannot"){
-				attrs.hasPermission = attrs.hasPermission.substring(16);
-				redirect = true;
-			}
-			if(attrs.hasPermission.substring(0,6) == 'hasAll'){	//when the permission attribute begins with 'hasAll'
-				if(!SetPermissionsService.canAll(attrs.hasPermission.substring(6))){ //passes in the next part after, hasAll[ 'type' ]
-					element.remove(attrs.hasPermission);
-				}
-			}
-			else if(!SetPermissionsService.can(attrs.hasPermission)){ 
-				element.remove(attrs.hasPermission);
-				if(redirect){
-					$state.go('permissionfail');
-				}
-			}
-		}
-
-		return {
-			restrict: 'AE',
-			link: linkMethod
-		}
-
-	}
-
-}());
-(function() {
-
-	'use strict';
-
-	SetPermissionsService.$inject = ["$rootScope", "$state", "auth"];
-	angular
-		.module('iserveu')
-		.service('SetPermissionsService', SetPermissionsService);
-
-
-	// This is a TODO!
-  	 /** @ngInject */
-	function SetPermissionsService($rootScope, $state, auth) {
-
-		var vm = this;
-
-		vm.set = set;
-		vm.permissions;
-
-		function set(permissions_array){
-			if(permissions_array == undefined){auth.logout();}
-			localStorage.setItem('permissions', permissions_array);
-			vm.permissions = JSON.parse(permissions_array);
-		}
-
-
-		vm.can = function(action){
-			var result = false;
-			angular.forEach(vm.permissions, function(value, key){
-				if(value == action){
-					result = true;
-				}
-			});
-			return result;
-		}
-
-		vm.canAll = function(section_name){
-			var iterator = 0;
-			var result = false;
-
-			angular.forEach(vm.permissions, function(value, key){
-				var splitpermissions = value.split('-');
-				if(splitpermissions[1] == section_name){
-					iterator++;
-				}
-			});
-
-			if(iterator > 1){
-				result = true;
-			}
-			
-			return result;
-		}
-
-		if(!vm.permissions){set(localStorage.getItem('permissions'));}
 		
-
 	}
+
+
 })();
 (function() {
 	
@@ -2669,177 +2524,6 @@
 		}
 	}
 }());
-(function() {
-
-	'use strict';
-
-	CommonController.$inject = ["settings"];
-	angular
-		.module('iserveu')
-		.controller('CommonController', CommonController);
-
-  	 /** @ngInject */
-	function CommonController(settings) {
-
-		this.settings = settings.getData();
-
-		this.getLogoUrl = function() {
-
-			return this.settings.logo == 'default' 
-				   ? '/themes/default/logo/symbol_mono.svg'
-				   : '/uploads/'+this.settings.theme.logo;
-
-		}
-
-	}
-
-
-
-})();
-(function() {
-
-	'use strict';
-
-	afterauth.$inject = ["$stateParams", "$state", "$mdToast", "$rootScope", "auth", "user", "SetPermissionsService"];
-	angular
-		.module('iserveu')
-		.factory('afterauth', afterauth);
-
-  	 /** @ngInject */
-	function afterauth($stateParams, $state, $mdToast, $rootScope, auth, user, SetPermissionsService) {
-
-		 function setLoginAuthDetails (user, token){
-			if(token)
-				localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
-
-			SetPermissionsService.set( JSON.stringify( user.permissions ) );
-			localStorage.setItem( 'user', JSON.stringify(user) );
-			$rootScope.authenticatedUser = user;
-			redirect();
-		}
-
-		function redirect(){
-
-			$rootScope.userIsLoggedIn = true;
-
-			return $rootScope.redirectUrlName 
-				   ? $state.go($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
-				   : $state.go('home');
-		}
-
-		function clearCredentials(){
-			localStorage.clear();
-			$rootScope.authenticatedUser = null;
-			$rootScope.userIsLoggedIn = false;
-			$state.go('login', {});		
-		}
-
-		return {
-			setLoginAuthDetails: setLoginAuthDetails,
-			redirect: redirect,
-			clearCredentials: clearCredentials
-		}
-
-
-	}
-})();
-
-(function() {
-
-	'use strict';
-
-	auth.$inject = ["$resource", "$http", "$sanitize", "CSRF_TOKEN", "$auth", "$q"];
-	angular
-		.module('iserveu')
-		.factory('auth', auth);
-
-  	 /** @ngInject */
-	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth, $q) {
-
-		var login = function(credentials) {
-			return $auth.login(sanitizeCredentials(credentials)).then(function(user) {
-				return user;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		};
-
-		var logout = function() {
-			return $auth.logout();
-		};
-
-		var sanitizeCredentials = function(credentials) {
-			return {
-		    	email: $sanitize(credentials.email),
-		    	password: $sanitize(credentials.password),
-		    	csrf_token: CSRF_TOKEN
-		  	};
-		};
-
-		var getAuthenticatedUser = function() {
-			return $http.get('api/user/authenticateduser').success(function(result) {
-				return result;
-			}).error(function(error) {
-				return error;
-			});
-		};
-		
-		var postAuthenticate = function(credentials) {
-			return $http.post('authenticate', credentials).success(function(result) {
-				return result;
-			}).error(function(error) {
-				return error;
-			})
-		};
-
-		var getNoPassword = function(remember_token) {
-			return $http.get('authenticate/' + remember_token).success(function(result) {
-				return result;
-			}).error(function(error) {
-				return error;
-			})
-		}
-
-		var postUserCreate = function(credentials) {
-			return $http.post('api/user', credentials).success(function(result) {					
-				return result;
-			})
-			  .error(function(error) {
-			  	return error;
-			});
-		};
-
-		var getSettings = function() {
-			return $http.get('settings').success(function(result) {
-				return result;
-			}).error(function(error) {
-				return error;
-			});
-		};
-
-		var getResetPassword = function(credentials) {
-			return $http.post('authenticate/resetpassword', credentials).success(function(result) {
-				return result;
-			})
-			.error(function(error){
-				return error;
-			})
-		}
-
-		return {
-			login: login,
-		  	logout: logout,
-		  	getAuthenticatedUser: getAuthenticatedUser,
-		  	postAuthenticate: postAuthenticate,
-		  	getNoPassword: getNoPassword,
-		  	postUserCreate: postUserCreate,
-		  	getSettings: getSettings,
-		  	getResetPassword: getResetPassword
-		};
-	}
-
-	
-})();
 (function() {
 
 	'use strict';
@@ -2920,29 +2604,29 @@
 	/** @ngInject */
 	function commentObj($stateParams, comment, ToastMessage) {
 
-		var cObj = {
+		var factory = {
 			comment: null,
 			comments: { agree: null, disagree: null, vote: null },
 			editing: false,
 			writing: false,
 			posting: false,
 			getUserComment: function(r){
-				cObj.comment = r;
-				if(cObj.comment && cObj.comment.text)
-					cObj.writing = false;
+				this.comment = r;
+				if(this.comment && this.comment.text)
+					this.writing = false;
 				else
-					cObj.writing = true;
+					this.writing = true;
 			},
 			getMotionComments: function(id){
 				comment.getMotionComments(id).then(function(r) {
-					cObj.getUserComment(r.thisUsersComment);
-					cObj.comments.agree = r.agreeComments;
-					cObj.comments.disagree = r.disagreeComments;
-					cObj.comments.vote = r.thisUsersCommentVotes;
+					factory.getUserComment(r.thisUsersComment);
+					factory.comments.agree = r.agreeComments;
+					factory.comments.disagree = r.disagreeComments;
+					factory.comments.vote = r.thisUsersCommentVotes;
 				});
 			},
 			submit: function(vote_id, text){
-				cObj.posting = true;
+				this.posting = true;
 
 				var data = {
 	                vote_id: vote_id,
@@ -2950,39 +2634,40 @@
 	            }
 
 	            comment.saveComment(data).then(function(r) {
-	            	cObj.getMotionComments($stateParams.id);
 	                ToastMessage.simple("Comment post successful!");
-	                cObj.writing = cObj.posting = false;
-	            }, function(error){
-	                ToastMessage.report_error(error);
-	            });    
+	            	factory.getMotionComments($stateParams.id);
+	                factory.writing = factory.posting = false;
+	            }, function(e){ ToastMessage.report_error(e); });    
+			},
+			writeComment: function() {
+				this.writing = !this.writing;
 			},
 			editComment: function() {
-				cObj.editing = !cObj.editing;
+				factory.editing = !factory.editing;
 			},
 			update: function(text) {
 	            var d = {
-	                id: cObj.comment.id,
-	                text: cObj.comment.text
+	                id: factory.comment.id,
+	                text: factory.comment.text
 	            }
 	            comment.updateComment(d).then(function(r) {
-	            	cObj.getMotionComments($stateParams.id);
+	            	factory.getMotionComments($stateParams.id);
 	                ToastMessage.simple("Commment updated!");
 	            });
 			},
 			delete: function(){
 				ToastMessage.destroyThis("comment", function() {
-                    comment.deleteComment(cObj.comment.id).then(function(r) {
-						cObj.getMotionComments($stateParams.id);
+                    comment.deleteComment(factory.comment.id).then(function(r) {
+						factory.getMotionComments($stateParams.id);
 						ToastMessage.simple("Comment deleted.")
                     }); 
 				});
 			},
 		};
 
-		cObj.getMotionComments($stateParams.id);
+		factory.getMotionComments($stateParams.id);
 
-		return cObj;
+		return factory;
 	}
 
 })();
@@ -3103,87 +2788,54 @@
 
 	'use strict';
 
-	department.$inject = ["$resource", "$http", "$q", "$timeout"];
+	DepartmentSidebarController.$inject = ["$rootScope", "department"];
 	angular
 		.module('iserveu')
-		.factory('department', department);
+		.controller('DepartmentSidebarController', DepartmentSidebarController);
 
 	/** @ngInject */
-	function department($resource, $http, $q, $timeout) {
+	function DepartmentSidebarController($rootScope, department) {
 
-		var Department = $resource('api/department/:id', {}, {
-	        'update': { method:'PUT' }
-	    });
+		var vm = this;
 
-		var self = {
-			data: {},
-			getData: function() {
-				console.log(self.data.hasOwnProperty(0));
+		vm.departments = [];
 
-				if(self.data.hasOwnProperty(0)){
-					console.log('foo');
-					return self.data;
-				}
-				else {
-					self.initDepartments();
-					console.log(self.data);
-					$timeout(function() {
-						self.getData();
-					}, 600);
-				}
-			},
-			initDepartments: function() {
-				Department.query().$promise.then(function(r) {
-					console.log(r.hasOwnProperty(0));
-					self.data = r;
-				});
-			},
-			getDepartments: function() {
-				return $http.get('api/department/').success(function(result) {
-					console.log(result);
-					return result.data;
-				});
-			}
-		};
+		$rootScope.$on('departmentSidebarRefresh', function(event, data){
+			getDepartments();
+		});
 
-		function addDepartment(data){
-			return Department.save(data).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		function deleteDepartment(id){
-			return Department.delete({id:id}).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		function updateDepartment(data){
-			return Department.update({id:data.id}, data).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		self.initDepartments();
-
-	return {
-			self: self,
-			addDepartment: addDepartment,
-			deleteDepartment: deleteDepartment,
-			updateDepartment: updateDepartment,
-		}
-
-
-
+		function getDepartments (){
+            department.getDepartments().then(function(result){
+              	  vm.departments = result;
+            });
+        } 
+	
+        getDepartments();
 
 	}
 
+
+
+}());
+(function() {
+
+  'use strict';
+
+  angular
+    .module('iserveu')
+    .directive('departmentSidebar', departmentSidebar);
+
+	/** @ngInject */
+  function departmentSidebar() {
+
+    return {
+
+      templateUrl: 'app/components/department/department-sidebar/department-sidebar.tpl.html'
+      
+    }
+
+  }
+  
 })();
 (function() {
 
@@ -3279,6 +2931,30 @@
 
 
 })();
+(function() {
+	
+	angular
+		.module('iserveu')
+		.service('isMotionOpen', isMotionOpen);
+
+	function isMotionOpen() {
+		
+		var val = '';
+
+		this.get = function() {
+			return val;
+		}
+
+		this.set = function(value) {
+			val = value;
+		}
+
+	}
+
+
+})();
+
+
 (function() {
 
 	'use strict';
@@ -3377,13 +3053,13 @@
 
 	'use strict';
 
-	motionObj.$inject = ["$http", "motion"];
+	motionObj.$inject = ["$http", "motion", "isMotionOpen", "voteObj"];
 	angular
 		.module('iserveu')
 		.factory('motionObj', motionObj);
 
 	 /** @ngInject */
-	function motionObj($http, motion) {
+	function motionObj($http, motion, isMotionOpen, voteObj) {
 
 		var motionObj = {
 			data: [],
@@ -3410,10 +3086,9 @@
 				});
 			},
 			getMotionObj: function(id) {
-				for(var i in motionObj.data) {
-					console.log(i);
-					if( id == motionObj.data[i].id )
-						return motionObj.data[i];
+				for(var i in this.data) {
+					if( id == this.data[i].id )
+						return this.data[i];
 				}
 			},
 			reloadMotionObj: function(id) {
@@ -3436,177 +3111,68 @@
 
 	'use strict';
 
-	editUserController.$inject = ["$timeout", "$stateParams", "user", "ethnicOriginService", "roleObj"];
+	pagesFab.$inject = ["$stateParams", "pageObj", "fabLink", "ToastMessage"];
 	angular
 		.module('iserveu')
-		.controller('editUserController', editUserController);
+		.directive('pagesFab', pagesFab);
 
   	 /** @ngInject */
-	function editUserController($timeout, $stateParams, user, ethnicOriginService, roleObj) {
+	function pagesFab($stateParams, pageObj, fabLink, ToastMessage) {
 
-		var vm = this;
-		var arrayOfFieldTypes = [];
+		function pagesFabController() {
 
-		// json object for user profile info
-		vm.profile = {};
+			this.pageObj = pageObj;
 
-		// function access from html; 
-		// TODO: switch to angular.extend
-		// TODO: make each function into a factory object; 
-		vm.pressEnter = pressEnter;
-		vm.expand = expand;
-		vm.save = save;
-		vm.lock = lock;
-		vm.changeLock = changeLock;
-		vm.roleObj = roleObj;	// factory object for user roles
+			this.isOpen = false;
 
-		// arrays used in html
-		vm.field   = [];
-		vm.locking = [];
-		vm.success = [];
-
-		// ngModels used in html; TODO: switch to angular.extend
-		vm.new = {
-			email: null,
-			date_of_birth: null,
-			street_name: null,
-			street_number: null,
-			postal_code: null,
-			unit_number: null,
-			ethnicity: null,
-			password: null
-		}
-
-	    function pressEnter($event, type) {
-	    	if($event.keyCode == 13) {
-	    		save(type);
-	    	}
-	    }
-
-		function expand(fieldType) {
-			vm.field[fieldType] = !vm.field[fieldType]; 
-		}
-
-		function lock(fieldType) {
-			if( angular.isArray(fieldType) ) {
-				var count = 0;
-				angular.forEach(fieldType, function(key) {
-					if( !vm.new[key] ) 
-						count++;
-				})
-				count == fieldType.length ? error() : changeLock(fieldType);
-			} else {
-				!vm.new[fieldType] ? error() : changeLock(fieldType);
-			}
-		}
-
-		function changeLock(fieldType) {
-			if( angular.isArray(fieldType) ) {
-				arrayOfFieldTypes = fieldType;
-				fieldType = 'address';
-				save(arrayOfFieldTypes);
-			}
-			else {
-				save(fieldType);
-			}
-			vm.locking[fieldType] = !vm.locking[fieldType];
-		}
-
-		function success(fieldType) {
-			vm.success[fieldType] = !vm.success[fieldType];
-		}
-
-		function save(fieldType) {
-			var data = {
-				id: vm.profile.id
-			}
-
-			angular.forEach(vm.new, function(value, key) {
-				if( arrayOfFieldTypes ){
-					angular.forEach(arrayOfFieldTypes, function(type) {
-						if(key == type) {
-							data[type] = value;
-						}
-					})
-				}
-				if(key == fieldType) {
-					data[fieldType] = value;
-				}
-			})
-
-			update(data, fieldType);
-		}
-
-		function update(data, fieldType) {
-			if( angular.isArray(fieldType) ) {
-				fieldType = 'address';
-			}
-
-			user.updateUser(data).then(function(result) {
-				postSaveSuccess(fieldType);
-			}, function(error) {
-				// error_handler
-			});
-		}
-
-		function postSaveSuccess(fieldType) {
-
-			var countdown = Math.floor((Math.random() * 700) + 400);
-
-			expand(fieldType);
-			success(fieldType);
-			vm.locking[fieldType] = !vm.locking[fieldType];
-
-			$timeout(function() {
-				success(fieldType);
-			}, countdown);
-
-			if( arrayOfFieldTypes != null ) {
-
-				angular.forEach(arrayOfFieldTypes, function(type) {
-					vm.new[type] = null;
+			this.destroy = function () {
+				ToastMessage.destroyThis("page", function() {
+					pageObj.delete($stateParams.id);
 				});
-				arrayOfFieldTypes = null;
-			} else{
+			};
+		};
 
-				vm.new[fieldType] = null;
-			}
+		function pagesFabLink(scope, el, attrs) {
+			fabLink(el);
+		};
 
-			onPageLoad.getUser();
+		return {
+			controller: pagesFabController,
+			controllerAs: 'fab',
+			link: pagesFabLink,
+			templateUrl: 'app/components/pages/pages-fab/pages-fab.tpl.html'
 		}
 
+	}
 
-		var onPageLoad = {
-			getUser: function() {
-				// warning: SRP
-				user.getUser($stateParams.id).then(function(r) {
-					vm.profile = r;
-					onPageLoad.getUsersEthnicOrigin(r.ethnic_origin_id);
-					onPageLoad.checkAuthenticatedUser(r);
-				});
+
+})();
+(function() {
+
+	'use strict';
+
+	community.$inject = ["$http"];
+	angular
+		.module('iserveu')
+		.factory('community', community);
+
+	/** @ngInject */
+	function community($http) {
+
+		var factory = {
+			getIndex: function () {
+				$http.get('/api/community').success(function(r){
+					factory.index = r;
+				}).error(function(e){ console.log(e); });
 			},
-			getEthnicOrigin: function() {
-				ethnicOriginService.getEthnicOrigins().then(function(r) {
-					vm.ethnicities = r;
-				});
-			},
-			getUsersEthnicOrigin: function(id) {
-				ethnicOriginService.getEthnicOrigin(id).then(function(r) {
-					vm.ethnicity = r[0];
-				});		
-			},
-			checkAuthenticatedUser: function(r) {
-				// TODO: php a better security screen
-				if(!r.date_of_birth) {
-					vm.disabled_unauthenticated = true;
-				};
-			}
+			index: {}
 		}
 
-		onPageLoad.getUser();
-		onPageLoad.getEthnicOrigin();
+		factory.getIndex();
 
-		vm.pressBack = onPageLoad.getUser;
+		return factory;
+
+
 	}
 
 })();
@@ -3614,72 +3180,34 @@
 
 	'use strict';
 
-	splitUserField.$inject = ["$q"];
+	ethnicOriginService.$inject = ["$http"];
 	angular
 		.module('iserveu')
-		.service('splitUserField', splitUserField);
+		.factory('ethnicOriginService', ethnicOriginService);
 
   	 /** @ngInject */
-	function splitUserField($q) {
+	function ethnicOriginService($http) {
 
-		var vm = this;
-
-		vm.given = function(fields){
-		angular.forEach(fields, function(value, key){
-			switch(value.key){
-				case "password":
-					vm.password = value;
-					break;
-				case "identity_verified": 
-					vm.identity_verified = value;
-					break;
-				case "email":
-					vm.email = value;
-					break;
-				case "ethnic_origin_id":
-					vm.ethnic_origin_id = value;
-					break;
-				case "public":
-					vm.public = value;
-					break;
-				case "first_name":
-					vm.first_name = value;
-					break;
-				case "middle_name":
-					vm.middle_name = value;
-					break;
-				case "last_name":
-					vm.last_name = value;
-					break;
-				case "date_of_birth":
-					vm.date_of_birth = value;
-					break;
-				default:
-					break;
-			}
-			});
+		function getEthnicOrigins(){
+	        return $http.get('api/ethnic_origin/').then(function(r){
+	            return r.data;
+	        });
 		}
 
-		vm.set = function(array){
-			if(array){
-				if(array.type == 'password'){
-					array.type = array.type+'-edit';
-				}
-				var field = [{
-		    		key: array.key,
-		    		type: array.type,
-		    		templateOptions: array.templateOptions,
-		        	noFormControl: true,
-	    		}]
-	    	return field;
- 		   }
+		function getEthnicOrigin(id){
+	    	return $http.get('api/ethnic_origin/'+id).then(function(r){
+	            return r.data;
+	        });
+		}
+
+		return {
+			getEthnicOrigins: getEthnicOrigins,
+			getEthnicOrigin: getEthnicOrigin
 		};
 
 	}
 
-
 }());
-
 (function() {
 
 	'use strict';
@@ -3782,22 +3310,19 @@
 
 	'use strict';
 
-	voteOnMotion.$inject = ["$rootScope", "$stateParams", "vote", "motion", "voteObj", "motionObj", "commentObj", "SetPermissionsService", "ToastMessage"];
+	voteOnMotion.$inject = ["$rootScope", "$stateParams", "$timeout", "vote", "voteObj", "motionObj", "SetPermissionsService", "voteButtonMessage", "isMotionOpen"];
 	angular
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
+	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen) {
 
 
 		voteController.$inject = ["$scope"];
 		function voteController($scope) {
-
-			var vm = this;
-
 			// variables
-			var isMotionOpen = false;
+			var vm = this;
 			vm.voting = {'1': false, '0':false, '-1': false};
 
 			// DOM accessors for controller functions
@@ -3806,6 +3331,7 @@
 			vm.voteButtonMessage = voteButtonMessage;
 			vm.voteObj			 = voteObj;
 
+			// I wonder if I can share this via the quick-vote.dir.js
 			function castVote(id, pos) {
 
 				if( isVotingEnabled() )
@@ -3813,12 +3339,10 @@
 
 				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					vm.voting[pos] = true;
-					isMotionOpen = false;
 					updateVote(pos);
 				}
 				else {
 					vm.voting[pos] = true;
-					isMotionOpen = false;
 
 					vote.castVote({
 						motion_id: id,
@@ -3843,54 +3367,34 @@
 			}
 
 			function successFunc(r, pos){
-
-				$rootScope.$broadcast('usersVoteHasChanged');
-
 				vm.voting[pos] = false;
-				isMotionOpen = true;
-
-				commentObj.getMotionComments(r.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
-			
-				voteObj.user = r;
-				voteObj.showMessage(pos);
-				voteObj.calculateVotes(r.motion_id);	// vm.motionVotes will be an object Factory;
+				motionObj.reloadMotionObj(r.motion_id);
+				voteObj.successFunc(r, pos, false);
 			}
 
 			function errorFunc(e, pos){
 				vm.voting[pos] = false;
-				isMotionOpen = true;
 				ToastMessage.report_error(e);
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen || !SetPermissionsService.can('create-votes');
+				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes');
 			}
 
-			function voteButtonMessage(type) {
-				if ( !SetPermissionsService.can('create-votes') )
-					return "You have not been verified as Yellowknife resident.";
-				else if ( !isMotionOpen ) {
-					for(var i in vm.voting) 
-						if ( vm.voting[i] ) return type;
-					return "This motion is closed.";
-				}
-				else return type;
-			}
+			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {
+				if( !angular.isUndefined(newValue) )
+					// some sort of digest conflict, doesn't work without the slight 
+					// offset of the timeout
+					if(newValue.motion_id == $stateParams.id)
+		            	$timeout(function() {
+		                    voteObj.user  = newValue ? newValue : {position: null} ;     
+							voteObj.calculateVotes(newValue.motion_id);
+		            	}, 100);
+			}, true);
 
-			// TODO: refactor this beast.
-			// $scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
-			// 	function(motionDetail) {
-	  //               if( motionDetail != null ) {
-	  //               	isMotionOpen  = motionDetail.MotionOpenForVoting
-	  //                   voteObj.user  = motionDetail.user_vote;
-	  //               } else 
-	  //               	motion.getMotion($stateParams.id).then(function(r) {
-		 //                	isMotionOpen  = r.MotionOpenForVoting
-		 //                    voteObj.user  = r.user_vote ? r.user_vote : {position: null} ;
-	  //               	});
-			// 	}, true
-			// );
-
+			$rootScope.$on('usersVoteHasChanged', function(ev, data) {
+				voteObj.user = data.vote;
+			});
 		}
 
 		return {
@@ -3986,19 +3490,56 @@
 
 }());
 (function() {
+	
+	voteButtonMessage.$inject = ["$translate", "SetPermissionsService", "isMotionOpen"];
+	angular
+		.module('iserveu')
+		.service('voteButtonMessage', voteButtonMessage);
+
+	/** @ngInject */
+	function voteButtonMessage($translate, SetPermissionsService, isMotionOpen) {
+
+		// TODO: this as a constant watcher is slowing shit DOWN.
+		// figure out a way to destroy after awhile or two-way bind
+		// correct data.
+		return function(votes, type){
+
+			if ( !SetPermissionsService.can('create-votes') )
+
+				return "You need to fill out your profile before you can vote.";
+
+			else if ( !isMotionOpen.get() ) {
+
+				for(var i in votes) 
+					if ( votes[i] ) return type + $translate.instant('MOTION');
+
+				return "This "+ $translate.instant('MOTION') + " is closed.";
+			
+			}
+
+			else return type + $translate.instant('MOTION');
+		}
+
+
+	}
+
+
+})();
+
+
+(function() {
 
 	'use strict';
 
-	voteObj.$inject = ["$stateParams", "vote", "ToastMessage"];
+	voteObj.$inject = ["$rootScope", "commentObj", "$stateParams", "vote", "ToastMessage"];
 	angular
 		.module('iserveu')
 		.factory('voteObj', voteObj);
 
   	 /** @ngInject */
-	function voteObj($stateParams, vote, ToastMessage) {
+	function voteObj($rootScope, commentObj, $stateParams, vote, ToastMessage) {
 
-	
-		var voteObj = {
+		var factory = {
 			user: { position: null },
 			motionVotes: {
 		            disagree:{percent:0,number:0},
@@ -4011,444 +3552,83 @@
 		    votes: {},
 		    calculateVotes: function(id) {
 		    	// TODO: figure out how to make this DOM obj not disappear each time a user votes.
-		    	for(var i in voteObj.motionVotes) {
-		    		for(var n in voteObj.motionVotes[i]) {
-		    			voteObj.motionVotes[i][n] = 0;
-		    		}
+		    	for(var i in this.motionVotes) {
+		    		for(var j in this.motionVotes[i])
+		    			this.motionVotes[i][j] = 0;
 		    	}
 
 		    	vote.getMotionVotes(id).then(function(r){
 
-		    		var votes = voteObj.votes = r.data;
-
+		    		var votes = factory.votes = r.data;
 
 		            if(votes[1]){
-		            	voteObj.motionVotes.agree = ( votes[1].active ) ? votes[1].active  : voteObj.motionVotes.agree; 
-		                voteObj.motionVotes.deferred_agree = ( votes[1].passive ) ? votes[1].passive : voteObj.motionVotes.deferred_agree;
+		            	factory.motionVotes.agree = ( votes[1].active ) 
+		            								? votes[1].active  
+		            								: factory.motionVotes.agree; 
+		                factory.motionVotes.deferred_agree = ( votes[1].passive ) 
+		                									 ? votes[1].passive 
+		                									 : factory.motionVotes.deferred_agree;
 		            }
 		            if(votes[-1]){
-		                voteObj.motionVotes.disagree = ( votes[-1].active ) ? votes[-1].active :  voteObj.motionVotes.disagree;
-		                voteObj.motionVotes.deferred_disagree = ( votes[-1].passive ) ? votes[-1].passive : voteObj.motionVotes.deferred_disagree;
+		                factory.motionVotes.disagree = ( votes[-1].active ) 
+		                							   ? votes[-1].active 
+		                							   : factory.motionVotes.disagree;
+		                factory.motionVotes.deferred_disagree = ( votes[-1].passive ) 
+		                										? votes[-1].passive 
+		                										: factory.motionVotes.deferred_disagree;
 		            }
 		            if(votes[0]){
-		            	voteObj.motionVotes.abstain =  ( votes[0].active ) ? votes[0].active  : voteObj.motionVotes.abstain;
-		                voteObj.motionVotes.deferred_abstain = ( votes[0].passive ) ? votes[0].passive : voteObj.motionVotes.deferred_abstain;
+		            	factory.motionVotes.abstain =  ( votes[0].active ) 	
+		            								   ? votes[0].active  
+		            								   : factory.motionVotes.abstain;
+		                factory.motionVotes.deferred_abstain = ( votes[0].passive ) 
+		                									   ? votes[0].passive 
+		                									   : factory.motionVotes.deferred_abstain;
 		            }
 
-		            return voteObj.motionVotes;
-
+		            return factory.motionVotes;
 	            });
 		    },
 		    showMessage: function(pos) {
-				pos = pos == 1 ? 'agreed with' : ( pos == 0 ? 'abstained on' : 'disagreed with');
+				pos = pos == 1 
+					  ? 'agreed with' 
+					  : ( pos == 0 ? 'abstained on' : 'disagreed with');
+				
 				ToastMessage.simple( 'You ' + pos + " this motion" );
 		    },
 		    getOverallPosition: function() {
 
 		    	var position;
 
-	            if(voteObj.motionVotes.disagree.number > voteObj.motionVotes.agree.number)
+	            if(this.motionVotes.disagree.number > this.motionVotes.agree.number)
 	                position = "thumb-down";
-	            else if(voteObj.motionVotes.disagree.number < voteObj.motionVotes.agree.number)
+	            else if(this.motionVotes.disagree.number < this.motionVotes.agree.number)
 	                position = "thumb-up";
 	            else
 	                position = "thumbs-up-down";
 
 	            return position; 
+		    },
+		    successFunc: function(vote, id, pos, quickVote) {
+		    	if(!quickVote){
+					factory.user = vote;
+					factory.calculateVotes(vote.motion_id);	// vm.motionVotes will be an object Factory;
+		    	}
 
+				factory.showMessage(pos);
+				commentObj.getMotionComments(vote.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
+
+				$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
 		    }
 		};
 
-		voteObj.calculateVotes($stateParams.id);
+		factory.calculateVotes($stateParams.id);
 
-		return voteObj;
-
-
-	}
-
-})();
-(function() {
-
-	'use strict';
-
-	pagesFab.$inject = ["$stateParams", "pageObj", "fabLink", "ToastMessage"];
-	angular
-		.module('iserveu')
-		.directive('pagesFab', pagesFab);
-
-  	 /** @ngInject */
-	function pagesFab($stateParams, pageObj, fabLink, ToastMessage) {
-
-		function pagesFabController() {
-
-			this.pageObj = pageObj;
-
-			this.isOpen = false;
-
-			this.destroy = function () {
-				ToastMessage.destroyThis("page", function() {
-					pageObj.delete($stateParams.id);
-				});
-			};
-		};
-
-		function pagesFabLink(scope, el, attrs) {
-			fabLink(el);
-		};
-
-		return {
-			controller: pagesFabController,
-			controllerAs: 'fab',
-			link: pagesFabLink,
-			templateUrl: 'app/components/pages/pages-fab/pages-fab.tpl.html'
-		}
-
-	}
-
-
-})();
-(function() {
-	
-	'use strict';
-
-	angular
-		.module('iserveu')
-		.directive('showFooter', footer);
-
-	function footer() {
-
+		return factory;
 		
-		return {
-			templateUrl: 'app/shared/nav/footer/footer.tpl.html'
-		}
-
-	}
-
-}());
-(function() {
-
-	'use strict';
-
-	angular
-		.module('iserveu')
-		.factory('searchFactory', searchFactory);
-
-	function searchFactory() {
-
-		var searchObj = {
-			query: {},
-			text: '',
-			searchFunc: function() {
-				var data = '';
-				
-				return data;			
-			}
-		}
-
-		return searchObj;
-
-	}
-
-
-})();
-(function() {
-
-	'use strict';
-
-	SidebarController.$inject = ["motion", "$rootScope", "$mdSidenav", "$mdMedia"];
-	angular
-		.module('iserveu')
-		.controller('SidebarController', SidebarController);
-
-  	 /** @ngInject */
-	function SidebarController(motion, $rootScope, $mdSidenav, $mdMedia) {
-
-		var vm = this;
-
-		$rootScope.$mdMedia = $mdMedia;
-		vm.keepOpen = false;
-
-		vm.toggleSidenav = function(menuId){
-			$mdSidenav(menuId).toggle().then(function(){
-				vm.keepOpen = !$rootScope.keepOpen;
-			});
-		}
-
-		vm.closeSidenav = function(menuId){
-			$mdSidenav(menuId).close().then(function(){
-				vm.keepOpen = false;
-			});
-		}
-
 	}
 
 })();
-(function() {
-	
-	'use strict';
-
-	sidebar.$inject = ["$compile"];
-	angular
-		.module('iserveu')
-		.directive('sidebar', sidebar);
-
-  	 /** @ngInject */
-	function sidebar($compile) {
-
-  		controllerMethod.$inject = ["motion", "$scope", "$location", "$state", "$rootScope"];
-		function linkMethod(scope, element, attrs) {
-
-			scope.$watch('currentState', function() {
-				angular
-					.element(document.getElementById('sidebar-inner'))
-					.empty()
-					.append($compile("<div class='" + attrs.sidebar + "-sidebar'" + attrs.sidebar + "-sidebar></div>")(scope));
-			});
-
-		}
-
-		function controllerMethod(motion, $scope, $location, $state, $rootScope) {
-        
-  		}	
-		
-		return {
-			restrict: 'E',
-			link: linkMethod,
-			controller: controllerMethod
-		}
-
-	}
-
-}());
-
-
-(function(){
-
-	'use strict';
-
-
-	angular
-		.module('iserveu')
-		.directive('userBar', userBar);
-
-	function userBar(){
-		
-	  	 /** @ngInject */
-		UserbarController.$inject = ["$translate", "$mdSidenav", "auth", "afterauth", "UserbarService", "SetPermissionsService", "pageObj"];
-		function UserbarController($translate, $mdSidenav, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
-
-			var vm = this;
-
-			vm.userbarservice = UserbarService;
-			vm.setpermissionservice = SetPermissionsService;
-			vm.pageObj = pageObj;
-			vm.preferredLang = "English";
-			vm.languages = [{name:'English', key:'en'},
-							{name:'French', key:'fr'}];
-
-			vm.changeLanguage = function(langKey){
-				$translate.use(langKey);
-			}
-
-			vm.logout = function() {
-				auth.logout().then(function() {
-					afterauth.clearCredentials();
-				});
-			}
-
-			vm.toggleSidebar = function(id) {
-				$mdSidenav(id).toggle(); 
-			}
-		};
-
-		return {
-			controller: UserbarController,
-			controllerAs: 'user',
-			templateUrl: 'app/shared/nav/userbar/userbar-production.tpl.html'
-		}
-
-	}
-})();
-(function() {
-
-	'use strict';
-
-	UserbarService.$inject = ["$rootScope"];
-	angular
-		.module('iserveu')
-		.service('UserbarService', UserbarService);
-
-  	 /** @ngInject */
-	function UserbarService($rootScope) {
- 		
- 		var vm = this;
-
- 		vm.title = "-";
-
- 		vm.setTitle = function(value){
- 			vm.title = value
- 		}
-
-	}	
-})();
-
-(function() {
-
-	'use strict';
-
-
-	errorHandler.$inject = ["$state"];
-	angular
-		.module('iserveu')
-		.service('errorHandler', errorHandler);
-
-	/** @ngInject */
-	function errorHandler($state) {
-
-
-
-
-
-
-	}
-
-
-
-})();
-(function() {
-
-	'use strict';
-
-	globalService.$inject = ["$rootScope"];
-	angular
-		.module('iserveu')
-		.service('globalService', globalService);
-
-	/** @ngInject */
-	function globalService($rootScope) {
-
-		/**
-		*	Initializes global variables.
-		*
-		*/
-		this.init = function() {
-			$rootScope.themename = 'default';
-	        $rootScope.motionIsLoading = [];
-		};
-
-		/**
-		*	Checks that the user's credentials are set up in the local storage.
-		*	Assigns global variables that are checked in the view model
-		*   throughout the app.
-		*/
-		this.checkUser = function() {
-			var user = JSON.parse(localStorage.getItem('user'));
-			
-			if(user) {
-				$rootScope.authenticatedUser = user;
-				$rootScope.userIsLoggedIn = true;
-			};
-		};
-
-		/**
-		*	Points current state name to a rootScope variable that is 
-		*	accessed throughout the app for the sidebar directive 
-		*	which dynamically renders the state's sidebar.
-		*/
-		this.setState = function(state) {
-			$rootScope.currentState = state.name;
-		};
-
-
-	}
-
-})();
-(function() {
-
-	'use strict';
-
-	redirect.$inject = ["$rootScope", "$state"];
-	angular
-		.module('iserveu')
-		.service('redirect', redirect);
-
-	/** @ngInject */
-	function redirect($rootScope, $state) {
-
-		/**
-		*	Redirect function for when a user is forwarded to a site URL and
-		*	logs in. They will be redirected the previous state they were
-		*	at before being rejected by authentication.
-		*/
-		this.onLogin = function(state, params, prevState) {
-			if(state.name !== 'login' || state.name !== 'login.resetpassword') {
-				$rootScope.redirectUrlName = state.name;
-				$rootScope.redirectUrlID = params.id;
-				$rootScope.previousUrlID = prevState.id;
-			};
-		};
-	
-		/**
-		*	Redirect when a user is not authenticated via AuthController
-		*	or they have somehow lost their localstorage credentials. Logs the user
-		*	out and redirects them to login state.
-		*/
-		this.ifNotAuthenticated = function(ev, requireLogin, auth, state, prevState) {
-			if(auth === false && requireLogin === true){
-				ev.preventDefault();
-				if(prevState !== 'login' || state !== 'login')
-					$state.go('login');
-			};
-		}; 
-
-
-
-	}
-
-})();
-(function() {
-
-	'use strict';
-
-	RedirectController.$inject = ["UserbarService", "$timeout", "$state"];
-	angular
-		.module('iserveu')
-		.controller('RedirectController', RedirectController);
-
-  	 /** @ngInject */
-	function RedirectController(UserbarService, $timeout, $state) {
-
-		UserbarService.setTitle("Woops!");
-
-		var vm = this;
-
-		vm.seconds = 6;
-
-		vm.timer = {
-			seconds: 5000
-		}
-
-		function countHandler(){
-			vm.seconds = vm.seconds - 1;
-			var stopped = $timeout(function(){
-				countHandler();
-			}, 1000);
-
-
-			if(vm.seconds === 0){$timeout.cancel( stopped );};
-
-		}
-		
-		$timeout(function(){
-			$state.go('home');
-		}, vm.timer.seconds);
-
-		countHandler();
-
-	}
-
-
-}());
 (function() {
 
 	'use strict';
@@ -4731,6 +3911,349 @@
 
 	}
 }());
+(function() {
+	
+	'use strict';
+
+	angular
+		.module('iserveu')
+		.directive('showFooter', footer);
+
+	function footer() {
+
+		
+		return {
+			templateUrl: 'app/shared/nav/footer/footer.tpl.html'
+		}
+
+	}
+
+}());
+(function() {
+
+	'use strict';
+
+	angular
+		.module('iserveu')
+		.factory('searchFactory', searchFactory);
+
+	function searchFactory() {
+
+		var searchObj = {
+			query: {},
+			text: '',
+			searchFunc: function() {
+				var data = '';
+				
+				return data;			
+			}
+		}
+
+		return searchObj;
+
+	}
+
+
+})();
+(function() {
+
+	'use strict';
+
+	SidebarController.$inject = ["motion", "$rootScope", "$mdSidenav", "$mdMedia"];
+	angular
+		.module('iserveu')
+		.controller('SidebarController', SidebarController);
+
+  	 /** @ngInject */
+	function SidebarController(motion, $rootScope, $mdSidenav, $mdMedia) {
+
+		var vm = this;
+
+		$rootScope.$mdMedia = $mdMedia;
+		vm.keepOpen = false;
+
+		vm.toggleSidenav = function(menuId){
+			$mdSidenav(menuId).toggle().then(function(){
+				vm.keepOpen = !$rootScope.keepOpen;
+			});
+		}
+
+		vm.closeSidenav = function(menuId){
+			$mdSidenav(menuId).close().then(function(){
+				vm.keepOpen = false;
+			});
+		}
+
+	}
+
+})();
+(function() {
+	
+	'use strict';
+
+	sidebar.$inject = ["$compile"];
+	angular
+		.module('iserveu')
+		.directive('sidebar', sidebar);
+
+  	 /** @ngInject */
+	function sidebar($compile) {
+
+  		controllerMethod.$inject = ["motion", "$scope", "$location", "$state", "$rootScope"];
+		function linkMethod(scope, element, attrs) {
+
+			scope.$watch('currentState', function() {
+				angular
+					.element(document.getElementById('sidebar-inner'))
+					.empty()
+					.append($compile("<div class='" + attrs.sidebar + "-sidebar'" + attrs.sidebar + "-sidebar></div>")(scope));
+			});
+
+		}
+
+		function controllerMethod(motion, $scope, $location, $state, $rootScope) {
+        
+  		}	
+		
+		return {
+			restrict: 'E',
+			link: linkMethod,
+			controller: controllerMethod
+		}
+
+	}
+
+}());
+
+
+(function(){
+
+	'use strict';
+
+
+	angular
+		.module('iserveu')
+		.directive('userBar', userBar);
+
+	function userBar(){
+		
+	  	 /** @ngInject */
+		UserbarController.$inject = ["$translate", "$mdSidenav", "auth", "afterauth", "UserbarService", "SetPermissionsService", "pageObj"];
+		function UserbarController($translate, $mdSidenav, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
+
+			var vm = this;
+
+			vm.userbarservice = UserbarService;
+			vm.setpermissionservice = SetPermissionsService;
+			vm.pageObj = pageObj;
+			vm.preferredLang = "English";
+			vm.languages = [{name:'English', key:'en'},
+							{name:'French', key:'fr'}];
+
+			vm.changeLanguage = function(langKey){
+				$translate.use(langKey);
+			}
+
+			vm.logout = function() {
+				auth.logout().then(function() {
+					afterauth.clearCredentials();
+				});
+			}
+
+			vm.toggleSidebar = function(id) {
+				$mdSidenav(id).toggle(); 
+			}
+		};
+
+		return {
+			controller: UserbarController,
+			controllerAs: 'user',
+			templateUrl: 'app/shared/nav/userbar/userbar-production.tpl.html'
+		}
+
+	}
+})();
+(function() {
+
+	'use strict';
+
+	UserbarService.$inject = ["$rootScope"];
+	angular
+		.module('iserveu')
+		.service('UserbarService', UserbarService);
+
+  	 /** @ngInject */
+	function UserbarService($rootScope) {
+ 		
+ 		var vm = this;
+
+ 		vm.title = "-";
+
+ 		vm.setTitle = function(value){
+ 			vm.title = value
+ 		}
+
+	}	
+})();
+
+(function() {
+
+	'use strict';
+
+	RedirectController.$inject = ["UserbarService", "$timeout", "$state"];
+	angular
+		.module('iserveu')
+		.controller('RedirectController', RedirectController);
+
+  	 /** @ngInject */
+	function RedirectController(UserbarService, $timeout, $state) {
+
+		UserbarService.setTitle("Woops!");
+
+		var vm = this;
+
+		vm.seconds = 6;
+
+		vm.timer = {
+			seconds: 5000
+		}
+
+		function countHandler(){
+			vm.seconds = vm.seconds - 1;
+			var stopped = $timeout(function(){
+				countHandler();
+			}, 1000);
+
+
+			if(vm.seconds === 0){$timeout.cancel( stopped );};
+
+		}
+		
+		$timeout(function(){
+			$state.go('home');
+		}, vm.timer.seconds);
+
+		countHandler();
+
+	}
+
+
+}());
+(function() {
+
+	'use strict';
+
+
+	errorHandler.$inject = ["$state"];
+	angular
+		.module('iserveu')
+		.service('errorHandler', errorHandler);
+
+	/** @ngInject */
+	function errorHandler($state) {
+
+
+
+
+
+
+	}
+
+
+
+})();
+(function() {
+
+	'use strict';
+
+	globalService.$inject = ["$rootScope"];
+	angular
+		.module('iserveu')
+		.service('globalService', globalService);
+
+	/** @ngInject */
+	function globalService($rootScope) {
+
+		/**
+		*	Initializes global variables.
+		*
+		*/
+		this.init = function() {
+			$rootScope.themename = 'default';
+	        $rootScope.motionIsLoading = [];
+		};
+
+		/**
+		*	Checks that the user's credentials are set up in the local storage.
+		*	Assigns global variables that are checked in the view model
+		*   throughout the app.
+		*/
+		this.checkUser = function() {
+			var user = JSON.parse(localStorage.getItem('user'));
+			
+			if(user) {
+				$rootScope.authenticatedUser = user;
+				$rootScope.userIsLoggedIn = true;
+			};
+		};
+
+		/**
+		*	Points current state name to a rootScope variable that is 
+		*	accessed throughout the app for the sidebar directive 
+		*	which dynamically renders the state's sidebar.
+		*/
+		this.setState = function(state) {
+			$rootScope.currentState = state.name;
+		};
+
+
+	}
+
+})();
+(function() {
+
+	'use strict';
+
+	redirect.$inject = ["$rootScope", "$state"];
+	angular
+		.module('iserveu')
+		.service('redirect', redirect);
+
+	/** @ngInject */
+	function redirect($rootScope, $state) {
+
+		/**
+		*	Redirect function for when a user is forwarded to a site URL and
+		*	logs in. They will be redirected the previous state they were
+		*	at before being rejected by authentication.
+		*/
+		this.onLogin = function(state, params, prevState) {
+			if(state.name !== 'login')
+				if (state.name !== 'login.resetpassword') {
+				$rootScope.redirectUrlName = state.name;
+				$rootScope.redirectUrlID = params.id;
+				$rootScope.previousUrlID = prevState.id;
+			};
+		};
+	
+		/**
+		*	Redirect when a user is not authenticated via AuthController
+		*	or they have somehow lost their localstorage credentials. Logs the user
+		*	out and redirects them to login state.
+		*/
+		this.ifNotAuthenticated = function(ev, requireLogin, auth, state, prevState) {
+			if(auth === false && requireLogin === true){
+				ev.preventDefault();
+				if(prevState !== 'login' || state !== 'login')
+					$state.go('login');
+			};
+		}; 
+
+
+
+	}
+
+})();
 (function(){
 	'use strict';
 
@@ -4926,7 +4449,7 @@
 		return {
 			controller: contentController,
 			controllerAs: 'content',
-			templateUrl: 'app/components/admin/partials/content-manager/content-manager.tpl.html',
+			templateUrl: 'app/components/admin/partials/content/content-manager.tpl.html',
 		}
 
 
@@ -4934,6 +4457,111 @@
 
 
 })();
+(function() {
+	
+	departmentManager.$inject = ["departmentManagerService"];
+	angular
+		.module('iserveu')
+		.directive('departmentManager', departmentManager);
+
+	function departmentManager(departmentManagerService) {
+
+		departmentManagerController.$inject = ["$scope"];
+		function departmentManagerController($scope) {
+
+			$scope.department = departmentManagerService;
+
+		}
+
+
+		return {
+			controller: departmentManagerController,
+			templateUrl: 'app/components/admin/partials/department/department-manager.tpl.html'
+		}
+
+
+	}
+
+})();
+(function() {
+	
+	departmentManagerService.$inject = ["$state", "$timeout", "department", "ToastMessage"];
+	angular
+		.module('iserveu')
+		.factory('departmentManagerService', departmentManagerService);
+
+    /** @ngInject */
+	function departmentManagerService($state, $timeout, department, ToastMessage) {
+
+		var factory = {
+			list: {},
+			success: {},
+			disabled: {},
+			edit: function(id) {
+				for(var i in this.disabled)
+	           		this.disabled[i] = true;
+	            this.disabled[id] = !this.disabled[id];
+			},
+			save: function(name, id) {
+				this.success[id] = true;
+            	department.updateDepartment({
+            		id: id,
+            		name: name
+            	}).then(function(r) {
+            		factory.successHandler(r, id); 
+            	}, function(e){
+            		factory.errorHandler(e);
+            	});
+			},
+			destroy: function(name, id) {
+				ToastMessage.destroyThis(name, 
+					function(){
+						department.deleteDepartment(id);
+				});
+			},
+			create: function(name) {
+				department.addDepartment({
+					name: name,
+					active: 1
+				}).then(function(r) {
+					successHandler(r);
+				}, function(e) {
+					errorHandler(e);
+				})
+			},
+			pressEnter: function(ev, name, id) {
+				if(ev.keyCode === 13)
+					this.save(name, id);
+			},
+			hasMany: function(id) {
+				// TODO: php scope to see how many motions these departments are attached to
+				// it and return it in a toast message <3
+			},
+			successHandler: function(r, id) {
+				this.edit('promise');
+				this.success[id] = false;
+			},
+			errorHandler: function(r, id) {
+				this.edit('promise');
+			}
+		}
+
+        department.get().then(function(r){
+            factory.list = r.data;
+
+            for(var i in r.data){
+            	factory.success[ r.data[i].id ]  = false;
+            	factory.disabled[ r.data[i].id ] = true;
+            }
+        });
+
+		return factory;
+	}
+
+
+})();
+
+
 (function () {
 
 	'use strict';
@@ -4970,7 +4598,7 @@
 	angular
 		.module('iserveu')
 		.directive('userManager', userManager);
-
+		// TODO: refactor the CSS of the template.
 	/** @ngInject */
 	function userManager(user) {
 
@@ -4983,9 +4611,7 @@
 
 			user.getIndex().then(function(r) {
 				vm.users = r.data;
-			}, function(e) {
-				console.log(e);
-			})
+			}, function(e) { console.log(e); });
 
 		};
 
@@ -4993,7 +4619,7 @@
 		return {
 			controller: userController,
 			controllerAs: 'user',
-			templateUrl: 'app/components/admin/partials/user-manager/user-manager.tpl.html',
+			templateUrl: 'app/components/admin/partials/user/user-manager.tpl.html',
 		}
 
 
@@ -5267,19 +4893,16 @@
 		commentController.$inject = ["$scope"];
 		function commentController($scope) {
 
-			var vm = this;
-
-			vm.obj = commentObj;
-			vm.vote = voteObj;
+			$scope.obj = commentObj;
+			$scope.vote = voteObj;
 
 			$scope.$watch(voteObj.user, function(vote) {
-				vm.vote.user = vote;
+				$scope.vote.user = vote;
 			});
 		}
 
 		return {
 			controller: commentController,
-			controllerAs: 'c',
 			templateUrl: 'app/components/comment/partials/comment.tpl.html'
 		}
 	}
@@ -5440,59 +5063,6 @@
 	
 	}
 
-})();
-(function() {
-
-	'use strict';
-
-	DepartmentSidebarController.$inject = ["$rootScope", "department"];
-	angular
-		.module('iserveu')
-		.controller('DepartmentSidebarController', DepartmentSidebarController);
-
-	/** @ngInject */
-	function DepartmentSidebarController($rootScope, department) {
-
-		var vm = this;
-
-		vm.departments = [];
-
-		$rootScope.$on('departmentSidebarRefresh', function(event, data){
-			getDepartments();
-		});
-
-		function getDepartments (){
-            department.getDepartments().then(function(result){
-              	  vm.departments = result;
-            });
-        } 
-	
-        getDepartments();
-
-	}
-
-
-
-}());
-(function() {
-
-  'use strict';
-
-  angular
-    .module('iserveu')
-    .directive('departmentSidebar', departmentSidebar);
-
-	/** @ngInject */
-  function departmentSidebar() {
-
-    return {
-
-      templateUrl: 'app/components/department/department-sidebar/department-sidebar.tpl.html'
-      
-    }
-
-  }
-  
 })();
 (function() {
 
@@ -5904,23 +5474,24 @@
 
 	'use strict';
 
-	editUser.$inject = ["user"];
+	editUser.$inject = ["editUserFactory", "userToolbarService", "roleFactory"];
 	angular
 		.module('iserveu')
 		.directive('editUser', editUser);
 
-	function editUser(user) {
+	/** @ngInject */
+	function editUser(editUserFactory, userToolbarService, roleFactory) {
 
+		editUserController.$inject = ["$scope"];
+		function editUserController($scope) {
 
-		function editUserController() {
-
+			userToolbarService.state = '';
+			$scope.edit = editUserFactory;
+			$scope.roles = roleFactory;
 		}
-
-
 
 		return {
 			controller: editUserController,
-			controllerAs: 'edit',
 			templateUrl: 'app/components/user/components/edit-user/edit-user.tpl.html'
 		}
 
@@ -5930,142 +5501,92 @@
 })();
 (function() {
 
+
 	'use strict';
 
-	ethnicOriginService.$inject = ["$http"];
+	editUserFactory.$inject = ["$stateParams", "$http", "user", "REST", "refreshLocalStorage"];
 	angular
 		.module('iserveu')
-		.factory('ethnicOriginService', ethnicOriginService);
+		.factory('editUserFactory', editUserFactory);
 
-  	 /** @ngInject */
-	function ethnicOriginService($http) {
+	/** @ngInject */
+	function editUserFactory($stateParams, $http, user, REST, refreshLocalStorage){
 
-		function getEthnicOrigins(){
-	        return $http.get('api/ethnic_origin/').then(function(r){
-	            return r.data;
-	        });
-		}
+		var factory = {
+			/* Function to map form input variables to the variable. */
+			map: function(bool){
+				return {
+					first_name: bool,
+					middle_name: bool,
+					last_name: bool,
+					email: bool,
+					date_of_birth: bool,
+					address: bool,
+					password: bool
+				}
+			},
+			/** Front end conditionals. */
+			success: {},
+			disabled: {},
+			/**
+			*  Switch to open and close control form inputs.
+			*  UI acts similar to an Accordian. When one
+			*  input opens, the rest close.
+			*/
+			switch: function(type){
+				for( var i in this.disabled )
+					this.disabled[i] = i == type ? !this.disabled[i] : true;
+			},
+			/** Function to post to API. */
+			save: function(type, data){
+				var fd = REST.post.makeData(type, data);
+				this.success[type] = true;
 
-		function getEthnicOrigin(id){
-	    	return $http.get('api/ethnic_origin/'+id).then(function(r){
-	            return r.data;
-	        });
-		}
-
-		var factObj = {
-		    ethnicOrigins: null,
-		    getEthnicOrigins: function(){
-		        return $http.get('api/ethnic_origin/').then(function(r){
-		            factObj.ethnicOrigins = r.data;
-		        });
-		    },
-		    getEthnicOrigin: function(id){
-		    	$http.get('api/ethnic_origin/'+id).then(function(r){
-		    		console.log(r.data.region);
-		            return r.data;
-		        });
-		    }
-		}
-
-		// factObj.getEthnicOrigins();
-
-		return {
-			getEthnicOrigins: getEthnicOrigins,
-			getEthnicOrigin: getEthnicOrigin
+				user.updateUser(fd).then(function(r){
+					factory.successHandler(r, type);
+				}, function(e) { factory.errorHandler(e); });
+			},
+			/** Function to emulate user press down enter to save. */
+			pressEnter: function(ev, type, data){
+		    	if( ev.keyCode === 13 )
+		    		this.save(type, data);
+			},
+			successHandler: function(r, type){
+				this.success[type] = false;
+				this.switch('promise');
+				refreshLocalStorage.setItem('user', r);
+			},
+			errorHandler: function(e, type){
+				this.successHandler(type);
+				ToastMessage.report_error(e);
+			}
 		};
 
+		/** Initializes UI variables to control form inputs */
+		factory.success  = factory.map(false);
+		factory.disabled = factory.map(true);
+
+
+
+		return factory;
 	}
 
-}());
-(function() {
-	
-	'use strict';
-
-	photoId.$inject = ["$compile"];
-	angular
-		.module('iserveu')
-		.directive('photoId', photoId);
-
-  	 /** @ngInject */
-	function photoId($compile) {
-		
-		controllerMethod.$inject = ["$http", "$rootScope", "auth"];
-		function controllerMethod($http, $rootScope, auth) {
-
-			var vm = this;
-
-			var user = JSON.parse(localStorage.getItem('user'));
-
-			vm.uploaded = false;
-
-			vm.need_identification = user.need_identification;
-
-			vm.upload = function(flow){
-				vm.thisFile = flow.files[0].file;
-			}
-
-			vm.submit = function(){
-				var fd = new FormData();
-
-				fd.append("government_identification", vm.thisFile);
-				fd.append("_method", "put");
-
-				$http.post('api/user/'+user.id, fd, {
-			        withCredentials: true,
-			        headers: {'Content-Type': undefined },
-			        transformRequest: angular.identity
-			    }).success(function() {
-			    	localStorage.removeItem('user');
-    				auth.getSettings().then(function(result){
-						localStorage.setItem('user', JSON.stringify(result.data.user));
-					})
-					vm.uploaded = true;
-				}).error(function(error) {
-					console.log('error');
-					return error;
-				});
-			}
-
-		}
-
-		function linkMethod(scope, element, attrs, controller){
-
-			if(controller.need_identification == false){
-				element.remove(attrs.photoId);
-			}
-			attrs.$observe('has', function(value){
-				if(value == 'true') {
-					element.remove(attrs.photoId);
-				}
-			})
-
-		}
-
-
-		return {
-			restrict: 'AE',
-			templateUrl: 'app/components/user/photo_id/photo_id.tpl.html',
-			controller: controllerMethod,
-			controllerAs: 'vm',
-			bindToController: true,
-			link: linkMethod
-		}
-
-	}
-
-}());
+})();
 (function() {
 
 	'use strict';
 
-	displayProfile.$inject = ["$stateParams", "user", "vote"];
+	displayProfile.$inject = ["$stateParams", "userToolbarService", "user", "vote"];
 	angular
 		.module('iserveu')
 		.directive('displayProfile', displayProfile);
 
-	function displayProfile($stateParams, user, vote) {
+	function displayProfile($stateParams, userToolbarService, user, vote) {
 
 		function displayProfileController() {
+
+			userToolbarService.showInputField = false;
+			userToolbarService.state = "{'cursor':'default'}";
 
 			var vm = this;
 
@@ -6106,14 +5627,30 @@
 
 	'use strict';
 
+	profileToolbar.$inject = ["userToolbarService"];
 	angular
 		.module('iserveu')
 		.directive('profileToolbar', profileToolbar);
 
-	function profileToolbar() {
+	/** @ngInject */
+	function profileToolbar(userToolbarService) {
 
+
+		profileToolbarController.$inject = ["$scope"];
+		function profileToolbarController($scope) {
+
+			$scope.toolbar = userToolbarService;
+
+			$scope.$watch("toolbar.edit.success['last_name']",
+				function(newValue, oldValue){
+					if(newValue === false && oldValue === true)
+						userToolbarService.showInputField = false;
+			}, true);	
+		
+		}
 
 		return {
+			controller: profileToolbarController,
 			templateUrl: 'app/components/user/components/profile/toolbar.tpl.html'
 		}
 
@@ -6124,187 +5661,48 @@
 
 	'use strict';
 
-	role.$inject = ["$resource", "$q"];
+	userToolbarService.$inject = ["$state", "$timeout", "editUserFactory"];
 	angular
 		.module('iserveu')
-		.factory('role', role);
+		.service('userToolbarService', userToolbarService);
 
-  	 /** @ngInject */
-	function role($resource, $q) {
+	function userToolbarService($state, $timeout, editUserFactory) {
 
-		var Role = $resource('api/role');
+		this.state = '';
+		this.edit = editUserFactory;
+		this.save = save;
+		this.editField = editField;
+		this.pressEnter = pressEnter;
 
-		var UserRole = $resource('api/user/:id/role/:role_id', {id:'@user_id', role_id:'@role_id'}, {
-	        'update': { method:'PUT' }
-	    });
+		function save(data) {
 
-		function getRoles(){
-			return Role.query().$promise.then(function(results){
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			})
-		}
+			var user = editUserFactory.map(''), j, i;
 
-		function grantRole(data){
-			return UserRole.save({id:data.user_id}, data).$promise.then(function(results){
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			})
-		}
+			for ( i in data )
+			for ( j in user )
+				if( i === j && isOfTypeName(i) ) 
+				user[j] = data[i];
 
-		function getUserRole(id){
-			return UserRole.query({id:id}).$promise.then(function(results){
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			})
-		}
+			editUserFactory.save('last_name', user);
+		};
 
-		function deleteUserRole(data){
-			return UserRole.delete({id:data.user_id, role_id:data.role_id}).$promise.then(function(results){
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			})
-		}
+		function isOfTypeName(_str) {
+			var l = _str.length;
+			return _str.substr( l - 4, l ) === 'name';
+		};
 
-		return {
-			getRoles: getRoles,
-			grantRole: grantRole,
-			getUserRole: getUserRole,
-			deleteUserRole: deleteUserRole
-		}
+		function editField() {
+			if($state.current.name === 'edit-user')
+				this.showInputField = true;
+		};
+
+		function pressEnter(ev, data) {
+			if( ev.keyCode === 13 )
+				save(data);
+		};
 
 	}
 
-
-}());
-(function() {
-
-	'use strict';
-
-	roleService.$inject = ["$mdToast", "role", "user", "ToastMessage", "refreshLocalStorage"];
-	angular
-		.module('iserveu')
-		.service('roleService', roleService);
-
-		// TODO: another abstract if possible; things seem pretty messy here
-		// this is all business logic though, keep that in mind; it might
-		// just be like that?
-
-  	 /** @ngInject */
-	function roleService($mdToast, role, user, ToastMessage, refreshLocalStorage) {
-
-		var vm = this;
-
-		//TODO: angular.extend on these :) 
-		vm.grant = grant;
-		vm.remove = remove;
-		vm.checkIfNew = checkIfNew;
-		vm.checkMatchingRoles = checkMatchingRoles;
-
-		function grant(role_name, user_id){
-			role.grantRole({
-				user_id: user_id,
-				role_name: role_name}).then(function(){
-					refreshLocalStorage.init();
-			});
-		}
-
-		function remove(role_id, user_id){
-			role.deleteUserRole({
-				user_id: user_id,
-				role_id: role_id}).then(function(){
-					refreshLocalStorage.init();
-			});
-		}
-
-		function checkMatchingRoles(roles, this_users_roles) {
-			angular.forEach(roles, function(role, key){
-				role["ifUserHasRole"] = false;
-				angular.forEach(this_users_roles, function(this_role, key){
-					if(role.display_name == this_role){
-						role["ifUserHasRole"] = true;
-					}
-				})
-			});
-		}
-
-		// TODO: make this into an UNDO
-		function checkIfNew(role, id){
-			if(id == user.self.id){
-				var toast = ToastMessage.action("Are you sure you want to modify your own role?", "Yes");
-				$mdToast.show(toast).then(function(response){
-					if(response == 'ok'){
-						editSelfRole(role, id);
-					}
-				});
-			} else {
-				editUserRole(role, id);
-			}
-		}
-
-		function editSelfRole(role, my_id){
-			if(role.ifUserHasRole){
-				grant(role.name, my_id);
-			} else if (!role.ifUserHasRole){
-				remove(role.id, my_id);
-			}
-		}
-
-		function editUserRole(role, user_id){
-			if(!role.ifUserHasRole){
-				grant(role.name, user_id);
-			} else if (role.ifUserHasRole){
-				remove(role.id, user_id);
-			}
-		}
-
-	}
-
-
-
-}());
-
-(function() {
-
-
-	'use strict';
-
-	roleObj.$inject = ["$stateParams", "role", "roleService"];
-	angular
-		.module('iserveu')
-		.factory('roleObj', roleObj);
-
-  	 /** @ngInject */
-	function roleObj($stateParams, role, roleService){
-
-		var roleObj = {
-			list: {},
-			editRole: false,
-			showRoles: function() {
-				roleObj.editRole = !roleObj.editRole;
-			},
-			checkForMatches: function(userRoles) {
-				roleService.checkMatchingRoles(roleObj.list, userRoles);
-			},
-			getAllRoles: function() {
-				role.getRoles().then(function(r){
-					roleObj.list = r;
-				});
-			},
-			setRole: function(role) {
-				roleService.checkIfNew(role, $stateParams.id);
-			}
-		}
-
-		roleObj.getAllRoles();
-
-		return roleObj;
-
-	}
 
 })();
 (function() {
@@ -6353,6 +5751,132 @@
 })();
 (function() {
 
+	'use strict';
+
+	role.$inject = ["$resource", "$q"];
+	angular
+		.module('iserveu')
+		.factory('role', role);
+
+  	 /** @ngInject */
+	function role($resource, $q) {
+
+		var Role = $resource('api/role');
+
+		var UserRole = $resource('api/user/:id/role/:role_id', {id:'@id', role_id:'@role_id'}, {
+	        'update': { method:'PUT' }
+	    });
+
+		function getRoles(){
+			return Role.query().$promise.then(function(results){
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
+
+		function grantRole(data){
+			return UserRole.save({id:data.id}, data).$promise.then(function(results){
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
+
+		function getUserRole(id){
+			return UserRole.query(id).$promise.then(function(results){
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
+
+		function deleteUserRole(data){
+			return UserRole.delete(data).$promise.then(function(results){
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			})
+		}
+
+		return {
+			getRoles: getRoles,
+			grantRole: grantRole,
+			getUserRole: getUserRole,
+			deleteUserRole: deleteUserRole
+		}
+
+	}
+
+
+}());
+(function() {
+
+
+	'use strict';
+
+	roleFactory.$inject = ["$stateParams", "role", "user"];
+	angular
+		.module('iserveu')
+		.factory('roleFactory', roleFactory);
+
+  	 /** @ngInject */
+	function roleFactory($stateParams, role, user){
+
+		var factory = {
+			list: {},
+			editRole: false,
+			user: [],
+			showRoles: function() {
+				this.showEdit = !this.showEdit;
+			},
+			check: function(d) {
+				for(var i in d) 
+				for(var j in this.user)
+					if(d[i].display_name == this.user[j])
+						this.list[i]['hasRole'] = true;
+			},
+			set: function(role) {
+				// if($stateParams.id !== user.self.id)
+				this.setRole(role,$stateParams.id);
+			},
+			setRole: function(role, id) {
+				if(!role.hasRole)
+					this.grant(role, id);
+				else if(role.hasRole)
+					this.remove(role, id);
+			},
+			grant: function (r, id){
+				role.grantRole({
+					id: id,
+					role_name: r.name}).then(function(){
+						// refreshLocalStorage.init();
+				});
+			},
+			remove: function (r, id){
+				role.deleteUserRole({
+					id: id,
+					role_id: r.id}).then(function(){
+						// refreshLocalStorage.init();
+				});
+			},
+			getAllRoles: function() {
+				role.getRoles().then(function(r){
+					factory.list = r;
+					factory.check(r);
+				});
+			}
+		}
+
+		factory.getAllRoles();
+
+		return factory;
+
+	}
+
+})();
+(function() {
+
   'use strict';
 
   	userSidebar.$inject = ["$rootScope", "SetPermissionsService"];
@@ -6375,81 +5899,6 @@
 
   	}
 
-})();
-(function() {
-
-  'use strict';
-
-  motionSidebarQuickVote.$inject = ["$rootScope", "vote", "voteObj", "motionObj", "ToastMessage", "SetPermissionsService"];
-  angular
-    .module('iserveu')
-    .directive('quickVote', motionSidebarQuickVote);
-
- /** @ngInject */
-  function motionSidebarQuickVote($rootScope, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
-
-  	function controllerMethod() {
-
-  		var vm = this;
-
-        vm.canCreateVote = SetPermissionsService.can('create-votes');
-        vm.cycleVote = cycleVote;
-
-		function cycleVote (motion){
-
-			if(!motion.MotionOpenForVoting)
-				ToastMessage.simple("This motion is not open for voting.", 1000);
-			else{ 
-				if(!motion.user_vote)
-					castVote(motion.id);
-				else{
-
-					var data = {
-		                id: motion.user_vote.id,
-		                position: null
-		            }
-					
-					if(motion.user_vote.position != 1)
-						data.position = motion.user_vote.position + 1; 
-					else
-						data.position = -1;
-
-					updateVote(data);
-				};
-			};
-		}
-
-		function castVote(id){
-			vote.castVote({motion_id:id, position:0}).then(function(r){
-				successFunc(r.motion_id, 0);
-			});
-		}
-
-		function updateVote(data){
-			vote.updateVote(data).then(function(r) {
-				successFunc(r.motion_id, data.position);
-			});
-		}
-
-		function successFunc(id, pos) {
-
-			$rootScope.$broadcast('usersVoteHasChanged');
-
-			motionObj.reloadMotionObj(id);
-			voteObj.calculateVotes(id);
-			voteObj.showMessage(pos);
-		}
-  	}
-
-
-    return {
-    	controller: controllerMethod,
-    	controllerAs: 'c',
-    	templateUrl: 'app/components/motion/components/motion-sidebar/partials/quick-vote.tpl.html'
-    }
-    
-  }
-  
 })();
 (function() {
 
@@ -6655,6 +6104,81 @@
     	controller: MotionSidebarController,
     	controllerAs: 'sidebar',
       	templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar.tpl.html'
+    }
+    
+  }
+  
+})();
+(function() {
+
+  'use strict';
+
+  motionSidebarQuickVote.$inject = ["vote", "voteObj", "ToastMessage", "SetPermissionsService"];
+  angular
+    .module('iserveu')
+    .directive('quickVote', motionSidebarQuickVote);
+
+ /** @ngInject */
+  function motionSidebarQuickVote(vote, voteObj, ToastMessage, SetPermissionsService) {
+
+  	function controllerMethod() {
+
+  		var vm = this;
+
+        vm.canCreateVote = SetPermissionsService.can('create-votes');
+        vm.cycleVote = cycleVote;
+        vm.voteObj = voteObj;
+
+		function cycleVote (motion){
+
+			if(!motion.MotionOpenForVoting)
+				ToastMessage.simple("This motion is not open for voting.", 1000);
+			else{ 
+				if(!motion.user_vote)
+					castVote(motion.id);
+				else{
+
+					var data = {
+		                id: motion.user_vote.id,
+		                position: null
+		            }
+					
+					if(motion.user_vote.position != 1)
+						data.position = motion.user_vote.position + 1; 
+					else
+						data.position = -1;
+
+					updateVote(data);
+				};
+			};
+		}
+
+		function castVote(id){
+			vote.castVote({
+				motion_id:id, 
+				position:0}).then(function(r){
+				successFunc(r, 0, true);
+			});
+		}
+
+		function updateVote(data){
+			vote.updateVote(data).then(function(r) {
+				successFunc(r, 0, data.position);
+			});
+		}
+
+		function successFun(vote, pos) {
+			motionObj.reloadMotionObj(vote.motion_id);
+			voteObj.successFunc(vote, pos, true);
+		}
+
+  	}
+
+
+    return {
+    	controller: controllerMethod,
+    	controllerAs: 'c',
+    	templateUrl: 'app/components/motion/components/motion-sidebar/partials/quick-vote.tpl.html'
     }
     
   }

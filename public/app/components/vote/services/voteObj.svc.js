@@ -7,10 +7,9 @@
 		.factory('voteObj', voteObj);
 
   	 /** @ngInject */
-	function voteObj($stateParams, vote, ToastMessage) {
+	function voteObj($rootScope, commentObj, $stateParams, vote, ToastMessage) {
 
-	
-		var voteObj = {
+		var factory = {
 			user: { position: null },
 			motionVotes: {
 		            disagree:{percent:0,number:0},
@@ -23,59 +22,80 @@
 		    votes: {},
 		    calculateVotes: function(id) {
 		    	// TODO: figure out how to make this DOM obj not disappear each time a user votes.
-		    	for(var i in voteObj.motionVotes) {
-		    		for(var n in voteObj.motionVotes[i]) {
-		    			voteObj.motionVotes[i][n] = 0;
-		    		}
+		    	for(var i in this.motionVotes) {
+		    		for(var j in this.motionVotes[i])
+		    			this.motionVotes[i][j] = 0;
 		    	}
 
 		    	vote.getMotionVotes(id).then(function(r){
 
-		    		var votes = voteObj.votes = r.data;
-
+		    		var votes = factory.votes = r.data;
 
 		            if(votes[1]){
-		            	voteObj.motionVotes.agree = ( votes[1].active ) ? votes[1].active  : voteObj.motionVotes.agree; 
-		                voteObj.motionVotes.deferred_agree = ( votes[1].passive ) ? votes[1].passive : voteObj.motionVotes.deferred_agree;
+		            	factory.motionVotes.agree = ( votes[1].active ) 
+		            								? votes[1].active  
+		            								: factory.motionVotes.agree; 
+		                factory.motionVotes.deferred_agree = ( votes[1].passive ) 
+		                									 ? votes[1].passive 
+		                									 : factory.motionVotes.deferred_agree;
 		            }
 		            if(votes[-1]){
-		                voteObj.motionVotes.disagree = ( votes[-1].active ) ? votes[-1].active :  voteObj.motionVotes.disagree;
-		                voteObj.motionVotes.deferred_disagree = ( votes[-1].passive ) ? votes[-1].passive : voteObj.motionVotes.deferred_disagree;
+		                factory.motionVotes.disagree = ( votes[-1].active ) 
+		                							   ? votes[-1].active 
+		                							   : factory.motionVotes.disagree;
+		                factory.motionVotes.deferred_disagree = ( votes[-1].passive ) 
+		                										? votes[-1].passive 
+		                										: factory.motionVotes.deferred_disagree;
 		            }
 		            if(votes[0]){
-		            	voteObj.motionVotes.abstain =  ( votes[0].active ) ? votes[0].active  : voteObj.motionVotes.abstain;
-		                voteObj.motionVotes.deferred_abstain = ( votes[0].passive ) ? votes[0].passive : voteObj.motionVotes.deferred_abstain;
+		            	factory.motionVotes.abstain =  ( votes[0].active ) 	
+		            								   ? votes[0].active  
+		            								   : factory.motionVotes.abstain;
+		                factory.motionVotes.deferred_abstain = ( votes[0].passive ) 
+		                									   ? votes[0].passive 
+		                									   : factory.motionVotes.deferred_abstain;
 		            }
 
-		            return voteObj.motionVotes;
-
+		            return factory.motionVotes;
 	            });
 		    },
 		    showMessage: function(pos) {
-				pos = pos == 1 ? 'agreed with' : ( pos == 0 ? 'abstained on' : 'disagreed with');
+				pos = pos == 1 
+					  ? 'agreed with' 
+					  : ( pos == 0 ? 'abstained on' : 'disagreed with');
+				
 				ToastMessage.simple( 'You ' + pos + " this motion" );
 		    },
 		    getOverallPosition: function() {
 
 		    	var position;
 
-	            if(voteObj.motionVotes.disagree.number > voteObj.motionVotes.agree.number)
+	            if(this.motionVotes.disagree.number > this.motionVotes.agree.number)
 	                position = "thumb-down";
-	            else if(voteObj.motionVotes.disagree.number < voteObj.motionVotes.agree.number)
+	            else if(this.motionVotes.disagree.number < this.motionVotes.agree.number)
 	                position = "thumb-up";
 	            else
 	                position = "thumbs-up-down";
 
 	            return position; 
+		    },
+		    successFunc: function(vote, id, pos, quickVote) {
+		    	if(!quickVote){
+					factory.user = vote;
+					factory.calculateVotes(vote.motion_id);	// vm.motionVotes will be an object Factory;
+		    	}
 
+				factory.showMessage(pos);
+				commentObj.getMotionComments(vote.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
+
+				$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
 		    }
 		};
 
-		voteObj.calculateVotes($stateParams.id);
+		factory.calculateVotes($stateParams.id);
 
-		return voteObj;
-
-
+		return factory;
+		
 	}
 
 })();

@@ -8,7 +8,7 @@
 		.factory('motionObj', motionObj);
 
 	 /** @ngInject */
-	function motionObj($http, motion) {
+	function motionObj($http, motion, isMotionOpen, voteObj) {
 
 		var motionObj = {
 			data: [],
@@ -35,10 +35,9 @@
 				});
 			},
 			getMotionObj: function(id) {
-				for(var i in motionObj.data) {
-					console.log(i);
-					if( id == motionObj.data[i].id )
-						return motionObj.data[i];
+				for(var i in this.data) {
+					if( id == this.data[i].id )
+						return this.data[i];
 				}
 			},
 			reloadMotionObj: function(id) {

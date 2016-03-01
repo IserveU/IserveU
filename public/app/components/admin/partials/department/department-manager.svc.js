@@ -29,8 +29,8 @@
 			},
 			destroy: function(name, id) {
 				ToastMessage.destroyThis(name, 
-				function(){
-					department.deleteDepartment(id);
+					function(){
+						department.deleteDepartment(id);
 				});
 			},
 			create: function(name) {
@@ -48,7 +48,8 @@
 					this.save(name, id);
 			},
 			hasMany: function(id) {
-				// php scope to see how many motions these departments are attached to
+				// TODO: php scope to see how many motions these departments are attached to
+				// it and return it in a toast message <3
 			},
 			successHandler: function(r, id) {
 				this.edit('promise');

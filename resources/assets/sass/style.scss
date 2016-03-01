@@ -2,7 +2,9 @@
 
 
 /* variables */
-$primary: rgb(0,172,177);
+$primaryColor: rgb(0,172,177);
+$primary-color: rgb(0,172,177);
+
 $accent: rgb(255,118,0);
 
 $darkGrey: #666666;
@@ -23,6 +25,12 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 #dashboard {
 	.title {
 		cursor:pointer;
+	}
+	.department-manager {
+		input[disabled] {
+			color: black;
+			background-image: none;
+		}
 	}
 }
 
@@ -75,7 +83,7 @@ md-card{
 		display: inline-block; margin-right: 10px; float: right !important;
 	}
 	.save-btn {
-		color: $primary;
+		color: $primaryColor;
 	}
 }
 
@@ -298,11 +306,11 @@ md-sidenav{
 			width: 80%;
 			height: 80%;
 			text-align: center;		
+
 		}
 
 		&.thumb_up md-icon{
-			color: $primary;
-
+			color: $primaryColor;
 		}
 
 		&.thumb_down md-icon{
@@ -333,15 +341,9 @@ md-sidenav{
 			height: 80%;
 			width: 25%;
 		}
-
-		.agree md-icon{ 
-			color: $primary;
+		.raised {
+			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 		}
-		
-		.disagree md-icon{
-			color: $accent;
-		}
-
 		.statusbar button.md-raised.md-button.md-default-theme{
 			border-radius: 0px;
 			margin: 8px;
@@ -395,7 +397,10 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
     width: 85vw !important;
     max-width: 400px !important;
 
-
+	.quick-vote-disabled{
+		cursor: default;
+		color: $midGrey;
+	}
     sidebar{
 
 		md-list-item{
@@ -434,6 +439,7 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 		.ellipsis {
     		overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 294px;
 		}
+
 	}
 }
 
@@ -690,7 +696,7 @@ input.sidebar-search-input {
 		font-size: 18px;
 		margin-top: 29px;
 		display: inline-block;
-		&:hover { color: $primary; }
+		&:hover { color: $primaryColor; }
 	}
 	md-select { margin-top: 0; }
 	md-progress-circular { margin: 20px 0 0 0; }

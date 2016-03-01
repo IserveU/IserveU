@@ -8,7 +8,7 @@
 		.factory('editUserFactory', editUserFactory);
 
 	/** @ngInject */
-	function editUserFactory($stateParams, $http, user, REST){
+	function editUserFactory($stateParams, $http, user, REST, refreshLocalStorage){
 
 		var factory = {
 			/* Function to map form input variables to the variable. */
@@ -41,7 +41,7 @@
 				this.success[type] = true;
 
 				user.updateUser(fd).then(function(r){
-					factory.successHandler(type);
+					factory.successHandler(r, type);
 				}, function(e) { factory.errorHandler(e); });
 			},
 			/** Function to emulate user press down enter to save. */
@@ -49,9 +49,10 @@
 		    	if( ev.keyCode === 13 )
 		    		this.save(type, data);
 			},
-			successHandler: function(type){
+			successHandler: function(r, type){
 				this.success[type] = false;
 				this.switch('promise');
+				refreshLocalStorage.setItem('user', r);
 			},
 			errorHandler: function(e, type){
 				this.successHandler(type);

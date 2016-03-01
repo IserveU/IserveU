@@ -10,69 +10,68 @@
 	/** @ngInject */
 	function commentObj($stateParams, comment, ToastMessage) {
 
-		var cObj = {
+		var factory = {
 			comment: null,
 			comments: { agree: null, disagree: null, vote: null },
 			editing: false,
 			writing: false,
 			posting: false,
 			getUserComment: function(r){
-				cObj.comment = r;
-				if(cObj.comment && cObj.comment.text)
-					cObj.writing = false;
+				this.comment = r;
+				if(this.comment && this.comment.text)
+					this.writing = false;
 				else
-					cObj.writing = true;
+					this.writing = true;
 			},
 			getMotionComments: function(id){
 				comment.getMotionComments(id).then(function(r) {
-					cObj.getUserComment(r.thisUsersComment);
-					cObj.comments.agree = r.agreeComments;
-					cObj.comments.disagree = r.disagreeComments;
-					cObj.comments.vote = r.thisUsersCommentVotes;
+					factory.getUserComment(r.thisUsersComment);
+					factory.comments.agree = r.agreeComments;
+					factory.comments.disagree = r.disagreeComments;
+					factory.comments.vote = r.thisUsersCommentVotes;
 				});
 			},
 			submit: function(vote_id, text){
-				cObj.posting = true;
+				this.posting = true;
 
-				var data = {
+	            comment.saveComment({
 	                vote_id: vote_id,
 	                text: text
-	            }
-
-	            comment.saveComment(data).then(function(r) {
-	            	cObj.getMotionComments($stateParams.id);
+	            }).then(function(r) {
 	                ToastMessage.simple("Comment post successful!");
-	                cObj.writing = cObj.posting = false;
-	            }, function(error){
-	                ToastMessage.report_error(error);
-	            });    
+	            	factory.getMotionComments($stateParams.id);
+	                factory.writing = factory.posting = false;
+	            }, function(e){ ToastMessage.report_error(e); });    
+			},
+			write: function() {
+				this.writing = !this.writing;
 			},
 			editComment: function() {
-				cObj.editing = !cObj.editing;
+				factory.editing = !factory.editing;
 			},
 			update: function(text) {
 	            var d = {
-	                id: cObj.comment.id,
-	                text: cObj.comment.text
+	                id: factory.comment.id,
+	                text: factory.comment.text
 	            }
 	            comment.updateComment(d).then(function(r) {
-	            	cObj.getMotionComments($stateParams.id);
+	            	factory.getMotionComments($stateParams.id);
 	                ToastMessage.simple("Commment updated!");
 	            });
 			},
 			delete: function(){
 				ToastMessage.destroyThis("comment", function() {
-                    comment.deleteComment(cObj.comment.id).then(function(r) {
-						cObj.getMotionComments($stateParams.id);
+                    comment.deleteComment(factory.comment.id).then(function(r) {
+						factory.getMotionComments($stateParams.id);
 						ToastMessage.simple("Comment deleted.")
                     }); 
 				});
 			},
 		};
 
-		cObj.getMotionComments($stateParams.id);
+		factory.getMotionComments($stateParams.id);
 
-		return cObj;
+		return factory;
 	}
 
 })();

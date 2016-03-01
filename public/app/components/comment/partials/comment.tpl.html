@@ -2,30 +2,32 @@
 	<md-card style="margin:0px" flex>
 		<md-card-content style="padding: 0">
 
-		<div class="create-comment" ng-if="!c.obj.comment && c.vote.user.id" ng-click="c.obj.writing = !c.obj.writing" layout-padding>
+		<div class="create-comment" ng-if="!create.comment && vote.user" ng-click="create.write()" layout-padding>
 			<md-icon class="mdi mdi-pencil title-icon"></md-icon>
-			<h3 class="title-header">Write a comment</h3>
+			<h3 class="title-header" style="margin-top:10px">Write a comment</h3>
 		</div>
-		<div flex layout="column" ng-if="!c.obj.writing  && !c.obj.comment && c.vote.user.id" layout-padding>
+
+		<div flex layout="column" ng-show="!create.writing && !create.comment && vote.user" layout-padding>
 			<form layout="column" name="commentForm" flex="100"> 
 				<md-input-container flex>
-					<textarea columns="4" ng-model="text" focus-input="!c.obj.writing"></textarea>
+					<textarea columns="4" ng-model="text" focus-input="!create.writing"></textarea>
 				</md-input-container>
 
 			    <div layout="row" layout-align="front center"> 
-			    	<md-button class="md-raised" ng-click="c.obj.submit(c.vote.user.id, text)" translate="{{'SUBMIT'}}" aria-label="submit comment"></md-button>
-			    	<md-button ng-click="c.obj.writing = !c.obj.writing;" translate="{{'CLOSE'}}" aria-label="cancel writing comment"></md-button>
+			    	<spinner name="'Submit'" ng-click="create.submit(vote.user.id, text)" on-hide="create.posting"></spinner>
+			    	<md-button ng-click="create.write()" translate="{{'CLOSE'}}" aria-label="cancel writing comment"></md-button>
 				</div>
 			</form>
 		</div>
 
-		<div class="display-user-comment" ng-if="!c.obj.writing && c.obj.comment" layout-padding>
+
+		<div class="display-user-comment" ng-if="!create.writing && create.comment" layout-padding>
 			<md-icon class="mdi mdi-comment-text-outline title-icon"></md-icon>
-			<h3 class="title-header">Your comment</h3>
-			<md-button class="md-icon-button edit-btn"  ng-click="c.obj.editComment()" aria-label="edit comment button">
+			<h3 class="title-header" style="margin-top:10px">Your comment</h3>
+			<md-button class="md-icon-button edit-btn"  ng-click="create.editComment()" aria-label="edit comment button">
 				<md-icon class="md-primary mdi mdi-pencil title-icon"></md-icon>
 			</md-button>
-			<md-button class="md-icon-button delete-btn"  ng-click="c.obj.delete()" aria-label="delete comment button">
+			<md-button class="md-icon-button delete-btn"  ng-click="create.delete()" aria-label="delete comment button">
 				<md-icon class="md-warn mdi mdi-delete title-icon"></md-icon>
 			</md-button>
 
@@ -38,18 +40,23 @@
 				<h4 class="title-subhead">3</h4>		
 			</div>
 
-			<p class="md-body-1" ng-if="!c.obj.editing">{{ c.obj.comment.text }}</p>
+			<p class="md-body-1" ng-if="!create.editing">{{ create.comment.text }}</p>
 
 
-			<div ng-if="c.obj.editing">
+			<div ng-if="create.editing">
 				<md-input-container>
-					<textarea layout-padding columns="1" aria-label="Your comment" ng-model="c.obj.comment.text" focus-input="c.obj.editing"></textarea>
+					<textarea layout-padding columns="1" aria-label="Your comment" ng-model="create.comment.text" focus-input="create.editing"></textarea>
 				</md-input-container>
 
-				<md-button class="md-raised save-btn" ng-click="c.obj.update(); c.obj.editComment()" translate="{{'SAVE_COMMENT'}}" aria-label="update comment"></md-button>
-				<md-button ng-click="c.obj.editComment()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
+
+				<spinner name="({{'SAVE_COMMENT' | translate}})" ng-click="create.update(); create.editComment()"></spinner>
+<!-- 
+				<md-button class="md-raised save-btn" ng-click="create.update(); create.editComment()" translate="{{'SAVE_COMMENT'}}" aria-label="update comment"></md-button> -->
+				<md-button ng-click="create.editComment()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
 			</div>
 		</div>
+
+
 
 		</md-card-content>
 	</md-card>

@@ -22,7 +22,6 @@
 
             <md-progress-circular md-mode="indeterminate" ng-if="home.loading.topmotion"></md-progress-circular>
 
-
             <md-list layout-padding ng-if="!home.loading.topmotion">
               <md-list-item ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})">
                 <p class="md-body-1">{{home.topMotion.title}}</p>

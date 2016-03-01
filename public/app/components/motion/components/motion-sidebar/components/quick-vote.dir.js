@@ -7,7 +7,7 @@
     .directive('quickVote', motionSidebarQuickVote);
 
  /** @ngInject */
-  function motionSidebarQuickVote($rootScope, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
+  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
 
   	function controllerMethod() {
 
@@ -15,6 +15,7 @@
 
         vm.canCreateVote = SetPermissionsService.can('create-votes');
         vm.cycleVote = cycleVote;
+        vm.voteObj = voteObj;
 
 		function cycleVote (motion){
 
@@ -41,25 +42,24 @@
 		}
 
 		function castVote(id){
-			vote.castVote({motion_id:id, position:0}).then(function(r){
-				successFunc(r.motion_id, 0);
+			vote.castVote({
+				motion_id:id, 
+				position:0}).then(function(r){
+				successFunc(r, 0, true);
 			});
 		}
 
 		function updateVote(data){
 			vote.updateVote(data).then(function(r) {
-				successFunc(r.motion_id, data.position);
+				successFunc(r, 0, data.position);
 			});
 		}
 
-		function successFunc(id, pos) {
-
-			$rootScope.$broadcast('usersVoteHasChanged');
-
-			motionObj.reloadMotionObj(id);
-			voteObj.calculateVotes(id);
-			voteObj.showMessage(pos);
+		function successFunc(vote, pos) {
+			motionObj.reloadMotionObj(vote.motion_id);
+			voteObj.successFunc(vote, pos, true);
 		}
+
   	}
 
 

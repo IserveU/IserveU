@@ -7,15 +7,12 @@
 		.directive('voteOnMotion', voteOnMotion);
 
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, vote, motion, voteObj, motionObj, commentObj, SetPermissionsService, ToastMessage) {
+	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen) {
 
 
 		function voteController($scope) {
-
-			var vm = this;
-
 			// variables
-			var isMotionOpen = false;
+			var vm = this;
 			vm.voting = {'1': false, '0':false, '-1': false};
 
 			// DOM accessors for controller functions
@@ -24,6 +21,7 @@
 			vm.voteButtonMessage = voteButtonMessage;
 			vm.voteObj			 = voteObj;
 
+			// I wonder if I can share this via the quick-vote.dir.js
 			function castVote(id, pos) {
 
 				if( isVotingEnabled() )
@@ -31,12 +29,10 @@
 
 				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					vm.voting[pos] = true;
-					isMotionOpen = false;
 					updateVote(pos);
 				}
 				else {
 					vm.voting[pos] = true;
-					isMotionOpen = false;
 
 					vote.castVote({
 						motion_id: id,
@@ -59,56 +55,36 @@
 					successFunc(r, pos);
 				}, function(e){ errorFunc(e, pos); });
 			}
-
+ 
 			function successFunc(r, pos){
-
-				$rootScope.$broadcast('usersVoteHasChanged');
-
 				vm.voting[pos] = false;
-				isMotionOpen = true;
-
-				commentObj.getMotionComments(r.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
-			
-				voteObj.user = r;
-				voteObj.showMessage(pos);
-				voteObj.calculateVotes(r.motion_id);	// vm.motionVotes will be an object Factory;
+				motionObj.reloadMotionObj(r.motion_id);
+				voteObj.successFunc(r, pos, false);
 			}
 
 			function errorFunc(e, pos){
 				vm.voting[pos] = false;
-				isMotionOpen = true;
 				ToastMessage.report_error(e);
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen || !SetPermissionsService.can('create-votes');
+				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes');
 			}
 
-			function voteButtonMessage(type) {
-				if ( !SetPermissionsService.can('create-votes') )
-					return "You have not been verified as Yellowknife resident.";
-				else if ( !isMotionOpen ) {
-					for(var i in vm.voting) 
-						if ( vm.voting[i] ) return type;
-					return "This motion is closed.";
-				}
-				else return type;
-			}
+			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {
+				if( !angular.isUndefined(newValue) )
+					// some sort of digest conflict, doesn't work without the slight 
+					// offset of the timeout
+					if(newValue.motion_id == $stateParams.id)
+		            	$timeout(function() {
+		                    voteObj.user  = newValue ? newValue : {position: null} ;     
+							voteObj.calculateVotes(newValue.motion_id);
+		            	}, 100);
+			}, true);
 
-			// TODO: refactor this beast.
-			// $scope.$watch( function() { return motionObj.getMotionObj($stateParams.id); },
-			// 	function(motionDetail) {
-	  //               if( motionDetail != null ) {
-	  //               	isMotionOpen  = motionDetail.MotionOpenForVoting
-	  //                   voteObj.user  = motionDetail.user_vote;
-	  //               } else 
-	  //               	motion.getMotion($stateParams.id).then(function(r) {
-		 //                	isMotionOpen  = r.MotionOpenForVoting
-		 //                    voteObj.user  = r.user_vote ? r.user_vote : {position: null} ;
-	  //               	});
-			// 	}, true
-			// );
-
+			$rootScope.$on('usersVoteHasChanged', function(ev, data) {
+				voteObj.user = data.vote;
+			});
 		}
 
 		return {

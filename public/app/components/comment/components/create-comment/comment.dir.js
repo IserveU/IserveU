@@ -11,19 +11,16 @@
 
 		function commentController($scope) {
 
-			var vm = this;
-
-			vm.obj = commentObj;
-			vm.vote = voteObj;
+			$scope.create = commentObj;
+			$scope.vote = voteObj;
 
 			$scope.$watch(voteObj.user, function(vote) {
-				vm.vote.user = vote;
+				$scope.vote.user = vote;
 			});
 		}
 
 		return {
 			controller: commentController,
-			controllerAs: 'c',
 			templateUrl: 'app/components/comment/partials/comment.tpl.html'
 		}
 	}
