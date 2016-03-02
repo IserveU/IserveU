@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
-    elixir = require('laravel-elixir')
-    ngAnnotate = require('gulp-ng-annotate');
+    elixir = require('laravel-elixir');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,16 +12,16 @@ var gulp = require('gulp'),
  |
  */
 
-elixir.extend('ngAnnotate', function() {
-    gulp.task('ngAnnotate', function() {
-        gulp.src('public/js/app.js')
-        .pipe(ngAnnotate({
-            add: true
-        }))
-        .pipe(gulp.dest('dist'));
-    });
-    return this.queueTask('ngAnnotate');
-});
+// elixir.extend('ngAnnotate', function() {
+//     gulp.task('ngAnnotate', function() {
+//         gulp.src('public/js/app.js')
+//         .pipe(ngAnnotate({
+//             add: true
+//         }))
+//         .pipe(gulp.dest('dist'));
+//     });
+//     return this.queueTask('ngAnnotate');
+// });
 
 elixir(function(mix) {
     
@@ -70,7 +69,7 @@ elixir(function(mix) {
     mix.copy('./resources/bower/themes', './public/themes');
     mix.copy('./resources/bower/font-awesome/fonts', './public/fonts');
 
-    mix.ngAnnotate();
+    // mix.ngAnnotate();
     
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
 
