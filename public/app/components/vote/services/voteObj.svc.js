@@ -67,7 +67,6 @@
 				ToastMessage.simple( 'You ' + pos + " this motion" );
 		    },
 		    getOverallPosition: function() {
-
 		    	var position;
 
 	            if(this.motionVotes.disagree.number > this.motionVotes.agree.number)
@@ -82,20 +81,19 @@
 		    successFunc: function(vote, id, pos, quickVote) {
 		    	if(!quickVote){
 					factory.user = vote;
-					factory.calculateVotes(vote.motion_id);	// vm.motionVotes will be an object Factory;
+					factory.calculateVotes(vote.motion_id);
 		    	}
 
 				factory.showMessage(pos);
-				commentObj.getMotionComments(vote.motion_id);  // this does not seem to work with $watch in another directive. still doesn't belong here though.
 
+				commentObj.getMotionComments(vote.motion_id);  
 				$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
 		    }
 		};
 
 		factory.calculateVotes($stateParams.id);
 
-		return factory;
-		
+		return factory;	
 	}
 
 })();

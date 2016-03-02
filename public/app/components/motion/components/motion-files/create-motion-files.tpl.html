@@ -1,0 +1,16 @@
+<div flow-init="{ target: '/file', testChunks:false }"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="motionFile.pushArray($message)">
+
+  <md-button flow-btn>
+  	<md-icon class="mdi mdi-upload"></md-icon>
+	 Upload Files
+  </md-button>
+
+  <table>
+    <tr ng-repeat="file in $flow.files">
+        <td>{{file.name}}</td>
+        <td>{{file.msg}}</td>
+    </tr>
+  </table>
+</div>

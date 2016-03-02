@@ -6,57 +6,43 @@
 		.module('iserveu')
 		.directive('displayMotion', displayMotion);
 
-
-	//TODO: refactor
 	 /** @ngInject */
-	function displayMotion($rootScope, $stateParams, motion, motionObj, UserbarService, voteObj, commentObj, isMotionOpen) {
+	function displayMotion($stateParams, motion, motionObj, voteObj, commentObj, motionFilesFactory) {
 
-	  function MotionController() {
-
-	        $rootScope.motionIsLoading[$stateParams.id] = true; // used to turn loading circle on and off for motion sidebar
+	  function MotionController($scope) {
 
 	  		/* Variables */
-	  		var vm = this;
-			vm.details = {};
-			vm.isLoading = true;
-			vm.voteObj = voteObj;
+			$scope.votes   = voteObj;
+			$scope.motion  = motionObj;
+			$scope.motionFile = motionFilesFactory;
 
+			/**
+			*	Function to retrieve motion from existing array.
+			*	If it has not been receieved from the API yet, 
+			*	it will do a single pull.
+			*/
 	        function getMotion(id) {
 
 	            var catchMotion = motionObj.getMotionObj(id);
 
-	            commentObj.comment = null;
+	            motionObj.details   = null;
+	            motionObj.isLoading = true;
+	            commentObj.comment  = null;
 
 	            if (catchMotion) 
-	                postGetMotion(catchMotion)
-	            else {
+	                motionObj.setMotionDependencies(catchMotion)
+	            else 
 	                motion.getMotion(id).then(function(r) {
-	                    postGetMotion(r);
+	                    motionObj.setMotionDependencies(r);
 	                });     
-	            }
-	        }
-
-	        function postGetMotion(motion){
-	        	// service setters
-	        	UserbarService.title = motion.title;
-	            isMotionOpen.set(motion.MotionOpenForVoting);
-	            voteObj.user  = motion.user_vote ? motion.user_vote : {position: null} ;
-
-	            // UI animation and dependencies
-	            vm.details = motion;
-	            vm.isLoading    = $rootScope.motionIsLoading[motion.id] = false;
-	            commentObj.getMotionComments(motion.id);  
-	            voteObj.calculateVotes(motion.id);   
 	        }
 
 	        getMotion($stateParams.id);
-	        
 	    }
 
 
 	    return {
 	    	controller: MotionController,
-	    	controllerAs: 'motion',
 	    	templateUrl: 'app/components/motion/partials/motion.tpl.html'
 	    }
 

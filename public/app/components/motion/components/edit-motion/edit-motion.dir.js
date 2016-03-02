@@ -57,7 +57,7 @@
 
 	        function updateMotionFunction(){
 	            motion.updateMotion(vm.motion).then(function(r) {
-	            	reloadMotionObj(r.id);
+	            	motionObj.reloadMotionObj(r.id);
 	                vm.editingMotion = false;
 	                ToastMessage.simple("You've successfully updated this motion!", 800);
 	                $state.go( 'motion', ( {id:r.id} ) );

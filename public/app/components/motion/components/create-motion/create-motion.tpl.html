@@ -27,24 +27,7 @@
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Figures</h3>
 
-					<div flow-init="{target: '/file'}"
-					     flow-files-submitted="$flow.upload()"
-					     flow-file-success="$file.msg = $message">
-
-
-					  <md-button flow-btn>
-					  	<md-icon class="mdi mdi-upload"></md-icon>
-						 Upload Files
-					  </md-button>
-
-					  <table>
-					    <tr ng-repeat="file in $flow.files">
-					        <td>{{$index+1}} </td>
-					        <td>{{file.name}}</td>
-					        <td>{{file.msg}}</td>
-					    </tr>
-					  </table>
-					</div>
+					<create-motion-files></create-motion-files>
 
 				</div>
 
@@ -55,7 +38,7 @@
 
 				<div>
 					<md-select ng-model="create.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department">
-						<md-option ng-repeat="d in create.departments" ng-value="d.id">{{d.name}}</md-option>
+						<md-option ng-repeat="d in create.departments.data" ng-value="d.id">{{d.name}}</md-option>
 						<md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option>
 					</md-select>
 
@@ -73,11 +56,8 @@
 
 				
 				<div layout layout-align="center end">
-					<md-button ng-click="create.newMotion()">
-						<div ng-hide="create.creating" translate="{{'SAVE'}}"></div>
-						<md-icon ng-show="create.creating" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
-					</md-button>
-					<md-button ng-click="motion.cancelCreateMotion()" translate="{{'CANCEL'}}"></md-button>
+					<spinner name="'Save'" on-hide="create.creating"></spinner>
+					<md-button ng-click="create.cancel()" translate="{{'CANCEL'}}"></md-button>
 				</div>
 
 			</div>

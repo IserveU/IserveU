@@ -19,21 +19,19 @@
 				<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 					<h3 class="title-header">Figures</h3>
 
-		<!-- 				<div flex ng-repeat="file in motion.motion_files">
-						<a class="md-subhead" href="/uploads/motion_files/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)"></a>
-							<i
-							mg ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" />
-					</div> -->
-				<!-- </div> -->
+				<div flex ng-repeat="file in motionFile.data">
+					<a href="/uploads/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)" download></a>
+					<!-- <img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" /> -->
+				</div>
+
 			</div>
 				
 				<!-- TODO: make this into a directive -->
-				<div flex="10" flex-sm="100" flex-order-sm="1"  flex-order="1" flex-order-gt-sm="2" layout-padding>
+				<div flex="10" flex-sm="100" flex-order-sm="1" flex-order="1" flex-order-gt-sm="2" layout-padding>
 					<div layout-padding class="listgrid">
 					    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 					    
-						   <md-grid-tile class="md-whiteframe-z1">
-								<!-- TODO: upload the SVG file -->
+						    <md-grid-tile class="md-whiteframe-z1">
 							    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" ng-if="!motion.details.MotionOpenForVoting" hide-sm>
 							    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
 							    </md-icon>
@@ -51,9 +49,9 @@
 							    </md-icon>
 						    </md-grid-tile>
 
-						    <md-grid-tile class="md-whiteframe-z1 {{motion.voteObj.getOverallPosition()}}">
-							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{motion.voteObj.getOverallPosition()}}.svg"  ng-if="motion.voteObj.getOverallPosition()"></md-icon>
-							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!motion.voteObj.getOverallPosition()"></md-icon>
+						    <md-grid-tile class="md-whiteframe-z1 {{ votes.getOverallPosition() }}">
+							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.getOverallPosition() }}.svg"  ng-if="votes.getOverallPosition()"></md-icon>
+							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!votes.getOverallPosition()"></md-icon>
 						    </md-grid-tile>
 
 						    <md-grid-tile class="md-whiteframe-z1">

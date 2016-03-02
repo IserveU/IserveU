@@ -11,48 +11,45 @@
 	
 		function motionFileController() {
 
-			var vm = this;
-	        
-	        vm.theseFiles        = {};
-	        vm.uploadMotionFile  = uploadMotionFile;
-	        vm.changeTitleName   = changeTitleName;
-	        vm.removeFile        = removeFile;
-	        vm.viewFiles         = [];
-	        vm.errorFiles        = [];
-	        vm.uploadError       = false;
-	        vm.upload            = upload;
+	        this.theseFiles        = {};
+	        this.uploadMotionFile  = uploadMotionFile;
+	        this.changeTitleName   = changeTitleName;
+	        this.removeFile        = removeFile;
+	        this.viewFiles         = [];
+	        this.errorFiles        = [];
+	        this.uploadError       = false;
+	        this.upload            = upload;
 	        var index            = 0;
 
 	        function upload(file){
-	            vm.theseFiles[index] = new FormData();
-	            vm.theseFiles[index].append("file", file.file);
-	            vm.theseFiles[index].append("file_category_name", "motionfiles");
-	            vm.theseFiles[index].append("title", file.name);
+	            this.theseFiles[index] = new FormData();
+	            this.theseFiles[index].append("file", file.file);
+	            this.theseFiles[index].append("file_category_name", "motionfiles");
+	            this.theseFiles[index].append("title", file.name);
 	            index++;
 	        };
 
 	        function uploadMotionFile(id) {
-	            angular.forEach(vm.theseFiles, function(value, key) {
+	            angular.forEach(this.theseFiles, function(value, key) {
 	                motionfile.uploadMotionFile(id, value);
 	            });
 	        };
 
 	        function changeTitleName(index, name){
-	            vm.theseFiles[index].append("title", name);
+	            this.theseFiles[index].append("title", name);
 	        };
 
 	        function removeFile(index){
-	            delete vm.theseFiles[index];
+	            delete this.theseFiles[index];
 	        };
 
-	        vm.validate = function(file){
-	            if(!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[file.getExtension()]){
-	                vm.viewFiles.push(file);
+	        this.validate = function(file){
+	            if(!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[file.getExtension()]) {
+	                this.viewFiles.push(file);
 	                upload(file);
-	            }
-	            else {
-	                vm.uploadError = true;
-	                vm.errorFiles.push({file:file, error: "File must be a png, jpeg, gif, jpg, or pdf."});
+	            } else {
+	                this.uploadError = true;
+	                this.errorFiles.push({file:file, error: "File must be a png, jpeg, gif, jpg, or pdf."});
 	            }
 	        };
 

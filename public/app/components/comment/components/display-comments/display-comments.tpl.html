@@ -16,11 +16,11 @@
 
 				<span class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position == 1">
 					<p class="md-caption" style="margin-bottom:0 !important; margin-top: 11px !important;" ng-if="comment.commentRank">{{comment.commentRank}} people liked this.</p>
-				    <md-button ng-click="show.commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ show.commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
-						<md-icon md-svg-src="/themes/default/icons/{{ show.commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
+				    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
+						<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 					</md-button>					         
-					<md-button ng-click="show.commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ show.commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}"  style="margin:0" aria-label="Disagree">
-							<md-icon md-svg-src="/themes/default/icons/{{ show.commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
+					<md-button ng-click="commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}"  style="margin:0" aria-label="Disagree">
+							<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
 					</md-button>	        					         
 				</span>
 
@@ -52,11 +52,11 @@
 
 				<span class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position != 1">
 					<p class="md-caption" style="margin-bottom:0 !important; margin-top: 11px !important;" ng-if="comment.commentRank">{{comment.commentRank}} people liked this.</p>
-				    <md-button ng-click="show.commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ show.commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
-						<md-icon md-svg-src="/themes/default/icons/{{ show.commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
+				    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
+						<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 					</md-button>					         
-					<md-button ng-click="show.commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ show.commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}"  style="margin:0" aria-label="Disagree">
-							<md-icon md-svg-src="/themes/default/icons/{{ show.commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
+					<md-button ng-click="commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}"  style="margin:0" aria-label="Disagree">
+							<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
 					</md-button>	        					         
 				</span>
 

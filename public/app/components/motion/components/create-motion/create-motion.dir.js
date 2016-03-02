@@ -8,28 +8,38 @@
 		.directive('createMotion', createMotion);
 
 	/** @ngInject */
-	function createMotion($state, motion, UserbarService, department, dateService) {
+	function createMotion($state, $timeout, motion, department, dateService, motionFilesFactory) {
 
 		function createMotionController() {
 
 	    	var vm = this;
 
 	        vm.motion = { closing: new Date() };
-	        vm.creating     = false;
-	        vm.departments 	= department.self.getData();
+	        vm.creating    = false;
+	        vm.departments = department.self;
 
-
+	        vm.cancel = function() {
+	        	ToastMessage.cancelChanges(function(){
+	        		$state.go('dashboard');
+        		});
+	        }
+	        
 	    	vm.newMotion = function(){
 	            
 	            vm.creating = true;
+	            
 	            vm.motion.closing = dateService.stringify(vm.motion.closing);
 
 	            motion.createMotion( vm.motion ).then(function(r) {
-	            	// TODO: something like this;
-	                // $rootScope.$emit('refreshMotionSidebar');  
+
 	                vm.creating = false;
-	                $state.go( 'motion', ( {id:r.id} ) );
-	            });
+	                
+	                if (motionFilesFactory.files)
+		                motionFilesFactory.attach(r.id);
+		            else
+			           	$state.go( 'motion', ( {id: r.id} ) );
+
+	            }, function(e) { console.log(e); });
 			};
 		}
 
@@ -45,3 +55,4 @@
 
 
 })();
+

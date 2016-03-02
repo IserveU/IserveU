@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.service('utils', utils);
 
-	function utils() {
+	function utils($interval) {
 
 		this.capitalize = function(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
@@ -32,7 +32,11 @@
 		    );
 		}
 
-
+		// Service recommendation 
+		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
+		// this.clearArray = function(array) {
+		// 	function () { array.splice(0, array.length); }
+		// }
 		
 	}
 

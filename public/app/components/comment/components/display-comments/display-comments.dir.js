@@ -13,10 +13,10 @@
 
 			$scope.display = commentObj;
 			$scope.vote = voteObj;
+			$scope.commentVote = commentVoteObj;
 
 			this.obj = commentObj;
 
-			this.commentVote = commentVoteObj;
 
 			this.formatDate = formatDate;
 			function formatDate(d){
@@ -27,19 +27,6 @@
 				else
 					return d.created_at.diff;
 			}
-
-
-			$scope.$watch('display.vote.user', function(newValue, oldValue) {
-				if( !angular.isUndefined(newValue) )
-					// some sort of digest conflict, doesn't work without the slight 
-					// offset of the timeout
-					if(newValue.motion_id == $stateParams.id)
-		            	$timeout(function() {
-		                    voteObj.user  = newValue ? newValue : {position: null} ;     
-							voteObj.calculateVotes(newValue.motion_id);
-		            	}, 100);
-			}, true);
-
 
 		}
 

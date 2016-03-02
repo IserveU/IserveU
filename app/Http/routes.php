@@ -70,6 +70,7 @@ Route::group(array('middleware' => 'testing', 'prefix' => 'api'), function(){
 			Route::resource('motion', 'MotionController');
 			Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
 			Route::resource('motion.motionfile','MotionFileController');
+			Route::post('motionfile/flowUpload', 'MotionFileController@flowUpload');
 			Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 
 			Route::resource('department', 'DepartmentController');

@@ -134,5 +134,26 @@ class MotionFileController extends ApiController {
 		return $motionFile;
 	}
 
+	/**
+	 * Attaches motion file and file id to one another.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function flowUpload(Request $request)
+	{
+		if(!Auth::user()->can('create-motions')){
+			abort(403,'You do not have permission to update a motion');
+		}
+
+		$motionFile = new MotionFile;
+		$motionFile->motion_id = $request->input('motion_id');
+		$motionFile->file_id   = $request->input('file_id');
+		if(!$motionFile->save()){
+		 	abort(403,$motionFile->errors);
+		}
+     	return $motionFile;
+	}
+
 
 }
