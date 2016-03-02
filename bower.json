@@ -23,8 +23,7 @@
     "svg-morpheus": "latest",
     "textAngular": "*",
     "themes": "git@github.com:/IserveU/themes.git",
-    "md-color-picker": "*",
-    "gulp-ng-annotate": "*"
+    "md-color-picker": "*"
   },
   "private": true,
   "resolutions": {
