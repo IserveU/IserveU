@@ -7,11 +7,10 @@
 	/** @ngInject */
 	function incompleteProfile($state, incompleteProfileService) {
 
+
 		function incompleteProfileController($scope) {
 			$scope.state = $state;
 		}
-
-
 
 		// this needs to trigger once the user is editted
 		function incompleteProfileLink(scope, el, attrs) {
@@ -20,7 +19,6 @@
 				el.remove(attrs.incompleteProfile);
 				scope.$destroy();
 			}
-
 		}
 
 

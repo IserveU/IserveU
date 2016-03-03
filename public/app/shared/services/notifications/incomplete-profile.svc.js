@@ -8,8 +8,6 @@
 
 		this.check = function(userData) {
 
-			console.log('check');
-
 			userData = userData ? userData : user.self;
 
 			for( var i in userData )

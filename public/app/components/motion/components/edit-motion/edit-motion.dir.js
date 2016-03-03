@@ -11,7 +11,7 @@
 	// This is a todo
 
 	 /** @ngInject */
-	function editMotion($rootScope, $stateParams, $state, $mdToast, motionObj, motion, ToastMessage, department, dateService){
+	function editMotion($stateParams, $state, motionObj, motion, ToastMessage, department, dateService){
 
 		function editMotionController() {
 
@@ -19,7 +19,6 @@
 
 			vm.departments = department;
 
-	        vm.editMotionMode = false;
 	        vm.editingMotion = false;
 
 	        vm.minDate = new Date();
@@ -30,7 +29,6 @@
 
 	        vm.updateMotion = updateMotion;
 	        vm.cancelEditMotion = cancelEditMotion;
-
 
 	        function initMotion(id) {
 
@@ -48,22 +46,22 @@
 	            });
 	        }
 
-
 	        function updateMotion() {
 	            vm.editingMotion = true;
-	           	dateService.updateForPost( vm.motion.closing );
+	           	vm.motion.closing = dateService.stringify( vm.motion.closing.carbon.date );
 	            updateMotionFunction();
 	        }
 
 	        function updateMotionFunction(){
 	            motion.updateMotion(vm.motion).then(function(r) {
+
 	            	motionObj.reloadMotionObj(r.id);
 	                vm.editingMotion = false;
 	                ToastMessage.simple("You've successfully updated this motion!", 800);
 	                $state.go( 'motion', ( {id:r.id} ) );
 
 	            }, function(error) {
-	                ToastMessage.simple(error.data.message);
+	                ToastMessage.report_error(error.data.message);
 	                vm.editingMotion = false;
 	            });
 	        }

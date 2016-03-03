@@ -57,19 +57,15 @@
 				<md-option value="2">Publish</md-option>
 			</md-select>
 
-			<div ng-show="edit.motion.status == 2">
+			<div ng-if="edit.motion.status == 2">
 				<md-datepicker ng-model="edit.motion.closing.carbon.date" md-placeholder="Closing Date" format-date md-min-date="edit.minDate" flex></md-datepicker>
 			</div>
 		</div>
-
 		
 
 		<div layout layout-align="center end">
-			<md-button ng-click="edit.updateMotion()">
-				<div ng-hide="edit.editingMotion" translate="{{'SAVE_CHANGES'}}"></div>
-				<md-icon ng-show="edit.editingMotion" md-svg-icon="/themes/{{::themename}}/loading.svg"></md-icon>
-			</md-button>
-			<md-button ng-click="edit.cancelEditMotion() || motion.cancelEditMotion()" translate="{{'CANCEL'}}"></md-button>
+			<spinner ng-click="edit.updateMotion()" name="'Save Changes'" on-hide="edit.editingMotion"></spinner>
+			<md-button ng-click="edit.cancelEditMotion()" translate="{{'CANCEL'}}"></md-button>
 		</div> 
 
 	</div>
