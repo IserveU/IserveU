@@ -18,7 +18,7 @@
 
 			vm.save = function() {
 				settings.saveArray('home', vm.settings.home);
-			}
+			};
 
 			vm.cancel = function() {
 	            ToastMessage.cancelChanges(function(){
@@ -28,7 +28,7 @@
 
 			vm.setLogo = function(json) {
 				vm.settings.home.introduction.icon = "/uploads/"+JSON.parse(json).filename;
-			}
+			};
 
 		}
 
@@ -38,7 +38,6 @@
 			scope.$watch(
 				'edit.settings.saving',
 				function redirect(newValue, oldValue) {
-					console.log(newValue);
 					if(newValue == false && oldValue == true)
 						$state.go('home');
 				}

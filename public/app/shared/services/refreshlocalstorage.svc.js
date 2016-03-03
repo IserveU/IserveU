@@ -7,7 +7,7 @@
 		.service('refreshLocalStorage', refreshLocalStorage);
 
   	 /** @ngInject */
-	function refreshLocalStorage(auth, user, SetPermissionsService) {
+	function refreshLocalStorage(auth, SetPermissionsService) {
 
 		this.init = function(){
 

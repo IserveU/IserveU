@@ -14,6 +14,7 @@
 			userToolbarService.state = '';
 			$scope.edit = editUserFactory;
 			$scope.roles = roleFactory;
+
 		}
 
 		return {

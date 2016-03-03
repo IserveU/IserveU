@@ -7,7 +7,7 @@
 		.factory('user', user);
 
   	 /** @ngInject */
-	function user($resource, $q, $rootScope) {
+	function user($resource, $q, $rootScope, auth, refreshLocalStorage) {
 
 		var User = $resource('api/user/:id', {}, {
 	        'update': { method:'PUT' }
@@ -74,7 +74,11 @@
 
 		function getSelf() {
 			if ( $rootScope.authenticatedUser ) return $rootScope.authenticatedUser;
-			else if ( localStorage.getItem('user') ) return JSON.parse(localStorage.getItem('user'));
+			else if ( localStorage.getItem('user') ) 
+				 if ( localStorage.getItem('user') == 'undefined' )
+				 	auth.logout();
+				 else
+					return JSON.parse(localStorage.getItem('user'));
 			else if( $rootScope.userIsLoggedIn ) getSelf();
 		}
 

@@ -6,7 +6,7 @@
 		.module('iserveu')
 		.service('utils', utils);
 
-	function utils($interval) {
+	function utils() {
 
 		this.capitalize = function(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);

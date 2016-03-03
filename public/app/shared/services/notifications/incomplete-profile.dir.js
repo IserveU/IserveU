@@ -5,28 +5,22 @@
 		.directive('incompleteProfile', incompleteProfile);
 
 	/** @ngInject */
-	function incompleteProfile($state, user) {
+	function incompleteProfile($state, incompleteProfileService) {
 
 		function incompleteProfileController($scope) {
-			
-			// not checking this on every state change :(
-
 			$scope.state = $state;
-
-			for( var i in user.self )
-				if ( i === 'date_of_birth' ||
-					 i === 'street_name'   ||
-					 i === 'postal_code'   ||
-					 i === 'community_id' )
-
-			$scope.show = user.self[i] === null ? true : false;
 		}
 
+
+
+		// this needs to trigger once the user is editted
 		function incompleteProfileLink(scope, el, attrs) {
 
-			if( !scope.show )
+			if( !incompleteProfileService.check() ){
 				el.remove(attrs.incompleteProfile);
-		
+				scope.$destroy();
+			}
+
 		}
 
 
@@ -34,7 +28,7 @@
 			restrict: 'EA',
 			controller: incompleteProfileController,
 			link: incompleteProfileLink,
-			templateUrl: 'app/shared/notifications/incomplete-profile.tpl.html'
+			templateUrl: 'app/shared/services/notifications/incomplete-profile.tpl.html'
 		}
 
 

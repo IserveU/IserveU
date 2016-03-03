@@ -2,7 +2,6 @@
 
 	'use strict';
 
-
 	angular
 		.module('iserveu')
 		.directive('motionFiles', motionFiles);

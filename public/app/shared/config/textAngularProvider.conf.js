@@ -11,18 +11,19 @@
 
 		$provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
 
+			taOptions.forceTextAngularSanitize = false; 
 
-	        // $delegate is the taOptions we are decorating
-	        // register the tool with textAngular
-	        taRegisterTool('colourRed', {
-	            iconclass: "mdi mdi-link",
-	            action: function(deferred, restoreSelection){
-	                this.$editor().wrapSelection('forecolor', 'red');
-	            }
-	        });
+	        // // $delegate is the taOptions we are decorating
+	        // // register the tool with textAngular
+	        // taRegisterTool('colourRed', {
+	        //     iconclass: "mdi mdi-link",
+	        //     action: function(deferred, restoreSelection){
+	        //         this.$editor().wrapSelection('forecolor', 'red');
+	        //     }
+	        // });
 
-	        // add the button to the default toolbar definition
-	        taOptions.toolbar[1].push('colourRed');
+	        // // add the button to the default toolbar definition
+	        // taOptions.toolbar[1].push('colourRed');
 	        return taOptions;
 	    }]);
 

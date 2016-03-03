@@ -7,7 +7,7 @@
 		.service('globalService', globalService);
 
 	/** @ngInject */
-	function globalService($rootScope) {
+	function globalService($rootScope, incompleteProfileService) {
 
 		/**
 		*	Initializes global variables.
@@ -15,7 +15,6 @@
 		*/
 		this.init = function() {
 			$rootScope.themename = 'default';
-	        $rootScope.motionIsLoading = [];
 		};
 
 		/**
@@ -29,6 +28,7 @@
 			if(user) {
 				$rootScope.authenticatedUser = user;
 				$rootScope.userIsLoggedIn = true;
+				$rootScope.incompleteProfile = incompleteProfileService.check(user);
 			};
 		};
 

@@ -28,12 +28,14 @@
             <span hide-sm>{{profile.public ? '' : '('+('PRIVATE' | translate)+')'}}</span>
           </has-permission>
       </h2>
-      <p class="md-caption" ng-repeat="r in profile.user_role">
-        {{ r }}{{ $last ? '' : ',&nbsp;' }}
-        <has-permission has-permission="administrate-permissions">
-          <md-icon ng-click="roles.showRoles()" class="mdi mdi-pencil edit-btn" style="color:gray; margin: 0"></md-icon>
-        </has-permission>
-      </p>
+      <span style="float:right" ng-repeat="r in profile.user_role">
+        <p class="md-caption" style="display: inline-block; margin-right: -4px;">
+          {{ r }}{{ $last ? '' : ',&nbsp;' }}
+        </p>
+      </span>
+      <has-permission has-permission="administrate-permissions">
+        <md-icon ng-click="roles.showRoles()" class="mdi mdi-pencil edit-btn" style="color:gray; margin: 0"></md-icon>
+      </has-permission>
 
     </div>
 

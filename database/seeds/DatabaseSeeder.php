@@ -36,7 +36,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call(NWTCommunitiesTableSeeder::class);
 		$this->command->info('NWT Communitites seeded'); 
 
-
 	}
 
 }

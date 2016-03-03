@@ -8,10 +8,10 @@
 		.factory('editUserFactory', editUserFactory);
 
 	/** @ngInject */
-	function editUserFactory($stateParams, $http, user, REST, refreshLocalStorage){
+	function editUserFactory($stateParams, $state, $http, user, REST, refreshLocalStorage, incompleteProfileService){
 
 		var factory = {
-			/* Function to map form input variables to the variable. */
+			/** Function to map form input variables to the variable. */
 			map: function(bool){
 				return {
 					first_name: bool,
@@ -53,6 +53,8 @@
 				this.success[type] = false;
 				this.switch('promise');
 				refreshLocalStorage.setItem('user', r);
+				incompleteProfileService.check(r);
+				$state.reload();	
 			},
 			errorHandler: function(e, type){
 				this.successHandler(type);
