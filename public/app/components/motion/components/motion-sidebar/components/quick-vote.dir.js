@@ -7,7 +7,7 @@
     .directive('quickVote', motionSidebarQuickVote);
 
  /** @ngInject */
-  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
+  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService, incompleteProfileService) {
 
   	function controllerMethod() {
 
@@ -21,6 +21,8 @@
 
 			if(!motion.MotionOpenForVoting)
 				ToastMessage.simple("This motion is not open for voting.", 1000);
+			else if( incompleteProfileService.check() )
+				ToastMessage.simple("Complete your profile before voting.", 1000);
 			else{ 
 				if(!motion.user_vote)
 					castVote(motion.id);

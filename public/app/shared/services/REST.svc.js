@@ -7,7 +7,7 @@
 		.module('iserveu')
 		.service('REST', restService);
 
-	function restService($stateParams) {
+	function restService($filter, $stateParams) {
 
 		this.post = {
 			makeData: function (type, data) {
@@ -27,10 +27,16 @@
 			}
 		}
 
-
-
-
-
+		this.date = {
+			stringify: function(date) {
+				if( angular.isString(date) )
+					return this.parse(date);
+				return $filter('date')(date, "yyyy-MM-dd HH:mm:ss");
+			},
+			parse: function(data) {
+				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
+			}
+		}
 
 	}
 

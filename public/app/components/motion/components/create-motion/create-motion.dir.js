@@ -8,7 +8,7 @@
 		.directive('createMotion', createMotion);
 
 	/** @ngInject */
-	function createMotion($state, $timeout, motion, department, dateService, motionFilesFactory) {
+	function createMotion($state, $timeout, motion, department, REST, motionFilesFactory) {
 
 		function createMotionController() {
 
@@ -28,7 +28,7 @@
 	            
 	            vm.creating = true;
 	            
-	            vm.motion.closing = dateService.stringify(vm.motion.closing);
+	            vm.motion.closing = REST.date.stringify(vm.motion.closing);
 
 	            motion.createMotion( vm.motion ).then(function(r) {
 

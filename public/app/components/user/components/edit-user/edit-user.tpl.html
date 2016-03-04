@@ -20,7 +20,7 @@
         <md-input-container flex>
           <label>Birthday</label> 
           <md-icon class="mdi mdi-cake"></md-icon>
-          <input type="date" ng-model="profile.date_of_birth" ng-disabled="edit.disabled.date_of_birth" ng-keypress="edit.pressEnter($event, 'date_of_birth', profile.date_of_birth)" format-date/>
+          <input type="date" ng-model="profile.date_of_birth" ng-disabled="edit.disabled.date_of_birth" ng-keypress="edit.pressEnter($event, 'date_of_birth', profile.date_of_birth)" format-birthday/>
         </md-input-container>
         <md-icon class="mdi mdi-pencil edit-btn" ng-click="edit.switch('date_of_birth')" ng-show="edit.disabled.date_of_birth"></md-icon>
         <md-icon class="mdi mdi-content-save save-btn" ng-click="edit.save('date_of_birth', profile.date_of_birth)" ng-hide="edit.success.date_of_birth || edit.disabled.date_of_birth"></md-icon>

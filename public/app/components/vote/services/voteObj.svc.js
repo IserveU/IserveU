@@ -78,7 +78,7 @@
 
 	            return position; 
 		    },
-		    successFunc: function(vote, id, pos, quickVote) {
+		    successFunc: function(vote, pos, quickVote) {
 		    	if(!quickVote){
 					factory.user = vote;
 					factory.calculateVotes(vote.motion_id);

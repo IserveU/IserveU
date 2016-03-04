@@ -14,8 +14,8 @@
 			link: function(scope, element, attrs, ngModelController) {
 
 				ngModelController.$parsers.push(function(data) {
-					return $filter('date')(data, "yyyy-MM-dd HH:mm:ss");
-				})
+					return $filter('date')(data, "yyyy-MM-dd HH:mm:ss Z");
+				});
 
       			ngModelController.$formatters.push(function(data) {
 					return new Date(data);

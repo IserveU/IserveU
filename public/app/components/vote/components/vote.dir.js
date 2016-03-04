@@ -7,7 +7,7 @@
 		.directive('voteOnMotion', voteOnMotion);
 
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen) {
+	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage, incompleteProfileService) {
 
 
 		function voteController($scope) {
@@ -68,7 +68,7 @@
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes');
+				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes') || incompleteProfileService.check();
 			}
 
 			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {

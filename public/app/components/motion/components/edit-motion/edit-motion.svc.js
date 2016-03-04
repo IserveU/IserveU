@@ -5,7 +5,7 @@
 		.factory('editMotionFactory', editMotionFactory);
 
 	 /** @ngInject */
-	function editMotionFactory($stateParams, $state, motion, motionObj, ToastMessage, dateService, motionFilesFactory) {
+	function editMotionFactory($stateParams, $state, motion, motionObj, ToastMessage, REST, motionFilesFactory) {
 
 		var factory = {
 			/** Variables */
@@ -46,7 +46,7 @@
 			/** Filters out data that needs to be reformatted for posting. */
 			updateGuard: function() {
 	            this.editing = true;
-	           	this.motion.closing = dateService.stringify( 
+	           	this.motion.closing = REST.date.stringify( 
 	           						  this.motion.closing.carbon.date );
 	            this.update();
                 if (motionFilesFactory.files){
