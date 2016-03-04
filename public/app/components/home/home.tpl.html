@@ -6,7 +6,7 @@
     <md-card flex>
       <md-card-content>
             <md-icon md-svg-src="{{ home.settings.home.introduction.icon }}" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
-        <h3 class="title-header"> {{ home.settings.home.introduction.title }} </h3>
+        <h3 class="title-header" ng-bind-html="home.settings.home.introduction.title | trustAsHtml"></h3>
         <div>
           <p class="md-body-1" ta-bind ng-model="home.settings.home.introduction.text"></p>
         </div>

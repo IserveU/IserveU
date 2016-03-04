@@ -7,7 +7,7 @@
 		.directive('editHome', editHome);
 
 	/** @ngInject */
-	function editHome($state, settings, ToastMessage, dropHandler) {
+	function editHome($state, $sce, settings, ToastMessage, dropHandler) {
 
 		function editHomeController() {
 
@@ -16,7 +16,15 @@
 			vm.settings = settings.getData();
 			vm.dropHandler = dropHandler;
 
+			vm.html = $sce.trustAsHtml(
+				vm.settings.home.introduction.text);
+
 			vm.save = function() {
+
+				console.log(vm.settings.home.introduction.text);
+
+				console.log(vm.html);
+
 				settings.saveArray('home', vm.settings.home);
 			};
 

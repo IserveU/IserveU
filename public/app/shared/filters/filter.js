@@ -50,5 +50,10 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
+		.filter('trustAsHtml', function($sce) {
+			return function (value) {
+				return $sce.trustAsHtml(value);
+			}
+		})
 
 })();
