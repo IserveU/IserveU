@@ -36,8 +36,6 @@
     </body>        
 
 
-
-
     <script src="<?=elixir('js/dependencies.js')?>"></script>
     <script src="<?=elixir('js/app.js')?>"></script>
     

@@ -78,7 +78,7 @@ class File extends ApiModel
 	 * The variables that are required when you do an update
 	 * @var array
 	 */
-	protected $onUpdateRequired = ['id'];
+	protected $onUpdateRequired = [];
 
 	/**
 	 * The variables requied when you do the initial create
@@ -244,12 +244,17 @@ class File extends ApiModel
 
         $filename       = md5($file).".".$file->getClientOriginalExtension();
         $this->attributes['filename'] = $filename;
+        $this->attributes['title'] = $file->getClientOriginalName();
 
         Storage::put($filename,file_get_contents($file->getRealPath()));
 
         $file->move(getcwd()."/uploads/", $filename);
     }
 
+
+    public function setTitleAttribute($title){
+    	$this->attributes['title'] = $title;
+    }
 
 
 

@@ -7,7 +7,7 @@
       <md-card-content>
             <md-icon md-svg-src="{{ home.settings.home.introduction.icon }}" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
         <h3 class="title-header"> {{ home.settings.home.introduction.title }} </h3>
-        <div layout-padding>
+        <div>
           <p class="md-body-1" ta-bind ng-model="home.settings.home.introduction.text"></p>
         </div>
       </md-card-content>
@@ -22,7 +22,7 @@
 
             <md-progress-circular md-mode="indeterminate" ng-if="home.loading.topmotion"></md-progress-circular>
 
-            <md-list layout-padding ng-if="!home.loading.topmotion">
+            <md-list ng-if="!home.loading.topmotion">
               <md-list-item ng-if="home.topMotion" ui-sref="motion({id:home.topMotion.id})">
                 <p class="md-body-1">{{home.topMotion.title}}</p>
                 <md-button class="md-icon-button" aria-label="topMotionRedirect" ui-sref="motion({id:home.topMotion.id})">
@@ -43,7 +43,7 @@
           <md-progress-circular md-mode="indeterminate"  ng-if="home.loading.topcomment"></md-progress-circular>
 
 
-          <md-list layout-padding  ng-if="!home.loading.topcomment">
+          <md-list ng-if="!home.loading.topcomment">
             <div  ng-if="home.topComments" ng-repeat="comment in home.topComments">
 
             <md-list-item ui-sref-active="active" ui-sref="motion({id:comment[0].vote.motion_id})">
@@ -82,7 +82,7 @@
         <md-progress-circular md-mode="indeterminate" ng-if="home.loading.mycomments"></md-progress-circular>
 
         <div ng-if="!home.loading.mycomments">
-          <md-list layout-padding ng-if="!home.empty.mycomments" ng-repeat="comment in home.myComments | limitTo: 5">
+          <md-list ng-if="!home.empty.mycomments" ng-repeat="comment in home.myComments | limitTo: 5">
             <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
               <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
               <md-button class="md-icon-button" aria-label="yourCommentRedirect" ui-sref="motion({id:comment.vote.motion_id})">
@@ -92,7 +92,7 @@
           <md-divider ng-if="!$last"></md-divider>
           </md-list>
 
-          <md-list layout-padding ng-if="home.empty.mycomments" ng-cloak>
+          <md-list ng-if="home.empty.mycomments" ng-cloak>
             <p class="md-body-1">You haven't commented on anything, yet.</p>
           </md-list>
         </div>
@@ -109,7 +109,7 @@
         <md-progress-circular md-mode="indeterminate" ng-if="home.loading.myvotes"></md-progress-circular>
 
         <div ng-if="!home.loading.myvotes">
-      <md-list layout-padding ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes">
+      <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in home.myVotes">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
        <span ng-switch="{{ vote.position }}">
           <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
@@ -129,7 +129,7 @@
         </md-list>
 
 
-          <md-list layout-padding ng-if="home.empty.myvotes" ng-cloak>
+          <md-list ng-if="home.empty.myvotes" ng-cloak>
             <p class="md-body-1">You haven't vote, yet.</p>
           </md-list>
         </div>

@@ -17,6 +17,8 @@
 				this.files.push(file.id);
 			},
 			attach: function(id) {
+				console.log(this.files);
+
 				for (var i in this.files)
 					$http.post('api/motionfile/flowUpload', {
 						motion_id: id,

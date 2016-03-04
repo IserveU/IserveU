@@ -10,7 +10,7 @@
 		<div flex layout="column" ng-show="!create.writing && !create.comment && vote.user" layout-padding>
 			<form layout="column" name="commentForm" flex="100"> 
 				<md-input-container flex>
-					<textarea columns="4" ng-model="text" focus-input="!create.writing"></textarea>
+					<textarea columns="4" ng-model="text"></textarea>
 				</md-input-container>
 
 			    <div layout="row" layout-align="front center"> 
@@ -43,16 +43,16 @@
 			<p class="md-body-1" ng-if="!create.editing">{{ create.comment.text }}</p>
 
 
-			<div ng-if="create.editing">
+			<div ng-if="create.editing" layout="column">
 				<md-input-container>
 					<textarea layout-padding columns="1" aria-label="Your comment" ng-model="create.comment.text" focus-input="create.editing"></textarea>
 				</md-input-container>
 
 
-				<spinner name="({{'SAVE_COMMENT' | translate}})" ng-click="create.update(); create.editComment()"></spinner>
-<!-- 
-				<md-button class="md-raised save-btn" ng-click="create.update(); create.editComment()" translate="{{'SAVE_COMMENT'}}" aria-label="update comment"></md-button> -->
-				<md-button ng-click="create.editComment()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
+				<div layout="row">
+					<spinner name="'Save Comment'" ng-click="create.update(); create.editComment()"></spinner>
+					<md-button ng-click="create.editComment()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
+				</div>
 			</div>
 		</div>
 

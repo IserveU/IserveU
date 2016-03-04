@@ -2,54 +2,29 @@
 <md-card-content>
 <div id="edit-motion-mode" flex="100" flex-order="2" flex-order-gt-sm="1"  layout-padding>
 	<div flex>
-
 		<md-icon class="mdi mdi-information-outline title-icon"  ></md-icon>
 			<h3 class="title-header">Introduction</h3>
-				<textarea class="md-body-1" ng-model="edit.motion.summary" aria-label="motionSummary" flex focus-input="motion.editMode"></textarea>
+				<textarea class="md-body-1" ng-model="edit.motion.summary" aria-label="motionSummary" flex focus-input="true"></textarea>
 		
 
 		<md-icon class="mdi mdi-file-document title-icon"  ></md-icon>
 			<h3 class="title-header">Details</h3>
 			<text-angular class="text-angular md-body-1" ng-model="edit.motion.text" name="text"></text-angular>
 
-		<!-- <div layout-padding ng-if="motion.motion_files[0]"> -->
-<!-- 			<md-icon class="mdi mdi-chart-bar title-icon" ></md-icon>
+
+		<md-icon class="mdi mdi-chart-bar title-icon" ></md-icon>
 			<h3 class="title-header">Figures</h3>
 
-	<div class="file-upload-drag"
-			 flow-init layout-sm="column" layout-padding 
-	 	     flow-drop-enabled="true"
-		     flow-drop 
-		     flow-file-added="edit.validate($file, $index);">
-			<span>
-				<md-icon class="mdi" md-font-icon="mdi-file-image-box"></md-icon>
-				<input id="file-btn" aria-label="attachment input" type="file" flow-btn/>
-				<p class="md-body-1">Or drag and drop your files here</p>
-			</span>
-
-		    <md-input-container id="title-input" ng-repeat="file in edit.viewFiles" flex>
-		    <md-icon class="mdi mdi-close close" ng-click="edit.deleteTempMotionFile(file); hideFile = true" ng-hide="hideFile"></md-icon>
-		      <input type="text"  aria-label="attachment title textfield" press-enter="edit.changeTitleName(file)" ng-blur="edit.changeTitleName(file)" ng-model="file.name" ng-hide="hideFile"/>
-		    </md-input-container>
-	    
-		    <md-input-container>
-		      <div ng-messages="{uploadError:edit.uploadError}" ng-repeat="file in edit.errorFiles | limitTo:5">
-		        <div ng-message="uploadError">
-		           {{file.file.name}}:  {{file.error}}
-		        </div>
-		      </div>
-		    </md-input-container>
-		</div> -->
+			<edit-motion-files></edit-motion-files>
+			<create-motion-files></create-motion-files>
 
 		<md-icon class="mdi mdi-view-list title-icon"></md-icon>
 			<h3 class="title-header">Options</h3>
 
 		<div>
-			<md-select ng-model="edit.motion.department_id" placeholder="{{edit.motion.department_id}}" aria-label="select Department">
-				<md-option ng-repeat="d in edit.departments.self.data" ng-value="d.id">{{d.name}}</md-option>
+			<md-select ng-model="edit.motion.department_id" placeholder="{{ edit.motion.department_id }}" aria-label="select Department">
+				<md-option ng-repeat="d in departments.self.data" ng-value="d.id">{{d.name}}</md-option>
 			</md-select>
-
-	
 
 			<md-select ng-model="edit.motion.status" placeholder="{{ 'MOTION' | translate}} Status">
 				<md-option value="0">Draft</md-option>
@@ -64,8 +39,8 @@
 		
 
 		<div layout layout-align="center end">
-			<spinner ng-click="edit.updateMotion()" name="'Save Changes'" on-hide="edit.editingMotion"></spinner>
-			<md-button ng-click="edit.cancelEditMotion()" translate="{{'CANCEL'}}"></md-button>
+			<spinner ng-click="edit.updateGuard()" name="'Save Changes'" on-hide="edit.editing"></spinner>
+			<md-button ng-click="edit.cancel()" translate="{{'CANCEL'}}"></md-button>
 		</div> 
 
 	</div>

@@ -1,0 +1,15 @@
+<div ng-repeat="file in motionFile.data" flex>
+
+  <span>
+    <a href="/uploads/{{file.filename}}" target="_blank" ng-hide="editFile.show[file.id]" >{{ file.title ? file.title : file.filename }}</a>
+  </span>
+
+  <md-input-container style="margin:0; " flex ng-show="editFile.show[file.id]">
+    <input type="text" ng-model="file.title" ng-keypress="editFile.pressEnter($event, file.title, file.id)"/>
+  </md-input-container>
+
+  <md-icon class="mdi mdi-pencil inline-icon" ng-hide="editFile.show[file.id]" ng-click="editFile.edit(file.id)"></md-icon>
+  <md-icon class="mdi mdi-content-save inline-icon" ng-show="editFile.show[file.id]" ng-click="editFile.update(file.title, file.id)"></md-icon>
+  <md-icon class="mdi mdi-delete inline-icon" ng-click="editFile.destroy(file.id)"></md-icon>
+
+</div>

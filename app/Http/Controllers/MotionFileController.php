@@ -106,11 +106,15 @@ class MotionFileController extends ApiController {
 		}
 
 		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
+			abort(401,"This user can not edit motion ($motion_id)");
 		}
 
-      	$motionFile->file->uploadFile('motion_files', 'file', $request);		
+      	// $motionFile->file->uploadFile('motion_files', 'file', $request);		
 		
+		if($request->input('title')){
+			$motionFile->file->title = $request->input('title');
+		}
+
 		if(!$motionFile->file->save()){
 		 	abort(403,$motionFile->file->errors);
       	}

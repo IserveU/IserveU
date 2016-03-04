@@ -10,10 +10,6 @@
 	 /** @ngInject */
 	function motionDrafts(motionObj, UserbarService){
 
-
-		console.log('motiondrafts');
-
-
 		function motionDraftController() {
 
 			this.motionObj = motionObj;
@@ -24,7 +20,7 @@
 
 			controller: motionDraftController,
 			controllerAs: 'draft',
-			templateUrl: 'app/components/motion/components/motion-drafts/motion-drafts.tpl.html'
+			templateUrl: 'app/components/admin/partials/drafts/motion-drafts.tpl.html'
 
 		}
 
