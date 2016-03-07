@@ -16,14 +16,15 @@
 					<h3 class="title-header">Details</h3>
 						<p class="md-body-1" ng-bind-html="::motion.details.text"></p>
 
-				<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
-					<h3 class="title-header">Figures</h3>
+				<span ng-if="motionFile.hasData">
+					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
+						<h3 class="title-header">Figures</h3>
 
-				<div flex ng-repeat="file in motionFile.data">
-					<a href="/uploads/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)" download></a>
-					<!-- <img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" /> -->
-				</div>
-
+					<div flex ng-repeat="file in motionFile.data" layout-padding>
+						<a href="/uploads/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)" download></a>
+						<!-- <img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" /> -->
+					</div>
+				</span>
 			</div>
 				
 				<!-- TODO: make this into a directive -->

@@ -8,6 +8,7 @@
 
 		var factory = {
 			data: {},
+			hasData: false,
 			files: [],
 			viewFiles: [],
 			uploadError: false,
@@ -43,6 +44,8 @@
 			get: function(id) {
 				motionfile.getMotionFiles(id).then(function(r){
 					factory.data = r;
+					if (r) factory.hasData = true;
+					else factory.hasData = false;
 				});
 			},
 			validate: function(file) {
