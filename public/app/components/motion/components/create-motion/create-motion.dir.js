@@ -8,7 +8,7 @@
 		.directive('createMotion', createMotion);
 
 	/** @ngInject */
-	function createMotion($state, $timeout, motion, department, REST, motionFilesFactory) {
+	function createMotion($state, $timeout, motion, department, REST, motionFilesFactory, ToastMessage) {
 
 		function createMotionController() {
 
@@ -34,10 +34,11 @@
 
 	                vm.creating = false;
 	                
-	                if (motionFilesFactory.files)
-		                motionFilesFactory.attach(r.id);
-		            else
+	                motionFilesFactory.attach(r.id);
+
+	                $timeout(function() {
 			           	$state.go( 'motion', ( {id: r.id} ) );
+	                }, 600);
 
 	            }, function(e) { console.log(e); });
 			};

@@ -5,7 +5,7 @@
 
     		<div style="text-align:center" layout-margin>
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg" class="md-primary title-svg-icon" style="margin-left: 4px; margin-right: 1px"></md-icon>
-				<h4 class="md-subhead title-header" style="letter-spacing: 0.3px">AGREEMENT</h3>
+				<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">AGREEMENT</h3>
 			</div>
 			<div class="motion-comments" ng-repeat="comment in show.obj.comments.agree" layout-padding>
 				<md-icon class="mdi mdi-account-circle title-icon"></md-icon>
@@ -38,9 +38,12 @@
 
     		<div style="text-align:center;" layout-margin>
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg" class="md-accent title-svg-icon" style="margin-left: 4px; margin-right: 1px"></md-icon>
-				<h4 class="md-subhead title-header" style="letter-spacing: 0.3px">DISAGREEMENT /</h3>
+				<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">DISAGREEMENT</h3>
+
+				<span ng-if="commons.abstain">
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" class="title-svg-icon" style="margin-left: 4px; margin-right: 3px"></md-icon>
-				<h4 class="md-subhead title-header" style="letter-spacing: 0.3px">ABSTAINED</h3>
+				<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">/ ABSTAINED</h3>
+				</span>
 			</div>
 		
 			<div class="motion-comments" ng-repeat="comment in show.obj.comments.disagree" ng-class=" comment.vote.position == 0 ? 'abstained' : ''" layout-padding>

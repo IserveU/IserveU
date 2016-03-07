@@ -12,6 +12,7 @@
 		var factory = {
 			getIndex: function () {
 				$http.get('/api/community').success(function(r){
+					console.log(r);
 					factory.index = r;
 				}).error(function(e){ console.log(e); });
 			},

@@ -18,6 +18,8 @@
 			},
 			attach: function(id) {
 				console.log(this.files);
+                if (!this.files)
+					return 0;
 
 				for (var i in this.files)
 					$http.post('api/motionfile/flowUpload', {

@@ -12,20 +12,14 @@
 
     <div flex="100">
       <md-icon class="mdi mdi-email"></md-icon>
-      <p class="title-header" style="margin-bottom: 0">{{ profile.email }}</p>
+      <p class="title-header" style="margin-bottom: 0; font-size: 14px">{{ profile.email }}</p>
     </div>
 
+  <h3 ng-show="profile.community" class="title-header" style="margin-bottom: 0">About</h3>
 
-  <div ng-show="profile.postal_code">
+  <div ng-show="profile.community">
       <md-icon class="mdi mdi-home"></md-icon>
-      <input disabled class="title-header" style="margin-bottom: 0; width: 90%; border:none" ng-model="profile" format-address/>
-  </div>
-
-  <h3 ng-show="profile.date_of_birth" class="title-header" style="margin-bottom: 0">About</h3>
-
-  <div ng-show="profile.date_of_birth">
-      <md-icon class="mdi mdi-cake"></md-icon>
-      <p class="title-header" style="margin-bottom: 0">{{ profile.date_of_birth | date: longDate }}</p>
+      <p class="title-header" style="margin-bottom: 0; font-size: 14px">{{ profile.community }}</p>
   </div>
 
   </md-card-content>

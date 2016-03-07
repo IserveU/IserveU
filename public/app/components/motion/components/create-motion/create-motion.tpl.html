@@ -5,13 +5,34 @@
 		<form class="createMotion" name="newMotion" layout="column" novalidate ng-submit="newMotion.$valid && create.newMotion()">
 
 			<div layout="column" flex>
+
+				<div>
+					<md-icon class="mdi mdi-details title-icon"></md-icon>
+						<h3 class="title-header">Title</h3>
+
+					<div layout="column" flex>
+						<md-input-container style="margin-top: 0">
+							<input name="title" type="text" ng-model="create.motion.title" minlength="8" required/>
+							<div ng-messages="newMotion.title.$error">
+								<div ng-message-exp="['required', 'minlength']" role="alert">
+									Your title must be at least 8 characters long.
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+
 				<div flex>
 				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
 					<h3 class="title-header">Introduction</h3>
 
 					<div layout="column" flex>
 						<md-input-container flex style="margin-top: 0">
-							<input type='text' ng-model='create.motion.title'/>
+							<input name="introduction" type="text" ng-model='create.motion.summary' minlength="10" required/>
+							<div ng-messages="newMotion.introduction.$error" role="alert">
+								<div ng-message-exp="['required', 'minlength']">Your introduction must be at least 10 characters long.</div>
+							</div>
 						</md-input-container>
 					</div>
 				</div>
@@ -36,18 +57,29 @@
 						<h3 class="title-header">Options</h3>
 				</div>
 
-				<div>
-					<md-select ng-model="create.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department">
-						<md-option ng-repeat="d in create.departments.data" ng-value="d.id">{{d.name}}</md-option>
-						<md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option>
-					</md-select>
+				<div layout="column" flex>
+					<md-input-container flex>
+						<md-select name="department" ng-model="create.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" required>
+							<md-option ng-repeat="d in create.departments.data" ng-value="d.id">{{d.name}}</md-option>
+							<!-- <md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option> -->
+						</md-select>
+						<div ng-messages="newMotion.department.$error" role="alert">
+							<div ng-message="required">Please choose a {{ 'DEPARTMENT' | translate | lowercase }}.</div>
+						</div>
+					</md-input-container>
 
+					<md-input-container flex>
+						<md-select name="status" ng-model="create.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
+							<md-option value="0">Draft</md-option>
+							<md-option value="1">In review</md-option>
+							<md-option value="2">Publish</md-option> 
+						</md-select>
+						
+						<div ng-messages="newMotion.status.$error" role="alert">
+							<div ng-message-exp="['required']">Please choose a status.</div>
+						</div>
 
-					<md-select ng-model="create.motion.status" placeholder="{{ 'MOTION' | translate}} Status">
-						<md-option value="0">Draft</md-option>
-						<md-option value="1">In review</md-option>
-						<md-option value="2">Publish</md-option>
-					</md-select>
+					</md-input-container>
 
 					<div ng-show="create.motion.status == 2">
 						<md-datepicker ng-model="create.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>

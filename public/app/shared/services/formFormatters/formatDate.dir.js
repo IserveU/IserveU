@@ -18,7 +18,12 @@
 				});
 
       			ngModelController.$formatters.push(function(data) {
-					return new Date(data);
+
+					console.log(data);
+
+					if ( data ) return new Date(data);
+					else 
+						return data;
 			    });
 			}
 		}

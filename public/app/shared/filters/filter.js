@@ -55,5 +55,14 @@
 				return $sce.trustAsHtml(value);
 			}
 		})
-
+		.filter('isPublished', function(){
+			return function (value){
+				var out = [];
+				for (var i in value) {
+					if ( value[i].status > 1 )
+						out.push(value[i]);
+				}
+				return out;
+			};
+		})
 })();

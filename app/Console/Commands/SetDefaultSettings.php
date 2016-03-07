@@ -74,6 +74,8 @@ class SetDefaultSettings extends Command
                 'login_attempts_lock' => 5
             ), $overwrite);
 
+        $this->ifNullSet('abstain', true, $overwrite);
+
         $this->ifNullSet('jargon', array(
                 'en' => array(
                     'motion'  => 'Motion',

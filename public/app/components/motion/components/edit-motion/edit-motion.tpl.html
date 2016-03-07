@@ -1,10 +1,21 @@
-<md-card>
+<md-card ng-init="edit.init()">
 <md-card-content>
 <div id="edit-motion-mode" flex="100" flex-order="2" flex-order-gt-sm="1"  layout-padding>
 	<div flex>
-		<md-icon class="mdi mdi-information-outline title-icon"  ></md-icon>
+
+		<div>
+		<md-icon class="mdi mdi-details title-icon"></md-icon>
+			<h3 class="title-header">Title</h3>
+			<div layout="column">
+				<md-input-container style="margin-top:0">
+					<input type="text" ng-model="edit.motion.title" autofocus/>
+				</md-input-container>
+			</div>
+		</div>
+
+		<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
 			<h3 class="title-header">Introduction</h3>
-				<textarea class="md-body-1" ng-model="edit.motion.summary" aria-label="motionSummary" flex focus-input="true"></textarea>
+				<textarea class="md-body-1" ng-model="edit.motion.summary" aria-label="motionSummary" flex></textarea>
 		
 
 		<md-icon class="mdi mdi-file-document title-icon"  ></md-icon>

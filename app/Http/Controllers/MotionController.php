@@ -81,7 +81,10 @@ class MotionController extends ApiController {
 			$motions->take(1);
 		}
 
-		return $motions->simplePaginate($limit);
+		$paginator = $motions->simplePaginate($limit);
+		$motions   = $this->motionTransformer->transformCollection( $paginator->all() );
+
+		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
 	}
 
 	/**

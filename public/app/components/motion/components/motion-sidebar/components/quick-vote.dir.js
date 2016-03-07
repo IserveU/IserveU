@@ -7,7 +7,7 @@
     .directive('quickVote', motionSidebarQuickVote);
 
  /** @ngInject */
-  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService, incompleteProfileService) {
+  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService, incompleteProfileService, settings) {
 
   	function controllerMethod() {
 
@@ -16,6 +16,7 @@
         vm.canCreateVote = SetPermissionsService.can('create-votes');
         vm.cycleVote = cycleVote;
         vm.voteObj = voteObj;
+        vm.settings = settings.getData();
 
 		function cycleVote (motion){
 
@@ -24,8 +25,10 @@
 			else if( incompleteProfileService.check() )
 				ToastMessage.simple("Complete your profile before voting.", 1000);
 			else{ 
-				if(!motion.user_vote)
-					castVote(motion.id);
+				if(!motion.user_vote){
+					var pos = vm.settings.abstain ? 1 : 0;
+					castVote(motion.id, pos);
+				}
 				else{
 
 					var data = {
@@ -33,27 +36,30 @@
 		                position: null
 		            }
 					
-					if(motion.user_vote.position != 1)
-						data.position = motion.user_vote.position + 1; 
+		            if(!vm.settings.abstain)
+						if(motion.user_vote.position != 1)
+							data.position = motion.user_vote.position + 1; 
+						else
+							data.position = -1;
 					else
-						data.position = -1;
+						data.position = motion.user_vote.position == 1 ? -1 : 1;
 
 					updateVote(data);
 				};
 			};
 		}
 
-		function castVote(id){
+		function castVote(id, pos){
 			vote.castVote({
 				motion_id:id, 
-				position:0}).then(function(r){
-				successFunc(r, 0, true);
+				position:pos}).then(function(r){
+				successFunc(r, pos);
 			});
 		}
 
 		function updateVote(data){
 			vote.updateVote(data).then(function(r) {
-				successFunc(r, 0, data.position);
+				successFunc(r, data.position);
 			});
 		}
 

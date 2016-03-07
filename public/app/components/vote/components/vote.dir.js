@@ -7,7 +7,7 @@
 		.directive('voteOnMotion', voteOnMotion);
 
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage, incompleteProfileService) {
+	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage, incompleteProfileService, settings) {
 
 
 		function voteController($scope) {
@@ -20,6 +20,10 @@
 			vm.isVotingEnabled   = isVotingEnabled;
 			vm.voteButtonMessage = voteButtonMessage;
 			vm.voteObj			 = voteObj;
+			vm.settings			 = settings.getData();
+
+			console.log(vm.settings);
+
 
 			// I wonder if I can share this via the quick-vote.dir.js
 			function castVote(id, pos) {

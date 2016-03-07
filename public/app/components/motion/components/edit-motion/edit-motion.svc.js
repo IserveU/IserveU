@@ -5,7 +5,7 @@
 		.factory('editMotionFactory', editMotionFactory);
 
 	 /** @ngInject */
-	function editMotionFactory($stateParams, $state, motion, motionObj, ToastMessage, REST, motionFilesFactory) {
+	function editMotionFactory($stateParams, $state, $timeout, motion, motionObj, ToastMessage, REST, motionFilesFactory) {
 
 		var factory = {
 			/** Variables */
@@ -14,6 +14,9 @@
 			editing: false,
 			/** Initializing function to get motion data. */
 			init: function(id) {
+
+				id = id ? id : $stateParams.id;
+
 	     		this.motion = motionObj.getMotionObj(id);
 
 	        	if ( !this.motion )
@@ -36,7 +39,9 @@
 	            	motionObj.reloadMotionObj(r.id);
 	                ToastMessage.simple(
 	                	"You've successfully updated this motion!", 800);
-	                $state.go( 'motion', ( {id:r.id} ) );
+	                $timeout(function() {
+		                $state.go( 'motion', ( {id:r.id} ), {reload: true} );	
+	                }, 1000);
 
 	            }, function(e) {
 	                ToastMessage.report_error(e.data.message);
@@ -49,11 +54,8 @@
 	           	this.motion.closing = REST.date.stringify( 
 	           						  this.motion.closing.carbon.date );
 	            this.update();
-                if (motionFilesFactory.files){
-                	console.log('files');
-	                motionFilesFactory.attach(this.motion.id);
-                }
 
+                motionFilesFactory.attach(this.motion.id);
 			}
 		}
 

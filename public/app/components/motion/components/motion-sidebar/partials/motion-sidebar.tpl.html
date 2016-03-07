@@ -10,7 +10,7 @@
   <md-progress-circular md-mode="indeterminate" ng-show="!sidebar.motionObj.data.length && sidebar.motionListLoading"></md-progress-circular>
 
   <md-list>
-    <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in sidebar.motionObj.data | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+    <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in sidebar.motionObj.data | isPublished | filter:sidebar.search.text "ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
 
       <!-- <loading-spinner on-hide="motionIsLoading[motion.id]"> -->
       <!-- <trending-icon ng-hide="motionIsLoading[motion.id]"></trending-icon> -->

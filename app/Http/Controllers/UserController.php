@@ -16,11 +16,13 @@ use Illuminate\Http\Request;
 
 use App\Transformers\UserTransformer;  //Not doing anything at the moment
 
-
 class UserController extends ApiController {
 
-	public function __construct()
-	{		
+	protected $userTransformer;
+
+	public function __construct(UserTransformer $userTransformer)
+	{	
+		$this->userTransformer = $userTransformer;
 		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 
@@ -114,7 +116,8 @@ class UserController extends ApiController {
 		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-users')){
 			abort(401,'You do not have permission to view this non-public user');
 		}
-		return $user;
+
+		return $this->userTransformer->transform( $user->toArray() );
 	}
 
 	/**

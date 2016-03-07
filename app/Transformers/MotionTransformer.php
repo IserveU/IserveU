@@ -9,6 +9,10 @@ class MotionTransformer extends Transformer {
 	public function transform($motion)
 	{
 
+		if(!is_array($motion)) {
+			$motion = $motion->toArray();
+		}
+
 		$transformedMotion = [
 
 			'slug'		 => str_slug($motion['title']),

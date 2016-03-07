@@ -33,7 +33,7 @@
 					return this.parse(date);
 				return $filter('date')(date, "yyyy-MM-dd HH:mm:ss");
 			},
-			parse: function(data) {
+			parse: function(date) {
 				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
 			}
 		}

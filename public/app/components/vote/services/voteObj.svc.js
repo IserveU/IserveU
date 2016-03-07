@@ -7,7 +7,7 @@
 		.factory('voteObj', voteObj);
 
   	 /** @ngInject */
-	function voteObj($rootScope, commentObj, $stateParams, vote, ToastMessage) {
+	function voteObj($rootScope, $translate, commentObj, $stateParams, vote, ToastMessage) {
 
 		var factory = {
 			user: { position: null },
@@ -64,7 +64,7 @@
 					  ? 'agreed with' 
 					  : ( pos == 0 ? 'abstained on' : 'disagreed with');
 				
-				ToastMessage.simple( 'You ' + pos + " this motion" );
+				ToastMessage.simple( 'You ' + pos + " with this " + $translate.instant('MOTION') );
 		    },
 		    getOverallPosition: function() {
 		    	var position;
@@ -79,15 +79,18 @@
 	            return position; 
 		    },
 		    successFunc: function(vote, pos, quickVote) {
+
+				factory.showMessage(pos);
+
 		    	if(!quickVote){
 					factory.user = vote;
 					factory.calculateVotes(vote.motion_id);
 		    	}
 
-				factory.showMessage(pos);
-
-				commentObj.getMotionComments(vote.motion_id);  
-				$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
+				if($stateParams.id == vote.motion_id){
+					commentObj.getMotionComments(vote.motion_id);  
+					$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
+				}
 		    }
 		};
 

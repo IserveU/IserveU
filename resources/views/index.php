@@ -11,11 +11,11 @@
     </head>
 
 
-    <body ng-controller="CommonController as commons" ng-cloak  back-img class="background-image"> 
+    <body ng-controller="CommonController as commons" ng-cloak style="overflow:hidden" back-img class="background-image"> 
 
         <user-bar ng-if="userIsLoggedIn"></user-bar>
 
-        <md-content id="maincontent" layout="row" style="overflow:hidden" layout-fill flex>
+        <md-content id="maincontent" layout="row" style="height: 90vh" layout-fill flex>
 
                 <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
                 style="height: 90vh;"
@@ -29,10 +29,8 @@
                     <incomplete-profile ng-if="userIsLoggedIn"></incomplete-profile>
                     <div ui-view flex role="main" tabIndex="-1"></div>
                 </div>
-
         </md-content>
-                
-        <show-footer></show-footer>    
+        <show-footer></show-footer>                    
     </body>        
 
 
