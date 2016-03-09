@@ -40,7 +40,10 @@
     *   @return array
     */
 
-    function formatIntoReadableDate(string $date) {
+    function formatIntoReadableDate($date) {
+
+        if($date === null)
+            return $date;
 
         $carbon = \Carbon\Carbon::parse($date);
 

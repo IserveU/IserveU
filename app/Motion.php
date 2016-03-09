@@ -176,12 +176,21 @@ class Motion extends ApiModel {
 	}
 
 	public function getMotionOpenForVotingAttribute(){
+
+		/**
+		*	This is a localized economies forever open thing.
+		*/
+		if($this->closing === null){
+			return true;
+		}
+
 		if($this->attributes['status'] != 2) {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
 
-		if($this->closing !== null && $this->closing->lt(Carbon::now())){
+
+		if($this->closing->lt(Carbon::now())){
 			$this->errors = "This motion is closed for voting";
 			return false;
 		}		

@@ -23,12 +23,14 @@
 				
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
-					// redirect.onLogin(toState, toParams, fromState);
 
 					/**
 					*	Taken out for Localized Economies which does not require this level
 					*   of authentication. Must also allow user's to view things.
 					*/
+
+					// redirect.onLogin(toState, toParams, fromState);
+
 					// redirect.ifNotAuthenticated(
 					// 			event,
 					// 			toState.data.requireLogin,
@@ -38,7 +40,6 @@
 					// 		);
 
 					globalService.checkUser();
-
 					globalService.setState( toState );
 				});
 
@@ -54,7 +55,6 @@
 		}]);
 
 	fetchData().then(bootstrapApplication);
-
 
 	function fetchData() {
         var initInjector = angular.injector(['ng']);
@@ -74,6 +74,5 @@
             angular.bootstrap(document, ['iserveu']);
         });
     }
-
 		
 }());

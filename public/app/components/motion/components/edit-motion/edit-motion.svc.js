@@ -51,8 +51,12 @@
 			/** Filters out data that needs to be reformatted for posting. */
 			updateGuard: function() {
 	            this.editing = true;
-	           	this.motion.closing = REST.date.stringify( 
-	           						  this.motion.closing.carbon.date );
+	           	
+	            /** Taken out for localized economies */
+	           	// this.motion.closing = REST.date.stringify( 
+	           	// 					  this.motion.closing.carbon.date );
+
+	           	this.motion.closing = new Date(NaN);
 	            this.update();
 
                 motionFilesFactory.attach(this.motion.id);

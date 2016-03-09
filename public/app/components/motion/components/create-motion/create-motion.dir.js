@@ -24,11 +24,20 @@
         		});
 	        }
 	        
+
+	        console.log(new Date(NaN));
+
+
 	    	vm.newMotion = function(){
 	            
 	            vm.creating = true;
 	            
-	            vm.motion.closing = REST.date.stringify(vm.motion.closing);
+	            /**
+	            *	Removed for localized economies. Just post a 0000-00-00 date.
+	            */
+	            // vm.motion.closing = REST.date.stringify(vm.motion.closing);new Date(NaN));
+
+	            vm.motion.closing = new Date(NaN);
 
 	            motion.createMotion( vm.motion ).then(function(r) {
 

@@ -94,8 +94,8 @@ class SetDefaultSettings extends Command
         $this->ifNullSet('home', array(
                 'introduction'  => array(
                     'icon' => '/themes/default/logo/symbol_onlight.svg',
-                    'title' => 'Welcome to Iserveu',
-                    'text' => "This is brand new eDemocracy platform software. It's super easy to get started."
+                    'title' => 'Welcome to IserveU!',
+                    'text' => "We’re excited to provide this open-source software to let you vote on, engage with, and influence decisions about issues you find important.\n\n As the world's leading E-Democracy and public engagement tool, we're proud to be made by and for Yellowknifers with a mission to give our friends and neighbours the easiest, most cost-effective way to engage with government decision-making between elections.\n\n Vote on issues, start conversations, and engage with elected representatives using the tool in real-time; all without attending a council meeting.\n\n Because it’s time to leverage technology for a stronger, more transparent democracy. Because your opinion matters."
                 ),
                 'widgets'       => array(
                     'your_votes' => true,
