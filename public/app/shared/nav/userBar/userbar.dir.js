@@ -10,7 +10,7 @@
 	function userBar(){
 		
 	  	 /** @ngInject */
-		function UserbarController($translate, $mdSidenav, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
+		function UserbarController($translate, $mdSidenav, $scope, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
 
 			var vm = this;
 
@@ -20,6 +20,12 @@
 			vm.preferredLang = "English";
 			vm.languages = [{name:'English', key:'en'},
 							{name:'French', key:'fr'}];
+
+			vm.menuButton = false;
+
+			vm.switchMenuButton = function(){
+				vm.menuButton = !vm.menuButton;
+			}
 
 			vm.changeLanguage = function(langKey){
 				$translate.use(langKey);

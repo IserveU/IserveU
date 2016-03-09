@@ -1,15 +1,23 @@
-<md-toolbar id="userbar" class="md-whiteframe-glow-z1 site-content-toolbar" layout="row" layout-align="center center" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);" ng-controller="CommonController as common" md-scroll-shrink>
+<md-toolbar id="userbar" class="md-whiteframe-glow-z1 site-content-toolbar" layout="row" layout-align="center center" style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);" md-scroll-shrink>
 
-    <md-toolbar-filler ng-class="settingsGlobal.module.motions?'motion-enabled flex':''" hide-xs hide-sm hide-md>
-        <motion-searchbar ></motion-searchbar>
+    <md-toolbar-filler ng-class="settingsGlobal.module.motions?'motion-enabled flex':''" hide-xs hide-sm>
+        <motion-searchbar></motion-searchbar>
     </md-toolbar-filler>
 
-    <md-button hide-gt-lg hide-lg class="md-icon-button" style="margin:0" ng-click="user.toggleSidebar('left')" aria-label="Toggle Sidebar">
-      <md-icon class="mdi mdi-menu"></md-icon>
-    </md-button>
+    <div hide-gt-lg hide-lg hide-gt-md hide-md>
+        <md-button class="md-icon-button home-btn" aria-label="Home Button">
+          <md-icon md-svg-src="{{ ::settingsGlobal.logo }}" ui-sref="home"></md-icon>
+        </md-button>
 
-    <div ng-repeat="page in user.pageObj.index" >
-      
+        <button  class="main-nav-button md-button md-ink-ripple" style="margin:0; padding:0;" ng-click="user.toggleSidebar('left'); user.switchMenuButton()" aria-label="Toggle Sidebar">
+          <div layout="row">
+            {{ 'MOTIONS' | translate}}
+            <md-icon ng-class="user.menuButton?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+          </div>
+        </button>
+    </div>
+
+    <div ng-repeat="page in user.pageObj.index" hide-sm hide-xs>
         <button class="main-nav-button md-button md-ink-ripple" aria-label="Open new page" ui-sref="pages({id:page.slug})">
           {{ page.title }}
         </button>
@@ -23,6 +31,22 @@
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
         </md-button>
         <md-menu-content width="4">
+
+            <span hide-gt-sm>
+
+                <p class="md-body-2" layout-padding>Site Menu</p>
+
+                <md-menu-item ng-repeat="page in user.pageObj.index">
+                  <md-button aria-label="link to page"  ui-sref="pages({id:page.slug})">
+                        <div layout="row">
+                            <p flex>{{ page.title }}</p>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+            </span>
+
+
 
             <span ng-show="userIsLoggedIn">
             

@@ -7,7 +7,7 @@
     .directive('quickVote', motionSidebarQuickVote);
 
  /** @ngInject */
-  function motionSidebarQuickVote($rootScope, $state, $translate, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
+  function motionSidebarQuickVote($rootScope, $state, $translate, vote, voteObj, motionObj, ToastMessage, SetPermissionsService, SETTINGS_JSON) {
 
   	function controllerMethod() {
 
@@ -30,7 +30,7 @@
 				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
 			else{ 
 				if(!motion.user_vote){
-					var pos = vm.settings.abstain ? 1 : 0;
+					var pos = SETTINGS_JSON.abstain ? 0 : 1;
 					castVote(motion.id, pos);
 				}
 				else{
@@ -40,7 +40,7 @@
 		                position: null
 		            }
 					
-		            if(!vm.settings.abstain)
+		            if(SETTINGS_JSON.abstain)
 						if(motion.user_vote.position != 1)
 							data.position = motion.user_vote.position + 1; 
 						else

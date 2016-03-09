@@ -14,7 +14,7 @@
     </md-card>
   </div>
 
-  <div layout="row" flex layout-sm="column" layout-wrap>
+  <div layout="row" flex layout-sm="column" layout-xs="column" layout-wrap>
     <md-card flex ng-if="settingsGlobal.home.widgets.top_motions || settingsGlobal.module.motions">
       <md-card-content flex> 
           <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
@@ -71,7 +71,7 @@
   </div>
 
 
-  <div layout="row" flex="100" layout-sm="column" layout-wrap ng-if="userIsLoggedIn"> 
+  <div layout="row" flex="100" layout-sm="column" layout-xs="column" layout-wrap ng-if="userIsLoggedIn"> 
 
     <md-card flex ng-if="settingsGlobal.home.widgets.your_comments || settingsGlobal.module.comments">
       <md-card-content>

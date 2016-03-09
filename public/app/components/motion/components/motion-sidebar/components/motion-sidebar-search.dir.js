@@ -12,7 +12,7 @@
      /** @ngInject */
     function motionSidebarSearch($timeout, department, motionObj, motion, searchFactory) {
 
-    	function controllerMethod() {
+    	function controllerMethod($scope) {
     		
         	var vm = this;
 
@@ -44,6 +44,7 @@
 
 			vm.searchText = '';
 			vm.searching  = false;
+			vm.showSearchFunc = showSearchFunc;
 
 			vm.searchInput = function() {
 				searchFactory.text = vm.searchText;
@@ -96,11 +97,16 @@
 				vm.motion_filters['next_page']  = temp_filters.next_page;
 			}
 
-			vm.showSearchFunc = function(){
+			function showSearchFunc(){
+
+				// console.log('showSerachFunc');
+
 				if(vm.showSearch)
 					vm.searchText = searchFactory.text = '';
 
 				vm.showSearch = !vm.showSearch;
+
+				// console.log(vm.showSearch);
 			}
 
 			function getMotions(filter){			
@@ -119,6 +125,13 @@
 				emptyMotionFilters();
 				getMotions(vm.motion_filters);
 			}
+
+			// var i = 0;
+			// $scope.$watch('user.menuButton', function(newValue, oldValue){
+				
+
+
+			// });
 
       }
 
