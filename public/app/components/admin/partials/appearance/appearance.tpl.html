@@ -1,4 +1,4 @@
- <md-content layout="column" ng-controller="CommonController as common">
+ <md-content layout="column">
 
 
   <md-card style="margin: 0">
@@ -11,7 +11,7 @@
 
       <div layout="row">
         <img style="max-width: 100px; height: auto;" flow-img="$flow.files[0]" />
-        <md-icon ng-if="!$flow.files[0]" style="max-width: 100px; height: auto;" md-svg-icon="{{ ::common.getLogoUrl() }}"></md-icon>
+        <md-icon ng-if="!$flow.files[0]" style="max-width: 100px; height: auto;" md-svg-icon="{{ ::settingsGlobal.logo }}"></md-icon>
         <spinner ng-if="$flow.files[0]" ng-click="appearance.service.saveTypeOf('logo', logo)" name="'Save'" on-hide="appearance.settings.saving"></spinner>
       </div>
 

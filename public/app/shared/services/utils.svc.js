@@ -34,9 +34,9 @@
 
 		// Service recommendation 
 		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
-		// this.clearArray = function(array) {
-		// 	function () { array.splice(0, array.length); }
-		// }
+		this.clearArray = function(array) {
+			return array.splice(0, array.length);
+		}
 		
 	}
 

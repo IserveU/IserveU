@@ -2,7 +2,8 @@
 
 	'use strict';
 
-	angular
+
+	var iserveu = angular
 		.module('iserveu', [
 			'ngCookies',
 			'ngResource',
@@ -17,32 +18,24 @@
 			'pascalprecht.translate',
 			'mdColorPicker'
 		])
-		.config(['$urlRouterProvider', '$authProvider', '$compileProvider',
-			function($urlRouterProvider, $authProvider, $compileProvider) {
-
-				$compileProvider.debugInfoEnabled(false); // speeds up the app, the debug info are for {{}}
-
-				$authProvider.loginUrl = '/authenticate';
-
-			    // the overall default route for the app. If no matching route is found, then go here
-			    $urlRouterProvider.otherwise('/home');			
-				$urlRouterProvider.when("/user/:id", "/user/:id/profile"); // for displaying sub-url
-
-		}])
 		.run(['$rootScope', '$auth', '$window', 'redirect', 'globalService',
 			function($rootScope, $auth, $window, redirect, globalService) {
 				
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
-					redirect.onLogin(toState, toParams, fromState);
+					// redirect.onLogin(toState, toParams, fromState);
 
-					redirect.ifNotAuthenticated(
-								event,
-								toState.data.requireLogin,
-								$auth.isAuthenticated(),
-								toState.name,
-								fromState.name
-							);
+					/**
+					*	Taken out for Localized Economies which does not require this level
+					*   of authentication. Must also allow user's to view things.
+					*/
+					// redirect.ifNotAuthenticated(
+					// 			event,
+					// 			toState.data.requireLogin,
+					// 			$auth.isAuthenticated(),
+					// 			toState.name,
+					// 			fromState.name
+					// 		);
 
 					globalService.checkUser();
 
@@ -58,7 +51,29 @@
 						return localStorage.clear();
 				};
 
-		}])
+		}]);
+
+	fetchData().then(bootstrapApplication);
+
+
+	function fetchData() {
+        var initInjector = angular.injector(['ng']);
+        var $http = initInjector.get('$http');
+
+        return $http.get('settings').then(function(response) {
+			localStorage.setItem('settings', JSON.stringify(response.data));
+            iserveu.constant('SETTINGS_JSON', response.data);
+        }, function(errorResponse) {
+            // Handle error case
+            console.log('error');
+        });
+    }
+
+    function bootstrapApplication() {
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['iserveu']);
+        });
+    }
 
 		
 }());

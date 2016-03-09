@@ -94,7 +94,8 @@
 		    }
 		};
 
-		factory.calculateVotes($stateParams.id);
+		if($stateParams.id)
+			factory.calculateVotes($stateParams.id);
 
 		return factory;	
 	}

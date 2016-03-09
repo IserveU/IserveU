@@ -9,6 +9,8 @@
   	 /** @ngInject */
 	function refreshLocalStorage(auth, SetPermissionsService) {
 
+		this.reload = reload;
+
 		this.init = function(){
 
 			localStorage.removeItem('user');
@@ -17,9 +19,7 @@
 
 			auth.getSettings().then(function(r){
 
-				if(r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
-				if(r.data.permissions) localStorage.setItem('permissions', JSON.stringify(r.data.user.permissions));
-				if(r.data.settings) localStorage.setItem('settings', JSON.stringify(r.data.settings));
+				reload(r);
 			
 			});
 		};
@@ -42,6 +42,18 @@
 			localStorage.setItem(name, JSON.stringify( jsonArray ));
 		};
 	
+		function reload (r) {
+
+			if(angular.isUndefined(r) || !r)
+				return 0;
+
+			if(r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
+			if(r.data.permissions) localStorage.setItem('permissions', JSON.stringify(r.data.user.permissions));
+			if(r.data.settings) localStorage.setItem('settings', JSON.stringify(r.data.settings));	
+		}
+
+
+
 	}
 	
 

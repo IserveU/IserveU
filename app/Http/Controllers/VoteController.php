@@ -11,6 +11,11 @@ use App\Events\UserChangedVote;
 class VoteController extends ApiController {
 
 
+	function __construct()
+	{
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,6 +23,10 @@ class VoteController extends ApiController {
 	 */
 	public function index()
 	{
+
+		return Vote::all();	
+		
+		
 		if(Auth::user()->can('view-vote')){ //Administrator able to see any vote
 			return Vote::all();	
 		}		

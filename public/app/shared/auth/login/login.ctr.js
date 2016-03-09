@@ -7,15 +7,13 @@
 		.controller('loginController', login);
 
   	 /** @ngInject */
-	function login(settings, loginService, auth, resetPasswordService, ToastMessage) {	
+	function login(loginService, auth, resetPasswordService, ToastMessage, communityIndex, motionObj, utils, SetPermissionsService) {	
 
 		this.service = loginService;
-		this.settings = settings.getData();
-
 		this.extendRegisterForm = extendRegisterForm;
 		this.forgotPassword = forgotPassword;
 		this.sendResetPassword = sendResetPassword;
-		this.confirm_email = '';
+		this.communities = communityIndex.data;
 
 		function extendRegisterForm() {
 			this.registerform = !this.registerform;
@@ -33,6 +31,12 @@
 			}, function(e) { console.log(e); });
 		};
 
+
+		// Resets data
+		SetPermissionsService.set(null);
+		utils.clearArray(motionObj.data);
+		motionObj.next_page = 1;
+		loginService.loggingIn = false;
 		resetPasswordService.check();
     }
 

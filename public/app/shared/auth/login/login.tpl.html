@@ -1,7 +1,7 @@
 <div layout-align="center center" layout="row" layout-fill>
   <div flex-sm="70" flex="30">
       <div flex layout-align="center center" layout-padding>
-         <img class="logo" src="{{ login.settings.login.logo }}"/>
+         <img class="logo" src="{{ ::settingsGlobal.login.logo }}"/>
       </div>
     <md-content class="md-whiteframe-z5 loginbox" layout="row" layout-padding layout-wrap flex>
   
@@ -61,6 +61,14 @@
             <input type="name" name="lastname" ng-model="login.service.newUser.last_name" required>
           </md-input-container>
           
+          <md-input-container flex>
+            <md-select placeholder="Which community do you reside in?" ng-model="login.service.newUser.community_id" required>
+                <md-option ng-repeat="c in login.communities" ng-value="c.id" required>{{c.name}}</md-option>
+            </md-select>
+          </md-input-container>
+
+
+
           <md-input-container flex>
             <label>Email</label>
             <input type="email" name="newemail" ng-model="login.service.newUser.email" ng-init="login.service.newUser.email = login.service.credentials.email" required>

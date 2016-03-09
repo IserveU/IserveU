@@ -6,8 +6,9 @@
 		.module('iserveu')
 		.directive('voteOnMotion', voteOnMotion);
 
+	// Still a todo.
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage, incompleteProfileService, settings) {
+	function voteOnMotion($rootScope, $stateParams, $state, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage) {
 
 
 		function voteController($scope) {
@@ -20,18 +21,21 @@
 			vm.isVotingEnabled   = isVotingEnabled;
 			vm.voteButtonMessage = voteButtonMessage;
 			vm.voteObj			 = voteObj;
-			vm.settings			 = settings.getData();
 
-			console.log(vm.settings);
-
-
-			// I wonder if I can share this via the quick-vote.dir.js
 			function castVote(id, pos) {
 
-				if( isVotingEnabled() )
-					return 0;
+				/**
+				*	Removed for localized economies.
+				*/
+				// if( isVotingEnabled() )
+				// 	return 0;
 
-				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
+				if(!$rootScope.userIsLoggedIn)
+					ToastMessage.customFunction("You must be logged in to vote", "Go", 
+						function(){
+							$state.go('login');
+						}, true);
+				else if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					vm.voting[pos] = true;
 					updateVote(pos);
 				}
@@ -72,7 +76,7 @@
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes') || incompleteProfileService.check();
+				return !isMotionOpen.get(); || !SetPermissionsService.can('create-votes');
 			}
 
 			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {

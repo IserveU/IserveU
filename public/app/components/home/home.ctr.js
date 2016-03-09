@@ -8,14 +8,13 @@
 
     /** @ngInject */
     // this is a TODO    
-	function HomeController($rootScope, $scope, settingsData, motion, comment, vote, user, UserbarService) {
+	function HomeController($rootScope, $scope, motion, comment, vote, user, UserbarService) {
 		
         UserbarService.setTitle("Home");
 
 		var vm = this;
 
         /************************************** Variables **********************************/
-        vm.settings = settingsData;
         vm.shortNumber = 120;
 		vm.topMotion;
 		vm.myComments = [];
@@ -35,10 +34,6 @@
 
         /************************************** Home Functions **********************************/
 
-
-
-        // TODO: loading on each box
-
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
                 vm.loading.topmotion = false;
@@ -47,17 +42,6 @@
         	},function(error) {
                 vm.loading.topmotion = false;
                 vm.empty.topmotion = true;
-        	});
-        }
-
-        function getMyComments(){
-        	comment.getMyComments(user.self.id).then(function(result){
-                vm.loading.mycomments = false;
-        		vm.myComments = result;
-                if( !vm.myComments[0] ) vm.empty.mycomments = true;
-        	},function(error) {
-                vm.loading.mycomments = false;
-                vm.empty.mycomments = true;
         	});
         }
 
@@ -74,8 +58,19 @@
         	});
         }
 
-        function getMyVotes(){
-            vote.getMyVotes(user.self.id, {limit:5}).then(function(result){
+        function getMyComments(id){
+            comment.getMyComments(id).then(function(result){
+                vm.loading.mycomments = false;
+                vm.myComments = result;
+                if( !vm.myComments[0] ) vm.empty.mycomments = true;
+            },function(error) {
+                vm.loading.mycomments = false;
+                vm.empty.mycomments = true;
+            });
+        }
+
+        function getMyVotes(id){
+            vote.getMyVotes(id, {limit:5}).then(function(result){
                 vm.loading.myvotes = false;
 
                 vm.myVotes = result.data;
@@ -86,28 +81,31 @@
             });
         }
 
-        $rootScope.$on('usersVoteHasChanged', function(event, args) {
-            getMyVotes();
-        });
 
         getTopMotion();
         getTopComment();
 
-
         // this is the dumbest thing i've ever written. too tired to write well...
 
-        $scope.$watch( function() { return user.self },
-            function(details) {
-                if( details ) {
-                    getMyComments();
-                    getMyVotes();
-                } else {
-                    user.self = $rootScope.authenticatedUser
-                    getMyComments();
-                    getMyVotes();
-                }
-            }, true
-        );
+        if($rootScope.userIsLoggedIn) {
+            $scope.$watch( function() { return user.self },
+                function(details) {
+                    if( !angular.isUndefined(details) && details ) {
+                        getMyComments(details.id);
+                        getMyVotes(details.id);
+                    } else if($rootScope.userIsLoggedIn) {
+                        user.self = $rootScope.authenticatedUser
+                        getMyComments(user.self.id);
+                        getMyVotes(user.self.id);
+                    }
+                }, true
+            );
+
+            $rootScope.$on('usersVoteHasChanged', function(event, args) {
+                getMyVotes();
+            });
+        }
+
 
 	}
 	

@@ -4,26 +4,16 @@
 
 	angular
 		.module('iserveu')
-		.config(['$translateProvider',
+		.config(['$translateProvider', 'SETTINGS_JSON',
 
   	 /** @ngInject */
-	function($translateProvider){
+	function($translateProvider, SETTINGS_JSON){
 
 		var jargon = localStorage.getItem('settings');
 
-		console.log(jargon);
-
-		if ( !jargon || jargon.length <= 2 || jargon.en){
-
-		    var initInjector = angular.injector(['ng']);
-		    var $http = initInjector.get('$http');
-
-			$http.get('settings').then(function(r){
-				localStorage.setItem('settings', JSON.stringify(r.data));
-				jargon = r.data.jargon;
-			});
-
-		} else 
+		if ( !jargon || jargon.length <= 2 || jargon.en)
+		    jargon = SETTINGS_JSON;
+		else 
 			jargon = JSON.parse(jargon).jargon;
 
 
@@ -34,8 +24,6 @@
 			// custom logic, probably grab from local storage/cookie storage
 		// 	return preferredLangKey;
 		// });
-
-		// TODO: set a timeout of some sort to actually get the jargon set :( 
 
 			$translateProvider.translations('en', {
 				LANG_NAME: "Languages",

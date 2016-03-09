@@ -10,7 +10,8 @@
   <md-progress-circular md-mode="indeterminate" ng-show="!sidebar.motionObj.data.length && sidebar.motionListLoading"></md-progress-circular>
 
   <md-list>
-    <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in sidebar.motionObj.data | isPublished | filter:sidebar.search.text "ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+
+    <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in sidebar.motionObj.data | isPublished | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
 
       <!-- <loading-spinner on-hide="motionIsLoading[motion.id]"> -->
       <!-- <trending-icon ng-hide="motionIsLoading[motion.id]"></trending-icon> -->
@@ -22,7 +23,7 @@
       </div>
       <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
       
-      <quick-vote></quick-vote>
+      <quick-vote ng-if="userIsLoggedIn"></quick-vote>
 
     </md-list-item>
 
@@ -35,9 +36,9 @@
     </md-list-item>
 
     <has-permission has-permission="create-motions">
-      <md-list-item class="sidebar-list" ui-sref-active="active"> 
-        <md-icon class="mdi mdi-plus" aria-label="create motion" ui-sref="create-motion"></md-icon>
-        <p ui-sref="create-motion"> {{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
+      <md-list-item layout="row" class="sidebar-list-item" ng-click="sidebar.closeSidenav('left')" ui-sref-active="active" layout-padding>  
+          <p ui-sref="create-motion">{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
+          <md-icon class="mdi mdi-plus" aria-label="create motion"></md-icon>
       </md-list-item>
     </has-permission>
   

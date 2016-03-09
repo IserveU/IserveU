@@ -39,7 +39,6 @@ elixir(function(mix) {
         '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
         '/bower/textAngular/dist/textAngularSetup.js',
         '/bower/textAngular/dist/textAngular-rangy.min.js',
-        '/bower/textAngular/dist/textAngular-sanitize.min.js',
         '/bower/ng-flow/dist/ng-flow-standalone.min.js',
         '/bower/angular-translate/angular-translate.min.js',
         '/bower/angular-translate-storage-local/angular-translate-storage-local.min.js',

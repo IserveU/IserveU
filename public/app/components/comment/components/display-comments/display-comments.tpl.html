@@ -14,7 +14,7 @@
 				<p class="md-body-1" style="display: block">{{ comment.text }}</p>
 
 
-				<span class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position == 1">
+				<span ng-if="userIsLoggedIn" class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position == 1">
 					<p class="md-caption" style="margin-bottom:0 !important; margin-top: 11px !important;" ng-if="comment.commentRank">{{comment.commentRank}} people liked this.</p>
 				    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
 						<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
@@ -40,9 +40,9 @@
 				<md-icon md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg" class="md-accent title-svg-icon" style="margin-left: 4px; margin-right: 1px"></md-icon>
 				<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">DISAGREEMENT</h3>
 
-				<span ng-if="commons.abstain">
-				<md-icon md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" class="title-svg-icon" style="margin-left: 4px; margin-right: 3px"></md-icon>
-				<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">/ ABSTAINED</h3>
+				<span ng-if="settingsGlobal.abstain">
+					<md-icon md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" class="title-svg-icon" style="margin-left: 4px; margin-right: 3px"></md-icon>
+					<h3 class="md-subhead title-header" style="letter-spacing: 0.3px">/ ABSTAINED</h3>
 				</span>
 			</div>
 		
@@ -53,7 +53,7 @@
 				<p class="md-body-1" style="display: block">{{ comment.text }}</p>
 
 
-				<span class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position != 1">
+				<span ng-if="userIsLoggedIn" class="comment-votes"  layout="row" layout-align="end center" style="padding:0" ng-if="vote.user.position != 1">
 					<p class="md-caption" style="margin-bottom:0 !important; margin-top: 11px !important;" ng-if="comment.commentRank">{{comment.commentRank}} people liked this.</p>
 				    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" style="margin:0" aria-label="Agree"> 
 						<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>

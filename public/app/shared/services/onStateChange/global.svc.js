@@ -7,7 +7,7 @@
 		.service('globalService', globalService);
 
 	/** @ngInject */
-	function globalService($rootScope, incompleteProfileService) {
+	function globalService($rootScope, incompleteProfileService, SETTINGS_JSON) {
 
 		/**
 		*	Initializes global variables.
@@ -15,6 +15,8 @@
 		*/
 		this.init = function() {
 			$rootScope.themename = 'default';
+			$rootScope.userIsLoggedIn = false;
+			$rootScope.settingsGlobal = SETTINGS_JSON;
 		};
 
 		/**

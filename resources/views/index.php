@@ -1,6 +1,6 @@
 <!doctype html>
  <!-- ng-strict-di -->
-<html ng-app="iserveu">
+<html>
     <head>
         <!-- <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title> -->
         <title><?=Setting::get('site.name','IserveU')?></title>
@@ -13,24 +13,27 @@
 
     <body ng-controller="CommonController as commons" ng-cloak style="overflow:hidden" back-img class="background-image"> 
 
-        <user-bar ng-if="userIsLoggedIn"></user-bar>
+        <!-- ng-if="userIsLoggedIn" -->
+        <user-bar ng-if="commons.isLogin" ng-cloak></user-bar>
 
-        <md-content id="maincontent" layout="row" style="height: 90vh" layout-fill flex>
+        <md-content id="maincontent" layout="row" style="height: 93vh" layout-fill flex ng-cloak>
 
-                <md-sidenav ng-if="userIsLoggedIn && commons.settings.module.motions"
+                <!-- userIsLoggedIn &&  -->
+                <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
                 style="height: 90vh;"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 md-component-id="left" 
-                md-is-locked-open="$mdMedia('gt-md')">
+                md-is-locked-open="$mdMedia('gt-md')" ng-cloak>
                     <motion-sidebar flex></motion-sidebar>
                 </md-sidenav>
 
                 <div layout="column" layout-fill>
-                    <incomplete-profile ng-if="userIsLoggedIn"></incomplete-profile>
-                    <div ui-view flex role="main" tabIndex="-1"></div>
+                    <div ui-view flex role="main" tabIndex="-1" layout-margin></div>
+                    <show-footer layout-margin></show-footer>                    
                 </div>
+
+
         </md-content>
-        <show-footer></show-footer>                    
     </body>        
 
 

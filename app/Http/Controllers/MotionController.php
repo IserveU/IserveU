@@ -23,6 +23,8 @@ class MotionController extends ApiController {
 	function __construct(MotionTransformer $motionTransformer)
 	{
 		$this->motionTransformer = $motionTransformer;
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+
 	}
 
 	/**
@@ -35,7 +37,7 @@ class MotionController extends ApiController {
 		$filters = Request::all();
 		$limit = Request::get('limit') ?: 10;
 
-		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
+		if( Auth::check() ){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
 				$query->where('user_id',Auth::user()->id);
 			}]);
@@ -137,7 +139,7 @@ class MotionController extends ApiController {
 		}
 
 
-		if(!Auth::user()->can('create-motions') && $motion->status < 2 ){
+		if(Auth::check() && !Auth::user()->can('create-motions') && $motion->status < 2 ){
 			abort(403, 'Forbidden access point.');
 		}
 

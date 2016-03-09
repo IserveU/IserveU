@@ -69,7 +69,8 @@
 			},
 		};
 
-		factory.getMotionComments($stateParams.id);
+		if($stateParams.id)
+			factory.getMotionComments($stateParams.id);
 
 		return factory;
 	}

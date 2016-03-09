@@ -18,6 +18,13 @@ use Validator;
 
 
 class DepartmentController extends ApiController {
+	
+
+	function __construct()
+	{
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

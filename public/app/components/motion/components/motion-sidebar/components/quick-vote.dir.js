@@ -7,7 +7,7 @@
     .directive('quickVote', motionSidebarQuickVote);
 
  /** @ngInject */
-  function motionSidebarQuickVote(vote, voteObj, motionObj, ToastMessage, SetPermissionsService, incompleteProfileService, settings) {
+  function motionSidebarQuickVote($rootScope, $state, $translate, vote, voteObj, motionObj, ToastMessage, SetPermissionsService) {
 
   	function controllerMethod() {
 
@@ -16,14 +16,18 @@
         vm.canCreateVote = SetPermissionsService.can('create-votes');
         vm.cycleVote = cycleVote;
         vm.voteObj = voteObj;
-        vm.settings = settings.getData();
 
 		function cycleVote (motion){
 
-			if(!motion.MotionOpenForVoting)
-				ToastMessage.simple("This motion is not open for voting.", 1000);
-			else if( incompleteProfileService.check() )
-				ToastMessage.simple("Complete your profile before voting.", 1000);
+			if(!$rootScope.userIsLoggedIn)
+				ToastMessage.customFunction("You must be logged in to vote", "Login", 
+					function(){
+						$state.go('login');
+					}, true);
+			else if(!motion.MotionOpenForVoting)
+				ToastMessage.simple("This " + $translate.instant('MOTION') + " is not open for voting.", 1000);
+			else if(!SetPermissionsService.can('create-votes'))
+				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
 			else{ 
 				if(!motion.user_vote){
 					var pos = vm.settings.abstain ? 1 : 0;

@@ -4,24 +4,16 @@
 
 	angular
 		.module('iserveu')
-		.config(['$mdThemingProvider',
-	function($mdThemingProvider){
+		.config(['$mdThemingProvider', 'SETTINGS_JSON',
+	function($mdThemingProvider, SETTINGS_JSON){
 
 		var theme = localStorage.getItem('settings');
 
-		if ( !theme || theme.length <= 2 || theme == 'undefined'){
-
-		    var initInjector = angular.injector(['ng']);
-		    var $http = initInjector.get('$http');
-
-			$http.get('settings').then(function(r){
-				localStorage.setItem('settings', JSON.stringify(r.data));
-				theme = r.data.theme;
-				setTheme();
-			});
-		} else if (theme != undefined) {
+		if ( !theme || theme.length <= 2 || theme == 'undefined')
+			theme = SETTINGS_JSON;
+		else if (theme != undefined) 
 			setTheme();
-		} 
+
 
 		function setTheme() {
 

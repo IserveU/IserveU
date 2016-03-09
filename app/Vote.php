@@ -161,7 +161,7 @@ class Vote extends ApiModel {
 	 */
 	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
 
-		if(Auth::user()->id==$this->user_id){
+		if(Auth::check() && Auth::user()->id==$this->user_id){
 			$this->setVisible = array_unique(array_merge($this->creatorVisible, $this->visible));
 		}
 
@@ -173,7 +173,7 @@ class Vote extends ApiModel {
 	}
 
 	public function setPositionAttribute($value){
-		if(Auth::user()->id == $this->user_id){
+		if(Auth::check() && Auth::user()->id == $this->user_id){
 			$this->attributes['deferred_to_id']		=	NULL;
 		}
 		$this->attributes['position'] 				= 	$value;

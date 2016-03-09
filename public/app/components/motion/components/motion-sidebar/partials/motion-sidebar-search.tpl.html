@@ -1,13 +1,13 @@
-<div ng-controller="CommonController as common">
-  <div class="md-toolbar-tools sidebar-toolbar" ng-class="common.settings.module.motions?'motion-enabled flex':''">
+<div>
+  <div class="md-toolbar-tools sidebar-toolbar" ng-class="settingsGlobal.module.motions?'motion-enabled flex':''">
 
     <md-button class="md-icon-button home-btn" aria-label="Home Button">
-      <md-icon md-svg-src="{{ ::common.getLogoUrl() }}" ui-sref="home" ng-hide="search.showSearch"></md-icon>
+      <md-icon md-svg-src="{{ ::settingsGlobal.logo }}" ui-sref="home" ng-hide="search.showSearch"></md-icon>
       <md-icon class="mdi mdi-arrow-left" ng-show="search.showSearch" ng-click="search.showSearchFunc()"></md-icon>
     </md-button>
 
 
-      <div ng-if="common.settings.module.motions" layout="row" style="max-width: 400px" flex>
+      <div ng-if="settingsGlobal.module.motions" layout="row" style="max-width: 400px" flex>
 
         <h2 ng-hide="search.showSearch" translate="{{'MOTIONS'}}" flex></h2>
 

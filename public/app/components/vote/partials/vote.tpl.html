@@ -13,7 +13,7 @@
     </md-card>
 
 
-    <md-card style="margin: 8px;" flex ng-if="!v.settings.abstain">
+    <md-card style="margin: 8px;" flex ng-if="settingsGlobal.abstain">
       <md-card-content style="padding: 0">
           <md-button  ng-click="v.castVote(motion.details.id, 0)" ng-class="{'raised':v.voteObj.user.position == 0, 'voting-disabled':v.isVotingEnabled()}" aria-label="Abstain" layout-fill>
             <md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ v.voteObj.user.position==0 && 'thumbs-up-down' || 'thumbs-up-down-outline' }}.svg" ng-show="!v.voting[0]"></md-icon>
@@ -54,7 +54,7 @@
           <md-tooltip>{{ v.voteObj.motionVotes.deferred_agree.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
         </md-button>
 
-        <span ng-if="!v.settings.abstain">
+        <span ng-if="settingsGlobal.abstain">
 
           <md-button ng-if="v.voteObj.votes['0']" style="width:{{ v.voteObj.votes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey; margin:0" aria-label="Number abstaining">
             <md-tooltip>{{ v.voteObj.votes['0'].active.number }} {{ vm.motionOpen? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>

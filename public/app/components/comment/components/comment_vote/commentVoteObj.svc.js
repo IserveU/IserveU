@@ -4,62 +4,62 @@
 
 	angular
 		.module('iserveu')
-		.factory('commentVotefactory', commentVotefactory);
+		.factory('commentVoteObj', commentVoteObj);
 
 	/** @ngInject */
-	function commentVotefactory($stateParams, commentvote, commentfactory, ToastMessage) {
+	function commentVoteObj($stateParams, commentvote, commentObj, ToastMessage) {
 
-		var factory = {
+		var obj = {
 			loading: false,
 			save: function (id, pos) {
-				if(!factory.loading) {
+				if(!obj.loading) {
 
-	            factory.loading = true;
+	            obj.loading = true;
 
 	            commentvote
 	            	.saveCommentVotes({comment_id: id, position: pos})
 		   				.then(function(r){
-		   				commentfactory.getMotionComments($stateParams.id);
-			            factory.loading = false;
+		   				commentObj.getMotionComments($stateParams.id);
+			            obj.loading = false;
 		            },function(e){
 		                ToastMessage.report_error(e);
-			            factory.loading = false;
+			            obj.loading = false;
 
 		            });  
 		
 	            }
 			},
 			update: function(id, pos) {
-				if(!factory.loading) {
+				if(!obj.loading) {
 
-	            factory.loading = true;
+	            obj.loading = true;
 
 				commentvote.updateCommentVotes({id: id, position: pos})
 				 	.then(function(r){
-						commentfactory.getMotionComments($stateParams.id);
-			            factory.loading = false;
+						commentObj.getMotionComments($stateParams.id);
+			            obj.loading = false;
 
 		            },function(e){
 		                ToastMessage.report_error(e);
-			            factory.loading = false;
+			            obj.loading = false;
 
 		            }); 
 
 	            }		
 			},
 			delete: function(id) {
-				if(!factory.loading) {
+				if(!obj.loading) {
 
-	            factory.loading = true;
+	            obj.loading = true;
 
 				commentvote.deleteCommentVote(id)
 					.then(function(r) {
-						commentfactory.getMotionComments($stateParams.id);
-			            factory.loading = false;
+						commentObj.getMotionComments($stateParams.id);
+			            obj.loading = false;
 
 					}, function(e) {
 						ToastMessage.report_error(e);
-			            factory.loading = false;
+			            obj.loading = false;
 
 					});
 
@@ -67,16 +67,16 @@
 			},
 			onclick: function(id, pos, vote) {
 				if ( vote.length === 0 )
-					factory.save(id, pos);
+					obj.save(id, pos);
 
 				for(var i in vote) {
 					if (id === vote[i].comment_id) 
 
 						pos === vote[i].position ? 
-							factory.delete(vote[i].id) :
-							factory.update(vote[i].id, pos);
+							obj.delete(vote[i].id) :
+							obj.update(vote[i].id, pos);
 					else
-						factory.save(id, pos);
+						obj.save(id, pos);
 				}
 			},
 			buttonClass: function(id, pos, votes){
@@ -102,7 +102,7 @@
 			}
 		};
 
-		return factory;
+		return obj;
 
 	}
 

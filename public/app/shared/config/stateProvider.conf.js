@@ -153,6 +153,16 @@
         	templateUrl: 'app/shared/auth/login/login.tpl.html',
             data: {
                 requireLogin: false
+            },
+            resolve: {
+                communityIndex: function($http) {
+                    // return [];
+                    var community;
+                    return $http.get('/api/community')
+                        .success(function(r){
+                            return community = r;
+                    });
+                }
             } 
     	})
     	.state('login.resetpassword', {

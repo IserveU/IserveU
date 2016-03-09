@@ -18,7 +18,6 @@
 				this.files.push(file.id);
 			},
 			attach: function(id) {
-				console.log(this.files);
                 if (!this.files)
 					return 0;
 
@@ -44,7 +43,8 @@
 			get: function(id) {
 				motionfile.getMotionFiles(id).then(function(r){
 					factory.data = r;
-					if (r) factory.hasData = true;
+					if (r[0]) factory.hasData = true;
+
 					else factory.hasData = false;
 				});
 			},

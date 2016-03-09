@@ -7,17 +7,20 @@
 		.controller('CommonController', CommonController);
 
   	 /** @ngInject */
-	function CommonController(settings) {
+	function CommonController($scope, $state) {
 
-		this.settings = settings.getData();
+		var vm = this, i = 0;
 
-		this.getLogoUrl = function() {
+		vm.isLogin = false;
+		
+		$scope.$on('$viewContentLoaded', function(event) {
+			i++;
+			if(i != 1 && $state.current.name != 'login')
+				vm.isLogin = true;
+			else
+				vm.isLogin = false;
+		});
 
-			return this.settings.logo == 'default' 
-				   ? '/themes/default/logo/symbol_mono.svg'
-				   : '/uploads/'+this.settings.theme.logo;
-
-		}
 
 	}
 

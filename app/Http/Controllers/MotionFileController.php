@@ -14,6 +14,11 @@ use Auth;
 
 class MotionFileController extends ApiController {
 
+	function __construct()
+	{
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+
+	}
 
     public function index(Motion $motion){
     	return $motion->motionFiles;

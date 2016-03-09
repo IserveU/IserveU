@@ -30,7 +30,7 @@
 			get: function() {
 				var data = localStorage.getItem('settings');
 				if(!data) 
-					$http.get('api/setting').success(function(r){
+					$http.get('/setting').success(function(r){
 						factory.initialData = r.data;
 					}).error(function(e){
 						console.log(e);
@@ -80,7 +80,7 @@
 			}
 		}
 
-		factory.get();
+		// factory.get();
 
 		return factory;
 

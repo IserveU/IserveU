@@ -41,8 +41,8 @@
         }
 
 
-        function customFunction(message, affirmative, fn){
-            var toast = action(message, affirmative);
+        function customFunction(message, affirmative, fn, warning){
+            var toast = action(message, affirmative, warning);
             $mdToast.show(toast).then(function(r){
                 if(r == 'ok')
                     fn();

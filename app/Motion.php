@@ -350,7 +350,12 @@ class Motion extends ApiModel {
 	}
 
 	public function userVote(){
-		return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);
+		if(Auth::check()){
+			return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);
+		}
+		else{ 
+			return $this->hasMany('App\Vote');
+		}
 	}
 
 
