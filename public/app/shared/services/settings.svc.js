@@ -80,7 +80,7 @@
 			}
 		}
 
-		// factory.get();
+		factory.get();
 
 		return factory;
 

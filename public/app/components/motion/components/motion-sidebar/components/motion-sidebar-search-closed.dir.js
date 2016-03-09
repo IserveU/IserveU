@@ -1,19 +1,12 @@
 (function() {
+	
+	angular
+		.module('iserveu')
+		.directive('motionSearchbarClosed', motionSidebarSearchClosed);
 
+    function motionSidebarSearchClosed($timeout, $translate, department, motionObj, motion, searchFactory) {
 
-	'use strict';
-
-    angular
-      .module('iserveu')
-      .directive('motionSearchbar', motionSidebarSearch);
-
-
-    // TODO: start refactoring and cleaning up the code. Simplifying.
-    // This will need to be a service to share between the motion-sidebar-clased
-     /** @ngInject */
-    function motionSidebarSearch($timeout, department, motionObj, motion, searchFactory) {
-
-    	function controllerMethod($scope) {
+    	function motionSidebarSearchClosedController($scope) {
     		
         	var vm = this;
 
@@ -43,12 +36,17 @@
 
 			vm.showSearch = false;
 
-			vm.searchText = 'Search motions ...';
+			vm.searchText = 'Search ' + $translate.instant('MOTIONS');
 			vm.searching  = false;
 			vm.showSearchFunc = showSearchFunc;
 
 			vm.searchInput = function() {
 				searchFactory.text = vm.searchText;
+			}
+
+			vm.clearInput = function() {
+				if(vm.searchText === 'Search ' + $translate.instant('MOTIONS'))
+					vm.searchText = '';
 			}
 
 			vm.querySearch = function(filter){
@@ -129,12 +127,14 @@
 
       }
 
-      return {
-	      	controller: controllerMethod,
-	        controllerAs: 'search',
-	        templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar-search.tpl.html'
-      }
-      
-    }
-  
+
+		return {
+			controller: motionSidebarSearchClosedController,
+			controllerAs: 'search',
+			templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar-search-closed.tpl.html'
+		}
+
+
+	}
+
 })();

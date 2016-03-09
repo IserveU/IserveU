@@ -808,6 +808,15 @@ input.sidebar-search-input {
 	padding-right:0px;
 }
 
+// fix of hiding menu container behind shit.
+.md-select-menu-container  {
+	z-index: 999;
+}
+
+.md-backdrop-select {
+	z-index: 999;
+}
+
 .voting-disabled {
 	md-icon {
 		color: $midGrey !important;

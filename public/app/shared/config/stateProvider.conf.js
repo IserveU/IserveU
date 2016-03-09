@@ -18,12 +18,7 @@
     		controller: 'HomeController as home',
     		data: {
     	        requireLogin: true
-    	    },
-            resolve: {
-                settingsData: function(settings) {
-                    return settings.getData();
-                }
-            }
+    	    }
     	})
         .state('edit-home', {
             url: '/edit-home',
@@ -37,11 +32,6 @@
             templateUrl: 'app/components/admin/dashboard.tpl.html',
             data: {
                 requireLogin: true
-            },
-            resolve: {
-                settingsData: function(settings) {
-                    return settings.getData();
-                }
             }
         })
     	.state( 'motion', {
@@ -156,7 +146,7 @@
             },
             resolve: {
                 communityIndex: function($http) {
-                    // return [];
+                    // return [];e
                     var community;
                     return $http.get('/api/community')
                         .success(function(r){

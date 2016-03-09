@@ -18,12 +18,16 @@
 
         <md-content id="maincontent" layout="row" style="height: 93vh" layout-fill flex ng-cloak>
 
-                <!-- userIsLoggedIn &&  -->
+                <!-- userIsLoggedIn &&  
+                
+
+                -->
                 <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
                 style="height: 90vh;"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 md-component-id="left" 
-                md-is-locked-open="$mdMedia('gt-sm')" ng-cloak>
+                md-is-locked-open="$mdMedia('gt-sm')" 
+                ng-cloak>
                     <motion-sidebar flex></motion-sidebar>
                 </md-sidenav>
 
