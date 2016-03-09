@@ -28,7 +28,8 @@
   <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
     <md-menu md-position-mode="target-right target">
         <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-            <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ></md-icon>
+            <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ng-if="$mdMedia('gt-sm')"></md-icon>
+            <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-menu" ng-if="!$mdMedia('gt-sm')"></md-icon>
         </md-button>
         <md-menu-content width="4">
 
