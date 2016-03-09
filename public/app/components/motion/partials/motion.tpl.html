@@ -18,7 +18,7 @@
 
 				<span ng-if="motionFile.hasData">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
-						<h3 class="title-header">Figures</h3>
+						<h3 class="title-header">Resources</h3>
 
 					<div flex ng-repeat="file in motionFile.data" layout-padding>
 						<a href="/uploads/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)" download></a>

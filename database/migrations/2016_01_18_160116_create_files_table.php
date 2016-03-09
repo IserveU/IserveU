@@ -13,11 +13,11 @@ class CreateFilesTable extends Migration
     public function up()
     {
 
-        // Schema::create('file_categories', function(Blueprint $table) {
-        //     $table->increments('id');
-        //     $table->string('name')->unique();
-        //     $table->timestamps();
-        // });
+        Schema::create('file_categories', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
 
         Schema::create('files', function(Blueprint $table) {
             $table->increments('id');
@@ -75,6 +75,6 @@ class CreateFilesTable extends Migration
 
         Schema::drop('motion_files');
         Schema::drop('files');
-        // Schema::drop('file_categories');
+        Schema::drop('file_categories');
     }
 }
