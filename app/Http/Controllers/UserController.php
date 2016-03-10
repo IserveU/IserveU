@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 
-use App\Transformers\UserTransformer;  //Not doing anything at the moment
+use App\Transformers\UserTransformer;  
 
 class UserController extends ApiController {
 

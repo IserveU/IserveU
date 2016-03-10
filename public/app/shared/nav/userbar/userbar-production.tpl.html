@@ -47,10 +47,7 @@
                 <md-divider></md-divider>
             </span>
 
-
-
             <span ng-show="userIsLoggedIn">
-            
                 <md-menu-item ui-sref="edit-user({id:authenticatedUser.id})">
                     <md-button aria-label="go to your profile">
                         <div layout="row">
@@ -71,7 +68,6 @@
                 </md-menu-item>
                 </has-permission>
 
-
                 <md-menu-item>
                     <md-button aria-label="logout" ng-click="user.logout()">
                         <div layout="row">
@@ -80,7 +76,6 @@
                         </div>
                     </md-button>
                 </md-menu-item>
-
             </span>
 
             <span ng-hide="userIsLoggedIn">

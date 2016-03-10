@@ -17,17 +17,14 @@
 
       <!-- <loading-spinner on-hide="motionIsLoading[motion.id]"> -->
       <!-- <trending-icon ng-hide="motionIsLoading[motion.id]"></trending-icon> -->
-      <div>
-        <md-icon aria-label="Motion Popularity" class="mdi" ng-class="{'mdi-arrow-top-right':motion.motion_rank > 0, 'md-primary':motion.motion_rank > 0, 'mdi-arrow-bottom-right':motion.motion_rank < 0, 'md-accent':motion.motion_rank < 0, 'mdi-equal':motion.motion_rank == 0}">
-        <md-tooltip md-direction="right" ng-if="motion.motion_rank !== 0 && motion.motion_rank != null">{{ motion.motion_rank > 0 ? "Passing" : "Not passing"}}</md-tooltip>
-        <md-tooltip md-direction="right" ng-if="motion.motion_rank == 0">{{'NEUTRAL' | translate}}</md-tooltip>
-        </md-icon>
-      </div>
+
+      <md-icon md-svg-src="themes/{{::themename}}/{{::motion.icon}}.svg"></md-icon>
       <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
-      
       <quick-vote ng-if="userIsLoggedIn"></quick-vote>
 
     </md-list-item>
+
+
 
 
     <md-progress-circular md-mode="indeterminate" ng-show="sidebar.motionObj.data.length && sidebar.motionListLoading"></md-progress-circular>
@@ -36,6 +33,17 @@
     <md-list-item ng-if="sidebar.motionObj.data.length == 0 && !sidebar.motionListLoading">
       <p class="md-body-1" translate="{{'NO_MOTIONS'}}"></p>
     </md-list-item>
+
+    <md-subheader>
+        <p>Upcoming Ideas</p>
+    </md-subheader>
+
+    <md-list-item layout="row" class="sidebar-list-item" ng-repeat="review in sidebar.motionObj.data | isInReview | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+      <md-icon md-svg-src="themes/{{::themename}}/{{::review.icon}}.svg"></md-icon>
+      <p ui-sref="motion({id:review.id})">{{ ::review.title }}</p>
+    </md-list-item>
+
+
 
     <has-permission has-permission="create-motions">
       <md-list-item layout="row" class="sidebar-list-item" ng-click="sidebar.closeSidenav('left')" ui-sref-active="active" layout-padding>  

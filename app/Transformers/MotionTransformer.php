@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Department;
 
 class MotionTransformer extends Transformer {
 
@@ -13,11 +14,14 @@ class MotionTransformer extends Transformer {
 			$motion = $motion->toArray();
 		}
 
+		$department = Department::find($motion['department_id']);
+
 		$transformedMotion = [
 
 			'slug'		 => str_slug($motion['title']),
 	 		'closing'	 => is_array($motion['closing']) ?: formatIntoReadableDate( $motion['closing'] ),
-	 		'updated_at' => is_array($motion['updated_at']) ?: formatIntoReadableDate( $motion['updated_at'] )
+	 		'updated_at' => is_array($motion['updated_at']) ?: formatIntoReadableDate( $motion['updated_at'] ),
+	 		'icon'		 => str_slug($department['name'], $separator = '_')
 
 		];
 
