@@ -14,9 +14,10 @@
 		*
 		*/
 		this.init = function() {
-			$rootScope.themename = 'default';
 			$rootScope.userIsLoggedIn = false;
 			$rootScope.settingsGlobal = SETTINGS_JSON;
+			$rootScope.themename = SETTINGS_JSON.themename;
+
 		};
 
 		/**
