@@ -34,9 +34,8 @@
 					    
 						    <md-grid-tile class="md-whiteframe-z1">
 							    <md-icon md-svg-icon="/themes/{{::themename}}/department_icons/{{::motion.details.icon}}.svg"></md-icon>
+							    <md-tooltip md-direction="left">{{ motion.details.department }}</md-tooltip>
 						    </md-grid-tile>
-
-
 
 						    <md-grid-tile ng-if="motion.details.closing !== null" class="md-whiteframe-z1">
 							    
@@ -60,10 +59,11 @@
 						    <md-grid-tile class="md-whiteframe-z1 {{ votes.getOverallPosition() }}">
 							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.getOverallPosition() }}.svg"  ng-if="votes.getOverallPosition()"></md-icon>
 							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!votes.getOverallPosition()"></md-icon>
+							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() != 'thumbs-up-down'">Most people {{ votes.getOverallPosition() == 'thumbs-up' ? 'agree' : 'disagree' }}</md-tooltip>
+							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down'">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
 						    </md-grid-tile>
 
 						    <md-grid-tile class="md-whiteframe-z1">
-							  <!--  <md-icon md-svg-icon="/departments/{{motion.details.department_id || '1' }}.svg"></md-icon> comment out until departments assigned-->
 							    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
 						    </md-grid-tile>
 					    </md-grid-list>

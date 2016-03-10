@@ -21,7 +21,8 @@ class MotionTransformer extends Transformer {
 			'slug'		 => str_slug($motion['title']),
 	 		'closing'	 => is_array($motion['closing']) ?: formatIntoReadableDate( $motion['closing'] ),
 	 		'updated_at' => is_array($motion['updated_at']) ?: formatIntoReadableDate( $motion['updated_at'] ),
-	 		'icon'		 => str_slug($department['name'], $separator = '_')
+	 		'icon'		 => str_slug($department['name'], $separator = '_'),
+	 		'department' => $department['name']
 
 		];
 
