@@ -3,7 +3,7 @@
 <html>
     <head>
         <!-- <title>IserveU <?=(config('app.sitename'))!=""?" - ".config('app.sitename'):""?></title> -->
-        <title><?=Setting::get('site.name','IserveU')?></title>
+        <title><?=Setting::get('site','IserveU')?></title>
         <meta name="viewport" content="initial-scale=1" />  
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
