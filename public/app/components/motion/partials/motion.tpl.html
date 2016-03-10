@@ -32,6 +32,12 @@
 					<div layout-padding class="listgrid">
 					    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 					    
+						    <md-grid-tile class="md-whiteframe-z1">
+							    <md-icon md-svg-icon="/themes/{{::themename}}/department_icons/{{::motion.details.icon}}.svg"></md-icon>
+						    </md-grid-tile>
+
+
+
 						    <md-grid-tile ng-if="motion.details.closing !== null" class="md-whiteframe-z1">
 							    
 							    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" ng-if="!motion.details.MotionOpenForVoting" hide-sm>
