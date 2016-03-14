@@ -10,7 +10,7 @@
 	
 			<h1 class="md-display-2">{{::motion.details.title}}</h1>
 
-			<div layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
+			<div ng-if="motion.details.section.bio || motion.details.section.budget" layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
 				<div layout="column" flex="50" flex-sm="100" flex-xs="100" ng-show="motion.details.section.bio">
 					<h3 class="title-header">Proposed by:</h3>
 					<div style="display:inline-block;">
