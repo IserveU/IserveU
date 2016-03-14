@@ -59,6 +59,7 @@ Route::group(array('prefix' => 'api'), function(){
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
 		Route::resource('motion.motionfile','MotionFileController');
+		Route::resource('motion.section','Motion\MotionSectionController');
 		Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 		Route::resource('page', 'PageController');
 

@@ -33,6 +33,8 @@
 			},
 			/** Method to update moiton. */
 			update: function() {
+				console.log(this.motion);
+
 	            motion.updateMotion(this.motion).then(function(r) {
 	                
 	                factory.editing = false;
@@ -52,14 +54,24 @@
 			updateGuard: function() {
 	            this.editing = true;
 	           	
-	            /** Taken out for localized economies */
+	            /** Taken out for localized economies TODO: switch this out for settings.json*/
 	           	// this.motion.closing = REST.date.stringify( 
 	           	// 					  this.motion.closing.carbon.date );
 
 	           	this.motion.closing = new Date(NaN);
+
+	           	console.log(this.motion);
+
+	           	var section = this.motion.section;
+	           	delete this.motion.section;
+	        	this.motion.section = { content:  section, id: section.id };
+
 	            this.update();
 
                 motionFilesFactory.attach(this.motion.id);
+			},
+			pushAvatarArray: function(message) {
+				this.motion.section.bio.avatar_id = JSON.parse(message).id;
 			}
 		}
 

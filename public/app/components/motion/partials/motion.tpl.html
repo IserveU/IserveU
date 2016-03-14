@@ -5,16 +5,39 @@
 	<md-card flex>
 		<md-card-content style="padding: 0">
 
-		<div class="motion-contents" layout="row">
-			<div flex="90" flex-sm="100" flex-order="2" flex-order-gt-sm="1" layout-padding>
-				
-				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
+		<div class="motion-contents" layout="row" layout-sm="column">
+			<div flex="90" flex-sm="100" flex-order="1" flex-order-gt-sm="1" layout-padding>
+	
+			<h1 class="md-display-2">{{::motion.details.title}}</h1>
+
+			<div layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
+				<div layout="column" flex="50" flex-sm="100" flex-xs="100" ng-show="motion.details.section.bio">
+					<h3 class="title-header">Proposed by:</h3>
+					<div style="display:inline-block;">
+						<img src="/uploads/{{::motion.details.section.bio.avatar}}" style="width: 100px !important; height:auto !important; vertical-align: top"/>
+						<span flex="60" style="display:inline-block;">
+							<p style="display:block;">{{::motion.details.section.bio.name}}, {{::motion.details.section.bio.position}}, {{::motion.details.section.bio.company_name}}</p>
+							<a href="" style="display:block;">{{::motion.details.section.bio.website}}</a>
+							<i style="display:block;">{{::motion.details.section.bio.description}}.</i>
+						</span>
+					</div>
+				</div>
+				<div ng-show="motion.details.section.budget">
+					<h3 class="title-header">Projected Costs</h3>
+					<p>${{::motion.details.section.budget | number}}</p>
+				</div>
+			</div>
+<!-- 				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
 					<h3 class="title-header">Introduction</h3>
-						<p class="md-body-1" ng-bind-html="::motion.details.summary" aria-label="motionSummary"></p>
-				
+						<p class="md-body-1" ng-bind-html="::motion.details.summary" aria-label="motionSummary"></p> -->
+			
+			<div>
 				<md-icon class="mdi mdi-file-document title-icon"></md-icon>
-					<h3 class="title-header">Details</h3>
-						<p class="md-body-1" ng-bind-html="::motion.details.text"></p>
+					<h3 class="title-header" style="margin-bottom: 0;">Details</h3>
+			</div>
+			<div style="margin-left:20px;" flex="55" flex-sm="100" flex-xs="100" flex-md="90" flex-lg="75">
+				<p class="md-body-1" ng-bind-html="::motion.details.text"></p>
+			</div>
 
 				<span ng-if="motionFile.hasData">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
@@ -28,7 +51,7 @@
 			</div>
 				
 				<!-- TODO: make this into a directive -->
-				<div flex="10" flex-sm="100" flex-order-sm="1" flex-order="1" flex-order-gt-sm="2" layout-padding>
+				<div flex="10" flex-sm="100" flex-order-sm="1" flex-order="2" flex-order-gt-sm="2" layout-padding>
 					<div layout-padding class="listgrid">
 					    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px">
 					    

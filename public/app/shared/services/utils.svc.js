@@ -18,6 +18,9 @@
 
 		this.isElementInViewport = function(el) {
 
+		    if ( nullOrUndefined(el) )
+		    	return 0;
+
 		    if (typeof jQuery === "function" && el instanceof jQuery) {
 		        el = el[0];
 		    }
@@ -36,6 +39,11 @@
 		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
 		this.clearArray = function(array) {
 			return array.splice(0, array.length);
+		}
+
+		this.nullOrUndefined = nullOrUndefined;
+		function nullOrUndefined (val) {
+			return !val || angular.isUndefined(val)
 		}
 		
 	}

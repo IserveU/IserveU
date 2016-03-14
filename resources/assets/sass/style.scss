@@ -467,6 +467,24 @@ md-toolbar.site-content-toolbar{
 
 }
 
+//animation for menu button, export this into a directive service
+	.mdi-menu-down {
+		transition: .3s;
+	}
+
+	.mdi-menu-up{
+		transition: .3s;
+	}
+	.go-up {
+		transform: rotate(180deg);
+		transition: .3s;
+	}
+	.accordian-content{
+		transform-origin: top;
+		transition: .3s;
+	}
+
+
 // .md-toolbar-tools md-icon{
 // 	width:24px;
 // 	display: block;

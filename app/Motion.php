@@ -12,6 +12,8 @@ use App\Events\MotionUpdated;
 use App\Events\MotionCreated;
 use Setting;
 
+use App\Motion\MotionSection;
+
 
 class Motion extends ApiModel {
 
@@ -27,7 +29,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id', 'closing'];
+	protected $fillable = ['title','text','summary','department_id', 'closing', 'content'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -261,6 +263,22 @@ class Motion extends ApiModel {
 	}
 
 
+	public function setSectionAttribute(array $input){
+
+        if(!$this->getAttribute('id')){
+            return false;
+        } 
+
+        if(!$this->section->isEmpty()) {
+        	$section = MotionSection::find($input['id']);
+        	$section->update($input);
+        }
+        else {
+			MotionSection::create($input);
+        }
+
+		return true;
+	}
 
 	/************************************* Casts & Accesors *****************************************/
 
@@ -307,8 +325,6 @@ class Motion extends ApiModel {
 	public function scopeOrderByOldest($query){
 		return $query->orderBy('created_at', 'desc');
 	}
-
-
 
 	public function scopeRankGreaterThan($query,$rank){
 		return $query->whereHas('votes',function($query) use ($rank){
@@ -366,6 +382,14 @@ class Motion extends ApiModel {
 			return $this->hasMany('App\Vote');
 		}
 	}
+
+    /**
+     * Get the subsections attached.
+     */
+    public function section()
+    {
+        return $this->hasMany('App\Motion\MotionSection', 'motion_id');
+    }
 
 
 

@@ -11,7 +11,7 @@
 						<h3 class="title-header">Title</h3>
 
 					<div layout="column" flex>
-						<md-input-container style="margin-top: 0">
+						<md-input-container style="margin-top: 0; margin-bottom: 0;">
 							<input name="title" type="text" ng-model="create.motion.title" minlength="8" required/>
 							<div ng-messages="newMotion.title.$error">
 								<div ng-message-exp="['required', 'minlength']" role="alert">
@@ -22,8 +22,7 @@
 					</div>
 				</div>
 
-
-				<div flex>
+<!-- 				<div flex>
 				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
 					<h3 class="title-header">Introduction</h3>
 
@@ -35,21 +34,96 @@
 							</div>
 						</md-input-container>
 					</div>
+				</div> -->
+
+				<div>
+					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+					<h3  class="title-header">Details</h3>
+					<text-angular class="text-angular md-body-1" ng-model="create.motion.text" name="text"></text-angular>
 				</div>
 
 
 				<div>
-				<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
-					<h3  class="title-header">Details</h3>
-					<text-angular class="text-angular md-body-1" ng-model="create.motion.text" name="text"></text-angular>
+					<div>
+						<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+						<h3  class="title-header">Additional Details</h3>
+					</div>
+
+					<div>
+						<div flex ng-click="create.proponent = !create.proponent" style="margin-left: 15px;">
+							<md-icon class="mdi mdi-human title-icon"></md-icon>
+							<h3 class="md-body-2" style="display:inline-block">Proponent</h3>
+							<md-icon ng-class="create.proponent?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+						</div>
+
+						<div layout="column" flex ng-if="create.proponent">
+							<div layout="row" layout-sm="column"  layout-xs="column" flex>
+								<div flow-init="{ target: '/file', testChunks:false }"
+								     flow-files-submitted="$flow.upload()"
+								     flow-file-success="create.pushAvatarArray($message)">
+
+									 <md-button flow-btn ng-if="!$flow.files[0]">
+									  	<md-icon class="mdi mdi-account-circle"></md-icon>
+										 Upload
+									 </md-button>
+
+									<img ng-if="$flow.files[0]" style="width: 150px; height: auto;" flow-img="$flow.files[0]" /> 
+								</div>
+								<div flex="5"><!-- Spacer --></div>
+								<md-input-container flex>
+									<label>Name</label>
+									<input type="text" ng-model="create.motion.section.content.bio.name" required/>
+								</md-input-container>
+							</div>
+
+							<div layout="row"  layout-sm="column"  layout-xs="column"  flex>
+								<md-input-container flex>
+									<label>Company Name</label>
+									<input type="text" ng-model="create.motion.section.content.bio.company_name" required/>
+								</md-input-container>
+								<md-input-container flex>
+									<label>Position</label>
+									<input type="text" ng-model="create.motion.section.content.bio.position" required/>
+								</md-input-container>
+								<md-input-container flex>
+									<label>Website</label>
+									<input type="text" ng-model="create.motion.section.content.bio.website" required/>
+								</md-input-container>
+							</div>
+
+					        <md-input-container class="md-block">
+					          <label>Biography</label>
+					          <textarea ng-model="create.motion.section.content.bio.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+					        </md-input-container>
+
+						</div>
+					</div>
+
+
+					<div layout="column" flex>
+						<div  ng-click="create.budget = !create.budget" style="margin-left: 15px;" >
+							<md-icon class="mdi mdi-wallet title-icon" ></md-icon>
+							<h3 class="md-body-2" style="display:inline-block">Budget</h3>
+							<md-icon ng-class="create.budget?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+
+						</div>
+						
+						<div ng-if="create.budget">
+							<md-input-container flex>
+								<label>Price</label>
+								<md-icon class="mdi mdi-currency-usd"></md-icon>
+								<input type="number" ng-model="create.motion.section.content.budget" required/>
+							</md-input-container>
+						</div>
+					</div>
 				</div>
+
 
 				<div>
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
 
 					<create-motion-files></create-motion-files>
-
 				</div>
 
 				<div>

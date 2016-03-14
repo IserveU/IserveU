@@ -2,7 +2,7 @@
 
     <div ng-if="settingsGlobal.module.motions" layout="row" style="max-width: 400px" flex>
 
-      <input style="color:black; font-size: 16px;" class="sidebar-search-input" type="text" ng-model="search.searchText" ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="true" auto-focus style="width: 80%" flex ng-click="search.clearInput()" ng-keypress="search.clearInput()"/>
+      <input style="color:black; font-size: 16px; border-bottom: black thin solid;" class="sidebar-search-input" type="text" ng-model="search.searchText" ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="true" auto-focus style="width: 80%" flex ng-click="search.clearInput()" ng-keypress="search.clearInput()"/>
 
 
       <div ng-class="search.showSearch?'':'action-buttons'" layout-align="end end" style="z-index: 0">

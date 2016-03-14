@@ -10,7 +10,7 @@
 
       <h2 ng-if="!search.showSearch" translate="{{'MOTIONS'}}" flex></h2>
 
-      <input class="sidebar-search-input" type='text' placeholder="Search {{'MOTIONS' | translate }} ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" auto-focus style="width: 80%" flex/>
+      <input class="sidebar-search-input" type='text' placeholder="Search ..." ng-show="search.showSearch" ng-model='search.searchText' ng-change="search.searchInput()"  ng-class="{'sidebar-search-input':search.showSearch}" focus-input="search.showSearch" auto-focus style="width: 80%; border-bottom: black thin solid" flex/>
 
 
       <div ng-class="search.showSearch?'':'action-buttons'" layout-align="end end">

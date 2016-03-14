@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+// use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+// use Illuminate\Support\Facades\Request;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 use App\MotionRank;
@@ -32,10 +34,10 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{	
-		$filters = Request::all();
-		$limit = Request::get('limit') ?: 10;
+		$filters = $request->all();
+		$limit = $request->get('limit') ?: 10;
 
 		if( Auth::check() ){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
@@ -113,7 +115,7 @@ class MotionController extends ApiController {
 			abort(401,'You do not have permission to create a motion');
 		}
 
-		$motion = (new Motion)->secureFill( Request::all() ); //Does the fields specified as fillable in the model
+		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
 
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
@@ -122,6 +124,10 @@ class MotionController extends ApiController {
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
+
+        if($request->has('section')){
+            $motion->section = array_merge($request->input('section'), array("motion_id" => $motion->id));
+        }
 
      	return $motion;
 	}
@@ -172,7 +178,7 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Motion $motion)
+	public function update(Request $request, Motion $motion)
 	{
 		if(!Auth::user()->can('create-motions')){
 			abort(403,'You do not have permission to update a motion');
@@ -186,11 +192,15 @@ class MotionController extends ApiController {
 			abort(403,'This motion has expired and can not be edited');
 		}
 
-		$motion->secureFill(Request::all());
+		$motion->secureFill( $request->all() );
 
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
+
+        if($request->has('section')){
+            $motion->section = array_merge($request->input('section'), array("motion_id" => $motion->id));
+        }
 
 		return $motion;
 	}

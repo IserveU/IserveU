@@ -25,9 +25,6 @@
 	        }
 	        
 
-	        console.log(new Date(NaN));
-
-
 	    	vm.newMotion = function(){
 	            
 	            vm.creating = true;
@@ -38,6 +35,8 @@
 	            // vm.motion.closing = REST.date.stringify(vm.motion.closing);new Date(NaN));
 
 	            vm.motion.closing = new Date(NaN);
+
+	            console.log(vm.motion);
 
 	            motion.createMotion( vm.motion ).then(function(r) {
 
@@ -51,6 +50,12 @@
 
 	            }, function(e) { console.log(e); });
 			};
+
+
+			vm.pushAvatarArray = function(message){
+				var id = JSON.parse(message).id;
+				vm.motion.section.content.bio.avatar_id = id;
+			}
 		}
 
 
