@@ -22,7 +22,7 @@
           
           <md-menu-content width="4" class="md-body-1" >
 
-            <md-select ng-model="search.departmentFilter" placeholder="Filter by City Department" layout-padding aria-label="filter motions by department" >
+            <md-select ng-model="search.departmentFilter" placeholder="Filter by Idea Category" layout-padding aria-label="filter motions by department" >
               <md-option ng-value="''" ng-mousedown="search.querySearchDepartment({department_id:''})" >None</md-option>
               <md-option ng-repeat="department in search.departmentObj.data" ng-mousedown="search.querySearchDepartment({department_id:department.id})"  ng-value="department.id">{{department.name}}</md-option>
             </md-select>

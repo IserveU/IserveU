@@ -34,8 +34,7 @@
 
 		// Resets data
 		SetPermissionsService.set(null);
-		utils.clearArray(motionObj.data);
-		motionObj.next_page = 1;
+		motionObj.clear();
 		loginService.loggingIn = false;
 		resetPasswordService.check();
     }

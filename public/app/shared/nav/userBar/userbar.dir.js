@@ -10,7 +10,7 @@
 	function userBar(){
 		
 	  	 /** @ngInject */
-		function UserbarController($translate, $mdSidenav, $mdMedia, $scope, auth, afterauth, UserbarService, SetPermissionsService, pageObj) {
+		function UserbarController($translate, $mdSidenav, $mdMedia, $scope, auth, afterauth, UserbarService, SetPermissionsService, pageObj, motionObj) {
 
 			$scope.$mdMedia = $mdMedia;
 
@@ -34,6 +34,7 @@
 			}
 
 			vm.logout = function() {
+				motionObj.clear();
 				auth.logout().then(function() {
 					afterauth.clearCredentials();
 				});

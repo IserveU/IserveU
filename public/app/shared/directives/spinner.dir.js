@@ -17,8 +17,9 @@
 				'name': '=',
 				'onLoaded': '&',
 				'onHide': '=',
+				'formName': '='
 			},
-			template: ['<md-button type="submit">',
+			template: ['<md-button ng-disabled="formName.$invalid" type="submit">',
 						'<span ng-hide="onHide">{{name}}</span>',
             			'<md-icon md-svg-src="/themes/default/loading.svg" ng-show="onHide">',
             			'</md-icon></md-button>'].join('')

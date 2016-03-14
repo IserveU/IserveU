@@ -8,7 +8,7 @@
 		.factory('motionObj', motionObj);
 
 	 /** @ngInject */
-	function motionObj($http, motion, isMotionOpen, voteObj, commentObj, motionFilesFactory) {
+	function motionObj($http, motion, isMotionOpen, voteObj, commentObj, motionFilesFactory, utils) {
 
 		var factory = {
 	  		/* Variables */
@@ -65,6 +65,10 @@
 	            isMotionOpen.set(motion.MotionOpenForVoting);
 	            motionFilesFactory.get(motion.id);
 			},
+			clear: function() {
+				utils.clearArray(this.data);
+				this.next_page = 1;
+			}
 		};
 
 		return factory;

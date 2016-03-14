@@ -9,7 +9,7 @@
           
           <md-input-container flex>
             <label>Email</label>
-            <input type="email" label="email" name="email" ng-model="login.service.credentials.email" required>
+            <input type="email" label="email" name="email" ng-model="login.service.credentials.email" autofocus required>
               <div ng-messages="loginform.email.$error || login.service.errors.invalidEmail">
                 <div ng-if="loginform.email.$dirty" ng-message="required">Email is required</div>
                 <div ng-if="login.service.errors.invalidEmail" class="md-caption">This email is not registered to the site.</div>
@@ -32,7 +32,7 @@
           </md-input-container>
 
           <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
-            <spinner ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
+            <spinner form-name="loginform" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
             <md-button ng-click="login.extendRegisterForm()">Create</md-button>
           </div>
 
@@ -49,7 +49,7 @@
         </form>
         
         <!-- extends when Create is pressed -->
-        <form name="registerform" ng-if="login.registerform" ng-submit="registerform.$valid && login.service.createUser()" layout="column" flex novalidate>
+        <form name="registerform" ng-if="login.registerform" terms-and-conditions ng-submit="registerform.$valid && ctrl.showTermsAndConditions($event, true)" layout="column" flex novalidate>
           
           <md-input-container flex>
             <label>First Name</label>
@@ -62,12 +62,14 @@
           </md-input-container>
           
           <md-input-container flex>
-            <md-select placeholder="Which community do you reside in?" ng-model="login.service.newUser.community_id" required>
+            <label>Which community do you reside in?</label>
+            <md-select ng-model="login.service.newUser.community_id" required>
                 <md-option ng-repeat="c in login.communities" ng-value="c.id" required>{{c.name}}</md-option>
             </md-select>
+            <div ng-messages="registerform.community.$error">
+              <div ng-message="required">Community name is required.</div>
+            </div>
           </md-input-container>
-
-
 
           <md-input-container flex>
             <label>Email</label>
@@ -100,9 +102,7 @@
           
           <div layout="row" layout-align="center center" layout-padding>
 
-            <div terms-and-conditions ng-mousedown="ctrl.showTermsAndConditions($event, true)">
-              <spinner name="'Create'" on-hide="login.service.creating"></spinner>
-            </div>
+            <spinner  form-name="registerforms"  name="'Create'" on-hide="login.service.creating"></spinner>
             <md-button ng-click="login.extendRegisterForm();">Cancel</md-button>
 
           </div>
