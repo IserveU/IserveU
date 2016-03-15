@@ -1,6 +1,8 @@
 <md-card ng-init="edit.init()">
 <md-card-content>
 <div id="edit-motion-mode" flex="100" flex-order="2" flex-order-gt-sm="1"  layout-padding>
+	
+	<form name="editmotion">
 	<div flex>
 
 		<div>
@@ -20,7 +22,7 @@
 
 		<md-icon class="mdi mdi-file-document title-icon"  ></md-icon>
 			<h3 class="title-header">Details</h3>
-			<text-angular class="text-angular md-body-1" ng-model="edit.motion.text" name="text"></text-angular>
+			<text-angular class="text-angular md-body-1" ng-model="edit.motion.text" name="text" ta-file-drop="dropHandler"></text-angular>
 
 
 
@@ -31,10 +33,10 @@
 			</div>
 
 			<div>
-				<div flex ng-click="edit.proponent = !edit.proponent" style="margin-left: 15px;">
-					<md-icon class="mdi mdi-human title-icon"></md-icon>
-					<h3 class="md-body-2" style="display:inline-block">Proponent</h3>
-					<md-icon ng-class="edit.proponent?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+				<div isu-accordian
+					 is-open="edit.proponent"
+					 icon="'mdi-human'"
+					 title="'Proponent'">
 				</div>
 
 				<div layout="column" flex ng-if="edit.proponent || edit.motion.section.bio">
@@ -46,8 +48,13 @@
 						     flow-file-success="edit.pushAvatarArray($message)"
 						     >
 
+							 <md-button flow-btn ng-if="!$flow.files[0] && !edit.motion.section.bio.avatar_id">
+							  	<md-icon class="mdi mdi-account-circle"></md-icon>
+								 Upload
+							 </md-button>
+
 							<img ng-if="$flow.files[0]" style="width: 150px; height: auto;" flow-img="$flow.files[0]" /> 
-							<img ng-if="!$flow.files[0]" style="width: 150px; height: auto;" src="uploads/{{edit.motion.section.bio.avatar}}"  flow-btn/> 
+							<img ng-if="!$flow.files[0] && edit.motion.section.bio.avatar_id" style="width: 150px; height: auto;" src="uploads/{{edit.motion.section.bio.avatar}}"  flow-btn/> 
 						</div>
 
 						<div flex="5"><!-- Spacer --></div>
@@ -80,18 +87,22 @@
 				</div>
 			</div>
 			<div layout="column" flex>
-				<div  ng-click="edit.budget = !edit.budget" style="margin-left: 15px;" >
-					<md-icon class="mdi mdi-wallet title-icon" ></md-icon>
-					<h3 class="md-body-2" style="display:inline-block">Budget</h3>
-					<md-icon ng-class="create.budget?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
-
+				<div isu-accordian
+					 is-open="edit.budget"
+					 icon="'mdi-wallet'"
+					 title="'Budget'">
 				</div>
 				
-				<div ng-if="edit.budget || edit.motion.section.budget">
-					<md-input-container flex>
+				<div ng-if="edit.budget || edit.motion.section.budget" layout="row"flex>
+					<md-input-container flex="20">
 						<label>Price</label>
 						<md-icon class="mdi mdi-currency-usd"></md-icon>
-						<input type="number" ng-model="edit.motion.section.budget" step="1000" required/>
+						<input type="number" ng-model="edit.motion.section.budget.price" step="1000" required/>
+					</md-input-container>
+
+					<md-input-container flex>
+						<label>Description</label>
+						<input type="text" ng-model="edit.motion.section.budget.description" required/>
 					</md-input-container>
 				</div>
 			</div>
@@ -126,11 +137,12 @@
 		
 
 		<div layout layout-align="center end">
-			<spinner ng-click="edit.updateGuard()" name="'Save Changes'" on-hide="edit.editing"></spinner>
+			<spinner form-name="editmotion" ng-click="edit.updateGuard()" name="'Save Changes'" on-hide="edit.editing"></spinner>
 			<md-button ng-click="edit.cancel()" translate="{{'CANCEL'}}"></md-button>
 		</div> 
 
 	</div>
+	</form>
 </div>
 </md-card-content>
 </md-card>

@@ -46,14 +46,17 @@ class MotionTransformer extends Transformer {
 
 		 $sections = $sections->toArray();
 
-		 $content = array_get($sections, '0.content');
-		 if(isset($content->bio->avatar_id)){
-		 	$content->bio->avatar = File::find($content->bio->avatar_id)->filename;
-		 }
+		 foreach($sections as $val) {
 
-		 if( isset($content) ){
+		 	$content = $val['content'];
 
-			 $content->id = array_get($sections, '0.id');
+			 if(isset($content->bio->avatar_id)){
+			 	$content->bio->avatar = File::find($content->bio->avatar_id)->filename;
+			 }
+			 if( isset($content) ){
+				 $content->id = array_get($sections, '0.id');
+			 }
+
 		 }
 
 		 return $content;

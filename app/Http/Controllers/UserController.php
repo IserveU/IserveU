@@ -92,6 +92,7 @@ class UserController extends ApiController {
 			abort(400,$newUser->errors);
 		}
 
+		$newUser->addUserRoleByName('citizen');
 
 		Auth::loginUsingId($newUser->id);
 
@@ -196,7 +197,6 @@ class UserController extends ApiController {
 		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-users')){
 			abort(401,'You do not have permission to delete this user');
 		}
-
 
 	 	$user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
 	 	return $user;

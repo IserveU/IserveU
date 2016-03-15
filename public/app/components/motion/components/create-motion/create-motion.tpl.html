@@ -22,26 +22,11 @@
 					</div>
 				</div>
 
-<!-- 				<div flex>
-				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
-					<h3 class="title-header">Introduction</h3>
-
-					<div layout="column" flex>
-						<md-input-container flex style="margin-top: 0">
-							<input name="introduction" type="text" ng-model='create.motion.summary' minlength="10" required/>
-							<div ng-messages="newMotion.introduction.$error" role="alert">
-								<div ng-message-exp="['required', 'minlength']">Your introduction must be at least 10 characters long.</div>
-							</div>
-						</md-input-container>
-					</div>
-				</div> -->
-
 				<div>
 					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
 					<h3  class="title-header">Details</h3>
-					<text-angular class="text-angular md-body-1" ng-model="create.motion.text" name="text"></text-angular>
+					<text-angular class="text-angular md-body-1" ng-model="create.motion.text" name="text" ta-file-drop="create.dropHandler"></text-angular>
 				</div>
-
 
 				<div>
 					<div>
@@ -50,10 +35,10 @@
 					</div>
 
 					<div>
-						<div flex ng-click="create.proponent = !create.proponent" style="margin-left: 15px;">
-							<md-icon class="mdi mdi-human title-icon"></md-icon>
-							<h3 class="md-body-2" style="display:inline-block">Proponent</h3>
-							<md-icon ng-class="create.proponent?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+						<div isu-accordian
+							 is-open="create.proponent"
+							 icon="'mdi-human'"
+							 title="'Proponent'">
 						</div>
 
 						<div layout="column" flex ng-if="create.proponent">
@@ -101,18 +86,22 @@
 
 
 					<div layout="column" flex>
-						<div  ng-click="create.budget = !create.budget" style="margin-left: 15px;" >
-							<md-icon class="mdi mdi-wallet title-icon" ></md-icon>
-							<h3 class="md-body-2" style="display:inline-block">Budget</h3>
-							<md-icon ng-class="create.budget?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
-
+						<div isu-accordian
+							 is-open="create.budget"
+							 icon="'mdi-wallet'"
+							 title="'Budget'">
 						</div>
-						
-						<div ng-if="create.budget">
+
+						<div ng-if="create.budget" layout="row" flex>
 							<md-input-container flex>
 								<label>Price</label>
 								<md-icon class="mdi mdi-currency-usd"></md-icon>
-								<input type="number" ng-model="create.motion.section.content.budget" required/>
+								<input type="number" ng-model="create.motion.section.content.budget.price" required/>
+							</md-input-container>
+
+							<md-input-container flex>
+							<label>Description</label>
+								<input type="text" ng-model="create.motion.section.content.budget.description" required/>
 							</md-input-container>
 						</div>
 					</div>
@@ -122,7 +111,6 @@
 				<div>
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
-
 					<create-motion-files></create-motion-files>
 				</div>
 
@@ -155,21 +143,18 @@
 
 					</md-input-container>
 
-<!-- 					<div ng-show="create.motion.status == 2">
+<!-- 					<div ng-if="create.motion.status == 5">
 						<md-datepicker ng-model="create.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>
 					</div> -->
 				</div>
 
 				
 				<div layout layout-align="center end">
-					<spinner name="'Save'" on-hide="create.creating"></spinner>
+					<spinner form-name="newMotion" name="'Save'" on-hide="create.creating"></spinner>
 					<md-button ng-click="create.cancel()" translate="{{'CANCEL'}}"></md-button>
 				</div>
 
 			</div>
-
-
-
 
 
 		</form>

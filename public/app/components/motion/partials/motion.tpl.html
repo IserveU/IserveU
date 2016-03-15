@@ -24,9 +24,11 @@
 				</div>
 				<div ng-show="motion.details.section.budget">
 					<h3 class="title-header">Projected Costs</h3>
-					<p>${{::motion.details.section.budget | number}}</p>
+					<p style="display:block">${{::motion.details.section.budget.price | number}}</p>
+					<p style="display:block">{{::motion.details.section.budget.description}}</p>
 				</div>
 			</div>
+
 <!-- 				<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
 					<h3 class="title-header">Introduction</h3>
 						<p class="md-body-1" ng-bind-html="::motion.details.summary" aria-label="motionSummary"></p> -->
@@ -45,7 +47,6 @@
 
 					<div flex ng-repeat="file in motionFile.data" layout-padding>
 						<a href="/uploads/{{file.filename}}" ng-bind="(file.title ? file.title : file.filename)" download></a>
-						<!-- <img ng-if="file.image" ng-src="/uploads/motion_files/{{file.filename}}" /> -->
 					</div>
 				</span>
 			</div>
@@ -61,7 +62,6 @@
 						    </md-grid-tile>
 
 						    <md-grid-tile ng-if="motion.details.closing !== null" class="md-whiteframe-z1">
-							    
 							    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" ng-if="!motion.details.MotionOpenForVoting" hide-sm>
 							    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
 							    </md-icon>
@@ -82,7 +82,7 @@
 						    <md-grid-tile class="md-whiteframe-z1 {{ votes.getOverallPosition() }}">
 							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.getOverallPosition() }}.svg"  ng-if="votes.getOverallPosition()"></md-icon>
 							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!votes.getOverallPosition()"></md-icon>
-							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() != 'thumbs-up-down'">Most people {{ votes.getOverallPosition() == 'thumbs-up' ? 'agree' : 'disagree' }}</md-tooltip>
+							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() != 'thumbs-up-down'">Most people {{ votes.getOverallPosition() == 'thumb-up' ? 'agree' : 'disagree' }}</md-tooltip>
 							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down'">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
 						    </md-grid-tile>
 

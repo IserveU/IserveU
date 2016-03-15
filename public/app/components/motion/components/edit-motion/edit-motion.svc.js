@@ -5,7 +5,7 @@
 		.factory('editMotionFactory', editMotionFactory);
 
 	 /** @ngInject */
-	function editMotionFactory($stateParams, $state, $timeout, motion, motionObj, ToastMessage, REST, motionFilesFactory) {
+	function editMotionFactory($stateParams, $state, $timeout, motion, motionObj, ToastMessage, REST, motionFilesFactory, utils) {
 
 		var factory = {
 			/** Variables */
@@ -52,6 +52,9 @@
 			},
 			/** Filters out data that needs to be reformatted for posting. */
 			updateGuard: function() {
+
+                motionFilesFactory.attach(this.motion.id);
+
 	            this.editing = true;
 	           	
 	            /** Taken out for localized economies TODO: switch this out for settings.json*/
@@ -60,18 +63,21 @@
 
 	           	this.motion.closing = new Date(NaN);
 
-	           	console.log(this.motion);
-
-	           	var section = this.motion.section;
-	           	delete this.motion.section;
-	        	this.motion.section = { content:  section, id: section.id };
+	           	if(!utils.nullOrUndefined(this.motion.section)) {
+		           	var section = this.motion.section;
+		           	delete this.motion.section;
+			        this.motion.section = { content:  section };
+			        if(section.id)
+			        	this.motion.section.id = section.id;
+		    	}
 
 	            this.update();
-
-                motionFilesFactory.attach(this.motion.id);
 			},
 			pushAvatarArray: function(message) {
-				this.motion.section.bio.avatar_id = JSON.parse(message).id;
+				if( !this.motion.section )
+					this.motion.section = { bio: {avatar_id: JSON.parse(message).id}};
+				else 
+					this.motion.section.bio.avatar_id = JSON.parse(message).id;
 			}
 		}
 

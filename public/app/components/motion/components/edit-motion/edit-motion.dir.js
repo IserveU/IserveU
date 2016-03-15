@@ -8,13 +8,14 @@
 		.directive('editMotion', editMotion);
 
 	 /** @ngInject */
-	function editMotion(editMotionFactory, department, motionFilesFactory){
+	function editMotion(editMotionFactory, department, motionFilesFactory, dropHandler){
 
 		function editMotionController($scope) {
 
 			$scope.edit = editMotionFactory;
 			$scope.departments = department;
 			$scope.motionFile  = motionFilesFactory;
+			$scope.dropHandler = dropHandler;
 
 		}
 

@@ -464,10 +464,28 @@ md-toolbar.site-content-toolbar{
 		transform: rotate(180deg);
 		transition: .3s;
 	}
-
 }
 
 //animation for menu button, export this into a directive service
+.accordian{
+
+	margin-left:15px;
+	&.opened {
+		transition: .1s;
+		border-bottom: $primaryColor 2px solid;
+	}
+	&.closed {
+		transition: .2s;
+		border-bottom: none;
+	}
+
+	.accordian-content {
+		transition: .2s;
+	}
+
+	h3 {
+		display:inline-block;
+	}
 	.mdi-menu-down {
 		transition: .3s;
 	}
@@ -479,10 +497,10 @@ md-toolbar.site-content-toolbar{
 		transform: rotate(180deg);
 		transition: .3s;
 	}
-	.accordian-content{
-		transform-origin: top;
-		transition: .3s;
-	}
+}
+.accordian-content{
+	transition: .5s;
+}
 
 
 // .md-toolbar-tools md-icon{

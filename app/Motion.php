@@ -269,7 +269,7 @@ class Motion extends ApiModel {
             return false;
         } 
 
-        if(!$this->section->isEmpty()) {
+        if( isset($input['id']) ) {
         	$section = MotionSection::find($input['id']);
         	$section->update($input);
         }

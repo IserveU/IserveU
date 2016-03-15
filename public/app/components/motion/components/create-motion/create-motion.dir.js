@@ -8,7 +8,7 @@
 		.directive('createMotion', createMotion);
 
 	/** @ngInject */
-	function createMotion($state, $timeout, motion, department, REST, motionFilesFactory, ToastMessage) {
+	function createMotion($state, $timeout, motion, department, REST, motionFilesFactory, ToastMessage, dropHandler) {
 
 		function createMotionController() {
 
@@ -17,6 +17,7 @@
 	        vm.motion = { closing: new Date() };
 	        vm.creating    = false;
 	        vm.departments = department.self;
+	        vm.dropHandler = dropHandler;
 
 	        vm.cancel = function() {
 	        	ToastMessage.cancelChanges(function(){
