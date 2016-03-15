@@ -11,7 +11,7 @@
 
 
 		return {
-			templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar-trending.tpl.html'
+			templateUrl: 'app/components/motion/components/motion-sidebar/trending/trending.tpl.html'
 		}
 
 	}

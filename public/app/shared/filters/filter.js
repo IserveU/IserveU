@@ -75,7 +75,7 @@
 				return out;
 			};
 		})
-		.filter('unique', function(){
+		.filter('uniqueId', function(){
 			return function (arr) {
 
 				var field = 'id';

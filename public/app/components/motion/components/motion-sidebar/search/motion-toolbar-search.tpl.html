@@ -1,0 +1,43 @@
+<div class="md-toolbar-tools sidebar-toolbar" ng-class="settingsGlobal.module.motions?'motion-enabled flex':''">
+
+  <md-button class="md-icon-button home-btn" aria-label="Home Button">
+    <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg" ui-sref="home" ng-if="!search.isOpen"></md-icon>
+    <md-icon class="mdi mdi-arrow-left" ng-show="search.isOpen" ng-click="search.show()"></md-icon>
+  </md-button>
+
+    <div ng-if="settingsGlobal.module.motions" layout="row" flex>
+
+      <h2 ng-if="!search.isOpen" translate="{{'MOTIONS'}}" flex></h2>
+
+      <input class="sidebar-search-input" type='text' placeholder="Search ..." ng-show="search.isOpen" ng-model='search.text' ng-class="{'sidebar-search-input':search.isOpen}" focus-input="search.isOpen" auto-focus flex/>
+
+
+      <div ng-class="search.isOpen?'':'action-buttons'" layout-align="end end">
+        <md-icon class="mdi mdi-magnify search-icon" ng-click="search.show()" ng-class="{'search-icon':search.isOpen}"></md-icon>
+
+        <md-menu md-offset="27 32">
+          <md-icon class="mdi mdi-dots-vertical" ng-click="$mdOpenMenu()"></md-icon>
+          <md-menu-content width="4" class="md-body-1">
+
+            <md-select placeholder="Filter by Category" ng-model="search._department.filter" aria-label="filter motions by department" layout-padding>
+              <md-option ng-value="''" ng-mousedown="search.queryDepartment({name: department.name,department_id:''})">None</md-option>
+              <md-option ng-repeat="department in search._department.index.data" ng-mousedown="search.queryDepartment({name: department.name, department_id:department.id})" ng-value="department.id">{{::department.name}}</md-option>
+            </md-select>
+
+            <md-select ng-model="search._orderBy.filter" placeholder="Order by:" aria-label="filter motions by properties" layout-padding>
+              <md-option ng-mousedown="search.query(filter.query)" ng-repeat="filter in search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+            </md-select>
+
+            <md-menu-button class="action-btns" layout="row">
+              <md-button layout-align="center end" ng-click="search.all()">Show All</md-button>
+            </md-menu-button>
+          
+          </md-menu-content>
+        </md-menu>
+      </div>
+
+</div>
+
+
+
+

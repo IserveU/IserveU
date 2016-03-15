@@ -28,6 +28,15 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
+
+//temp
+.motion-search {
+	max-width: 400px;
+	input {
+		color:black; font-size: 16px; border-bottom: black thin solid; width: 80%;
+	}
+}
+
 #dashboard {
 	.title {
 		cursor:pointer;
@@ -390,50 +399,33 @@ md-sidenav{
 }
 
 
- 
-
+/** Sidebar Styles **/
 md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-active {
     min-width: 304px !important;
     width: 85vw !important;
     max-width: 400px !important;
 
 	.quick-vote-disabled{
-		cursor: default;
-		color: $midGrey;
+		cursor: default; color: $midGrey;
 	}
-    sidebar{
+
+    motion-sidebar{
 
 		md-list-item{
-			cursor: pointer;
-
-			p{
-				display: block;
-				padding-top:16px;
-				padding-bottom: 16px;
-			}
 
 			> md-icon:first-child{
 				margin-top:0px;
 				margin-bottom: 0px;
 			}
 
-			min-height: 0;
+			// can i put it in the one above?
+			md-icon.department{
+				margin-right:18px;
+			}
 
 			&.active {
-				font-weight: 600;
-				background-color: $lightGrey;
+				font-weight: 600; background-color: $lightGrey;
 			}
-		}
-		md-list{
-			padding: 0;
-		}
-
-		#show-more-btn {
-			color:white; background-color:rgb(255,118,0); box-shadow: 0px 0px 0px #353535;
-		}
-
-		.loading-circle {
-			display: block;margin: 0px auto;margin-top: 14%;
 		}
 
 		.ellipsis {

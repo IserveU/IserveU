@@ -9,14 +9,16 @@
   function motionSidebar() {
 
   	 /** @ngInject */
-	function MotionSidebarController($mdSidenav, motionObj, searchFactory, department) {
+	function MotionSidebarController($mdSidenav, motionObj, motionSearchFactory, department) {
 
 		var vm = this;
 
 		/* Variables */
 		vm.motionObj		 = motionObj;
 		vm.motionListLoading = motionObj.data.length > 0 ? false : true;
-		vm.search		 	 = searchFactory; 
+		vm.search		 	 = motionSearchFactory; 
+
+		console.log(motionSearchFactory);
 
 		
 		/* HTML access to functions */
@@ -45,7 +47,7 @@
     return {
     	controller: MotionSidebarController,
     	controllerAs: 'sidebar',
-      	templateUrl: 'app/components/motion/components/motion-sidebar/partials/motion-sidebar.tpl.html'
+      	templateUrl: 'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
     }
     
   }

@@ -33,8 +33,6 @@
 			},
 			/** Method to update moiton. */
 			update: function() {
-				console.log(this.motion);
-
 	            motion.updateMotion(this.motion).then(function(r) {
 	                
 	                factory.editing = false;

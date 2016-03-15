@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.config(['$stateProvider',
+		.config(['$stateProvider', 'SETTINGS_JSON',
 
      /** @ngInject */
-	function($stateProvider){
+	function($stateProvider, SETTINGS_JSON){
 
     // TODO: add state permissions to each state.
 
@@ -35,7 +35,7 @@
             }
         })
     	.state( 'motion', {
-    	    url: '/motion/:id',
+    	    url: '/'+SETTINGS_JSON.jargon.en.motion.toLowerCase()+'/:id',
     	    template: '<display-motion></display-motion>',
     	    data: {
     	        requireLogin: true,
@@ -43,7 +43,7 @@
     	    }
     	})
         .state('edit-motion', {
-            url: '/edit-motion/:id',
+            url: '/edit-'+SETTINGS_JSON.jargon.en.motion.toLowerCase()+'/:id',
             template: '<edit-motion></edit-motion>',
             data: {
                 requireLogin: true,
@@ -51,7 +51,7 @@
             }
         })
         .state( 'create-motion', {
-            url: '/create-motion',
+            url: '/create-'+SETTINGS_JSON.jargon.en.motion.toLowerCase(),
             template: '<create-motion></create-motion>',
             data: {
                 requireLogin: true,

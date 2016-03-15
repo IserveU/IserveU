@@ -40,6 +40,16 @@
 			}
 		};
 
+
+		function getDepartments() {
+			return Department.query().$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
+
+
 		function addDepartment(data){
 			return Department.save(data).$promise.then(function(success) {
 				return success;
@@ -68,6 +78,7 @@
 
 	return {
 			self: self,
+			getDepartments: getDepartments,
 			addDepartment: addDepartment,
 			deleteDepartment: deleteDepartment,
 			updateDepartment: updateDepartment,
