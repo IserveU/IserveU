@@ -38,7 +38,7 @@
 					<h3 class="title-header" style="margin-bottom: 0;">Details</h3>
 			</div>
 			<div flex="55" flex-sm="100" flex-xs="100" flex-md="90" flex-lg="75">
-				<p class="md-body-1" ng-bind-html="::motion.details.text"></p>
+				<p class="md-body-1" ng-bind-html="::motion.details.text | trustAsHtml"></p>
 			</div>
 
 				<span ng-if="motionFile.hasData">

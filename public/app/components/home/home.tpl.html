@@ -8,7 +8,7 @@
             <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_onlight.svg" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
         <h3 class="title-header" ng-bind-html="settingsGlobal.home.introduction.title | trustAsHtml"></h3>
         <div>
-          <p class="md-body-1" ta-bind ng-model="settingsGlobal.home.introduction.text"></p>
+          <p class="md-body-1" ng-bind-html="settingsGlobal.home.introduction.text | trustAsHtml"></p>
         </div>
       </md-card-content>
     </md-card>
