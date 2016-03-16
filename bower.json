@@ -21,7 +21,7 @@
     "mdi": "latest",
     "satellizer": "latest",
     "svg-morpheus": "latest",
-    "textAngular": "*",
+    "textAngular": "1.1.2",
     "themes": "git@github.com:/IserveU/themes.git",
     "md-color-picker": "*"
   },

@@ -1,5 +1,3 @@
-// depcreated
-
 (function() {
 
 
@@ -14,7 +12,7 @@
 
     	function controllerMethod($scope) {
 	    
-    		$scope.search = motionSearchFactory;
+      		$scope.search = motionSearchFactory;
 
       	}
 

@@ -83,7 +83,9 @@
 							  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.getOverallPosition() }}.svg"  ng-if="votes.getOverallPosition()"></md-icon>
 							  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="!votes.getOverallPosition()"></md-icon>
 							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() != 'thumbs-up-down'">Most people {{ votes.getOverallPosition() == 'thumb-up' ? 'agree' : 'disagree' }}</md-tooltip>
-							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down'">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
+							    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down' && !vote.votes">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
+						       <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down' && vote.votes">This {{ 'MOTION' | translate }} has resulted in a tie.</md-tooltip>
+							    
 						    </md-grid-tile>
 
 						    <md-grid-tile class="md-whiteframe-z1">

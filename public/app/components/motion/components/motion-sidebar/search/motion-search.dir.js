@@ -20,7 +20,6 @@
 			// figure out how exactly to detect when you need a 'closed'
 			// version and then link that isntead of the non-closed tpl
 			//
-
 		}
 
 
