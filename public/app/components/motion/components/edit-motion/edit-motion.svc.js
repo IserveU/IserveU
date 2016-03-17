@@ -40,7 +40,7 @@
 	                ToastMessage.simple(
 	                	"You've successfully updated this motion!", 800);
 	                $timeout(function() {
-		                $state.go( 'motion', ( {id:r.id} ), {reload: true} );	
+		                $state.go( 'motion', ( {id:r.id} ));	
 	                }, 1000);
 
 	            }, function(e) {

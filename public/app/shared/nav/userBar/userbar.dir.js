@@ -10,37 +10,30 @@
 	function userBar(){
 		
 	  	 /** @ngInject */
-		function UserbarController($translate, $mdSidenav, $mdMedia, $scope, auth, afterauth, UserbarService, SetPermissionsService, pageObj, motionObj) {
+		function UserbarController($translate, $mdSidenav, $mdMedia, $scope, auth, afterauth, UserbarService, SetPermissionsService, pageObj, logoutService) {
 
 			$scope.$mdMedia = $mdMedia;
 
-			var vm = this;
-
-			vm.userbarservice = UserbarService;
-			vm.setpermissionservice = SetPermissionsService;
-			vm.pageObj = pageObj;
-			vm.preferredLang = "English";
-			vm.languages = [{name:'English', key:'en'},
+			this.userbarservice = UserbarService;
+			this.setpermissionservice = SetPermissionsService;
+			this.pageObj = pageObj;
+			this.preferredLang = "English";
+			this.languages = [{name:'English', key:'en'},
 							{name:'French', key:'fr'}];
 
-			vm.menuButton = false;
+			this.logout = logoutService;
+			
+			this.menuButton = false;
 
-			vm.switchMenuButton = function(){
-				vm.menuButton = !vm.menuButton;
+			this.switchMenuButton = function(){
+				this.menuButton = !this.menuButton;
 			}
 
-			vm.changeLanguage = function(langKey){
+			this.changeLanguage = function(langKey){
 				$translate.use(langKey);
 			}
 
-			vm.logout = function() {
-				motionObj.clear();
-				auth.logout().then(function() {
-					afterauth.clearCredentials();
-				});
-			}
-
-			vm.toggleSidebar = function(id) {
+			this.toggleSidebar = function(id) {
 				$mdSidenav(id).toggle(); 
 			}
 		};

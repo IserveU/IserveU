@@ -13,15 +13,10 @@
 
     <body ng-controller="CommonController as commons" ng-cloak style="overflow:hidden" back-img class="background-image"> 
 
-        <!-- ng-if="userIsLoggedIn" -->
         <user-bar ng-if="commons.isLogin" ng-cloak></user-bar>
 
         <md-content id="maincontent" layout="row" style="height: 93vh" layout-fill flex ng-cloak>
 
-                <!-- userIsLoggedIn &&  
-                
-
-                -->
                 <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
                 style="height: 90vh;"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"

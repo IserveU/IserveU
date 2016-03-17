@@ -13,6 +13,7 @@
 			creating: false,
 			loggingIn: false,
 			publicComputer: false,
+			authError: false,
 			credentials: { email: '', password: '' },
 			newUser: { first_name: '',
 					   last_name: '',
@@ -62,6 +63,7 @@
 
 				factory.creating = false;
 				errorHandler( JSON.parse(e.data.message) );
+				factory.authError = true;
 
 			});
 		};

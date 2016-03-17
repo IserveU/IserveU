@@ -24,14 +24,16 @@
             url: '/edit-home',
             template: '<edit-home>',
             data: {
-                requireLogin: true
+                requireLogin: true,
+                requirePermission: ['create-motion', 'create-user', 'create-page']
             }
         })
         .state( 'dashboard', {
             url: '/dashboard',
             templateUrl: 'app/components/admin/dashboard.tpl.html',
             data: {
-                requireLogin: true
+                requireLogin: true,
+                requirePermission: ['create-motion', 'create-user', 'create-page']
             }
         })
     	.state( 'motion', {
@@ -47,7 +49,8 @@
             template: '<edit-motion></edit-motion>',
             data: {
                 requireLogin: true,
-                moduleMotion: true
+                moduleMotion: true,
+                requirePermission: ['administrate-motion']
             }
         })
         .state( 'create-motion', {
@@ -55,7 +58,8 @@
             template: '<create-motion></create-motion>',
             data: {
                 requireLogin: true,
-                moduleMotion: true
+                moduleMotion: true,
+                requirePermission: ['create-motion']
             }
         })
         .state( 'pages', {
@@ -146,7 +150,6 @@
             },
             resolve: {
                 communityIndex: function($http) {
-                    // return [];e
                     var community;
                     return $http.get('/api/community')
                         .success(function(r){
@@ -156,7 +159,7 @@
             } 
     	})
     	.state('login.resetpassword', {
-    		url: '/:resetpassword',
+    		url: '/:token',
     		data: {
     			requireLogin: false
     		}

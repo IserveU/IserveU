@@ -18,11 +18,12 @@
         	vm.agree   = false;
     		vm.hasRead = false;
     		
-        	function showTermsAndConditions(ev, create){
+        	function showTermsAndConditions(ev, create, authError){
+
 			    if(vm.hasRead === false){
 				    $mdDialog.show({
 				      controller: TermsAndConditionsController,
-				      templateUrl: 'app/shared/termsandconditions/termsandconditions.tpl.html',
+				      templateUrl: 'app/shared/common/termsandconditions/termsandconditions.tpl.html',
 				      parent: angular.element(document.body),
 				      targetEvent: ev,
 				      clickOutsideToClose:false
@@ -36,7 +37,8 @@
 				    	else
 				    		vm.hasRead = false;
 				    });
-				}
+				} else if (authError)
+		    		loginService.createUser();
         	}
 
         	function TermsAndConditionsController($scope, $mdDialog){

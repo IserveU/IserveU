@@ -15,9 +15,9 @@
 		*/
 		this.init = function() {
 			$rootScope.userIsLoggedIn = false;
+			$rootScope.authenticatedUser = null;
 			$rootScope.settingsGlobal = SETTINGS_JSON;
 			$rootScope.themename = SETTINGS_JSON.themename;
-
 		};
 
 		/**

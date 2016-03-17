@@ -15,9 +15,8 @@
 
 			vm.notification = 'false';
 
-			if($state.current.name == 'login.resetpassword'){
+			if($state.current.name == 'login.resetpassword')
 				vm.notification = true;
-			}
 
 			vm.savePassword = function(){
 				var data = {
@@ -30,7 +29,6 @@
 					ToastMessage.simple("Thank you for reseting your password.")
 				});
 			}
-
 		}
 
 

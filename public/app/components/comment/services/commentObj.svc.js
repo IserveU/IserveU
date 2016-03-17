@@ -8,7 +8,7 @@
 		.factory('commentObj', commentObj);
 
 	/** @ngInject */
-	function commentObj($stateParams, comment, ToastMessage) {
+	function commentObj($stateParams, comment, ToastMessage, utils) {
 
 		var factory = {
 			comment: null,
@@ -67,6 +67,10 @@
                     }); 
 				});
 			},
+			clear: function() {
+				if(this.comment)
+					utils.clearArray(this.comment);
+			}
 		};
 
 		if($stateParams.id)

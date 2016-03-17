@@ -13,21 +13,25 @@ use App\BackgroundImage;
 |
 */
 
-
-Route::resource('delegation', 'DelegationController');
+Route::get('/', function() {
+	return view('index');
+});
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
-
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
+
+// where is this being used?
 Route::get('background_image', 'BackgroundImageController@index');
 
+// rename api/file
 Route::resource('file', 'FileController');
 
-// access across site because users need it to see what's going on, maybe?? 
+// rename api/setting
 Route::resource('setting', 'SettingController');
 
+// merge two of these
 Route::get('/settings', function(){
 	
 	$user = null;
@@ -39,51 +43,47 @@ Route::get('/settings', function(){
 });
 
 
-Route::get('/', function() {
-	return view('index');
-});
-
-
 Route::group(array('prefix' => 'api'), function(){
-
-		Route::resource('user', 'UserController');
-		Route::resource('ethnic_origin', 'EthnicOriginController');
 		
+
 		if ($token = JWTAuth::getToken()) {
 			$user = JWTAuth::parseToken()->authenticate();
 	    }
 
 		Route::resource('comment', 'CommentController');
 		Route::resource('community', 'CommunityController');
+		Route::resource('delegation', 'DelegationController');
 		Route::resource('department', 'DepartmentController');
+		Route::resource('file', 'FileController');
+		Route::resource('ethnic_origin', 'EthnicOriginController');
 		Route::resource('motion', 'MotionController');
 		Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
 		Route::resource('motion.motionfile','MotionFileController');
 		Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 		Route::resource('page', 'PageController');
+		Route::resource('setting', 'SettingController');
+		Route::resource('user', 'UserController');
 
 
 	Route::group(['middleware' => 'jwt.auth'], function(){
 
 
-		Route::resource('role', 'RoleController');
-
-
 		Route::resource('background_image', 'BackgroundImageController');
+
+		Route::get('comment/{id}/restore','CommentController@restore');
+		Route::resource('comment_vote', 'CommentVoteController');
 
 		Route::get('motion/{id}/restore','MotionController@restore');
 		Route::post('motionfile/flowUpload', 'MotionFileController@flowUpload');
 
-		Route::resource('vote', 'VoteController');
-
-
-		Route::get('comment/{id}/restore','CommentController@restore');
-
-		Route::resource('comment_vote', 'CommentVoteController');
+		Route::resource('role', 'RoleController');
 		
 		Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
 		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
 		Route::resource('user.role', 'UserRoleController'); 
-	
+
+		Route::resource('vote', 'VoteController');
+
+
 	});
 });

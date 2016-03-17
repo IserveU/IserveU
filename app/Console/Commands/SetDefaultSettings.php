@@ -122,6 +122,14 @@ class SetDefaultSettings extends Command
 
         $this->ifNullSet('logo', 'default', $overwrite);
 
+        $this->ifNullSet('email', array(
+                'footer' => array('slogan' => 'Conceived &amp; Forged In Yellowknife, Canada',
+                                  'website' => 'http://iserveu.ca',
+                                  'twitter' => 'http://twitter.com/iserveu_org',
+                                  'facebook' => 'https://www.facebook.com/iserveu.ca'),
+                'welcome' => "<p>Welcome to the IserveU beta,</p><p>IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions.</p><p>We welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife city council, until then it operates as an advisory and feedback tool.</p>\n\n<p>Regards,<br/>The IserveU Crew</p>"
+            ), $overwrite);
+
         Setting::save();
     }
 

@@ -7,7 +7,7 @@
 		.factory('voteObj', voteObj);
 
   	 /** @ngInject */
-	function voteObj($rootScope, $translate, commentObj, $stateParams, vote, ToastMessage) {
+	function voteObj($rootScope, $translate, commentObj, $stateParams, vote, ToastMessage, utils) {
 
 		var factory = {
 			user: { position: null },
@@ -91,7 +91,10 @@
 					commentObj.getMotionComments(vote.motion_id);  
 					$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
 				}
-		    }
+		    },
+			clear: function() {
+				this.user = {postion:null};
+			}
 		};
 
 		if($stateParams.id)

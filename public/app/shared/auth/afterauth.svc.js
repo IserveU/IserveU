@@ -7,16 +7,20 @@
 		.factory('afterauth', afterauth);
 
   	 /** @ngInject */
-	function afterauth($stateParams, $state, $mdToast, $rootScope, auth, user, SetPermissionsService) {
+	function afterauth($stateParams, $state, $rootScope, auth, user, SetPermissionsService) {
 
-		 function setLoginAuthDetails (user, token){
+		 function setLoginAuthDetails (user, token, resetPassword){
 			if(token)
 				localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
 
 			SetPermissionsService.set( JSON.stringify( user.permissions ) );
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			$rootScope.authenticatedUser = user;
-			redirect();
+
+			if(resetPassword)
+				$state.go('edit-user', {id: user.id});
+			else
+				redirect();
 		}
 
 		function redirect(){
@@ -32,7 +36,6 @@
 			localStorage.clear();
 			$rootScope.authenticatedUser = null;
 			$rootScope.userIsLoggedIn = false;
-			$state.go('login', {});		
 		}
 
 		return {

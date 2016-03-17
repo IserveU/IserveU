@@ -17,6 +17,8 @@
 			i++;
 			if(i != 1 && $state.current.name != 'login')
 				vm.isLogin = true;
+			else if ($state.current.name != 'login.resetpassword')
+				vm.isLogin = true;
 			else
 				vm.isLogin = false;
 		});

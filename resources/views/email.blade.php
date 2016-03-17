@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="initial-scale=1.0">    <!-- So that mobile webkit will display zoomed in -->
   <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
-  <title>IserveU</title>
+  <title><?php echo Setting::get('site.name');?></title>
   <style type="text/css">
 
   /* Resets:see reset.css for details */
@@ -49,11 +49,11 @@
         <!-- ### 600PX CONTAINER ### -->
         <table class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color:#f3f3f3;" bgcolor="#f3f3f3;">
           <tr>
-            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#00acb1;border-top:15px solid #00acb1;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="http://iserveu.ca"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
+            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#<?php echo Setting::get('theme.primary.400');?>;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="<?php echo Setting::get('email.footer.website');?>"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
               <img src="<?=asset('/themes/'.Setting::get('themename','default').'/logo/logo_allwhite.png')?>">
             </h1></a></td>
-            <td width="50" align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #00acb1;" bgcolor="#00acb1"></td>
-            <td align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #323232;" bgcolor="#00acb1"><h1>{{isset($title)?$title:""}}</h1></td>
+            <td width="50" align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"></td>
+            <td align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #323232;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"><h1>{{isset($title)?$title:""}}</h1></td>
           </tr>
           <tr>
             <td colspan="3" style="font-family:Helvetica,Arial,sans-serif;padding:40px;font-size:16px;line-height:2;background-color:#f3f3f3;" bgcolor="#f6f6f6" class="body-content">
@@ -67,20 +67,20 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" width="230" height="15" style="background: #ff7600;"></td>
+            <td colspan="2" width="230" height="15" style="background: #<?php echo Setting::get('theme.accent.400');?>;"></td>
             <td height="15" style="background: #323232;"></td>
           </tr>
-<!--           <tr>
+        <tr>
             <td colspan="3" style="font-family:Helvetica,Arial,sans-serif;padding:20px;line-height:1.5;font-size: 13px;background-color:#323232;color:#ffffff;">
              <p>
-               IserveU &middot; Concieved &amp; Forged In Yellowknife, Canada
+               <?php echo Setting::get('site.name');?> &middot; <?php echo Setting::get('email.footer.slogan');?>
                <br/>
 
-               <a style="color:#ffffff;" href="http://twitter.com/iserveu_org">Twitter</a> or <a style="color:#ffffff;" href="https://www.facebook.com/iserveu.ca">Facebook</a>.
+               <a style="color:#ffffff;" href="<?php echo Setting::get('email.footer.twitter'); ?>">Twitter</a> or <a style="color:#ffffff;" href="<?php echo Setting::get('email.footer.facebook');?>">Facebook</a>.
             
              </p>
            </td>
-         </tr> -->
+         </tr>
        </table>
 
      </td>
