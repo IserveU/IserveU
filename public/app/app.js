@@ -18,8 +18,8 @@
 			'pascalprecht.translate',
 			'mdColorPicker'
 		])
-		.run(['$rootScope', '$auth', '$window', 'redirect', 'globalService',
-			function($rootScope, $auth, $window, redirect, globalService) {
+		.run(['$rootScope', '$auth', '$window', '$timeout', 'redirect', 'globalService', 
+			function($rootScope, $auth, $window, $timeout, redirect, globalService) {
 				
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
@@ -41,8 +41,16 @@
 
 					globalService.checkUser();
 					globalService.setState( toState );
+			    	
+			    	$rootScope.pageLoading = true;
+
 				});
 
+			    $rootScope.$on('$viewContentLoaded',function(){
+			    	$timeout(function() {
+			    		$rootScope.pageLoading = false;
+			    	}, 500);
+			    });
 
 		        globalService.init();
 

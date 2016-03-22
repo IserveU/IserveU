@@ -17,8 +17,10 @@
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			$rootScope.authenticatedUser = user;
 
-			if(resetPassword)
+			if(resetPassword){
+				$rootScope.userIsLoggedIn = true;
 				$state.go('edit-user', {id: user.id});
+			}
 			else
 				redirect();
 		}

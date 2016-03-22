@@ -15,9 +15,7 @@
 		
 		$scope.$on('$viewContentLoaded', function(event) {
 			i++;
-			if(i != 1 && $state.current.name != 'login')
-				vm.isLogin = true;
-			else if ($state.current.name != 'login.resetpassword')
+			if(i != 1 && $state.current.name.substr(0, 5) != 'login')
 				vm.isLogin = true;
 			else
 				vm.isLogin = false;

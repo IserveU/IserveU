@@ -24,10 +24,11 @@
 	        function getMotion(id) {
 
 	            var catchMotion = motionObj.getMotionObj(id);
-
+	            
+	            commentObj.comment  = null;
 	            motionObj.details   = null;
 	            motionObj.isLoading = true;
-	            commentObj.comment  = null;
+	            voteObj.voteLoading = true;
 
 	            if (catchMotion) 
 	                motionObj.setMotionDependencies(catchMotion)

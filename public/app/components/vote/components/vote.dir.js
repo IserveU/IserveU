@@ -76,7 +76,7 @@
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes');
+				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes') || isMotionOpen.isReview();
 			}
 
 			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {

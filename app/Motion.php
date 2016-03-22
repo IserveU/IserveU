@@ -191,7 +191,6 @@ class Motion extends ApiModel {
 			return false;
 		}
 
-
 		if($this->closing->lt(Carbon::now())){
 			$this->errors = "This motion is closed for voting";
 			return false;

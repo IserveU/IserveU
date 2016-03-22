@@ -17,6 +17,9 @@ $backgroundTransparency: 0;
 
 $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
+
+
+//temp
 .home {
 	md-card {margin: 10px;}
 	md-card-content { padding: 10px;}
@@ -28,22 +31,6 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 }
 
-
-//temp
-.motion-search {
-	max-width: 400px;
-	input {
-		color:black; font-size: 16px; border-bottom: black thin solid; width: 80%;
-	}
-}
-
-md-progress-linear {
-	> div:first-child {
-		height: 3px;
-	}
-}
-
-
 .inline-save-icons {
 	md-icon {
 		display:inline-block; 
@@ -54,12 +41,6 @@ md-progress-linear {
 		bottom: 1px !important;		
 	}
 }
-
-md-sidenav.md-locked-open {
-	z-index: 0;
-}
-
-// end temp
 
 #dashboard {
 	.title {
@@ -73,94 +54,39 @@ md-sidenav.md-locked-open {
 	}
 }
 
-md-progress-circular {
-	margin: auto;
-}
-
 // style preset for md-card style that emulates angular.io's material style.
-md-card{
-	.inline-icon {
-		display:inline-block; 
-		position: relative; 
-		cursor: pointer;
-		font-size: 17px !important; 
-		left: -1px !important; 
-		bottom: 1px !important;
-	}	
-	.title-icon {
-		@extend .inline-icon;
-		font-size: 19px !important; 
-		left: 3px !important; 
-		vertical-align:inherit;
-	}
-	.title-header{
-		font-size: 16px; margin-bottom: 18px; display:inline-block;
-	}
-	.title-subhead{
-		@extend .title-header;
-		font-size: 14px;
-		color: $darkGrey;
-	}
-	.title-svg-icon {
-		display:inline-block; 
-		width: 18px;
-	}
+.inline-icon {
+	display:inline-block; 
+	position: relative; 
+	cursor: pointer;
+	font-size: 17px !important; 
+	left: -1px !important; 
+	bottom: 1px !important;
+}	
+.title-icon {
+	@extend .inline-icon;
+	font-size: 19px !important; 
+	left: 3px !important; 
+	vertical-align:inherit;
 }
-
-.display-user-comment {
-	.md-icon-button {
-		max-width: 35px;
-		max-height: 35px;
-	}
-	.edit-btn {
-		position: relative; right: 5px !important;
-	}
-	.delete-btn {
-		position: relative; right: 30px !important;
-	}
-	.comment-votes{
-		display: inline-block; margin-right: 10px; float: right !important;
-	}
-	.save-btn {
-		color: $primaryColor;
-	}
+.title-header{
+	font-size: 16px; margin-bottom: 18px; display:inline-block;
 }
-
+.title-subhead{
+	@extend .title-header;
+	font-size: 14px;
+	color: $darkGrey;
+}
+.title-svg-icon {
+	display:inline-block; 
+	width: 18px;
+}
 .fab-tool-animate {
   transition-duration: .5s;
    -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-@media screen and (max-width:544px) {
-	table.user-table {
-
-		td{
-			display:block; float:left;
-		}
-		.mobile{
-			width:88%;
-		}
-		.edit-btn {
-		   position:relative;
-		   // bottom: -25px;
-		   &.select-ctn{
-		   	bottom: -28px;
-		   }
-		   &.date-pick{
-		   	bottom: -22px;
-		   }
-		   &.pass-ctn{
-		   	bottom: -27px;
-		   }
-		}
-	}
-}
-
-// md-backdrop.md-sidenav-backdrop {
-//   display: none;
-// }
 
 p.beta-message {
 	font-size: 11px; 
@@ -176,24 +102,17 @@ p.beta-message {
 		padding-left:8px;
 	}
 }	
+// end temp
 
 
-html{
-	height: 100%;
-}
-
-body{
-	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
-}
-
+// Element Overrides
 html,body{
 	min-height: 100% !important;
 }
 
-a{
-	// text-decoration: none;
-	// font-weight: 700;
-	// color:$accent;
+body{
+	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
+	overflow: hidden;
 }
 
 md-caption.imagecredit{
@@ -207,26 +126,51 @@ md-caption.imagecredit{
 	}
 }
 
+img {max-width:100%;}
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+header {
+
+	.inline-icon {
+		display:inline-block; 
+		position: relative; 
+		cursor: pointer;
+		font-size: 17px !important; 
+		left: -1px !important; 
+		bottom: 1px !important;
+	}	
+	md-icon {
+		@extend .inline-icon;
+		cursor: default;
+		font-size: 19px !important; 
+		left: 3px !important; 
+		vertical-align:inherit;
+	}
+	&md-icon[md-svg-src] {
+		display:inline-block; 
+		width: 18px;
+	}
+	h1, h2, h3 {
+		font-size: 16px; margin-bottom: 18px; display:inline-block;
+	}
+	h4, h5, h6{
+		@extend .title-header;
+		font-size: 14px;
+		color: $darkGrey;
+	}
 }
 
- *:focus {
-    outline: none !important;
- }
-
-.background-image{
-	background-position: center center;
-	background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+/*Prevents duplicate issue SVG issue */
+button md-icon svg:nth-child(2) {
+	display: none !important; 
 }
 
+form{
+  	margin-bottom: 0em;
+}
 
-// @font-face{font-family:'MaterialDesignIcons';
-// src:url("/fonts/materialdesignicons-webfont.eot?v=1.1.70");src:url("/fonts/materialdesignicons-webfont.eot?#iefix&v=1.1.70") format("embedded-opentype"),url("/fonts/materialdesignicons-webfont.woff2?v=1.1.70") format("woff2"),url("/fonts/materialdesignicons-webfont.woff?v=1.1.70") format("woff"),url("/fonts/materialdesignicons-webfont.ttf?v=1.1.70") format("truetype"),url("/fonts/materialdesignicons-webfont.svg?v=1.1.70#materialdesigniconsregular") format("svg");font-weight:normal;font-style:normal}
-
+*:focus {
+    outline: none;
+}
 
 @font-face {
   font-family: 'FontAwesome';
@@ -236,12 +180,76 @@ md-caption.imagecredit{
   font-style: normal;
 }
 
+// Angular Material overrides
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+md-toast{
+	position: fixed;
+}
+
+ng-message{
+	position:relative;
+}
+
+[layout-margin]{
+	margin: $padding/2;
+}
+
+[layout-padding]{
+	padding: $padding/2;
+}
+
+md-fab-toolbar.md-right md-fab-trigger{
+	right:$padding/2;
+}
+
+md-card{
+	margin: 0;
+	md-card-content {
+		padding: 0;
+	}
+}
+
+md-progress-linear {
+	> div:first-child {
+		height: 3px;
+	}
+}
+
+md-progress-circular {
+	margin: auto;
+}
+
+md-sidenav{
+ 	background-color: rgba(255,255,255,1) !important;	
+} 
+
+// for toolbar shadow
+md-sidenav.md-locked-open {
+	z-index: 0;
+}
+
 .mdi {
   font-size:24px;
 }
 
-.mdi-small {
-  font-size:15px; 
+// fix of hiding menu container behind shit.
+.md-select-menu-container  {
+	z-index: 999;
+}
+.md-backdrop-select {
+	z-index: 999;
+}
+
+// End Angular Material overrides
+
+.background-image{
+	background-position: center center;
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .main-nav-button {
@@ -260,15 +268,6 @@ md-caption.imagecredit{
     margin: 0;
 }
 
-/*Prevents duplicate issue SVG issue */
-button md-icon svg:nth-child(2) {
-	display: none !important; 
-}
-
-form{
-  margin-bottom: 0em;
-}
-
 .md-whiteframe-z1, #maincontent, #footer{
 	background-color: rgba(255,255,255, $backgroundTransparency) !important;
 }
@@ -282,72 +281,52 @@ form{
 	background-color:#f00;
 }
 
-md-sidenav{
- 	background-color: rgba(255,255,255,1) !important;	
-} 
-
 .logo{
 	margin: auto;
 	display: block;
 	margin-bottom: 30px;
 }
 
-
-.loading{
-	md-card-content{
-		filter: blur(5px) grayscale(0.5);
-	}
-
-	position:absolute;
-}
-
-
-
 #maincontent{
+	
+	height: 93vh;
 
 	&.loading{
 		md-card-content{
 			filter: blur(5px) grayscale(0.5);
+			transition-delay: 3s;
 		}
-
 		position:absolute;
-
-		.loading_animation{
-		
-		}
 	}
 
-	.loading_animation{
-		height:250px;
-		display:absolute;
-		z-index:999;
-/*	position:absolute; */
-	}
-
-	transition: 1s filter linear;
-
+	transition: 2s filter linear;
 	position: relative;
-	// padding: $padding/2;
-
-
 
 	md-grid-tile{
 		background-color: $midGrey;
-
-
 		md-icon{
 			width: 80%;
 			height: 80%;
 			text-align: center;		
-
 		}
+	}
 
-		&.thumb_up md-icon{
-			color: $primaryColor;
+	.bio {
+		display: inline-block;
+		img {
+			width: 100px !important; height:auto !important; vertical-align: top;
 		}
+		span {
+			display: inline-block;
+		}
+		p, a, i {
+			display: block;
+		}
+	}
 
-		&.thumb_down md-icon{
-			color: $accent;
+	.budget {
+		p {
+			display: block;
 		}
 	}
 
@@ -388,27 +367,22 @@ md-sidenav{
 				background-color: #ff9a00;
 			}
 		}
+	}
 
-		.deferred-disagree {
-			background-color: black;
+	.voting-disabled {
+		md-icon {
+			color: $midGrey !important;
 		}
-	}
-
-	.comments md-list-item.md-no-proxy{
-		padding: 0px;
-
-		.abstained{
-			background: $lightGrey !important;
-
+		&:hover{
+			background-color:transparent !important;
+			cursor: default;
+			.md-focused {
+				background-color: transparent;
+			}
+			.md-button {
+				background-color: transparent;
+			}
 		}
-	}
-
-	md-toolbar.section-toolbar.md-default-theme{
-		background-color: $lightGrey;
-	}
-
-	md-toolbar.section-toolbar.md-default-theme h3{
-		color: $darkGrey;
 	}
 
 	.md-title{
@@ -426,8 +400,10 @@ md-sidenav{
 /** Sidebar Styles **/
 md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-active {
     min-width: 304px !important;
+    height: 90vh;
     width: 85vw !important;
     max-width: 400px !important;
+
 
 	.quick-vote-disabled{
 		cursor: default; color: $midGrey;
@@ -442,7 +418,6 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 				margin-bottom: 0px;
 			}
 
-			// can i put it in the one above?
 			md-icon.department{
 				margin-right:18px;
 			}
@@ -459,6 +434,85 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 	}
 }
 
+.sidebar-toolbar {
+	padding-right:0px;
+	> md-icon:first-child .md-icon-button{
+		min-width: 48px;
+	}
+	.motion-enabled {
+		max-width: 400px; min-width: 400px;
+	}
+	.mdi-magnify {
+		position:relative; left: 9px;
+	}
+	.mdi-dots-vertical {
+		margin: 0;
+	}
+	md-menu {
+		margin: 0;
+		.search-icon {
+			left:10px; margin: 0; margin-bottom: 4px; margin-right: 17px;
+		}
+		md-select {
+			margin: 4px;
+		}
+	}
+	h2 {
+		position: relative; top: 5px;
+	}
+}
+
+.motion-search {
+	max-width: 400px;
+	input {
+		color:black; font-size: 16px; border-bottom: black thin solid; width: 80%;
+	}
+}
+
+.search-icon {
+ 	position: relative;
+  	right: 0px;
+  	transition: transform 1s;
+   	-o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  	-moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  	-webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  	transform: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  	&:hover {
+	  	cursor: pointer;
+  		font-size:26px;
+	}
+}
+input.sidebar-search-input {
+	border: 0px;
+	background-color: transparent;
+	color: white;
+	font-size: inherit;
+    border-style: solid;
+    line-height: 120%;
+    border-bottom: thin solid white;
+	
+	&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+		font-size: 16px;
+	    color:    $lightGrey;
+	}
+	&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		font-size: 16px;
+	   	color:    $lightGrey;
+	   	opacity:  1;
+	}
+	&::-moz-placeholder { /* Mozilla Firefox 19+ */
+		font-size: 16px;
+	   	color:    $lightGrey;
+	   	opacity:  1;
+	}
+	&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		font-size: 16px;
+	   	color:    $lightGrey;
+	}
+}
+/** End sidebar Styles **/
+
+/** Toolbar styles **/
 md-toolbar.site-content-toolbar{
 	padding:0px;
 	md-toolbar-filler {
@@ -469,10 +523,6 @@ md-toolbar.site-content-toolbar{
 		}
 	}
 	//animation for menu button
-	.mdi-menu-down {
-		transition: .3s;
-	}
-
 	.mdi-menu-up{
 		transition: .3s;
 	}
@@ -480,61 +530,6 @@ md-toolbar.site-content-toolbar{
 		transform: rotate(180deg);
 		transition: .3s;
 	}
-}
-
-//animation for menu button, export this into a directive service
-.accordian{
-
-	margin-left:15px;
-	&.opened {
-		transition: .1s;
-		border-bottom: $primaryColor 2px solid;
-	}
-	&.closed {
-		transition: .2s;
-		border-bottom: none;
-	}
-
-	.accordian-content {
-		transition: .2s;
-	}
-
-	h3 {
-		display:inline-block;
-	}
-	.mdi-menu-down {
-		transition: .3s;
-	}
-
-	.mdi-menu-up{
-		transition: .3s;
-	}
-	.go-up {
-		transform: rotate(180deg);
-		transition: .3s;
-	}
-}
-.accordian-content{
-	transition: .5s;
-}
-
-
-// .md-toolbar-tools md-icon{
-// 	width:24px;
-// 	display: block;
-// 	margin-bottom: 12px;
-// 	margin-left: 0px;
-// 	margin-right: 32px;
-// 	margin-top: 12px;
-// }
-
-
-md-toolbar.md-warn{
-	.md-toolbar-tools{
-		height: auto;
-		max-height: none;
-	}
-
 }
 
 .md-toolbar-tools{
@@ -547,150 +542,13 @@ md-toolbar.md-warn{
 }
 
 md-menu-item{
-	
 	> .md-button md-icon {
 		margin: auto 0px auto 3px;
-			padding-top: 3px;
+		padding-top: 3px;
 	}
-
 	p{
 		padding-top: 6px;
 	}
-
-}
-
-// md-input-container ng-message, md-input-container data-ng-message, md-input-container x-ng-message, md-input-container [ng-message], md-input-container [data-ng-message], md-input-container [x-ng-message], md-input-container .md-char-counter {
-// position: relative; //INSTEAD OF ABSOLUTE
-// font-size: 12px;
-// line-height: 24px; }
-
-
-md-toast{
-	position: fixed;
-}
-
-ng-message{
-	position:relative;
-}
-
-[layout-margin]{
-	margin: $padding/2;
-}
-
-[layout-padding]{
-	padding: $padding/2;
-}
-
-md-fab-toolbar.md-right md-fab-trigger{
-	right:$padding/2;
-}
-
-md-card{
-	margin: $padding;
-}
-
-img {max-width:100%;}
-
-.random-motion-image {
-	max-width: 100% !important;
-}
-
-div.motion-comments {
-	p, h4, i{
-		display:inline;
-	}
-	div{
-		float: right;
-		color: grey;
-	}
-}
-.abstained {
-	background-color: $lightGrey;
-}
-
-
-
-fieldset.standard {
-  border-style: solid;
-  border-width: 1px; 
- }
-
-#edit-motion-mode {
-	fieldset {
-		border-style: solid;
- 		border-width: 1px; 
- 		background: rgb(255,255,255);
- 		background: rgba(255,255,255,0.5);
-	}
-	legend {
-		color: black;
-	}
-	textarea {
-		border: 0px;
-		resize: none;
-		width: 100%;
-		background-color:transparent;
-	}
-	textarea:focus{
-		box-shadow: 0 0 6px #5B9DD9;
-	}
-	md-grid-tile-footer{
-		padding-top: 12px;
-
-		p {
-			display:inline;
-			margin:0px;
-		}
-
-		md-icon {
-			color: white;
-			display:inline;
-		}
-	}
-	.overlay:before{
-	  position: absolute;
-	  content:" ";
-	  top:0;
-	  left:0;
-	  width:100%;
-	  height:100%;
-	  display: block;
-	  z-index:0;
-	  background: rgba(255,0,0,0.5);
-	}
-}
-
-div.display-department {
-	md-select {
-		margin: 0px;
-		display: inline-block;
-	}
-
-	md-button {
-		display: inline-block;
-	}
-
-	md-input-container {
-		display: inline-block;
-		padding: 0px;
-	}
-}
-
-
-.search-icon {
-  position: relative;
-  transition-property: right;
-  transition-duration: 1s;
-  right: 0px;
-  transition: transform 1s;
-   -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  &:hover {
-	  	cursor: pointer;
-  		font-size:26px;
-  }
 }
 
 .cog{
@@ -699,61 +557,122 @@ div.display-department {
   -webkit-transition: $cubicBezierFadeIn;
   transition:         $cubicBezierFadeIn;
   	&:hover{
-  		// color: $accent;
 		-o-transition:rotate(40deg);
 	    -moz-transition:rotate(40deg);
 		-webkit-transform: rotate(40deg);
 	    transform: rotate(40deg);
   	}
 }
+// End
 
-input.sidebar-search-input {
-			border: 0px;
-			background-color: transparent;
-			color: white;
-			font-size: inherit;
-		    border-style: solid;
-		    line-height: 120%;
-		    border-bottom: thin solid white;
-		    // &:focus{
-			   //  border-bottom: thin solid $accent;
-		    // }
-		
-		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-			font-size: 16px;
-		    color:    $lightGrey;
-		}
-		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-			font-size: 16px;
-		   color:    $lightGrey;
-		   opacity:  1;
-		}
-		&::-moz-placeholder { /* Mozilla Firefox 19+ */
-			font-size: 16px;
-		   color:    $lightGrey;
-		   opacity:  1;
-		}
-		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
-			font-size: 16px;
-		   color:    $lightGrey;
-		}
-}
 
-#search-filter{
-	right: 0px;
-	bottom: 22px;
-	margin: auto;
-	position: absolute;
-	@media screen and (max-width:600px) {
-		bottom: 15px;
+//animation for accordian
+.accordian{
+	margin-left:15px;
+	&.opened {
+		transition: .1s;
+		border-bottom: $primaryColor 2px solid;
+	}
+	&.closed {
+		transition: .2s;
+		border-bottom: none;
+	}
+	.accordian-content {
+		transition: .2s;
+	}
+	h3 {
+		display:inline-block;
+	}
+	.mdi-menu-up{
+		transition: .3s;
+	}
+	.go-up {
+		transform: rotate(180deg);
+		transition: .3s;
 	}
 }
-.details-header {
-	border-bottom-color: rgba(0,0,0,0.12) !important; 
-	background-image: none !important;
+// end accordian 
+
+// start comment
+#display-comments {
+
+	margin: 0;
+	header {
+		text-align:center;
+		h1 {
+			letter-spacing: 0.3px;
+		    position: relative; 
+			bottom: 12px;
+		}
+		md-icon {
+			margin-left: 4px; margin-right: 1px;
+		}
+		> md-icon:last-child {
+			margin-right: 3px
+		}
+	}
+
+	div.motion-comments {
+		p, h4, i{
+			display:inline;
+		}
+		div{
+			float: right;
+			color: grey;
+		}
+		p.md-caption {
+			float: right; position: relative; top: 23px;
+		}
+		p.md-body-1 {
+			display: block;
+		}
+		&.abstained {
+			background-color: $lightGrey;
+		}
+	}
+	div.comment-votes {
+		padding: 0;
+		md-button {
+			margin: 0;
+		}
+		p.md-caption {
+			margin-bottom:0 !important; margin-top: 11px !important;
+		}
+	}
+}
+
+#comment {
+	header {
+		h1, h2, h3 { margin-top: 10px; }
+	}
+
+	.inline-action-buttons {
+		.md-icon-button {
+			position: relative;
+		}
+		md-button {
+			max-width: 35px; max-height: 35px;
+			md-icon {
+				@extend .title-icon;
+			}
+		}
+		> md-button:first-child {
+			right: 5px !important;
+		}
+		> md-button:last-child {
+			right: 30px !important;
+		}
+	}
+	.comment-votes{
+		display: inline-block; margin-right: 10px; float: right !important;
+		md-icon {
+			@extend .title-svg-icon;
+		}
+	}
 }
 
 
+// user stuff 
 .edit-user-profile {
 	.mdi-pencil, .mdi-content-save {
   		cursor: pointer;	
@@ -769,28 +688,6 @@ input.sidebar-search-input {
 		background-image:none;
 	}
 }
-
-.file-upload-drag {
-	span, md-icon, input md-input-container, p {
-		display:inline-block;
-	}
-	#file-btn {
-		position:relative; font-size:12px;
-	}
-	#title-input{
-		padding:0px; width:96%; font-size:14px;
-		.close {
-			cursor:pointer; top:10px; font-size: 17px;
-		}
-		input {
-			width:100%;
-		}
-	}
-	md-grid-tile-footer {
-		padding-top:12px;
-	}
-}
-
 
 .profile-toolbar {
 	background-color: $lightGrey !important;
@@ -815,74 +712,4 @@ input.sidebar-search-input {
 		bottom: 3px !important;
 	}
 }
-
-
-#edit-user-form {
-	md-icon {
-		position: relative; bottom: 12px;
-	}
-	input { color: black; }
-}
-
-.sidebar-toolbar {
-	md-autocomplete {
-		border-radius: 500px;
-	}
-	md-autocomplete-wrap {
-		border-radius: 500px;
-	}
-	.home-btn {
-		min-width: 48px;
-	}
-	.motion-enabled {
-		max-width: 400px;
-		min-width: 400px;
-	}
-	.mdi-magnify {
-		position:relative;
-		left: 9px;
-	}
-	.mdi-dots-vertical {
-		margin: 0;
-	}
-	md-menu {
-		margin: 0;
-		.search-icon {
-			left:10px; margin: 0; margin-bottom: 4px; margin-right: 17px;
-		}
-		md-select {
-			margin: 4px;
-		}
-	}
-	h2 {
-		position: relative; top: 5px;
-	}
-	padding-right:0px;
-}
-
-// fix of hiding menu container behind shit.
-.md-select-menu-container  {
-	z-index: 999;
-}
-
-.md-backdrop-select {
-	z-index: 999;
-}
-
-.voting-disabled {
-	md-icon {
-		color: $midGrey !important;
-	}
-	&:hover{
-		background-color:transparent !important;
-		cursor: default;
-		.md-focused {
-			background-color: transparent;
-		}
-		.md-button {
-			background-color: transparent;
-		}
-	}
-
-}
-
+// end user stuff

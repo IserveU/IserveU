@@ -8,7 +8,7 @@
 		.factory('motionObj', motionObj);
 
 	 /** @ngInject */
-	function motionObj($http, motion, isMotionOpen, voteObj, commentObj, motionFilesFactory, utils) {
+	function motionObj($http, $timeout, motion, isMotionOpen, voteObj, commentObj, motionFilesFactory, utils) {
 
 		var factory = {
 	  		/* Variables */
@@ -49,7 +49,7 @@
 						if( id == factory.data[i].id )
 							factory.data[i] = r;
 					}
-				})
+				});
 			},
 	        /**
 	        *	Sets the motion dependencies that
@@ -57,13 +57,17 @@
 	        */
 			setMotionDependencies: function(motion) {
 				this.details = motion;
-				this.isLoading = false;
 
 	            commentObj.getMotionComments(motion.id);  
 	            voteObj.calculateVotes(motion.id); 
 	            voteObj.user = motion.user_vote ? motion.user_vote : {position: null};
 	            isMotionOpen.set(motion.MotionOpenForVoting);
+	            isMotionOpen.setStatus(motion.status);
 	            motionFilesFactory.get(motion.id);
+				
+				$timeout(function() {
+					factory.isLoading = false;
+				}, 2500);
 			},
 			clear: function() {
 				utils.clearArray(this.data);

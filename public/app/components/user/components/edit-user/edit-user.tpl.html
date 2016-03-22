@@ -29,7 +29,7 @@
 
     <div layout="column" ng-if="!edit.disabled.address" flex>
       <div layout="row" flex>
-        <md-select style="margin-top: 0" placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required>
+        <md-select placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required>
             <md-option ng-repeat="c in communities" ng-value="c.id" required>{{c.name}}</md-option>
         </md-select>
       

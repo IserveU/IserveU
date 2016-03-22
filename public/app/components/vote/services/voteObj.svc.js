@@ -12,51 +12,20 @@
 		var factory = {
 			user: { position: null },
 			motionVotes: {
-		            disagree:{percent:0,number:0},
-		            agree:{percent:0,number:0},
-		            abstain:{percent:0,number:0},
-		            deferred_agree:{percent:0,number:0},
-		            deferred_disagree:{percent:0,number:0},
-		            deferred_abstain:{percent:0,number:0}
+	            disagree:{percent:0,number:0},
+	            agree:{percent:0,number:0},
+	            abstain:{percent:0,number:0},
+	            deferred_agree:{percent:0,number:0},
+	            deferred_disagree:{percent:0,number:0},
+	            deferred_abstain:{percent:0,number:0}
 		    },
 		    votes: {},
+		    overallPosition: null,
+		    voteLoading: true,
 		    calculateVotes: function(id) {
-		    	// TODO: figure out how to make this DOM obj not disappear each time a user votes.
-		    	for(var i in this.motionVotes) {
-		    		for(var j in this.motionVotes[i])
-		    			this.motionVotes[i][j] = 0;
-		    	}
-
 		    	vote.getMotionVotes(id).then(function(r){
-
-		    		var votes = factory.votes = r.data;
-
-		            if(votes[1]){
-		            	factory.motionVotes.agree = ( votes[1].active ) 
-		            								? votes[1].active  
-		            								: factory.motionVotes.agree; 
-		                factory.motionVotes.deferred_agree = ( votes[1].passive ) 
-		                									 ? votes[1].passive 
-		                									 : factory.motionVotes.deferred_agree;
-		            }
-		            if(votes[-1]){
-		                factory.motionVotes.disagree = ( votes[-1].active ) 
-		                							   ? votes[-1].active 
-		                							   : factory.motionVotes.disagree;
-		                factory.motionVotes.deferred_disagree = ( votes[-1].passive ) 
-		                										? votes[-1].passive 
-		                										: factory.motionVotes.deferred_disagree;
-		            }
-		            if(votes[0]){
-		            	factory.motionVotes.abstain =  ( votes[0].active ) 	
-		            								   ? votes[0].active  
-		            								   : factory.motionVotes.abstain;
-		                factory.motionVotes.deferred_abstain = ( votes[0].passive ) 
-		                									   ? votes[0].passive 
-		                									   : factory.motionVotes.deferred_abstain;
-		            }
-
-		            return factory.motionVotes;
+		    		factory.getOverallPosition(factory.votes);
+		    		return factory.votes = r.data;
 	            });
 		    },
 		    showMessage: function(pos) {
@@ -66,17 +35,26 @@
 				
 				ToastMessage.simple( 'You ' + pos + " with this " + $translate.instant('MOTION') );
 		    },
-		    getOverallPosition: function() {
-		    	var position;
+		    getOverallPosition: function(votes) {
 
-	            if(this.motionVotes.disagree.number > this.motionVotes.agree.number)
-	                position = "thumb-down";
-	            else if(this.motionVotes.disagree.number < this.motionVotes.agree.number)
-	                position = "thumb-up";
-	            else
-	                position = "thumbs-up-down";
+		    	if(votes)
+		    		this.votes = votes; 
 
-	            return position; 
+		    	if(!this.votes['-1'] && !this.votes['1'])
+	                this.overallPosition = "thumbs-up-down";
+		    	else if (this.votes['-1'] && !this.votes['1'])
+		    		this.overallPosition = "thumb-down";
+		    	else if (!this.votes['-1'] && this.votes['1'])
+		    		this.overallPosition = "thumb-up";
+		    	else if (this.votes['-1'].active.number > this.votes['1'].active.number)
+		    		this.overallPosition = "thumb-down";
+		    	else if (this.votes['-1'].active.number < this.votes['1'].active.number)
+		    		this.overallPosition = "thumb-up";
+		    	else 
+	                this.overallPosition = "thumbs-up-down";
+
+				factory.voteLoading = false; 
+				return this.overallPosition;
 		    },
 		    successFunc: function(vote, pos, quickVote) {
 
@@ -88,6 +66,7 @@
 		    	}
 
 				if($stateParams.id == vote.motion_id){
+					factory.voteLoading = true;
 					commentObj.getMotionComments(vote.motion_id);  
 					$rootScope.$broadcast('usersVoteHasChanged', {vote: vote});
 				}

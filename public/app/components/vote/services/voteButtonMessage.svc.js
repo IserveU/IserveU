@@ -27,7 +27,10 @@
 
 				return "This "+ $translate.instant('MOTION') + " is closed.";
 			
-			}
+			} else if ( isMotionOpen.isReview() ) 
+			
+				return "This "+ $translate.instant('MOTION') + " is view only.";
+			
 
 			else return type + $translate.instant('MOTION');
 		}

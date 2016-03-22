@@ -29,6 +29,9 @@
 			auth.getNoPassword($stateParams.token).then(function(data) {
 					
 					var r = data.data;
+
+					console.log(r);
+
 					afterauth.setLoginAuthDetails(r.user, r.token, true);
 
 				}, function(error) {

@@ -11,26 +11,25 @@
     </head>
 
 
-    <body ng-controller="CommonController as commons" ng-cloak style="overflow:hidden" back-img class="background-image"> 
+    <body ng-controller="CommonController as commons" back-img class="background-image" ng-cloak> 
 
         <user-bar ng-if="commons.isLogin" ng-cloak></user-bar>
 
-        <md-content id="maincontent" layout="row" style="height: 93vh" layout-fill flex ng-cloak>
+        <md-content id="maincontent" layout="row" layout-fill flex ng-cloak ng-class="pageLoading?'loading':''">
 
-                <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
-                style="height: 90vh;"
-                class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
-                md-component-id="left" 
-                md-is-locked-open="$mdMedia('gt-sm')" 
-                ng-cloak>
-                    <motion-sidebar flex></motion-sidebar>
-                </md-sidenav>
+            <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
+            role="nav"
+            class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
+            md-component-id="left" 
+            md-is-locked-open="$mdMedia('gt-sm')" 
+            ng-cloak>
+                <motion-sidebar flex></motion-sidebar>
+            </md-sidenav>
 
-                <div layout="column" layout-fill>
-                    <div ui-view flex role="main" tabIndex="-1" layout-margin></div>
-                    <show-footer layout-margin></show-footer>                    
-                </div>
-
+            <div layout="column" layout-fill>
+                <div ui-view flex role="main" tabIndex="-1" layout-margin></div>
+                <show-footer layout-margin></show-footer>                    
+            </div>
 
         </md-content>
     </body>        

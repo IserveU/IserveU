@@ -1,0 +1,40 @@
+<md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding>
+
+    <md-grid-tile class="md-whiteframe-z1">
+	    <md-icon md-svg-icon="/themes/{{::themename}}/department_icons/{{::motion.details.icon}}.svg"></md-icon>
+	    <md-tooltip md-direction="left">{{ ::motion.details.department }}</md-tooltip>
+    </md-grid-tile>
+
+    <md-grid-tile ng-if="motion.details.closing !== null" class="md-whiteframe-z1">
+	    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" ng-if="!motion.details.MotionOpenForVoting" hide-sm>
+	    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
+	    </md-icon>
+
+	    <md-icon ng-if="!motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" hide-md hide-gt-md>
+	    	<md-tooltip>{{'CLOSED' | translate}}</md-tooltip>
+	    </md-icon>
+
+	    <md-icon ng-if="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-sm>
+	    	<md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ ::motion.details.closing.alpha_date }}</md-tooltip>
+	    </md-icon>
+
+	    <md-icon ng-if="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-md hide-gt-md>
+	    	<md-tooltip>{{ 'CLOSES_ON' | translate }} {{ ::motion.details.closing.alpha_date }}</md-tooltip>
+	    </md-icon>
+    </md-grid-tile>
+
+    <md-grid-tile class="md-whiteframe-z1">
+	  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.getOverallPosition() }}.svg"  ng-if="votes.getOverallPosition()"></md-icon>
+<!-- 		  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="votes.getOverallPosition()"></md-icon> -->
+	    
+	    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() != 'thumbs-up-
+	    down'">Most people {{ votes.getOverallPosition() == 'thumb-up' ? 'agree' : 'disagree' }}</md-tooltip>
+	    <md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down' && !vote.votes">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
+       	<md-tooltip md-direction="left" ng-if="votes.getOverallPosition() == 'thumbs-up-down' && vote.votes">This {{ 'MOTION' | translate }} has resulted in a tie.</md-tooltip>
+	    
+    </md-grid-tile>
+
+    <md-grid-tile class="md-whiteframe-z1">
+	    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
+    </md-grid-tile>
+</md-grid-list>
