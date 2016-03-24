@@ -4,19 +4,21 @@
 		.module('iserveu')
 		.directive('registerForm', registerForm);
 
-	function registerForm() {
+	function registerForm(loginService) {
 
-		function registerFormController() {
-			
-			// do something
+
+		function registerFormLink(scope, el, attrs) {
+
+			scope.$on('$destroy', function() {
+				loginService.creating = false;
+			});
 
 		}
 
 
 		return {
-			controller: registerFormController,
-			controllerAs: 'register',
-			templateUrl: 'app/shared/auth/register/register.tpl.html'
+			templateUrl: 'app/shared/auth/register/register.tpl.html',
+			link: registerFormLink
 		}
 
 

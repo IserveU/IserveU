@@ -292,7 +292,7 @@ md-sidenav.md-locked-open {
 	height: 93vh;
 
 	&.loading{
-		md-card-content{
+		.loginbox, md-card-content{
 			filter: blur(5px) grayscale(0.5);
 			transition-delay: 3s;
 		}

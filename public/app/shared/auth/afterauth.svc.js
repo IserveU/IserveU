@@ -19,7 +19,7 @@
 
 			if(resetPassword){
 				$rootScope.userIsLoggedIn = true;
-				$state.go('edit-user', {id: user.id});
+				$state.transitionTo('edit-user', {id: user.id});
 			}
 			else
 				redirect();
@@ -30,8 +30,8 @@
 			$rootScope.userIsLoggedIn = true;
 
 			return $rootScope.redirectUrlName 
-				   ? $state.go($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
-				   : $state.go('home');
+				   ? $state.transitionTo($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
+				   : $state.transitionTo('home');
 		}
 
 		function clearCredentials(){

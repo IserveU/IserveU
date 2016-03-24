@@ -44,7 +44,13 @@
 
 	    return {
 	    	controller: MotionController,
-	    	templateUrl: 'app/components/motion/partials/motion.tpl.html'
+	    	templateUrl: 'app/components/motion/partials/motion.tpl.html',
+	    	link: function(scope, el, attrs) {
+	    		scope.$on('$destroy', function() {
+	    			voteObj.clear();
+	    			commentObj.clear();
+	    		});
+	    	}
 	    }
 
 

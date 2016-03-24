@@ -53,8 +53,6 @@
 			
 			auth.postUserCreate( factory.newUser )
 				.then(function(r){
-
-				factory.creating = false;
 				
 				login({email: factory.newUser.email, 
 					   password:factory.newUser.password} );

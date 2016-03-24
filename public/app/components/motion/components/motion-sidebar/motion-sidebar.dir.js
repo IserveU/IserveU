@@ -17,9 +17,6 @@
 		vm.motionObj		 = motionObj;
 		vm.motionListLoading = motionObj.data.length > 0 ? false : true;
 		vm.search		 	 = motionSearchFactory; 
-
-		console.log(motionSearchFactory);
-
 		
 		/* HTML access to functions */
 		vm.loadMoreMotions   = loadMoreMotions;		
@@ -40,8 +37,6 @@
 		};
 	
 		loadMoreMotions();
-
-
 	};
 
     return {

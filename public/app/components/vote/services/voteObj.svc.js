@@ -73,6 +73,9 @@
 		    },
 			clear: function() {
 				this.user = {postion:null};
+				this.votes = {};
+				this.overallPosition = null;
+				this.voteLoading = true;
 			}
 		};
 

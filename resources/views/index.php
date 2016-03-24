@@ -15,7 +15,7 @@
 
         <user-bar ng-if="commons.isLogin" ng-cloak></user-bar>
 
-        <md-content id="maincontent" layout="row" layout-fill flex ng-cloak ng-class="pageLoading?'loading':''">
+        <md-content id="maincontent" layout="row" layout-fill flex ng-cloak ng-class="pageLoading?'loading':''" ng-style="{'height' : commons.isLogin?'93':'100vh'}">
 
             <md-sidenav ng-if="commons.isLogin && settingsGlobal.module.motions"
             role="nav"

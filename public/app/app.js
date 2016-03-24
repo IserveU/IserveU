@@ -24,6 +24,8 @@
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
 
+			    	$rootScope.pageLoading = true;
+
 					/**
 					*	Taken out for Localized Economies which does not require this level
 					*   of authentication. Must also allow user's to view things.
@@ -42,8 +44,6 @@
 					globalService.checkUser();
 					globalService.setState( toState );
 			    	
-			    	$rootScope.pageLoading = true;
-
 				});
 
 			    $rootScope.$on('$viewContentLoaded',function(){

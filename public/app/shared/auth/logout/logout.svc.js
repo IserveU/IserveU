@@ -4,11 +4,13 @@
 		.module('iserveu')
 		.service('logoutService', logoutService);
 
-	function logoutService($state, auth, afterauth, commentObj, motionObj, voteObj) {
+	function logoutService($rootScope, $state, auth, afterauth, commentObj, motionObj, voteObj) {
 
 		return function() {
 		
-			$state.go('login', {});		
+			$rootScope.pageLoading = true;
+
+			$state.transitionTo('login');		
 
 			motionObj.clear();
 			commentObj.clear();
@@ -18,8 +20,6 @@
 				afterauth.clearCredentials();
 			});
 		};
-
-
 	}
 
 })();
