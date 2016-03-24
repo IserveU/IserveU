@@ -159,8 +159,38 @@ class EntrustRoleTableSeeder extends Seeder
 		$editDepartment->description 			=	'Can activate and departments';
 		$editDepartment->save();
 
-		$councillor->attachPermissions(array($createComment,$createVote,$createMotion,$editMotion, $createCommentVote, $viewCommentVote));
-		$citizen->attachPermissions(array($createComment,$createVote,$createCommentVote,$createBackgroundImage));
-		$admin->attachPermissions(array($editUser,$showUser,$deleteUser,$createComment,$createVote,$createMotion,$editMotion,$showMotion,$deleteMotion,$createProperty,$editProperty,$viewComment,$showVote,$createCommentVote,$viewCommentVote,$editPermission,$createBackgroundImage,$editBackgroundImage,$createDepartment,$editDepartment));    
+		$councillor->attachPermissions(array($createComment,
+											 $createVote,
+											 $createMotion,
+											 $editMotion, 
+											 $createCommentVote, 
+											 $viewCommentVote));
+
+		$citizen->attachPermissions(array($createBackgroundImage,
+										  $createComment,
+										  $createCommentVote,
+										  $createMotion,
+										  $createVote));
+
+		$admin->attachPermissions(array($editUser,
+										$showUser,
+										$deleteUser,
+										$createComment,
+										$createVote,
+										$createMotion,
+										$editMotion,
+										$showMotion,
+										$deleteMotion,
+										$createProperty,
+										$editProperty,
+										$viewComment,
+										$showVote,
+										$createCommentVote,
+										$viewCommentVote,
+										$editPermission,
+										$createBackgroundImage,
+										$editBackgroundImage,
+										$createDepartment,
+										$editDepartment));    
     }
 }
