@@ -26,7 +26,6 @@ class MotionController extends ApiController {
 	{
 		$this->motionTransformer = $motionTransformer;
 		$this->middleware('jwt.auth',['except'=>['index','show']]);
-
 	}
 
 	/**
@@ -144,7 +143,6 @@ class MotionController extends ApiController {
 			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
 		}
 
-
 		if(Auth::check() && !Auth::user()->can('create-motions') && $motion->status < 2 ){
 			abort(403, 'Forbidden access point.');
 		}
@@ -184,8 +182,14 @@ class MotionController extends ApiController {
 			abort(403,'You do not have permission to update a motion');
 		}
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
+		// Too strict for only users who have made it; if a user submits
+		// a motion idea, how does one change the status?
+		// if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
+		// 	abort(401,"This user can not edit motion ($id)");
+		// }
+
+		if(!Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit motion ($motion->id)");
 		}
 
 		if($motion->expired){ //Motion has closed/expired

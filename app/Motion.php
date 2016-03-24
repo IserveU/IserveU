@@ -29,13 +29,13 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id', 'closing', 'content'];
+	protected $fillable = ['title','text','summary','department_id', 'closing', 'content', 'status'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
 	 * @var array
 	 */
-	protected $adminFillable = ['status'];
+	protected $adminFillable = [];
 	
 	/**
 	 * The attributes included in the JSON/Array
@@ -203,7 +203,7 @@ class Motion extends ApiModel {
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
 	 */
 	public function setStatusAttribute($value){
-		//Coverts value to the integer if not set
+		//Converts value to the integer if not set
 		if(!is_numeric($value)){
 			switch ($value){
 				case 'draft':
@@ -219,6 +219,11 @@ class Motion extends ApiModel {
 					$value = 3;
 					break;
 			}
+		}
+
+		if(!Auth::user()->can('administrate-motions') && $value > 1){
+			$this->attributes['status'] = 1;
+			return true;
 		}
 
 		/* I am not exactly sure I agree with this. I think this is too opinionated. Especially
