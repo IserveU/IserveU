@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.service('utils', [$filter, utils]);
+		.service('utils', ['$filter', utils]);
 
 	function utils($filter) {
 
