@@ -312,16 +312,17 @@ md-sidenav.md-locked-open {
 	}
 
 	.bio {
-		display: inline-block;
+		display: block;
 		img {
-			width: 100px !important; height:auto !important; vertical-align: top;
+			width: 100px !important; height:auto !important; 
 		}
 		span {
 			display: inline-block;
+			// float:right; overflow:auto; clear:left;
 		}
-		p, a, i {
-			display: block;
-		}
+		// p, a, i {
+		// 	display: block;
+		// }
 	}
 
 	.budget {
@@ -483,31 +484,31 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
 	}
 }
 input.sidebar-search-input {
+
 	border: 0px;
 	background-color: transparent;
-	color: white;
+	color: $darkGrey;
 	font-size: inherit;
     border-style: solid;
     line-height: 120%;
-    border-bottom: thin solid white;
-	
+    border-bottom: thin solid $midGrey;
 	&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 		font-size: 16px;
-	    color:    $lightGrey;
+	    color:    $darkGrey;
 	}
 	&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 		font-size: 16px;
-	   	color:    $lightGrey;
+	   	color:    $darkGrey;
 	   	opacity:  1;
 	}
 	&::-moz-placeholder { /* Mozilla Firefox 19+ */
 		font-size: 16px;
-	   	color:    $lightGrey;
+	   	color:    $darkGrey;
 	   	opacity:  1;
 	}
 	&:-ms-input-placeholder { /* Internet Explorer 10-11 */
 		font-size: 16px;
-	   	color:    $lightGrey;
+	   	color:    $darkGrey;
 	}
 }
 /** End sidebar Styles **/
