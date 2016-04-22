@@ -2,7 +2,7 @@
 
 	'use strict';
 
-
+	// /** @ngInject */
 	var iserveu = angular
 		.module('iserveu', [
 			'ngCookies',
@@ -16,34 +16,20 @@
 			'flow',
             'infinite-scroll',
 			'pascalprecht.translate',
-			'mdColorPicker'
+			'mdColorPicker',
+			'isu-form-sections'
 		])
-		.run(['$rootScope', '$auth', '$window', '$timeout', 'redirect', 'globalService', 
-			function($rootScope, $auth, $window, $timeout, redirect, globalService) {
+		.run(['$rootScope', '$auth', '$window', '$timeout', '$globalProvider',
+			function($rootScope, $auth, $window, $timeout, $globalProvider) {
 				
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
-
 			    	$rootScope.pageLoading = true;
 
-					/**
-					*	Taken out for Localized Economies which does not require this level
-					*   of authentication. Must also allow user's to view things.
-					*/
-
-					// redirect.onLogin(toState, toParams, fromState);
-
-					// redirect.ifNotAuthenticated(
-					// 			event,
-					// 			toState.data.requireLogin,
-					// 			$auth.isAuthenticated(),
-					// 			toState.name,
-					// 			fromState.name
-					// 		);
-
-					globalService.checkUser();
-					globalService.setState( toState );
-			    	
+					$globalProvider.checkUser();
+					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
+					$globalProvider.setState( toState );
+					
 				});
 
 			    $rootScope.$on('$viewContentLoaded',function(){
@@ -52,7 +38,7 @@
 			    	}, 500);
 			    });
 
-		        globalService.init();
+		        $globalProvider.init();
 
 				$window.onbeforeunload = function(e) {
 					var publicComputer = localStorage.getItem('public_computer');
@@ -79,7 +65,7 @@
 
     function bootstrapApplication() {
         angular.element(document).ready(function() {
-            angular.bootstrap(document, ['iserveu']);
+            angular.bootstrap(document, ['iserveu'], {strictDi: true});
         });
     }
 		
