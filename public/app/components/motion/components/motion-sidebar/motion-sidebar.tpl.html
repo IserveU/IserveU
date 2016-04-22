@@ -46,7 +46,7 @@
         <p>Upcoming {{ 'MOTIONS' | translate }}:</p>
     </md-subheader>
 
-    <md-list-item layout="row" ng-repeat="review in sidebar.motionObj.data | isInReview | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+    <md-list-item layout="row" ng-repeat="review in sidebar.motionObj.data | isInReview | uniqueId | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
       <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon>
       <p ui-sref="motion({id:review.id})">{{ ::review.title }}</p>
     </md-list-item>
