@@ -6,9 +6,9 @@
     *
     ******************************************************************/
 
-
 	function postMotion($self, $attributes = [])
 	{
+
 		if(!$self) {
 			return factory(App\Motion::class)->create();
 		}
@@ -20,7 +20,9 @@
 		if($attributes) {
 			$motion = array_merge($motion, $attributes);
 		}
-		
+
+		$motion = array_merge($motion, ['token' => $self->token]);
+
 		$motion = $self->call('POST', '/api/motion?token='.$self->token, $motion);
 
 		$self->assertResponseOk();
@@ -37,7 +39,7 @@
 		$motion = postMotion($self, ['status' => 2]);
 
 		$vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-		$vote = $self->call('POST', '/api/vote/?token='.$self->token, $vote);
+		$vote = $self->call('POST', '/api/vote?token='.$self->token, $vote);
 
 	    $self->assertResponseOk();
 
@@ -109,7 +111,7 @@
 	function createComment($voteId)
 	{
 		return factory(App\Comment::class)->create(['vote_id' => $voteId]);
-}
+	}
 
     /*****************************************************************
     *
@@ -126,5 +128,29 @@
 	    return $new_position[$faker->numberBetween($min = 0, $max = 2)];
 	}
 
+	function publishMotion($motion, $user)
+	{
+		$updated = $user->call('PATCH', '/api/motion/'.$motion->id.'?token='.$user->token, ['status' => 2]);
+
+        $updated = $updated->getOriginalContent();
+
+        return $updated;
+	}
+
+	function agreeWithMotion($motion, $user)
+	{
+		$vote = $user->call('POST', '/api/vote/?token='.$user->token, 
+				['motion_id' => $motion->id, 'position' => 1]);
+
+		return $vote->getOriginalContent();
+	}
+
+	function disagreeWithMotion($motion, $user)
+	{
+		$vote = $user->call('POST', '/api/vote/?token='.$user->token, 
+				['motion_id' => $motion->id, 'position' => -1]);
+
+		return $vote->getOriginalContent();
+	}
 
 ?>

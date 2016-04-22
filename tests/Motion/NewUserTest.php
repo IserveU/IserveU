@@ -12,14 +12,7 @@ class NewUserTest extends TestCase
         parent::setUp();
 
         $this->published_motion = factory(App\Motion::class, 'published')->create();
-
-        // Doesn't work, sadly. Remains as a proof of concept.
-        // for($i = 0; $i <= 10; $i++) {
-        //     $user = factory(App\User::class, 'verified')->create();
-        //     $vote = factory(App\Vote::class)->create(['motion_id' => $this->published_motion->id, 'user_id' => $user->id]);
-        //     $comment = factory(App\Comment::class)->create(['vote_id' => $vote->id]);
-        // }
-
+        
         $this->signIn();
     }
 

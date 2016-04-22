@@ -28,22 +28,31 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    public function signIn($user = null){
+    public function signIn($user = null)
+    {
         if(!$user){
             $user = factory(App\User::class)->create();
         }
+        return $this->authenticate($user);
+    }
+
+    public function authenticate($user)
+    {
+        if (Auth::user()){
+            Auth::logout();
+        }
+
+        Auth::loginUsingId($user->id);
 
         $this->post( '/authenticate', ['email' => $user->email, 'password' => 'abcd1234'] );
-
         $content = json_decode($this->response->getContent());
-
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
-        $this->token = $content->token;
+
+
         $this->user = $user;
+        $this->token = $content->token;
         $this->actingAs($user);
 
         return $this;
-
     }
-
 }

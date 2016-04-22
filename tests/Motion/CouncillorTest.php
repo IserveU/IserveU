@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CouncillorTest extends TestCase
 {
 
-    use DatabaseTransactions;
+    // use DatabaseTransactions;
 
     public function setUp()
     {
@@ -16,6 +16,7 @@ class CouncillorTest extends TestCase
         $this->published_motion = factory(App\Motion::class, 'published')->create();
 
         $this->signIn();
+
         $this->user->addUserRoleByName('councillor');
     }
 
@@ -30,7 +31,8 @@ class CouncillorTest extends TestCase
     {
         $motion = createPublishedMotion();
 
-        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id); // , ['token' => $this->token]
+
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
@@ -38,9 +40,9 @@ class CouncillorTest extends TestCase
     /** @test */
     public function it_can_create_a_motion()
     {
-        $motion  = postMotion($this);
+        $motion = postMotion($this);
     
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
+        $this->seeInDatabase('motions', ['id' => $motion->id, 'title' => $motion->title, 'summary' => $motion->summary]);
 
         $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
         
