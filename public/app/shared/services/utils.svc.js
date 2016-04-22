@@ -4,9 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.service('utils', utils);
+		.service('utils', [$filter, utils]);
 
-	function utils() {
+	function utils($filter) {
 
 		this.capitalize = function(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
