@@ -122,6 +122,8 @@ class SetDefaultSettings extends Command
 
         $this->ifNullSet('logo', 'default', $overwrite);
 
+        $this->ifNullSet('allow_closing', true, $overwrite);
+
         $this->ifNullSet('email', array(
                 'footer' => array('slogan' => 'Conceived &amp; Forged In Yellowknife, Canada',
                                   'website' => 'http://iserveu.ca',
