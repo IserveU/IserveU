@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-
+use App\MotionFile;
 use App\File;
 use Input;
+use Auth;
 
 class FileController extends ApiController
 {
@@ -54,9 +55,9 @@ class FileController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(File $file)
     {
-        //
+        return $file;
     }
 
     /**
@@ -92,8 +93,19 @@ class FileController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $file)
     {
-        //
+        if(MotionFile::where('file_id', '=', $file->id)) {
+           if(!Auth::user()->can('delete-motions')){
+                abort(401,"You do not have permission to delete this motion file.");
+            }
+            $motionFile = MotionFile::where('file_id', '=', $file->id)->delete();
+            return $motionFile;
+        }
+
+
+        $file = File::find($file->id);
+        $file->delete();
+        return $file;
     }
 }

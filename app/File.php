@@ -127,7 +127,7 @@ class File extends ApiModel
 		});
 
 		static::deleted(function($model){
-			\File::delete(getcwd()."/uploads/".$model->fileCategory->name."/".$model->filename);
+			// \File::delete(getcwd()."/uploads/".$model->fileCategory->name."/".$model->filename);
 			return true;
 		});
 
@@ -136,81 +136,81 @@ class File extends ApiModel
 
 	/************************************* Custom Methods *******************************************/
 	
-	public function uploadFile($file_category_name,$input_name="file",Request $request){
+	// public function uploadFile($file_category_name,$input_name="file",Request $request){
 
-		$file_max_size = $this->iniGetBytes('upload_max_filesize');
-		$post_max_size = $this->iniGetBytes('post_max_size');
+	// 	$file_max_size = $this->iniGetBytes('upload_max_filesize');
+	// 	$post_max_size = $this->iniGetBytes('post_max_size');
 
-		if($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
-			abort(403, "The file is too big. There is a post limit of ".ini_get('post_max_size')." on the server.");
-		}
+	// 	if($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
+	// 		abort(403, "The file is too big. There is a post limit of ".ini_get('post_max_size')." on the server.");
+	// 	}
 
-		$file_category = FileCategory::where('name',$file_category_name)->first();
-		if(!$file_category){
-			$file_category = FileCategory::create(['name'=>$file_category_name]);
-		}
+	// 	$file_category = FileCategory::where('name',$file_category_name)->first();
+	// 	if(!$file_category){
+	// 		$file_category = FileCategory::create(['name'=>$file_category_name]);
+	// 	}
 
-		$this->file_category_id = $file_category->id;
-		$this->title 			= $request->input('title');
-		$file = $request->file($input_name);
+	// 	$this->file_category_id = $file_category->id;
+	// 	$this->title 			= $request->input('title');
+	// 	$file = $request->file($input_name);
 
-		if(!$file){
-			return false;
-		}
+	// 	if(!$file){
+	// 		return false;
+	// 	}
 
-		$size = $file->getSize();
-		if($size > $file_max_size) {
-			abort(403, "The file is too big. Files should be less than ".ini_get('upload_max_filesize').".");
-		}
+	// 	$size = $file->getSize();
+	// 	if($size > $file_max_size) {
+	// 		abort(403, "The file is too big. Files should be less than ".ini_get('upload_max_filesize').".");
+	// 	}
 
-		try{
-			$mimeType = $file->getMimeType();
-		} catch (\Exception $e){
-			\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
-		}
+	// 	try{
+	// 		$mimeType = $file->getMimeType();
+	// 	} catch (\Exception $e){
+	// 		\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
+	// 	}
 
-		if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
+	// 	if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
 
-			try {
-	      		$img = Image::make($file)->resize(1920, null, function($constraint){
-	      			$constraint->aspectRatio();
-	      			$constraint->upsize();
-	      		});
-			} catch (Exception $e) {
-			    abort(400,'There was an error uploading and resizing the image');
-			} catch (NotReadableException $e){
-				abort(403,"Unable to read image from file");
-			}
+	// 		try {
+	//       		$img = Image::make($file)->resize(1920, null, function($constraint){
+	//       			$constraint->aspectRatio();
+	//       			$constraint->upsize();
+	//       		});
+	// 		} catch (Exception $e) {
+	// 		    abort(400,'There was an error uploading and resizing the image');
+	// 		} catch (NotReadableException $e){
+	// 			abort(403,"Unable to read image from file");
+	// 		}
 
-			$this->image = true;
+	// 		$this->image = true;
 
-		    $filename = md5($img->response()).".png";
-		    $img->save(getcwd()."/uploads/".$this->fileCategory->name."/$filename");   
-		} else {
-		    $filename = md5($file).".".$file->getClientOriginalExtension();
-			$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
-			$this->image = false;
-		}
+	// 	    $filename = md5($img->response()).".png";
+	// 	    $img->save(getcwd()."/uploads/".$this->fileCategory->name."/$filename");   
+	// 	} else {
+	// 	    $filename = md5($file).".".$file->getClientOriginalExtension();
+	// 		$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
+	// 		$this->image = false;
+	// 	}
 
-		$this->filename 	=	$filename;
+	// 	$this->filename 	=	$filename;
 
-	}
+	// }
 	
-	public function iniGetBytes($value){
-		$value = trim(ini_get($value));
-		$last = strtolower($value{strlen($value) -1});
+	// public function iniGetBytes($value){
+	// 	$value = trim(ini_get($value));
+	// 	$last = strtolower($value{strlen($value) -1});
 
-		switch ($last) {
-	        case 'g':
-	            $value *= 1024;
-	        case 'm':
-	            $value *= 1024;
-	        case 'k':
-	            $value *= 1024;
-	    }
+	// 	switch ($last) {
+	//         case 'g':
+	//             $value *= 1024;
+	//         case 'm':
+	//             $value *= 1024;
+	//         case 'k':
+	//             $value *= 1024;
+	//     }
 
-		return $value;
-	}
+	// 	return $value;
+	// }
 
 	/************************************* Getters & Setters ****************************************/
 

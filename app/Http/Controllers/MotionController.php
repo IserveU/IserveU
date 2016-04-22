@@ -1,22 +1,31 @@
 <?php namespace App\Http\Controllers;
 
 // use App\Http\Requests;
-use App\Http\Controllers\Controller;
-// use Illuminate\Support\Facades\Request;
+// use App\Http\Controllers\Controller;
+// use Illuminate\Support\Facades\Input;
+
+
+use Auth;
+use DB;
+use Setting;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+
+use App\Http\Requests\CreateMotionRequest;
+use App\Http\Requests\DestroyMotionRequest;
+use App\Http\Requests\EditMotionRequest;
+use App\Http\Requests\ShowMotionRequest;
+use App\Http\Requests\StoreMotionRequest;
+use App\Http\Requests\UpdateMotionRequest;
+
+use App\Transformers\MotionTransformer;
 
 use App\MotionRank;
 use App\Motion;
 use App\Comment;
 use App\CommentVote;
 use App\Vote;
-use Auth;
-use DB;
-use Setting;
 
-use App\Transformers\MotionTransformer;
 
 class MotionController extends ApiController {
 
@@ -95,12 +104,8 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function create(){
-		if(!Auth::user()->can('create-motions')){
-			abort(401,'You do not have permission to create a motion');
-		}
-
-		return (new Motion)->fields;		
+	public function create(CreateMotionRequest $request){
+		return (new Motion)->fields;	// don't really need these routes 	
 	}
 
 	/**
@@ -108,12 +113,8 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(StoreMotionRequest $request)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(401,'You do not have permission to create a motion');
-		}
-
 		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
 
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
@@ -124,11 +125,7 @@ class MotionController extends ApiController {
 		 	abort(403,$motion->errors);
 		}
 
-        if($request->has('section')){
-            $motion->section = array_merge($request->input('section'), array("motion_id" => $motion->id));
-        }
-
-     	return $motion;
+     	return $this->motionTransformer->transform($motion);
 	}
 
 	/**
@@ -137,18 +134,9 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Motion $motion)
+	public function show(ShowMotionRequest $request, Motion $motion)
 	{
-		if(Auth::check()){
-			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
-		}
-
-		if(Auth::check() && !Auth::user()->can('create-motions') && $motion->status < 2 ){
-			abort(403, 'Forbidden access point.');
-		}
-
-		// runs this through the transformer
-		return $this->motionTransformer->transform($motion->toArray());
+		return $this->motionTransformer->transform($motion);
 	}
 
 	/**
@@ -157,16 +145,8 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit(Motion $motion)
+	public function edit(EditMotionRequest $request, Motion $motion)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(403,'You do not have permission to create/update motions');
-		}
-
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
-		}
-
 		return $motion->fields;
 	}
 
@@ -176,35 +156,13 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Request $request, Motion $motion)
+	public function update(UpdateMotionRequest $request, Motion $motion)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(403,'You do not have permission to update a motion');
-		}
-
-		// Too strict for only users who have made it; if a user submits
-		// a motion idea, how does one change the status?
-		// if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-		// 	abort(401,"This user can not edit motion ($id)");
-		// }
-
-		if(!Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($motion->id)");
-		}
-
-		if($motion->expired){ //Motion has closed/expired
-			abort(403,'This motion has expired and can not be edited');
-		}
-
 		$motion->secureFill( $request->all() );
 
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
-
-        if($request->has('section')){
-            $motion->section = array_merge($request->input('section'), array("motion_id" => $motion->id));
-        }
 
 		return $motion;
 	}
@@ -215,12 +173,8 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Motion $motion)
+	public function destroy(DestroyMotionRequest $request, Motion $motion)
 	{
-		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motions')){
-			abort(401,"You do not have permission to delete this motion");
-		}
-
 		$votes = $motion->votes;
 		
 		if(!$votes){ //Has not recieved votes

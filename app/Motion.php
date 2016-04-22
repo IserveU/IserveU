@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
 use Carbon\Carbon;
-use App\Events\MotionUpdated;
-use App\Events\MotionCreated;
 use Setting;
 
-use App\Motion\MotionSection;
+use App\Events\MotionUpdated;
+use App\Events\MotionCreated;
 
+use App\Section\Sectionable;
 
 class Motion extends ApiModel {
 
-	use SoftDeletes, Eloquence, Mappable;
+	use SoftDeletes, Eloquence, Mappable, Sectionable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -29,7 +29,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id', 'closing', 'content', 'status'];
+	protected $fillable = ['title','text','summary','department_id','closing','status','sections'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -41,14 +41,15 @@ class Motion extends ApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes','MotionOpenForVoting','closing','motion_rank','user_vote','status', 'updated_at'];
+	protected $visible = ['title','text','summary','department_id','id','votes',
+						  'MotionOpenForVoting','closing','motion_rank','user_vote',
+						  'status', 'updated_at', 'sections'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
 	 * @var array
 	 */
 	protected $hidden = [];
-	
 
 	/**
 	 * The attributes visible to an administrator of this model
@@ -69,6 +70,7 @@ class Motion extends ApiModel {
    	protected $maps = [
        	'motion_rank'		=> 	'lastestRank.rank',
        	'user_vote'			=>	'userVote'
+       	// 'sections'			=>  'sections'
     ];
 
 	/**
@@ -98,7 +100,7 @@ class Motion extends ApiModel {
 	protected $onUpdateRequired = ['id'];
 
 	/**
-	 * The variables requied when you do the initial create
+	 * The variables required when you do the initial create
 	 * @var array
 	 */
 	protected $onCreateRequired = ['title','text','user_id','department_id'];
@@ -108,18 +110,6 @@ class Motion extends ApiModel {
 	 * @var array
 	 */
 	protected $unique = ['title'];
-
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'title' 				=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The unique title of your motion'],
-		'active'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'closing'	 			=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'text'	 				=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-	];
-
 
 	/**
 	 * The fields that are dates/times
@@ -161,12 +151,9 @@ class Motion extends ApiModel {
         });
 	}
 
-	/************************************* Custom Methods *******************************************/
 	
 	
 	/************************************* Getters & Setters ****************************************/
-
-
 
 	public function setClosingAttribute($value){
 		if(!$this->motionRanks->isEmpty()){
@@ -263,24 +250,6 @@ class Motion extends ApiModel {
 				break;
 		}
 	
-		return true;
-	}
-
-
-	public function setSectionAttribute(array $input){
-
-        if(!$this->getAttribute('id')){
-            return false;
-        } 
-
-        if( isset($input['id']) ) {
-        	$section = MotionSection::find($input['id']);
-        	$section->update($input);
-        }
-        else {
-			MotionSection::create($input);
-        }
-
 		return true;
 	}
 
@@ -386,16 +355,5 @@ class Motion extends ApiModel {
 			return $this->hasMany('App\Vote');
 		}
 	}
-
-    /**
-     * Get the subsections attached.
-     */
-    public function section()
-    {
-        return $this->hasMany('App\Motion\MotionSection', 'motion_id');
-    }
-
-
-
 
 }

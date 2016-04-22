@@ -12,8 +12,8 @@
 
 
 //https://github.com/fzaninotto/Faker
-
 $factory->define(App\User::class, function ($faker) use ($factory) {
+
 
     return [
         'first_name'        => $faker->firstName,
@@ -21,14 +21,13 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'last_name'         => $faker->lastName,
         'email'             => $faker->email,
         'password'          => 'abcd1234',
-        'remember_token'    => str_random(10),  
+        'public'            => 0,
         'ethnic_origin_id'	=> $faker->numberBetween($min = 1, $max = 23),
         'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
         'login_attempts'	=> 0,
         'identity_verified' => 0,
         'created_at'        => \Carbon\Carbon::now()
     ];
-
 });
 
 
@@ -36,9 +35,7 @@ $factory->defineAs(App\User::class, 'unverified', function (Faker\Generator $fak
 
     $user = $factory->raw(App\User::class);
 
-    $user['identity_verified'] = 0;
-
-    return $user;
+    return array_merge($user, ['identity_verified' => 0]);
 });
 
 
@@ -76,6 +73,8 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         $admin->addUserRoleByName('administrator');
         $admin->user_id = $admin->id;
     }
+
+    Auth::loginUsingId($admin->user_id);
 
     return [
         'title'         => $faker->sentence($nbWords = 6),
@@ -117,8 +116,6 @@ $factory->defineAs(App\Motion::class, 'review', function (Faker\Generator $faker
 $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $faker)  use ($factory) {
 
     $motion = $factory->raw(App\Motion::class);
-
-
 
     return array_merge($motion, array_merge(createClosingDate(), ['status' => 2]) );
 });
