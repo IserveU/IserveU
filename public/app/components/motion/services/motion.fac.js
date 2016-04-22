@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('motion', motion);
+		.factory('motion', ['$resource', '$q', '$http', 'ToastMessage', motion]);
 
 	 /** @ngInject */
 	function motion($resource, $q, $http, ToastMessage) {

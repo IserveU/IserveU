@@ -4,7 +4,8 @@
 
 	angular
 		.module('iserveu')
-		.factory('loginService', loginService);
+		.factory('loginService', ['$rootScope', 'auth', 'afterauth', 'ToastMessage', 'motionObj',
+			loginService]);
 
   	 /** @ngInject */
 	function loginService($rootScope, auth, afterauth, ToastMessage, motionObj) {

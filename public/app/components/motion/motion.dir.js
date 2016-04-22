@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('displayMotion', displayMotion);
+		.directive('displayMotion', [
+			'$stateParams', 'motion', 'motionObj', 'voteObj', 'commentObj', 'motionFilesFactory',
+			displayMotion]);
 
 	 /** @ngInject */
 	function displayMotion($stateParams, motion, motionObj, voteObj, commentObj, motionFilesFactory) {
@@ -21,21 +23,19 @@
 			*	If it has not been receieved from the API yet, 
 			*	it will do a single pull.
 			*/
-	        function getMotion(id) {
+	        function getMotion(id, mData) {
 
-	            var catchMotion = motionObj.getMotionObj(id);
-	            
-	            commentObj.comment  = null;
-	            motionObj.details   = null;
-	            motionObj.isLoading = true;
-	            voteObj.voteLoading = true;
+	            var motionData = mData || motionObj.getMotionObj(id);
 
-	            if (catchMotion) 
-	                motionObj.setMotionDependencies(catchMotion)
-	            else 
-	                motion.getMotion(id).then(function(r) {
-	                    motionObj.setMotionDependencies(r);
-	                });     
+	            console.log(motionData);
+
+	            motionObj.clearMotionDependencies();
+
+				// If is a promise, then call self to resolve.
+	     		if(motionData.hasOwnProperty('$$state')) 
+	     			motionData.then(function(mData){ return getMotion(id, mData);});
+	     		else
+	     			motionObj.setMotionDependencies(motionData);
 	        }
 
 	        getMotion($stateParams.id);
@@ -43,7 +43,7 @@
 
 
 	    return {
-	    	controller: MotionController,
+	    	controller: ['$scope', MotionController],
 	    	templateUrl: 'app/components/motion/partials/motion.tpl.html',
 	    	link: function(scope, el, attrs) {
 	    		scope.$on('$destroy', function() {

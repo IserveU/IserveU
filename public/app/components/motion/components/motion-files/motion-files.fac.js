@@ -4,22 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('motionfile', motionfile);
+		.factory('motionfile', ['$resource', '$q', '$http', motionfile]);
 
 	 /** @ngInject */
 	function motionfile($resource, $q, $http) {
-
-		function uploadMotionFile(motion_id, fd){
-			return $http.post('api/motion/'+motion_id+'/motionfile/', fd, {
-		        withCredentials: true,
-		        headers: {'Content-Type': undefined },
-		        transformRequest: angular.identity
-		    }).success(function(result) {
-				return result;
-			}).error(function(error) {
-				return error;
-			});
-		}
 
 		// set up resources from ng-resource
 		var MotionFile = $resource('api/motion/:motion_id/motionfile/:file_id', {motion_id:'@motion_id', file_id:'@file_id'}, {
@@ -62,7 +50,6 @@
 
 		return {
 			getMotionFiles: getMotionFiles,
-			uploadMotionFile: uploadMotionFile,
 			getMotionFile: getMotionFile,
 			updateMotionFile: updateMotionFile,
 			deleteMotionFile: deleteMotionFile

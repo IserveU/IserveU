@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('pagesFab', pagesFab);
+		.directive('pagesFab', ['$stateParams', 'pageObj', 'fabLink', 'ToastMessage', pagesFab]);
 
   	 /** @ngInject */
 	function pagesFab($stateParams, pageObj, fabLink, ToastMessage) {

@@ -4,16 +4,17 @@
 
 	angular
 		.module('iserveu')
-		.factory('afterauth', afterauth);
+		.factory('afterauth', [
+'$stateParams', '$state', '$rootScope', 'auth', 'user',
+			afterauth]);
 
   	 /** @ngInject */
-	function afterauth($stateParams, $state, $rootScope, auth, user, SetPermissionsService) {
+	function afterauth($stateParams, $state, $rootScope, auth, user) {
 
 		 function setLoginAuthDetails (user, token, resetPassword){
 			if(token)
 				localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
 
-			SetPermissionsService.set( JSON.stringify( user.permissions ) );
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			$rootScope.authenticatedUser = user;
 

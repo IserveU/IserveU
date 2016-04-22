@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('vote', vote);
+		.factory('vote', ['$resource', '$q', '$http', vote]);
 
   	 /** @ngInject */
 	function vote($resource, $q, $http) {

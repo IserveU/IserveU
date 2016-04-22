@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('role', role);
+		.factory('role', ['$resource', '$q', role]);
 
   	 /** @ngInject */
 	function role($resource, $q) {

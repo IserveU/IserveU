@@ -5,7 +5,7 @@
 
 	angular
 		.module('iserveu')
-		.service('errorHandler', errorHandler);
+		.service('errorHandler', ['$state', errorHandler]);
 
 	/** @ngInject */
 	function errorHandler($state) {

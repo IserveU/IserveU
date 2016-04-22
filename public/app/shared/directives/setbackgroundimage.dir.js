@@ -4,35 +4,18 @@
 
 	angular
 		.module('iserveu')
-		.directive('backImg', backImg);
+		.directive('setBackImg', ['SETTINGS_JSON', setBackImg]);
 
-  	 /** @ngInject */
-	function backImg($http) {
-
-		function linkMethod(scope, element, attrs){
-				
-			$http.get('settings').success(function(r){
-				set( r.background_image 
-					 ? r.background_image 
-		    		 : "/themes/default/photos/background.png");
-			}).error(function(e){
-				console.log(e);
-			});
-
-			function set(background_image){
+	function setBackImg(SETTINGS_JSON) {
+		return {
+			link: function (scope, element, attrs){
 				element.css({
-				    'background-image': 'url('+background_image+')'
+				    'background-image': 'url('+SETTINGS_JSON.background_image+')'
 				});
 			}
-		}
-
-
-		return {
-			link: linkMethod
-		}
-
+		};
 	}
 
 
 
-}());
+})();

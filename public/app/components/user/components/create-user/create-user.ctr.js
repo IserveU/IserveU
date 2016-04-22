@@ -4,7 +4,8 @@
 
 	angular
 		.module('iserveu')
-		.controller('CreateUserController', CreateUserController);
+		.controller('CreateUserController', ['$rootScope', '$scope', '$state', 'user', 'ToastMessage',
+			CreateUserController]);
 
   	 /** @ngInject */
 	function CreateUserController($rootScope, $scope, $state, user, ToastMessage){

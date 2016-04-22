@@ -4,7 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.service('resetPasswordService', resetPasswordService);
+		.service('resetPasswordService', [
+			'$rootScope', '$state', '$stateParams', 
+			'auth', 'afterauth', 'ToastMessage',
+			resetPasswordService]);
 
   	 /** @ngInject */
 	function resetPasswordService($rootScope, $state, $stateParams, auth, afterauth, ToastMessage) {

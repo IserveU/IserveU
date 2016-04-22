@@ -50,11 +50,11 @@
 				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 			}
 		})
-		.filter('trustAsHtml', function($sce) {
+		.filter('trustAsHtml', ['$sce', function($sce) {
 			return function (value) {
 				return $sce.trustAsHtml(value);
 			}
-		})
+		}])
 		.filter('isPublished', function(){
 			return function (value){
 				var out = [];

@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.factory('commentVotefactory', commentVotefactory);
+		.factory('commentVotefactory', [
+			'$stateParams', 'commentvote', 'commentfactory', 'ToastMessage',
+			commentVotefactory]);
 
 	/** @ngInject */
 	function commentVotefactory($stateParams, commentvote, commentfactory, ToastMessage) {

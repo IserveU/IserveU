@@ -4,23 +4,30 @@
 
 	angular
 		.module('iserveu')
-		.directive('voteOnMotion', voteOnMotion);
+		.directive('voteOnMotion', 
+			['$rootScope', '$stateParams', '$state', '$timeout', 'vote', 
+			'voteObj', 'motionObj', 'Authorizer', 
+			'voteButtonMessage', 'isMotionOpen', 'ToastMessage'
+			, voteOnMotion]);
 
 	// Still a todo.
   	 /** @ngInject */
-	function voteOnMotion($rootScope, $stateParams, $state, $timeout, vote, voteObj, motionObj, SetPermissionsService, voteButtonMessage, isMotionOpen, ToastMessage) {
+	function voteOnMotion($rootScope, $stateParams, $state, $timeout, vote, voteObj, motionObj, Authorizer, voteButtonMessage, isMotionOpen, ToastMessage) {
 
 
 		function voteController($scope) {
-			// variables
-			var vm = this;
-			vm.voting = {'1': false, '0':false, '-1': false};
 
-			// DOM accessors for controller functions
-			vm.castVote			 = castVote;
-			vm.isVotingEnabled   = isVotingEnabled;
-			vm.voteButtonMessage = voteButtonMessage;
-			vm.voteObj			 = voteObj;
+			// global moving reference to this
+			var self = this;
+
+			// variables
+			self.voting = {'1': false, '0':false, '-1': false};
+
+			// controllers exports for DOM accessor
+			self.castVote			 = castVote;
+			self.isVotingEnabled     = isVotingEnabled;
+			self.voteButtonMessage   = voteButtonMessage;
+			self.voteObj			 = voteObj;
 
 			function castVote(id, pos) {
 
@@ -29,19 +36,20 @@
 				*/
 				// if( isVotingEnabled() )
 				// 	return 0;
-
-				if(!$rootScope.userIsLoggedIn)
+				if(!$rootScope.userIsLoggedIn){
 					ToastMessage.customFunction("You must be logged in to vote", "Go", 
 						function(){
 							$state.go('login');
 						}, true);
-				else if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
-					vm.voting[pos] = true;
+					return 0;
+				}
+				
+				self.voting[pos] = true;
+
+				if( voteObj.user && voteObj.user.position != pos && voteObj.user.position != null) {
 					updateVote(pos);
 				}
 				else {
-					vm.voting[pos] = true;
-
 					vote.castVote({
 						motion_id: id,
 						position: pos
@@ -53,30 +61,30 @@
 
 
 			function updateVote(pos) {
-
-				var data = {
+				vote.updateVote({
 					id: voteObj.user.id,
 					position: pos
-				}
-
-				vote.updateVote(data).then(function(r) {
+				}).then(function(r) {
 					successFunc(r, pos);
 				}, function(e){ errorFunc(e, pos); });
 			}
  
 			function successFunc(r, pos){
-				vm.voting[pos] = false;
+				self.voting[pos] = false;
 				motionObj.reloadMotionObj(r.motion_id);
-				voteObj.successFunc(r, pos, false);
+				
+				$timeout(function(){
+					voteObj.successFunc(r, pos, false);
+				}, 100);
 			}
 
 			function errorFunc(e, pos){
-				vm.voting[pos] = false;
+				self.voting[pos] = false;
 				ToastMessage.report_error(e);
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen.get() || !SetPermissionsService.can('create-votes') || isMotionOpen.isReview();
+				return !isMotionOpen.get() || !Authorizer.canAccess('create-votes') || isMotionOpen.isReview();
 			}
 
 			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {
@@ -96,7 +104,7 @@
 		}
 
 		return {
-			controller: voteController,
+			controller: ['$scope', voteController],
 			controllerAs: 'v',
 			templateUrl: 'app/components/vote/partials/vote.tpl.html'
 		}

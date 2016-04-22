@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('editUser', editUser);
+		.directive('editUser', ['editUserFactory', 'userToolbarService', 'roleFactory', editUser]);
 
 	/** @ngInject */
 	function editUser(editUserFactory, userToolbarService, roleFactory) {
@@ -18,7 +18,7 @@
 		}
 
 		return {
-			controller: editUserController,
+			controller: ['$scope', editUserController],
 			templateUrl: 'app/components/user/components/edit-user/edit-user.tpl.html'
 		}
 

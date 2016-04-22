@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.service('redirect', redirect);
+		.service('redirect', ['$rootScope', '$state', redirect]);
 
 	/** @ngInject */
 	function redirect($rootScope, $state) {

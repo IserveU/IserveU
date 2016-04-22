@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('userFab', userFab);
+		.directive('userFab', [
+			'$stateParams', 'user', 'ToastMessage', 'fabLink',
+			userFab]);
 
 	/** @ngInject */
 	function userFab($stateParams, user, ToastMessage, fabLink) {
@@ -13,7 +15,7 @@
 			
 			this.isOpen = false;
 
-			this.user = $stateParams;
+			this.user_id = $stateParams.id;
 
 			this.destroy = function() {
 

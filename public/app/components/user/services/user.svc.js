@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('user', user);
+		.factory('user', ['$resource', '$q', '$rootScope', 'auth', 'refreshLocalStorage', user]);
 
   	 /** @ngInject */
 	function user($resource, $q, $rootScope, auth, refreshLocalStorage) {

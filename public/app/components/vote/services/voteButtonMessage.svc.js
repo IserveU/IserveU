@@ -2,10 +2,12 @@
 	
 	angular
 		.module('iserveu')
-		.service('voteButtonMessage', voteButtonMessage);
+		.service('voteButtonMessage', [
+'$rootScope', '$translate', 'Authorizer', 'isMotionOpen', 'incompleteProfileService'
+			,voteButtonMessage]);
 
 	/** @ngInject */
-	function voteButtonMessage($rootScope, $translate, SetPermissionsService, isMotionOpen, incompleteProfileService) {
+	function voteButtonMessage($rootScope, $translate, Authorizer, isMotionOpen, incompleteProfileService) {
 
 		// TODO: this as a constant watcher is slowing shit DOWN.
 		// figure out a way to destroy after awhile or two-way bind
@@ -16,7 +18,7 @@
 
 				return "You must login before you can vote.";
 
-			else if ( !SetPermissionsService.can('create-votes') )
+			else if ( !Authorizer.canAccess('create-votes') )
 
 				return "You do not have permission to vote.";
 

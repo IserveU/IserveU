@@ -2,31 +2,27 @@
 	
 	angular
 		.module('iserveu')
-		.directive('motionSearch', motionSearch);
+		.directive('motionSearch', ['$mdMedia', '$mdSidenav', 'motionSearchFactory', motionSearch]);
 
      /** @ngInject */
-	function motionSearch(motionSearchFactory) {
+	function motionSearch($mdMedia, $mdSidenav, motionSearchFactory) {
 
-		function motionSearchController($scope) {
-			
-			$scope.search = motionSearchFactory;
-
-		}
-
-		function motionSearchLink(scope, el, attrs) {
-
-			// TODO: pseudocode
-			// 
-			// figure out how exactly to detect when you need a 'closed'
-			// version and then link that isntead of the non-closed tpl
-			//
-		}
-
+		var sidebarTemplate;
 
 		return {
-			controller: motionSearchController,
-			templateUrl: 'app/components/motion/components/motion-sidebar/search/motion-search.tpl.html'
+			controller: ['$scope', function($scope) {
+				$scope.search = motionSearchFactory;
+			}],
+			link: function(scope, el, attrs) {
+				scope.getContent = function() {
+				    return $mdMedia('gt-sm') ?
+				    'app/components/motion/components/motion-sidebar/search/motion-toolbar-search.tpl.html' :
+					'app/components/motion/components/motion-sidebar/search/motion-search.tpl.html';
+				}
+			},
+			template: '<div ng-include="getContent()"></div>'
 		}
+
 
 
 	}

@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.directive('formatAddress', formatAddress);
+		.directive('formatAddress', ['utils', formatAddress]);
 
   	 /** @ngInject */
-	function formatAddress($filter, community, utils) {
+	function formatAddress(utils) {
 
 		return {
 			require: "ngModel",

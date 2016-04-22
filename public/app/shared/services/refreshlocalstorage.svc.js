@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.service('refreshLocalStorage', refreshLocalStorage);
+		.service('refreshLocalStorage', ['auth', refreshLocalStorage]);
 
   	 /** @ngInject */
-	function refreshLocalStorage(auth, SetPermissionsService) {
+	function refreshLocalStorage(auth) {
 
 		this.reload = reload;
 
@@ -18,9 +18,7 @@
 			localStorage.removeItem('settings');
 
 			auth.getSettings().then(function(r){
-
 				reload(r);
-			
 			});
 		};
 

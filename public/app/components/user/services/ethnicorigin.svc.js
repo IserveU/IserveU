@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('ethnicOriginService', ethnicOriginService);
+		.factory('ethnicOriginService', ['$http', ethnicOriginService]);
 
   	 /** @ngInject */
 	function ethnicOriginService($http) {

@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('department', department);
+		.factory('department', ['$resource', '$http', '$q', '$timeout', department]);
 
 		// TODO: refactor
 

@@ -4,14 +4,14 @@
 
   angular
     .module('iserveu')
-    .directive('userSidebar', userSidebar);
+    .directive('userSidebar', ['Authorizer', userSidebar]);
 
    /** @ngInject */
-  function userSidebar($rootScope, SetPermissionsService) {
+  function userSidebar(Authorizer) {
 
   	return {
 
-      templateUrl: SetPermissionsService.can('administrate-users') ? 
+      templateUrl: Authorizer.canAccess('administrate-users') ? 
 
       	'app/components/user/components/user-sidebar/user-sidebar.tpl.html' :
       

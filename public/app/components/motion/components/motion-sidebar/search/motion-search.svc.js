@@ -2,7 +2,7 @@
 	
 	angular
 		.module('iserveu')
-		.factory('motionSearchFactory', motionSearchFactory);
+		.factory('motionSearchFactory', ['motion', 'motionObj', 'department', motionSearchFactory]);
 
      /** @ngInject */
      // TODO: needs documentation

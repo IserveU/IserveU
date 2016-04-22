@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('focusInput', focusInput);
+		.directive('focusInput', ['$timeout', focusInput]);
 
   	 /** @ngInject */
 	function focusInput($timeout) {

@@ -6,7 +6,7 @@
 <div infinite-scroll="sidebar.loadMoreMotions()" 
      infinite-scroll-container="'.site-sidenav'"
      infinite-scroll-distance="0" 
-     infinite-scroll-disabled="!sidebar.motionObj.next_page || sidebar.paginating || sidebar.motionObj.motionsAreEmpty">
+     infinite-scroll-disabled="sidebar.motionObj.next_page == 0 || sidebar.paginating || sidebar.motionObj.motionsAreEmpty">
 
 
   <md-list>
@@ -22,7 +22,7 @@
       <!-- <loading-spinner on-hide="motionIsLoading[motion.id]"> -->
       <!-- <trending-icon ng-hide="motionIsLoading[motion.id]"></trending-icon> -->
 
-      <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg"></md-icon>
+      <!-- <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg"></md-icon> -->
       <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
       <quick-vote ng-if="userIsLoggedIn"></quick-vote>
 
@@ -47,7 +47,7 @@
     </md-subheader>
 
     <md-list-item layout="row" ng-repeat="review in sidebar.motionObj.data | isInReview | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
-      <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon>
+      <!-- <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon> -->
       <p ui-sref="motion({id:review.id})">{{ ::review.title }}</p>
     </md-list-item>
 

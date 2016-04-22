@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.service('fabLink', fabLink);
+		.service('fabLink', ['$window', 'utils', fabLink]);
 
   	 /** @ngInject */
 	function fabLink($window, utils) {
@@ -42,16 +42,9 @@
 						element.css({ 'top': '81px' });
 
 			});
-		}
-
-
-
-
+		};
 
 
 
 	}
-
-
-
 })();

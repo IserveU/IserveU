@@ -5,7 +5,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('pageObj', pageObj);
+		.factory('pageObj', ['$http', '$state', pageObj]);
 
   	 /** @ngInject */
 	function pageObj($http, $state) {

@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('commentOnMotion', commentOnMotion);
+		.directive('commentOnMotion', [
+			'$stateParams', 'commentObj', 'voteObj', 'motionObj',
+			commentOnMotion]);
 
 	/** @ngInject */
 	function commentOnMotion($stateParams, commentObj, voteObj, motionObj) {
@@ -20,7 +22,7 @@
 		}
 
 		return {
-			controller: commentController,
+			controller: ['$scope', commentController],
 			templateUrl: 'app/components/comment/partials/comment.tpl.html'
 		}
 	}

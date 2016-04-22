@@ -5,7 +5,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('roleFactory', roleFactory);
+		.factory('roleFactory', ['$stateParams', 'role', 'user', roleFactory]);
 
   	 /** @ngInject */
 	function roleFactory($stateParams, role, user){

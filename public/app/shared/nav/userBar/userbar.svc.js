@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.service('UserbarService', UserbarService);
+		.service('UserbarService', ['$rootScope', UserbarService]);
 
   	 /** @ngInject */
 	function UserbarService($rootScope) {

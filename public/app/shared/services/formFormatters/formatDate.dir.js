@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('formatDate', formatDate);
+		.directive('formatDate', ['$filter', formatDate]);
 
   	 /** @ngInject */
 	function formatDate($filter) {

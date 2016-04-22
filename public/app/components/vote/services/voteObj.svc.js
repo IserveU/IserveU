@@ -4,10 +4,12 @@
 
 	angular
 		.module('iserveu')
-		.factory('voteObj', voteObj);
+		.factory('voteObj', [
+		'$rootScope', '$translate', '$timeout', 'commentObj', '$stateParams', 'vote', 'ToastMessage', 'utils', 
+		voteObj]);
 
   	 /** @ngInject */
-	function voteObj($rootScope, $translate, commentObj, $stateParams, vote, ToastMessage, utils) {
+	function voteObj($rootScope, $translate, $timeout, commentObj, $stateParams, vote, ToastMessage, utils) {
 
 		var factory = {
 			user: { position: null },
@@ -29,16 +31,15 @@
 	            });
 		    },
 		    showMessage: function(pos) {
-				pos = pos == 1 
+				var msg = pos == 1 
 					  ? 'agreed with' 
 					  : ( pos == 0 ? 'abstained on' : 'disagreed with');
 				
-				ToastMessage.simple( 'You ' + pos + " with this " + $translate.instant('MOTION') );
+				ToastMessage.simple( 'You ' + msg + " with this " + $translate.instant('MOTION') );
 		    },
 		    getOverallPosition: function(votes) {
 
-		    	if(votes)
-		    		this.votes = votes; 
+	    		this.votes = votes || this.votes; 
 
 		    	if(!this.votes['-1'] && !this.votes['1'])
 	                this.overallPosition = "thumbs-up-down";
@@ -53,8 +54,12 @@
 		    	else 
 	                this.overallPosition = "thumbs-up-down";
 
-				factory.voteLoading = false; 
+				$timeout(function() {
+					factory.voteLoading = false; 
+				}, 1000);	
+
 				return this.overallPosition;
+
 		    },
 		    successFunc: function(vote, pos, quickVote) {
 

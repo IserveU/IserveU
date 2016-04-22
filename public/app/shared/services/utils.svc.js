@@ -45,6 +45,25 @@
 		function nullOrUndefined (val) {
 			return !val || angular.isUndefined(val)
 		}
+	
+		this.date = {
+			stringify: function(date) {
+				if( date instanceof Date )
+					return $filter('date')(date, "yyyy-MM-dd HH:mm:ss");
+				return this.parse(date);
+			},
+			parse: function(date) {
+				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
+			}
+		}
+
+		this.parseStringToObject = function() {
+			return function(json_string, obj, path) {
+				var parsed_string = JSON.parse(json_string);
+				return obj = path ? parsed_string[path] : parsed_string;
+			};
+		}
+
 		
 	}
 

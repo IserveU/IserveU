@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('profileToolbar', profileToolbar);
+		.directive('profileToolbar', ['userToolbarService', profileToolbar]);
 
 	/** @ngInject */
 	function profileToolbar(userToolbarService) {
@@ -23,7 +23,7 @@
 		}
 
 		return {
-			controller: profileToolbarController,
+			controller: ['$scope', profileToolbarController],
 			templateUrl: 'app/components/user/components/profile/toolbar.tpl.html'
 		}
 

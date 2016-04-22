@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('resetPassword', resetPassword);
+		.directive('resetPassword', ['$compile', resetPassword]);
 
   	 /** @ngInject */
 	function resetPassword($compile) {
@@ -43,7 +43,7 @@
 		}
 
 	return {
-		controller: controllerMethod,
+		controller: ['$state', 'user', 'ToastMessage', controllerMethod],
 		controllerAs: 'reset',
 		bindToController: true,
 		link: linkMethod,

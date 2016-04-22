@@ -6,8 +6,6 @@
 
 	function formatCommunity() {
 
-		console.log('foo');
-
 		return {
 			require: 'ngModel',
 			link: function(scope, el, attrs, ngModelCtrl) {

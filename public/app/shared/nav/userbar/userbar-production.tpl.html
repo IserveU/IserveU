@@ -1,7 +1,7 @@
 <md-toolbar id="userbar" class="md-whiteframe-z2 site-content-toolbar" layout="row" layout-align="center center" md-scroll-shrink>
 
     <md-toolbar-filler ng-class="settingsGlobal.module.motions?'motion-enabled flex':''" hide-xs hide-sm>
-        <motion-toolbar-search></motion-toolbar-search>
+        <motion-search></motion-search>
     </md-toolbar-filler>
 
     <div hide-gt-lg hide-lg hide-gt-md hide-md>
@@ -57,8 +57,7 @@
                     </md-button>
                 </md-menu-item>
 
-                <has-permission has-permission="create-motions">
-                <md-menu-item ui-sref="dashboard">
+                <md-menu-item has-permission="create-motions, administrate-permissions" ui-sref="dashboard">
                     <md-button aria-label="go to admin dashboard">
                         <div layout="row">
                             <p flex>Admin Dashboard</p>
@@ -66,10 +65,9 @@
                         </div>
                     </md-button>
                 </md-menu-item>
-                </has-permission>
 
                 <md-menu-item>
-                    <md-button aria-label="logout" ng-mousedown="user.logout()">
+                    <md-button aria-label="logout" ng-click="user.logout()">
                         <div layout="row">
                             <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
                             <md-icon class="mdi mdi-logout"></md-icon>

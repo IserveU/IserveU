@@ -12,31 +12,31 @@
 					<h1 class="md-display-2">{{::motion.details.title}}</h1>
 				</header>
 
-				<section ng-show="motion.details.section.bio || motion.details.section.budget" layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
+				<div layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
+					<section ng-repeat="section in motion.details.sections" flex>
 
-					<div layout="column" flex="50" flex-sm="100" flex-xs="100" ng-show="motion.details.section.bio">
-						<h3 class="title-header">Proposed by:</h3>
-						<div class="bio">
-							<img src="/uploads/{{::motion.details.section.bio.avatar}}"/>
-							<span flex="60">
-								<p>{{::motion.details.section.bio.name}}, {{::motion.details.section.bio.position}}, {{::motion.details.section.bio.company_name}}</p>
-								<a href="">{{::motion.details.section.bio.website}}</a>
-								<i>{{::motion.details.section.bio.description}}.</i>
-							</span>
+						<div class="budget" ng-if="section.type=='Budget'" flex-order="section.order" flex>
+							<h3 class="title-header">Projected Costs</h3>
+							<p>${{::section.content.price | number}}</p>
+							<p>{{::section.content.description}}</p>
 						</div>
-					</div>
 
-					<div class="budget" ng-show="motion.details.section.budget" flex>
-						<h3 class="title-header">Projected Costs</h3>
-						<p>${{::motion.details.section.budget.price | number}}</p>
-						<p>{{::motion.details.section.budget.description}}</p>
-					</div>
-				</section>
 
-		<!-- 	<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
-				<h3 class="title-header">Introduction</h3>
-				<p class="md-body-1" ng-bind-html="::motion.details.summary" aria-label="motionSummary"></p> -->
-				
+						<div ng-if="section.type=='Profile'"  flex="50" flex-sm="100" flex-xs="100" flex-order="section.order" >
+							<h3 class="title-header">Proposed by:</h3>
+							<div class="bio" flex>
+								<img file-id="{{section.content.file_id}}" flex-order="0"/>
+								<span flex-order="1">
+									<p>{{::section.content.heading}}</p>
+									<a href="{{::section.content.subheading}}" target="_blank">{{::section.content.subheading}}</a>
+									<i>{{::section.content.description}}</i>
+								</span>
+							</div>
+						</div>
+
+					</section>
+				</div>
+
 				<section flex="100">
 					<header>
 						<md-icon class="mdi mdi-file-document"></md-icon>
@@ -48,7 +48,7 @@
 					</div>
 				</section>
 
-				<section ng-show="motionFile.hasData" flex="100">
+				<section ng-show="motionFile.data" flex="100">
 					<header>
 						<md-icon class="mdi mdi-chart-bar"></md-icon>
 						<h3>Resources</h3>
@@ -60,46 +60,12 @@
 				</section>
 			</div>
 				
-			<!-- TODO: make this into a directive -->
-			<aside flex="10" flex-sm="100" flex-order-sm="1" flex-order="2" flex-order-gt-sm="2" layout-margin>
-			    <md-grid-list md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding flex>
-			    
-				    <md-grid-tile class="md-whiteframe-z1">
-					    <md-icon md-svg-icon="/themes/{{::themename}}/department_icons/{{::motion.details.icon}}.svg"></md-icon>
-					    <md-tooltip md-direction="left">{{ motion.details.department }}</md-tooltip>
-				    </md-grid-tile>
-
-				    <md-grid-tile ng-if="motion.details.closing !== null && !motion.details.MotionOpenForVoting" class="md-whiteframe-z1">
-					    <md-icon md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" hide-sm>
-					    	<md-tooltip md-direction="left">{{'CLOSED' | translate}}</md-tooltip>
-					    </md-icon>
-
-					    <md-icon ng-show="!motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg" hide-md hide-gt-md>
-					    	<md-tooltip>{{'CLOSED' | translate}}</md-tooltip>
-					    </md-icon>
-
-					    <md-icon ng-show="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-sm>
-					    	<md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.details.closing.alpha_date }}</md-tooltip>
-					    </md-icon>
-
-					    <md-icon ng-show="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-md hide-gt-md>
-					    	<md-tooltip>{{ 'CLOSES_ON' | translate }} {{ motion.details.closing.alpha_date }}</md-tooltip>
-					    </md-icon>
-				    </md-grid-tile>
-
-				    <md-grid-tile class="md-whiteframe-z1">
-					  	<md-icon md-svg-icon="/themes/{{::themename}}/icons/{{ votes.overallPosition }}.svg" ng-hide="votes.voteLoading"></md-icon>
-					  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="votes.voteLoading"></md-icon>
-					    <md-tooltip md-direction="left" ng-if="votes.overallPosition != 'thumbs-up-down'">Most people {{ votes.overallPosition == 'thumb-up' ? 'agree' : 'disagree' }}</md-tooltip>
-					    <md-tooltip md-direction="left" ng-if="votes.overallPosition == 'thumbs-up-down' && !votes.votes">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
-				       	<md-tooltip md-direction="left" ng-if="votes.overallPosition == 'thumbs-up-down' && votes.votes">This {{ 'MOTION' | translate }} has resulted in a tie.</md-tooltip>					    
-				    </md-grid-tile>
-
-				    <md-grid-tile class="md-whiteframe-z1">
-					    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
-				    </md-grid-tile>
-			    </md-grid-list>
+	
+			<aside ng-include="'app/components/motion/partials/tiles.tpl.html'" 
+				   flex="10" flex-sm="100" flex-order-sm="1" flex-order="2" flex-order-gt-sm="2" layout-margin>
 			</aside>
+
+
 		</article>
 		</md-card-content>
 	</md-card>
@@ -107,6 +73,5 @@
 	<vote-on-motion id="votes"></vote-on-motion>
 	<comment-on-motion id="comment"></comment-on-motion>
 	<display-comments id="display-comments"></display-comments>
-
 
 </section>

@@ -5,7 +5,9 @@
 
 	angular
 		.module('iserveu')
-		.factory('motionObj', motionObj);
+		.factory('motionObj', [
+			'$http', '$timeout', 'motion', 'isMotionOpen', 'voteObj', 'commentObj', 'motionFilesFactory', 'utils',
+			motionObj]);
 
 	 /** @ngInject */
 	function motionObj($http, $timeout, motion, isMotionOpen, voteObj, commentObj, motionFilesFactory, utils) {
@@ -42,6 +44,7 @@
 					if( id == this.data[i].id )
 						return this.data[i];
 				}
+				return motion.getMotion(id).then(function(r){ return r; });
 			},
 			reloadMotionObj: function(id) {
 				motion.getMotion(id).then(function(r){
@@ -68,6 +71,12 @@
 				$timeout(function() {
 					factory.isLoading = false;
 				}, 2500);
+			},
+			clearMotionDependencies: function() {
+	            commentObj.comment  = null;
+	            this.details   = null;
+	            this.isLoading = true;
+	            voteObj.voteLoading = true;
 			},
 			clear: function() {
 				utils.clearArray(this.data);

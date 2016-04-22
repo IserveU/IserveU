@@ -4,46 +4,31 @@
 
 	angular
 		.module('iserveu')
-		.factory('settings', settings);
+		.factory('settings', ['$http', 'SETTINGS_JSON', 'auth', 'refreshLocalStorage', 
+			settings]);
 
   	 /** @ngInject */
-	function settings ($http, auth, refreshLocalStorage, appearanceService) {
+	function settings ($http, SETTINGS_JSON, auth, refreshLocalStorage) {
 
 		var factory = {
 			/**
 			*	Variable to store settings data. Sub-bool is
 			*	front-end spinner.
 			*/
-			initialData: { saving: false },
+			data: angular.extend({}, SETTINGS_JSON, {saving: false}),
 			/**
 			*	Service accessor. Retrieves set data else it will
 			*	retrieve the data and call itself again.
 			*/
 			getData: function() {
-				if (this.initialData) return this.initialData;
-				else {
-					this.get();
-					this.getData();
-				}
-			},
-			/** Retrieves settings data */
-			get: function() {
-				var data = localStorage.getItem('settings');
-				if(!data) 
-					$http.get('/setting').success(function(r){
-						factory.initialData = r.data;
-					}).error(function(e){
-						console.log(e);
-					});
-				else 
-					this.initialData = JSON.parse(data);
+				return this.data;
 			},
 			/** Post function */
 			save: function(data) {
 				$http.post('/setting', data).success(function(r){
 
 					refreshLocalStorage.setItem('settings', r);
-					factory.initialData.saving = false;
+					factory.data.saving = false;
 
 				}).error(function(e) { console.log(e); });
 			},
@@ -55,7 +40,7 @@
 				if( angular.isUndefined(value) || value == null || value.length == 0 )
 					return 0;
 
-				this.initialData.saving = true;
+				this.data.saving = true;
 
 				this.save({
 					'name': name,
@@ -72,15 +57,13 @@
 					data = JSON.parse(data).filename;
 
 				if ( type === 'palette' )
-					this.saveArray( 'theme', appearanceService.assignThemePalette(data) );
+					this.saveArray( 'theme', data.assignThemePalette(data) );
 				// else if ( type === 'home')
 				// 	console.log(data);
 				else 
 					this.saveArray( type, data );					
 			}
 		}
-
-		factory.get();
 
 		return factory;
 

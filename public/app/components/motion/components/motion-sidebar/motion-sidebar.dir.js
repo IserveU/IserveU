@@ -9,7 +9,7 @@
   function motionSidebar() {
 
   	 /** @ngInject */
-	function MotionSidebarController($mdSidenav, motionObj, motionSearchFactory, department) {
+	function MotionSidebarController($mdSidenav, motionObj, motionSearchFactory, $mdMedia) {
 
 		var vm = this;
 
@@ -29,18 +29,21 @@
 		*/
 		function loadMoreMotions() {
 
+			if ($mdSidenav('left') && !$mdMedia('gt-sm') && !$mdSidenav('left').isOpen()) return 0;
+
 			vm.motionListLoading = vm.paginating = true;
 
 			motionObj.getMotions().then(function(r){
 				vm.motionListLoading = vm.paginating = false;
 			});
 		};
-	
+
 		loadMoreMotions();
 	};
 
     return {
-    	controller: MotionSidebarController,
+    	controller: ['$mdSidenav', 'motionObj', 'motionSearchFactory', '$mdMedia', 
+    				MotionSidebarController],
     	controllerAs: 'sidebar',
       	templateUrl: 'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
     }

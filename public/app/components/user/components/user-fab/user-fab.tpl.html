@@ -1,7 +1,4 @@
-<has-permission has-permission="administrate-users">
-
-
- <md-fab-speed-dial class="md-scale fab-tool-animate" md-open="fab.isOpen" ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false" md-hover-full md-direction="down"
+<md-fab-speed-dial has-permission="administrate-users" class="md-scale fab-tool-animate" md-open="fab.isOpen" ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false" md-hover-full md-direction="down"
  style="position:fixed; right: 15px">
   <md-fab-trigger>
     <md-button aria-label="menu" class="md-fab md-primary">
@@ -12,7 +9,7 @@
     <md-button aria-label="Create" class="md-fab md-raised md-mini" ui-sref="create-user">
       <md-icon class="mdi mdi-plus" aria-label="Create"></md-icon>
     </md-button>
-    <md-button aria-label="Edit" class="md-fab md-raised md-mini" ui-sref="edit-user({id:fab.user.id})">
+    <md-button aria-label="Edit" class="md-fab md-raised md-mini" ui-sref="edit-user({id:fab.user_id})">
       <md-icon class="mdi mdi-pencil" aria-label="Edit"></md-icon>
     </md-button>
     <md-button aria-label="Delete" class="md-fab md-raised md-mini md-warn" ng-click="fab.destroy()">
@@ -20,5 +17,3 @@
     </md-button>
   </md-fab-actions>
 </md-fab-speed-dial>
-
-</has-permission>

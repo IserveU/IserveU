@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('comment', comment);
+		.factory('comment', ['$resource', '$q', comment]);
 
 	/** @ngInject */
 	function comment($resource, $q) {

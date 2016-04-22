@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.service('userToolbarService', userToolbarService);
+		.service('userToolbarService', [
+			'$state', '$timeout', 'editUserFactory',
+			userToolbarService]);
 
 	function userToolbarService($state, $timeout, editUserFactory) {
 

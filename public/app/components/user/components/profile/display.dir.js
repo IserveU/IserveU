@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('displayProfile', displayProfile);
+		.directive('displayProfile', [
+			'$stateParams', 'userToolbarService', 'user', 'vote',
+			displayProfile]);
 
 	function displayProfile($stateParams, userToolbarService, user, vote) {
 

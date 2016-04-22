@@ -5,7 +5,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('pageContent', pageContent);
+		.directive('pageContent', ['$stateParams', 'pageObj', 'UserbarService', pageContent]);
 
   	 /** @ngInject */
 	function pageContent($stateParams, pageObj, UserbarService) {

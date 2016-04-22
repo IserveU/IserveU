@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.controller('HomeController', HomeController);
+		.controller('HomeController', 
+            ['$rootScope', '$scope', 'motion', 'comment', 'vote', 'user', 'UserbarService',
+            HomeController]);
 
     /** @ngInject */
     // this is a TODO    

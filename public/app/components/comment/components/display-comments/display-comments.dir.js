@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('displayComments', displayComments);
+		.directive('displayComments', [
+			'$stateParams', '$timeout', 'commentObj', 'commentVoteObj', 'voteObj',
+			displayComments]);
 
 	/** @ngInject */
 	function displayComments($stateParams, $timeout, commentObj, commentVoteObj, voteObj){
@@ -31,7 +33,7 @@
 		}
 
 		return {
-			controller: displayCommentsController,
+			controller: ['$scope', displayCommentsController],
 			controllerAs: 'show',
 			templateUrl: 'app/components/comment/components/display-comments/display-comments.tpl.html'
 		}

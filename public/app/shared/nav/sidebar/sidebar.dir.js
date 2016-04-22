@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('sidebar', sidebar);
+		.directive('sidebar', ['$compile', sidebar]);
 
   	 /** @ngInject */
 	function sidebar($compile) {

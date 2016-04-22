@@ -4,16 +4,17 @@
 
   angular
     .module('iserveu')
-    .directive('quickVote', motionSidebarQuickVote);
+    .directive('quickVote', ['$rootScope', '$state', '$translate', 'vote', 'voteObj', 'motionObj', 'ToastMessage', 'Authorizer', 'SETTINGS_JSON',
+	motionSidebarQuickVote]);
 
  /** @ngInject */
-  function motionSidebarQuickVote($rootScope, $state, $translate, vote, voteObj, motionObj, ToastMessage, SetPermissionsService, SETTINGS_JSON) {
+  function motionSidebarQuickVote($rootScope, $state, $translate, vote, voteObj, motionObj, ToastMessage, Authorizer, SETTINGS_JSON) {
 
   	function controllerMethod() {
 
   		var vm = this;
 
-        vm.canCreateVote = SetPermissionsService.can('create-votes');
+        vm.canAccessCreateVote = Authorizer.canAccess('create-votes');
         vm.cycleVote = cycleVote;
         vm.voteObj = voteObj;
 
@@ -26,7 +27,7 @@
 					}, true);
 			else if(!motion.MotionOpenForVoting)
 				ToastMessage.simple("This " + $translate.instant('MOTION') + " is not open for voting.", 1000);
-			else if(!SetPermissionsService.can('create-votes'))
+			else if(!Authorizer.canAccess('create-votes'))
 				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
 			else{ 
 				if(!motion.user_vote){

@@ -5,14 +5,17 @@
 
 	angular
 		.module('iserveu')
-		.factory('editUserFactory', editUserFactory);
-
+		.factory('editUserFactory', [
+			'$stateParams', '$state', '$http', 'user', 'REST', 
+			'refreshLocalStorage', 'incompleteProfileService',
+			editUserFactory]);
+ 
 	/** @ngInject */
 	function editUserFactory($stateParams, $state, $http, user, REST, refreshLocalStorage, incompleteProfileService){
 
 		var factory = {
 			/** Function to map form input variables to the variable. */
-			map: function(bool){
+			mapFields: function(bool){
 				return {
 					first_name: bool,
 					middle_name: bool,
@@ -63,8 +66,8 @@
 		};
 
 		/** Initializes UI variables to control form inputs */
-		factory.success  = factory.map(false);
-		factory.disabled = factory.map(true);
+		factory.success  = factory.mapFields(false);
+		factory.disabled = factory.mapFields(true);
 
 
 

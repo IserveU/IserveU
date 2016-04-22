@@ -4,10 +4,14 @@
 
 	angular
 		.module('iserveu')
-		.controller('loginController', login);
+		.controller('loginController', [
+			'loginService', 'auth', 'resetPasswordService', 
+			'ToastMessage', 'communityIndex', 'motionObj', 
+			'utils',
+			login]);
 
   	 /** @ngInject */
-	function login(loginService, auth, resetPasswordService, ToastMessage, communityIndex, motionObj, utils, SetPermissionsService) {	
+	function login(loginService, auth, resetPasswordService, ToastMessage, communityIndex, motionObj, utils) {	
 
 		this.service = loginService;
 		this.extendRegisterForm = extendRegisterForm;
@@ -33,7 +37,6 @@
 
 
 		// Resets data
-		SetPermissionsService.set(null);
 		motionObj.clear();
 		loginService.loggingIn = false;
 		resetPasswordService.check();

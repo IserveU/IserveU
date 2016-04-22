@@ -5,7 +5,8 @@
 
 	angular
 		.module('iserveu')
-		.factory('commentObj', commentObj);
+		.factory('commentObj', ['$stateParams', 'comment', 'ToastMessage', 'utils', 
+			commentObj]);
 
 	/** @ngInject */
 	function commentObj($stateParams, comment, ToastMessage, utils) {
@@ -63,7 +64,6 @@
 				ToastMessage.destroyThis("comment", function() {
                     comment.deleteComment(factory.comment.id).then(function(r) {
 						factory.getMotionComments($stateParams.id);
-						ToastMessage.simple("Comment deleted.")
                     }); 
 				});
 			},

@@ -4,7 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.controller('SidebarController', SidebarController);
+		.controller('SidebarController', [
+			'motion', '$rootScope', '$mdSidenav', '$mdMedia',
+			SidebarController]);
 
   	 /** @ngInject */
 	function SidebarController(motion, $rootScope, $mdSidenav, $mdMedia) {
