@@ -7,7 +7,8 @@
 
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
-        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('theme.logo','default')?>">                
+        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('logo','default')?>"> 
+
     </head>
 
 
