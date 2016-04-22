@@ -6,8 +6,7 @@
 <div infinite-scroll="sidebar.loadMoreMotions()" 
      infinite-scroll-container="'.site-sidenav'"
      infinite-scroll-distance="0" 
-     infinite-scroll-disabled="sidebar.motionObj.next_page == 0 || sidebar.paginating || sidebar.motionObj.motionsAreEmpty">
-
+     infinite-scroll-disabled="sidebar.motionObj.next_page == 0 || sidebar.motionObj.next_page == null || sidebar.paginating || sidebar.motionObj.motionsAreEmpty">
 
   <md-list>
     
