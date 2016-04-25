@@ -487,11 +487,11 @@ input.sidebar-search-input {
 
 	border: 0px;
 	background-color: transparent;
-	color: $darkGrey;
+	color: white;
 	font-size: inherit;
     border-style: solid;
     line-height: 120%;
-    border-bottom: thin solid $midGrey;
+    border-bottom: thin solid white;
 	&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 		font-size: 16px;
 	    color:    $darkGrey;
