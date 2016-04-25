@@ -34,7 +34,6 @@ angular.module('iserveu')
 					reader.onload = function() {
 						if(reader.result !== '')
 							fileService.upload(file).then(function(r){
-								console.log(r);
 								insertAction('insertImage', '/uploads/'+r.data.filename, true);
 							}, function(e) { console.log(e); });
 					};
@@ -56,7 +55,7 @@ angular.module('iserveu')
 
 				var user = JSON.parse(localStorage.getItem('user'));
 				
-				if(user) {
+				if(user && !angular.isUndefined(user)) {
 					$rootScope.authenticatedUser = user;
 					$rootScope.userIsLoggedIn = true;
 					$rootScope.incompleteProfile = incompleteProfileService.check(user);

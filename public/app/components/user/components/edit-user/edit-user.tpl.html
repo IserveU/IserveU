@@ -3,6 +3,13 @@
 <profile-toolbar></profile-toolbar>
 
   <md-card-content layout-margin ng-hide="roles.showEdit">
+    
+
+    <md-switch has-permission="administrate-permissions" ng-model="profile.identity_verified" ng-change="edit.save('identity_verified', profile.identity_verified)" aria-label="Verify user" ng-true-value="1" ng-false-value="0">
+      User is {{ profile.identity_verified ? 'verified' : 'unverified' }}.
+    </md-switch>
+
+    <md-divider has-permission="administrate-permissions"></md-divider>
 
     <div layout="row">
         <md-input-container flex>
@@ -29,18 +36,59 @@
 
     <div layout="column" ng-if="!edit.disabled.address" flex>
       <div layout="row" flex>
-        <md-select placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required>
+        <md-select placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required flex>
             <md-option ng-repeat="c in communities" ng-value="c.id" required>{{c.name}}</md-option>
         </md-select>
       
-        <md-icon class="mdi mdi-content-save" ng-click="edit.save('address', edit.address)" ng-hide="edit.success.address"></md-icon>
-        <md-progress-circular md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.address"></md-progress-circular>
+        <md-icon style="margin-top: 10px" class="mdi mdi-content-save" ng-click="edit.save('address', edit.address)" ng-hide="edit.success.address"></md-icon>
+        <md-progress-circular style="margin-top: 10px" md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.address"></md-progress-circular>
       </div>
-
-
     </div>
 
+
     <div layout="row">
+        <md-input-container ng-if="!profile.date_of_birth && edit.disabled.date_of_birth" flex>
+          <label>Birthday</label> 
+          <md-icon class="mdi mdi-cake"></md-icon>
+          <input type="text" placeholder="YYYY/MM/DD" ng-model="birthday" ng-disabled="edit.disabled.date_of_birth"/>
+        </md-input-container>
+        <md-input-container  ng-if="profile.date_of_birth || !edit.disabled.date_of_birth" flex>
+          <label>Birthday</label> 
+          <md-icon class="mdi mdi-cake"></md-icon>
+          <input type="date" ng-model="profile.date_of_birth" ng-disabled="edit.disabled.date_of_birth" ng-keypress="edit.pressEnter($event, 'date_of_birth', profile.date_of_birth)" format-birthday/>
+        </md-input-container>
+          <md-icon class="mdi mdi-pencil" ng-click="edit.switch('date_of_birth')" ng-show="edit.disabled.date_of_birth"></md-icon>
+          <md-icon class="mdi mdi-content-save" ng-click="edit.save('date_of_birth', profile.date_of_birth)" ng-hide="edit.success.date_of_birth || edit.disabled.date_of_birth"></md-icon>
+          <md-progress-circular md-diameter="35px" md-mode="indeterminate" ng-show="!edit.disabled.date_of_birth && edit.success.date_of_birth"></md-progress-circular>
+          <md-icon class="mdi mdi-check" ng-show="edit.disabled.date_of_birth && edit.success.date_of_birth"></md-icon>
+    </div>
+
+
+
+
+    <div layout="row" ng-if="edit.disabled.public && edit.isSelf()">
+        <md-input-container flex>
+          <label>Display options</label>
+          <md-icon class="mdi mdi-odnoklassniki"></md-icon>
+          <input type="text" ng-model="profile.public" ng-disabled="edit.disabled.public" format-public/>
+        </md-input-container>
+          <md-icon class="mdi mdi-pencil" ng-click="edit.switch('public')"></md-icon>
+          <md-icon class="mdi mdi-check" ng-show="edit.success.public"></md-icon>
+    </div>
+
+    <div layout="column" ng-if="!edit.disabled.public" flex>
+      <div layout="row" flex>
+        <md-select placeholder="Display options" ng-model="edit.public" flex required>
+            <md-option ng-value="1">Public</md-option>
+            <md-option ng-value="0">Private</md-option>
+        </md-select>
+      
+        <md-icon style="margin-top: 10px" class="mdi mdi-content-save" ng-click="edit.save('public', edit.public)" ng-hide="edit.success.public"></md-icon>
+        <md-progress-circular style="margin-top: 10px" md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.public"></md-progress-circular>
+      </div>
+    </div>
+
+    <div ng-if="edit.isSelf()" layout="row">
       <md-input-container flex>
         <label>Change Password</label> 
         <md-icon class="mdi mdi-account-key"></md-icon>            
