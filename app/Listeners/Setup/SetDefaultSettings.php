@@ -1,82 +1,66 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Listeners\Setup;
 
-use Illuminate\Console\Command;
+use App\Events\Setup\Defaults;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\BackgroundImage;
-use Setting;
 
-
-class SetDefaultSettings extends Command
+class SetDefaultSettings
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'settings:default {--o|overwrite}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Sets default settings in the app without changing existing settings. 
-                                         {--overwrite} will reset all settings to default.';
-
-    /**
-     * Create a new command instance.
+     * Create the event listener.
      *
      * @return void
      */
     public function __construct()
     {
-        parent::__construct();
+        //
     }
 
     /**
-     * Execute the console command.
+     * Handle the event.
      *
-     * @return mixed
+     * @param  Defaults  $event
+     * @return void
      */
-    public function handle()
+    public function handle($event)
     {
-        $overwrite = $this->option('overwrite');
-
-        $this->ifNullSet('motion', array(
+        $this->ifNotSetThenSet('motion', array(
                 'default_closing_time_delay'        =>  120,    
                 'hours_before_closing_autoextend'   =>  12,
                 'hours_to_autoextend_by'            =>  12,
                 'minutes_between_rank_calculations' =>  60
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('login', array(
+        $this->ifNotSetThenSet('login', array(
                 'logo' => '/themes/default/logo/logo.png'
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('site', array(
+        $this->ifNotSetThenSet('site', array(
                 'name'      =>      'IserveU',
                 'terms'     =>      'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.'
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('module', array(
+        $this->ifNotSetThenSet('module', array(
                 'motions'   => true,
                 'voting'    => true,
                 'comments'  => true
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('comment', array(
+        $this->ifNotSetThenSet('comment', array(
                 'cachetime' => 60
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('security', array(
+        $this->ifNotSetThenSet('security', array(
                 'login_attempts_lock' => 5
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('abstain', true, $overwrite);
+        $this->ifNotSetThenSet('abstain', true);
 
-        $this->ifNullSet('jargon', array(
+        $this->ifNotSetThenSet('jargon', array(
                 'en' => array(
                     'motion'  => 'Motion',
                     'motions' => 'Motions',
@@ -89,9 +73,9 @@ class SetDefaultSettings extends Command
                     'department' => 'Département',
                     'departments' => 'Départements'
                 )
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('home', array(
+        $this->ifNotSetThenSet('home', array(
                 'introduction'  => array(
                     'icon' => '/themes/default/logo/symbol_onlight.svg',
                     'title' => 'Welcome to IserveU!',
@@ -103,11 +87,11 @@ class SetDefaultSettings extends Command
                     'top_comments'  => true,
                     'top_motions'   => true
                 )
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('themename', 'default', $overwrite);
+        $this->ifNotSetThenSet('themename', 'default');
 
-        $this->ifNullSet('theme', array(
+        $this->ifNotSetThenSet('theme', array(
                 'primary'           => array('50'   => '61d3d8', '100'  => '61d3d8', '200'  => '61d3d8','300'  => '61d3d8', '400'  => '00acb1',
                     '500'  => '00acb1', '600'  => '00acb1', '700'  => '006e73', '800'  => '006e73', '900'  => '006e73', 'A100' => 'ff0000',
                     'A200' => 'ff0000', 'A400' => 'ff0000', 'A700' => 'ff0000', 'contrastDefaultColor' => 'light'
@@ -116,32 +100,29 @@ class SetDefaultSettings extends Command
                     '500'  => 'ff7600', '600'  => 'ff7600', '700'  => 'a64d00', '800'  => 'a64d00', '900'  => 'a64d00', 'A100' => 'ffb473', 
                     'A200' => 'ffb473', 'A400' => 'ffb473', 'A700' => 'a64d00', 'contrastDefaultColor' => 'light'
                 )
-            ), $overwrite);
+            ));
 
-        $this->ifNullSet('background_image', (new BackgroundImage)->today(), $overwrite);
+        $this->ifNotSetThenSet('background_image', (new BackgroundImage)->today());
 
-        $this->ifNullSet('logo', 'default', $overwrite);
+        $this->ifNotSetThenSet('logo', 'default');
 
-        $this->ifNullSet('allow_closing', true, $overwrite);
+        $this->ifNotSetThenSet('allow_closing', true);
 
-        $this->ifNullSet('email', array(
+        $this->ifNotSetThenSet('email', array(
                 'footer' => array('slogan' => 'Conceived &amp; Forged In Yellowknife, Canada',
                                   'website' => 'http://iserveu.ca',
                                   'twitter' => 'http://twitter.com/iserveu_org',
                                   'facebook' => 'https://www.facebook.com/iserveu.ca'),
                 'welcome' => "<p>Welcome to the IserveU beta,</p><p>IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions.</p><p>We welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife city council, until then it operates as an advisory and feedback tool.</p>\n\n<p>Regards,<br/>The IserveU Crew</p>"
-            ), $overwrite);
+            ));
 
-        Setting::save();
     }
 
-    public function ifNullSet($key, $value, $overwrite)
-    {
-        if ($overwrite) {
-            Setting::set($key,$value);
-        } else if(is_null(Setting::get($key))) {
-            Setting::set($key,$value);
+
+    public function ifNotSetThenSet($key,$value){
+        if(is_null(\Setting::get($key))){
+            \Setting::set($key,$value);
         }
-    }
 
+    }
 }

@@ -70,7 +70,6 @@ class Motion extends ApiModel {
    	protected $maps = [
        	'motion_rank'		=> 	'lastestRank.rank',
        	'user_vote'			=>	'userVote'
-       	// 'sections'			=>  'sections'
     ];
 
 	/**
@@ -79,31 +78,13 @@ class Motion extends ApiModel {
 	 */	
     protected $appends = ['MotionOpenForVoting','motion_rank','user_vote'];
 
-    /**
-     * The rules for all the variables
-     * @var array
-     */
-	protected $rules = [
-		'title' 			=>	'min:8|unique:motions,title',
-        'status'			=>	'integer',
-        'department_id'		=>	'exists:departments,id',
-        'closing' 			=>	'date',
-        'text'				=>	'min:10',
-        'user_id'			=>	'integer|exists:users,id',
-        'id'				=>	'integer'
-	];
+  
 
 	/**
 	 * The variables that are required when you do an update
 	 * @var array
 	 */
 	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The variables required when you do the initial create
-	 * @var array
-	 */
-	protected $onCreateRequired = ['title','text','user_id','department_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation

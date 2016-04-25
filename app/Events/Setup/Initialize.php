@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Events;
-
-use App\User;
+namespace App\Events\Setup;
 
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserDeleted extends Event
+class Initialize extends Event
 {
     use SerializesModels;
 
-    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**

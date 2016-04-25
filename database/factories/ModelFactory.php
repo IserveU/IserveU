@@ -13,7 +13,7 @@
 
 //https://github.com/fzaninotto/Faker
 $factory->define(App\User::class, function ($faker) use ($factory) {
-
+    $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
 
     return [
         'first_name'        => $faker->firstName,
@@ -22,7 +22,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'email'             => $faker->email,
         'password'          => 'abcd1234',
         'public'            => 0,
-        'ethnic_origin_id'	=> $faker->numberBetween($min = 1, $max = 23),
+        'ethnic_origin_id'	=> $ethnicOrigin->id,
         'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
         'login_attempts'	=> 0,
         'identity_verified' => 0,

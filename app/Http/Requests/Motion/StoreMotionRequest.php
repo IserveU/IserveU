@@ -7,6 +7,8 @@ use Auth;
 
 class StoreMotionRequest extends Request
 {  
+    
+
 
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +31,14 @@ class StoreMotionRequest extends Request
      */
     public function rules()
     {
-        // todo rethink these rules
         return [
-            'title'             =>  'min:8|unique:motions,title',
+            'title'             =>  'required|min:8|unique:motions,title',
             'status'            =>  'integer',
-            'department_id'     =>  'exists:departments,id',
+            'department_id'     =>  'required|exists:departments,id',
             'closing'           =>  'date',
-            'text'              =>  'min:10',
-            'user_id'           =>  'integer|exists:users,id',
+            'user_id'           =>  'required|integer|exists:users,id',
             'id'                =>  'integer'
         ];
     }
+
 }

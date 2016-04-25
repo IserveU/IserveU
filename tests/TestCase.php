@@ -29,10 +29,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     public function signIn($user = null)
-    {
+    {     
+
         if(!$user){
             $user = factory(App\User::class)->create();
         }
+
         return $this->authenticate($user);
     }
 

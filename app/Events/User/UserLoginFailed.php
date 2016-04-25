@@ -1,26 +1,31 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\User;
 
-use App\Motion;
+use App\User;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MotionUpdated extends Event
+class UserLoginFailed extends Event
 {
     use SerializesModels;
 
-    public $motion;
-
+    public $user;
+    public $credentials;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Motion $motion)
-    {
-        $this->motion = $motion;
+    public function __construct($credentials)
+    {            
+        $this->user = User::withEmail($credentials['email'])->first();
+        if(!$this->user){
+            abort(403,"Email address not in database");
+        }
+
+        $this->credentials = $credentials;
     }
 
     /**

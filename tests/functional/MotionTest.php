@@ -15,8 +15,8 @@ class MotionTest extends TestCase
         $this->signIn();
         $this->user->addUserRoleByName('administrator');
 
-        factory(App\Motion::class, 'published', 20)->create();
-        factory(App\Motion::class, 'draft', 20)->create();
+      //  factory(App\Motion::class, 'published', 20)->create();
+     //   factory(App\Motion::class, 'draft', 20)->create();
     }
 
 
@@ -26,6 +26,7 @@ class MotionTest extends TestCase
         $index = $this->call('GET', 'api/motion', ['token' => $this->token]);
 
         $this->assertResponseOk();
+
     }
 
 

@@ -16,9 +16,9 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\EmailDailySummary',
 		'App\Console\Commands\RankGeneration',
 		'App\Console\Commands\ShuffleDefaultDelegations',
-		'App\Console\Commands\CreateInitialAdmin',
-		'App\Console\Commands\SetDefaultSettings'
-	];
+        '\App\Console\Commands\Setup\InitializeApp',
+        '\App\Console\Commands\Setup\SetNewDefaults'
+    ];
 
 	/**
 	 * Define the application's command schedule.

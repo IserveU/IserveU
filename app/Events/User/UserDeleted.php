@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\User;
 
 use App\User;
+
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserUpdated extends Event
+class UserDeleted extends Event
 {
     use SerializesModels;
 
     public $user;
-
     /**
      * Create a new event instance.
      *

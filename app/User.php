@@ -8,20 +8,28 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Sofa\Eloquence\Eloquence; // base trait
 use Sofa\Eloquence\Mappable; // extension trait
 
+use Auth;
+use Hash;
+use Request;
+use Carbon\Carbon;
+use Redis;
+use Event;
+use Mail;
+use DB;
+use Setting;
+
 use App\Role;
+
 use App\Events\User\UserCreated;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserDeleted;
-use Carbon\Carbon;
-use Setting;
 
 
-class User extends Authenticatable implements AuthorizableContract, CanResetPasswordContract {
+class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract {
 
 	use Authorizable, CanResetPassword, Eloquence, Mappable;
 
@@ -170,7 +178,7 @@ class User extends Authenticatable implements AuthorizableContract, CanResetPass
 		/* validation required on new */		
 		static::creating(function($model){
 
-			if(!$model->validate()) return false;
+		//	if(!$model->validate()) return false; Moving validation out of model
 
 			return true;
 		});
@@ -182,8 +190,7 @@ class User extends Authenticatable implements AuthorizableContract, CanResetPass
 		});
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
-			event(new UserUpdating($model));
+		//	if(!$model->validate()) return false; Move validation out of model
 			return true;
 		});
 
@@ -222,7 +229,10 @@ class User extends Authenticatable implements AuthorizableContract, CanResetPass
 	 */
     public function addUserRoleByName($name){
 	    $userRole = Role::where('name','=',$name)->firstOrFail();
-	    $this->roles()->attach($userRole->id);
+
+	    if (!$this->roles->contains($userRole->id)) {
+	    	$this->roles()->attach($userRole->id);
+		}
 
 	    // Default users are not assigned a role. Once any role is
 	    // assigned (Admin, Councillor, Citizen), it means their identity
