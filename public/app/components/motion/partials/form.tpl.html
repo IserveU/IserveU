@@ -96,7 +96,7 @@
 					</md-input-container>
 
 
-					<div ng-if="form.motion.status == 5">
+					<div ng-if="form.motion.status > 1 && settingsGlobal.allow_closing">
 						<md-datepicker ng-model="form.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>
 					</div>
 				</div>

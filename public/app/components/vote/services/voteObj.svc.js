@@ -22,6 +22,7 @@
 	            deferred_abstain:{percent:0,number:0}
 		    },
 		    votes: {},
+		    emptyVotes: false,
 		    overallPosition: null,
 		    voteLoading: true,
 		    calculateVotes: function(id) {
@@ -39,7 +40,9 @@
 		    },
 		    getOverallPosition: function(votes) {
 
-	    		this.votes = votes || this.votes; 
+	    		this.emptyVotes = utils.objectIsEmpty(votes || this.votes);
+
+	    		this.votes = votes || this.votes;
 
 		    	if(!this.votes['-1'] && !this.votes['1'])
 	                this.overallPosition = "thumbs-up-down";
@@ -77,6 +80,7 @@
 				}
 		    },
 			clear: function() {
+				this.emptyVotes = false;
 				this.user = {postion:null};
 				this.votes = {};
 				this.overallPosition = null;

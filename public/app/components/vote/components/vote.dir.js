@@ -32,10 +32,11 @@
 			function castVote(id, pos) {
 
 				/**
-				*	Removed for localized economies.
+				*	Must you remove for localized economies?
 				*/
-				// if( isVotingEnabled() )
-				// 	return 0;
+				if( isVotingEnabled() )
+					return 0;
+
 				if(!$rootScope.userIsLoggedIn){
 					ToastMessage.customFunction("You must be logged in to vote", "Go", 
 						function(){
