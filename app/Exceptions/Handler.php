@@ -11,7 +11,10 @@ class Handler extends ExceptionHandler {
 	 * @var array
 	 */
 	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException'
+	    AuthorizationException::class,
+	    HttpException::class,
+	    ModelNotFoundException::class,
+	    ValidationException::class,
 	];
 
 	/**
