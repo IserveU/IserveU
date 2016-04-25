@@ -1,35 +1,37 @@
-<?php namespace App;
+<?php 
+namespace App;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Sofa\Eloquence\Eloquence; // base trait
 use Sofa\Eloquence\Mappable; // extension trait
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
 use App\Role;
-use Auth;
-use Hash;
-use Request;
+use App\Events\User\UserCreated;
+use App\Events\User\UserUpdated;
+use App\Events\User\UserDeleted;
 use Carbon\Carbon;
-use Redis;
-
-use App\Events\UserUpdated;
-use App\Events\UserUpdating;
-use App\Events\UserCreated;
-use App\Events\UserDeleted;
-
-use Event;
-use Mail;
-use DB;
+use Setting;
 
 
-class User extends ApiModel implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Authenticatable implements AuthorizableContract, CanResetPasswordContract {
 
-	use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait, Eloquence, Mappable;
+	use Authorizable, CanResetPassword, Eloquence, Mappable;
+
+	use EntrustUserTrait{
+		EntrustUserTrait::save as entrustSave;
+        Eloquence::save insteadof EntrustUserTrait;
+
+        Authorizable::can as may; //There is an entrust collision here
+        EntrustUserTrait::can insteadof Authorizable;
+    }
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -562,7 +564,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function roles(){
-	    return $this->belongsToMany('App\Role'); //,'assigned_roles'
+	    return $this->belongsToMany(Role::class); //,'assigned_roles'
 	}
 
 	public function modificationTo(){
