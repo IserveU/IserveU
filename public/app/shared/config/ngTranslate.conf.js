@@ -9,13 +9,7 @@
   	 /** @ngInject */
 	function($translateProvider, SETTINGS_JSON){
 
-		var jargon = localStorage.getItem('settings');
-
-		if ( !jargon || jargon.length <= 2 || jargon.en)
-		    jargon = SETTINGS_JSON;
-		else 
-			jargon = JSON.parse(jargon).jargon;
-
+		var jargon = SETTINGS_JSON.jargon;
 
 		$translateProvider.preferredLanguage('en');
 
