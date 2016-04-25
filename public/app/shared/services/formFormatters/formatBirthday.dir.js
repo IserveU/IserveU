@@ -2,9 +2,9 @@
 	
 	angular
 		.module('iserveu')
-		.directive('formatBirthday', birthday);
+		.directive('formatBirthday', ['$filter', formatBirthday]);
 
-	function birthday() {
+	function formatBirthday($filter) {
 
 		return {
 		    require: 'ngModel',

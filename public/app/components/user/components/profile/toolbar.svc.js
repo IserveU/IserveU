@@ -18,12 +18,12 @@
 
 		function save(data) {
 
-			var user = editUserFactory.map(''), j, i;
+			var user = editUserFactory.mapFields('');
 
-			for ( i in data )
-			for ( j in user )
+			for ( var i in data )
+			for ( var j in user )
 				if( i === j && isOfTypeName(i) ) 
-				user[j] = data[i];
+					user[j] = data[i];
 
 			editUserFactory.save('last_name', user);
 		};

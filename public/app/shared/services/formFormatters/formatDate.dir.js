@@ -19,8 +19,6 @@
 
       			ngModelController.$formatters.push(function(data) {
 
-					console.log(data);
-
 					if ( data ) return new Date(data);
 					else 
 						return data;
