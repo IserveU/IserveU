@@ -21,7 +21,9 @@
       <!-- <loading-spinner on-hide="motionIsLoading[motion.id]"> -->
       <!-- <trending-icon ng-hide="motionIsLoading[motion.id]"></trending-icon> -->
 
-      <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg"></md-icon>
+      <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg">
+        <md-tooltip md-direction="right">{{ ::motion.department }}</md-tooltip>
+      </md-icon>
       <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
       <quick-vote ng-if="userIsLoggedIn"></quick-vote>
 
