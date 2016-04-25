@@ -10,7 +10,7 @@
 		return {
 			link: function (scope, element, attrs){
 				element.css({
-				    'background-image': 'url('+SETTINGS_JSON.background_image+')'
+				    'background-image': 'url('+SETTINGS_JSON.background_image || '/themes/default/photos/background.png'+')'
 				});
 			}
 		};
