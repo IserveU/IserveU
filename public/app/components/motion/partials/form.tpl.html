@@ -4,11 +4,7 @@
 
 		<form name="motionForm" ng-submit="motionForm.$valid" layout="column" layout-padding
 		 	  isu-section-init = "{autopost: false}"
-		 	  isu-section-object = "form.motion"  
-		 	  >
-			
-
-
+		 	  isu-section-object = "form.motion">
 			
 			<div layout="column" flex layout-padding>
 
@@ -40,65 +36,24 @@
 						<h3 class="title-header">Additional Details</h3>
 					</div>
 
-					<div>
-						<div isu-accordian
-							 is-open="form.proponent"
-							 icon="'mdi-human'"
-							 title="'Proponent'">
-						</div>
+					<div isu-accordian
+						 is-open="form.proponent"
+						 icon="'mdi-human'"
+						 title="'Proponent'">
 
-							<bio-section ng-if="form.proponent"></bio-section>
+						<bio-section ng-if="form.proponent"></bio-section>
 
-
-<!-- 						<div layout="column" flex ng-if="form.proponent">
-							<div layout="row" layout-sm="column" layout-xs="column" flex>
-
-								<md-input-container>
-								  	<md-icon class="mdi mdi-account-circle"></md-icon>
-								 	<input type="file" name="section.content.bio.avatar" ng-model="section.content.bio.avatar"/>
-								</md-input-container>
-						
-								<md-input-container flex>
-									<label>Name</label>
-									<input type="text" ng-model="form.motion.section.content.bio.name" required/>
-								</md-input-container>
-							
-							</div>
-
-							<div layout="row"  layout-sm="column"  layout-xs="column"  flex>
-								<md-input-container flex>
-									<label>Company Name</label>
-									<input type="text" ng-model="form.motion.section.content.bio.company_name" required/>
-								</md-input-container>
-								<md-input-container flex>
-									<label>Position</label>
-									<input type="text" ng-model="form.motion.section.content.bio.position" required/>
-								</md-input-container>
-								<md-input-container flex>
-									<label>Website</label>
-									<input type="text" ng-model="form.motion.section.content.bio.website" required/>
-								</md-input-container>
-							</div>
-
-					        <md-input-container class="md-block">
-					          <label>Biography</label>
-					          <textarea ng-model="form.motion.section.content.bio.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-					        </md-input-container>
-
-						</div> -->
 					</div>
 
-
-					<div layout="column" flex>
-						<div isu-accordian
-							 is-open="form.budget"
-							 icon="'mdi-wallet'"
-							 title="'Budget'">
-						</div>
+					<div isu-accordian layout="column"
+						 is-open="form.budget"
+						 icon="'mdi-wallet'"
+						 title="'Budget'">
 
 						<budget-section ng-if="form.budget"></budget-section>
 
 					</div>
+
 				</div>
 
 

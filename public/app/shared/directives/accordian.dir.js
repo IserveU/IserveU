@@ -17,7 +17,7 @@
 					   '<md-icon class="mdi {{icon}} title-icon"></md-icon>',
 					   '<h3 class="md-body-2" >{{title}}</h3>',
 					   '<md-icon ng-class="isOpen?\'mdi mdi-menu-up\':\'mdi mdi-menu-up go-up\'"></md-icon>',
-					   '</div>'].join('')
+					   '</div><div ng-transclude></div>'].join('')
 		}
 
 
