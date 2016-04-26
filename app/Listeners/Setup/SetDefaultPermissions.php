@@ -150,13 +150,13 @@ class SetDefaultPermissions
             'description'   =>  'Can activate and edit other background images'
         ]);
 
-        $createDepartment =  Permission::updateOrCreate([
+        $createDepartment =  Permission::updateOrCreate(['name'=>'create-department'],[
             'name'          =>  'create-department',
             'display_name'  =>  'Create Departments',
             'description'   =>  'Can create a department'
         ]);
 
-        $editDepartment =  Permission::updateOrCreate([
+        $editDepartment =  Permission::updateOrCreate(['name'=>'administrate-department'],[
             'name'          =>  'administrate-department',
             'display_name'  =>  'Edit Departments',
             'description'   =>  'Can activate and departments'
@@ -185,8 +185,6 @@ class SetDefaultPermissions
                                         $editMotion->id,
                                         $showMotion->id,
                                         $deleteMotion->id,
-                                        $createProperty->id,
-                                        $editProperty->id,
                                         $viewComment->id,
                                         $showVote->id,
                                         $createCommentVote->id,
