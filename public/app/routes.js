@@ -159,6 +159,10 @@
                 }]
             } 
     	})
+        .state('testing', {
+            url: '/testing',
+            template: '<edit-address></edit-address>'
+        })
     	.state('login.resetpassword', {
     		url: '/:token',
     		data: {
