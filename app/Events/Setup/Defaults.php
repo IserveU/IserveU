@@ -18,9 +18,9 @@ class Defaults extends Event
      *
      * @return void
      */
-    public function __construct(User $adminUser)
+    public function __construct()
     {
-        $this->adminUser = $adminUser;
+
     }
 
     /**

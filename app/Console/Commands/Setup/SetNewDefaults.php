@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 use App\BackgroundImage;
 use Setting;
-
+use App\Events\Setup\Defaults;
 
 class SetNewDefaults extends Command
 {
@@ -42,15 +42,6 @@ class SetNewDefaults extends Command
     public function handle()
     {
         event(new Defaults());       
-    }
-
-    public function ifNullSet($key, $value, $overwrite)
-    {
-        if ($overwrite) {
-            Setting::set($key,$value);
-        } else if(is_null(Setting::get($key))) {
-            Setting::set($key,$value);
-        }
     }
 
 }

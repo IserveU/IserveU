@@ -71,11 +71,7 @@ class InitializeApp extends Command
             'public'        => 1
         ]);
 
-        $this->info("Admin Created: $email / $password");
-        
-        $user->addUserRoleByName('administrator');
-
-        \Artisan::call('db:seed');
+        $this->info("Creating Admin: $email / $password");
 
         event(new Initialize($user));   
     }

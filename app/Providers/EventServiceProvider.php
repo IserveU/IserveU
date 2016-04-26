@@ -88,7 +88,8 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\Setup\Initialize' => [
             'App\Listeners\Setup\SetDefaultSettings',
             'App\Listeners\Setup\SetDefaultPermissions',
-            'App\Listeners\Setup\SetAdminUser'
+            'App\Listeners\Setup\SetAdminUser',
+            'App\Listeners\Setup\RunDBSeeder'
         ],
         'App\Events\Setup\Defaults' => [
             'App\Listeners\Setup\SetDefaultSettings',

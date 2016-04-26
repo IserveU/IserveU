@@ -6,7 +6,7 @@ use App\Events\Setup\Initialize;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SetAdminUser
+class RunDBSeeder
 {
     /**
      * Create the event listener.
@@ -26,6 +26,6 @@ class SetAdminUser
      */
     public function handle(Initialize $event)
     {
-        $event->adminUser->addUserRoleByName('administrator');
+        \Artisan::call('db:seed');
     }
 }
