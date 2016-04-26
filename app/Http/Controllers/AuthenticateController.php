@@ -9,11 +9,11 @@ use App\User;
 use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Events\UserLoginFailed;
+use App\Events\User\UserLoginFailed;
 use App\Events\SendPasswordReset;
 use Carbon\Carbon;
 
-use App\Events\UserLoginSucceeded;
+use App\Events\User\UserLoginSucceeded;
 
 
 class AuthenticateController extends ApiController

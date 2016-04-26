@@ -17,10 +17,16 @@ class ShowMotionRequest extends Request
     {
         $motion =  $this->route()->parameter('motion');
 
-        // dd($motion->typedSections);
+        
 
         if($motion->status < 2){
-            if(!Auth::user() || !Auth::user()->can('administrate-motions')){
+            if(!Auth::check()){
+                return false;
+            }
+
+            dd(Auth::user());
+
+            if(!Auth::user()->can('administrate-motion')){
                 return false;
             }
         }

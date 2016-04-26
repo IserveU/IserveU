@@ -27,7 +27,7 @@
 
 		$self->assertResponseOk();
 
-		return $motion->getOriginalContent();
+		return App\Motion::find($motion->getOriginalContent()['id']); //This was an array
 	}
 
 	function postVote($self)
@@ -43,7 +43,7 @@
 
 	    $self->assertResponseOk();
 
-		return $vote->getOriginalContent();
+		return $vote->getOriginalContent(); //This is an object
 	}
 
 
@@ -103,10 +103,7 @@
 	    return ['closing' => $closing->add(new DateInterval('P7D'))];
 	}
 
-	function createPublishedMotion()
-	{
-		return factory(App\Motion::class, 'published')->create();
-	}
+
 
 	function createComment($voteId)
 	{

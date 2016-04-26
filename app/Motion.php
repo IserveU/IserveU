@@ -10,8 +10,8 @@ use Auth;
 use Carbon\Carbon;
 use Setting;
 
-use App\Events\MotionUpdated;
-use App\Events\MotionCreated;
+use App\Events\Motion\MotionUpdated;
+use App\Events\Motion\MotionCreated;
 
 use App\Section\Sectionable;
 
@@ -70,7 +70,6 @@ class Motion extends ApiModel {
    	protected $maps = [
        	'motion_rank'		=> 	'lastestRank.rank',
        	'user_vote'			=>	'userVote'
-       	// 'sections'			=>  'sections'
     ];
 
 	/**
@@ -79,31 +78,13 @@ class Motion extends ApiModel {
 	 */	
     protected $appends = ['MotionOpenForVoting','motion_rank','user_vote'];
 
-    /**
-     * The rules for all the variables
-     * @var array
-     */
-	protected $rules = [
-		'title' 			=>	'min:8|unique:motions,title',
-        'status'			=>	'integer',
-        'department_id'		=>	'exists:departments,id',
-        'closing' 			=>	'date',
-        'text'				=>	'min:10',
-        'user_id'			=>	'integer|exists:users,id',
-        'id'				=>	'integer'
-	];
+  
 
 	/**
 	 * The variables that are required when you do an update
 	 * @var array
 	 */
 	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The variables required when you do the initial create
-	 * @var array
-	 */
-	protected $onCreateRequired = ['title','text','user_id','department_id'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
@@ -129,7 +110,7 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
-			if(!$model->validate()) return false;
+		
 			return true;	
 		});
 
@@ -140,7 +121,6 @@ class Motion extends ApiModel {
 
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
 			event(new MotionUpdated($model));
 			return true;			
 		});
@@ -208,7 +188,7 @@ class Motion extends ApiModel {
 			}
 		}
 
-		if(!Auth::user()->can('administrate-motions') && $value > 1){
+		if(!Auth::user()->can('administrate-motion') && $value > 1){
 			$this->attributes['status'] = 1;
 			return true;
 		}
@@ -230,7 +210,7 @@ class Motion extends ApiModel {
 				$this->attributes['status'] = 1;
 				break;
 			case 2:
-				if(Auth::check() && !Auth::user()->can('administrate-motions')){
+				if(Auth::check() && !Auth::user()->can('administrate-motion')){
 					abort(401,"Unable to set user does not have permission to set motions as active");
 				}
 				if($value && !$this->motionRanks->isEmpty()){

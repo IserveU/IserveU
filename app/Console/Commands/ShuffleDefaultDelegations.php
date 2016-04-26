@@ -47,7 +47,7 @@ class ShuffleDefaultDelegations extends Command
         $users = User::with('delegatedFrom')->validVoter()->get();
 
         $departments = Department::all();
-        $councillors = User::councillor()->get();
+        $councillors = User::representative()->get();
 
         foreach($users as $user){
             $user->createDefaultDelegations($departments,$councillors);

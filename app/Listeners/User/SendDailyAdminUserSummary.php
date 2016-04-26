@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\SendDailyEmails;
+use App\Events\User\SendDailyEmails;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Carbon\Carbon;

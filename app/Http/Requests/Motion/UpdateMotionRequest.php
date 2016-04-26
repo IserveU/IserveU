@@ -5,9 +5,8 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Auth;
 
-class StoreMotionRequest extends Request
-{  
-
+class UpdateMotionRequest extends Request
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,10 +14,15 @@ class StoreMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('create-motions')){ 
+        if(Auth::user()->can('administrate-motion')){ 
+        //Is not the user who made it, or the site admin
             return true;
         }
-         
+
+        if($motion->expired){ //Motion has closed/expired
+             return false;
+        }
+
         return false;
     }
 
@@ -29,15 +33,17 @@ class StoreMotionRequest extends Request
      */
     public function rules()
     {
-        // todo rethink these rules
+        $motion = $this->route()->parameter('motion');
+
         return [
-            'title'             =>  'min:8|unique:motions,title',
+            'title'             =>  'min:8|unique:motions,title,'.$motion->id,
             'status'            =>  'integer',
             'department_id'     =>  'exists:departments,id',
             'closing'           =>  'date',
-            'text'              =>  'min:10',
             'user_id'           =>  'integer|exists:users,id',
             'id'                =>  'integer'
         ];
+
+
     }
 }

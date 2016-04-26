@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\User;
 
-use App\Motion;
+use App\User;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MotionCreated extends Event
+class UserUpdated extends Event
 {
     use SerializesModels;
 
-    public $motion;
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Motion $motion)
+    public function __construct(User $user)
     {
-        $this->motion = $motion;
+        $this->user = $user;
     }
 
     /**

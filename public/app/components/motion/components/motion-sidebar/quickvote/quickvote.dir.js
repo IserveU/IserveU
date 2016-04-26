@@ -14,7 +14,7 @@
 
   		var vm = this;
 
-        vm.canAccessCreateVote = Authorizer.canAccess('create-votes');
+        vm.canAccessCreateVote = Authorizer.canAccess('create-vote');
         vm.cycleVote = cycleVote;
         vm.voteObj = voteObj;
 
@@ -27,7 +27,7 @@
 					}, true);
 			else if(!motion.MotionOpenForVoting)
 				ToastMessage.simple("This " + $translate.instant('MOTION') + " is not open for voting.", 1000);
-			else if(!Authorizer.canAccess('create-votes'))
+			else if(!Authorizer.canAccess('create-vote'))
 				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
 			else{ 
 				if(!motion.user_vote){

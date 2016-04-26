@@ -33,10 +33,10 @@ class CreateDepartmentDelegations
     {
         $department = $event->department;
 
-        $users          = User::notCouncillor()->get();
-        $councillors    = User::councillor()->get();
+        $users          = User::notRepresentative()->get();
+        $representatives    = User::representative()->get();
 
-        if($councillors->isEmpty()){
+        if($representatives->isEmpty()){
             return true;
         }
 
@@ -44,7 +44,7 @@ class CreateDepartmentDelegations
             $newDelegation = new Delegation;
             $newDelegation->department_id       =   $department->id;
             $newDelegation->delegate_from_id    =   $user->id;
-            $newDelegation->delegate_to_id      =   $councillors->random()->id;
+            $newDelegation->delegate_to_id      =   $representatives->random()->id;
             $newDelegation->save();
         }
         

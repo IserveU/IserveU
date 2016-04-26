@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Setup;
 
-use App\Motion;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MotionUpdated extends Event
+class Defaults extends Event
 {
     use SerializesModels;
 
-    public $motion;
+    public $adminUser;
+
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Motion $motion)
+    public function __construct()
     {
-        $this->motion = $motion;
+
     }
 
     /**

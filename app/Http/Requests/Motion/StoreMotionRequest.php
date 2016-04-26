@@ -5,8 +5,11 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Auth;
 
-class CreateMotionRequest extends Request
-{
+class StoreMotionRequest extends Request
+{  
+    
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +17,7 @@ class CreateMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('create-motions')){
+        if(Auth::user()->can('create-motion')){ 
             return true;
         }
 
@@ -29,7 +32,13 @@ class CreateMotionRequest extends Request
     public function rules()
     {
         return [
-            //
+            'title'             =>  'required|min:8|unique:motions,title',
+            'status'            =>  'integer',
+            'department_id'     =>  'required|integer|exists:departments,id',
+            'closing'           =>  'date',
+            'user_id'           =>  'integer|exists:users,id',
+            'id'                =>  'integer'
         ];
     }
+
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Listeners\Motion;
+namespace App\Listeners\Setup;
 
-use App\Events\Motion\MotionUpdated;
+use App\Events\Setup\Initialize;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendNotificationEmail
+class SetAdminUser
 {
     /**
      * Create the event listener.
@@ -21,12 +21,11 @@ class SendNotificationEmail
     /**
      * Handle the event.
      *
-     * @param  MotionUpdated  $event
+     * @param  Initialize  $event
      * @return void
      */
-    public function handle(MotionUpdated $event)
+    public function handle(Initialize $event)
     {
-        $motion = $event->motion;
-
+        $event->adminUser->addUserRoleByName('administrator');
     }
 }

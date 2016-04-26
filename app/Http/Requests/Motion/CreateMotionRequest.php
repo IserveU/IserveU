@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Auth;
 
-class DestroyMotionRequest extends Request
+class CreateMotionRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class DestroyMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('delete-motions')){
+        if(Auth::user()->can('create-motion')){
             return true;
         }
 

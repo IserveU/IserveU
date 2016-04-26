@@ -24,7 +24,7 @@
 							{{comment.commentRank}} people liked this.
 						</p>
 					    
-					    <div has-permission="create-comment_votes">
+					    <div has-permission="create-comment_vote">
 						    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" aria-label="Agree"> 
 								<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>
@@ -66,7 +66,7 @@
 							{{comment.commentRank}} people liked this.
 						</p>
 
-						<div has-permission="create-comment_votes">
+						<div has-permission="create-comment_vote">
 						    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" aria-label="Agree"> 
 								<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>

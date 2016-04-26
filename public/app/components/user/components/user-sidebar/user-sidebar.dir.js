@@ -11,7 +11,7 @@
 
   	return {
 
-      templateUrl: Authorizer.canAccess('administrate-users') ? 
+      templateUrl: Authorizer.canAccess('administrate-user') ? 
 
       	'app/components/user/components/user-sidebar/user-sidebar.tpl.html' :
       

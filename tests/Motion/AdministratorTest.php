@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AdministratorTest extends TestCase
 {
-    use DatabaseTransactions;
+    //use DatabaseTransactions;
 
     public function setUp()
     {
@@ -25,9 +25,10 @@ class AdministratorTest extends TestCase
     /** @test */
     public function it_can_see_a_motion()
     {
-        $motion = createPublishedMotion();
+        $motion =  factory(App\Motion::class, 'published')->create();
 
         $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
@@ -36,7 +37,7 @@ class AdministratorTest extends TestCase
     public function it_can_create_a_motion()
     {
         $motion  = postMotion($this);
-    
+
         $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
 
         $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
@@ -80,6 +81,7 @@ class AdministratorTest extends TestCase
         $updated = array_merge($updated, createClosingDate() );
 
         $updated = $this->call('PATCH', '/api/motion/'.$motion->id.'?token='.$this->token, $updated);
+
         $updated = $updated->getOriginalContent();
 
         $this->assertResponseOk();
@@ -179,7 +181,7 @@ class AdministratorTest extends TestCase
         $this->seeInDatabase('comments', ['deleted_at' => $delete->deleted_at]);
     }
 
-        /** @test */
+        /** @ test */
     public function it_can_delete_comment_vote()
     {
         $comment_vote = postCommentVote($this);

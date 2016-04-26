@@ -1,31 +1,26 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Setup;
 
-use App\User;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\User;
 
-class UserLoginFailed extends Event
+class Initialize extends Event
 {
     use SerializesModels;
 
-    public $user;
-    public $credentials;
+    public $adminUser;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($credentials)
-    {            
-        $this->user = User::withEmail($credentials['email'])->first();
-        if(!$this->user){
-            abort(403,"Email address not in database");
-        }
-
-        $this->credentials = $credentials;
+    public function __construct(User $adminUser)
+    {
+        $this->adminUser = $adminUser;
     }
 
     /**

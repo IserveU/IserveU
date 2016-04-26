@@ -73,7 +73,7 @@ class CommentController extends ApiController {
 	 * @return Response
 	 */
 	public function store(){
-		if(!Auth::user()->can('create-comments')){
+		if(!Auth::user()->can('create-comment')){
 			abort(401,'You do not have permission to write a comment');
 		}
 
@@ -123,7 +123,7 @@ class CommentController extends ApiController {
 			abort(400,'Comment does not exist');
 		}
 
-		if(!Auth::user()->can('create-comments')){
+		if(!Auth::user()->can('create-comment')){
 			abort(403,'You do not have permission to update a comment');
 		}
 
@@ -137,7 +137,7 @@ class CommentController extends ApiController {
 	 */
 	public function update(Comment $comment)
 	{
-		if(!Auth::user()->can('create-comments')){
+		if(!Auth::user()->can('create-comment')){
 			abort(401,'You do not have permission to update a comment');
 		}
 
@@ -169,7 +169,7 @@ class CommentController extends ApiController {
 	public function destroy(Comment $comment)
 	{
 
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('delete-comments')){
+		if($comment->user->id != Auth::user()->id && !Auth::user()->can('delete-comment')){
 			abort(401,'User does not have permission to delete this comment');
 		}
 

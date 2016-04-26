@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Events;
-
+namespace App\Events\User;
 use App\Events\Event;
+use App\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-use App\User;
-
-class UserUpdating extends Event
+class UserLoginSucceeded extends Event
 {
     use SerializesModels;
 
     public $user;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-     public function __construct(User $user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
