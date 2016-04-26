@@ -191,7 +191,7 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }
 
-    /****************** DUPLICATE FROM COUNCILLOR TESTS ********************/
+    /****************** DUPLICATE FROM representative TESTS ********************/
 
 
 
@@ -204,7 +204,7 @@ class AdministratorTest extends TestCase
     *  - be able to switch the status of a motion from 'draft' to 'published', etc.
     *
     *
-    *  Note: if you complete councillor tests first, and then copy it over, it should replicate exactly
+    *  Note: if you complete representative tests first, and then copy it over, it should replicate exactly
     *        what it is you need; and you would just flip the negative tests from 403/401's to 200's. Saving you time.
     *
     ******************************************************************/
