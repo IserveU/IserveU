@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\UserDeleted;
+use App\Events\User\UserDeleted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

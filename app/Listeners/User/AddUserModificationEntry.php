@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\UserUpdated;
+use App\Events\User\UserUpdated;
 use App\UserModification;
 use JWTAuth;
 

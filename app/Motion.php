@@ -10,8 +10,8 @@ use Auth;
 use Carbon\Carbon;
 use Setting;
 
-use App\Events\MotionUpdated;
-use App\Events\MotionCreated;
+use App\Events\Motion\MotionUpdated;
+use App\Events\Motion\MotionCreated;
 
 use App\Section\Sectionable;
 
@@ -110,7 +110,7 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
-			if(!$model->validate()) return false;
+		
 			return true;	
 		});
 
@@ -121,7 +121,6 @@ class Motion extends ApiModel {
 
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
 			event(new MotionUpdated($model));
 			return true;			
 		});

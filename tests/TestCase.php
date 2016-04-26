@@ -47,7 +47,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Auth::loginUsingId($user->id);
 
         $this->post( '/authenticate', ['email' => $user->email, 'password' => 'abcd1234'] );
+ 
         $content = json_decode($this->response->getContent());
+
+        if(!$content){
+//            dd($this->response->getContent());
+        }
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
 
 

@@ -38,9 +38,9 @@ class UpdateMotionRequest extends Request
         return [
             'title'             =>  'min:8|unique:motions,title,'.$motion->id,
             'status'            =>  'integer',
-            'department_id'     =>  'required|exists:departments,id',
+            'department_id'     =>  'exists:departments,id',
             'closing'           =>  'date',
-            'user_id'           =>  'required|integer|exists:users,id',
+            'user_id'           =>  'integer|exists:users,id',
             'id'                =>  'integer'
         ];
 

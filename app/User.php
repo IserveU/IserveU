@@ -1,12 +1,16 @@
 <?php 
 namespace App;
 
+//use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Sofa\Eloquence\Eloquence; // base trait
@@ -29,13 +33,16 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserDeleted;
 
 
-class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract {
+class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, Eloquence, Mappable;
+	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
 
 	use EntrustUserTrait{
 		EntrustUserTrait::save as entrustSave;
         Eloquence::save insteadof EntrustUserTrait;
+
+        // EntrustUserTrait::can as may; //There is an entrust collision here
+        // Authorizable::can insteadof EntrustUserTrait;
 
         Authorizable::can as may; //There is an entrust collision here
         EntrustUserTrait::can insteadof Authorizable;

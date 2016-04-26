@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Motion;
 
-use App\Events\MotionUpdated;
+use App\Events\Motion\MotionUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

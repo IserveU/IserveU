@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\UserCreated;
+use App\Events\User\UserCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

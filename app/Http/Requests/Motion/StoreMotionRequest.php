@@ -20,7 +20,7 @@ class StoreMotionRequest extends Request
         if(Auth::user()->can('create-motion')){ 
             return true;
         }
-         
+
         return false;
     }
 
@@ -34,9 +34,9 @@ class StoreMotionRequest extends Request
         return [
             'title'             =>  'required|min:8|unique:motions,title',
             'status'            =>  'integer',
-            'department_id'     =>  'required|exists:departments,id',
+            'department_id'     =>  'required|integer|exists:departments,id',
             'closing'           =>  'date',
-            'user_id'           =>  'required|integer|exists:users,id',
+            'user_id'           =>  'integer|exists:users,id',
             'id'                =>  'integer'
         ];
     }

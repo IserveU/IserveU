@@ -61,12 +61,12 @@ class VotingTest extends TestCase
 
         // 1 Councillor votes for, one votes against
         $response = $C1->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => 1]);
-        dd($response);
+      //  dd($response);
         $C2->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => -1]);
 
         // Check that 20 voted for, 20 voted against
         $motionVotes = $this->get('/api/motion/'.$publishedMotion->id.'/vote');
-        dd( $motionVotes );
+//        dd( $motionVotes );
 
         // Check that the for/against add up to 42
         // Make one of the users that was not a citizen a citizen
