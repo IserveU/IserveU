@@ -14,7 +14,7 @@ class UpdateMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('administrate-motions')){ 
+        if(Auth::user()->can('administrate-motion')){ 
         //Is not the user who made it, or the site admin
             return true;
         }

@@ -42,128 +42,128 @@ class SetDefaultPermissions
             'description'   =>  'A verified citizen'
         ]);
 
-        $councillor = Role::updateOrCreate([
-            'name'          =>  'councillor',
-            'display_name'  =>  'City Councillor',
-            'description'   =>  'A City Councillor'
+        $representative = Role::updateOrCreate([
+            'name'          =>  'representative',
+            'display_name'  =>  'Representative',
+            'description'   =>  'A representative who by default is deffered votes'
         ]);        
 
         $editPermission = Permission::updateOrCreate([
-            'name'          =>  'administrate-permissions',
+            'name'          =>  'administrate-permission',
             'display_name'  =>  'Administrate Permissions',
             'description'   =>  'Administrate the roles and permissions of other users'
         ]);
 
         $editUser =  Permission::updateOrCreate([
-            'name'          =>  'administrate-users',
+            'name'          =>  'administrate-user',
             'display_name'  =>  'Administrate Users',
             'description'   =>  'Administrate existing other users, verify them'
         ]);
 
         $showUser =  Permission::updateOrCreate([
-            'name'          =>  'show-users',
+            'name'          =>  'show-user',
             'display_name'  =>  'Show Users',
             'description'   =>  'See full existing (non-public) user profiles and their full details'
         ]);
 
         $deleteUser =  Permission::updateOrCreate([
-            'name'          =>  'delete-users',
+            'name'          =>  'delete-user',
             'display_name'  =>  'Delete Users',
             'description'   =>  'Able to delete users'
         ]);
-         
 
         $createMotion =  Permission::updateOrCreate([
-            'name'          =>  'create-motions',
-            'display_name'  =>  'Create Motion',
+            'name'          =>  'create-motion',
+            'display_name'  =>  'Create Motions',
             'description'   =>  'Create and edit own motions'
         ]);
 
         $editMotion =  Permission::updateOrCreate([
-            'name'          =>  'administrate-motions',
-            'display_name'  =>  'Administrate Motion',
+            'name'          =>  'administrate-motion',
+            'display_name'  =>  'Administrate Motions',
             'description'   =>  'Administrate existing motions, enable them'
         ]);
 
         $showMotion =  Permission::updateOrCreate([
-            'name'          =>  'show-motions',
-            'display_name'  =>  'Show Motion',
+            'name'          =>  'show-motion',
+            'display_name'  =>  'Show Motions',
             'description'   =>  'Show all non-active motions'
         ]);
 
         $deleteMotion =  Permission::updateOrCreate([
-            'name'          =>  'delete-motions',
-            'display_name'  =>  'Delete Motion',
+            'name'          =>  'delete-motion',
+            'display_name'  =>  'Delete Motions',
             'description'   =>  'Delete motions'
         ]);
-        $createComment =  Permission::updateOrCreate([
-            'name'          =>  'create-comments',
-            'display_name'  =>  'Create Comment',
+
+        $createComment =  Permission::updateOrCreate(['name' => 'create-comment'],[
+            'name'          =>  'create-comment',
+            'display_name'  =>  'Create Comments',
             'description'   =>  'Create and edit own comments'
         ]);
 
         $viewComment =  Permission::updateOrCreate([
-            'name'          =>  'show-comments',
-            'display_name'  =>  'Show Comment',
+            'name'          =>  'show-comment',
+            'display_name'  =>  'Show Comments',
             'description'   =>  'View the comments and owners of comments that are not public'
         ]);
 
         $createCommentVote =  Permission::updateOrCreate([
-            'name'          =>  'create-comment_votes',
+            'name'          =>  'create-comment_vote',
             'display_name'  =>  'Create Comments',
             'description'   =>  'Can vote on comments'
         ]);
 
         $viewCommentVote =  Permission::updateOrCreate([
-            'name'          =>  'view-comment_votes',
+            'name'          =>  'view-comment_vote',
             'display_name'  =>  'Create Comments',
             'description'   =>  'Can view other users comment votes'
         ]);
 
         $deleteComment =  Permission::updateOrCreate([
-            'name'          =>  'delete-comments',
-            'display_name'  =>  'Delete Comment',
+            'name'          =>  'delete-comment',
+            'display_name'  =>  'Delete Comments',
             'description'   =>  'Delete other peoples comments'
         ]);
 
         $createVote =  Permission::updateOrCreate([
-            'name'          =>  'create-votes',
-            'display_name'  =>  'Create Vote',
+            'name'          =>  'create-vote',
+            'display_name'  =>  'Create Votes',
             'description'   =>  'Can vote and change own vote'
         ]);
 
         $showVote =  Permission::updateOrCreate([
-            'name'          =>  'view-vote',
-            'display_name'  =>  'View Vote',
+            'name'          =>  'show-vote',
+            'display_name'  =>  'Show Votes',
             'description'   =>  'Can see who placed a vote and a detailed record of all votes cast (like most recent vote)'
         ]);
 
         $createBackgroundImage =  Permission::updateOrCreate([
-            'name'          =>  'create-background_images',
-            'display_name'  =>  'Create Background Image',
+            'name'          =>  'create-background_image',
+            'display_name'  =>  'Create Background Images',
             'description'   =>  'Can create and upload a background image'
         ]);
 
         $editBackgroundImage =  Permission::updateOrCreate([
-            'name'          =>  'administrate-background_images',
-            'display_name'  =>  'Edit Background Image',
+            'name'          =>  'administrate-background_image',
+            'display_name'  =>  'Edit Background Images',
             'description'   =>  'Can activate and edit other background images'
         ]);
 
         $createDepartment =  Permission::updateOrCreate([
             'name'          =>  'create-department',
-            'display_name'  =>  'Create Department',
+            'display_name'  =>  'Create Departments',
             'description'   =>  'Can create a department'
         ]);
 
         $editDepartment =  Permission::updateOrCreate([
             'name'          =>  'administrate-department',
-            'display_name'  =>  'Edit Department',
+            'display_name'  =>  'Edit Departments',
             'description'   =>  'Can activate and departments'
         ]);
 
 
-        $councillor->perms()->sync(array($createComment->id,
+        $representative->perms()->sync(array($createComment->id,
                                              $createVote->id,
                                              $createMotion->id,
                                              $editMotion->id,

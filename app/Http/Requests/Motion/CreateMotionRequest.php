@@ -14,7 +14,7 @@ class CreateMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('create-motions')){
+        if(Auth::user()->can('create-motion')){
             return true;
         }
 

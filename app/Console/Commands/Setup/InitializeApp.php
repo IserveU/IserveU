@@ -72,7 +72,7 @@ class InitializeApp extends Command
         ]);
 
         $this->info("Admin Created: $email / $password");
-
+        
         $user->addUserRoleByName('administrator');
 
         \Artisan::call('db:seed');

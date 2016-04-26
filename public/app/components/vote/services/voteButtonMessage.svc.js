@@ -18,7 +18,7 @@
 
 				return "You must login before you can vote.";
 
-			else if ( !Authorizer.canAccess('create-votes') )
+			else if ( !Authorizer.canAccess('create-vote') )
 
 				return "You do not have permission to vote.";
 

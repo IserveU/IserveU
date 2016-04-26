@@ -14,7 +14,7 @@ class DestroyMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('delete-motions')){
+        if(Auth::user()->can('delete-motion')){
             return true;
         }
 

@@ -16,7 +16,7 @@
 			link: function(scope, el, attrs){
 				fabLink(el);
 			},
-			template: [ '<md-fab-speed-dial has-permission="administrate-motions"',
+			template: [ '<md-fab-speed-dial has-permission="administrate-motion"',
 						'class="md-scale fab-tool-animate" md-open="fab.isOpen"',
 						'ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false"',
 						'md-hover-full md-direction="down"',

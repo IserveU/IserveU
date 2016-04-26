@@ -20,7 +20,7 @@ class ShowMotionRequest extends Request
         // dd($motion->typedSections);
 
         if($motion->status < 2){
-            if(!Auth::user() || !Auth::user()->can('administrate-motions')){
+            if(!Auth::user() || !Auth::user()->can('administrate-motion')){
                 return false;
             }
         }

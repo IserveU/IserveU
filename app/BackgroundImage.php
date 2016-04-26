@@ -173,7 +173,7 @@ class BackgroundImage extends ApiModel
 	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
 	 */
 	public function setActiveAttribute($value){
-		if(!Auth::user()->can('administrate-background_images')){
+		if(!Auth::user()->can('administrate-background_image')){
 			return false;
 		}
 

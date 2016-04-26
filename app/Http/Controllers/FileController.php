@@ -96,7 +96,7 @@ class FileController extends ApiController
     public function destroy(Request $request, $file)
     {
         if(MotionFile::where('file_id', '=', $file->id)) {
-           if(!Auth::user()->can('delete-motions')){
+           if(!Auth::user()->can('delete-motion')){
                 abort(401,"You do not have permission to delete this motion file.");
             }
             $motionFile = MotionFile::where('file_id', '=', $file->id)->delete();

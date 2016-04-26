@@ -85,7 +85,7 @@
 			}
 
 			function isVotingEnabled() {
-				return !isMotionOpen.get() || !Authorizer.canAccess('create-votes') || isMotionOpen.isReview();
+				return !isMotionOpen.get() || !Authorizer.canAccess('create-vote') || isMotionOpen.isReview();
 			}
 
 			$scope.$watch('v.voteObj.user', function(newValue, oldValue) {

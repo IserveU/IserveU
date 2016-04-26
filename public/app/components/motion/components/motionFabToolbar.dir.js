@@ -29,7 +29,7 @@
 		        };
 			},
 			controllerAs: 'fab',
-			template: [  '<md-fab-speed-dial has-permission="administrate-motions"',
+			template: [  '<md-fab-speed-dial has-permission="administrate-motion"',
 						 'class="md-scale fab-tool-animate" md-open="fab.isOpen"', 
 			   			 'ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false" md-hover-full', 
 			   			 'md-direction="down" style="position:fixed; right: 15px;">',
@@ -41,17 +41,17 @@
 						 '</md-fab-trigger>',
 						 
 						 '<md-fab-actions>',
-							'<md-button has-permission="create-motions" aria-label="create"',
+							'<md-button has-permission="create-motion" aria-label="create"',
 							'ui-sref="create-motion" class="md-fab md-raised md-mini">',
 								'<md-icon class="mdi" md-font-icon="mdi-plus"></md-icon>',
 							'</md-button>',
 
-						    '<md-button has-permission="administrate-motions" aria-label="edit"',
+						    '<md-button has-permission="administrate-motion" aria-label="edit"',
 						    'ui-sref="edit-motion({id:motion.details.id})" class="md-fab md-raised md-mini">',
 								'<md-icon class="mdi" md-font-icon="mdi-pencil"></md-icon>',
 							'</md-button>',
 
-						    '<md-button has-permission="delete-motions" aria-label="delete"',
+						    '<md-button has-permission="delete-motion" aria-label="delete"',
 						    'ng-click="fab.deleteMotion()" class="md-fab md-raised md-mini md-warn">',
 								'<md-icon class="mdi" md-font-icon="mdi-delete"></md-icon>',
 							'</md-button>',

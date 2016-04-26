@@ -35,19 +35,19 @@ class CreateDelegationsTable extends Migration
         });
 
 
-        $validUsers = User::notCouncillor()->get();
+        $validUsers = User::notRepresentative()->get();
         $departments = Department::all();
-        $numberOfCouncilors = User::councillor()->count();
+        $numberOfRepresentatives = User::representative()->count();
 
-        if($numberOfCouncilors){
+        if($numberOfRepresentative){
             foreach($validUsers as $user){
                 foreach($departments as $department){
-                    $councillors = User::councillor()->get();
-                    $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
+                    $representatives = User::representative()->get();
+                    $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
                     $newDelegation = new Delegation;
                     $newDelegation->department_id       =   $department->id;
                     $newDelegation->delegate_from_id    =   $user->id;
-                    $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
+                    $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
                     $newDelegation->save();
                 }
             }

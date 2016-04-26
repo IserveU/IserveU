@@ -38,7 +38,7 @@ class BackgroundImageController extends ApiController
      */
     public function create()
     {
-        if(!Auth::user()->can('create-background_images')){
+        if(!Auth::user()->can('create-background_image')){
             abort(401,'You do not have permission to create a motion');
         }
 
@@ -145,7 +145,7 @@ class BackgroundImageController extends ApiController
     public function destroy(BackgroundImage $backgroundImage)
     {
 
-        if(!Auth::user()->can('administrate-background_images')){
+        if(!Auth::user()->can('administrate-background_image')){
             abort(401,'User does not have permission to delete background images');
         }
 

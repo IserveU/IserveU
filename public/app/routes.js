@@ -22,7 +22,7 @@
             template: '<edit-home>',
             data: {
                 requireLogin: true,
-                requirePermissions: ['create-motions', 'delete-users']
+                requirePermissions: ['create-motion', 'delete-user']
             }
         })
         .state( 'dashboard', {
@@ -30,7 +30,7 @@
             templateUrl: 'app/components/admin.dash/admin.dash.html',
             data: {
                 requireLogin: true,
-                requirePermissions: ['create-motions', 'delete-users']
+                requirePermissions: ['create-motion', 'delete-user']
             }
         })
     	.state( 'motion', {
@@ -47,7 +47,7 @@
             data: {
                 requireLogin: true,
                 moduleMotion: true,
-                requirePermissions: ['administrate-motions']
+                requirePermissions: ['administrate-motion']
             }
         })
         .state( 'create-motion', {
@@ -56,7 +56,7 @@
             data: {
                 requireLogin: true,
                 moduleMotion: true,
-                requirePermissions: ['create-motions']
+                requirePermissions: ['create-motion']
             }
         })
         .state( 'pages', {
@@ -71,7 +71,7 @@
             template: '<edit-page-content></edit-page-content>',
             data: {
                 requireLogin: true,
-                requirePermissions: ['administrate-motions']
+                requirePermissions: ['administrate-motion']
             }  
         })
        .state( 'create-page', {
@@ -79,7 +79,7 @@
             template: '<create-page-content></create-page-content>',
             data: {
                 requireLogin: true,
-                requirePermissions: ['create-motions']
+                requirePermissions: ['create-motion']
             }  
         })
         .state( 'user', {
@@ -111,7 +111,7 @@
             template: '<edit-user></edit-user>',
             data: {
                 requireLogin: true,
-                // requirePermissions: ['administrate-users'] this won't work because of shared state with my profile
+                // requirePermissions: ['administrate-user'] this won't work because of shared state with my profile
             },  
             resolve: {
                 profile: ['user', '$stateParams', function(user, $stateParams) {

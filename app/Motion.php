@@ -189,7 +189,7 @@ class Motion extends ApiModel {
 			}
 		}
 
-		if(!Auth::user()->can('administrate-motions') && $value > 1){
+		if(!Auth::user()->can('administrate-motion') && $value > 1){
 			$this->attributes['status'] = 1;
 			return true;
 		}
@@ -211,7 +211,7 @@ class Motion extends ApiModel {
 				$this->attributes['status'] = 1;
 				break;
 			case 2:
-				if(Auth::check() && !Auth::user()->can('administrate-motions')){
+				if(Auth::check() && !Auth::user()->can('administrate-motion')){
 					abort(401,"Unable to set user does not have permission to set motions as active");
 				}
 				if($value && !$this->motionRanks->isEmpty()){

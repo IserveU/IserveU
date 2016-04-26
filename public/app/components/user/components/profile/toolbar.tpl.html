@@ -24,7 +24,7 @@
         </span>
 
 
-          <has-permission has-permission="administrate-users">
+          <has-permission has-permission="administrate-user">
             <span hide-sm>{{profile.public ? '' : '('+('PRIVATE' | translate)+')'}}</span>
           </has-permission>
       </h2>
@@ -32,7 +32,7 @@
         <p class="md-caption" ng-repeat="r in profile.user_role">
           {{ r }}{{ $last ? '' : ',&nbsp;' }}
         </p>
-      <has-permission has-permission="administrate-permissions">
+      <has-permission has-permission="administrate-permission">
         <md-icon ng-click="roles.showRoles()" class="mdi mdi-pencil edit-btn" style="color:gray; margin: 0; margin-bottom: 14px; font-size: 15px"></md-icon>
 
       </has-permission>

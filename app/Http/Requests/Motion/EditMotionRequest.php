@@ -13,7 +13,7 @@ class EditMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('administrate-motions')){
+        if(Auth::user()->can('administrate-motion')){
             return true;
         }
 

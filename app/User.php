@@ -235,7 +235,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 		}
 
 	    // Default users are not assigned a role. Once any role is
-	    // assigned (Admin, Councillor, Citizen), it means their identity
+	    // assigned (Admin, Representative, Citizen), it means their identity
 	    // has been verified and you will update this field for 4 years in time.
     	$this->addressVerifiedUntil = Carbon::now()->addYears(4);
     }
@@ -257,23 +257,23 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
         return parent::getFillableAttribute();
     }
 
-    public function createDefaultDelegations($departments = null,  $councillors = null){
-    	if(!$this->can('create-votes')){
+    public function createDefaultDelegations($departments = null,  $representatives = null){
+    	if(!$this->can('create-vote')){
     		return true;
     	}
 
     	if(!$departments){
 			$departments =  Department::all();    		
     	}
-    	if(!$councillors){
-    		$councillors = 	User::councillor()->get();
+    	if(!$representatives){
+    		$representatives = 	User::representative()->get();
     	}
 
-    	if($councillors->isEmpty()){
+    	if($representatives->isEmpty()){
             return true;// "there are no councillors";
         }
 
-        if($this->hasRole('councillor')){
+        if($this->hasRole('representative')){
         	return true; //A councillor cannot delegate
         }
 
@@ -288,11 +288,11 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
         //}
     	// $this->insert(Insert all these array items)
  		foreach($departments as $department){
-            $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
+            $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
             $newDelegation = new Delegation;
             $newDelegation->department_id       =   $department->id;
             $newDelegation->delegate_from_id    =   $this->id;
-            $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
+            $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
             $newDelegation->save();
         }
     }
@@ -387,7 +387,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 * @return The permissions attached to this user through entrust
 	 */
 	// public function getGovernmentIdentificationAttribute(){
-	// 	if(!Auth::user()->can('administrate-users')){
+	// 	if(!Auth::user()->can('administrate-user')){
 	// 		return null;
 	// 	}
 
@@ -429,8 +429,8 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	}
 
 	public function setPublicAttribute($value){
-		if($this->hasRole('councillor') && !$value){
-			abort(403,'A councillor must have a pubilc profile');
+		if($this->hasRole('representative') && !$value){
+			abort(403,'A representative must have a pubilc profile');
 		}
 		$this->attributes['public'] = 1;
 	}
@@ -495,16 +495,16 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 			});
     }
 
-    public function scopeCouncillor($query){
+    public function scopeRepresentative($query){
 		return $query->whereHas('roles',function($query){
-				$query->where('name','councillor');
+				$query->where('name','representative');
 
 			});
     }
 
-    public function scopeNotCouncillor($query){
+    public function scopeNotRepresentative($query){
 		return $query->whereDoesntHave('roles',function($q){
-				$q->where('name','councillor');
+				$q->where('name','representative');
 
 			});
     }
