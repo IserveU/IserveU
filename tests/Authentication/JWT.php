@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class JWT extends TestCase
 {
+    use WithoutMiddleware;
     
     public function setUp()
     {
@@ -34,6 +35,24 @@ class JWT extends TestCase
         if(!$content){
             dd($this->response->getContent());
         }
+        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+    }
+
+
+
+    /** @test **/
+    public function create_and_login_as_minimal_specs_new_user()
+    {   
+        $user = factory(App\User::class)->make();
+      
+        $this->post('/api/user',array_merge($user->setVisible(['first_name','last_name','email'])->toArray(),['password'=>'abcd1234']));
+
+        $this->assertResponseStatus(200);
+
+        $this->post('authenticate',['email'=>$user->email,'password'=>'abcd1234']);
+
+        
+        $content = json_decode($this->response->getContent());
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
     }
 

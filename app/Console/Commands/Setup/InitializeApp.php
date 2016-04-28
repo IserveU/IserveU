@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\Events\Setup\Initialize;
 use App\User;
+use Setting;
 
 class InitializeApp extends Command
 {
