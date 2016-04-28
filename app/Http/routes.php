@@ -43,11 +43,12 @@ Route::get('/settings', function(){
 });
 
 
-Route::group(array('prefix' => 'api'), function(){
-		
+Route::group(array('prefix' => 'api'), function(){				
 
 		if ($token = JWTAuth::getToken()) {
+
 			$user = JWTAuth::parseToken()->authenticate();
+
 	    }
 
 		Route::resource('comment', 'CommentController');

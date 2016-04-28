@@ -54,6 +54,6 @@ class CreateDeferredVotes
 
         DB::table('votes')->insert($votes);
 
-        $councillors = User::representative()->get();
+        $representatives = User::representative()->get();
     }
 }

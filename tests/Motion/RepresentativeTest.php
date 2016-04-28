@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CouncillorTest extends TestCase
+class RepresentativeTest extends TestCase
 {
 
     // use DatabaseTransactions;
@@ -17,7 +17,7 @@ class CouncillorTest extends TestCase
 
         $this->signIn();
 
-        $this->user->addUserRoleByName('councillor');
+        $this->user->addUserRoleByName('representative');
     }
 
     /*****************************************************************
@@ -202,13 +202,13 @@ class CouncillorTest extends TestCase
     *                          For Ike:
     *  - be able to switch the status of a motion from 'draft' to 'published', etc.
     *  - be able to do everything to motions
-    *  - write a function that tests overall votes of a motion with the councillors deferred votes; should return a complex
+    *  - write a function that tests overall votes of a motion with the representatives deferred votes; should return a complex
     *    multidimensional array. This is something you may need to create many factory users submitting multiple votes
     *    with the deferrals involved. 
     * 
     *    Negative tests (The above tests are meant to pass, expect a typical response. They are higher priority than negative ones atm.):
     *  - unable to CRUD users (read: for private users only)
-    *  - unable to CRUD comments/votes (note: councillors can read)
+    *  - unable to CRUD comments/votes (note: representatives can read)
     *  - unable to CRUD background images
     *
     ******************************************************************/

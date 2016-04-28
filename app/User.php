@@ -277,11 +277,11 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
     	}
 
     	if($representatives->isEmpty()){
-            return true;// "there are no councillors";
+            return true;// "there are no representatives";
         }
 
         if($this->hasRole('representative')){
-        	return true; //A councillor cannot delegate
+        	return true; //A representative cannot delegate
         }
 
         // Code to potentially do this more efficiently with fewer database calls

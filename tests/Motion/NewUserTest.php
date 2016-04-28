@@ -16,7 +16,7 @@ class NewUserTest extends TestCase
         $this->signIn();
     }
 
-    /** @test */
+    /** @te st */
     public function it_can_be_created()
     {
         $faker = Faker\Factory::create();
@@ -37,11 +37,10 @@ class NewUserTest extends TestCase
         $this->seeInDatabase( 'users', [ 'email' => $user['email'] ] );
     }
 
-    /** @test */
+    /** @te st */
     public function it_can_see_a_closed_motion()
     {
         $motion = factory(App\Motion::class, 'closed')->create();
-
         $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
 
         $this->assertResponseOk();
@@ -55,6 +54,7 @@ class NewUserTest extends TestCase
         $motion = factory(App\Motion::class, 'draft')->create();
 
         $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+
 
         $this->assertEquals(403, $response->status());
     }
