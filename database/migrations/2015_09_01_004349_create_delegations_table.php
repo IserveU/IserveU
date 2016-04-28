@@ -39,7 +39,7 @@ class CreateDelegationsTable extends Migration
         $departments = Department::all();
         $numberOfRepresentatives = User::representative()->count();
 
-        if($numberOfRepresentative){
+        if(isset($numberOfRepresentative)){
             foreach($validUsers as $user){
                 foreach($departments as $department){
                     $representatives = User::representative()->get();
