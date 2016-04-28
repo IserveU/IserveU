@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Motion;
 
 use App\Http\Requests\Request;
 use App\Vote;
