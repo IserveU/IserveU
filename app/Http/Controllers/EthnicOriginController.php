@@ -17,7 +17,6 @@ class EthnicOriginController extends ApiController {
 	public function index()
 	{
 		return EthnicOrigin::all();
-	
 	}
 
 	/**
@@ -48,7 +47,7 @@ class EthnicOriginController extends ApiController {
 	 */
 	public function show($id)
 	{
-		//
+		return EthnicOrigin::where('id', $id)->get();
 	}
 
 	/**

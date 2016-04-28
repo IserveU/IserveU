@@ -1,0 +1,48 @@
+<md-toolbar class="md-hue-1 md-tall profile-toolbar" layout="row">
+    <md-icon class="mdi mdi-account-circle toolbar-avatar" layout-align="front front"></md-icon>
+    <div class="toolbar-name" layout="column" style="margin: auto; margin-left: 0px">
+      <h2 class="md-title" style="margin: 0; margin-top: 20px; margin-bottom: 5px">
+
+        <span ng-click="toolbar.editField()" ng-style="{{ toolbar.state }}" ng-hide="toolbar.showInputField">
+          {{ profile.first_name }}
+          <span hide-sm>
+          {{ profile.middle_name }}
+          </span>
+          {{ profile.last_name }}
+        </span>
+
+        <span ng-show="toolbar.showInputField" ng-click="toolbar.editField()" layout="row">
+          <md-input-container style="margin:0; height: 31px" flex>
+            <input type='text' ng-model='profile.first_name' ng-keypress="toolbar.pressEnter($event, profile)"/>
+          </md-input-container>
+          <md-input-container style="margin:0; height: 31px"  flex>
+            <input type='text' ng-model='profile.middle_name' ng-keypress="toolbar.pressEnter($event, profile)"/>
+          </md-input-container>
+          <md-input-container style="margin:0; height: 31px" flex>
+            <input type='text' ng-model='profile.last_name' ng-keypress="toolbar.pressEnter($event, profile)"/>
+          </md-input-container>
+        </span>
+
+
+          <has-permission has-permission="administrate-user">
+            <span hide-sm>{{profile.public ? '' : '('+('PRIVATE' | translate)+')'}}</span>
+          </has-permission>
+      </h2>
+      <div layout="row">
+        <p class="md-caption" ng-repeat="r in profile.user_role">
+          {{ r }}{{ $last ? '' : ',&nbsp;' }}
+        </p>
+      <has-permission has-permission="administrate-permission">
+        <md-icon ng-click="roles.showRoles()" class="mdi mdi-pencil edit-btn" style="color:gray; margin: 0; margin-bottom: 14px; font-size: 15px"></md-icon>
+
+      </has-permission>
+
+
+
+
+      </div>
+    </div>
+
+    <spinner ng-show="toolbar.showInputField" ng-click="toolbar.save(profile)" style="color:black; position:relative; top: 78px"  name="'Save'" on-hide="toolbar.edit.success['last_name']"></spinner>
+
+</md-toolbar>

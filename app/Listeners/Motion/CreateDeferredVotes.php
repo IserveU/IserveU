@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Motion;
 
-use App\Events\MotionCreated;
+use App\Events\Motion\MotionCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -35,18 +35,14 @@ class CreateDeferredVotes
        //DB::enableQueryLog();
         $validVoters = User::with(['delegatedFrom'=>function($query) use ($motion){
             $query->where('department_id',$motion->department_id);
-        }])->validVoter()->notCouncillor()->get();
+        }])->validVoter()->notRepresentative()->get();
 
     //  echo print_r(DB::getQueryLog());
 
         $votes = array();
 
-
-
         foreach($validVoters as $validVoter){
             
-            echo $validVoter;
-
             if(!$validVoter->delegatedFrom->isEmpty()){
                 $votes[] = [
                     'motion_id'         =>       $motion->id,
@@ -58,6 +54,6 @@ class CreateDeferredVotes
 
         DB::table('votes')->insert($votes);
 
-        $councillors = User::councillor()->get();
+        $councillors = User::representative()->get();
     }
 }

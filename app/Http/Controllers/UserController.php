@@ -14,13 +14,15 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 
-use App\Transformers\UserTransformer;  //Not doing anything at the moment
-
+use App\Transformers\UserTransformer;  
 
 class UserController extends ApiController {
 
-	public function __construct()
-	{
+	protected $userTransformer;
+
+	public function __construct(UserTransformer $userTransformer)
+	{	
+		$this->userTransformer = $userTransformer;
 		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 
@@ -35,7 +37,7 @@ class UserController extends ApiController {
 		$filters = $request->all();
 		$limit = $request->get('limit') ?: 50;
 
-		if (Auth::user()->can('show-users')) { //An admin able to see all users
+		if (Auth::user()->can('show-user')) { //An admin able to see all users
 			$users = User::whereExists(function($query){
 				$query->where('id','>',0);
 			});
@@ -90,6 +92,7 @@ class UserController extends ApiController {
 			abort(400,$newUser->errors);
 		}
 
+		$newUser->addUserRoleByName('citizen');
 
 		Auth::loginUsingId($newUser->id);
 
@@ -111,10 +114,11 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function show(User $user){
-		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-users')){
+		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-user')){
 			abort(401,'You do not have permission to view this non-public user');
 		}
-		return $user;
+
+		return $this->userTransformer->transform( $user->toArray() );
 	}
 
 	/**
@@ -127,7 +131,7 @@ class UserController extends ApiController {
 	 */
 	public function edit(User $user){
 		//Check it is this user, if not that this is an admin that can edit users
-		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-users')){
+		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
 			abort(401,'You do not have permission to edit this user');
 		}
 
@@ -147,7 +151,7 @@ class UserController extends ApiController {
 	 */
 	public function update(User $user, Request $request){
 
-		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-users')){
+		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
 			abort(401,'You do not have permission to edit this user');
 		}
 
@@ -190,10 +194,9 @@ class UserController extends ApiController {
 	 */
 	public function destroy(User $user){
 
-		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-users')){
+		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-user')){
 			abort(401,'You do not have permission to delete this user');
 		}
-
 
 	 	$user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
 	 	return $user;

@@ -66,6 +66,11 @@ return [
 			'url_type'  => 'publicURL'
 		],
 
+		'csv' => [
+			'driver' => 'local',
+			'root'   => storage_path().'/csv',
+		]
+
 	],
 
 ];

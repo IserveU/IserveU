@@ -31,6 +31,27 @@
         }
 
         return 'input';
+    }
+
+    /**
+    *   Format the date into human readable and difference for frontend.
+    *
+    *   @param string $date
+    *   @return array
+    */
+
+    function formatIntoReadableDate($date) {
+
+        if($date === null)
+            return $date;
+
+        $carbon = \Carbon\Carbon::parse($date);
+
+        return array(
+            'diff'          =>      $carbon->diffForHumans(),
+            'alpha_date'    =>      $carbon->format('j F Y'),
+            'carbon'      =>        $carbon
+        );
 
     }
 

@@ -3,7 +3,7 @@
 namespace App\Listeners\Motion;
 
 use App\Vote;
-use App\Events\MotionUpdated;
+use App\Events\Motion\MotionUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;

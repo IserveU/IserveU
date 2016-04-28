@@ -11,6 +11,11 @@ use App\Events\UserChangedVote;
 class VoteController extends ApiController {
 
 
+	function __construct()
+	{
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,6 +23,10 @@ class VoteController extends ApiController {
 	 */
 	public function index()
 	{
+
+		return Vote::all();	
+		
+		
 		if(Auth::user()->can('view-vote')){ //Administrator able to see any vote
 			return Vote::all();	
 		}		
@@ -31,7 +40,7 @@ class VoteController extends ApiController {
 	 */
 	public function create(){
 
-		if(!Auth::user()->can('create-votes')){
+		if(!Auth::user()->can('create-vote')){
 			abort(401,'You do not have permission to create a vote on a motion');			
 		}
 
@@ -46,7 +55,7 @@ class VoteController extends ApiController {
 	public function store()
 	{
 		//Check if the user has permission to cast votes
-		if(!Auth::user()->can('create-votes')){
+		if(!Auth::user()->can('create-vote')){
 			abort(401,'You do not have permission to create a vote');
 		}
 
@@ -74,7 +83,7 @@ class VoteController extends ApiController {
 	 */
 	public function show(Vote $vote)
 	{
-		if(Auth::user()->can('show-votes')){ //Is a person who can review votes
+		if(Auth::user()->can('show-vote')){ //Is a person who can review votes
 			return $vote;
 		}
 
@@ -105,7 +114,7 @@ class VoteController extends ApiController {
 	public function update(Vote $vote)
 	{
 		//Check if the user has permission to cast votes
-		if(!Auth::user()->can('create-votes')){
+		if(!Auth::user()->can('create-vote')){
 			abort(401,'You do not have permission to update a vote');
 		}
 
@@ -131,7 +140,7 @@ class VoteController extends ApiController {
 	 */
 	public function destroy(Vote $vote)
 	{
-		if(!Auth::user()->can('create-votes')){
+		if(!Auth::user()->can('create-vote')){
 			abort(401,"user can not create or destroy votes");
 		}
 

@@ -24,7 +24,7 @@ class MotionCommentController extends ApiController
         
         $comments = array();
 
-        if(Auth::user()->can('view-comments')){ //A full admin who can see whatever
+        if(Auth::check() && Auth::user()->can('view-comments')){ //A full admin who can see whatever
             $comments['agreeComments']      = Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->agree()->get()->sortByDesc('commentRank')->toArray();
             $comments['disagreeComments']   =   Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->disagree()->get()->sortByDesc('commentRank')->toArray();
         } else { //Load the standard cached comments for the page
@@ -35,8 +35,10 @@ class MotionCommentController extends ApiController
             });
         }
 
-        $comments['thisUsersComment'] = Comment::where('motion_id',$motion->id)->with('vote')->where('user_id',Auth::user()->id)->first();
-        $comments['thisUsersCommentVotes'] = CommentVote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->get();
+        if(Auth::check()) {
+            $comments['thisUsersComment'] = Comment::where('motion_id',$motion->id)->with('vote')->where('user_id',Auth::user()->id)->first();
+            $comments['thisUsersCommentVotes'] = CommentVote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->get();
+        }
 
         return $comments;
 

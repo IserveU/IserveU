@@ -42,7 +42,7 @@ class UserRoleController extends ApiController
      */
     public function store(User $user)
     {
-       if(!Auth::user()->can('administrate-permissions')){
+       if(!Auth::user()->can('administrate-permission')){
             abort(401,"You can not edit user permissions");
         }
 
@@ -104,7 +104,7 @@ class UserRoleController extends ApiController
      */
     public function destroy(User $user, $role_id)
     {
-        if(!Auth::user()->can('administrate-permissions')){
+        if(!Auth::user()->can('administrate-permission')){
             abort(401,"You can not edit user permissions");
         }
 

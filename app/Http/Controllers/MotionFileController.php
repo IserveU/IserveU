@@ -14,6 +14,11 @@ use Auth;
 
 class MotionFileController extends ApiController {
 
+	function __construct()
+	{
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+
+	}
 
     public function index(Motion $motion){
     	return $motion->motionFiles;
@@ -25,7 +30,7 @@ class MotionFileController extends ApiController {
 	 * @return Response
 	 */
 	public function create(Motion $motion){
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('create-motion')){
 			abort(401,'You do not have permission to create a motion');
 		}
 
@@ -42,7 +47,7 @@ class MotionFileController extends ApiController {
 	 */
 	public function store(Motion $motion, Request $request)
 	{
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('create-motion')){
 			abort(401,'You do not have permission to create a motion');
 		}
 		
@@ -81,11 +86,11 @@ class MotionFileController extends ApiController {
 	 */
 	public function edit(Motion $motion, MotionFile $motionFile)
 	{
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('create-motion')){
 			abort(403,'You do not have permission to create/update motions');
 		}
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
+		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motion')){ //Is not the user who made it, or the site admin
 			abort(401,"This user can not edit motion ($id)");
 		}
 
@@ -101,16 +106,20 @@ class MotionFileController extends ApiController {
 	 */
 	public function update(Motion $motion, MotionFile $motionFile, Request $request)
 	{
-		if(!Auth::user()->can('create-motions')){
+		if(!Auth::user()->can('create-motion')){
 			abort(403,'You do not have permission to update a motion');
 		}
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
+		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motion')){ //Is not the user who made it, or the site admin
+			abort(401,"This user can not edit motion ($motion_id)");
 		}
 
-      	$motionFile->file->uploadFile('motion_files', 'file', $request);		
+      	// $motionFile->file->uploadFile('motion_files', 'file', $request);		
 		
+		if($request->input('title')){
+			$motionFile->file->title = $request->input('title');
+		}
+
 		if(!$motionFile->file->save()){
 		 	abort(403,$motionFile->file->errors);
       	}
@@ -126,12 +135,33 @@ class MotionFileController extends ApiController {
 	 */
 	public function destroy(Motion $motion, MotionFile $motionFile)
 	{
-		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motions')){
+		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motion')){
 			abort(401,"You do not have permission to delete this motion");
 		}
 
 		$motionFile->delete();
 		return $motionFile;
+	}
+
+	/**
+	 * Attaches motion file and file id to one another.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function flowUpload(Request $request)
+	{
+		if(!Auth::user()->can('create-motion')){
+			abort(403,'You do not have permission to update a motion');
+		}
+
+		$motionFile = new MotionFile;
+		$motionFile->motion_id = $request->input('motion_id');
+		$motionFile->file_id   = $request->input('file_id');
+		if(!$motionFile->save()){
+		 	abort(403,$motionFile->errors);
+		}
+     	return $motionFile;
 	}
 
 

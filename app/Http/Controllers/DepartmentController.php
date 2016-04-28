@@ -16,8 +16,18 @@ use Cache;
 
 use Validator;
 
+use App\Transformers\DepartmentTransformer;  
 
 class DepartmentController extends ApiController {
+	
+	protected $departmentTransformer;
+
+	public function __construct(DepartmentTransformer $departmentTransformer)
+	{
+		$this->departmentTransformer = $departmentTransformer;
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -25,13 +35,7 @@ class DepartmentController extends ApiController {
 	 */
 	public function index()
 	{
-		// if (Auth::user()->can('create-motions')) { //An admin able to see all users
-		// 	$departments = Department::all();
-		// 	return $departments;
-		// }
-
-		//Other people can see a list of the public users
-		$departments = Department::all();
+		$departments = $this->departmentTransformer->transformCollection( Department::all()->toArray() );
 		return $departments;
 	}
 

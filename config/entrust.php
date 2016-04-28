@@ -20,7 +20,6 @@ return [
     |
     */
     'role' => 'App\Role',
-
     /*
     |--------------------------------------------------------------------------
     | Entrust Roles Table
@@ -30,7 +29,6 @@ return [
     |
     */
     'roles_table' => 'roles',
-
     /*
     |--------------------------------------------------------------------------
     | Entrust Permission Model
@@ -41,7 +39,6 @@ return [
     |
     */
     'permission' => 'App\Permission',
-
     /*
     |--------------------------------------------------------------------------
     | Entrust Permissions Table
@@ -52,7 +49,6 @@ return [
     |
     */
     'permissions_table' => 'permissions',
-
     /*
     |--------------------------------------------------------------------------
     | Entrust permission_role Table
@@ -63,7 +59,6 @@ return [
     |
     */
     'permission_role_table' => 'permission_role',
-
     /*
     |--------------------------------------------------------------------------
     | Entrust role_user Table
@@ -74,5 +69,23 @@ return [
     |
     */
     'role_user_table' => 'role_user',
+    /*
+    |--------------------------------------------------------------------------
+    | User Foreign key on Entrust's role_user Table (Pivot)
+    |--------------------------------------------------------------------------
+    */
+    'user_foreign_key' => 'user_id',
+    /*
+    |--------------------------------------------------------------------------
+    | Role Foreign key on Entrust's role_user and permission_role Tables (Pivot)
+    |--------------------------------------------------------------------------
+    */
+    'role_foreign_key' => 'role_id',
+    /*
+    |--------------------------------------------------------------------------
+    | Permission Foreign key on Entrust's permission_role Table (Pivot)
+    |--------------------------------------------------------------------------
+    */
+    'permission_foreign_key' => 'permission_id',
 
 ];

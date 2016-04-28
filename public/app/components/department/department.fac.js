@@ -4,20 +4,51 @@
 
 	angular
 		.module('iserveu')
-		.factory('department', department);
+		.factory('department', ['$resource', '$http', '$q', '$timeout', department]);
 
-	function department($resource, $q) {
+		// TODO: refactor
+
+	/** @ngInject */
+	function department($resource, $http, $q, $timeout) {
 
 		var Department = $resource('api/department/:id', {}, {
 	        'update': { method:'PUT' }
 	    });
-		function getDepartments(){
-			return Department.query().$promise.then(function(results) {
-				return results;
+
+		var self = {
+			data: {},
+			getData: function() {
+
+				if(self.data.hasOwnProperty(0))
+					return self.data;
+				else {
+					self.initDepartments();
+					$timeout(function() {
+						self.getData();
+					}, 600);
+				}
+			},
+			initDepartments: function() {
+				Department.query().$promise.then(function(r) {
+					self.data = r;
+				});
+			},
+			getDepartments: function() {
+				return $http.get('api/department/').success(function(result) {
+					return result.data;
+				});
+			}
+		};
+
+
+		function getDepartments() {
+			return Department.query().$promise.then(function(success) {
+				return success;
 			}, function(error) {
 				return $q.reject(error);
 			});
 		}
+
 
 		function addDepartment(data){
 			return Department.save(data).$promise.then(function(success) {
@@ -43,11 +74,15 @@
 			});
 		}
 
+		self.initDepartments();
+
 	return {
+			self: self,
 			getDepartments: getDepartments,
 			addDepartment: addDepartment,
 			deleteDepartment: deleteDepartment,
-			updateDepartment: updateDepartment
+			updateDepartment: updateDepartment,
+			get: self.getDepartments
 		}
 
 

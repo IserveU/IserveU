@@ -1,36 +1,53 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Input;
+// use App\Http\Requests;
+// use App\Http\Controllers\Controller;
+// use Illuminate\Support\Facades\Input;
+
+
+use Auth;
+use DB;
+use Setting;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests\CreateMotionRequest;
+use App\Http\Requests\DestroyMotionRequest;
+use App\Http\Requests\EditMotionRequest;
+use App\Http\Requests\ShowMotionRequest;
+use App\Http\Requests\StoreMotionRequest;
+use App\Http\Requests\UpdateMotionRequest;
+
+use App\Transformers\MotionTransformer;
 
 use App\MotionRank;
 use App\Motion;
 use App\Comment;
 use App\CommentVote;
 use App\Vote;
-use Auth;
-use DB;
-use Setting;
-use Carbon\Carbon;
-
 
 
 class MotionController extends ApiController {
+
+	protected $motionTransformer;
+
+	function __construct(MotionTransformer $motionTransformer)
+	{
+		$this->motionTransformer = $motionTransformer;
+		$this->middleware('jwt.auth',['except'=>['index','show']]);
+	}
 
 	/**
 	 * Display a listing of the resource. If the user is logged in they will see the position they took on votes
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{	
+		$filters = $request->all();
+		$limit = $request->get('limit') ?: 10;
 
-		$filters = Request::all();
-		$limit = Request::get('limit') ?: 30;
-
-		if(Auth::user()->can('create-votes')){ //Logged in user will want to see if they voted on these things
+		if( Auth::check() ){ //Logged in user will want to see if they voted on these things
 			$motions = Motion::with(['votes' => function($query){
 				$query->where('user_id',Auth::user()->id);
 			}]);
@@ -75,7 +92,11 @@ class MotionController extends ApiController {
 		} else {
 			$motions->take(1);
 		}
-		return $motions->simplePaginate($limit);
+
+		$paginator = $motions->simplePaginate($limit);
+		$motions   = $this->motionTransformer->transformCollection( $paginator->all() );
+
+		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
 	}
 
 	/**
@@ -83,12 +104,8 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function create(){
-		if(!Auth::user()->can('create-motions')){
-			abort(401,'You do not have permission to create a motion');
-		}
-
-		return (new Motion)->fields;		
+	public function create(CreateMotionRequest $request){
+		return (new Motion)->fields;	// don't really need these routes 	
 	}
 
 	/**
@@ -96,14 +113,10 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StoreMotionRequest $request)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(401,'You do not have permission to create a motion');
-		}
+		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
 
-		$motion = (new Motion)->secureFill(Request::all()); //Does the fields specified as fillable in the model
-	
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
 		}
@@ -111,8 +124,8 @@ class MotionController extends ApiController {
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
-     	
-     	return $motion;
+
+     	return $this->motionTransformer->transform($motion);
 	}
 
 	/**
@@ -121,13 +134,9 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Motion $motion)
+	public function show(ShowMotionRequest $request, Motion $motion)
 	{
-		if(Auth::check()){
-			Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
-		}
-
-		return $motion;
+		return $this->motionTransformer->transform($motion);
 	}
 
 	/**
@@ -136,16 +145,8 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit(Motion $motion)
+	public function edit(EditMotionRequest $request, Motion $motion)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(403,'You do not have permission to create/update motions');
-		}
-
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
-		}
-
 		return $motion->fields;
 	}
 
@@ -155,26 +156,10 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Motion $motion)
+	public function update(UpdateMotionRequest $request, Motion $motion)
 	{
-		if(!Auth::user()->can('create-motions')){
-			abort(403,'You do not have permission to update a motion');
-		}
+		$motion->secureFill( $request->all() );
 
-		if(!$motion->user_id!=Auth::user()->id && !Auth::user()->can('administrate-motions')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit motion ($id)");
-		}
-
-		if(!$motion->active && $motion->latestRank){ //Motion has closed/expired
-			abort(403,'This motion has expired and can not be edited');
-		}
-
-		$motion->secureFill(Request::all());
-
-		if(Request::get('active')){ //If you tried to set active, but failed with permissions
-			$motion->setActiveAttribute(1);
-		}
-		
 		if(!$motion->save()){
 		 	abort(403,$motion->errors);
 		}
@@ -188,12 +173,8 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Motion $motion)
+	public function destroy(DestroyMotionRequest $request, Motion $motion)
 	{
-		if(Auth::user()->id != $motion->user_id && !Auth::user()->can('delete-motions')){
-			abort(401,"You do not have permission to delete this motion");
-		}
-
 		$votes = $motion->votes;
 		
 		if(!$votes){ //Has not recieved votes
@@ -201,7 +182,7 @@ class MotionController extends ApiController {
 			return $motion;
 		} 
 
-		$motion->active = 0;
+		$motion->status = 0;
 		$motion->save();
 		$motion->delete(); //Motion kept in the database	
 		return $motion;
@@ -214,7 +195,7 @@ class MotionController extends ApiController {
 			abort(404,'Motion does not exist');
 		}
 
-		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motions')){
+		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motion')){
 			abort(401,'User does not have permission to restore this motion');
 		}
 

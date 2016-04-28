@@ -1,0 +1,48 @@
+<div flow-init="flowInit"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="successHandler($message); $file.msg = $message"
+     flow-file-error="errorHandler($file, $message, $flow)"
+     flow-files-added="multipleFiles($files, $event, $flow)"
+     flow-upload-started="started($flow)"
+     flow-progress="progress($flow)"
+     flow-complete="complete($flow)">
+
+  <md-button flow-btn>
+  	<md-icon class="mdi mdi-upload"></md-icon>
+	  Upload Files          
+  </md-button>
+
+  <div ng-show="existingFiles" ng-repeat="file in existingFiles" layout-padding>
+    <div ng-show="existingFiles[$index]"> 
+
+      <img ng-if="::isImage(file)" style="width: 200px; height: auto;" src="uploads/{{file.filename}}"/>
+
+      <md-input-container style="width: 95%; margin-top: 0; margin-bottom: 0; padding-bottom: 0;">
+        <input type="text" ng-model="file.title" ng-change="changeProp(file.file_id, {title: file.title})" />
+      </md-input-container>
+      
+      <md-icon style="display:inline-block;float:right;" class="mdi mdi-delete" ng-click="cancel(file.file_id)"></md-icon>
+    </div>
+  </div>
+
+  <div ng-repeat="file in $flow.files" layout-padding>
+    <div ng-show="$flow.files[$index]"> 
+      <img ng-if="::isImage($flow.files[$index])" style="width: 200px; height: auto;" flow-img="$flow.files[$index]" />
+      
+      <div ng-init="title = file.name;">
+        <md-input-container style="width: 100%; margin-bottom: 0; padding-bottom: 0;">
+          <label>Title</label>
+          <input type="text" ng-model="title" ng-change="changeProp(file.msg, {title: title})"/>
+        </md-input-container>
+        <md-input-container style="width: 100%; margin-top: 0; margin-bottom: 0; padding-bottom: 0;">
+          <label>Description</label>
+          <input type="text" ng-model="description" ng-change="changeProp(file.msg, {description: description})"/>
+        </md-input-container>
+      </div>
+     
+      <md-progress-linear class="md-accent" ng-init="i = $index" ng-show="$flow.files[$index]" md-mode="determinate" value="{{ fileUploading[i] }}"></md-progress-linear>
+      <md-icon style="float:right;" class="mdi mdi-delete" ng-click="file.cancel(); cancel(file.msg)"></md-icon>
+      
+    </div>
+  </div>
+</div>

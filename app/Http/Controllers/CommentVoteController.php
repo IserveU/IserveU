@@ -22,7 +22,7 @@ class CommentVoteController extends ApiController {
 	 */
 	public function index()
 	{
-		if(Auth::user()->can('view-comment_votes')){ //Administrator able to see any comment vote
+		if(Auth::user()->can('view-comment_vote')){ //Administrator able to see any comment vote
 			return CommentVote::all();	
 		}		
 		return CommentVote::where('user_id',Auth::user()->id)->select('comment_id','position')->get(); //Get standard users comment votes	
@@ -35,7 +35,7 @@ class CommentVoteController extends ApiController {
 	 */
 	public function create()
 	{	
-		if(!Auth::user()->can('create-comment_votes')){
+		if(!Auth::user()->can('create-comment_vote')){
 			abort(401,'You do not have permission to vote on a comment');			
 		}
 		return (new CommentVote)->fields;
@@ -49,7 +49,7 @@ class CommentVoteController extends ApiController {
 
 	public function store(){
 		//Check user permissions
-		if(!Auth::user()->can('create-comment_votes')){
+		if(!Auth::user()->can('create-comment_vote')){
 			abort(401,'You do not have permission to vote on a comment');
 		}
 
@@ -101,7 +101,7 @@ class CommentVoteController extends ApiController {
 	 */
 	public function edit(CommentVote $commentVote)
 	{
-		if(!Auth::user()->can('create-comment_votes')){
+		if(!Auth::user()->can('create-comment_vote')){
 			abort(401,'You do not have permission to edit votes on comments');			
 		}
 
@@ -121,7 +121,7 @@ class CommentVoteController extends ApiController {
 	public function update(CommentVote $commentVote)
 	{
 		//Check user permissions
-		if(!Auth::user()->can('create-comment_votes')){
+		if(!Auth::user()->can('create-comment_vote')){
 			abort(401,'You do not have permission to vote on a comment');
 		}
 

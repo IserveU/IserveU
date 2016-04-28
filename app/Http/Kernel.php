@@ -15,9 +15,8 @@ class Kernel extends HttpKernel {
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
-		'anlutro\LaravelSettings\SaveMiddleware'
-	//	'App\Http\Middleware\VerifyCsrfToken', for testing
-	//	'App\Http\Middleware\ReplaceTestVars',
+		'anlutro\LaravelSettings\SaveMiddleware',
+		// 'App\Http\Middleware\VerifyCsrfToken',
 	];
 
 	/**
@@ -32,7 +31,8 @@ class Kernel extends HttpKernel {
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
 		'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
     	'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
-    	'role' => 'App\Http\Middleware\AdministratorMiddleware'
+    	'role' => 'App\Http\Middleware\AdministratorMiddleware',
+    	'setting.autosave' => 'anlutro\LaravelSettings\SaveMiddleware'
 	];
 
 }

@@ -1,35 +1,52 @@
-<?php namespace App;
+<?php 
+namespace App;
 
-use Illuminate\Auth\Authenticatable;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
+
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Sofa\Eloquence\Eloquence; // base trait
 use Sofa\Eloquence\Mappable; // extension trait
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use App\Role;
+
 use Auth;
 use Hash;
 use Request;
 use Carbon\Carbon;
 use Redis;
-
-use App\Events\UserUpdated;
-use App\Events\UserUpdating;
-use App\Events\UserCreated;
-use App\Events\UserDeleted;
-
 use Event;
 use Mail;
 use DB;
+use Setting;
+
+use App\Role;
+
+use App\Events\User\UserCreated;
+use App\Events\User\UserUpdated;
+use App\Events\User\UserDeleted;
 
 
-class User extends ApiModel implements AuthenticatableContract, CanResetPasswordContract {
+class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait, Eloquence, Mappable;
+	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
+
+	use EntrustUserTrait{
+		EntrustUserTrait::save as entrustSave;
+        Eloquence::save insteadof EntrustUserTrait;
+
+        // EntrustUserTrait::can as may; //There is an entrust collision here
+        // Authorizable::can insteadof EntrustUserTrait;
+
+        Authorizable::can as may; //There is an entrust collision here
+        EntrustUserTrait::can insteadof Authorizable;
+    }
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -41,7 +58,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number'];
+	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -59,12 +76,12 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * The attributes visible to an administrator of this model
 	 * @var array
 	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
+	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
 	/**
 	 * The attributes visible to the user that created this model
 	 * @var array
 	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','address_verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number'];
+	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','address_verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
 
 	/**
 	 * The attributes visible if the entry is marked as public
@@ -107,7 +124,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		'street_name'				=>  'string',
 		'street_number'				=>  'integer',
 		'unit_number'				=>  'integer',
-		'address_verified_until'	=>	"date|before:+1100 days"
+		'address_verified_until'	=>	'date|before:+1100 days',
+		'agreement_accepted'		=>	'boolean'
 	];
 
 	/**
@@ -167,7 +185,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		/* validation required on new */		
 		static::creating(function($model){
 
-			if(!$model->validate()) return false;
+		//	if(!$model->validate()) return false; Moving validation out of model
 
 			return true;
 		});
@@ -179,8 +197,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		});
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
-			event(new UserUpdating($model));
+		//	if(!$model->validate()) return false; Move validation out of model
 			return true;
 		});
 
@@ -219,8 +236,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 */
     public function addUserRoleByName($name){
 	    $userRole = Role::where('name','=',$name)->firstOrFail();
-	    $this->roles()->attach($userRole->id);
 
+	    if (!$this->roles->contains($userRole->id)) {
+	    	$this->roles()->attach($userRole->id);
+		}
+
+	    // Default users are not assigned a role. Once any role is
+	    // assigned (Admin, Representative, Citizen), it means their identity
+	    // has been verified and you will update this field for 4 years in time.
+    	$this->addressVerifiedUntil = Carbon::now()->addYears(4);
     }
 
     public function removeUserRoleByName($name){
@@ -240,23 +264,23 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         return parent::getFillableAttribute();
     }
 
-    public function createDefaultDelegations($departments = null,  $councillors = null){
-    	if(!$this->can('create-votes')){
+    public function createDefaultDelegations($departments = null,  $representatives = null){
+    	if(!$this->can('create-vote')){
     		return true;
     	}
 
     	if(!$departments){
 			$departments =  Department::all();    		
     	}
-    	if(!$councillors){
-    		$councillors = 	User::councillor()->get();
+    	if(!$representatives){
+    		$representatives = 	User::representative()->get();
     	}
 
-    	if($councillors->isEmpty()){
+    	if($representatives->isEmpty()){
             return true;// "there are no councillors";
         }
 
-        if($this->hasRole('councillor')){
+        if($this->hasRole('representative')){
         	return true; //A councillor cannot delegate
         }
 
@@ -271,11 +295,11 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         //}
     	// $this->insert(Insert all these array items)
  		foreach($departments as $department){
-            $leastDelegatedToCouncillor = $councillors->sortBy('totalDelegationsTo')->first();
+            $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
             $newDelegation = new Delegation;
             $newDelegation->department_id       =   $department->id;
             $newDelegation->delegate_from_id    =   $this->id;
-            $newDelegation->delegate_to_id      =   $leastDelegatedToCouncillor->id;
+            $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
             $newDelegation->save();
         }
     }
@@ -308,7 +332,15 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 		$this->attributes['password'] = Hash::make($value);
 	}
 
-    public function getAddressVerifiedUntilAttribute($attr) {
+	public function setAddressVerifiedUntilAttribute($input){
+		if ($this->getAttributes('identity_verified') === 0){
+			return false;
+		}
+
+		$this->attributes['address_verified_until'] = Carbon::now()->addYears(4);
+	}
+
+    public function getAddressVerifiedUntilAttribute($attr){
     	if(!$attr){
     		return null;
     	}
@@ -318,7 +350,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'carbon'        =>        $carbon
+            'carbon'        =>      $carbon
         );
     }
 
@@ -362,7 +394,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	 * @return The permissions attached to this user through entrust
 	 */
 	// public function getGovernmentIdentificationAttribute(){
-	// 	if(!Auth::user()->can('administrate-users')){
+	// 	if(!Auth::user()->can('administrate-user')){
 	// 		return null;
 	// 	}
 
@@ -404,8 +436,8 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function setPublicAttribute($value){
-		if($this->hasRole('councillor') && !$value){
-			abort(403,'A councillor must have a pubilc profile');
+		if($this->hasRole('representative') && !$value){
+			abort(403,'A representative must have a pubilc profile');
 		}
 		$this->attributes['public'] = 1;
 	}
@@ -470,16 +502,16 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 			});
     }
 
-    public function scopeCouncillor($query){
+    public function scopeRepresentative($query){
 		return $query->whereHas('roles',function($query){
-				$query->where('name','councillor');
+				$query->where('name','representative');
 
 			});
     }
 
-    public function scopeNotCouncillor($query){
+    public function scopeNotRepresentative($query){
 		return $query->whereDoesntHave('roles',function($q){
-				$q->where('name','councillor');
+				$q->where('name','representative');
 
 			});
     }
@@ -549,7 +581,7 @@ class User extends ApiModel implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function roles(){
-	    return $this->belongsToMany('App\Role'); //,'assigned_roles'
+	    return $this->belongsToMany(Role::class); //,'assigned_roles'
 	}
 
 	public function modificationTo(){

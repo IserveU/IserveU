@@ -11,31 +11,30 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		// 'App\Events\UserUpdating'	=> [
-		// ],
-		'App\Events\UserUpdated'	=> [
+		'App\Events\User\UserUpdated'	=> [
 			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
 			'App\Listeners\User\DeleteUnattachedFiles',
-			'App\Listeners\User\CheckUserRoles',
+			// 'App\Listeners\User\CheckUserRoles', for some reason this is being fired on create and conflicting with processes
 		],
-		'App\Events\UserCreated' => [
+		'App\Events\User\UserCreated' => [
 			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendWelcomeEmail',
 		//	'App\Listeners\User\CreateDefaultDelegations'
 		],
-		'App\Events\UserLoginFailed' => [
+		'App\Events\User\UserLoginFailed' => [
 			'App\Listeners\User\LogAttempt', // Also locks accounts
 			'App\Listeners\User\SetRememberToken', //Doesn't reset password
 			'App\Listeners\User\SendAccountLockEmail',
 		],
-		'App\Events\UserLoginSucceeded' => [
+		'App\Events\User\UserLoginSucceeded' => [
 			'App\Listeners\User\ClearLockFields',
 		],
-		'App\Events\UserDeleted' => [
-			'App\Listeners\User\DeleteUser'
+		'App\Events\User\UserDeleted' => [
+			'App\Listeners\User\DeleteUser',
+			'App\Listeners\User\DeleteActiveVotes'
 		],
-		'App\Events\MotionUpdated' => [
+		'App\Events\Motion\MotionUpdated' => [
 			'App\Listeners\Motion\SendNotificationEmail',
 			'App\Listeners\Motion\AlertVoters'
 		],
@@ -49,7 +48,10 @@ class EventServiceProvider extends ServiceProvider {
 			//'App\Listeners\Motion\BalanceDeferredVotes',  //Not needed with one councilor, not a big issue immediately
 			'App\Listeners\Comment\ClearMotionCommentCache',
 		],
-		'App\Events\MotionCreated' => [
+		'App\Events\VoteDeleting' => [
+			'App\Listeners\Vote\DeleteVoteComment',
+		],
+		'App\Events\Motion\MotionCreated' => [
 			'App\Listeners\Motion\CreateDeferredVotes',
 		],
 		'App\Events\DepartmentCreated' => [
@@ -82,7 +84,17 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\SendDailyEmails' => [
 			'App\Listeners\Motion\SendDailyPublicMotionSummary',
 			'App\Listeners\User\SendDailyAdminUserSummary'
-		]
+		],
+		'App\Events\Setup\Initialize' => [
+            'App\Listeners\Setup\SetDefaultSettings',
+            'App\Listeners\Setup\SetDefaultPermissions',
+            'App\Listeners\Setup\SetAdminUser',
+            'App\Listeners\Setup\RunDBSeeder'
+        ],
+        'App\Events\Setup\Defaults' => [
+            'App\Listeners\Setup\SetDefaultSettings',
+            'App\Listeners\Setup\SetDefaultPermissions'
+        ],
 	];
 
 	/**

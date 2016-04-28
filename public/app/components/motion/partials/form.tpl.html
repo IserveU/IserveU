@@ -1,0 +1,116 @@
+<section layout-margin layout="column">
+<md-card flex>
+	<md-card-content>
+
+		<form name="motionForm" ng-submit="motionForm.$valid" layout="column" layout-padding
+		 	  isu-section-init = "{autopost: false}"
+		 	  isu-section-object = "form.motion">
+			
+			<div layout="column" flex layout-padding>
+
+				<div>
+					<md-icon class="mdi mdi-details title-icon"></md-icon>
+						<h3 class="title-header">Title</h3>
+
+					<div layout="column" flex>
+						<md-input-container style="margin-top: 0; margin-bottom: 0;">
+							<input name="title" type="text" ng-model="form.motion.title" minlength="8" required autofocus/>
+							<div ng-messages="motionForm.title.$error">
+								<div ng-message-exp="['required', 'minlength']" role="alert">
+									Your title must be at least 8 characters long.
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+					<h3  class="title-header">Details</h3>
+					<text-angular class="text-angular md-body-1" ng-model="form.motion.text" name="text" ta-file-drop="taDropHandler"></text-angular>
+				</div>
+
+				<div>
+					<div>
+						<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+						<h3 class="title-header">Additional Details</h3>
+					</div>
+
+					<div isu-accordian
+						 is-open="form.proponent"
+						 icon="'mdi-human'"
+						 title="'Proponent'">
+
+						<bio-section ng-if="form.proponent"></bio-section>
+
+					</div>
+
+					<div isu-accordian layout="column"
+						 is-open="form.budget"
+						 icon="'mdi-wallet'"
+						 title="'Budget'">
+
+						<budget-section ng-if="form.budget"></budget-section>
+
+					</div>
+
+				</div>
+
+
+				<div>
+					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
+						<h3 class="title-header">Resources</h3>
+
+					<isu-file-upload 
+					isu-bind-files="form.motionFiles" 
+					isu-existing-files="{{form.existingMotionFiles}}">
+					</isu-file-upload>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-view-list title-icon"></md-icon>
+						<h3 class="title-header">Options</h3>
+				</div>
+
+				<div layout="column" flex>
+					<md-input-container flex>
+						<md-select name="department" ng-model="form.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" required>
+							<md-option ng-repeat="d in form.departments.data" ng-value="d.id">{{d.name}}</md-option>
+							<!-- <md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option> -->
+						</md-select>
+						<div ng-messages="motionForm.department.$error" role="alert">
+							<div ng-message="required">Please choose a {{ 'DEPARTMENT' | translate | lowercase }}.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container flex>
+						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
+							<md-option value="0">Draft</md-option>
+							<md-option value="1">In review</md-option>
+							<md-option value="2">Publish</md-option> 
+						</md-select>
+						
+						<div ng-messages="motionForm.status.$error" role="alert">
+							<div ng-message-exp="['required']">Please choose a status.</div>
+						</div>
+					</md-input-container>
+
+
+					<div ng-if="form.motion.status > 1 && settingsGlobal.allow_closing">
+						<md-datepicker ng-model="form.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>
+					</div>
+				</div>
+
+				<spinner layout layout-align="center end" 
+						 form-name="motionForm" name="'Save'" on-hide="form.processing" 
+						 secondary-btn="{control: form.cancel, name: 'Cancel'}">
+				</spinner>
+			</div>
+		</form>
+
+
+
+
+	</md-card-content>
+</md-card>
+</section>

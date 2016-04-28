@@ -7,6 +7,7 @@ use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
 use App\Events\VoteUpdated;
 use App\Events\VoteCreated;
+use App\Events\VoteDeleting;
 
 use Auth;
 use Carbon\Carbon;
@@ -139,7 +140,12 @@ class Vote extends ApiModel {
 		static::updated(function($model){
 			event(new VoteUpdated($model));
 			return true;
-		});		
+		});
+
+		static::deleting(function($model){
+			event(new VoteDeleting($model));
+			return true;
+		});	
 
 	}
 
@@ -155,7 +161,7 @@ class Vote extends ApiModel {
 	 */
 	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
 
-		if(Auth::user()->id==$this->user_id){
+		if(Auth::check() && Auth::user()->id==$this->user_id){
 			$this->setVisible = array_unique(array_merge($this->creatorVisible, $this->visible));
 		}
 
@@ -167,7 +173,7 @@ class Vote extends ApiModel {
 	}
 
 	public function setPositionAttribute($value){
-		if(Auth::user()->id == $this->user_id){
+		if(Auth::check() && Auth::user()->id == $this->user_id){
 			$this->attributes['deferred_to_id']		=	NULL;
 		}
 		$this->attributes['position'] 				= 	$value;
@@ -202,6 +208,12 @@ class Vote extends ApiModel {
 
 	public function scopeCast($query){
 		return $query->whereNotNull('position');
+	}
+
+	public function scopeOnActiveMotion($query){
+		return $query->whereHas('motion',function($query){
+			$query->where('active',1);
+		});
 	}
 
 

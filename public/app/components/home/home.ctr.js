@@ -4,9 +4,13 @@
 
 	angular
 		.module('iserveu')
-		.controller('HomeController', HomeController);
+		.controller('HomeController', 
+            ['$rootScope', '$scope', 'motion', 'comment', 'vote', 'user', 'UserbarService',
+            HomeController]);
 
-	function HomeController(motion, comment, vote, UserbarService, $timeout, resetPasswordService) {
+    /** @ngInject */
+    // this is a TODO    
+	function HomeController($rootScope, $scope, motion, comment, vote, user, UserbarService) {
 		
         UserbarService.setTitle("Home");
 
@@ -14,7 +18,6 @@
 
         /************************************** Variables **********************************/
         vm.shortNumber = 120;
-        vm.user_id = JSON.parse(localStorage.getItem('user')).id;
 		vm.topMotion;
 		vm.myComments = [];
 		vm.myVotes = [];
@@ -24,54 +27,88 @@
             myvotes: false
         };
 
+        vm.loading = {
+            topmotion: true,
+            topcomment: true,
+            mycomments: true,
+            myvotes: true
+        }
+
         /************************************** Home Functions **********************************/
 
         function getTopMotion() {
         	motion.getTopMotion().then(function(result){
+                vm.loading.topmotion = false;
         		vm.topMotion = result.data[0];
-                if(!vm.topMotion){
-                    vm.empty.topmotion = true;
-                }
+                if( !vm.topMotion ) vm.empty.topmotion = true;
         	},function(error) {
+                vm.loading.topmotion = false;
                 vm.empty.topmotion = true;
-        	});
-        }
-
-        function getMyComments(){
-        	comment.getMyComments(vm.user_id).then(function(result){
-        		vm.myComments = result;
-                if(!vm.myComments[0]){                
-                    vm.empty.mycomments = true;
-                }
-        	},function(error) {
-                vm.empty.mycomments = true;
         	});
         }
 
         function getTopComment(){
         	comment.getComment().then(function(result){
-                if(!result[0]){ vm.empty.topcomment = true; }
+                vm.loading.topcomment = false;
+
+                if( !result[0] )  vm.empty.topcomment = true; 
                 else vm.topComments = result.slice(0,5);
         	},function(error) {
+                vm.loading.topcomment = false;
+
                 vm.empty.topcomment = true;
         	});
         }
 
-        function getMyVotes(){
-            vote.getMyVotes(vm.user_id, {limit:5}).then(function(result){
-                vm.myVotes = result.data
-                if(vm.myVotes == undefined || !vm.myVotes[0]){
-                    vm.empty.myvotes = true;
-                }
+        function getMyComments(id){
+            comment.getMyComments(id).then(function(result){
+                vm.loading.mycomments = false;
+                vm.myComments = result;
+                if( !vm.myComments[0] ) vm.empty.mycomments = true;
             },function(error) {
+                vm.loading.mycomments = false;
+                vm.empty.mycomments = true;
+            });
+        }
+
+        function getMyVotes(id){
+            vote.getMyVotes(id, {limit:5}).then(function(result){
+                vm.loading.myvotes = false;
+
+                vm.myVotes = result.data;
+                if( result.total == 0 ) vm.empty.myvotes = true;
+            },function(error) {
+                vm.loading.myvotes = false;
                 vm.empty.myvotes = true;
             });
         }
 
+
         getTopMotion();
-        getMyComments();
         getTopComment();
-        getMyVotes();
+
+        // this is the dumbest thing i've ever written. too tired to write well...
+
+        if($rootScope.userIsLoggedIn) {
+            $scope.$watch( function() { return user.self },
+                function(details) {
+                    if( !angular.isUndefined(details) && details ) {
+                        getMyComments(details.id);
+                        getMyVotes(details.id);
+                    } else if($rootScope.userIsLoggedIn) {
+                        user.self = $rootScope.authenticatedUser
+                        getMyComments(user.self.id);
+                        getMyVotes(user.self.id);
+                    }
+                }, true
+            );
+
+            $rootScope.$on('usersVoteHasChanged', function(event, args) {
+                getMyVotes();
+            });
+        }
+
+
 	}
 	
 }());

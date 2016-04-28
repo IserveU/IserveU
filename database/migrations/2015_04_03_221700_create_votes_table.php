@@ -14,10 +14,12 @@ class CreateVotesTable extends Migration {
 	{
 		Schema::create('votes', function(Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('position');
+            $table->tinyInteger('position')->nullable();
             $table->integer('motion_id')->unsigned();
             $table->integer('user_id')->unsigned();
-        //v2    $table->integer('delegation')->unsigned();
+            $table->integer('deferred_to_id')->unsigned(0)->nullable();
+            $table->boolean('visited')->default(false);
+            
    			$table->softDeletes();
             $table->timestamps();
         });

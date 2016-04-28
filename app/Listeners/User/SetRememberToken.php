@@ -3,7 +3,7 @@
 namespace App\Listeners\User;
 
 use App\User;
-use App\Events\UserLoginFailed;
+use App\Events\User\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Hash;

@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User;
 
-use App\Events\UserUpdated;
+use App\Events\User\UserUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

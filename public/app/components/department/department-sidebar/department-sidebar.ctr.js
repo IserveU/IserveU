@@ -6,6 +6,7 @@
 		.module('iserveu')
 		.controller('DepartmentSidebarController', DepartmentSidebarController);
 
+	/** @ngInject */
 	function DepartmentSidebarController($rootScope, department) {
 
 		var vm = this;

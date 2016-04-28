@@ -1,0 +1,60 @@
+<div layout-align="center center" layout="row" layout-fill>
+  <div flex-sm="65" flex-xs="75" flex="30">
+
+      <div flex layout-align="center center" layout-padding>
+         <img class="logo" src="/themes/{{::themename}}/logo/logo.png"/>
+      </div>
+
+    <md-content class="md-whiteframe-z5 loginbox" layout="row" layout-padding layout-wrap flex>
+
+        <form name="loginform" ng-if="!login.registerform" layout="column" flex novalidate>
+          
+          <md-input-container flex>
+            <label>Email</label>
+            <input type="email" label="email" name="email" ng-model="login.service.credentials.email" autofocus required>
+              <div ng-messages="loginform.email.$error || login.service.errors.invalidEmail">
+                <div ng-if="loginform.email.$dirty" ng-message="required">Email is required</div>
+                <div ng-if="login.service.errors.invalidEmail" class="md-caption">This email is not registered to the site.</div>
+              </div>
+          </md-input-container>
+          
+          <md-input-container flex>
+            <label>Password</label>
+            <input type="password" name="password" ng-model="login.service.credentials.password" required>
+              <div ng-messages="loginform.password.$error || login.service.errors.invalidCredentials">  
+                <div ng-if="loginform.password.$dirty" ng-message="required">Password is required.</div>
+                <div ng-if="login.service.errors.invalidCredentials" class="md-caption">Password and email combination do not match.</div>
+              </div>
+          </md-input-container>
+
+          <md-input-container ng-if="login.service.errors.accountLocked" style="margin:0" flex>
+            <div ng-messages="true">
+              <div class="md-caption">You've tried to login too many times. Please wait before you try again.</div>
+            </div>
+          </md-input-container>
+
+          <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
+            <spinner form-name="loginform" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
+            <md-button ng-click="login.extendRegisterForm()">Create</md-button>
+          </div>
+
+          <div style="right:12px">
+            <md-button ng-show="login.service.errors.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
+          </div>
+
+          <div layout-padding style="padding-top:0px" layout-align="end end">
+            <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.service.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">
+              Public Computer
+            </md-checkbox>
+          </div>
+
+        </form>
+        
+        <!-- extends when Create is pressed -->
+        <register-form ng-if="login.registerform" flex></register-form>
+    
+    </md-content>
+  </div>
+</div>
+<!-- used to push the footer down --> 
+<div flex-order="2" style="height:20vh;"></div>

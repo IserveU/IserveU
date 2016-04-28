@@ -16,11 +16,13 @@ class CreateMotionsTable extends Migration {
             $table->increments('id');
             $table->string('title');
             $table->string('summary');
-            $table->boolean('active')->default(0);
+            $table->text('text');
+
         	$table->integer('department_id')->unsigned()->default(1);
             $table->dateTime('closing')->nullable()->default(null);
             $table->integer('user_id')->unsigned();
-            $table->text('text');
+            $table->tinyInteger('status')->default(0)->unsigned(); 
+
             $table->softDeletes();            
             $table->timestamps();
         });
@@ -37,6 +39,10 @@ class CreateMotionsTable extends Migration {
 	 */
 	public function down()
 	{
+        Schema::table('motions', function($table){
+            $table->dropForeign('motions_user_id_foreign');
+        });
+
 		Schema::drop('motions');
 	}
 

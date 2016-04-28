@@ -2,190 +2,71 @@
 
 	'use strict';
 
-	angular
+	// /** @ngInject */
+	var iserveu = angular
 		.module('iserveu', [
+			'ngCookies',
 			'ngResource',
 			'ngMaterial',
-			'ui.router',
+			'ngMessages',
 			'ngSanitize', 
 			'satellizer',
 			'textAngular',
+			'ui.router',
 			'flow',
-			'formly',
-			'ngMessages',
+            'infinite-scroll',
 			'pascalprecht.translate',
-			'ngCookies'
+			'mdColorPicker',
+			'isu-form-sections'
 		])
-		.config(function($provide, $urlRouterProvider, $httpProvider, $authProvider, $compileProvider) {
+		.run(['$rootScope', '$auth', '$window', '$timeout', '$globalProvider',
+			function($rootScope, $auth, $window, $timeout, $globalProvider) {
+				
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
 
-			// speeds up the app, the debug info are for {{}}
-			$compileProvider.debugInfoEnabled(false);
+			    	$rootScope.pageLoading = true;
 
-			$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-
-			$authProvider.loginUrl = '/authenticate';
-
-			$httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope) {
-
-				var $state, $http;
-
-				$timeout(function() {
-					$http = $injector.get('$http');
-					$state = $injector.get('$state');
+					$globalProvider.checkUser();
+					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
+					$globalProvider.setState( toState );
+					
 				});
 
-				return {
-					responseError: function(rejection) {
-						//this is way too explicit, 400 errors return on a lot.
-						if(rejection.status === 400) {
-							// $rootScope.userIsLoggedIn = false;
-							// localStorage.clear();
-							// if(!localStorage.satellizer_token){$state.go('login');}
-						}
-						if(rejection.status === 401){
-							// $state.go('permissionfail');
-						}
-						return $q.reject(rejection);
-					}
-				}
-			});
+			    $rootScope.$on('$viewContentLoaded',function(){
+			    	$timeout(function() {
+			    		$rootScope.pageLoading = false;
+			    	}, 500);
+			    });
 
-		    // the overall default route for the app. If no matching route is found, then go here
-			
-			$urlRouterProvider.when('/', ['$state', '$match', function($state, $match) {
-				$state.go('home');
-			}])	
+		        $globalProvider.init();
 
-			$urlRouterProvider.when("/motion/:id", "/motion/:id/");
-			$urlRouterProvider.when("/user/:id", "/user/:id/profile");
+				$window.onbeforeunload = function(e) {
+					var publicComputer = localStorage.getItem('public_computer');
+					if(JSON.parse(publicComputer) == true) 
+						return localStorage.clear();
+				};
 
-		    $urlRouterProvider.otherwise('/home');
+		}]);
 
-		})
-		.filter('dateToDate', function() {
-		  	return function(input) {
-		    	input = new Date(input);
-		    	return input;
-	  		};
-		})
+	fetchData().then(bootstrapApplication);
 
-		.filter('proComment', function() {
-			return function(input) {
-				var out = [];
-				for(var i = 0; i < input.length; i++) {
-					if(input[i].position == "1") {
-						out.push(input[i])
-					}				
-				}
-				return out;
-			}
-		})
-		.filter('conComment', function() {
-			return function(input) {
-				var out = [];
-				for(var i = 0; i < input.length; i++) {
-					if(input[i].position == "0" || input[i].position == "-1") {
-						out.push(input[i])
-					}				
-				}
-				return out;
-			}
-		})
-		.filter('object2Array', function() {
-		    return function(obj) {
-		    	return Object.keys(obj).map(function(key){return obj[key];});
-		    }
-	 	})
-	 	.filter('bytes', function() {
-			return function(bytes, precision) {
-				if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
-				if (typeof precision === 'undefined') precision = 1;
-				var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-					number = Math.floor(Math.log(bytes) / Math.log(1024));
-				return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
-			}
-		})
-		.run(function($rootScope, $auth, $state, auth, $window, motion, motionCache) {
+	function fetchData() {
+        var initInjector = angular.injector(['ng']);
+        var $http = initInjector.get('$http');
 
-			// runs everytime a state changes
-			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
-				if(toState.name !== 'login'){
-					if(toState.name !== 'login.resetpassword'){
-						$rootScope.redirectUrlName = toState.name;
-						$rootScope.redirectUrlID = toParams.id;
-						$rootScope.previousUrlID = fromParams.id;
-					}
-				}
+        return $http.get('settings').then(function(response) {
+			localStorage.setItem('settings', JSON.stringify(response.data));
+            iserveu.constant('SETTINGS_JSON', response.data);
+        }, function(errorResponse) {
+            // Handle error case
+            console.log('error');
+        });
+    }
 
-				var requireLogin = toState.data.requireLogin;
-				var auth = $auth.isAuthenticated();
-				if(auth === false && requireLogin === true){
-					event.preventDefault();
-					if(fromState.name !== 'login' || toState.name !== 'login'){
-						$state.go('login');
-					}
-				}
-
-				var user = JSON.parse(localStorage.getItem('user'));
-				if(user) {
-					$rootScope.authenticatedUser = user;
-					$rootScope.userIsLoggedIn = true;
-				}
-			    $rootScope.currentState = toState.name;	// used for sidebar directive
-			});
-
-			// runs once on app start
-			motion.getMotions().then(function(results){
-				motionCache.put('motionCache', results.data);
-			});
-
-			$rootScope.themename = 'default';
-
-			$window.onbeforeunload = function(e) {
-				var publicComputer = localStorage.getItem('public_computer');
-				if(JSON.parse(publicComputer) == true) {
-					return localStorage.clear();
-				}
-			}
-
-
-
-		})
-    .controller('AppCtrl', function($scope) {
-      $scope.isOpen = false;
-      $scope.demo = {
-        isOpen: false,
-        count: 0,
-        selectedAlignment: 'md-left'
-      };
-    });
-
-
-
-
-	// var AppController = function($scope, $mdUtil, $mdSidenav, $log) {
-
-	// 	$scope.toggleSidebar = buildToggler('sidebar');
-    	
- 	//	$scope.toggleUserbar = buildToggler('user-bar');
-	    
-	//  function buildToggler(navID) {
-	    	
-	//       var debounceFn = $mdUtil.debounce(function(){
-	//             $mdSidenav(navID)
-	//               .toggle()
-	//               .then(function () {
-	//                 $log.debug("toggle " + navID + " is done");
-	//               });
-	//           },300);
-	//       return debounceFn;
-	//     }
-	// };
-	
-	// AppController.$inject = module.controller.injectables;
-
-	
-			
-
-
+    function bootstrapApplication() {
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['iserveu'], {strictDi: true});
+        });
+    }
+		
 }());

@@ -4,7 +4,7 @@ namespace App\Listeners\User;
 
 use Mail;
 use Auth;
-use App\Events\UserUpdated;
+use App\Events\User\UserUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -29,7 +29,7 @@ class IdentityReverification{
     public function handle(UserUpdated $event)
     {
         $user = $event->user;
-        if(Auth::check() && Auth::user()->can('administrate-users')){ //Admins don't need to
+        if(Auth::check() && Auth::user()->can('administrate-user')){ //Admins don't need to
            return true;
         }
 
