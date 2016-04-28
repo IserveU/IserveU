@@ -21,9 +21,9 @@ class ShowUserRequest extends Request
         }
         
         if(\Auth::check()){
-            if(\Auth::user()->may('show-user')){ // Can administrate users anyway
+            if(\Auth::user()->can('show-user')){ // Can administrate users anyway
                 return true;
-            }
+            }           
 
             if(Auth::user()->id == $user->id){  //Your own profile
                 return true;
