@@ -99,8 +99,6 @@ class UserController extends ApiController {
 			abort(400,$newUser->errors);
 		}
 
-		$newUser->addUserRoleByName('citizen');
-
 		Auth::loginUsingId($newUser->id);
 
 		$propertyId = $request->get('property_id');
@@ -163,9 +161,7 @@ class UserController extends ApiController {
 		if(!$user->save()){ //Validation failed
 			abort(400,$user->errors);
 		}
-
-
-		
+	
 		if($request->file('government_identification')){
 			$file = new File;
 	      	$file->uploadFile('government_identification','government_identification',$request);		

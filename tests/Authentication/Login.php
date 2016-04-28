@@ -53,4 +53,26 @@ class Login extends TestCase
         $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword2"]);    
         $this->seeInDatabase('users',array('id'=>$user->id,'login_attempts'=>2));
     }
+
+
+    /** @test **/
+    public function create_and_login_as_minimal_specs_new_user()
+    {   
+        $user = factory(App\User::class)->make();
+      
+        $this->post('/api/user',array_merge($user->setVisible(['first_name','last_name','email'])->toArray(),['password'=>'abcd1234']));
+
+        $this->assertResponseStatus(200);
+
+        $this->post('authenticate',['email'=>$user->email,'password'=>'abcd1234']);
+
+        $content = json_decode($this->response->getContent());
+        
+        if(!$content){
+            dd($this->response->getContent());
+        }
+
+        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+    }
+    
 }

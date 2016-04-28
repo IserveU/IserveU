@@ -20,6 +20,9 @@ class CreateNewUser extends TestCase
    
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
         $this->seeInDatabase('users',array('email'=>$user->email,'first_name'=>$user->first_name));
+
+        // New users should have 0 roles
+        $this->dontSeeInDatabase('role_user',array('user_id'=>$content->user->id));
     }
 
     /** @test **/
