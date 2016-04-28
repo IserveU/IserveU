@@ -40,7 +40,6 @@ class Login extends TestCase
 
     }
 
-
     /** @test **/
     public function login_attempts_increment()
     {	

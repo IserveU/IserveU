@@ -33,7 +33,7 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserDeleted;
 
 
-class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
 	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
 
@@ -66,28 +66,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 */
 	protected $adminFillable = ['identity_verified', 'address_verified_until'];
 
-	/**
-	 * The default attributes included in any JSON/Array
-	 * @var array
-	 */
-	protected $visible = ['public', 'user_role'];
-
-	/**
-	 * The attributes visible to an administrator of this model (Should go to transformer)
-	 * @var array
-	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var array
-	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','address_verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  ['first_name','last_name','public','id','votes','totalDelegationsTo','avatar'];
+	protected $hidden = ['password'];
 
 	/**
 	 * The mapped attributes for 1:1 relations
@@ -442,6 +421,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 		}
 		$this->attributes['public'] = $value; //This was setting everyone to public
 	}
+
 
 
 

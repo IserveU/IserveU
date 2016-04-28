@@ -31,6 +31,7 @@ class NewUserTest extends TestCase
 
         $this->call('POST', '/api/user', $user);
 
+
         $this->assertResponseOk();
 
         $this->seeInDatabase( 'users', [ 'email' => $user['email'] ] );

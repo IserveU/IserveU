@@ -20,7 +20,7 @@ class UpdateUserRequest extends Request
     public function authorize()
     {
 
-        if(\Auth::user()->may('administrate-user')){ // Can administrate users anyway
+        if(\Auth::user()->can('administrate-user')){ // Can administrate users anyway
             return true;
         }
         

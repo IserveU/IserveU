@@ -14,7 +14,7 @@ class DeleteUserRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->may('administrate-user'))
+        if(Auth::user()->can('administrate-user'))
         {
             return true;
         }

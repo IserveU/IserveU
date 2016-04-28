@@ -29,7 +29,8 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'login_attempts'	=> 0,
         'identity_verified' => 0,
         'created_at'        => \Carbon\Carbon::now(),
-        'community_id'      => $community->id
+        'community_id'      => $community->id,
+        'street_name'       =>  $faker->streetName
     ];
 });
 
