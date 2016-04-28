@@ -8,6 +8,8 @@
 					<h1 class="md-subhead">AGREEMENT</h1>
 				</header>
 
+				<md-divider></md-divider>
+
 				<section class="motion-comments" ng-repeat="comment in show.obj.comments.agree" layout-padding>
 
 					<header>
@@ -53,6 +55,8 @@
 						<h1 class="md-subhead">/ ABSTAINED</h1>
 					</div>
 				</header>
+
+				<md-divider></md-divider>
 			
 				<section class="motion-comments" ng-repeat="comment in show.obj.comments.disagree" ng-class=" comment.vote.position == 0 ? 'abstained' : ''" layout-padding>
 					<md-icon class="mdi mdi-account-circle"></md-icon>
