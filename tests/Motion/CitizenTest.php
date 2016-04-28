@@ -7,12 +7,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CitizenTest extends TestCase
 {
     use DatabaseTransactions;
+    use WithoutMiddleware;
 
     public function setUp()
     {
         parent::setUp();
-
-        $this->published_motion = factory(App\Motion::class, 'published')->create();
 
         $this->signIn();
         $this->user->addUserRoleByName('citizen');
@@ -21,10 +20,10 @@ class CitizenTest extends TestCase
     /** @test */
     public function it_can_see_a_motion()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
         $user   = $this->user;
 
-        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
@@ -32,11 +31,11 @@ class CitizenTest extends TestCase
     /** @test */
     public function it_can_create_a_vote()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-
-        $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        
+        $response = $this->call('POST', '/api/vote', $vote);
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['motion_id' => $motion->id, 'position' => $vote['position'], 'user_id' => $this->user->id]);
     }
@@ -44,11 +43,13 @@ class CitizenTest extends TestCase
     /** @test */ 
     public function it_can_create_a_comment()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
+      
+
         $vote = $vote->getOriginalContent();
         
         $this->assertResponseOk();
@@ -57,7 +58,7 @@ class CitizenTest extends TestCase
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
 
-        $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $this->call('POST', '/api/comment', $comment);
         $this->assertResponseOk();
         $this->seeInDatabase('comments', [ 'vote_id' => $vote->id, 'text' => $comment['text'] ]);
     }
@@ -65,17 +66,17 @@ class CitizenTest extends TestCase
     /** @test */
     public function it_can_create_a_comment_vote()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
         
         // Make a comment
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
-        $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $comment = $this->call('POST', '/api/comment', $comment);
         $comment = $comment->getOriginalContent();
 
         $this->assertResponseOk();
@@ -84,7 +85,7 @@ class CitizenTest extends TestCase
         // Make a comment vote
         $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
         
-        $this->call('POST', '/api/comment_vote?token='.$this->token, $comment_vote);
+        $this->call('POST', '/api/comment_vote', $comment_vote);
         $this->assertResponseOk();
         $this->seeInDatabase('comment_votes', [ 'comment_id' => $comment->id, 'vote_id' => $vote->id, 'position' => $comment_vote['position']  ]);
 
@@ -94,11 +95,11 @@ class CitizenTest extends TestCase
     public function it_can_update_vote()
     {
         $faker  = Faker\Factory::create();
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
 
         // Switch vote
@@ -106,7 +107,7 @@ class CitizenTest extends TestCase
         $new_position = $new_position[$faker->numberBetween($min = 0, $max = 2)];
 
         // Update Vote
-        $this->call('PATCH', '/api/vote/'.$vote->id.'?token='.$this->token, 
+        $this->call('PATCH', '/api/vote/'.$vote->id, 
                   [ 'position' => $new_position, 'id' => $vote->id ]);
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['motion_id' => $motion->id, 'position' => $new_position, 'user_id' => $this->user->id]);
@@ -115,23 +116,23 @@ class CitizenTest extends TestCase
     /** @test */
     public function it_can_update_comment()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
 
         // Make a comment
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
-        $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $comment = $this->call('POST', '/api/comment', $comment);
         $comment = $comment->getOriginalContent();
 
         // Update comment
         $new_comment = factory(App\Comment::class)->make(['id' => $comment->id])->toArray();
 
-        $this->call('PATCH', '/api/comment/'.$comment->id.'?token='.$this->token, $new_comment);
+        $this->call('PATCH', '/api/comment/'.$comment->id, $new_comment);
         $this->assertResponseOk();
         $this->seeInDatabase('comments', [ 'id' => $comment->id, 'text' => $new_comment['text'] ]);
     }
@@ -140,29 +141,29 @@ class CitizenTest extends TestCase
     public function it_can_update_comment_vote()
     {
         $faker  = Faker\Factory::create();
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
 
         // Make a comment
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
-        $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $comment = $this->call('POST', '/api/comment', $comment);
         $comment = $comment->getOriginalContent();
 
         // Make a comment vote
         $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
-        $comment_vote = $this->call('POST', '/api/comment_vote?token='.$this->token, $comment_vote);
+        $comment_vote = $this->call('POST', '/api/comment_vote', $comment_vote);
         $comment_vote = $comment_vote->getOriginalContent();
 
         // Update comment vote
         $new_position = $faker->shuffle(array(-1, 0, 1));
         $new_position = $new_position[$faker->numberBetween($min = 0, $max = 2)];
 
-        $this->call('PATCH', '/api/comment_vote/'.$comment_vote->id.'?token='.$this->token, 
+        $this->call('PATCH', '/api/comment_vote/'.$comment_vote->id, 
                   [ 'position' => $new_position, 'id' => $vote->id ]);
         $this->assertResponseOk();
         $this->seeInDatabase('comment_votes', ['position' => $new_position, 'comment_id' => $comment->id]);
@@ -173,18 +174,18 @@ class CitizenTest extends TestCase
     public function it_can_delete_vote()
     {
         // As per the API delete route, you cannot delete a vote, you may only switch to abstain.
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Create Vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
 
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['motion_id' => $motion->id, 'position' => $vote->position, 'user_id' => $this->user->id]);
 
         // Delete Vote
-        $this->call('DELETE', '/api/vote/'.$vote->id.'?token='.$this->token);
+        $this->call('DELETE', '/api/vote/'.$vote->id);
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['motion_id' => $motion->id, 'position' => 0, 'user_id' => $this->user->id]);
 
@@ -193,11 +194,11 @@ class CitizenTest extends TestCase
         /** @test */
     public function it_can_delete_comment()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
         
         $this->assertResponseOk();
@@ -205,14 +206,14 @@ class CitizenTest extends TestCase
         // Make a comment
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
-        $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $comment = $this->call('POST', '/api/comment', $comment);
         $comment = $comment->getOriginalContent();
 
         $this->assertResponseOk();
         $this->seeInDatabase('comments', [ 'vote_id' => $vote->id, 'text' => $comment['text'] ]);
 
         // Delete comment
-        $delete = $this->call('DELETE', '/api/comment/'.$comment->id.'?token='.$this->token);
+        $delete = $this->call('DELETE', '/api/comment/'.$comment->id);
         $delete = $delete->getOriginalContent();
 
         $this->assertResponseOk();
@@ -222,11 +223,11 @@ class CitizenTest extends TestCase
         /** @test */
     public function it_can_delete_comment_vote()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         // Make a vote
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-        $vote = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $vote = $this->call('POST', '/api/vote', $vote);
         $vote = $vote->getOriginalContent();
         
         $this->assertResponseOk();
@@ -234,7 +235,7 @@ class CitizenTest extends TestCase
         // Make a comment
         $comment = factory(App\Comment::class)->make()->toArray();
         $comment = array_merge($comment, ['vote_id' => $vote->id]);
-        $comment = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $comment = $this->call('POST', '/api/comment', $comment);
         $comment = $comment->getOriginalContent();
 
         $this->assertResponseOk();
@@ -243,10 +244,10 @@ class CitizenTest extends TestCase
 
         // Make a comment vote
         $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
-        $comment_vote = $this->call('POST', '/api/comment_vote?token='.$this->token, $comment_vote);
+        $comment_vote = $this->call('POST', '/api/comment_vote', $comment_vote);
         $comment_vote = $comment_vote->getOriginalContent();
 
-        $this->call('DELETE', '/api/comment_vote/'.$comment_vote->id.'?token='.$this->token);
+        $this->call('DELETE', '/api/comment_vote/'.$comment_vote->id);
         $this->assertResponseOk();
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }

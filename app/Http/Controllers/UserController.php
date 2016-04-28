@@ -14,6 +14,13 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\DestroyUserRequest;
+use App\Http\Requests\User\EditUserRequest;
+use App\Http\Requests\User\ShowUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+
 use App\Transformers\UserTransformer;  
 
 class UserController extends ApiController {
@@ -71,7 +78,7 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function create(){
+	public function create(CreateUserRequest $request){
 		return (new User)->fields;
 	}
 
@@ -80,7 +87,7 @@ class UserController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request){
+	public function store(StoreUserRequest $request){
 		//Get input less the forgery token
 		$input = $request->except('_token');
 
@@ -108,17 +115,12 @@ class UserController extends ApiController {
 	}
 
 	/**
-	 * Display the user, but only if they are public or if the user logged in is this user (they are viewing/editing their own profile to see what it would look like if public)
-	 *
+	 * 
 	 * @param  User  $user
 	 * @return Response
 	 */
-	public function show(User $user){
-		if(!$user->public && $user->id != Auth::user()->id && !Auth::user()->can('show-user')){
-			abort(401,'You do not have permission to view this non-public user');
-		}
-
-		return $this->userTransformer->transform( $user->toArray() );
+	public function show(ShowUserRequest $request, User $user){
+		return $this->userTransformer->transform($user);
 	}
 
 	/**
@@ -129,7 +131,7 @@ class UserController extends ApiController {
 	 * @param  User  $user
 	 * @return Response
 	 */
-	public function edit(User $user){
+	public function edit(EditUserRequest $request, User $user){
 		//Check it is this user, if not that this is an admin that can edit users
 		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
 			abort(401,'You do not have permission to edit this user');
@@ -149,7 +151,7 @@ class UserController extends ApiController {
 	 * @param  User   		$user
 	 * @return Response
 	 */
-	public function update(User $user, Request $request){
+	public function update(UpdateUserRequest $request, User $user){
 
 		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
 			abort(401,'You do not have permission to edit this user');
@@ -192,7 +194,7 @@ class UserController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(User $user){
+	public function destroy(DestroyUserRequest $request, User $user){
 
 		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-user')){
 			abort(401,'You do not have permission to delete this user');

@@ -22,7 +22,8 @@ class CheckUserRoles
     }
 
     /**
-     * Handle the event.
+     * Checks that if the user is a citizen they have their address verified.
+     * If their address isn't verified their citizenship is stripped.
      *
      * @param  UserUpdated  $event
      * @return void

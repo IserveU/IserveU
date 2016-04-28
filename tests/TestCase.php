@@ -5,7 +5,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
 {
     
-    protected $user;
+    public $user;
 
     /**
      * The base URL to use while testing the application.
@@ -30,15 +30,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function signIn($user = null)
     {     
-
         if(!$user){
             $user = factory(App\User::class)->create();
         }
+       
+        $this->user = $user;
+        $this->actingAs($user);
 
-        return $this->authenticate($user);
+        return $this;
     }
 
-    public function authenticate($user)
+    public function getTokenForUser($user)
     {
         if (Auth::user()){
             Auth::logout();
@@ -46,21 +48,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         Auth::loginUsingId($user->id);
 
-
-        $this->post( '/authenticate', ['email' => $user->email, 'password' => 'abcd1234'] );
+        $this->post( '/authenticate',['email' => $user->email,'password' => 'abcd1234']);
 
         $content = json_decode($this->response->getContent());
+
         if(!$content){
             dd($this->response->getContent());
         }
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
-
-        // $user = JWTAuth::setToken($content->token);
-        // dd($user);
-
-        $this->user = $user;
-        $this->token = $content->token;
-        $this->actingAs($user);
 
         return $this;
     }

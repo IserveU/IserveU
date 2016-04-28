@@ -14,19 +14,22 @@
 //https://github.com/fzaninotto/Faker
 $factory->define(App\User::class, function ($faker) use ($factory) {
     $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
+    $community = \App\Community::orderBy(\DB::raw('RAND()'))->first();
+
 
     return [
         'first_name'        => $faker->firstName,
         'middle_name'       => $faker->name,
         'last_name'         => $faker->lastName,
         'email'             => $faker->email,
-        'password'          => 'abcd1234',
+        'password'          => $faker->password,
         'public'            => 0,
         'ethnic_origin_id'	=> $ethnicOrigin->id,
         'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
         'login_attempts'	=> 0,
         'identity_verified' => 0,
-        'created_at'        => \Carbon\Carbon::now()
+        'created_at'        => \Carbon\Carbon::now(),
+        'community_id'      => $community->id
     ];
 });
 
@@ -57,7 +60,7 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 
     $user = $factory->raw(App\User::class);
 
-    return $user;
+    return array_merge($user, ['public' => 0]);
 });
 
 
@@ -65,39 +68,20 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 /************************* Different Motion Status Factories ***********************************/
 
 $factory->define(App\Motion::class, function ($faker) use ($factory) {
-
-    $admin = DB::table('role_user')->where('role_id', '=', 1)->first();
-
-    if(!$admin) {
-        $admin = factory(App\User::class)->create();
-        $admin->addUserRoleByName('administrator');
-        $admin->user_id = $admin->id;
-    }
-
-    Auth::loginUsingId($admin->user_id);
-
+ 
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
+        'user_id'       =>  function(){
+            return factory(App\User::class,'verified')->create()->id;
+        },
         'closing'       => new DateTime(),
-        'user_id'       => $admin->user_id,
         'text'          => $faker->paragraph($nbSentences =10),
         'created_at'    => new DateTime()
     ];
 });
 
-$factory->defineAs(App\Motion::class, 'as_this_user', function (Faker\Generator $faker)  use ($factory) {
-
-    return [
-        'title'         => $faker->sentence($nbWords = 6),
-        'summary'       => $faker->sentence($nbWords = 15),
-        'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
-        'status'        => $faker->numberBetween($min = 0, $max = 3),
-        'text'          => $faker->paragraph($nbSentences = 10),
-    ];
-
-});
 
 $factory->defineAs(App\Motion::class, 'draft', function (Faker\Generator $faker)  use ($factory) {
 
@@ -116,6 +100,7 @@ $factory->defineAs(App\Motion::class, 'review', function (Faker\Generator $faker
 $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $faker)  use ($factory) {
 
     $motion = $factory->raw(App\Motion::class);
+
 
     return array_merge($motion, array_merge(createClosingDate(), ['status' => 2]) );
 });

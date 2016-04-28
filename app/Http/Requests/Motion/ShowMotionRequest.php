@@ -22,6 +22,8 @@ class ShowMotionRequest extends Request
                 return false;
             }
 
+          //  dd('sdf');
+
             if(!Auth::user()->can('administrate-motion')){
 
                 return false;
