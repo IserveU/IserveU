@@ -58,7 +58,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -73,7 +73,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	protected $visible = ['public', 'user_role'];
 
 	/**
-	 * The attributes visible to an administrator of this model
+	 * The attributes visible to an administrator of this model (Should go to transformer)
 	 * @var array
 	 */
 	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
@@ -102,6 +102,8 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 * @var array
 	 */	
     protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','government_identification','need_identification'];
+
+    protected $with = ['roles','community'];
 
     /**
      * The rules for all the variables
@@ -160,7 +162,6 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'BIRTHDAY','placeholder'=>'Date of Birth'],
 	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'PUBLIC','placeholder'=>'Enable Public Profile'],
 	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'IDENTITY_VERIFIED','placeholder'=>'User Is Verified'],
-
 	];
 
 
@@ -439,7 +440,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 		if($this->hasRole('representative') && !$value){
 			abort(403,'A representative must have a pubilc profile');
 		}
-		$this->attributes['public'] = 1;
+		$this->attributes['public'] = $value; //This was setting everyone to public
 	}
 
 
@@ -598,5 +599,9 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 
 	public function avatar(){
 		return $this->belongsTo('App\File','avatar_id');
+	}
+
+	public function community(){
+		return $this->belongsTo('App\Community');
 	}
 }

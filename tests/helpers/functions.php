@@ -6,28 +6,36 @@
     *
     ******************************************************************/
 
-	function postMotion($self, $attributes = [])
+	function postMotion($self, $attributes = [], $expectedCode = 200)
 	{
 
 		if(!$self) {
 			return factory(App\Motion::class)->create();
 		}
 
-		$motion = factory(App\Motion::class, 'as_this_user')->make()->toArray();
+		$motion = factory(App\Motion::class)->make([
+			'user_id'	=>	$self->user->id
+		])->toArray();
 
 	    $attributes = array_merge($attributes, createClosingDate());
 
 		if($attributes) {
 			$motion = array_merge($motion, $attributes);
 		}
+		
+		if(isset($self->token)){
+			$motion = array_merge($motion, ['token' => $self->token]);
+		}
 
-		$motion = array_merge($motion, ['token' => $self->token]);
+		$response = $self->call('POST', '/api/motion', $motion);
 
-		$motion = $self->call('POST', '/api/motion?token='.$self->token, $motion);
+		if($response->getStatusCode()!=$expectedCode){
+			dd($response->getContent);	//Dump fails
+		}
 
-		$self->assertResponseOk();
+		$self->assertResponseStatus($expectedCode);
 
-		return App\Motion::find($motion->getOriginalContent()['id']); //This was an array
+		return App\Motion::find($response->getOriginalContent()['id']); //This was an array
 	}
 
 	function postVote($self)
@@ -39,7 +47,7 @@
 		$motion = postMotion($self, ['status' => 2]);
 
 		$vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-		$vote = $self->call('POST', '/api/vote?token='.$self->token, $vote);
+		$vote = $self->call('POST', '/api/vote', $vote);
 
 	    $self->assertResponseOk();
 
@@ -58,7 +66,12 @@
 	    // Make a comment
 	    $comment = factory(App\Comment::class)->make()->toArray();
 	    $comment = array_merge($comment, ['vote_id' => $vote->id]);
-	    $comment = $self->call('POST', '/api/comment?token='.$self->token, $comment);
+
+		if(isset($self->token)){
+			$comment = array_merge($comment, ['token' => $self->token]);
+		}
+
+	    $comment = $self->call('POST', '/api/comment', $comment);
 	    
 	    $self->assertResponseOk();
 
@@ -77,7 +90,12 @@
 
 	    // Make a comment vote
 	    $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
-	    $comment_vote = $self->call('POST', '/api/comment_vote?token='.$self->token, $comment_vote);
+
+		if(isset($self->token)){
+			$comment_vote = array_merge($comment_vote, ['token' => $self->token]);
+		}
+
+	    $comment_vote = $self->call('POST', '/api/comment_vote', $comment_vote);
 
 		$self->assertResponseOk();
 
@@ -127,7 +145,8 @@
 
 	function publishMotion($motion, $user)
 	{
-		$updated = $user->call('PATCH', '/api/motion/'.$motion->id.'?token='.$user->token, ['status' => 2]);
+
+		$updated = $user->call('PATCH', '/api/motion/'.$motion->id, ['status' => 2]);
 
         $updated = $updated->getOriginalContent();
 
@@ -136,7 +155,7 @@
 
 	function agreeWithMotion($motion, $user)
 	{
-		$vote = $user->call('POST', '/api/vote/?token='.$user->token, 
+		$vote = $user->call('POST', '/api/vote/', 
 				['motion_id' => $motion->id, 'position' => 1]);
 
 		return $vote->getOriginalContent();
@@ -144,7 +163,7 @@
 
 	function disagreeWithMotion($motion, $user)
 	{
-		$vote = $user->call('POST', '/api/vote/?token='.$user->token, 
+		$vote = $user->call('POST', '/api/vote/', 
 				['motion_id' => $motion->id, 'position' => -1]);
 
 		return $vote->getOriginalContent();

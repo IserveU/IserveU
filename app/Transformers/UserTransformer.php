@@ -11,8 +11,10 @@ class UserTransformer extends Transformer
 	{
 
         $transformedUser = [
-            'community' => Community::find($user['community_id'])->name
+            'community' => $user->community?$user->community->name:null
         ];
+
+        $user = $user->toArray();
 
         return array_merge($user, $transformedUser);
 	}

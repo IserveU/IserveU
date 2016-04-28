@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\IdentityReverification',
 			'App\Listeners\User\DeleteUnattachedFiles',
-			// 'App\Listeners\User\CheckUserRoles', for some reason this is being fired on create and conflicting with processes
+			'App\Listeners\User\CheckUserRoles', //for some reason this is being fired on create and conflicting with processes
 		],
 		'App\Events\User\UserCreated' => [
 			'App\Listeners\User\SetRememberToken',

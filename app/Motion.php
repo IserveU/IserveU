@@ -104,6 +104,9 @@ class Motion extends ApiModel {
 	 */
 	protected $locked = ['title','text'];
 
+	protected $attributes = [
+		'status'	=> 0 //default draft
+	];
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
@@ -153,6 +156,11 @@ class Motion extends ApiModel {
 			return true;
 		}
 
+		//Created without a status but not saved
+		if(!array_key_exists('status',$this->attributes)){
+			return false;
+		}
+
 		if($this->attributes['status'] != 2) {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
@@ -188,48 +196,9 @@ class Motion extends ApiModel {
 			}
 		}
 
-		if(!Auth::user()->can('administrate-motion') && $value > 1){
-			$this->attributes['status'] = 1;
-			return true;
-		}
+		$this->attributes['status'] = $value;
 
-		/* I am not exactly sure I agree with this. I think this is too opinionated. Especially
-		* if a motion gets published before it was ready to be. Doesn't really give the user
-		* much leeway. 
-		*/
-		
-		// if(isset($this->attributes['status']) && $value < $this->attributes['status']){
-		// 	abort(403,"You can not switch a status back");
-		// }
 
-		switch ($value){
-			case 0:
-				$this->attributes['status'] = 0;
-				break;
-			case 1:
-				$this->attributes['status'] = 1;
-				break;
-			case 2:
-				if(Auth::check() && !Auth::user()->can('administrate-motion')){
-					abort(401,"Unable to set user does not have permission to set motions as active");
-				}
-				if($value && !$this->motionRanks->isEmpty()){
-					abort(403,"This motion has already been voted on, it cannot be reactivated after closing");
-				}
-				
-				$this->attributes['status'] = 2;
-
-				if(!$this->closing && $value == 1){
-					$closing = new Carbon;
-					$closing->addHours(Setting::get('motion.default_closing_time_delay',72));
-					$this->closing = $closing;
-				}
-				break;
-			case 3:
-				$this->attributes['status'] = 3;
-				break;
-		}
-	
 		return true;
 	}
 
