@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\RequestsMotion\;
 
 use App\Http\Requests\Request;
 use Auth;
