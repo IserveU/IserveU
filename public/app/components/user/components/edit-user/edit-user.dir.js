@@ -4,16 +4,17 @@
 
 	angular
 		.module('iserveu')
-		.directive('editUser', ['editUserFactory', 'userToolbarService', 'roleFactory', editUser]);
+		.directive('editUser', ['COMMUNITY_INDEX','editUserFactory', 'userToolbarService', 'roleFactory', editUser]);
 
 	/** @ngInject */
-	function editUser(editUserFactory, userToolbarService, roleFactory) {
+	function editUser(COMMUNITY_INDEX, editUserFactory, userToolbarService, roleFactory) {
 
 		function editUserController($scope) {
 
 			userToolbarService.state = '';
 			$scope.edit = editUserFactory;
 			$scope.roles = roleFactory;
+			$scope.communities = COMMUNITY_INDEX;
 
 		}
 

@@ -4,18 +4,18 @@
 		.module('iserveu')
 		.directive('motionForm', [
 			'$state', '$stateParams', '$timeout', '$isuApiProvider', 'motionObj', 
-			'motionfile', 'ToastMessage', 'department', 'motionFilesFactory', 'errorHandler', 
+			'motionfile', 'ToastMessage', 'DEPARTMENT_INDEX', 'motionFilesFactory', 'errorHandler', 
 			'utils', 'SETTINGS_JSON',
 			motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, $isuApiProvider, motionObj, motionfile, ToastMessage, department, motionFilesFactory, errorHandler, utils, SETTINGS_JSON) {
+	function motionForm($state, $stateParams, $timeout, $isuApiProvider, motionObj, motionfile, ToastMessage, DEPARTMENT_INDEX, motionFilesFactory, errorHandler, utils, SETTINGS_JSON) {
 
 		function motionFormController($scope) {
 			var self = this;
 
 			self.createMotion = $state.current.name == 'create-motion' ? true : false;
 	        self.motion = { closing: new Date() };
-			self.departments = department.self;
+			self.departments = DEPARTMENT_INDEX;
 
 			self.motionFile  = motionFilesFactory;
 			self.motionFiles = [];

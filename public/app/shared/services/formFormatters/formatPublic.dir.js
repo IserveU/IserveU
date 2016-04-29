@@ -10,8 +10,6 @@
 			require: 'ngModel',
 			link: function(scope, el, attrs, ngModelCtrl) {
 
-				console.log('asfasfd');
-
 				ngModelCtrl.$formatters.push(function(data) {
 
 					if (data === 1)

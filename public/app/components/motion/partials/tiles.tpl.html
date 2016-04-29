@@ -14,11 +14,11 @@
 	    	<md-tooltip>{{'CLOSED' | translate}}</md-tooltip>
 	    </md-icon>
 
-	    <md-icon ng-show="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-sm>
+	    <md-icon ng-show="motion.details.MotionOpenForVoting && motion.details.status > 1" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-sm>
 	    	<md-tooltip md-direction="left">{{ 'CLOSES_ON' | translate }} {{ motion.details.closing.alpha_date }}</md-tooltip>
 	    </md-icon>
 
-	    <md-icon ng-show="motion.details.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-md hide-gt-md>
+	    <md-icon ng-show="motion.details.MotionOpenForVoting && motion.details.status > 1" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg" hide-md hide-gt-md>
 	    	<md-tooltip>{{ 'CLOSES_ON' | translate }} {{ motion.details.closing.alpha_date }}</md-tooltip>
 	    </md-icon>
     </md-grid-tile>

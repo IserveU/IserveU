@@ -42,7 +42,7 @@ class SetDefaultSettings
             ));
 
         $this->ifNotSetThenSet('site', array(
-                'name'      =>      'IserveU',
+                'name'      =>      'IserveU - eDemocracy',
                 'terms'     =>      'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.'
             ));
 
@@ -77,8 +77,8 @@ class SetDefaultSettings
         $this->ifNotSetThenSet('home', array(
                 'introduction'  => array(
                     'icon' => '/themes/default/logo/symbol_onlight.svg',
-                    'title' => 'Welcome to IserveU!',
-                    'text' => "We’re excited to provide this open-source software to let you vote on, engage with, and influence decisions about issues you find important.\n\n As the world's leading E-Democracy and public engagement tool, we're proud to be made by and for Yellowknifers with a mission to give our friends and neighbours the easiest, most cost-effective way to engage with government decision-making between elections.\n\n Vote on issues, start conversations, and engage with elected representatives using the tool in real-time; all without attending a council meeting.\n\n Because it’s time to leverage technology for a stronger, more transparent democracy. Because your opinion matters."
+                    'title' => 'Introduction to IserveU',
+                    'text' => '<p><b id="docs-internal-guid-c9f5e80b-5721-1451-1648-7ed3572866d5"></b></p><p dir="ltr"><b id="docs-internal-guid-6f029f4d-5e0f-0284-f889-d9344bed5ab4"></b></p><p dir="ltr"><span style="color: rgb(0, 0, 0);background-color: transparent;">Welcome to IserveU, the world-leading E-Democracy and public engagement tool for your city council.</span><br></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re excited to provide this open-source software to let you vote on, engage with, and influence decisions about issues you find important. &nbsp;</span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re proud to be made by and for Yellowknifers with a mission to give our friends and neighbours the easiest, most cost-effective way to engage with government decision-making in a tangible, quantifiable way between elections. </span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">Vote on issues, start conversations, and engage with elected representatives using the tool in real-time; all without attending a council meeting. </span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000">Because it’s time to leverage technology for a stronger, more transparent democracy. Because your opinion matters.<br></font></span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000"><br></font></span></p><h4><span style="background-color: transparent;"><font color="#000000">How Does IserveU Work?</font></span></h4><hr><p dir="ltr"><iframe width="560" height="315" src="https://www.youtube.com/embed/8sq7ydOCyJs" style="text-align: center;"></iframe><br></p>'
                 ),
                 'widgets'       => array(
                     'your_votes' => true,
@@ -87,7 +87,7 @@ class SetDefaultSettings
                     'top_motions'   => true
                 )
             ));
-
+        
         $this->ifNotSetThenSet('themename', 'default');
 
         $this->ifNotSetThenSet('theme', array(

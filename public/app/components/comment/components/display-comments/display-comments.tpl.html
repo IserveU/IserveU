@@ -10,11 +10,11 @@
 
 				<md-divider></md-divider>
 
-				<section class="motion-comments" ng-repeat="comment in show.obj.comments.agree" layout-padding>
+				<section class="motion-comments" ng-repeat="comment in show.obj.comments.agree | orderBy: comment.commentRank" layout-padding>
 
-					<header>
+					<header layout layout-align="front">
 						<md-icon class="mdi mdi-account-circle"></md-icon>
-						<h3 ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'"></h3>
+						<h3 ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
 					</header>
 
 					<p class="md-caption" ng-bind="show.formatDate(comment)"></p>
@@ -22,17 +22,13 @@
 
 					<div ng-if="userIsLoggedIn && vote.user.position == 1" class="comment-votes" layout="row" layout-align="end center">
 						
-						<p class="md-caption" ng-show="comment.commentRank && comment.commentRank > 0">
-							{{comment.commentRank}} people liked this.
-						</p>
-					    
 					    <div has-permission="create-comment_vote">
 						    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" aria-label="Agree"> 
-								<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
+								<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>
 
 							<md-button ng-click="commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}" aria-label="Disagree">
-									<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
+								<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>	
 						</div>
 
@@ -58,25 +54,25 @@
 
 				<md-divider></md-divider>
 			
-				<section class="motion-comments" ng-repeat="comment in show.obj.comments.disagree" ng-class=" comment.vote.position == 0 ? 'abstained' : ''" layout-padding>
-					<md-icon class="mdi mdi-account-circle"></md-icon>
-					<h3 class="title-header" ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'"></h3>
+				<section class="motion-comments" ng-repeat="comment in show.obj.comments.disagree | orderBy: comment.commentRank" ng-class=" comment.vote.position == 0 ? 'abstained' : ''" layout-padding>
+					
+					<header layout layout-align="front">
+						<md-icon class="mdi mdi-account-circle"></md-icon>
+						<h3 class="title-header" ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
+					</header>
+
 					<p class="md-caption" ng-bind="show.formatDate(comment)"></p>
 					<p class="md-body-1">{{ comment.text }}</p>
 
-
 					<div ng-if="userIsLoggedIn && vote.user.position != 1" class="comment-votes"  layout="row" layout-align="end center">
-						<p class="md-caption" ng-show="comment.commentRank && comment.commentRank > 0">
-							{{comment.commentRank}} people liked this.
-						</p>
 
 						<div has-permission="create-comment_vote">
 						    <md-button ng-click="commentVote.onclick(comment.id, 1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '1', show.obj.comments.vote) }}" aria-label="Agree"> 
-								<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
+								<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ commentVote.iconClass(comment.id, '1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>
 
 							<md-button ng-click="commentVote.onclick(comment.id, -1, show.obj.comments.vote)" class="md-icon-button {{ commentVote.buttonClass(comment.id, '-1', show.obj.comments.vote) }}" aria-label="Disagree">
-								<md-icon md-svg-src="/themes/default/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
+								<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ commentVote.iconClass(comment.id, '-1', show.obj.comments.vote) }}.svg"></md-icon>
 							</md-button>
 						</div>	  
 

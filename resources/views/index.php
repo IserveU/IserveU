@@ -14,20 +14,21 @@
 
     <body set-back-img class="background-image" ng-cloak> 
 
-        <user-bar ng-if="!isLoginState" ng-cloak></user-bar>
+        <beta-message></beta-message>
 
-        <md-content id="maincontent" ng-cloak ng-class="pageLoading?'loading':''" layout="row" layout-fill flex>
+        <user-bar ng-if="!isLoginState"></user-bar>
+
+        <md-content id="maincontent" ng-class="pageLoading?'loading':''" layout="row" layout-fill flex>
 
             <md-sidenav ng-if="!isLoginState && settingsGlobal.module.motions"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 role="nav"
                 md-component-id="left" 
-                md-is-locked-open="$mdMedia('gt-sm')" 
-                ng-cloak>
+                md-is-locked-open="$mdMedia('gt-sm')">
                 <motion-sidebar flex></motion-sidebar>
             </md-sidenav>
 
-            <div layout="column" layout-fill flex ng-cloak>
+            <div layout="column" layout-fill flex>
                 <div ui-view flex-order="1" role="main" tabIndex="-1" layout-margin></div>
                 <show-footer flex-order="2" layout-margin></show-footer>                    
             </div>

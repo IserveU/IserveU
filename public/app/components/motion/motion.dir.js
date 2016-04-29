@@ -5,11 +5,12 @@
 	angular
 		.module('iserveu')
 		.directive('displayMotion', [
+			'Authorizer', '$state',
 			'$stateParams', 'motion', 'motionObj', 'voteObj', 'commentObj', 'motionFilesFactory',
 			displayMotion]);
 
 	 /** @ngInject */
-	function displayMotion($stateParams, motion, motionObj, voteObj, commentObj, motionFilesFactory) {
+	function displayMotion(Authorizer, $state, $stateParams, motion, motionObj, voteObj, commentObj, motionFilesFactory) {
 
 	  function MotionController($scope) {
 
@@ -25,9 +26,12 @@
 			*/
 	        function getMotion(id, mData) {
 
+
 	            var motionData = mData || motionObj.getMotionObj(id);
 
-	            console.log(motionData);
+	            if(motionData && motionData.status < 1 && !Authorizer.canAccess('administrate-motion')){
+	            	$state.go('home');
+				}
 
 	            motionObj.clearMotionDependencies();
 

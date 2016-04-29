@@ -4,11 +4,11 @@
 
 	angular
 		.module('iserveu')
-		.directive('convertClosingDate', ['$filter', convertClosingDate]);
+		.directive('formatClosing', ['$filter', formatClosing]);
 
 
   	 /** @ngInject */
-	function convertClosingDate($filter) {
+	function formatClosing($filter) {
 
 		return {
 			require: "ngModel",
@@ -19,8 +19,11 @@
 				})
 
       			ngModelController.$formatters.push(function(data) {
-      				data.setDate(data.getDate() + 7);
-      				return data;
+      				
+      				var date = data.carbon ? 
+	      				new Date(data.carbon.date) : new Date();
+      				
+      				return date;
 			    });
 			}
 		}
