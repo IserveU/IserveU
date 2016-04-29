@@ -91,6 +91,10 @@ class UserController extends ApiController {
 		//Create a new user and fill secure fields
 		$newUser = User::create($request->except('token'));
 
+		if(!Setting::get('security.verify_citizens')){
+			$newUser->addUserRoleByName('citizen');
+		}
+
 		$token = JWTAuth::fromUser($newUser);
 
 		$user = $newUser->toArray();

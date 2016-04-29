@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Carbon\Carbon;
 use DB;
+use Setting;
 
 class CheckUserRoles
 {
@@ -29,7 +30,13 @@ class CheckUserRoles
      * @return void
      */
     public function handle($event)
-    {
+    {        
+
+        //Don't check this if the system doesn't care about manual verification
+        if(!Setting::get('security.verify_citizens')){
+            return true;
+        }
+
 
        // DB::enableQueryLog();
         $user = $event->user;

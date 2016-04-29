@@ -113,7 +113,7 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
-		
+
 			return true;	
 		});
 

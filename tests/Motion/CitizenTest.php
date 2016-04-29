@@ -20,12 +20,69 @@ class CitizenTest extends TestCase
     /** @test */
     public function it_can_see_a_motion()
     {
-        $motion = factory(App\Motion::class, 'published')->create();
-        $user   = $this->user;
+        $user = factory(App\User::class,'verified')->create();
+
+        $motion = factory(App\Motion::class,'published')->create();
 
         $this->call('GET', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
+    }
+
+    /** @test */
+    public function it_cannot_create_a_draft_motion_for_another_user()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->make()->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(403);
+
+        $this->dontSeeInDatabase('motions',array('title'=>$motion['title']));
+
+    }
+
+    /** @test */
+    public function it_can_create_a_draft_motion()
+    {
+        $motion = factory(App\Motion::class,'draft')->make([
+            'user_id'   =>  $this->user->id
+        ])->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(200);
+
+        $this->seeInDatabase('motions',array('title'=>$motion['title']));
+    }
+
+    /** @test */
+    public function it_cannot_create_a_published_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'published')->make()->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(403);
+
+        
+    }
+
+    /** @test */
+    public function it_cannot_publish_a_draft_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->make([
+            'user_id'   => $this->user->id
+        ])->create();
+
+        $this->patch('/api/motion/$motion->id',$motion);
+
+        $this->assertResponseStatus(403);
+
+        
     }
 
     /** @test */
