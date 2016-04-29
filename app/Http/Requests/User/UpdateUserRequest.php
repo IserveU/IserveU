@@ -8,8 +8,28 @@ use Auth;
 class UpdateUserRequest extends Request
 {
 
-    protected $rules = [
-     
+    /**
+     * The rules for all the variables
+     * @var array
+     */
+    protected $rules = [    
+        'email'                     =>  'email|unique:users,email',
+        'password'                  =>  'min:8',
+        'first_name'                =>  'string',
+        'middle_name'               =>  'string',
+        'last_name'                 =>  'string',
+        'ethnic_origin_id'          =>  'integer|exists:ethnic_origins,id',
+        'date_of_birth'             =>  'date',
+        'public'                    =>  'boolean',
+        'login_attempts'            =>  'integer',
+        'identity_verified'         =>  'boolean',
+        'remember_token'            =>  'unique:users,remember_token',
+        'postal_code'               =>  'string',
+        'street_name'               =>  'string',
+        'street_number'             =>  'integer',
+        'unit_number'               =>  'integer',
+        'address_verified_until'    =>  'date|before:+1100 days',
+        'agreement_accepted'        =>  'boolean'
     ];
 
     /**
@@ -22,6 +42,14 @@ class UpdateUserRequest extends Request
 
         if(\Auth::user()->can('administrate-user')){ // Can administrate users anyway
             return true;
+        }
+
+        if($this->input('identity_verified')){
+            return false;
+        }
+        
+        if($this->input('address_verified_until')){
+            return false;
         }
         
         $user = $this->route()->parameter('user');
@@ -41,6 +69,11 @@ class UpdateUserRequest extends Request
      */
     public function rules()
     {
+        $user = $this->route()->parameter('user');
+
+        $this->rules['email']             = $this->rules['email'].",".$user->id;
+        $this->rules['remember_token']    = $this->rules['email'].",".$user->id;
+
         return $this->rules;
     }
 }

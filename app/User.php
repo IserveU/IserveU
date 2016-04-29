@@ -58,13 +58,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var array
-	 */
-	protected $adminFillable = ['identity_verified', 'address_verified_until'];
 
 	protected $hidden = ['password'];
 
@@ -84,31 +79,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     protected $with = ['roles','community'];
 
-    /**
-     * The rules for all the variables
-     * @var array
-     */
-	protected $rules = [	
-		'email' 					=>	'email|unique:users,email',
-	    'password'					=>	'min:8',
-	    'first_name'				=>	'string',
-	    'middle_name'				=>	'string',
-	    'last_name'					=>	'string',
-	    'ethnic_origin_id'			=>	'integer|exists:ethnic_origins,id',
-	    'date_of_birth'				=>	'date|sometimes',
-	    'public'					=>	'boolean',
-        'id'       					=>	'integer',
-	    'login_attempts'			=>	'integer',
-	    'identity_verified'			=>	'boolean',
-	    'remember_token'			=>	'unique:users,remember_token',
-		'postal_code'				=>  'string',
-		'street_name'				=>  'string',
-		'street_number'				=>  'integer',
-		'unit_number'				=>  'integer',
-		'address_verified_until'	=>	'date|before:+1100 days',
-		'agreement_accepted'		=>	'boolean'
-	];
-
 	/**
 	 * The variables that are required when you do an update
 	 * @var array
@@ -126,22 +96,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @var array
 	 */
 	protected $unique = ['email', 'remember_token'];
-
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'email' 					=>	['tag'=>'input','type'=>'email','label'=>'EMAIL_ADDRESS','placeholder'=>'Email Address'],
-	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'PASSWORD','placeholder'=>'Your Password'],
-	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'FIRST_NAME','placeholder'=>'First Name'],
-	    'middle_name'				=>	['tag'=>'input','type'=>'input','label'=>'MIDDLE_NAME','placeholder'=>'Middle Name'],
-	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'LAST_NAME','placeholder'=>'Last Name'],
-	    'ethnic_origin_id'			=>	['tag'=>'md-select','type'=>'select','label'=>'ETHNIC_ORIGIN','placeholder'=>'Primary Ethnic Origin'],
-	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'BIRTHDAY','placeholder'=>'Date of Birth'],
-	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'PUBLIC','placeholder'=>'Enable Public Profile'],
-	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'IDENTITY_VERIFIED','placeholder'=>'User Is Verified'],
-	];
 
 
 	/**

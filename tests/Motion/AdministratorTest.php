@@ -90,7 +90,6 @@ class AdministratorTest extends TestCase
     {
         $vote = postVote($this);
 
-
         $new_position = switchVotePosition();
 
         // Update Vote
