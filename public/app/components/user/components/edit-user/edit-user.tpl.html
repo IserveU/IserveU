@@ -109,7 +109,7 @@
   <p class="md-subhead" translate="{{'USER_ROLES'}}" style="margin-bottom: 20px"></p>
 
   <div ng-repeat="role in roles.list">
-    <md-checkbox ng-model="role.hasRole" ng-click="roles.set(role)" style="margin:0px" ng-disabled="role.id == 1">
+    <md-checkbox ng-model="role.hasRole" ng-click="roles.set(role)" style="margin:0px" ng-disabled="role.id == 1 && edit.isSelf()">
       <p class="md-caption" style="margin:0px">{{role.display_name}}</p>
       <md-tooltip>{{role.description}}</md-tooltip>
     </md-checkbox>

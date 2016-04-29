@@ -36,7 +36,11 @@ class CreateUsersTable extends Migration {
             $table->date('address_verified_until')->nullable();
 			$table->boolean('identity_verified')->default(0);
 
+<<<<<<< HEAD
             $table->json('preferences');
+=======
+            $table->text('preferences')->nullable();
+>>>>>>> 0a424650140ec105c83fb08c1f953eae01a09549
 			$table->integer('login_attempts')->default(0);
 			$table->datetime('locked_until')->nullable();
 

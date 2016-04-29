@@ -14,7 +14,7 @@ class CreateMotionSectionTable extends Migration
     {
         Schema::create('motion_section', function(Blueprint $table) {
             $table->increments('id');
-            $table->json('content')->nullable();
+            $table->text('content')->nullable();
             $table->integer('motion_id')->unsigned();
             $table->foreign('motion_id')->references('id')
                   ->on('motions')

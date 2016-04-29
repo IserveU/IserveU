@@ -16,7 +16,7 @@ class CreateSectionsTable extends Migration
             $table->increments('id');
             $table->integer('order');
 
-            $table->json('content');
+            $table->text('content');
             $table->string('type',64);
             $table->morphs('sectionable');
 
