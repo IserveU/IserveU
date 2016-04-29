@@ -17,11 +17,12 @@
 			scope: {
 				'name': '=',
 				'onLoaded': '&',
+				'primaryAction': '&',
 				'onHide': '=',
 				'formName': '=',
 				'secondaryBtn': '='
 			},
-			template: ['<md-button ng-disabled="formName.$invalid" type="submit">',
+			template: ['<md-button ng-disabled="formName.$invalid" type="submit" ng-click="primaryAction()">',
 						'<span ng-hide="onHide">{{name}}</span>',
             			'<md-icon md-svg-src="/themes/default/loading.svg" ng-show="onHide">',
             			'</md-icon></md-button>',

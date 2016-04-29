@@ -31,7 +31,6 @@
 				function redirect(newValue, oldValue) {
 					if(newValue == false && oldValue == true){
 						$state.go('home', {}, {reload: true});
-						ToastMessage.reload();
 					};
 				}
 			);

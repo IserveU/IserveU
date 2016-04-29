@@ -75,7 +75,7 @@
 				<div layout="column" flex>
 					<md-input-container flex>
 						<md-select name="department" ng-model="form.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" required>
-							<md-option ng-repeat="d in form.departments.data" ng-value="d.id">{{d.name}}</md-option>
+							<md-option ng-repeat="d in form.departments" ng-value="d.id">{{d.name}}</md-option>
 							<!-- <md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option> -->
 						</md-select>
 						<div ng-messages="motionForm.department.$error" role="alert">
@@ -97,7 +97,7 @@
 
 
 					<div ng-if="form.motion.status > 1 && settingsGlobal.allow_closing">
-						<md-datepicker ng-model="form.motion.closing" md-placeholder="Closing Date" flex></md-datepicker>
+						<md-datepicker ng-model="form.motion.closing" md-placeholder="Closing Date" format-closing="form.motion.closing.carbon" flex></md-datepicker>
 					</div>
 				</div>
 

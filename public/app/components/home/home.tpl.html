@@ -2,19 +2,23 @@
 
 <home-fab></home-fab>
 
-  <div layout="row" flex="100" layout-sm="column" layout-wrap>
-    <md-card flex>
+  <div layout="row" flex layout-sm="column" layout-xs="column" layout-md="column">
+    <md-card flex="50" flex-sm="100" flex-xs="100" flex-md="100">
       <md-card-content>
             <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_onlight.svg" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
-        <h3 class="title-header" ng-bind-html="settingsGlobal.home.introduction.title | trustAsHtml"></h3>
-        <div>
+        <h3 class="title-header" layout-padding ng-bind-html="settingsGlobal.home.introduction.title | trustAsHtml"></h3>
+        <div layout-margin style="margin-right: 170px; margin-left: 20px" hide-sm hide-xs hide-md>
           <p class="md-body-1" ng-bind-html="settingsGlobal.home.introduction.text | trustAsHtml"></p>
         </div>
+
+        <div layout-margin>
+          <p class="md-body-1" ng-bind-html="settingsGlobal.home.introduction.text | trustAsHtml"></p>
+        </div>
+      
       </md-card-content>
     </md-card>
-  </div>
 
-  <div layout="row" flex layout-sm="column" layout-xs="column" layout-wrap>
+  <div layout="column" flex layout-sm="column" layout-xs="column">
     <md-card flex ng-if="settingsGlobal.home.widgets.top_motions || settingsGlobal.module.motions">
       <md-card-content flex> 
           <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
@@ -29,7 +33,7 @@
                   <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
                 </md-button>
               </md-list-item>
-              <p ng-if="home.empty.topmotion" ng-cloak class="md-body-1">There are no big ideas right now.</p>
+              <p ng-if="home.empty.topmotion" ng-cloak class="md-body-1">There are no motions right now.</p>
             </md-list>  
       </md-card-content>
     </md-card>
@@ -62,11 +66,13 @@
               <span ng-hide="comment[0].user.public">{{'BY_A' | translate}}</span>
             </md-list-item>
             </div>
-           <p ng-show="home.empty.topcomment" ng-cloak class="md-body-1">There aren't any top comments. </p>
+           <p ng-show="home.empty.topcomment" ng-cloak class="md-body-1">There aren't any top comments.</p>
           </md-list>
 
       </md-card-content>
     </md-card>
+
+  </div>
 
   </div>
 

@@ -44,7 +44,10 @@
 					if( id == this.data[i].id )
 						return this.data[i];
 				}
-				return motion.getMotion(id).then(function(r){ return r; });
+				return motion.getMotion(id).then(function(r){ return r; }
+					, function(error){
+						console.log(error);
+					});
 			},
 			reloadMotionObj: function(id) {
 				motion.getMotion(id).then(function(r){

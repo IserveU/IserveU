@@ -5,11 +5,13 @@
   <md-card-content layout-margin ng-hide="roles.showEdit">
     
 
-    <md-switch has-permission="administrate-permission" ng-model="profile.identity_verified" ng-change="edit.save('identity_verified', profile.identity_verified)" aria-label="Verify user" ng-true-value="1" ng-false-value="0">
-      User is {{ profile.identity_verified ? 'verified' : 'unverified' }}.
-    </md-switch>
 
-    <md-divider has-permission="administrate-permission"></md-divider>
+    <div  has-permission="administrate-permission">
+      <md-switch ng-model="profile.identity_verified" ng-change="edit.save('identity_verified', profile.identity_verified)" aria-label="Verify user" ng-true-value="1" ng-false-value="0">
+        User is {{ profile.identity_verified ? 'verified' : 'unverified' }}.
+      </md-switch>
+      <md-divider></md-divider>
+    </div>
 
     <div layout="row">
         <md-input-container flex>
