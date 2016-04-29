@@ -79,7 +79,7 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function create(CreateUserRequest $request){
-		return (new User)->fields;
+
 	}
 
 	/**
@@ -88,23 +88,8 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function store(StoreUserRequest $request){
-		//Get input less the forgery token
-		$input = $request->except('_token');
-
 		//Create a new user and fill secure fields
-		$newUser = (new User)->secureFill($input);
-
-
-		if(!$newUser->save()){
-			abort(400,$newUser->errors);
-		}
-
-		Auth::loginUsingId($newUser->id);
-
-		$propertyId = $request->get('property_id');
-		if($propertyId){ //A property ID field has been submitted
-			$newUser->property_id = $propertyId; //If the property ID has been chosen, add it to the property_user table
-		}
+		$newUser = User::create($request->except('token'));
 
 		$token = JWTAuth::fromUser($newUser);
 
@@ -130,16 +115,7 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function edit(EditUserRequest $request, User $user){
-		//Check it is this user, if not that this is an admin that can edit users
-		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
-			abort(401,'You do not have permission to edit this user');
-		}
-
-		// $item = new Item($user,$userTransformer);
-
-		// $data = $fractal->createData($item)->toArray();
-
-		return $user->fields;
+		return $this->userTransformer->transform($user);
 	}
 
 
@@ -151,16 +127,9 @@ class UserController extends ApiController {
 	 */
 	public function update(UpdateUserRequest $request, User $user){
 
-		if($user->id != Auth::user()->id && !Auth::user()->can('administrate-user')){
-			abort(401,'You do not have permission to edit this user');
-		}
-
 		//If the user has the authentication level, they can change some things
-		$user->secureFill($request->except('token'));
+		$user->update($request->except('token'));
 
-		if(!$user->save()){ //Validation failed
-			abort(400,$user->errors);
-		}
 	
 		if($request->file('government_identification')){
 			$file = new File;
@@ -177,10 +146,9 @@ class UserController extends ApiController {
 			if(!$file->save()){
 			 	abort(403,$file->errors);
 	      	}
-	      	$user->government_identification_id		=	$file->id;
+	      	$user->avatar_id 	=	$file->id;
 		}
 
-		$user->save();
 		return $user;		
 	}
 
