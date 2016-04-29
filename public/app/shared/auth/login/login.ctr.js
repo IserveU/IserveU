@@ -6,18 +6,18 @@
 		.module('iserveu')
 		.controller('loginController', [
 			'loginService', 'auth', 'resetPasswordService', 
-			'ToastMessage', 'communityIndex', 'motionObj', 
+			'ToastMessage', 'COMMUNITY_INDEX', 'motionObj', 
 			'utils',
 			login]);
 
   	 /** @ngInject */
-	function login(loginService, auth, resetPasswordService, ToastMessage, communityIndex, motionObj, utils) {	
+	function login(loginService, auth, resetPasswordService, ToastMessage, COMMUNITY_INDEX, motionObj, utils) {	
 
 		this.service = loginService;
 		this.extendRegisterForm = extendRegisterForm;
 		this.forgotPassword = forgotPassword;
 		this.sendResetPassword = sendResetPassword;
-		this.communities = communityIndex.data;
+		this.communities = COMMUNITY_INDEX;
 
 		function extendRegisterForm() {
 			this.registerform = !this.registerform;

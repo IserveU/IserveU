@@ -22,7 +22,8 @@ class CheckUserRoles
     }
 
     /**
-     * Handle the event.
+     * Checks that if the user is a citizen they have their address verified.
+     * If their address isn't verified their citizenship is stripped.
      *
      * @param  UserUpdated  $event
      * @return void
@@ -34,17 +35,18 @@ class CheckUserRoles
         $user = $event->user;
         $user->load('roles');
         if($user->hasRole('citizen')){
+
             if(!$user->identity_verified //User is not verified
                  || $user->address_verified_until // Has verified until set
                  || $user->address_verified_until['carbon']->lt(Carbon::now())) //Address is verified prior to this date
             {
                 $user->removeUserRoleByName('citizen');
 
-                if($count($user->delegatedTo)){
+                if(count($user->delegatedTo)){
                     $user->delegatedTo->delete();
                 }
 
-                if($count($user->delegatedFrom)){
+                if(count($user->delegatedFrom)){
                     $user->delegatedFrom->delete();
                 }
             }
@@ -57,7 +59,5 @@ class CheckUserRoles
             return true;
         }
 
-
-      //  print_r(DB::getQueryLog());
     }
 }

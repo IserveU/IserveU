@@ -11,13 +11,15 @@
 			<div ng-show="!create.writing && !create.comment && vote.user" layout="column" layout-padding flex>
 				<form layout="column" name="commentForm" flex="100"> 
 					<md-input-container flex>
-						<textarea columns="4" ng-model="text"></textarea>
+						<textarea columns="4" ng-model="text" required></textarea>
 					</md-input-container>
 
-				    <div layout="row" layout-align="front center"> 
-				    	<spinner name="'Submit'" ng-click="create.submit(vote.user.id, text)" on-hide="create.posting"></spinner>
-				    	<md-button ng-click="create.write()" translate="{{'CLOSE'}}" aria-label="cancel writing comment"></md-button>
-					</div>
+
+					<spinner layout="row" layout-align="front end" primary-action="create.submit(vote.user.id, text)"
+							 form-name="commentForm" name="'Submit'" on-hide="create.posting" 
+							 secondary-btn="{control: create.writeComment, name: 'Close'}">
+					</spinner>
+
 				</form>
 			</div>
 		</section>
@@ -29,14 +31,7 @@
 				<h1>Your comment</h1>
 			</header>
 
-			<div class="inline-action-buttons">
-				<md-button class="md-icon-button" ng-click="create.editComment()" aria-label="edit comment button">
-					<md-icon class="md-primary mdi mdi-pencil"></md-icon>
-				</md-button>
-				<md-button class="md-icon-button" ng-click="create.delete()" aria-label="delete comment button">
-					<md-icon class="md-warn mdi mdi-delete"></md-icon>
-				</md-button>
-			</div>
+
 
 			<!-- TODO: php return the number of comment votes in the thisUsersComment array -->
 	<!-- 		<div class="comment-votes">
@@ -46,18 +41,30 @@
 				<h4 class="title-subhead">3</h4>		
 			</div> -->
 
-			<p class="md-body-1" ng-show="!create.editing">{{ create.comment.text }}</p>
+			<p class="md-body-1" ng-hide="create.editing">{{ create.comment.text }}</p>
+
+
 
 			<div ng-show="create.editing" layout="column">
 				<md-input-container>
-					<textarea layout-padding columns="1" aria-label="Your comment" ng-model="create.comment.text" focus-input="create.editing"></textarea>
+					<textarea layout-padding aria-label="Your comment" ng-model="create.comment.text" focus-input="create.editing"></textarea>
 				</md-input-container>
-
-				<div layout="row">
-					<spinner name="'Save Comment'" ng-click="create.update(); create.editComment()"></spinner>
-					<md-button ng-click="create.editComment()" translate="{{'CLOSE'}}" aria-label="close edit comment"></md-button>
-				</div>
+				<spinner layout="row" primary-action="create.update(); create.editComment()"
+						 name="'Save Comment'"
+						 secondary-btn="{control: create.editComment, name: 'Close'}">
+				</spinner>
 			</div>
+
+			<div ng-hide="create.editing" class="inline-action-buttons" layout layout-align="end end">
+				<md-button class="md-icon-button" ng-click="create.editComment()" aria-label="edit comment button">
+					<md-icon class="md-primary mdi mdi-pencil"></md-icon>
+				</md-button>
+				<md-button class="md-icon-button" ng-click="create.delete()" aria-label="delete comment button">
+					<md-icon class="md-warn mdi mdi-delete"></md-icon>
+				</md-button>
+			</div>
+
+
 		</section>
 
 

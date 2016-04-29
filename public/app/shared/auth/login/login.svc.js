@@ -36,9 +36,7 @@
 			auth.login( credentials )
 				.then(function(r) {
 
-				motionObj.getMotions();
-				$rootScope.authenticatedUser = r.data.user;
-				setLocalStorage( credentials );
+				successHandler(r.data.user, r.data.token);
 			
 			}, function(e) {
 
@@ -55,8 +53,7 @@
 			auth.postUserCreate( factory.newUser )
 				.then(function(r){
 				
-				login({email: factory.newUser.email, 
-					   password:factory.newUser.password} );
+				successHandler(r.data.user, r.data.token);
 			
 			}, function(e) {
 
@@ -67,16 +64,16 @@
 			});
 		};
 
-		function setLocalStorage(credentials) {
+		function successHandler(user, token) {
 
-			auth.postAuthenticate( credentials )
-				.then(function(r) {
-				
-				afterauth.setLoginAuthDetails(r.data.user);
-				localStorage.setItem('public_computer', factory.publicComputer);
+			motionObj.getMotions();
 			
-			});
-		};
+			$rootScope.authenticatedUser = user;
+			
+			afterauth.setLoginAuthDetails(user, token);
+
+			localStorage.setItem('public_computer', factory.publicComputer);
+		}
 
 
 		function errorHandler(message) {

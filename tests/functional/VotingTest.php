@@ -42,27 +42,29 @@ class VotingTest extends TestCase
 
         // Create a new motion as a regular user
         $creator = $verifiedUsers->random();
-        $motion  = postMotion( $this->authenticate($creator) );
 
-        // Make 3 councillors (C1, C2, C3)
-        $councillors = factory(App\User::class, 'verified', 3)->create()->each(function($u){
-            $u->addUserRoleByName('councillor');
+        $this->signIn($creator);
+        $motion  = postMotion($this);
+
+        // Make 3 representatives (C1, C2, C3)
+        $representatives = factory(App\User::class, 'verified', 3)->create()->each(function($u){
+            $u->addUserRoleByName('representative');
         });
 
-        $C1 = $councillors->pop();
-        $C2 = $councillors->pop();
-        $C3 = $councillors->pop();
+        $C1 = $representatives->pop();
+        $C2 = $representatives->pop();
+        $C3 = $representatives->pop();
 
-        // Set motion to active with one of the councillor accounts
-        $C1 = $this->authenticate($C1);
+        // Set motion to active with one of the representative accounts
+        $C1 = $this->signIn($C1);
         $publishedMotion = publishMotion($motion, $C1);
         // dd($publishedMotion);
         $this->assertEquals($publishedMotion->status, 2);
 
-        // 1 Councillor votes for, one votes against
-        $response = $C1->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => 1]);
+        // 1 representative votes for, one votes against
+        $response = $this->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => 1]);
       //  dd($response);
-        $C2->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => -1]);
+        $this->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => -1]);
 
         // Check that 20 voted for, 20 voted against
         $motionVotes = $this->get('/api/motion/'.$publishedMotion->id.'/vote');

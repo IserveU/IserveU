@@ -11,12 +11,12 @@ use Setting;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\CreateMotionRequest;
-use App\Http\Requests\DestroyMotionRequest;
-use App\Http\Requests\EditMotionRequest;
-use App\Http\Requests\ShowMotionRequest;
-use App\Http\Requests\StoreMotionRequest;
-use App\Http\Requests\UpdateMotionRequest;
+use App\Http\Requests\Motion\CreateMotionRequest;
+use App\Http\Requests\Motion\DestroyMotionRequest;
+use App\Http\Requests\Motion\EditMotionRequest;
+use App\Http\Requests\Motion\ShowMotionRequest;
+use App\Http\Requests\Motion\StoreMotionRequest;
+use App\Http\Requests\Motion\UpdateMotionRequest;
 
 use App\Transformers\MotionTransformer;
 

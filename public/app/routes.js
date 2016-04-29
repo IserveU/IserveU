@@ -119,18 +119,10 @@
                     return user.getUser($stateParams.id)
                         .then(function(r) {
                             return profile = r; });
-                }],
-                communityIndex: ['$http', function($http) {
-                    var community;
-                    return $http.get('/api/community')
-                        .success(function(r){
-                            return community = r;
-                    });
                 }]
             },
-            controller: ['$scope', 'profile', 'communityIndex', function($scope, profile, communityIndex) {
+            controller: ['$scope', 'profile', function($scope, profile) {
                 $scope.profile = profile;
-                $scope.communities = communityIndex.data;
             }]
         }) 
         .state( 'create-user', {
@@ -148,21 +140,8 @@
         	templateUrl: 'app/shared/auth/login/login.tpl.html',
             data: {
                 requireLogin: false
-            },
-            resolve: {
-                communityIndex: ['$http', function($http) {
-                    var community;
-                    return $http.get('/api/community')
-                        .success(function(r){
-                            return community = r;
-                    });
-                }]
-            } 
+            }
     	})
-        .state('testing', {
-            url: '/testing',
-            template: '<edit-address></edit-address>'
-        })
     	.state('login.resetpassword', {
     		url: '/:token',
     		data: {

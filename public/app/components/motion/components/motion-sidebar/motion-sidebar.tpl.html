@@ -24,18 +24,18 @@
       <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg">
         <md-tooltip md-direction="right">{{ ::motion.department }}</md-tooltip>
       </md-icon>
-      <p ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
+
+      <p class="md-body-1 ellipsis" ui-sref="motion({id:motion.id})">{{ ::motion.title }}</p>
+      
       <quick-vote ng-if="userIsLoggedIn"></quick-vote>
 
     </md-list-item>
 
-    <has-permission has-permission="create-motion">
-      <md-list-item layout="row" ng-click="sidebar.closeSidenav('left')" ui-sref-active="active" layout-padding>  
-          <p ui-sref="create-motion">{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
-          <md-icon class="mdi mdi-plus" aria-label="create motion"></md-icon>
-      </md-list-item>
-    </has-permission>
-  
+    <md-list-item has-permission="create-motion" layout="row" ng-click="sidebar.closeSidenav('left')" ui-sref-active="active">  
+        <p ui-sref="create-motion">{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
+        <md-icon class="mdi mdi-plus" aria-label="create motion"  layout-margin></md-icon>
+    </md-list-item>
+
 
     <md-list-item ng-if="sidebar.motionObj.data.length == 0 && !sidebar.motionListLoading">
       <p class="md-body-1 ellipsis" translate="{{'NO_MOTIONS'}}"></p>
@@ -43,11 +43,19 @@
 
     <md-progress-circular md-mode="indeterminate" ng-show="sidebar.motionObj.data.length && sidebar.motionListLoading"></md-progress-circular>
 
-    <md-subheader>
+    <md-subheader ng-hide="!itemsInReview.length">
         <p>Upcoming {{ 'MOTIONS' | translate }}:</p>
     </md-subheader>
 
-    <md-list-item layout="row" ng-repeat="review in sidebar.motionObj.data | isInReview | uniqueId | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+<!--     <md-list-item layout="row" ng-repeat="review in sidebar.motionObj.data | isInReview | uniqueId | filter:sidebar.search.text" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+
+      <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon>
+      <p ui-sref="motion({id:review.id})">{{ ::review.title }}</p>
+    </md-list-item> -->
+
+
+    <md-list-item layout="row" ng-repeat="review in itemsInReview = (sidebar.motionObj.data | isInReview | uniqueId | filter:sidebar.search.text)" ui-sref-active="active" ng-click="sidebar.closeSidenav('left')">
+
       <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon>
       <p ui-sref="motion({id:review.id})">{{ ::review.title }}</p>
     </md-list-item>

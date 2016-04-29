@@ -42,7 +42,10 @@
 	                ToastMessage.simple("Comment post successful!");
 	            	factory.getMotionComments($stateParams.id);
 	                factory.writing = factory.posting = false;
-	            }, function(e){ ToastMessage.report_error(e); });    
+	            }, function(e){ 
+	            	factory.posting = false; 
+	            	ToastMessage.report_error(e); 
+	            });    
 			},
 			write: function() {
 				this.writing = !this.writing;

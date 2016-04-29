@@ -6,7 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AdministratorTest extends TestCase
 {
-    //use DatabaseTransactions;
+    use DatabaseTransactions;    
+    use WithoutMiddleware;
 
     public function setUp()
     {
@@ -27,7 +28,7 @@ class AdministratorTest extends TestCase
     {
         $motion =  factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id);
 
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
@@ -40,7 +41,7 @@ class AdministratorTest extends TestCase
 
         $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
 
-        $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id);
         
         $this->assertResponseOk();
     }
@@ -70,22 +71,18 @@ class AdministratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_motion()
-    {
-        $motion  = postMotion($this);
-        
-        // Update Motion
-        $closing = createClosingDate();
+    public function it_can_update_a_closing_date_motion()
+    {       
+        $updated = factory(App\Motion::class)->create()->toArray();
 
-        $updated = factory(App\Motion::class, 'as_this_user')->make()->toArray();
+        // Create new Closing Date
         $updated = array_merge($updated, createClosingDate() );
 
-        $updated = $this->call('PATCH', '/api/motion/'.$motion->id.'?token='.$this->token, $updated);
-
-        $updated = $updated->getOriginalContent();
+        $this->call('PATCH', '/api/motion/'.$updated['id'], $updated);
 
         $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['title' => $updated->title, 'summary' => $updated->summary, 'closing' => $closing]);
+
+        $this->seeInDatabase('motions', ['title' => $updated['title'], 'summary' => $updated['summary'], 'closing' => $updated['closing']]);
     }
 
     /** @test */
@@ -96,7 +93,7 @@ class AdministratorTest extends TestCase
         $new_position = switchVotePosition();
 
         // Update Vote
-        $this->call('PATCH', '/api/vote/'.$vote->id.'?token='.$this->token, 
+        $this->call('PATCH', '/api/vote/'.$vote->id, 
                   [ 'position' => $new_position, 'id' => $vote->id ]);
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => $new_position, 'user_id' => $this->user->id]);
@@ -109,7 +106,7 @@ class AdministratorTest extends TestCase
         // Update comment
         $new_comment = factory(App\Comment::class)->make(['id' => $comment->id])->toArray();
 
-        $this->call('PATCH', '/api/comment/'.$comment->id.'?token='.$this->token, $new_comment);
+        $this->call('PATCH', '/api/comment/'.$comment->id, $new_comment);
         $this->assertResponseOk();
         $this->seeInDatabase('comments', [ 'id' => $comment->id, 'text' => $new_comment['text'] ]);
     }
@@ -121,7 +118,7 @@ class AdministratorTest extends TestCase
 
         $new_position = switchVotePosition();
 
-        $this->call('PATCH', '/api/comment_vote/'.$comment_vote->id.'?token='.$this->token, 
+        $this->call('PATCH', '/api/comment_vote/'.$comment_vote->id, 
                   [ 'position' => $new_position ]);
         $this->assertResponseOk();
         $this->seeInDatabase('comment_votes', ['id' => $comment_vote->id, 'position' => $new_position]);
@@ -133,7 +130,7 @@ class AdministratorTest extends TestCase
         $motion  = postMotion($this);
         
         // Delete Motion
-        $response = $this->call('DELETE', '/api/motion/'.$motion->id.'?token='.$this->token);
+        $response = $this->call('DELETE', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
         $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
     }
@@ -144,12 +141,12 @@ class AdministratorTest extends TestCase
         $motion  = postMotion($this);
         
         // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$motion->id.'?token='.$this->token);
+        $this->call('DELETE', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
         $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
 
         // Restore motion
-        $this->call('GET', '/api/motion/'.$motion->id.'/restore?token='.$this->token);
+        $this->call('GET', '/api/motion/'.$motion->id.'/restore');
         $this->assertResponseOk();
         $this->seeInDatabase('motions', ['deleted_at' => null]);
     }
@@ -162,7 +159,7 @@ class AdministratorTest extends TestCase
         $vote = postVote($this);
         
         // Delete Vote
-        $this->call('DELETE', '/api/vote/'.$vote->id.'?token='.$this->token);
+        $this->call('DELETE', '/api/vote/'.$vote->id);
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => 0, 'user_id' => $this->user->id]);
 
@@ -174,7 +171,7 @@ class AdministratorTest extends TestCase
         $comment = postComment($this);
         
         // Delete comment
-        $delete = $this->call('DELETE', '/api/comment/'.$comment->id.'?token='.$this->token);
+        $delete = $this->call('DELETE', '/api/comment/'.$comment->id);
         $delete = $delete->getOriginalContent();
 
         $this->assertResponseOk();
@@ -186,12 +183,12 @@ class AdministratorTest extends TestCase
     {
         $comment_vote = postCommentVote($this);
         
-        $this->call('DELETE', '/api/comment_vote/'.$comment_vote->id.'?token='.$this->token);
+        $this->call('DELETE', '/api/comment_vote/'.$comment_vote->id);
         $this->assertResponseOk();
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }
 
-    /****************** DUPLICATE FROM COUNCILLOR TESTS ********************/
+    /****************** DUPLICATE FROM representative TESTS ********************/
 
 
 
@@ -204,7 +201,7 @@ class AdministratorTest extends TestCase
     *  - be able to switch the status of a motion from 'draft' to 'published', etc.
     *
     *
-    *  Note: if you complete councillor tests first, and then copy it over, it should replicate exactly
+    *  Note: if you complete representative tests first, and then copy it over, it should replicate exactly
     *        what it is you need; and you would just flip the negative tests from 403/401's to 200's. Saving you time.
     *
     ******************************************************************/

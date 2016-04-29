@@ -55,16 +55,16 @@
 				return $sce.trustAsHtml(value);
 			}
 		}])
-		.filter('isPublished', function(){
+		.filter('isPublished', ['$rootScope', 'Authorizer', function($rootScope, Authorizer){
 			return function (value){
 				var out = [];
 				for (var i in value) {
-					if ( value[i].status > 1 )
+					if ( value[i].status > 1 || (Authorizer.canAccess('administrate-motion') && value[i].status == 0))
 						out.push(value[i]);
 				}
 				return out;
 			};
-		})
+		}])
 		.filter('isInReview', function(){
 			return function (value){
 				var out = [];

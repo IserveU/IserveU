@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\Events\Setup\Initialize;
 use App\User;
+use Setting;
 
 class InitializeApp extends Command
 {
@@ -65,7 +66,7 @@ class InitializeApp extends Command
             'email'         =>  $email
             ],[
             'email'         =>  $email,
-            'password'      =>  \Hash::make($password),
+            'password'      =>  $password,
             'first_name'    => 'Default',
             'last_name'     => 'User',
             'public'        => 1

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Motion;
 
 use App\Http\Requests\Request;
 use App\Vote;
@@ -17,16 +17,15 @@ class ShowMotionRequest extends Request
     {
         $motion =  $this->route()->parameter('motion');
 
-        
-
         if($motion->status < 2){
             if(!Auth::check()){
                 return false;
             }
 
-            dd(Auth::user());
+          //  dd('sdf');
 
             if(!Auth::user()->can('administrate-motion')){
+
                 return false;
             }
         }

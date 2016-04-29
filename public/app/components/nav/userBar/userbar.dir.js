@@ -18,7 +18,7 @@
 			this.pageObj = pageObj;
 			this.preferredLang = "English";
 			this.languages = [{name:'English', key:'en'},
-							{name:'French', key:'fr'}];
+							  {name:'French', key:'fr'}];
 
 			this.logout = logoutService;
 			this.menuButton = false;
@@ -40,7 +40,7 @@
 			controller: ['$translate', '$mdSidenav', '$mdMedia', '$scope', 'auth', 'afterauth', 'UserbarService', 'pageObj', 'logoutService', 
 			    UserbarController],
 			controllerAs: 'user',
-			templateUrl: 'app/shared/nav/userbar/userbar-production.tpl.html'
+			templateUrl: 'app/components/nav/userbar/userbar.tpl.html'
 		}
 
 	}

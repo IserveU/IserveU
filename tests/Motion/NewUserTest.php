@@ -6,12 +6,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewUserTest extends TestCase
 {
-    use DatabaseTransactions;
+   // use DatabaseTransactions;
+    use WithoutMiddleware;
 
     public function setUp(){
         parent::setUp();
-
-        $this->published_motion = factory(App\Motion::class, 'published')->create();
         
         $this->signIn();
     }
@@ -28,9 +27,10 @@ class NewUserTest extends TestCase
                   'password'          => str_random(10)
                 ];
 
-        $this->expectsEvents(App\Events\UserCreated::class);
+        $this->expectsEvents(App\Events\User\UserCreated::class);
 
         $this->call('POST', '/api/user', $user);
+
 
         $this->assertResponseOk();
 
@@ -40,9 +40,10 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_can_see_a_closed_motion()
     {
-        $motion = factory(App\Motion::class, 'closed')->create();
+        $motion = factory(App\Motion::class,'closed')->create();
 
-        $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $response = $this->call('GET', '/api/motion/'.$motion->id);
+
 
         $this->assertResponseOk();
 
@@ -54,7 +55,8 @@ class NewUserTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'draft')->create();
 
-        $response = $this->call('GET', '/api/motion/'.$motion->id, ['token' => $this->token]);
+        $response = $this->call('GET', '/api/motion/'.$motion->id);
+
 
         $this->assertEquals(403, $response->status());
     }
@@ -62,9 +64,9 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_can_see_comments_made_on_the_motion()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id.'/comment', ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id.'/comment');
 
         $this->assertResponseOk();
     }
@@ -72,9 +74,9 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_can_see_the_total_votes_of_the_motion()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id.'/vote', ['token' => $this->token]);
+        $this->call('GET', '/api/motion/'.$motion->id.'/vote');
 
         $this->assertResponseOk();
     }
@@ -85,22 +87,22 @@ class NewUserTest extends TestCase
         $draft = factory(App\Motion::class, 'draft')->make()->toArray();
         $review = factory(App\Motion::class, 'review')->make()->toArray();
 
-        $response = $this->call('POST', '/api/motion?token='.$this->token, $draft);
-        $this->assertEquals(401, $response->status());
+        $response = $this->call('POST', '/api/motion', $draft);
+        $this->assertEquals(403, $response->status());
 
-        $response = $this->call('POST', '/api/motion?token='.$this->token, $review);
-        $this->assertEquals(401, $response->status());
+        $response = $this->call('POST', '/api/motion', $review);
+        $this->assertEquals(403, $response->status());
     }
 
     /** @test */
     public function it_cannot_create_a_vote()
     {
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         $vote = ['position'  => 1, 
                  'motion_id' => $motion->id];
 
-        $response = $this->call('POST', '/api/vote?token='.$this->token, $vote);
+        $response = $this->call('POST', '/api/vote', $vote);
 
         $this->assertEquals(401, $response->status());
     }
@@ -110,12 +112,12 @@ class NewUserTest extends TestCase
     {
         $faker = Faker\Factory::create();
 
-        $motion = $this->published_motion;
+        $motion = factory(App\Motion::class, 'published')->create();
 
         $comment = ['vote_id'  => 1, 
                     'motion_id' => $motion->id];
 
-        $response = $this->call('POST', '/api/comment?token='.$this->token, $comment);
+        $response = $this->call('POST', '/api/comment', $comment);
 
         $this->assertEquals(401, $response->status());
     }
@@ -125,9 +127,10 @@ class NewUserTest extends TestCase
     {
         $user = factory(App\User::class, 'private')->create();
 
-        $response = $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
 
-        $this->assertEquals(401, $response->status());
+        $response = $this->call('GET', '/api/user/'.$user->id);
+
+        $this->assertEquals(403, $response->status());
     }
 
     /** @test */
@@ -138,17 +141,18 @@ class NewUserTest extends TestCase
         $updateData = ['first_name' => 'updated_first_name', 
                        'last_name'  => 'updated_last_name'];
 
-        $response = $this->call('PATCH', '/api/user/'.$user->id.'?token='.$this->token, $updateData);
+        $response = $this->call('PATCH', '/api/user/'.$user->id, $updateData);
 
-        $this->assertEquals(401, $response->status());
+        $this->assertEquals(403, $response->status());
     }
 
     /** @test */
     public function it_can_see_a_public_users_details()
     {
-        $user = factory(App\User::class, 'public')->create();
+        $user = factory(App\User::class,'public')->create();
 
-        $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
+        $this->call('GET', '/api/user/'.$user->id);
+
 
         $this->assertResponseOk();
 
@@ -160,7 +164,7 @@ class NewUserTest extends TestCase
     {
         $user = $this->user;
 
-        $response = $this->call('GET', '/api/user/'.$user->id, ['token' => $this->token]);
+        $response = $this->call('GET', '/api/user/'.$user->id);
 
         $this->assertResponseOk();
 
@@ -175,7 +179,7 @@ class NewUserTest extends TestCase
         $updateData = ['first_name' => 'updated_first_name', 
                        'last_name'  => 'updated_last_name'];
 
-        $this->call('PATCH', '/api/user/'.$user->id.'?token='.$this->token, $updateData);
+        $this->call('PATCH', '/api/user/'.$user->id, $updateData);
 
         $this->assertResponseOk();
 

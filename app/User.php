@@ -33,7 +33,7 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserDeleted;
 
 
-class User extends ApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
 	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
 
@@ -58,36 +58,10 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','public','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var array
-	 */
-	protected $adminFillable = ['identity_verified', 'address_verified_until'];
 
-	/**
-	 * The default attributes included in any JSON/Array
-	 * @var array
-	 */
-	protected $visible = ['public', 'user_role'];
-
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var array
-	 */
-	protected $adminVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','login_attempts','created_at','updated_at','identity_verified', 'permissions', 'user_role', 'votes','address_verified_until','government_identification','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var array
-	 */
-	protected $creatorVisible = ['first_name','last_name','middle_name','email','ethnic_origin_id','date_of_birth','public','id','permissions','votes','address_verified_until','need_identification','avatar', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id'];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  ['first_name','last_name','public','id','votes','totalDelegationsTo','avatar'];
+	protected $hidden = ['password'];
 
 	/**
 	 * The mapped attributes for 1:1 relations
@@ -103,30 +77,7 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 */	
     protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','government_identification','need_identification'];
 
-    /**
-     * The rules for all the variables
-     * @var array
-     */
-	protected $rules = [	
-		'email' 					=>	'email|unique:users,email',
-	    'password'					=>	'min:8',
-	    'first_name'				=>	'string',
-	    'middle_name'				=>	'string',
-	    'last_name'					=>	'string',
-	    'ethnic_origin_id'			=>	'integer|exists:ethnic_origins,id',
-	    'date_of_birth'				=>	'date|sometimes',
-	    'public'					=>	'boolean',
-        'id'       					=>	'integer',
-	    'login_attempts'			=>	'integer',
-	    'identity_verified'			=>	'boolean',
-	    'remember_token'			=>	'unique:users,remember_token',
-		'postal_code'				=>  'string',
-		'street_name'				=>  'string',
-		'street_number'				=>  'integer',
-		'unit_number'				=>  'integer',
-		'address_verified_until'	=>	'date|before:+1100 days',
-		'agreement_accepted'		=>	'boolean'
-	];
+    protected $with = ['roles','community'];
 
 	/**
 	 * The variables that are required when you do an update
@@ -145,23 +96,6 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $unique = ['email', 'remember_token'];
-
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'email' 					=>	['tag'=>'input','type'=>'email','label'=>'EMAIL_ADDRESS','placeholder'=>'Email Address'],
-	    'password'					=>	['tag'=>'input','type'=>'password','label'=>'PASSWORD','placeholder'=>'Your Password'],
-	    'first_name'				=>	['tag'=>'input','type'=>'input','label'=>'FIRST_NAME','placeholder'=>'First Name'],
-	    'middle_name'				=>	['tag'=>'input','type'=>'input','label'=>'MIDDLE_NAME','placeholder'=>'Middle Name'],
-	    'last_name'					=>	['tag'=>'input','type'=>'input','label'=>'LAST_NAME','placeholder'=>'Last Name'],
-	    'ethnic_origin_id'			=>	['tag'=>'md-select','type'=>'select','label'=>'ETHNIC_ORIGIN','placeholder'=>'Primary Ethnic Origin'],
-	    'date_of_birth'				=>	['tag'=>'input','type'=>'date','label'=>'BIRTHDAY','placeholder'=>'Date of Birth'],
-	    'public'					=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'PUBLIC','placeholder'=>'Enable Public Profile'],
-	    'identity_verified'			=>	['tag'=>'md-switch','type'=>'md-switch','label'=>'IDENTITY_VERIFIED','placeholder'=>'User Is Verified'],
-
-	];
 
 
 	/**
@@ -277,11 +211,11 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
     	}
 
     	if($representatives->isEmpty()){
-            return true;// "there are no councillors";
+            return true;// "there are no representatives";
         }
 
         if($this->hasRole('representative')){
-        	return true; //A councillor cannot delegate
+        	return true; //A representative cannot delegate
         }
 
         // Code to potentially do this more efficiently with fewer database calls
@@ -439,8 +373,9 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 		if($this->hasRole('representative') && !$value){
 			abort(403,'A representative must have a pubilc profile');
 		}
-		$this->attributes['public'] = 1;
+		$this->attributes['public'] = $value; //This was setting everyone to public
 	}
+
 
 
 
@@ -598,5 +533,9 @@ class User extends ApiModel implements AuthorizableContract, CanResetPasswordCon
 
 	public function avatar(){
 		return $this->belongsTo('App\File','avatar_id');
+	}
+
+	public function community(){
+		return $this->belongsTo('App\Community');
 	}
 }
