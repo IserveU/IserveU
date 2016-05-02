@@ -16,8 +16,9 @@ class UpdateMotionRequest extends Request
      */
     public function authorize()
     {        
+     //  $motion = $this->route()->parameter('motion');
 
-       $requestAllowed = (new MotionPolicy())->requestAllowed($this,$this->route()->parameter('motion'));
+       return (new MotionPolicy())->inputsAllowed($this->input(),$this->route()->parameter('motion'));
 
 
        dd($requestAllowed);

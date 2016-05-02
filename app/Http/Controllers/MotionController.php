@@ -17,6 +17,7 @@ use App\Http\Requests\Motion\EditMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreMotionRequest;
 use App\Http\Requests\Motion\UpdateMotionRequest;
+use App\Http\Requests\Motion\IndexMotionRequest;
 
 use App\Transformers\MotionTransformer;
 
@@ -42,53 +43,58 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index(Request $request)
+	public function index(IndexMotionRequest $request)
 	{	
-		$filters = $request->all();
 		$limit = $request->get('limit') ?: 10;
 
+
 		if( Auth::check() ){ //Logged in user will want to see if they voted on these things
+
 			$motions = Motion::with(['votes' => function($query){
 				$query->where('user_id',Auth::user()->id);
 			}]);
+		
+			//dd(DB::getQueryLog());
 		} else {
-			$motions = Motion::where('id','>',0);
+			$motions = (new Motion)->newQuery();
 		}
 
-		if(isset($filters['rank_greater_than']) && is_numeric($filters['rank_greater_than'])){
-			$motions->rankGreaterThan($filters['rank_greater_than']);
+		$motions->status($request->input('status'));
+
+		if($request->has('rank_greater_than')){
+			$motions->rankGreaterThan($request->input('rank_greater_than'));
 		}
 
-		if(isset($filters['rank_less_than']) && is_numeric($filters['rank_less_than'])){
-			$motions->rankLessThan($filters['rank_less_than']);
+		if($request->has('user_id')){
+			$motions->writer($request->input('user_id'));
 		}
 
-		if(isset($filters['department_id']) && is_numeric($filters['department_id'])){
-			$motions->department($filters['department_id']);
+		if($request->has('rank_less_than')){
+			$motions->rankLessThan($request->input('rank_less_than'));
 		}
 
-		if(isset($filters['is_active'])){
-			$motions->active($filters['is_active']);
+		if($request->has('department_id')){
+			$motions->department($request->input('department_id'));
 		}
 
-		if(isset($filters['is_expired'])){
-			$motions->expired($filters['is_expired']);
+		if($request->has('is_current')){
+			$motions->current($request->input('is_current'));
 		}
 
-		if(isset($filters['is_current'])){
-			$motions->current($filters['is_current']);
+		if($request->has('is_expired')){
+			$motions->expired($request->input('is_expired'));
 		}
 
-		if(isset($filters['newest'])){
-			$motions->orderByNewest($filters['newest']);
+		if($request->has('newest')){
+			$motions->orderByNewest($request->input('newest'));
+		}
+	
+		if($request->has('oldest')){
+			$motions->orderByOldest($request->input('oldest'));
 		}
 
-		if(isset($filters['oldest'])){
-			$motions->orderByOldest($filters['oldest']);
-		}
-
-		if(isset($filters['take'])){
-			$motions->take($filters['take']);
+		if($request->has('take')){
+			$motions->take($request->input('take'));
 		} else {
 			$motions->take(1);
 		}

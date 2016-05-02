@@ -198,7 +198,6 @@ class Motion extends ApiModel {
 
 		$this->attributes['status'] = $value;
 
-
 		return true;
 	}
 
@@ -208,8 +207,17 @@ class Motion extends ApiModel {
 
 	/************************************* Scopes ***************************************************/
 
+	//Maybe just depreciate this for the global scope below?
 	public function scopePublished($query){
 		return $query->where('status',2);
+	}
+
+	public function scopeStatus($query,$status=2){
+		return $query->where('status',$status);
+	}
+
+	public function scopeWriter($query,$user_id){
+		return $query->where('user_id',$user_id);
 	}
 
 	public function scopeExpired($query){

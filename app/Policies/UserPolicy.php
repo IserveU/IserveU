@@ -29,7 +29,7 @@ class UserPolicy
         }
 
         return $user->setVisible(['id']); //Private user
-
-
     }
+
+
 }

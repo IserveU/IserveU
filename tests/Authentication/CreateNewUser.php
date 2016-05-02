@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateNewUser extends TestCase
 {
-	
+
 
 	/** @test **/
     public function submit_new_user_details()
@@ -15,7 +15,7 @@ class CreateNewUser extends TestCase
         $user = factory(App\User::class)->make();
 
         $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
-
+        $this->expectsEvents(App\Events\User\UserCreated::class);
         $content = json_decode($this->response->getContent());
    
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');

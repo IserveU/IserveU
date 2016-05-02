@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewUserTest extends TestCase
 {
-   // use DatabaseTransactions;
+    use DatabaseTransactions;
     use WithoutMiddleware;
 
     public function setUp(){
@@ -15,27 +15,68 @@ class NewUserTest extends TestCase
         $this->signIn();
     }
 
+
     /** @test */
-    public function it_can_be_created()
+    public function it_can_see_motion_index()
     {
-        $faker = Faker\Factory::create();
+        $motionDraft = factory(App\Motion::class,'draft')->create();
+        $motionMyDraft = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $this->user->id 
+        ]);
+        $motionReview = factory(App\Motion::class,'review')->create();
+        $motionMyReview = factory(App\Motion::class,'review')->create([
+            'user_id'   => $this->user->id 
+        ]);
+        $motionPublished = factory(App\Motion::class,'published')->create();
+        $motionMyPublished = factory(App\Motion::class,'published')->create([
+            'user_id'   => $this->user->id
+        ]);
+        $motionClosed = factory(App\Motion::class,'closed')->create();
+        $motionMyClosed = factory(App\Motion::class,'closed')->create([
+            'user_id'   => $this->user->id
+        ]);
 
-        $user = [ 'first_name'        => $faker->firstName,
-                  'middle_name'       => $faker->name,
-                  'last_name'         => $faker->lastName,
-                  'email'             => $faker->email,
-                  'password'          => str_random(10)
-                ];
+        $this->call('GET', '/api/motion/');
+        $this->assertResponseStatus(403);
 
-        $this->expectsEvents(App\Events\User\UserCreated::class);
+        $this->call('GET', '/api/motion/',['status'=>0]);
+        $this->assertResponseStatus(403);
 
-        $this->call('POST', '/api/user', $user);
+        $this->call('GET', '/api/motion/',['status'=>1]);
+        $this->assertResponseStatus(403);
+
+        $this->call('GET', '/api/motion/',['status'=>2]);
+        $this->assertResponseStatus(200);
+
+        $this->call('GET', '/api/motion/',['status'=>3]);
+        $this->assertResponseStatus(200);
 
 
-        $this->assertResponseOk();
+        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>0,'user_id'=>$this->user->id]);
+        $this->see($motionMyDraft->title);
+      
+        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>1,'user_id'=>$this->user->id]);     
+        $this->see($motionMyReview->title);
 
-        $this->seeInDatabase( 'users', [ 'email' => $user['email'] ] );
+        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>2,'user_id'=>$this->user->id]);
+        $this->see($motionMyPublished->title);
+
+            //If not filtering user
+            $this->call('GET', '/api/motion/',['limit'=>5000,'status'=>2]);
+            $this->see($motionPublished->title);
+            $this->see($motionMyPublished->title);
+
+
+        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>3,'user_id'=>$this->user->id]);
+        $this->see($motionMyClosed->title);
+
+        // If not filtering user
+        $this->call('GET', '/api/motion/',['limit'=>5000,'status'=>3]);
+            $this->see($motionClosed->title);
+            $this->see($motionMyClosed->title);
+
     }
+
 
     /** @test */
     public function it_can_see_a_closed_motion()
@@ -43,7 +84,6 @@ class NewUserTest extends TestCase
         $motion = factory(App\Motion::class,'closed')->create();
 
         $response = $this->call('GET', '/api/motion/'.$motion->id);
-
 
         $this->assertResponseOk();
 
@@ -120,71 +160,6 @@ class NewUserTest extends TestCase
         $response = $this->call('POST', '/api/comment', $comment);
 
         $this->assertEquals(401, $response->status());
-    }
-
-    /** @test */
-    public function it_cannot_see_a_private_users_details()
-    {
-        $user = factory(App\User::class, 'private')->create();
-
-
-        $response = $this->call('GET', '/api/user/'.$user->id);
-
-        $this->assertEquals(403, $response->status());
-    }
-
-    /** @test */
-    public function it_cannot_update_another_users_details()
-    {
-        $user = factory(App\User::class, 'private')->create();
-
-        $updateData = ['first_name' => 'updated_first_name', 
-                       'last_name'  => 'updated_last_name'];
-
-        $response = $this->call('PATCH', '/api/user/'.$user->id, $updateData);
-
-        $this->assertEquals(403, $response->status());
-    }
-
-    /** @test */
-    public function it_can_see_a_public_users_details()
-    {
-        $user = factory(App\User::class,'public')->create();
-
-        $this->call('GET', '/api/user/'.$user->id);
-
-
-        $this->assertResponseOk();
-
-        $this->seeJson(['id' => $user->id, 'first_name' => $user->first_name]);
-    }
-
-    /** @test */
-    public function it_can_see_its_own_details()
-    {
-        $user = $this->user;
-
-        $response = $this->call('GET', '/api/user/'.$user->id);
-
-        $this->assertResponseOk();
-
-        $this->seeJson([ 'id' => $user->id, 'email' => $user->email ]);
-    }
-
-    /** @test */
-    public function it_can_update_its_own_details()
-    {
-        $user = $this->user;
-
-        $updateData = ['first_name' => 'updated_first_name', 
-                       'last_name'  => 'updated_last_name'];
-
-        $this->call('PATCH', '/api/user/'.$user->id, $updateData);
-
-        $this->assertResponseOk();
-
-        $this->seeJson(array_merge($updateData, ['id' => $user->id]));
-
     }
 
 

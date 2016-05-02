@@ -169,4 +169,29 @@
 		return $vote->getOriginalContent();
 	}
 
+	// function motionFilter($self,$filer $seeIds, $dontSeeIds)
+	// {
+
+	
+
+	//     $attributes = array_merge($attributes, createClosingDate());
+
+	// 	if($attributes) {
+	// 		$motion = array_merge($motion, $attributes);
+	// 	}
+		
+	// 	if(isset($self->token)){
+	// 		$motion = array_merge($motion, ['token' => $self->token]);
+	// 	}
+
+	// 	$response = $self->get('/api/motion', $motion);
+
+	// 	if($response->getStatusCode()!=$expectedCode){
+	// 		dd($response->getContent);	//Dump fails
+	// 	}
+
+	// 	$self->assertResponseStatus($expectedCode);
+
+	// 	return App\Motion::find($response->getOriginalContent()['id']); //This was an array
+	// }
 ?>

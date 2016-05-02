@@ -9,6 +9,8 @@ use Auth;
 use App\Http\Requests\Motion\CreateMotionRequest;
 use App\Http\Requests\Motion\UpdateMotionRequest;
 
+use App\Motion;
+
 class MotionPolicy
 {
     use HandlesAuthorization;
@@ -60,4 +62,26 @@ class MotionPolicy
 
     }
 
+    //TODO
+    public function getVisible(Motion $motion){
+
+        
+        if(Auth::check()){
+            if(Auth::user()->can("show-motion")){ //Admin
+                return $user->setVisible([]);
+            }
+
+            if($motion->user_id == Auth::user()->id){ //The person who created this
+                return $user->setVisible([]);   
+            }
+        }
+
+        if($motion->motionOpenForVoting){
+            return $user->setVisible([]);
+        }
+
+        return $user->setVisible(['id']); //Private user
+
+
+    }
 }

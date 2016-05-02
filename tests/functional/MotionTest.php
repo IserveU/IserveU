@@ -21,7 +21,7 @@ class MotionTest extends TestCase
     /** @test */
     public function get_motion_index_of_only_published()
     {
-        $index = $this->call('GET', 'api/motion');
+        $index = $this->call('GET', 'api/motion',['status'=>2]);
 
         $this->assertResponseOk();
 
