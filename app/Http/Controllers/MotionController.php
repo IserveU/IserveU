@@ -140,7 +140,7 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(ShowMotionRequest $request, Motion $motion)
+	public function show(Motion $motion,ShowMotionRequest $request)
 	{
 		return $this->motionTransformer->transform($motion);
 	}

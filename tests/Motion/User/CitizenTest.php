@@ -156,6 +156,20 @@ class CitizenTest extends TestCase
         $this->seeInDatabase('motions',array('title'=>$motion['title']));
     }
 
+
+    /** @test */
+    public function it_can_see_own_draft_motion()
+    {
+        $motion = factory(App\Motion::class,'draft')->create([
+            'user_id'   =>  $this->user->id
+        ]);
+
+        $this->get('/api/motion/'.$motion->id);
+
+        $this->assertResponseStatus(200);
+
+    }
+
     /** @test */
     public function it_cannot_create_a_published_motion()
     {

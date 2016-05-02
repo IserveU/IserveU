@@ -15,11 +15,10 @@ class IndexMotionRequest extends Request
      */
     public function authorize()
     {
+
         if(Auth::check() ){
             // Admin view permission
-            if(Auth::user()->can('show-motion')){
-                return true;
-            }
+            if(Auth::user()->can('show-motion')) return true;
 
             //See your own motion
             if($this->has('user_id') && Auth::user()->id == $this->input('user_id')){
@@ -50,7 +49,7 @@ class IndexMotionRequest extends Request
             'is_expired'        =>  'boolean',
             'newest'            =>  'boolean',
             'oldest'            =>  'boolean',
-            'status'            =>  'required',
+            'status'            =>  'integer|required',
             'user_id'           =>  'exists:users,id'
         ];
     }
