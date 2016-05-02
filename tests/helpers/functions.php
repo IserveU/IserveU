@@ -169,6 +169,45 @@
 		return $vote->getOriginalContent();
 	}
 
+
+	function generateMotions($self){
+
+		if(!$self->user){
+			$user = factory(App\User::class)->create();
+		} else {
+			$user = $self->user;
+		}
+
+		$motions['motionDraft'] = factory(App\Motion::class,'draft')->create();
+        $motions['motionMyDraft'] = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $user->id 
+        ]);
+
+        $motions['motionReview']		= factory(App\Motion::class,'review')->create();
+        $motions['motionMyReview'] 		= factory(App\Motion::class,'review')->create([
+            'user_id'   => $user->id 
+        ]);
+        $motions['motionPublished'] 	= factory(App\Motion::class,'published')->create();
+        $motions['motionMyPublished'] 	= factory(App\Motion::class,'published')->create([
+            'user_id'   => $user->id
+        ]);
+        $motions['motionClosed'] 		= factory(App\Motion::class,'closed')->create();
+        $motions['motionMyClosed'] 		= factory(App\Motion::class,'closed')->create([
+            'user_id'   => $user->id
+        ]);
+
+        return $motions;
+	}
+
+	function filterCheck($self,$filters=[],$hasThese,$doesnHaveThese){
+        $self->call('GET', '/api/motion/',array_merge(['limit'=>5000],$filters));
+
+
+
+	}
+
+	
+
 	// function motionFilter($self,$filer $seeIds, $dontSeeIds)
 	// {
 

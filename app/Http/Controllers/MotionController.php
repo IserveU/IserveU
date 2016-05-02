@@ -59,7 +59,9 @@ class MotionController extends ApiController {
 			$motions = (new Motion)->newQuery();
 		}
 
-		$motions->status($request->input('status'));
+		if($request->has('status')){
+			$motions->status($request->input('status'));
+		}
 
 		if($request->has('rank_greater_than')){
 			$motions->rankGreaterThan($request->input('rank_greater_than'));

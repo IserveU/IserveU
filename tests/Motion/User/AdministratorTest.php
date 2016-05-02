@@ -26,25 +26,25 @@ class AdministratorTest extends TestCase
     /** @test */
     public function it_can_see_motion_index()
     {
-        $motionDraft = factory(App\Motion::class,'draft')->create();
-        $motionMyDraft = factory(App\Motion::class,'draft')->create([
-            'user_id'   => $this->user->id 
-        ]);
-        $motionReview = factory(App\Motion::class,'review')->create();
-        $motionMyReview = factory(App\Motion::class,'review')->create([
-            'user_id'   => $this->user->id 
-        ]);
-        $motionPublished = factory(App\Motion::class,'published')->create();
-        $motionMyPublished = factory(App\Motion::class,'published')->create([
-            'user_id'   => $this->user->id
-        ]);
-        $motionClosed = factory(App\Motion::class,'closed')->create();
-        $motionMyClosed = factory(App\Motion::class,'closed')->create([
-            'user_id'   => $this->user->id
-        ]);
+        // $motionDraft = factory(App\Motion::class,'draft')->create();
+        // $motionMyDraft = factory(App\Motion::class,'draft')->create([
+        //     'user_id'   => $this->user->id 
+        // ]);
+        // $motionReview = factory(App\Motion::class,'review')->create();
+        // $motionMyReview = factory(App\Motion::class,'review')->create([
+        //     'user_id'   => $this->user->id 
+        // ]);
+        // $motionPublished = factory(App\Motion::class,'published')->create();
+        // $motionMyPublished = factory(App\Motion::class,'published')->create([
+        //     'user_id'   => $this->user->id
+        // ]);
+        // $motionClosed = factory(App\Motion::class,'closed')->create();
+        // $motionMyClosed = factory(App\Motion::class,'closed')->create([
+        //     'user_id'   => $this->user->id
+        // ]);
 
         $this->call('GET', '/api/motion/');
-        $this->assertResponseStatus(400);
+        $this->assertResponseStatus(200);
 
         $this->call('GET', '/api/motion/',['status'=>0]);
         $this->assertResponseStatus(200);

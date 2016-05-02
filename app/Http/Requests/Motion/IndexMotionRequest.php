@@ -15,23 +15,21 @@ class IndexMotionRequest extends Request
      */
     public function authorize()
     {
+         //Want to see unpublished motions
+        if($this->has('status') && $this->input('status') < 2){
+            if(!Auth::check() ){
+                return false;
+            }
 
-        if(Auth::check() ){
-            // Admin view permission
             if(Auth::user()->can('show-motion')) return true;
 
-            //See your own motion
-            if($this->has('user_id') && Auth::user()->id == $this->input('user_id')){
-                return true;
-            }  
-        }
-
-        //Want to see published motions
-        if($this->input('status') >= 2){
+            //If you want to see unpublshed motions you can only see yours
+            $this->request->add(['user_id'=>Auth::user()->id]);
             return true;
         }
 
-        return false;
+        //Not trying to see an unpublished motion
+        return true;
     }
 
     /**
@@ -49,7 +47,7 @@ class IndexMotionRequest extends Request
             'is_expired'        =>  'boolean',
             'newest'            =>  'boolean',
             'oldest'            =>  'boolean',
-            'status'            =>  'integer|required',
+            'status'            =>  'integer',
             'user_id'           =>  'exists:users,id'
         ];
     }
