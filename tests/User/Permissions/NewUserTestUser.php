@@ -103,14 +103,18 @@ class NewUserTestUser extends TestCase
     {
         $user = $this->user;
 
-        $updateData = ['first_name' => 'updated_first_name', 
-                       'last_name'  => 'updated_last_name'];
+        $updateData = ['first_name'     => 'updated_first_name', 
+                       'last_name'      => 'updated_last_name',
+                       'preferences'    =>  json_encode(['setting','mysetting'])
+                       ];
 
         $this->call('PATCH', '/api/user/'.$user->id, $updateData);
 
         $this->assertResponseOk();
 
         $this->seeJson(array_merge($updateData, ['id' => $user->id]));
+        $this->seeInDatabase('users',array($updateData));
+
 
     }
 

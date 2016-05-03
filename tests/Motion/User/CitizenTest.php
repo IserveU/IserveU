@@ -173,6 +173,38 @@ class CitizenTest extends TestCase
         $this->assertResponseStatus(403);        
     }
 
+
+    /** @test */
+    public function it_cannot_publish_a_review_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'review')->create([
+            'user_id'   => $this->user->id
+        ])->toArray();
+
+        $motion['status'] = 2;
+
+        $this->patch('/api/motion/'.$motion['id'],$motion);
+
+        $this->assertResponseStatus(403);        
+    }
+
+    /** @test */
+    public function it_can_submit_a_draft_for_review()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $this->user->id
+        ])->toArray();
+
+        $motion['status'] = 1;
+
+        $this->patch('/api/motion/'.$motion['id'],$motion);
+
+        $this->assertResponseStatus(200);        
+    }
+
+
     /** @test */
     public function it_can_create_a_vote()
     {

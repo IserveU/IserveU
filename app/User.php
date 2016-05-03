@@ -58,7 +58,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
 	protected $hidden = ['password'];

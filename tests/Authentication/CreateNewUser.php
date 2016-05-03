@@ -8,6 +8,16 @@ class CreateNewUser extends TestCase
 {
 
 
+    public function setUp(){
+        parent::setUp();
+    }
+
+    public function tearDown(){
+        $this->restoreSettings();
+        parent::tearDown();
+    }
+
+
 	/** @test **/
     public function submit_new_user_details()
     {	
@@ -24,8 +34,6 @@ class CreateNewUser extends TestCase
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
         $this->seeInDatabase('users',array('email'=>$user->email,'first_name'=>$user->first_name));
 
-        // New users should have 0 roles
-        $this->dontSeeInDatabase('role_user',array('user_id'=>$content->user->id));
     }
 
     /** @test **/
@@ -55,6 +63,45 @@ class CreateNewUser extends TestCase
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
     }
 
+    /** @test **/
+    public function check_instant_citizen_verify_setting_on()
+    {   
+        $this->setSettings(['security.verify_citizens'=>false]);
+        
 
+        $user = factory(App\User::class)->make();
+        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
 
+        $this->assertResponseStatus(200);
+
+        $content = json_decode($this->response->getContent());
+
+        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+        $this->seeInDatabase('users',array('id'=>$content->user->id));
+
+        $citizenRole = \App\Role::where('name','citizen')->first();
+
+        $this->seeInDatabase('role_user',array('user_id'=>$content->user->id,'role_id'=>$citizenRole->id));
+    }
+
+    /** @test **/
+    public function check_instant_citizen_verify_setting_off()
+    {   
+        $this->setSettings(['security.verify_citizens'=>true]);
+        
+
+        $user = factory(App\User::class)->make();
+        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+
+        $this->assertResponseStatus(200);
+
+        $content = json_decode($this->response->getContent());
+
+        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+        $this->seeInDatabase('users',array('id'=>$content->user->id));
+
+        $citizenRole = \App\Role::where('name','citizen')->first();
+
+        $this->dontSeeInDatabase('role_user',array('user_id'=>$content->user->id,'role_id'=>$citizenRole->id));
+    }
 }
