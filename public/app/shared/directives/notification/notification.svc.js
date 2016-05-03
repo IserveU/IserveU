@@ -14,8 +14,12 @@
 			unverifiedUser: ['<p>Your identity has not yet been identified. Our system is created for Yellowknife citizens,',
 							 ' if you complete your profile, our administrative team will verify your identity.</p>',
 							 '<p>Alternatively, you can go to one of the IserveU locations in town and get a member',
-							 'to personally confirm your identity, address and date of birth against the Canadian',
-							 ' registered voters repository.</p><br><br><p>Thanks, sincerely, the IserveU crew.</p>'
+							 ' to personally confirm your identity, address and date of birth against the Canadian',
+							 ' registered voters repository.</p><br><p>Regards,<br>The IserveU Crew</p>'
+			].join(''),
+
+			pendingReview: ['<p>Your profile is pending review. Please be patient with us while we process your information.</p>'
+
 			].join(''),
 
 			softLaunch: ['<h4>IserveU is in the process of a soft launch!&nbsp;</h4><p>Don\'t worry.',
@@ -38,32 +42,31 @@
 			var thisUser = $rootScope.authenticatedUser;
 			var preferences = thisUser.preferences || {};
 
-
-			console.log(preferences.hasOwnProperty('softLaunch'));
-
 			if(!Authorizer.canAccess('create-vote')) {
 
-				if(!incompleteProfileService.check(thisUser)) {
-					
-					try {
-						hasSoftLaunchPreference();
-					}
-					catch(e) {
-						removeNotification();
-					}
-				} else {
+
+				if( incompleteProfileService.check(thisUser) ) {
 
 					self.primaryButton.text = 'Go to user profile';
 					self.primaryButton.action = function() {
 						$state.go('edit-user', {id: $rootScope.authenticatedUser.id});
 					}
 					return self.copyText.unverifiedUser;
+				}
+				else {
+
+					self.primaryButton.text = 'Close';
+					self.primaryButton.action = function() {
+						removeNotification();
+					}
+					return self.copyText.pendingReview;
 
 				}
+
 			}
 
 			
-			if( hasSoftLaunchPreference ) {
+			else if( hasSoftLaunchPreference() ) {
 
 				self.primaryButton.text = 'Got it!';
 				self.primaryButton.action = function() {
@@ -76,8 +79,9 @@
 				return self.copyText.softLaunch;
 			}
 
+			else
 	
-			return removeNotification();
+				return removeNotification();
 
 			function removeNotification() {
 				return (function() {
