@@ -21,7 +21,9 @@ use App\Http\Requests\User\ShowUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
-use App\Transformers\UserTransformer;  
+use App\Transformers\UserTransformer;
+
+use Setting;
 
 class UserController extends ApiController {
 

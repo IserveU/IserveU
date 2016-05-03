@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
+use Auth;
 
 class StoreUserRequest extends Request
 {
@@ -25,7 +26,7 @@ class StoreUserRequest extends Request
     public function authorize()
     {
 
-        if(Auth::check() && \Auth::user()->can('administrate-user')){ // Can administrate users anyway
+        if(Auth::check() && Auth::user()->can('administrate-user')){ // Can administrate users anyway
             return true;
         }
 

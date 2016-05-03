@@ -16,10 +16,9 @@ class CreateNewUser extends TestCase
 
         $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
 
-        dd($this->response->getContent());
         $this->assertResponseStatus(200);
 
-        $this->expectsEvents(App\Events\User\UserCreated::class);
+      //  $this->expectsEvents(\App\Events\User\UserCreated::class);
         $content = json_decode($this->response->getContent());
    
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
