@@ -15,6 +15,10 @@ class CreateNewUser extends TestCase
         $user = factory(App\User::class)->make();
 
         $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+
+        dd($this->response->getContent());
+        $this->assertResponseStatus(200);
+
         $this->expectsEvents(App\Events\User\UserCreated::class);
         $content = json_decode($this->response->getContent());
    
