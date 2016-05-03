@@ -28,8 +28,9 @@ class UpdateUserRequest extends Request
         'street_name'               =>  'string',
         'street_number'             =>  'integer',
         'unit_number'               =>  'integer',
-        'address_verified_until'    =>  'date|before:+1100 days',
-        'agreement_accepted'        =>  'boolean'
+        'address_verified_until'    =>  'date|before:+2000 days|after:today',
+        'agreement_accepted'        =>  'boolean',
+        'preferences'               =>  'json'
     ];
 
     /**

@@ -1,15 +1,13 @@
-<div class="home" ng-cloak>
+<div class="home" ng-cloak layout-wrap>
 
 <home-fab></home-fab>
 
-  <div layout="row" flex layout-sm="column" layout-xs="column" layout-md="column">
-    <md-card flex="50" flex-sm="100" flex-xs="100" flex-md="100">
+  <div layout="column" layout-gt-xs="column" layout-md="column" layout-lg="column" layout-gt-lg="row" flex="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto">
+
+    <md-card layout flex="50">
       <md-card-content>
             <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_onlight.svg" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
         <h3 class="title-header" layout-padding ng-bind-html="settingsGlobal.home.introduction.title | trustAsHtml"></h3>
-        <div layout-margin style="margin-right: 170px; margin-left: 20px" hide-sm hide-xs hide-md>
-          <p class="md-body-1" ng-bind-html="settingsGlobal.home.introduction.text | trustAsHtml"></p>
-        </div>
 
         <div layout-margin>
           <p class="md-body-1" ng-bind-html="settingsGlobal.home.introduction.text | trustAsHtml"></p>
@@ -18,9 +16,9 @@
       </md-card-content>
     </md-card>
 
-  <div layout="column" flex layout-sm="column" layout-xs="column">
-    <md-card flex ng-if="settingsGlobal.home.widgets.top_motions || settingsGlobal.module.motions">
-      <md-card-content flex> 
+  <div layout="column" flex="50">
+    <md-card ng-if="settingsGlobal.home.widgets.top_motions || settingsGlobal.module.motions" layout-margin flex="50">
+      <md-card-content layout-padding> 
           <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
           <h3 class="title-header">Top {{ 'MOTIONS' | translate }}</h3>
 
@@ -38,8 +36,8 @@
       </md-card-content>
     </md-card>
 
-    <md-card flex ng-if="settingsGlobal.home.widgets.top_comments || settingsGlobal.module.comments">
-      <md-card-content>
+    <md-card ng-if="settingsGlobal.home.widgets.top_comments || settingsGlobal.module.comments" layout-margin flex="50">
+      <md-card-content layout-padding>
         <md-icon class="mdi mdi-playlist-minus title-icon"></md-icon>
         <h3 class="title-header">Top Comments</h3>
 
@@ -77,10 +75,10 @@
   </div>
 
 
-  <div layout="row" flex="100" layout-sm="column" layout-xs="column" layout-wrap ng-if="userIsLoggedIn"> 
+  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn"> 
 
-    <md-card flex ng-if="settingsGlobal.home.widgets.your_comments || settingsGlobal.module.comments">
-      <md-card-content>
+    <md-card flex ng-if="settingsGlobal.home.widgets.your_comments || settingsGlobal.module.comments" layout-margin>
+      <md-card-content layout-padding>
         <md-icon class="mdi mdi-comment-text-outline title-icon"></md-icon>
         <h3 class="title-header">Your comments</h3>
 
@@ -104,8 +102,8 @@
       </md-card-content>
     </md-card>
 
-    <md-card flex ng-if="settingsGlobal.home.widgets.your_votes || settingsGlobal.module.voting">
-      <md-card-content>
+    <md-card flex ng-if="settingsGlobal.home.widgets.your_votes || settingsGlobal.module.voting" layout-margin>
+      <md-card-content layout-padding>
         
         <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
         <h3 class="title-header">Your votes</h3>

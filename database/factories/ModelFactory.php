@@ -88,14 +88,19 @@ $factory->defineAs(App\Motion::class, 'draft', function (Faker\Generator $faker)
 
     $motion = $factory->raw(App\Motion::class);
 
-    return array_merge($motion, ['status' => 0]);
+    return array_merge($motion, ['status' => 0,
+                                'title' => $faker->sentence($nbWords = 4). " Draft"]
+                    );
 });
 
 $factory->defineAs(App\Motion::class, 'review', function (Faker\Generator $faker)  use ($factory) {
 
     $motion = $factory->raw(App\Motion::class);
 
-    return array_merge($motion, ['status' => 1]);
+    return array_merge($motion, ['status' => 1,
+                                'title' => $faker->sentence($nbWords = 4). " Review"]
+                    );
+
 });
 
 $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $faker)  use ($factory) {
@@ -103,7 +108,8 @@ $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $fa
     $motion = $factory->raw(App\Motion::class);
 
 
-    return array_merge($motion, array_merge(createClosingDate(), ['status' => 2]) );
+    return array_merge($motion, array_merge(createClosingDate(), ['status' => 2,
+                'title' => $faker->sentence($nbWords = 4). " Published"]) );
 });
 
 $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker)  use ($factory) {
@@ -112,7 +118,10 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
 
     $date = \Carbon\Carbon::now();
 
-    return array_merge($motion, ['status' => 3]);
+    return array_merge($motion, ['status' => 3,
+                                'title' => $faker->sentence($nbWords = 4). " Closed"]
+                    );
+
 });
 
 

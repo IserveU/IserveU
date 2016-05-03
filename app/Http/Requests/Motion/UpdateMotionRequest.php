@@ -5,6 +5,8 @@ namespace App\Http\Requests\Motion;
 use App\Http\Requests\Request;
 use Auth;
 
+use App\Policies\MotionPolicy;
+
 class UpdateMotionRequest extends Request
 {
     /**
@@ -13,17 +15,16 @@ class UpdateMotionRequest extends Request
      * @return bool
      */
     public function authorize()
-    {
-        if(Auth::user()->can('administrate-motion')){ 
-        //Is not the user who made it, or the site admin
-            return true;
-        }
+    {        
+     //  $motion = $this->route()->parameter('motion');
 
-        if($motion->expired){ //Motion has closed/expired
-             return false;
-        }
+       return (new MotionPolicy())->inputsAllowed($this->input(),$this->route()->parameter('motion'));
 
-        return false;
+
+       dd($requestAllowed);
+
+
+
     }
 
     /**

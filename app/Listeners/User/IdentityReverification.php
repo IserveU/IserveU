@@ -7,6 +7,7 @@ use Auth;
 use App\Events\User\UserUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\User;
 
 class IdentityReverification{
 
@@ -28,21 +29,37 @@ class IdentityReverification{
      */
     public function handle(UserUpdated $event)
     {
-        $user = $event->user;
         if(Auth::check() && Auth::user()->can('administrate-user')){ //Admins don't need to
            return true;
         }
 
-        $changedFields = $user->getAlteredLockedFields();
-
-        if(!empty($changedFields) && $user->identity_verified){
-           $user->identity_verified = 0;
-        
-           Mail::send('emails.reverification', ['user' => $user], function ($m) use ($user) {
-            $m->to($user->email, $user->first_name)->subject('Reverification Required');
-           });
+        if(!$this->changedCriticialIdentityFields($event->user)){
+            return true;
         }
+        
+        $event->user->identity_verified = 0;
+        
+        \Log::Info("The info file");
+
+        Mail::send('emails.reverification', ['user' => $event->user], function ($m) use ($event) {
+
+            $m->to($event->user->email, $event->user->first_name)->subject('Reverification Required');
+
+        });
+
         return true;
+
+    }
+
+    public function changedCriticialIdentityFields(User $user){
+        $dirty = $user->getDirty();
+        $requiresReverification = array('first_name','last_name','date_of_birth');
+        foreach($requiresReverification as $key){
+            if(array_key_exists($key,$dirty)){
+                return true;
+            }
+        }
+        return false;
 
     }
 }

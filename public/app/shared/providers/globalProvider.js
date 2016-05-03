@@ -53,7 +53,12 @@ angular.module('iserveu')
 	            var $rootScope = $injector.get('$rootScope');
 	            var incompleteProfileService = $injector.get('incompleteProfileService');
 
-				var user = JSON.parse(localStorage.getItem('user'));
+				try {
+					var user = JSON.parse(localStorage.getItem('user'));
+				}
+				catch(e){
+				   // alert('invalid json');
+				}
 				
 				if(user && !angular.isUndefined(user)) {
 					$rootScope.authenticatedUser = user;

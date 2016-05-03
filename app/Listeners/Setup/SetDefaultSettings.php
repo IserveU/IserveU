@@ -52,30 +52,27 @@ class SetDefaultSettings
                 'comments'  => true
             ));
 
-        $this->ifNotSetThenSet('comment', array(
-                'cachetime' => 60
-            ));
+        $this->ifNotSetThenSet('comment.cachetime',60);
 
-        $this->ifNotSetThenSet('security', array(
-                'login_attempts_lock' => 5
-            ));
+
+        $this->ifNotSetThenSet('security.login_attempts_lock',5);
+        $this->ifNotSetThenSet('security.verify_citizens',true);
 
         $this->ifNotSetThenSet('abstain', true);
 
-        $this->ifNotSetThenSet('jargon', array(
-                'en' => array(
+        $this->ifNotSetThenSet('jargon.en',array(
                     'motion'  => 'Motion',
                     'motions' => 'Motions',
                     'department' => 'Department',
                     'departments' => 'Departments'
-                ),
-                'fr' => array(
+                ));
+        
+        $this->ifNotSetThenSet('jargon.fr',array(
                     'motion'  => 'Motion',
                     'motions' => 'Motions',
                     'department' => 'Département',
                     'departments' => 'Départements'
-                )
-            ));
+                ));
 
         $this->ifNotSetThenSet('home', array(
                 'introduction'  => array(

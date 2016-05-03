@@ -7,11 +7,12 @@
 		.module('iserveu')
 		.factory('editUserFactory', [ '$rootScope',
 			'$stateParams', '$state', '$http', 'user', 'REST', 
-			'refreshLocalStorage', 'incompleteProfileService',
+			'refreshLocalStorage', 
+			'ToastMessage',
 			editUserFactory]);
  
 	/** @ngInject */
-	function editUserFactory($rootScope, $stateParams, $state, $http, user, REST, refreshLocalStorage, incompleteProfileService){
+	function editUserFactory($rootScope, $stateParams, $state, $http, user, REST, refreshLocalStorage, ToastMessage){
 
 		var factory = {
 			/** Function to map form input variables to the variable. */
@@ -24,6 +25,7 @@
 					date_of_birth: bool,
 					public: bool,
 					address: bool,
+					community: bool,
 					password: bool
 				}
 			},
@@ -33,6 +35,7 @@
 			isSelf: function() {
 				return $stateParams.id == ( $rootScope.authenticatedUser ? $rootScope.authenticatedUser.id : null);
 			},
+			fourYearsFromNow: new Date(new Date().setYear(new Date().getFullYear() + 4)),
 			/**
 			*  Switch to open and close control form inputs.
 			*  UI acts similar to an Accordian. When one
@@ -59,7 +62,7 @@
 			successHandler: function(r, type){
 				this.success[type] = false;
 				this.switch('promise');
-				incompleteProfileService.check(r);
+
 				if( factory.isSelf() ) {
 					refreshLocalStorage.setItem('user', r);
 				}

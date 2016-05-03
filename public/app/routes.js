@@ -35,7 +35,7 @@
         })
     	.state( 'motion', {
     	    url: '/'+SETTINGS_JSON.jargon.en.motion.toLowerCase()+'/:id',
-    	    template: '<display-motion></display-motion>',
+    	    template: '<display-motion flex layout="column"></display-motion>',
     	    data: {
     	        requireLogin: true,
                 moduleMotion: true
@@ -46,8 +46,7 @@
             template: '<motion-form></motion-form>',
             data: {
                 requireLogin: true,
-                moduleMotion: true,
-                requirePermissions: ['administrate-motion']
+                moduleMotion: true
             }
         })
         .state( 'create-motion', {
@@ -55,8 +54,14 @@
             template: '<motion-form></motion-form>',
             data: {
                 requireLogin: true,
-                moduleMotion: true,
-                requirePermissions: ['create-motion']
+                moduleMotion: true
+            }
+        })
+        .state('my-motions', {
+            url: '/my-motions',
+            template: '<my-motions></my-motions>',
+            data: {
+                requireLogin: true
             }
         })
         .state( 'pages', {

@@ -40,7 +40,7 @@
 			controller: ['$translate', '$mdSidenav', '$mdMedia', '$scope', 'auth', 'afterauth', 'UserbarService', 'pageObj', 'logoutService', 
 			    UserbarController],
 			controllerAs: 'user',
-			templateUrl: 'app/components/nav/userbar/userbar.tpl.html'
+			templateUrl: 'app/components/nav/userBar/userbar.tpl.html'
 		}
 
 	}

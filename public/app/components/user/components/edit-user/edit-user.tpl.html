@@ -1,13 +1,12 @@
-<md-card class="edit-user-profile">
+<md-card class="edit-user-profile" flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
   
 <profile-toolbar></profile-toolbar>
 
   <md-card-content layout-margin ng-hide="roles.showEdit">
-    
+  
 
-
-    <div  has-permission="administrate-permission">
-      <md-switch ng-model="profile.identity_verified" ng-change="edit.save('identity_verified', profile.identity_verified)" aria-label="Verify user" ng-true-value="1" ng-false-value="0">
+    <div has-permission="administrate-permission">
+      <md-switch ng-model="profile.identity_verified" ng-change="edit.save('identity_verified', profile.identity_verified); edit.save('address_verified_until', edit.fourYearsFromNow)" aria-label="Verify user" ng-true-value="1" ng-false-value="0">
         User is {{ profile.identity_verified ? 'verified' : 'unverified' }}.
       </md-switch>
       <md-divider></md-divider>
@@ -25,25 +24,63 @@
           <md-icon class="mdi mdi-check" ng-show="edit.disabled.email && edit.success.email"></md-icon>
     </div>
 
+
+
     <div layout="row" ng-if="edit.disabled.address">
         <md-input-container flex>
-          <label>Community</label>
+          <label>Address</label>
           <md-icon class="mdi mdi-home"></md-icon>
-          <input type="text" ng-model="profile.community_id" ng-disabled="edit.disabled.address" format-community/>
+          <input type="text" ng-model="profile" ng-disabled="edit.disabled.address" format-address/>
         </md-input-container>
           <md-icon class="mdi mdi-pencil" ng-click="edit.switch('address')"></md-icon>
+
           <md-icon class="mdi mdi-check" ng-show="edit.success.address"></md-icon>
     </div>
 
 
     <div layout="column" ng-if="!edit.disabled.address" flex>
       <div layout="row" flex>
-        <md-select placeholder="Which community do you reside in?" ng-model="edit.address.community_id" required flex>
+          <md-input-container flex="20">
+            <label>Apt/Suite</label> 
+            <md-icon class="mdi mdi-home"></md-icon>
+            <input type='text' ng-model='edit.address.unit_number'/>
+          </md-input-container>
+          <md-input-container flex="15">
+            <label>Street No.</label> 
+            <input type='text' ng-model='edit.address.street_number' required/>
+          </md-input-container>
+          <md-input-container flex="50">
+            <label>Street Name</label> 
+            <input type='text' ng-model='edit.address.street_name' required/>
+          </md-input-container>
+          <md-input-container flex="20">
+            <label>Postal Code</label> 
+            <input type='text' ng-model='edit.address.postal_code' ng-keypress="edit.pressEnter($event, 'address')" required/>
+          </md-input-container>
+          <md-icon class="mdi mdi-content-save" ng-click="edit.save('address', edit.address)" ng-hide="edit.success.address"></md-icon>
+          <md-progress-circular md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.address"></md-progress-circular>
+     </div>
+    </div>
+
+    <div layout="row" ng-if="edit.disabled.community">
+        <md-input-container flex>
+          <label>Community</label>
+          <md-icon class="mdi mdi-hops"></md-icon>
+          <input type="text" ng-model="profile.community_id" ng-disabled="edit.disabled.community" format-community/>
+        </md-input-container>
+          <md-icon class="mdi mdi-pencil" ng-click="edit.switch('community')"></md-icon>
+          <md-icon class="mdi mdi-check" ng-show="edit.success.community"></md-icon>
+    </div>
+
+
+    <div layout="column" ng-if="!edit.disabled.community" flex>
+      <div layout="row" flex>
+        <md-select placeholder="Which community do you reside in?" ng-model="edit.community.community_id" required flex>
             <md-option ng-repeat="c in communities" ng-value="c.id" required>{{c.name}}</md-option>
         </md-select>
       
-        <md-icon style="margin-top: 10px" class="mdi mdi-content-save" ng-click="edit.save('address', edit.address)" ng-hide="edit.success.address"></md-icon>
-        <md-progress-circular style="margin-top: 10px" md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.address"></md-progress-circular>
+        <md-icon style="margin-top: 10px" class="mdi mdi-content-save" ng-click="edit.save('community', edit.community)" ng-hide="edit.success.community"></md-icon>
+        <md-progress-circular style="margin-top: 10px" md-diameter="35px" md-mode="indeterminate" ng-show="edit.success.community"></md-progress-circular>
       </div>
     </div>
 

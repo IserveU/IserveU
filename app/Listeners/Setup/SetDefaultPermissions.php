@@ -167,6 +167,7 @@ class SetDefaultPermissions
                                              $createVote->id,
                                              $createMotion->id,
                                              $editMotion->id,
+                                             $showMotion->id,
                                              $createCommentVote->id,
                                              $viewCommentVote->id));
 

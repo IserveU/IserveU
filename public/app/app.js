@@ -69,7 +69,6 @@
         });
     
 	    return $http.get('/api/community').then(function(response) {
-	    	console.log('community idnx');
 	    	iserveu.constant('COMMUNITY_INDEX', response.data);
 	    }, function(errorResponse) {
 	        console.log(errorResponse);

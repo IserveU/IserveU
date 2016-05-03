@@ -14,6 +14,41 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $baseUrl = 'http://localhost';
 
+
+    protected $settings = [];
+  
+ 
+    public function setSettings($temporarySettings){
+        foreach($temporarySettings as $key => $value){
+            $this->settings[$key] = Setting::get($key); //Getting the before value
+            Setting::set($key,$value);
+        }
+        Setting::save();
+    }
+
+    public function restoreSettings(){
+        foreach($this->settings as $key => $value){
+            $this->settings[$key] = Setting::get($key);
+            Setting::set($key,$value);
+        }
+
+        Setting::save();
+        $this->settings = [];
+    }
+
+   
+    // public function setUp(){
+    //  //   parent::setUp();
+    // }
+
+    public function tearDown(){
+        if(!empty($this->settings)){
+            $this->restoreSettings();
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * Creates the application.
      *
@@ -31,7 +66,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function signIn($user = null)
     {     
         if(!$user){
-            $user = factory(App\User::class)->create();
+            $user = factory(App\User::class,'verified')->create();
         }
        
         $this->user = $user;

@@ -169,4 +169,74 @@
 		return $vote->getOriginalContent();
 	}
 
+
+	function generateMotions($self){
+
+		if(!$self->user){
+			$user = factory(App\User::class)->create();
+		} else {
+			$user = $self->user;
+		}
+
+		$motions['motionDraft'] = factory(App\Motion::class,'draft')->create();
+        $motions['motionMyDraft'] = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $user->id 
+        ]);
+
+        $motions['motionReview']		= factory(App\Motion::class,'review')->create();
+        $motions['motionMyReview'] 		= factory(App\Motion::class,'review')->create([
+            'user_id'   => $user->id 
+        ]);
+        $motions['motionPublished'] 	= factory(App\Motion::class,'published')->create();
+        $motions['motionMyPublished'] 	= factory(App\Motion::class,'published')->create([
+            'user_id'   => $user->id
+        ]);
+        $motions['motionClosed'] 		= factory(App\Motion::class,'closed')->create();
+        $motions['motionMyClosed'] 		= factory(App\Motion::class,'closed')->create([
+            'user_id'   => $user->id
+        ]);
+
+        return $motions;
+	}
+
+	function filterCheck($self,$hasThese,$doesntHaveThese,$filters=[]){
+        $self->call('GET', '/api/motion/',array_merge(['limit'=>5000],$filters));
+
+        foreach($hasThese as $motion){
+        	$self->see($motion->title);
+        }
+
+        foreach($doesntHaveThese as $motion){
+        	$self->dontSee($motion->title);
+        }
+
+	}
+
+	
+
+	// function motionFilter($self,$filer $seeIds, $dontSeeIds)
+	// {
+
+	
+
+	//     $attributes = array_merge($attributes, createClosingDate());
+
+	// 	if($attributes) {
+	// 		$motion = array_merge($motion, $attributes);
+	// 	}
+		
+	// 	if(isset($self->token)){
+	// 		$motion = array_merge($motion, ['token' => $self->token]);
+	// 	}
+
+	// 	$response = $self->get('/api/motion', $motion);
+
+	// 	if($response->getStatusCode()!=$expectedCode){
+	// 		dd($response->getContent);	//Dump fails
+	// 	}
+
+	// 	$self->assertResponseStatus($expectedCode);
+
+	// 	return App\Motion::find($response->getOriginalContent()['id']); //This was an array
+	// }
 ?>

@@ -22,10 +22,11 @@ class ShowMotionRequest extends Request
                 return false;
             }
 
-          //  dd('sdf');
+            if(Auth::user()->id == $motion->user_id){
+                return true;
+            }
 
             if(!Auth::user()->can('administrate-motion')){
-
                 return false;
             }
         }

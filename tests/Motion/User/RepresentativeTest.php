@@ -4,17 +4,20 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AdministratorTest extends TestCase
+class RepresentativeTest extends TestCase
 {
-    use DatabaseTransactions;    
-    use WithoutMiddleware;
 
+    use DatabaseTransactions;
+    use WithoutMiddleware;
+    
     public function setUp()
     {
         parent::setUp();
 
+
         $this->signIn();
-        $this->user->addUserRoleByName('administrator');
+
+        $this->user->addUserRoleByName('representative');
     }
 
     /*****************************************************************
@@ -22,14 +25,89 @@ class AdministratorTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
+    
+  
+    /** @test */
+    public function motion_index_permissions_working()
+    {
+        $motions = generateMotions($this);
+        //Default with no filters
+        filterCheck(
+                $this,
+                [
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ],[]
+        );
+        $this->assertResponseStatus(200);
+
+        //Filter to see drafts
+        filterCheck(
+                $this,
+                [
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft']
+                ],[
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ],
+                ['status'=>[0]]
+        );
+        $this->assertResponseStatus(200);
+   
+        //Filter to see all reviews
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyReview'],
+                    $motions['motionReview']
+                ],[
+                    $motions['motionMyDraft'],
+                    $motions['motionDraft'],
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed']
+                ],
+                ['status'=>[1]]
+        );
+        $this->assertResponseStatus(200);
+
+        //Filter to see published
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyDraft'],
+                    $motions['motionMyReview'],
+                    $motions['motionDraft'],
+                    $motions['motionReview']
+                ],[
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed']
+                ],
+                ['status'=>[0,1]]
+        );
+        $this->assertResponseStatus(200);
+    }
 
     /** @test */
     public function it_can_see_a_motion()
     {
-        $motion =  factory(App\Motion::class, 'published')->create();
+        $motion = factory(App\Motion::class,'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id);
-
+        $this->call('GET', '/api/motion/'.$motion->id); 
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
@@ -37,9 +115,9 @@ class AdministratorTest extends TestCase
     /** @test */
     public function it_can_create_a_motion()
     {
-        $motion  = postMotion($this);
-
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
+        $motion = postMotion($this);
+    
+        $this->seeInDatabase('motions', ['id' => $motion->id, 'title' => $motion->title, 'summary' => $motion->summary]);
 
         $this->call('GET', '/api/motion/'.$motion->id);
         
@@ -71,8 +149,8 @@ class AdministratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_closing_date_motion()
-    {       
+    public function it_can_update_a_motion()
+    {
         $updated = factory(App\Motion::class)->create()->toArray();
 
         // Create new Closing Date
@@ -125,25 +203,21 @@ class AdministratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_motion()
+    public function it_cannot_delete_a_motion()
     {
-        $motion  = postMotion($this);
+        $motion  = factory(App\Motion::class)->create();
         
         // Delete Motion
         $response = $this->call('DELETE', '/api/motion/'.$motion->id);
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
+        $this->assertResponseStatus(403);
+        $this->seeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
 
   /** @test */
-    public function it_can_restore_a_motion()
+    public function it_cannot_restore_a_motion()
     {
-        $motion  = postMotion($this);
-        
-        // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$motion->id);
-        $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['deleted_at' => $motion->deleted_at]);
+        $motion  = factory(App\Motion::class)->create();
+        $motion->delete();
 
         // Restore motion
         $this->call('GET', '/api/motion/'.$motion->id.'/restore');
@@ -165,6 +239,7 @@ class AdministratorTest extends TestCase
 
     }
 
+
         /** @test */
     public function it_can_delete_comment()
     {
@@ -178,7 +253,7 @@ class AdministratorTest extends TestCase
         $this->seeInDatabase('comments', ['deleted_at' => $delete->deleted_at]);
     }
 
-        /** @ test */
+        /** @test */
     public function it_can_delete_comment_vote()
     {
         $comment_vote = postCommentVote($this);
@@ -188,21 +263,21 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }
 
-    /****************** DUPLICATE FROM representative TESTS ********************/
-
 
 
     /*****************************************************************
     *
     *                          For Ike:
-    *  - replicate the CRUD functions for user details
-    *  - be able to assign roles and take away roles from other users
-    *  - replicate the CRUD functions for other user's votes/comments (these should fail)
     *  - be able to switch the status of a motion from 'draft' to 'published', etc.
-    *
-    *
-    *  Note: if you complete representative tests first, and then copy it over, it should replicate exactly
-    *        what it is you need; and you would just flip the negative tests from 403/401's to 200's. Saving you time.
+    *  - be able to do everything to motions
+    *  - write a function that tests overall votes of a motion with the representatives deferred votes; should return a complex
+    *    multidimensional array. This is something you may need to create many factory users submitting multiple votes
+    *    with the deferrals involved. 
+    * 
+    *    Negative tests (The above tests are meant to pass, expect a typical response. They are higher priority than negative ones atm.):
+    *  - unable to CRUD users (read: for private users only)
+    *  - unable to CRUD comments/votes (note: representatives can read)
+    *  - unable to CRUD background images
     *
     ******************************************************************/
 

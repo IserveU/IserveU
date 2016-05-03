@@ -21,7 +21,9 @@ use App\Http\Requests\User\ShowUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
-use App\Transformers\UserTransformer;  
+use App\Transformers\UserTransformer;
+
+use Setting;
 
 class UserController extends ApiController {
 
@@ -90,6 +92,10 @@ class UserController extends ApiController {
 	public function store(StoreUserRequest $request){
 		//Create a new user and fill secure fields
 		$newUser = User::create($request->except('token'));
+
+		if(!Setting::get('security.verify_citizens')){
+			$newUser->addUserRoleByName('citizen');
+		}
 
 		$token = JWTAuth::fromUser($newUser);
 

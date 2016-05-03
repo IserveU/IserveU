@@ -18,15 +18,192 @@ class CitizenTest extends TestCase
     }
 
     /** @test */
+    public function motion_index_permissions_working()
+    {
+        $motions = generateMotions($this);
+
+        //Default with no filters
+        filterCheck(
+                $this,
+                [
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed']
+                ],[
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ]
+        );
+        $this->assertResponseStatus(200);
+
+        //Filter to see published
+        filterCheck(
+                $this,
+                [
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                ],[
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ],
+                ['status'=>[2]]
+        );
+        $this->assertResponseStatus(200);
+   
+       //Filter to see my drafts
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyDraft'],
+                    $motions['motionMyReview']
+                ],[
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionDraft'],
+                    $motions['motionReview']
+                ],
+                ['status'=>[0,1]]
+        );
+        $this->assertResponseStatus(200);
+
+      
+        //Filter to see published
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyDraft'],
+                ],[
+                    $motions['motionMyReview'],
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionDraft'],
+                    $motions['motionReview']
+                ],
+                ['status'=>[0]]
+        );
+        $this->assertResponseStatus(200);    
+    }
+
+    /** @test */
     public function it_can_see_a_motion()
     {
-        $motion = factory(App\Motion::class, 'published')->create();
-        $user   = $this->user;
+        $motion = factory(App\Motion::class,'published')->create();
 
         $this->call('GET', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
+
+    /** @test */
+    public function it_cannot_create_a_draft_motion_for_another_user()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->make()->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(403);
+
+        $this->dontSeeInDatabase('motions',array('title'=>$motion['title']));
+
+    }
+
+    /** @test */
+    public function it_can_create_a_draft_motion()
+    {
+        $motion = factory(App\Motion::class,'draft')->make([
+            'user_id'   =>  $this->user->id
+        ])->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(200);
+
+        $this->seeInDatabase('motions',array('title'=>$motion['title']));
+    }
+
+
+    /** @test */
+    public function it_can_see_own_draft_motion()
+    {
+        $motion = factory(App\Motion::class,'draft')->create([
+            'user_id'   =>  $this->user->id
+        ]);
+
+        $this->get('/api/motion/'.$motion->id);
+
+        $this->assertResponseStatus(200);
+
+    }
+
+    /** @test */
+    public function it_cannot_create_a_published_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'published')->make()->toArray();
+
+        $this->post('/api/motion/',$motion);
+
+        $this->assertResponseStatus(403);        
+    }
+
+    /** @test */
+    public function it_cannot_publish_a_draft_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $this->user->id
+        ])->toArray();
+
+        $motion['status'] = 2;
+
+        $this->patch('/api/motion/'.$motion['id'],$motion);
+
+        $this->assertResponseStatus(403);        
+    }
+
+
+    /** @test */
+    public function it_cannot_publish_a_review_motion()
+    {
+    
+        $motion = factory(App\Motion::class,'review')->create([
+            'user_id'   => $this->user->id
+        ])->toArray();
+
+        $motion['status'] = 2;
+
+        $this->patch('/api/motion/'.$motion['id'],$motion);
+
+        $this->assertResponseStatus(403);        
+    }
+
+    /** @test */
+    public function it_can_submit_a_draft_for_review()
+    {
+    
+        $motion = factory(App\Motion::class,'draft')->create([
+            'user_id'   => $this->user->id
+        ])->toArray();
+
+        $motion['status'] = 1;
+
+        $this->patch('/api/motion/'.$motion['id'],$motion);
+
+        $this->assertResponseStatus(200);        
+    }
+
 
     /** @test */
     public function it_can_create_a_vote()

@@ -58,7 +58,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
 	protected $hidden = ['password'];
@@ -119,25 +119,25 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		/* validation required on new */		
 		static::creating(function($model){
 
-		//	if(!$model->validate()) return false; Moving validation out of model
 
 			return true;
 		});
 
 		static::created(function($model){
 			$user = User::find($model->id);
-			event(new UserCreated($user));
+			event(new UserCreated($model));
+
 			return true;
 		});
 
 		static::updating(function($model){
-		//	if(!$model->validate()) return false; Move validation out of model
 			return true;
 		});
 
 		static::updated(function($model){
 
 			event(new UserUpdated($model));
+
 			$model->load('roles');
 
 			$data = [
@@ -265,7 +265,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	public function setPasswordAttribute($value){
 		$this->attributes['password'] = Hash::make($value);
 	}
-
+	
 	public function setAddressVerifiedUntilAttribute($input){
 		if ($this->getAttributes('identity_verified') === 0){
 			return false;

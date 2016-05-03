@@ -1,5 +1,4 @@
-<section layout-margin layout="column">
-<md-card flex>
+<md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
 	<md-card-content>
 
 		<form name="motionForm" ng-submit="motionForm.$valid" layout="column" layout-padding
@@ -39,7 +38,9 @@
 					<div isu-accordian
 						 is-open="form.proponent"
 						 icon="'mdi-human'"
-						 title="'Proponent'">
+						 title="'Proponent'"
+						 has-permission="create-motion"
+						 >
 
 						<bio-section ng-if="form.proponent"></bio-section>
 
@@ -57,7 +58,7 @@
 				</div>
 
 
-				<div>
+				<div has-permission="create-motion">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
 
@@ -84,10 +85,10 @@
 					</md-input-container>
 
 					<md-input-container flex>
-						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
+						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required ng-init="form.motion.status = 0">
 							<md-option value="0">Draft</md-option>
-							<md-option value="1">In review</md-option>
-							<md-option value="2">Publish</md-option> 
+							<md-option has-permission="create-motion" value="1">In review</md-option>
+							<md-option has-permission="create-motion" value="2">Publish</md-option> 
 						</md-select>
 						
 						<div ng-messages="motionForm.status.$error" role="alert">
@@ -97,6 +98,9 @@
 
 
 					<div ng-if="form.motion.status > 1 && settingsGlobal.allow_closing">
+						<div>
+							<h3 class="title-header">Closing Date</h3>
+						</div>
 						<md-datepicker ng-model="form.motion.closing" md-placeholder="Closing Date" format-closing="form.motion.closing.carbon" flex></md-datepicker>
 					</div>
 				</div>
@@ -113,4 +117,3 @@
 
 	</md-card-content>
 </md-card>
-</section>

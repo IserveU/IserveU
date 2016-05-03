@@ -1,0 +1,15 @@
+<div id="notification" flex> 
+
+	<span layout-padding>
+		<p class="md-body-1" ng-bind-html="notify.text"></p>
+	</span>
+
+	<span class="action-buttons" layout="row" layout-align="end end">
+		<md-button class="md-raised md-accent" ng-click="notify.primaryButton.action(); notify.close()">
+			
+			{{ notify.primaryButton.text }}
+
+		</md-button>
+	</span>
+
+</div>
