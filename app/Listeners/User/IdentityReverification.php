@@ -37,15 +37,17 @@ class IdentityReverification{
             return true;
         }
         
-        $event->user->identity_verified = 0;
+   
         
-        \Log::Info("The info file");
+        if($event->user->identity_verified){
+            Mail::send('emails.reverification', ['user' => $event->user], function ($m) use ($event) {
 
-        Mail::send('emails.reverification', ['user' => $event->user], function ($m) use ($event) {
+                $m->to($event->user->email, $event->user->first_name)->subject('Reverification Required');
 
-            $m->to($event->user->email, $event->user->first_name)->subject('Reverification Required');
+            });
 
-        });
+            $event->user->identity_verified = 0;
+        }
 
         return true;
 

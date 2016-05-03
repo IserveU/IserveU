@@ -46,6 +46,7 @@ $factory->defineAs(App\User::class, 'unverified', function (Faker\Generator $fak
 $factory->defineAs(App\User::class, 'verified', function (Faker\Generator $faker)  use ($factory) {
 
     $user = $factory->raw(App\User::class);
+    \Log::info('going to add verified to user');
 
     return array_merge($user, ['identity_verified' => 1]);
 });

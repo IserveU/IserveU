@@ -68,6 +68,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         if(!$user){
             $user = factory(App\User::class,'verified')->create();
         }
+        \Log::info('user ready');
+
        
         $this->user = $user;
         $this->actingAs($user);

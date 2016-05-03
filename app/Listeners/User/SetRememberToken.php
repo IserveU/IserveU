@@ -5,7 +5,6 @@ namespace App\Listeners\User;
 use App\User;
 use App\Events\User\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Hash;
 use Mail;
 
@@ -31,13 +30,12 @@ class SetRememberToken
     {
         $user = $event->user;
 
-            
         $hash = str_random(99);
         $user->remember_token = $hash;
 
-        if(!$user->save()){ //Validation failed show errors
-            abort(403,$event->user->errors);
-        }          
+        // if(!$user->save()){ //Validation failed show errors
+        //     abort(403,$event->user->errors);
+        // }          
      
     }
 }

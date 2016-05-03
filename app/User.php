@@ -29,7 +29,9 @@ use Setting;
 use App\Role;
 
 use App\Events\User\UserCreated;
+use App\Events\User\UserCreating;
 use App\Events\User\UserUpdated;
+use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
 
@@ -118,19 +120,20 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 		/* validation required on new */		
 		static::creating(function($model){
-
+			event(new UserCreating($model));
 
 			return true;
 		});
 
 		static::created(function($model){
-			$user = User::find($model->id);
 			event(new UserCreated($model));
 
 			return true;
 		});
 
 		static::updating(function($model){
+			event(new UserUpdating($model));
+
 			return true;
 		});
 
@@ -323,6 +326,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	    	$this->load('avatar');		
 		return $this->getRelation('avatar');
 	}
+
+	// public function getDateOfBirthAttribute(){
+	// 	return \Carbon\Carbon::
+	// }
 
 	/**
 	 * @return The permissions attached to this user through entrust
