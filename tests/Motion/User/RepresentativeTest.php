@@ -26,69 +26,80 @@ class RepresentativeTest extends TestCase
     *
     ******************************************************************/
     
+  
     /** @test */
-    public function it_can_see_motion_index()
+    public function motion_index_permissions_working()
     {
-        $motionDraft = factory(App\Motion::class,'draft')->create();
-        $motionMyDraft = factory(App\Motion::class,'draft')->create([
-            'user_id'   => $this->user->id 
-        ]);
-        $motionReview = factory(App\Motion::class,'review')->create();
-        $motionMyReview = factory(App\Motion::class,'review')->create([
-            'user_id'   => $this->user->id 
-        ]);
-        $motionPublished = factory(App\Motion::class,'published')->create();
-        $motionMyPublished = factory(App\Motion::class,'published')->create([
-            'user_id'   => $this->user->id
-        ]);
-        $motionClosed = factory(App\Motion::class,'closed')->create();
-        $motionMyClosed = factory(App\Motion::class,'closed')->create([
-            'user_id'   => $this->user->id
-        ]);
-
-        $this->call('GET', '/api/motion/');
-        $this->assertResponseStatus(400);
-
-        $this->call('GET', '/api/motion/',['status'=>0]);
+        $motions = generateMotions($this);
+        //Default with no filters
+        filterCheck(
+                $this,
+                [
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ],[]
+        );
         $this->assertResponseStatus(200);
 
-        $this->call('GET', '/api/motion/',['status'=>1]);
+        //Filter to see drafts
+        filterCheck(
+                $this,
+                [
+                    $motions['motionDraft'],
+                    $motions['motionMyDraft']
+                ],[
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed'],
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionReview'],
+                    $motions['motionMyReview']
+                ],
+                ['status'=>[0]]
+        );
+        $this->assertResponseStatus(200);
+   
+        //Filter to see all reviews
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyReview'],
+                    $motions['motionReview']
+                ],[
+                    $motions['motionMyDraft'],
+                    $motions['motionDraft'],
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed']
+                ],
+                ['status'=>[1]]
+        );
         $this->assertResponseStatus(200);
 
-        $this->call('GET', '/api/motion/',['status'=>2]);
+        //Filter to see published
+        filterCheck(
+                $this,
+                [
+                    $motions['motionMyDraft'],
+                    $motions['motionMyReview'],
+                    $motions['motionDraft'],
+                    $motions['motionReview']
+                ],[
+                    $motions['motionPublished'],
+                    $motions['motionMyPublished'],
+                    $motions['motionClosed'],
+                    $motions['motionMyClosed']
+                ],
+                ['status'=>[0,1]]
+        );
         $this->assertResponseStatus(200);
-
-        $this->call('GET', '/api/motion/',['status'=>3]);
-        $this->assertResponseStatus(200);
-
-
-        $this->call('GET', '/api/motion/',['limit'=>1000,'status'=>0]);
-        $this->see($motionDraft->title);
-        $this->see($motionMyDraft->title);
-      
-        $this->call('GET', '/api/motion/',['limit'=>1000,'status'=>1]);    
-        $this->see($motionReview->title);
-        $this->see($motionMyReview->title);
-
-
-        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>2,'user_id'=>$this->user->id]);
-        $this->dontSee($motionPublished->title);
-        $this->see($motionMyPublished->title);
-
-            //If not filtering user
-            $this->call('GET', '/api/motion/',['limit'=>5000,'status'=>2]);
-            $this->see($motionPublished->title);
-            $this->see($motionMyPublished->title);
-
-
-        $this->call('GET', '/api/motion/',['limit'=>50,'status'=>3,'user_id'=>$this->user->id]);
-        $this->dontSee($motionClosed->title);
-        $this->see($motionMyClosed->title);
-
-            // If not filtering user
-            $this->call('GET', '/api/motion/',['limit'=>5000,'status'=>3]);
-            $this->see($motionClosed->title);
-            $this->see($motionMyClosed->title);
     }
 
     /** @test */
