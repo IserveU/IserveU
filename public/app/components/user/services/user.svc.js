@@ -47,15 +47,6 @@
 			})
 		}
 
-		//change name to get fields
-		function editUser(id){
-			return UserEdit.query({id:id}).$promise.then(function(result) {
-				return result;
-			}, function(error) {
-				return $q.reject(error);				
-			});
-		}
-
 		function updateUser(data){
 			return User.update({id:data.id}, data).$promise.then(function(result) {
 				return result;
@@ -86,7 +77,6 @@
 			getIndex: getIndex,
 			getUserInfo: getUserInfo,
 			getUser: getUser,
-			editUser: editUser,
 			updateUser: updateUser,
 			deleteUser: deleteUser,
 			storeUser: storeUser,

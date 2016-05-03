@@ -2,9 +2,9 @@
 	
 	angular
 		.module('iserveu')
-		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'editUserFactory', 'incompleteProfileService', notificationService]);
+		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'user', 'incompleteProfileService', notificationService]);
 
-	function notificationService($rootScope, $state, Authorizer, editUserFactory, incompleteProfileService) {
+	function notificationService($rootScope, $state, Authorizer, user, incompleteProfileService) {
 
 		// global context for 'this'
 		var self = this;
@@ -35,15 +35,15 @@
 			if(!$rootScope.userIsLoggedIn)
 				return removeNotification();
 
-			var user = $rootScope.authenticatedUser;
-			var preferences = user.preferences || {};
+			var thisUser = $rootScope.authenticatedUser;
+			var preferences = thisUser.preferences || {};
 
 
 			console.log(preferences.hasOwnProperty('softLaunch'));
 
 			if(!Authorizer.canAccess('create-vote')) {
 
-				if(!incompleteProfileService.check(user)) {
+				if(!incompleteProfileService.check(thisUser)) {
 					
 					try {
 						hasSoftLaunchPreference();
@@ -68,7 +68,10 @@
 				self.primaryButton.text = 'Got it!';
 				self.primaryButton.action = function() {
 					removeNotification();
-					editUserFactory.save('preferences', JSON.parse({softLaunch: false}));
+					user.updateUser({
+						id: thisUser.id,
+						preferences: {softLaunch: false}
+					});
 				}
 				return self.copyText.softLaunch;
 			}
