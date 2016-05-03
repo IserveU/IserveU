@@ -6,18 +6,32 @@
 
 	function incompleteProfileService(user) {
 
-		this.check = function(userData) {
+		this.check = checkUserForNullFields;
+
+
+		function checkUserForNullFields (userData) {
 
 			userData = userData ? userData : user.self;
 
-			for( var i in userData )
-				if ( 
-					i === 'date_of_birth' || // not included in localized_economies
-					 i === 'street_name'   ||
-					 i === 'postal_code'   ||
-					 i === 'community_id' )
+			 var nullField = false;
+  
+  
+		    angular.forEach(userData, function(e, o) {
+		      
+		      if(o === 'date_of_birth' || o === 'community_id' || o === 'postal_code') {
+		        
+		        if (!e || e === null)
+		          nullField = true;
 
-			return (userData[i] === null ? true : false);
+		      }
+		      
+		    });
+		  
+		    return nullField;
+
+
+
+
 
 		}
 	}
