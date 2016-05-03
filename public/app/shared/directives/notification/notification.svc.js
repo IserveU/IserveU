@@ -2,9 +2,9 @@
 	
 	angular
 		.module('iserveu')
-		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'editUserFactory', 'incompleteProfileService', notificationService]);
+		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'user', 'incompleteProfileService', notificationService]);
 
-	function notificationService($rootScope, $state, Authorizer, editUserFactory, incompleteProfileService) {
+	function notificationService($rootScope, $state, Authorizer, user, incompleteProfileService) {
 
 		// global context for 'this'
 		var self = this;
@@ -14,8 +14,12 @@
 			unverifiedUser: ['<p>Your identity has not yet been identified. Our system is created for Yellowknife citizens,',
 							 ' if you complete your profile, our administrative team will verify your identity.</p>',
 							 '<p>Alternatively, you can go to one of the IserveU locations in town and get a member',
-							 'to personally confirm your identity, address and date of birth against the Canadian',
-							 ' registered voters repository.</p><br><br><p>Thanks, sincerely, the IserveU crew.</p>'
+							 ' to personally confirm your identity, address and date of birth against the Canadian',
+							 ' registered voters repository.</p><br><p>Regards,<br>The IserveU Crew</p>'
+			].join(''),
+
+			pendingReview: ['<p>Your profile is pending review. Please be patient with us while we process your information.</p>'
+
 			].join(''),
 
 			softLaunch: ['<h4>IserveU is in the process of a soft launch!&nbsp;</h4><p>Don\'t worry.',
@@ -35,46 +39,49 @@
 			if(!$rootScope.userIsLoggedIn)
 				return removeNotification();
 
-			var user = $rootScope.authenticatedUser;
-			var preferences = user.preferences || {};
-
-
-			console.log(preferences.hasOwnProperty('softLaunch'));
+			var thisUser = $rootScope.authenticatedUser;
+			var preferences = thisUser.preferences || {};
 
 			if(!Authorizer.canAccess('create-vote')) {
 
-				if(!incompleteProfileService.check(user)) {
-					
-					try {
-						hasSoftLaunchPreference();
-					}
-					catch(e) {
-						removeNotification();
-					}
-				} else {
+
+				if( incompleteProfileService.check(thisUser) ) {
 
 					self.primaryButton.text = 'Go to user profile';
 					self.primaryButton.action = function() {
 						$state.go('edit-user', {id: $rootScope.authenticatedUser.id});
 					}
 					return self.copyText.unverifiedUser;
+				}
+				else {
+
+					self.primaryButton.text = 'Close';
+					self.primaryButton.action = function() {
+						removeNotification();
+					}
+					return self.copyText.pendingReview;
 
 				}
+
 			}
 
 			
-			if( hasSoftLaunchPreference ) {
+			else if( hasSoftLaunchPreference() ) {
 
 				self.primaryButton.text = 'Got it!';
 				self.primaryButton.action = function() {
 					removeNotification();
-					editUserFactory.save('preferences', JSON.parse({softLaunch: false}));
+					user.updateUser({
+						id: thisUser.id,
+						preferences: {softLaunch: false}
+					});
 				}
 				return self.copyText.softLaunch;
 			}
 
+			else
 	
-			return removeNotification();
+				return removeNotification();
 
 			function removeNotification() {
 				return (function() {
