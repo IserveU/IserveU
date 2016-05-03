@@ -5,10 +5,10 @@
 		.directive('motionForm', [
 			'$state', '$stateParams', '$timeout', '$isuApiProvider', 'motionObj', 
 			'motionfile', 'ToastMessage', 'DEPARTMENT_INDEX', 'motionFilesFactory', 'errorHandler', 
-			'utils', 'SETTINGS_JSON',
+			'Authorizer', 'utils', 'SETTINGS_JSON',
 			motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, $isuApiProvider, motionObj, motionfile, ToastMessage, DEPARTMENT_INDEX, motionFilesFactory, errorHandler, utils, SETTINGS_JSON) {
+	function motionForm($state, $stateParams, $timeout, $isuApiProvider, motionObj, motionfile, ToastMessage, DEPARTMENT_INDEX, motionFilesFactory, errorHandler, Authorizer, utils, SETTINGS_JSON) {
 
 		function motionFormController($scope) {
 			var self = this;
@@ -23,9 +23,18 @@
 
 	        self.successHandler = function(r) {
 	            motionFilesFactory.attach(r.id, self.motionFiles);
-	            $timeout(function() {
-		           	$state.go( 'motion', ( {id: r.id} ) );
-	            }, 600);
+
+	            if(Authorizer.canAccess('edit-motion')){
+	            	ToastMessage.simple("Your submission has been sent in for review!");
+		            
+		            $timeout(function() {
+			           	$state.go('home');
+		            }, 600);
+	            }
+	            else
+		            $timeout(function() {
+			           	$state.go( 'motion', ( {id: r.id} ) );
+		            }, 600);
 	        };
 
 			self.triggerSpinner = function(val) {
@@ -45,7 +54,6 @@
 
 	     		self.motion = mData || motionObj.getMotionObj(id);
 	     		
-	     		console.log(mData);
 	     		if(self.motion.hasOwnProperty('$$state')) // If is a promise, then call self to resolve.
 	     			self.motion.then(function(mData){ return init(id, mData);});
 	     		

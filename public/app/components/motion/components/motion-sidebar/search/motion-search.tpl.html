@@ -19,8 +19,8 @@
             <md-option ng-mousedown="search.query(filter.query)" ng-repeat="filter in search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
           </md-select>
 
-          <md-menu-button class="action-btns" layout="row">
-            <md-button layout-align="center end" ng-click="search.all()">Show All</md-button>
+          <md-menu-button class="action-btns" layout="row" layout-align="end end">
+              <md-button class="md-accent md-raised" ng-click="search.all()">Clear filters</md-button>
           </md-menu-button>
         
         </md-menu-content>

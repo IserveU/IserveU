@@ -34,7 +34,6 @@
 					return factory.data;
 
 				}, function errorCallback(e){
-					console.log('cannot get motions');
 					factory.motionsAreEmpty = true;
 					return e;
 				});

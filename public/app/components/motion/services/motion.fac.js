@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('motion', ['$resource', '$q', '$http', 'ToastMessage', motion]);
+		.factory('motion', ['$rootScope', '$resource', '$q', '$http', 'ToastMessage', motion]);
 
 	 /** @ngInject */
-	function motion($resource, $q, $http, ToastMessage) {
+	function motion($rootScope, $resource, $q, $http, ToastMessage) {
 
 		var Motion = $resource('api/motion/:id', {}, {
 	        'update': { method:'PUT' }
@@ -35,6 +35,23 @@
 				return $q.reject(error);
 			});
 		}
+
+		function getMyMotions() {
+			return $http({
+                method: "GET",
+                url: "/api/motion",
+                params: {
+                     status: 0,
+                     user_id: $rootScope.authenticatedUser.id
+                }
+          	}).then(function successCallback(r){
+				return r;
+			}, function errorCallback(e){
+				return e;
+			});
+		}
+
+
 
 		function updateMotion(data) {
 			return Motion.update({id:data.id}, data).$promise.then(function(result) {
@@ -82,6 +99,7 @@
 		return {
 			getMotions: getMotions,
 			getMotion: getMotion,
+			getMyMotions: getMyMotions,
 			createMotion: createMotion,
 			updateMotion: updateMotion,
 			deleteMotion: deleteMotion,

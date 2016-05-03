@@ -29,9 +29,9 @@
 
 	            var motionData = mData || motionObj.getMotionObj(id);
 
-	            if(motionData && motionData.status < 1 && !Authorizer.canAccess('administrate-motion')){
-	            	$state.go('home');
-				}
+	   //          if(motionData && motionData.status == 2 && !Authorizer.canAccess('administrate-motion')){
+	   //          	$state.go('home');
+				// }
 
 	            motionObj.clearMotionDependencies();
 
