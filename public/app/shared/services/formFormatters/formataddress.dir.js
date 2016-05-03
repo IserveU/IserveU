@@ -28,12 +28,7 @@
       				else
 						address = data.unit_number + '-' + data.street_number + ' ' + utils.toTitleCase(data.street_name);
 
-					if(data.community_id)
-						for(var i in scope.communities){
-							if (data.community_id === scope.communities[i].id)
-								return address + ', ' + scope.communities[i].name;
-						}
-					else return address;
+					return address;
 
 			    });
 			}

@@ -12,9 +12,9 @@
 
 			for( var i in userData )
 				if ( 
-					// i === 'date_of_birth' || not included in localized_economies
-					//  i === 'street_name'   ||
-					//  i === 'postal_code'   ||
+					i === 'date_of_birth' || // not included in localized_economies
+					 i === 'street_name'   ||
+					 i === 'postal_code'   ||
 					 i === 'community_id' )
 
 			return (userData[i] === null ? true : false);

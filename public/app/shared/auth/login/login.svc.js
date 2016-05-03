@@ -58,7 +58,7 @@
 			}, function(e) {
 
 				factory.creating = false;
-				errorHandler( JSON.parse(e.data.message) );
+				errorHandler( e.data.message );
 				factory.authError = true;
 
 			});
@@ -77,20 +77,26 @@
 
 
 		function errorHandler(message) {
+
 			for (var i in factory.errors) 
 				factory.errors[i] = false;
 
-			if( message == "Invalid credentials" )
+			if( message == "Invalid credentials" ){
 				factory.errors.invalidCredentials = true;
-			else if(message == "Email address not in database")
+			}
+			else if(message == "Email address not in database"){
 				factory.errors.invalidEmail = true;
-			else if(angular.isString(message) && message.substr(0, 17) == 'Account is locked')
+			}
+			else if(angular.isString(message) && message.substr(0, 17) == 'Account is locked'){
 				factory.errors.accountLocked = true;
-			else if( message.hasOwnProperty('email') )
+			}
+			else if( message.hasOwnProperty('email') ){
 				if( message.email[0] == "validation.unique" )
 					factory.errors.emailNotValid = true;
-			else
+			}
+			else {
 				ToastMessage.report_error(message);
+			}
 		};
 
 		return factory;

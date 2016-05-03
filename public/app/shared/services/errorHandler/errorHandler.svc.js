@@ -5,12 +5,14 @@
 
 	angular
 		.module('iserveu')
-		.service('errorHandler', ['$state', errorHandler]);
+		.service('errorHandler', ['$state', 'ToastMessage', errorHandler]);
 
 	/** @ngInject */
-	function errorHandler($state) {
+	function errorHandler($state, ToastMessage) {
 
-
+		return function(e) {
+			return ToastMessage.report_error(e);
+		}
 
 
 

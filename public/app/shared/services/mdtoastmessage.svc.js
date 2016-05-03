@@ -20,14 +20,12 @@
         }
 
         function action(message, affirmative, warning){
-           var toast = $mdToast.simple()
+           return $mdToast.simple()
                 .content(message)
-                .action(affirmative)
-                .highlightAction(warning)
+                .action(affirmative || "Yes")
+                .highlightAction(warning || false)
                 .position('bottom right')
                 .hideDelay(5000);
-                
-            return toast;
         }
 
         function reload(time){
@@ -69,15 +67,13 @@
 
         // TODO: implment Error Handler Service
         function report_error(error){
-            var toast = action("Sorry, something went wrong.", "See", true); 
-            var error = action(error.message, "Report");
-            var thanks = simple("Thanks for your help! We'll work on it.", 800);
+
+            var toast = action("Sorry, something went wrong.", "Report", true); 
 
             $mdToast.show(toast).then(function(r) {
-                if (r == 'ok')
-                    $mdToast.show(error).then(function(r){
-                        if (r == 'ok') $mdToast.show(thanks);
-                    });
+                if (r == 'ok') {
+                    simple("Thanks for your assistance!", 800);
+                }
             });
         }
 
