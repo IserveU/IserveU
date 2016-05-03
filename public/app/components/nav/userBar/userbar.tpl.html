@@ -66,6 +66,25 @@
                     </md-button>
                 </md-menu-item>
 
+                <md-menu-item has-permission="create-motion" ui-sref="create-motion">
+                    <md-button aria-label="go to create-motion form">
+                        <div layout="row">
+                            <p flex>Submit a {{'MOTION' | translate}}</p>
+                            <md-icon class="mdi mdi-file-document-box"></md-icon>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+
+                <md-menu-item has-permission="create-motion" ui-sref="my-motions">
+                    <md-button aria-label="go to create-motion form">
+                        <div layout="row">
+                            <p flex>My {{'MOTIONS' | translate}}</p>
+                            <md-icon class="mdi mdi-newspaper"></md-icon>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+
+
                 <md-menu-item>
                     <md-button aria-label="logout" ng-click="user.logout()">
                         <div layout="row">
