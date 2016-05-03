@@ -8,6 +8,8 @@ use Auth;
 
 class IndexMotionRequest extends Request
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,18 +17,28 @@ class IndexMotionRequest extends Request
      */
     public function authorize()
     {
-         //Want to see unpublished motions
-        if($this->has('status') && $this->input('status') < 2){
+
+
+        if(Auth::check() && Auth::user()->can('show-motion')) return true;
+
+        //If you're not an admin and haven't set a status, these are the defaults
+        if(!$this->has('status')){
+            $this['status'] = [2,3];
+           // $this->request->add(['status'=>[2,3]]); Didn't work
+            return true;
+        } 
+
+
+        if(array_intersect([0,1],$this->input('status'))){
             if(!Auth::check() ){
                 return false;
             }
 
-            if(Auth::user()->can('show-motion')) return true;
-
             //If you want to see unpublshed motions you can only see yours
-            $this->request->add(['user_id'=>Auth::user()->id]);
-            return true;
+            //$this->request->add(['user_id'=>Auth::user()->id]);
+            $this['user_id'] = Auth::user()->id;
         }
+         
 
         //Not trying to see an unpublished motion
         return true;
@@ -47,7 +59,7 @@ class IndexMotionRequest extends Request
             'is_expired'        =>  'boolean',
             'newest'            =>  'boolean',
             'oldest'            =>  'boolean',
-            'status'            =>  'integer',
+       //     'status'            =>  'array',
             'user_id'           =>  'exists:users,id'
         ];
     }

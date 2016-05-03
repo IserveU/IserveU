@@ -213,6 +213,9 @@ class Motion extends ApiModel {
 	}
 
 	public function scopeStatus($query,$status=2){
+		if(is_array($status)){
+			return $query->whereIn('status',$status);
+		}
 		return $query->where('status',$status);
 	}
 
