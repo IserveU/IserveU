@@ -1,9 +1,6 @@
 <user-fab></user-fab>
 
-<div layout="column" layout-align="center center" layout-fill>
-
-<md-card flex-sm="100" style="width: 60%">
-
+<md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
   <profile-toolbar></profile-toolbar>
 
   <md-card-content class="profile-display" layout="column" layout-padding layout-margin>
@@ -26,7 +23,7 @@
 </md-card>
 
 
-<md-card style="width: 60%" flex-sm="100" ng-if="profile.public || display.administrator">
+<md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;" ng-if="profile.public || display.administrator">
   <md-card-content style="padding: 10px">
 
       <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
@@ -57,4 +54,3 @@
 </md-card>
 
 
-</div>
