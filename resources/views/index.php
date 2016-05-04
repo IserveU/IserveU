@@ -18,24 +18,27 @@
 
         <user-bar ng-if="!isLoginState"></user-bar>
 
-        <md-content id="maincontent" layout="row" layout-fill flex
-        ng-class="pageLoading?'loading':''"  
-        ng-style="{'height': isLoginState ? '100vh' : '91vh'}">
+        <div layout="row">
 
-            <md-sidenav ng-if="!isLoginState && settingsGlobal.module.motions"
-                class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
-                role="navigation"
-                md-component-id="left" 
-                md-is-locked-open="$mdMedia('gt-sm')">
-                <motion-sidebar flex></motion-sidebar>
-            </md-sidenav>
+        <md-sidenav ng-if="!isLoginState && settingsGlobal.module.motions"
+            class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
+            role="navigation"
+            md-component-id="left" 
+            md-is-locked-open="$mdMedia('gt-sm')">
+            <motion-sidebar flex></motion-sidebar>
+        </md-sidenav>
 
-            <div layout="column" layout-fill flex>
+
+        <md-content id="maincontent" layout-fill
+            ng-style="{'height': isLoginState ? '100vh' : '92vh'}">
+
                 <notification-template ng-hide="isLoginState" flex-order="0"></notification-template>
-                <div ui-view flex-order="1" role="main" tabIndex="-1" layout-margin></div>
-                <show-footer flex-order="2" layout-margin></show-footer>                    
-            </div>
+                <div ui-view flex flex-order="1" role="main" tabIndex="-1" layout-margin></div>
+                <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>            
+
         </md-content>
+
+        </div>
     </body>        
 
 
