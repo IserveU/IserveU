@@ -39,7 +39,8 @@ elixir(function(mix) {
         '/bower/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
         '/bower/tinycolor/dist/tinycolor-min.js',
         '/bower/md-color-picker/dist/mdColorPicker.min.js',
-        '/bower/isu-form-sections/dist/isu-form-sections.min.js'
+        '/bower/isu-form-sections/dist/isu-form-sections.min.js',
+        '/bower/angular-loading-bar/build/loading-bar.min.js'
         ],'public/js/dependencies.js', './resources');// added resources as third argument to point directly to the resources directory and not have /js in there
  	
     mix.scriptsIn('public/app','public/js/app.js');
@@ -50,7 +51,8 @@ elixir(function(mix) {
         '/bower/textAngular/dist/textAngular.css',
         '/bower/bootstrap-css-only/css/bootstrap.min.css',
         '/bower/font-awesome/css/font-awesome.min.css',
-        '/bower/md-color-picker/dist/mdColorPicker.min.css'
+        '/bower/md-color-picker/dist/mdColorPicker.min.css',
+        '/bower/angular-loading-bar/build/loading-bar.css'
     ],'public/css/dependencies.css', './resources'); 
     
     mix.sass(['style.scss'],'public/css');

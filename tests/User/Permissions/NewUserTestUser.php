@@ -14,8 +14,8 @@ class NewUserTestUser extends TestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->signIn();
+
     }
 
     /*****************************************************************
@@ -47,7 +47,6 @@ class NewUserTestUser extends TestCase
         $this->dontSee($user->first_name);
         $this->dontSee($user->last_name);
     }
-
     
     /** @test */
     public function it_cannot_see_a_private_users_details()
@@ -107,14 +106,12 @@ class NewUserTestUser extends TestCase
                        'last_name'      => 'updated_last_name',
                        'preferences'    =>  json_encode(['setting','mysetting'])
                        ];
-
+                       
         $this->call('PATCH', '/api/user/'.$user->id, $updateData);
-
         $this->assertResponseOk();
 
         $this->seeJson(array_merge($updateData, ['id' => $user->id]));
         $this->seeInDatabase('users',array($updateData));
-
 
     }
 

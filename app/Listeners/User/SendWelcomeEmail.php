@@ -36,6 +36,7 @@ class SendWelcomeEmail
             'title' =>  'Welcome'
         );
 
+
         if($user->modificationTo->first()->modification_by_id == $user->id){ //If this created user created themselves
 
 

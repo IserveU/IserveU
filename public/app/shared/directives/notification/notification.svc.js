@@ -16,11 +16,11 @@
 							 '<p>Alternatively, you can go to one of the IserveU locations in town and get a member',
 							 ' to personally confirm your identity, address and date of birth against the Canadian',
 							 ' registered voters repository.</p><br><p>Regards,<br>The IserveU Crew</p>'
-			].join(''),
+							].join(''),
 
 			pendingReview: ['<p>Your profile is pending review. Please be patient with us while we process your information.</p>'
-
-			].join(''),
+							
+							].join(''),
 
 			softLaunch: ['<h4>IserveU is in the process of a soft launch!&nbsp;</h4><p>Don\'t worry.',
 						' We will be updating you on city council motions,',
@@ -80,7 +80,6 @@
 			}
 
 			else
-	
 				return removeNotification();
 
 			function removeNotification() {

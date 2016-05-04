@@ -3,14 +3,14 @@
 	angular
 		.module('iserveu')
 		.factory('departmentManagerService', 
-			['$state', '$timeout', 'department', 'ToastMessage',
+			['$state', '$timeout', 'DEPARTMENT_INDEX','department', 'ToastMessage',
 			departmentManagerService]);
 
     /** @ngInject */
-	function departmentManagerService($state, $timeout, department, ToastMessage) {
+	function departmentManagerService($state, $timeout, DEPARTMENT_INDEX, department, ToastMessage) {
 
 		var factory = {
-			list: {},
+			list: DEPARTMENT_INDEX,
 			success: {},
 			disabled: {},
 			edit: function(id) {
@@ -61,15 +61,6 @@
 				this.edit('promise');
 			}
 		}
-
-        department.get().then(function(r){
-            factory.list = r.data;
-
-            for(var i in r.data){
-            	factory.success[ r.data[i].id ]  = false;
-            	factory.disabled[ r.data[i].id ] = true;
-            }
-        });
 
 		return factory;
 	}

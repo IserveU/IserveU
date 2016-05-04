@@ -11,14 +11,19 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
+		'App\Events\User\UserUpdating'	=> [	//Things that might trigger a save on the user model
+			'App\Listeners\User\IdentityReverification',
+		],
 		'App\Events\User\UserUpdated'	=> [
 			'App\Listeners\User\AddUserModificationEntry',
-			'App\Listeners\User\IdentityReverification',
 			'App\Listeners\User\DeleteUnattachedFiles',
 			'App\Listeners\User\CheckUserRoles', //for some reason this is being fired on create and conflicting with processes
 		],
-		'App\Events\User\UserCreated' => [
-			'App\Listeners\User\SetRememberToken',
+		'App\Events\User\UserCreating' => [ //Things that "Save" the user model should go in here
+			'App\Listeners\User\SetRememberToken'
+		],
+		'App\Events\User\UserCreated' => [ //Things that save other records should go here
+			'App\Listeners\User\AddUserModificationEntry',
 			'App\Listeners\User\SendWelcomeEmail',
 		//	'App\Listeners\User\CreateDefaultDelegations'
 		],

@@ -3,11 +3,11 @@
 	angular
 		.module('iserveu')
 		.service('voteButtonMessage', [
-'$rootScope', '$translate', 'Authorizer', 'isMotionOpen', 'incompleteProfileService'
+'$rootScope', '$translate', 'Authorizer', 'isMotionOpen'
 			,voteButtonMessage]);
 
 	/** @ngInject */
-	function voteButtonMessage($rootScope, $translate, Authorizer, isMotionOpen, incompleteProfileService) {
+	function voteButtonMessage($rootScope, $translate, Authorizer, isMotionOpen) {
 
 		// TODO: this as a constant watcher is slowing shit DOWN.
 		// figure out a way to destroy after awhile or two-way bind

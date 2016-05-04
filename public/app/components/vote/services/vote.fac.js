@@ -9,11 +9,21 @@
   	 /** @ngInject */
 	function vote($resource, $q, $http) {
 
-		var Vote = $resource('api/vote/:id', {}, {
-	        'update': { method:'PUT' }
+		var Vote = $resource('api/vote/:id', {ignoreLoadingBar:'@true'}, {
+	        'update': {
+	        	 method:'PUT',  
+	        	 ignoreLoadingBar: true 
+        	}
 	    });
 
-		var MyVotes = $resource('api/user/:id/vote', {limit:'@limit'});
+		var MyVotes = $resource('api/user/:id/vote', {limit:'@limit'}, {
+			query: {
+		        method: 'GET',
+		        params: {},
+		        isArray: true,
+		        ignoreLoadingBar: true
+			}
+		});
 
 		// This function uses an $http request as opposed to resource because 
 		// it doesn't expect an object or an array and uses tranformRequest
@@ -30,7 +40,6 @@
 				return error;
 			});
 	    }
-
 
 	    // set into local storage array that updates
 	    function getMyVotes(id, limit) {

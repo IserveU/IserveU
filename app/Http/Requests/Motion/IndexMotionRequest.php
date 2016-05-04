@@ -59,7 +59,7 @@ class IndexMotionRequest extends Request
             'is_expired'        =>  'boolean',
             'newest'            =>  'boolean',
             'oldest'            =>  'boolean',
-       //     'status'            =>  'array',
+            'status'            =>  'array',
             'user_id'           =>  'exists:users,id'
         ];
     }

@@ -28,7 +28,7 @@
 	  	<md-icon md-svg-src="/themes/{{::themename}}/loading.svg" ng-show="votes.voteLoading"></md-icon>
 	    <md-tooltip md-direction="left" ng-if="votes.overallPosition != 'thumbs-up-down'">Most people {{ votes.overallPosition == 'thumb-up' ? 'agree' : 'disagree' }}</md-tooltip>
 	    <md-tooltip md-direction="left" ng-if="votes.emptyVotes">This {{ 'MOTION' | translate }} has not been voted on.</md-tooltip>
-       	<md-tooltip md-direction="left" ng-if="votes.overallPosition == 'thumbs-up-down' && !votes.emptyVotes">This {{ 'MOTION' | translate }} has resulted in a tie.</md-tooltip>					    
+       	<md-tooltip md-direction="left" ng-if="votes.overallPosition == 'thumbs-up-down' && !votes.emptyVotes">This {{ 'MOTION' | translate }} has resulted in a tie.</md-tooltip>
     </md-grid-tile>
 
     <md-grid-tile class="md-whiteframe-z1">

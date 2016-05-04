@@ -13,15 +13,22 @@
 	        'update': { method:'PUT' }
 	    });
 
-	    var GetTopMotion = $resource('api/motion/', {
-               rank_greater_than:0, take:1
-		}, {});
+	    var GetTopMotion = $resource('api/motion/', {}, { 
+			query: {
+		        method: 'GET',
+		        params: {
+		        	rank_greater_than: 0,
+		        	take: 1
+		        },
+		        isArray: true,
+				ignoreLoadingBar: true
+			}
+		});
 
 	    var MotionRestore = $resource('api/motion/:id/restore');
 
 		function getMotions(data) {
 			return Motion.get(data).$promise.then(function(results) {
-				console.log(results);
 				return results
 			}, function(error) {
 				return $q.reject(error);
@@ -36,14 +43,30 @@
 			});
 		}
 
+		function getMotionByStatus(status) {
+			return $http({
+                method: "GET",
+                url: "/api/motion",
+                params: {
+                     'status[]': status
+                },
+                ignoreLoadingBar: true
+          	}).then(function successCallback(r){
+				return r;
+			}, function errorCallback(e){
+				return e;
+			});
+		}
+
 		function getMyMotions() {
 			return $http({
                 method: "GET",
                 url: "/api/motion",
                 params: {
-                     status: 0,
+                     'status[]': [0],
                      user_id: $rootScope.authenticatedUser.id
-                }
+                },
+                ignoreLoadingBar: true
           	}).then(function successCallback(r){
 				return r;
 			}, function errorCallback(e){
@@ -99,6 +122,7 @@
 		return {
 			getMotions: getMotions,
 			getMotion: getMotion,
+			getMotionByStatus: getMotionByStatus,
 			getMyMotions: getMyMotions,
 			createMotion: createMotion,
 			updateMotion: updateMotion,

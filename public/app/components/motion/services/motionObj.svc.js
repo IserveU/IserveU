@@ -23,6 +23,7 @@
 				return $http({
                     method: "GET",
                     url: "/api/motion",
+			        ignoreLoadingBar: true,
                     params: {
                          page : factory.next_page
                     }

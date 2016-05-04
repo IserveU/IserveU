@@ -5,10 +5,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('roleFactory', ['$stateParams', 'role', 'user', roleFactory]);
+		.factory('roleFactory', ['$stateParams', '$state', 'role', 'user', roleFactory]);
 
   	 /** @ngInject */
-	function roleFactory($stateParams, role, user){
+	function roleFactory($stateParams, $state, role, user){
 
 		var factory = {
 			list: {},
@@ -24,7 +24,6 @@
 						this.list[i]['hasRole'] = true;
 			},
 			set: function(role) {
-				// if($stateParams.id !== user.self.id)
 				this.setRole(role,$stateParams.id);
 			},
 			setRole: function(role, id) {
@@ -37,14 +36,14 @@
 				role.grantRole({
 					id: id,
 					role_name: r.name}).then(function(){
-						// refreshLocalStorage.init();
+						$state.reload();
 				});
 			},
 			remove: function (r, id){
 				role.deleteUserRole({
 					id: id,
 					role_id: r.id}).then(function(){
-						// refreshLocalStorage.init();
+						$state.reload();
 				});
 			},
 			getAllRoles: function() {

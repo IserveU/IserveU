@@ -17,14 +17,13 @@
             'infinite-scroll',
 			'pascalprecht.translate',
 			'mdColorPicker',
-			'isu-form-sections'
+			'isu-form-sections',
+			'angular-loading-bar'
 		])
 		.run(['$rootScope', '$auth', '$window', '$timeout', '$globalProvider',
 			function($rootScope, $auth, $window, $timeout, $globalProvider) {
 				
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
-
-			    	$rootScope.pageLoading = true;
 
 					$globalProvider.checkUser();
 					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
@@ -32,10 +31,12 @@
 					
 				});
 
-			    $rootScope.$on('$viewContentLoaded',function(){
-			    	$timeout(function() {
-			    		$rootScope.pageLoading = false;
-			    	}, 500);
+			    $rootScope.$on('cfpLoadingBar:loading',function(){
+		    		$rootScope.pageLoading = true;
+			    });
+
+			    $rootScope.$on('cfpLoadingBar:completed',function(){
+		    		$rootScope.pageLoading = false;
 			    });
 
 		        $globalProvider.init();
