@@ -37,7 +37,11 @@
 
 				// If is a promise, then call self to resolve.
 	     		if(motionData.hasOwnProperty('$$state')) 
-	     			motionData.then(function(mData){ return getMotion(id, mData);});
+	     			motionData.then(function(mData){ 
+	     				return getMotion(id, mData);
+	     			}, function(error){
+	     				$state.go('home');
+	     			});
 	     		else
 	     			motionObj.setMotionDependencies(motionData);
 	        }

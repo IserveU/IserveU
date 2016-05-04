@@ -1,4 +1,4 @@
-<section layout-margin layout="column" ng-class="motion.isLoading ?'loading':''" flex>
+<section layout-margin layout="column" ng-class="pageLoading ?'loading':''" flex>
 
 	<motion-fab-toolbar></motion-fab-toolbar>	
 
@@ -15,17 +15,17 @@
 				<div layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
 					<section ng-repeat="section in motion.details.sections" flex>
 
-						<div class="budget" ng-if="section.type=='Budget'" flex-order="section.order" flex>
+						<div class="budget" ng-show="section.type=='Budget'" flex-order="section.order" flex>
 							<h3 class="title-header">Projected Costs</h3>
 							<p>${{::section.content.price | number}}</p>
 							<p>{{::section.content.description}}</p>
 						</div>
 
 
-						<div ng-if="section.type=='Profile'" flex="50" flex-sm="100" flex-xs="100" flex-order="section.order">
+						<div ng-show="section.type=='Profile'" flex="50" flex-sm="100" flex-xs="100" flex-order="section.order">
 							<h3 class="title-header">Proposed by:</h3>
 							<div class="bio" flex>
-								<img file-id="{{section.content.file_id}}" flex-order="0"/>
+								<img file-id="{{::section.content.file_id}}" flex-order="0"/>
 								<span flex-order="1">
 									<p>{{::section.content.heading}}</p>
 									<a href="{{::section.content.subheading}}" target="_blank">{{::section.content.subheading}}</a>

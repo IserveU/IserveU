@@ -10,18 +10,37 @@
 	function comment($resource, $q) {
 
 		var Comment = $resource('api/comment/:id', {}, {
-	        'update': { method:'PUT' }
+	        'update': { 
+	        	method:'PUT',
+		        ignoreLoadingBar: true 
+	        },
+        	query: {
+			    method: 'GET',
+		        params: {},
+		        isArray: true,
+		        ignoreLoadingBar: true
+	    	}
 	    });
 
 	    var Restore = $resource('api/comment/:id/restore');
 
-	    var MotionComment = $resource('api/motion/:id/comment');
+	    var MotionComment = $resource('api/motion/:id/comment', {}, 
+		    {
+		    	query: {
+				    method: 'GET',
+			        params: {},
+			        isArray: true,
+			        ignoreLoadingBar: true,
+		    	}
+		    }
+    	);
 
 	    var MyComments =  $resource('api/user/:id/comment', {}, {
 	      query: {
 	        method: 'GET',
 	        params: {},
 	        isArray: true,
+	        ignoreLoadingBar: true,
 	        transformResponse: function(data, header){
 	          //Getting string data in response
 	          var jsonData = JSON.parse(data); //or angular.fromJson(data)
