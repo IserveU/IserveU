@@ -107,13 +107,11 @@ class NewUserTestUser extends TestCase
                        'preferences'    =>  json_encode(['setting','mysetting'])
                        ];
                        
-        Log::info('test ready');
+        $this->call('PATCH', '/api/user/'.$user->id, $updateData);
+        $this->assertResponseOk();
 
-        // $this->call('PATCH', '/api/user/'.$user->id, $updateData);
-        // $this->assertResponseOk();
-
-        // $this->seeJson(array_merge($updateData, ['id' => $user->id]));
-        // $this->seeInDatabase('users',array($updateData));
+        $this->seeJson(array_merge($updateData, ['id' => $user->id]));
+        $this->seeInDatabase('users',array($updateData));
 
     }
 
