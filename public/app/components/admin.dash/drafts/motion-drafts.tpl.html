@@ -1,5 +1,5 @@
-<div ng-repeat="motion in draft.motionObj.data">
-	<md-card ng-if="motion.status < 2">
+<div ng-repeat="motion in draft.motions">
+	<md-card>
 		<md-card-content layout-padding>
 
 		<div layout="row">
@@ -11,6 +11,7 @@
           	<span flex></span>
 		
 			{{ motion.updated_at.alpha_date }}
+			
 		</div>
 		
 		</md-card-content>
