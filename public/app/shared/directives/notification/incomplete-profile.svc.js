@@ -8,7 +8,6 @@
 
 		this.check = checkUserForNullFields;
 
-
 		function checkUserForNullFields (userData) {
 
 			userData = userData ? userData : user.self;
@@ -28,11 +27,6 @@
 		    });
 		  
 		    return nullField;
-
-
-
-
-
 		}
 	}
 
