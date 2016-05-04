@@ -73,7 +73,7 @@
 						<h3 class="title-header">Options</h3>
 				</div>
 
-				<div layout="column" flex>
+				<div layout="column"  ng-init="form.motion.status = 0" flex>
 					<md-input-container flex>
 						<md-select name="department" ng-model="form.motion.department_id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" required>
 							<md-option ng-repeat="d in form.departments" ng-value="d.id">{{d.name}}</md-option>
@@ -84,11 +84,11 @@
 						</div>
 					</md-input-container>
 
-					<md-input-container flex>
-						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required ng-init="form.motion.status = 0">
+					<md-input-container has-permission="administrate-motion" flex>
+						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
 							<md-option value="0">Draft</md-option>
-							<md-option has-permission="create-motion" value="1">In review</md-option>
-							<md-option has-permission="create-motion" value="2">Publish</md-option> 
+							<md-option value="1">In review</md-option>
+							<md-option value="2">Publish</md-option> 
 						</md-select>
 						
 						<div ng-messages="motionForm.status.$error" role="alert">
