@@ -8,7 +8,7 @@
       </md-button>
     </div>
   </md-toolbar>
-  <md-dialog-content style="max-width:800px; max-height:810px;">
+  <md-dialog-content style="max-width:800px; max-height:810px;" flex-order="0">
     <div class="md-dialog-content">
       <h2>By using our website, you accept these terms and conditions in full</h2><p class="md-body-1">
       Accordingly, if you disagree with these terms and conditions or any part of these terms and conditions, you must not use our website.
@@ -18,13 +18,13 @@
 
     </div>
   </md-dialog-content>
-  <div class="md-actions" layout="row">
+  <div layout="row" flex-order="1">
     <md-button href="http://iserveu.ca/about" target="_blank">
       More on IserveU
     </md-button>
     <span flex></span>
     <md-button class="md-raised md-accent" ng-click="answer('agree')">
-      I Agree
+      {{ userIsLoggedIn ? 'Close' : 'I Agree' }}
     </md-button>
   </div>
 </md-dialog>

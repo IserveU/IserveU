@@ -4,23 +4,24 @@
 
 	angular
 		.module('iserveu')
-		.directive('termsAndConditions', ['SETTINGS_JSON', 'loginService', termsAndConditions]);
+		.directive('termsAndConditions', ['$rootScope', 'SETTINGS_JSON', 'loginService', termsAndConditions]);
 
 
-  	 /** @ngInject */
-	function termsAndConditions(SETTINGS_JSON, loginService) {
-	  	 /** @ngInject */
+	function termsAndConditions($rootScope, SETTINGS_JSON, loginService) {
+
 		function controllerMethod($mdDialog, $scope) {
         	
-        	var vm = this;
+        	var self = this;  //global context for this
 
-        	vm.showTermsAndConditions = showTermsAndConditions;
-        	vm.agree   = false;
-    		vm.hasRead = false;
-    		
+        	self.showTermsAndConditions = showTermsAndConditions;
+        	self.agree   = false;
+    		self.hasRead = false;
+
         	function showTermsAndConditions(ev, create, authError){
 
-			    if(vm.hasRead === false){
+        		ev.preventDefault();
+
+			    if(self.hasRead === false){
 				    $mdDialog.show({
 				      controller: ['$scope', '$mdDialog', TermsAndConditionsController],
 				      templateUrl: 'app/shared/terms/termsandconditions.tpl.html',
@@ -29,13 +30,13 @@
 				      clickOutsideToClose:false
 				    }).then(function(answer){
 				    	if( answer === 'agree' )
-				        	vm.agree = true;
+				        	self.agree = true;
 				    	if( answer === 'agree' && create === true ) {
 				    		loginService.createUser();
-				    		vm.hasRead = true;
+				    		self.hasRead = true;
 				    	}
 				    	else
-				    		vm.hasRead = false;
+				    		self.hasRead = false;
 				    });
 				} else if (authError)
 		    		loginService.createUser();
@@ -51,7 +52,8 @@
 			  $scope.answer = function(answer) {
 			    $mdDialog.hide(answer);
 			  };
-        	
+        		
+        	  $scope.userIsLoggedIn = $rootScope.userIsLoggedIn;
 			  $scope.settings = SETTINGS_JSON;
         	}
 
