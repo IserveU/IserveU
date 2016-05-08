@@ -10,7 +10,7 @@ class StoreUserRequest extends Request
 
 
     protected $rules = [
-        'email'                     =>  'email|required',
+        'email'                     =>  'email|required|unique:users,email',
         'password'                  =>  'required',
         'first_name'                =>  'required|string',
         'last_name'                 =>  'required|string',
