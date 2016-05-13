@@ -119,14 +119,28 @@ p.beta-message {
 	padding-left:16px;
 }
 
-@media screen and (max-width:320px) {
+@media screen and (min-width:320px) {
 	p.beta-message {
 		font-size: 10px;
 		padding-left:8px;
 	}
 }	
-// end temp
 
+@media screen and (min-width: 320px) and (max-width: 750px) {
+	iframe {
+		width: 250px;
+		max-width: 250px !important;
+		height: auto;
+	}
+}
+
+
+// end temp
+	// iframe {
+	// 	width: 250px;
+	// 	max-width: 250px !important;
+	// 	height: auto;
+	// }
 
 // Element Overrides
 html,body{
@@ -310,6 +324,13 @@ md-sidenav.md-locked-open {
 	margin-bottom: 30px;
 }
 
+.loading {
+	md-card-content{
+		filter: blur(5px) grayscale(0.5);
+		transition-delay: 3s;
+	}
+}
+
 #maincontent{
 
 	p{
@@ -418,6 +439,50 @@ md-sidenav.md-locked-open {
 
 }
 
+.motionVotes__buttons {
+    transition: all 0.3s ease;
+    opacity: 1;
+
+    &.ng-hide-add, 
+    &.ng-hide-remove{ 
+        display: inline-block !important;
+    }
+
+    &.ng-hide{
+        opacity: 0;
+    }
+
+	button{
+		margin: 0px;
+		height: 100px;
+	}
+
+	md-icon{
+		height: 80%;
+		width: 25%;
+	}
+	.raised {
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+	}
+}
+
+.motionVotes__buttons--abstain {
+	margin: 8px;
+}
+
+.motionVotes__buttons--agree {
+	margin: 8px; 
+	margin-left: 0px;
+}
+
+.motionVotes__buttons--disagree {
+	margin: 8px; 
+	margin-right: 0px;
+}
+
+.motionVotes__statusbar {
+
+}
 
 /** Sidebar Styles **/
 md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-active {
@@ -531,7 +596,29 @@ input.sidebar-search-input {
 		font-size: 16px;
 	   	color:    $white;
 	}
+	&.toolbar {
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			font-size: 16px;
+		    color:    $darkGrey;
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			font-size: 16px;
+		   	color:    $darkGrey;
+		   	opacity:  1;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+			font-size: 16px;
+		   	color:    $darkGrey;
+		   	opacity:  1;
+		}
+		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			font-size: 16px;
+		   	color:    $darkGrey;
+		}
+
+	}
 }
+
 /** End sidebar Styles **/
 
 /** Toolbar styles **/
