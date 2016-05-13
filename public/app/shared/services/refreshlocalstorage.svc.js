@@ -13,8 +13,6 @@
 
 		this.init = function(){
 
-			console.log('init');
-
 			localStorage.removeItem('user');
 			localStorage.removeItem('permissions');
 			localStorage.removeItem('settings');
@@ -41,8 +39,6 @@
 		};
 	
 		function reload (r) {
-
-			console.log('reload');
 
 			if(angular.isUndefined(r) || !r)
 				return 0;

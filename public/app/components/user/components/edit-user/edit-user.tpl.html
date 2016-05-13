@@ -66,7 +66,7 @@
         <md-input-container flex>
           <label>Community</label>
           <md-icon class="mdi mdi-hops"></md-icon>
-          <input type="text" ng-model="profile.community_id" ng-disabled="edit.disabled.community" format-community/>
+          <input type="text" ng-model="profile.community_id" ng-disabled="edit.disabled.community" format-community="communities.index"/>
         </md-input-container>
           <md-icon class="mdi mdi-pencil" ng-click="edit.switch('community')"></md-icon>
           <md-icon class="mdi mdi-check" ng-show="edit.success.community"></md-icon>
@@ -76,7 +76,7 @@
     <div layout="column" ng-if="!edit.disabled.community" flex>
       <div layout="row" flex>
         <md-select placeholder="Which community do you reside in?" ng-model="edit.community.community_id" required flex>
-            <md-option ng-repeat="c in communities" ng-value="c.id" required>{{c.name}}</md-option>
+            <md-option ng-repeat="c in communities.index" ng-value="c.id" required>{{c.name}}</md-option>
         </md-select>
       
         <md-icon style="margin-top: 10px" class="mdi mdi-content-save" ng-click="edit.save('community', edit.community)" ng-hide="edit.success.community"></md-icon>

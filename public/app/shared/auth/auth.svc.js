@@ -6,7 +6,6 @@
 		.module('iserveu')
 		.factory('auth', ['$resource', '$http', '$sanitize', 'CSRF_TOKEN', '$auth', '$q', auth]);
 
-  	 /** @ngInject */
 	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth, $q) {
 
 		var login = function(credentials) {

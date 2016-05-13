@@ -5,16 +5,16 @@
 
 	angular
 		.module('iserveu')
-		.directive('motionDrafts', ['motion', 'errorHandler', motionDrafts]);
+		.directive('motionDrafts', ['motionResource', 'errorHandler', motionDrafts]);
 
 	 /** @ngInject */
-	function motionDrafts(motion, errorHandler){
+	function motionDrafts(motionResource, errorHandler){
 
 		function motionDraftController() {
 
 			var self = this; // global context for 'this'
 
-			motion.getMotionByStatus([0,1]).then(function(r){
+			motionResource.getMotionByStatus([0,1]).then(function(r){
 				self.motions = r.data.data;
 			}, function(e){
 				errorHandler(e);

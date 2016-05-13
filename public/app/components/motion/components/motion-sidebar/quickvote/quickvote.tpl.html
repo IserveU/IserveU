@@ -1,9 +1,0 @@
-<div ng-switch="{{ motion.user_vote.position }}">
-	<md-button aria-label="User Menu"  class="md-icon-button" ng-mousedown="c.cycleVote(motion)">
-		  <md-icon ng-switch-when="1" class="md-primary" ng-class="{'quick-vote-disabled':!motion.MotionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"  aria-label="cycle vote" ></md-icon>
-		  <md-icon ng-if="settingsGlobal.abstain" ng-switch-when="0" ng-class="{'quick-vote-disabled':!motion.MotionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
-		  <md-icon ng-switch-when="-1" class="md-accent" ng-class="{'quick-vote-disabled':!motion.MotionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"  aria-label="cycle vote" ng-disabled="!motion.MotionOpenForVoting"></md-icon>
-		  <md-icon ng-switch-when="undefined"class="mdi mdi-med mdi-checkbox-blank-circle-outline" ng-class="{'quick-vote-disabled':!motion.MotionOpenForVoting}" aria-label="cycle vote"></md-icon>
-	  <md-tooltip>{{ motion.MotionOpenForVoting ? 'Quick Vote' : ( 'MOTION' | translate ) + ' is closed to voting.' }}</md-tooltip>
-	</md-button>
-</div>

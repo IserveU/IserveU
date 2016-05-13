@@ -1,0 +1,31 @@
+<md-grid-list md-cols="1" md-cols-sm="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding flex ng-cloak>
+
+    <md-grid-tile class="md-whiteframe-z1">
+	    <md-icon ng-if="motion.icon" md-svg-icon="/themes/{{::themename}}/department_icons/{{::motion.icon}}.svg"></md-icon>
+	    <md-tooltip md-direction="{{::direction}}">{{ motion.department }}</md-tooltip>
+    </md-grid-tile>
+
+    <md-grid-tile ng-if="settingsGlobal.allow_closing" class="md-whiteframe-z1">
+	    <md-icon ng-show="!motion.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg">
+	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
+	    </md-icon>
+
+	    <md-icon ng-show="motion.MotionOpenForVoting && motion.status > 1" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg">
+	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing.alpha_date }}</md-tooltip>
+	    </md-icon>		 
+    </md-grid-tile>
+ 
+    <md-grid-tile class="md-whiteframe-z1">
+
+
+	  	<md-icon md-svg-src="/themes/{{::themename}}/{{ motion.motionVotes.overallPosition.icon || 'loading' }}.svg"></md-icon>
+
+	    <md-tooltip md-direction="{{::direction}}">{{ motion.motionVotes.overallPosition.message }}</md-tooltip>
+
+    </md-grid-tile>
+
+    <md-grid-tile class="md-whiteframe-z1">
+	    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
+	    <md-tooltip md-direction="{{::direction}}">IserveU certified</md-tooltip>
+    </md-grid-tile>
+</md-grid-list>

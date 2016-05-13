@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('ToastMessage', ['$state', '$mdToast', '$timeout', 'utils', ToastMessage]);
+		.factory('ToastMessage', ['$state', '$mdToast', '$timeout', '$translate', 'utils', ToastMessage]);
 
      /** @ngInject */
-	function ToastMessage($state, $mdToast, $timeout, utils) {
+	function ToastMessage($state, $mdToast, $timeout, $translate, utils) {
 	
         function simple(message, time){
             var timeDelay = time || 1000;
@@ -19,13 +19,13 @@
             );
         }
 
-        function action(message, affirmative, warning){
+        function action(message, affirmative, warning, time){
            return $mdToast.simple()
                 .content(message)
                 .action(affirmative || "Yes")
                 .highlightAction(warning || false)
                 .position('bottom right')
-                .hideDelay(5000);
+                .hideDelay(time || 5000);
         }
 
         function reload(time){
@@ -58,6 +58,31 @@
             });
         }
 
+        function destroyThisThenUndo(type, fn, fn2){
+            fn();
+            var toast = action("You deleted your " + type, "Undo", true);
+            $mdToast.show(toast).then(function(r){
+                if(r == 'ok'){
+                    fn2();
+                    simple( utils.capitalize(type) + " restored", 1000 );
+                }
+            });
+
+        }
+
+        function mustBeLoggedIn(reason){
+            customFunction("You must be logged in " + reason, "Go", 
+                function(){
+                    $state.go('login');
+                }, true);
+        }
+
+        function voteSuccess(type){
+            simple("You " + type + ( type === "abstain" ? "ed on" : "d with" ) + 
+                    " this " + $translate.instant('MOTION') );
+        }
+
+
         function cancelChanges(fn){
             var toast = action("Discard changes?", "Yes");
             $mdToast.show(toast).then(function(r){
@@ -84,6 +109,9 @@
             reload: reload,
             customFunction: customFunction,
             destroyThis: destroyThis,
+            destroyThisThenUndo: destroyThisThenUndo,
+            mustBeLoggedIn: mustBeLoggedIn,
+            voteSuccess: voteSuccess,
             cancelChanges: cancelChanges,
             report_error: report_error
         }

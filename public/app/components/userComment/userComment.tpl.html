@@ -1,0 +1,12 @@
+<section flex="100" ng-if="userIsLoggedIn && motion.user_vote">
+	<md-card flex>
+		<md-card-content>
+	
+			<user-comment-create ng-hide="motion.motionComments.thisUsersComment"></user-comment-create>
+			<user-comment-edit ng-if="motion.motionComments.thisUsersComment"></user-comment-edit>
+
+		</md-card-content>
+	</md-card>
+</section>
+
+

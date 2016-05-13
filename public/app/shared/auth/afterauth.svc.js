@@ -5,11 +5,33 @@
 	angular
 		.module('iserveu')
 		.factory('afterauth', [
-'$stateParams', '$state', '$rootScope', 'auth', 'user',
+		'$stateParams', 
+		'$state', 
+		'$rootScope', 
+		'auth', 
+		'user', 
+		'motionIndex',
 			afterauth]);
 
   	 /** @ngInject */
-	function afterauth($stateParams, $state, $rootScope, auth, user) {
+	function afterauth($stateParams, $state, $rootScope, auth, user, motionIndex) {
+
+
+		function clearCredentials(){
+			localStorage.clear();
+			$rootScope.authenticatedUser = null;
+			$rootScope.userIsLoggedIn = false;
+			motionIndex.clear();
+		}
+
+		function redirect(){
+
+			$rootScope.userIsLoggedIn = true;
+
+			return $rootScope.redirectUrlName 
+				   ? $state.transitionTo($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
+				   : $state.transitionTo('home');
+		}
 
 		 function setLoginAuthDetails (user, token, resetPassword){
 			if(token)
@@ -26,25 +48,11 @@
 				redirect();
 		}
 
-		function redirect(){
-
-			$rootScope.userIsLoggedIn = true;
-
-			return $rootScope.redirectUrlName 
-				   ? $state.transitionTo($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
-				   : $state.transitionTo('home');
-		}
-
-		function clearCredentials(){
-			localStorage.clear();
-			$rootScope.authenticatedUser = null;
-			$rootScope.userIsLoggedIn = false;
-		}
 
 		return {
-			setLoginAuthDetails: setLoginAuthDetails,
+			clearCredentials: clearCredentials,
 			redirect: redirect,
-			clearCredentials: clearCredentials
+			setLoginAuthDetails: setLoginAuthDetails
 		}
 
 

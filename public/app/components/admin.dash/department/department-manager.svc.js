@@ -3,14 +3,16 @@
 	angular
 		.module('iserveu')
 		.factory('departmentManagerService', 
-			['$state', '$timeout', 'DEPARTMENT_INDEX','department', 'ToastMessage',
+			['$state', '$timeout', 'motionDepartments','motionDepartmentResource', 'ToastMessage',
 			departmentManagerService]);
 
     /** @ngInject */
-	function departmentManagerService($state, $timeout, DEPARTMENT_INDEX, department, ToastMessage) {
+	function departmentManagerService($state, $timeout, motionDepartments, department, ToastMessage) {
+
+		motionDepartments.loadAll();
 
 		var factory = {
-			list: DEPARTMENT_INDEX,
+			list: motionDepartments,
 			success: {},
 			disabled: {},
 			edit: function(id) {

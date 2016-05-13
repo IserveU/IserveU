@@ -2,7 +2,6 @@
 
 	'use strict';
 
-	// /** @ngInject */
 	var iserveu = angular
 		.module('iserveu', [
 			'ngCookies',
@@ -55,26 +54,13 @@
         var initInjector = angular.injector(['ng']);
         var $http = initInjector.get('$http');
 
-
-	    $http.get('/api/department').then(function(response) {
-	    	iserveu.constant('DEPARTMENT_INDEX', response.data);
-	    }, function(errorResponse) {
-	        console.log(errorResponse);
-	    });
-
-        $http.get('settings').then(function(response) {
+        return $http.get('settings').then(function(response) {
 			localStorage.setItem('settings', JSON.stringify(response.data));
             iserveu.constant('SETTINGS_JSON', response.data);
         }, function(errorResponse) {
             console.log('error');
         });
     
-	    return $http.get('/api/community').then(function(response) {
-	    	iserveu.constant('COMMUNITY_INDEX', response.data);
-	    }, function(errorResponse) {
-	        console.log(errorResponse);
-	    });
-
     }
 
     function bootstrapApplication() {

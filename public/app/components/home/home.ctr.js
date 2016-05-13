@@ -4,13 +4,17 @@
 
 	angular
 		.module('iserveu')
-		.controller('HomeController', 
-            ['$rootScope', '$scope', 'motion', 'comment', 'vote', 'user', 'UserbarService',
+		.controller('HomeController', [
+            '$rootScope', 
+            '$scope', 
+            'homeResource', 
+            'commentResource', 
+            'user', 
+            'UserbarService',
             HomeController]);
 
-    /** @ngInject */
     // this is a TODO    
-	function HomeController($rootScope, $scope, motion, comment, vote, user, UserbarService) {
+	function HomeController($rootScope, $scope, homeResource, commentResource, user, UserbarService) {
 		
         UserbarService.setTitle("Home");
 
@@ -37,7 +41,7 @@
         /************************************** Home Functions **********************************/
 
         function getTopMotion() {
-        	motion.getTopMotion().then(function(result){
+        	homeResource.getTopMotion().then(function(result){
                 vm.loading.topmotion = false;
         		vm.topMotion = result.data[0];
                 if( !vm.topMotion ) vm.empty.topmotion = true;
@@ -48,7 +52,7 @@
         }
 
         function getTopComment(){
-        	comment.getComment().then(function(result){
+        	commentResource.getComments().then(function(result){
                 vm.loading.topcomment = false;
 
                 if( !result[0] )  vm.empty.topcomment = true; 
@@ -61,7 +65,7 @@
         }
 
         function getMyComments(id){
-            comment.getMyComments(id).then(function(result){
+            homeResource.getMyComments(id).then(function(result){
                 vm.loading.mycomments = false;
                 vm.myComments = result;
                 if( !vm.myComments[0] ) vm.empty.mycomments = true;
@@ -72,7 +76,7 @@
         }
 
         function getMyVotes(id){
-            vote.getMyVotes(id, {limit:5}).then(function(result){
+            homeResource.getMyVotes(id, {limit:5}).then(function(result){
                 vm.loading.myvotes = false;
 
                 vm.myVotes = result.data;

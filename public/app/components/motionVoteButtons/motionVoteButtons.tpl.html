@@ -1,0 +1,18 @@
+<div class="motionVotes__buttons" layout="row" flex>
+
+  <md-card ng-repeat="voteButton in motionVoteButtons.buttons" class="{{::voteButton.class}}" ng-hide="voteButton.hidden" flex>
+    <md-card-content>
+
+      <md-button ng-click="voteButton.cast(motion)"
+                 ng-class="[ { 'voting-disabled': voteButton.isDisabled(motion) }, 
+                             {'raised' : voteButton.isActiveClass(motion.user_vote)} ]"
+                 aria-label="{{voteButton.ariaLabel}}" layout-fill>
+
+          <md-icon class="{{voteButton.iconClass}}" md-svg-src="/themes/{{::themename}}/{{ voteButton.icon }}.svg"></md-icon>
+
+      </md-button>
+
+      <md-tooltip>{{ voteButton.getMessage(motion) }}</md-tooltip>
+    </md-card-content>
+  </md-card>
+</div>
