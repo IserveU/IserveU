@@ -48,7 +48,6 @@ class CreateNewUser extends TestCase
         $this->post('authenticate',array_merge($user->setVisible(['email'])->toArray(),['password'=>'abcd1234']));
 
         $content = json_decode($this->response->getContent());
-   
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
     }
 
@@ -61,6 +60,18 @@ class CreateNewUser extends TestCase
         $this->post('authenticate',['email'=>$user->email,'password'=>'abcd1234']);
         $content = json_decode($this->response->getContent());
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+    }
+
+    /** @test **/
+    public function try_to_register_user_with_duplicate_email_address()
+    {   
+
+        $user = factory(App\User::class)->create();
+
+        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+
+        $this->assertResponseStatus(400);
+ 
     }
 
     /** @test **/

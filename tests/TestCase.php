@@ -37,9 +37,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
    
-    // public function setUp(){
-    //  //   parent::setUp();
-    // }
+    public function setUp(){
+        parent::setUp();
+
+        \Config::set('mail.driver', 'log');
+    }
 
     public function tearDown(){
         if(!empty($this->settings)){
