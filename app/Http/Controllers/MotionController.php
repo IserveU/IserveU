@@ -172,7 +172,7 @@ class MotionController extends ApiController {
 		 	abort(403,$motion->errors);
 		}
 
-		return $motion;
+		return $this->motionTransformer->transform($motion);
 	}
 
 	/**
