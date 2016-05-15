@@ -134,7 +134,10 @@ class AdministratorTest extends TestCase
     {
         $comment = postComment($this);
 
-        $this->seeInDatabase('comments', [ 'id' => $comment->id, 'text' => $comment->text ]);
+        $this->seeInDatabase('comments',[
+            'id'    => $comment->id,
+            'text'  => $comment->text
+        ]);
     }
 
     /** @test */
@@ -159,6 +162,8 @@ class AdministratorTest extends TestCase
 
         $this->seeInDatabase('motions', ['title' => $updated['title'], 'summary' => $updated['summary'], 'closing' => $updated['closing']]);
     }
+
+
 
     /** @test */
     public function it_can_update_vote()
@@ -211,7 +216,7 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('motions', ['id'=>$motion->id, 'deleted_at' => null ]);
     }
 
-  /** @test */
+    /** @test */ 
     public function it_can_restore_a_motion()
     {
         $motion  = factory(App\Motion::class,'published')->create();
@@ -264,9 +269,21 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }
 
-    /****************** DUPLICATE FROM representative TESTS ********************/
 
 
+        /** @test */
+    public function update_a_voted_on_motion_title()
+    {       
+        $faker = \Faker\Factory::create();
+        $motion = $vote = factory(App\Vote::class)->create()->motion;
+
+        $newTitle = $faker->word;
+
+        $this->patch('/api/motion/'.$motion->id,['title'=>$newTitle]);
+
+        $this->assertResponseStatus(200);
+
+    }
 
     /*****************************************************************
     *

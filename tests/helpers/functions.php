@@ -55,27 +55,25 @@
 	}
 
 
+
 	function postComment($self, $attributes = [])
 	{
 		if(!$self){
 			// stuff
 		}
 
-		$vote = postVote($self);
+		$vote = factory(App\Vote::class)->create([
+			'user_id'	=>	$self->user->id
+		]);
 
 	    // Make a comment
 	    $comment = factory(App\Comment::class)->make()->toArray();
 	    $comment = array_merge($comment, ['vote_id' => $vote->id]);
 
-		if(isset($self->token)){
-			$comment = array_merge($comment, ['token' => $self->token]);
-		}
+	    $response = $self->call('POST','/api/comment', $comment);
 
-	    $comment = $self->call('POST', '/api/comment', $comment);
 	    
-	    $self->assertResponseOk();
-
-		return $comment->getOriginalContent();
+		return $response->getOriginalContent();
 	}
 
 
@@ -148,9 +146,8 @@
 
 		$updated = $user->call('PATCH', '/api/motion/'.$motion->id, ['status' => 2]);
 
-        $updated = $updated->getOriginalContent();
+        return $updated->getOriginalContent();
 
-        return $updated;
 	}
 
 	function agreeWithMotion($motion, $user)
