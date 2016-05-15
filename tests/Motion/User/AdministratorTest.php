@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AdministratorTest extends TestCase
 {
-    use DatabaseTransactions;    
+   // use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
@@ -23,6 +23,67 @@ class AdministratorTest extends TestCase
     *
     ******************************************************************/
   
+
+    /** @test  just putting this here for now*/ 
+    public function it_can_get_motion_comments(){
+        $motion = factory(App\Motion::class,'published')->create();
+
+        $thisUsersVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id
+        ]);
+
+        $thisUsersComment = factory(App\Comment::class)->create([
+            'vote_id' => $thisUsersVote->id
+        ]);
+
+        $positiveVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => 1
+        ]);
+
+        $positiveComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $positiveVote->id
+        ]);
+
+        $negativeVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => -1
+        ]);
+
+        $negativeComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $negativeVote->id
+        ]);
+
+        $abstainVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => 0
+        ]);
+        
+        $abstainComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $abstainVote->id
+        ]);
+
+        $this->get('/api/motion/'.$motion->id.'/comment');
+
+        $this->assertResponseStatus(200);
+
+        $this->seeJsonStructure([
+            'agreeComments' => [
+                '*' =>  ['id','text']
+            ],
+            'disagreeComments' => [
+                '*' =>  ['id','text']
+            ],
+            'thisUsersComment',
+            'thisUsersCommentVotes'
+        ]);
+    
+
+        $this->response->getContent();
+    }
+
+
+
     /** @test */
     public function motion_index_permissions_working()
     {
