@@ -1,0 +1,24 @@
+<md-card ng-if="settingsGlobal.home.widgets.your_comments || settingsGlobal.module.comments" layout-margin layout flex>
+  <md-card-content layout-padding flex>
+    <md-icon class="mdi mdi-comment-text-outline title-icon"></md-icon>
+    <h3 class="title-header">Your comments</h3>
+
+    <md-progress-circular md-mode="indeterminate" ng-if="myComments.loading"></md-progress-circular>
+
+    <div ng-if="!myComments.loading">
+      <md-list ng-if="myComments.commentList" ng-repeat="comment in myComments.commentList | limitTo: 5">
+        <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
+          <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
+          <md-button class="md-icon-button" aria-label="yourCommentRedirect" ui-sref="motion({id:comment.vote.motion_id})">
+            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+          </md-button>
+        </md-list-item>
+      <md-divider ng-if="!$last"></md-divider>
+      </md-list>
+
+      <md-list ng-if="myComments.commentList.length <= 0" ng-cloak>
+        <p class="md-body-1">You haven't commented on anything, yet.</p>
+      </md-list>
+    </div>
+  </md-card-content>
+</md-card>

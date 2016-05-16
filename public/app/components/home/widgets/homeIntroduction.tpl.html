@@ -1,0 +1,11 @@
+<md-card layout flex>
+  <md-card-content>
+        <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_onlight.svg" style="display:inline-block; left: 3px; position: relative; bottom: 5px; width: 18px; margin: 3px;"></md-icon>
+    <h3 class="title-header" layout-padding ng-bind-html="homeIntroduction.introduction.title | trustAsHtml"></h3>
+
+    <div layout-margin>
+      <p class="md-body-1" ng-bind-html="homeIntroduction.introduction.text | trustAsHtml"></p>
+    </div>
+  
+  </md-card-content>
+</md-card>
