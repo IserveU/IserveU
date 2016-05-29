@@ -73,14 +73,16 @@
 					removeNotification();
 					user.updateUser({
 						id: thisUser.id,
-						preferences: {softLaunch: false}
+						preferences: ['softLaunch']
 					});
 				}
 				return self.copyText.softLaunch;
 			}
 
-			else
+			else {
+				console.log('asdfasdf');
 				return removeNotification();
+			}
 
 			function removeNotification() {
 				return (function() {
@@ -89,9 +91,11 @@
 			}
 
 			function hasSoftLaunchPreference() {
-
-				return !preferences.hasOwnProperty('softLaunch') || preferences.softLaunch;
-
+				for(var i in preferences) {
+					if(preferences[i] == 'softLaunch')
+						return false;
+				}
+				return true;
 			}
 		}
 
