@@ -132,7 +132,10 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
 $factory->define(App\Comment::class, function ($faker) use ($factory) {
 
     return [
-        'text' => $faker->sentence($nbWords = 10),
+        'text'      =>   $faker->sentence($nbWords = 10),
+        'vote_id'   =>   function(){
+            return factory(App\Vote::class)->create()->id;
+        }
     ];
 
 });
@@ -144,7 +147,13 @@ $factory->define(App\Comment::class, function ($faker) use ($factory) {
 $factory->define(App\Vote::class, function ($faker) use ($factory) {
 
     return [
-        'position' => $faker->numberBetween($min = -1, $max = 1)
+        'position'      => $faker->numberBetween($min = -1, $max = 1),
+        'motion_id'     =>  function(){
+            return factory(App\Motion::class, 'published')->create()->id;
+        },
+        'user_id'        =>  function(){
+            return factory(App\User::class, 'verified')->create()->id;
+        }
     ];
 
 });

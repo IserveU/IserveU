@@ -30,6 +30,8 @@ class ClearMotionCommentCache
     public function handle($event)
     {
         $vote = $event->vote;
-        Cache::forget('motion'.$vote->motion_id.'_comments');
+        if($vote){
+            Cache::forget('motion'.$vote->motion_id.'_comments');
+        }
     }
 }

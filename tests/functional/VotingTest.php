@@ -58,16 +58,16 @@ class VotingTest extends TestCase
         // Set motion to active with one of the representative accounts
         $C1 = $this->signIn($C1);
         $publishedMotion = publishMotion($motion, $C1);
-        // dd($publishedMotion);
-        $this->assertEquals($publishedMotion->status, 2);
+       // dd($publishedMotion);
+        $this->assertEquals($publishedMotion['status'], 2);
 
         // 1 representative votes for, one votes against
-        $response = $this->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => 1]);
+        $response = $this->post('/api/vote/', ['motion_id' => $publishedMotion['id'], 'position' => 1]);
       //  dd($response);
-        $this->post('/api/vote/', ['motion_id' => $publishedMotion->id, 'position' => -1]);
+        $this->post('/api/vote/', ['motion_id' => $publishedMotion['id'], 'position' => -1]);
 
         // Check that 20 voted for, 20 voted against
-        $motionVotes = $this->get('/api/motion/'.$publishedMotion->id.'/vote');
+        $motionVotes = $this->get('/api/motion/'.$publishedMotion['id'].'/vote');
 //        dd( $motionVotes );
 
         // Check that the for/against add up to 42

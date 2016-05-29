@@ -44,6 +44,7 @@ class AlertVoters
                     'motion'    =>  $motion
                 );
 
+
                 Mail::send('emails.motionchanged',$data, function ($m) use ($motionVote) {
                     $m->to($motionVote->user->email, $motionVote->user->first_name.' '.$motionVote->user->last_name)->subject('A Motion You Voted On Has Changed');
                 });

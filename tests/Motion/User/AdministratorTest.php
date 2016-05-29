@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AdministratorTest extends TestCase
 {
-    use DatabaseTransactions;    
+   // use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
@@ -23,6 +23,67 @@ class AdministratorTest extends TestCase
     *
     ******************************************************************/
   
+
+    /** @test  just putting this here for now*/ 
+    public function it_can_get_motion_comments(){
+        $motion = factory(App\Motion::class,'published')->create();
+
+        $thisUsersVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id
+        ]);
+
+        $thisUsersComment = factory(App\Comment::class)->create([
+            'vote_id' => $thisUsersVote->id
+        ]);
+
+        $positiveVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => 1
+        ]);
+
+        $positiveComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $positiveVote->id
+        ]);
+
+        $negativeVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => -1
+        ]);
+
+        $negativeComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $negativeVote->id
+        ]);
+
+        $abstainVote = factory(App\Vote::class)->create([
+            'motion_id' => $motion->id,
+            'position'  => 0
+        ]);
+        
+        $abstainComment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $abstainVote->id
+        ]);
+
+        $this->get('/api/motion/'.$motion->id.'/comment');
+
+        $this->assertResponseStatus(200);
+
+        $this->seeJsonStructure([
+            'agreeComments' => [
+                '*' =>  ['id','text']
+            ],
+            'disagreeComments' => [
+                '*' =>  ['id','text']
+            ],
+            'thisUsersComment',
+            'thisUsersCommentVotes'
+        ]);
+    
+
+        $this->response->getContent();
+    }
+
+
+
     /** @test */
     public function motion_index_permissions_working()
     {
@@ -134,7 +195,10 @@ class AdministratorTest extends TestCase
     {
         $comment = postComment($this);
 
-        $this->seeInDatabase('comments', [ 'id' => $comment->id, 'text' => $comment->text ]);
+        $this->seeInDatabase('comments',[
+            'id'    => $comment->id,
+            'text'  => $comment->text
+        ]);
     }
 
     /** @test */
@@ -159,6 +223,8 @@ class AdministratorTest extends TestCase
 
         $this->seeInDatabase('motions', ['title' => $updated['title'], 'summary' => $updated['summary'], 'closing' => $updated['closing']]);
     }
+
+
 
     /** @test */
     public function it_can_update_vote()
@@ -211,7 +277,7 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('motions', ['id'=>$motion->id, 'deleted_at' => null ]);
     }
 
-  /** @test */
+    /** @test */ 
     public function it_can_restore_a_motion()
     {
         $motion  = factory(App\Motion::class,'published')->create();
@@ -264,9 +330,20 @@ class AdministratorTest extends TestCase
         $this->notSeeInDatabase('comment_votes', ['id' => $comment_vote->id]);
     }
 
-    /****************** DUPLICATE FROM representative TESTS ********************/
 
 
+        /** @test */
+    public function update_a_voted_on_motion_title()
+    {       
+        $faker = \Faker\Factory::create();
+        $motion = $vote = factory(App\Vote::class)->create()->motion;
+
+        $newTitle = $faker->word." ".$faker->word." ".$faker->word;
+
+        $this->patch('/api/motion/'.$motion->id,['title'=>$newTitle]);
+        $this->assertResponseStatus(200);
+
+    }
 
     /*****************************************************************
     *
