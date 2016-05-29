@@ -338,10 +338,9 @@ class AdministratorTest extends TestCase
         $faker = \Faker\Factory::create();
         $motion = $vote = factory(App\Vote::class)->create()->motion;
 
-        $newTitle = $faker->word;
+        $newTitle = $faker->word." ".$faker->word." ".$faker->word;
 
         $this->patch('/api/motion/'.$motion->id,['title'=>$newTitle]);
-
         $this->assertResponseStatus(200);
 
     }
