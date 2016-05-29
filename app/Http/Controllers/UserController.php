@@ -100,7 +100,7 @@ class UserController extends ApiController {
 		$token = JWTAuth::fromUser($newUser);
 
 		$user = $newUser->toArray();
-		return response()->json(compact('token','user'));
+		return response()->json(compact('token','user'),200,[],JSON_UNESCAPED_UNICODE);
 	}
 
 	/**

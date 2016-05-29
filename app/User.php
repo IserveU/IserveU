@@ -113,6 +113,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	protected $locked = ['first_name','middle_name','last_name','date_of_birth'];
 
 
+    protected $casts = [
+        'preferences' => 'array',
+    ];
+
 	/**************************************** Standard Methods **************************************** */
 
 	public static function boot(){
