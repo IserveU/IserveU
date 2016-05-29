@@ -6,7 +6,6 @@
 		.module('iserveu')
 		.directive('homeFab', ['fabLink', homeFab]);
 
-	/** @ngInject */
 	function homeFab(fabLink) {
 		return {
 			controller: function() {

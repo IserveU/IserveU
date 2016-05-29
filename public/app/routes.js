@@ -11,15 +11,14 @@
     $stateProvider
     	.state( 'home', {
     		url: '/home',
-    		templateUrl: 'app/components/home/home.tpl.html',
-    		controller: 'HomeController as home',
+            template: '<home-page></home-page>',
     		data: {
     	        requireLogin: true
     	    }
     	})
         .state('edit-home', {
             url: '/edit-home',
-            template: '<edit-home>',
+            template: '<edit-home></edit-home>',
             data: {
                 requireLogin: true,
                 requirePermissions: ['create-motion', 'delete-user']

@@ -2,7 +2,7 @@
 	<md-card flex>
 		<md-card-content>
 	
-			<user-comment-create ng-hide="motion.motionComments.thisUsersComment"></user-comment-create>
+			<user-comment-create ng-if="!motion.motionComments || !motion.motionComments.thisUsersComment || !motion.MotionOpenForVoting"></user-comment-create>
 			<user-comment-edit ng-if="motion.motionComments.thisUsersComment"></user-comment-edit>
 
 		</md-card-content>

@@ -4,9 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.factory('homeResource', ['$resource', '$q', homeResource]);
+		.factory('homeResource', ['$resource', '$q', '$rootScope', homeResource]);
 
-	function homeResource($resource, $q) {
+	function homeResource($resource, $q, $rootScope) {
 
 		/****************************************************************
 		*
@@ -17,15 +17,17 @@
 	    var MyComments =  $resource('api/user/:id/comment', {}, {
 		    query: {
 		        method: 'GET',
-		        params: {},
+		        params: {
+		        	id: $rootScope.authenticatedUser.id || null
+		        },
 		        isArray: true,
+		        ignoreLoadingBar: true,
 		        transformResponse: function(data, header){
-		          //Getting string data in response
-		          var jsonData = JSON.parse(data); //or angular.fromJson(data)
+		          var jsonData = JSON.parse(data);
 				  var comments = [];
 
 		          angular.forEach(jsonData, function(comment){
-		            comments.push(comment);
+		          	comments.push(comment);
 		          });
 
 		          return comments;
@@ -33,15 +35,32 @@
 		    }
 	    });
 
-		var MyVotes = $resource('api/user/:id/vote', {limit:'@limit'}, {
+		var MyVotes = $resource('api/user/:id/vote', {}, {
 			query: {
 		        method: 'GET',
-		        params: {},
-		        isArray: true,
+		        params: {
+		        	id: $rootScope.authenticatedUser.id || null,
+		        	limit: 5
+		        },
 		        ignoreLoadingBar: true
 			}
 		});
 
+	    var TopComments = $resource('api/comment/:id', {}, {
+        	query: {
+			    method: 'GET',
+		        params: {},
+		        ignoreLoadingBar: true,
+		        isArray: true,
+		      	transformResponse: function(data, header){
+		      		var comments = [];
+		      		if(data.length < 0)
+						comments = data.slice(0,5);
+			        return comments;
+		        }
+
+	    	}
+	    });
 
 	    var TopMotion = $resource('api/motion/', {}, { 
 			query: {
@@ -50,7 +69,6 @@
 		        	rank_greater_than: 0,
 		        	take: 1
 		        },
-		        isArray: true,
 				ignoreLoadingBar: true
 			}
 		});
@@ -61,25 +79,32 @@
 	    *
 	    ******************************************************************/
 	    
-		function getMyComments(id) {
-			return MyComments.query({id:id}).$promise.then(function(results) {
+		function getMyComments() {
+			return MyComments.query().$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);
 			});
 		}
 
-	    function getMyVotes(id, limit) {
-			return MyVotes.get({id:id}, limit).$promise.then(function(results) {
+	    function getMyVotes() {
+			return MyVotes.query().$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);
 			});
 		}
 
+		function getTopComments() {
+			return TopComments.query().$promise.then(function(success) {
+				return success;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
 
 		function getTopMotion() {
-			return TopMotion.get().$promise.then(function(success) {
+			return TopMotion.query().$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -89,7 +114,8 @@
 		return {
 			getMyComments: getMyComments,
 			getMyVotes: getMyVotes,
-			getTopMotion: getTopMotion
+			getTopComments: getTopComments,
+			getTopMotion: getTopMotion,
 		}
 	}
 

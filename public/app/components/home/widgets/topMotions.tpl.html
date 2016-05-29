@@ -1,0 +1,18 @@
+<md-card ng-if="settingsGlobal.home.widgets.top_motions || settingsGlobal.module.motions" layout layout-margin flex>
+  <md-card-content layout-padding flex> 
+      <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
+      <h3 class="title-header">Top {{ 'MOTIONS' | translate }}</h3>
+
+        <md-progress-circular md-mode="indeterminate" ng-if="topMotions.loading"></md-progress-circular>
+
+        <md-list ng-if="!topMotions.loading">
+          <md-list-item ng-if="topMotions.motionList" ng-repeat="motion in topMotions.motionList">
+            <p class="md-body-1" ui-sref="motion({id:motion.id})">{{motion.title}}</p>
+            <md-button class="md-icon-button" aria-label="topMotionRedirect" ui-sref="motion({id:motion.id})">
+              <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+            </md-button>
+          </md-list-item>
+          <p ng-if="" ng-cloak class="md-body-1">There are no motions right now.</p>
+        </md-list>  
+  </md-card-content>
+</md-card>
