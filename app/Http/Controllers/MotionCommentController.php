@@ -23,13 +23,12 @@ class MotionCommentController extends ApiController
     public function index($motion){
         
         $comments = array();
-
-
+            
         if(Auth::check() && Auth::user()->can('view-comments')){ //A full admin who can see whatever
             $comments['agreeComments']      = Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->agree()->get()->sortByDesc('commentRank')->toJson();
             $comments['disagreeComments']   =   Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->disagree()->get()->sortByDesc('commentRank')->toJson();
         } else { //Load the standard cached comments for the page
-            $comments = Cache::remember('motion'.$motion->id.'_comments', Setting::get('comments.cachetime',60), function() use ($motion){
+            $comments = Cache::tags(['motion.'.$motion->id])->remember('motion'.$motion->id.'_comments', Setting::get('comments.cachetime',60), function() use ($motion){
                 $comments['agreeComments']      = Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->agree()->get()->sortByDesc('commentRank');
                 $comments['disagreeComments']   =   Comment::with('vote.user','commentVotes')->where('motion_id',$motion->id)->disagree()->get()->sortByDesc('commentRank');
                 return $comments;

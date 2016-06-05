@@ -46,6 +46,7 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\VoteCreated' => [
 			'App\Listeners\Vote\SetDeferedToVotes',
 			//'App\Listeners\Motion\BalanceDeferredVotes' //Not needed with one councilor, not a big issue immediately
+			'App\Listeners\Comment\ClearMotionCommentCache'
 		],
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\Vote\CheckCommentVotes',

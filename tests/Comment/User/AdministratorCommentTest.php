@@ -22,6 +22,41 @@ class AdministratorCommentTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
+
+    /** @test */
+    public function changing_vote_shows_changed_comments()
+    {
+        $vote = factory(App\Vote::class)->create([
+            'user_id'   =>  $this->user->id,
+            'position'  =>  1
+        ]);
+
+        $comment = factory(App\Comment::class)->create([
+            'vote_id'   =>  $vote->id  
+        ]);
+
+        $this->get('/api/motion/'.$vote->motion_id.'/comment')
+            ->assertResponseStatus(200);
+
+        $response = json_decode($this->response->getContent(),true);
+            
+        $this->assertEquals(count($response['agreeComments']),1);
+        $this->assertEquals(count($response['disagreeComments']),0);
+
+        $vote->position = -1;
+        $vote->save();
+
+        $this->get('/api/motion/'.$vote->motion_id.'/comment')
+            ->assertResponseStatus(200);
+
+
+        $response = json_decode($this->response->getContent(),true);
+        $this->assertEquals(count($response['agreeComments']),0);
+        $this->assertEquals(count($response['disagreeComments']),1);
+
+    }
+
+
   
     /** @test */
     public function comment_index_permissions_working()
