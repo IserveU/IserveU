@@ -1,10 +1,10 @@
 <?php
+use App\Role;
+use App\Permission;
 
-
-class TestCase extends Illuminate\Foundation\Testing\TestCase
-
+abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    
+
     public $user;
 
     /**
@@ -83,6 +83,24 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $this;
     }
+
+    public function signInAsPermissionedUser($permissionName){
+
+        $role = Role::create([
+               'name'  => random_int(1000, 9999)."role_can_".$permissionName
+        ]);
+
+        $permission = Permission::where(['name'=>$permissionName])->first();
+        
+        $role->attachPermission($permission);
+
+        $this->signIn();
+
+        $this->user->attachRole($role);
+
+        return $this;
+    }
+
 
     public function getTokenForUser($user)
     {

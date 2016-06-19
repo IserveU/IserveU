@@ -15,8 +15,8 @@ class VotePolicy
 
 
     public function inputsAllowed(array $inputs, Vote $vote = null){
+        
         if(!Auth::user()->can('create-vote')){
-            dd('somehow doesnt have permission');
             return false;
         }    
 
@@ -30,14 +30,12 @@ class VotePolicy
         }
 
         if(!$motion->motionOpenForVoting){ //Motion has closed/expired
-                        dd('somehow not open user cannot');
 
              return false;
         }
 
         if(array_key_exists('user_id',$inputs) && $inputs['user_id']!=Auth::user()->id) { 
             // Can only vote/alter own
-            dd('somehow has UID but for a different user');
             return false;
         }
 

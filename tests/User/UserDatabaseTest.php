@@ -10,7 +10,7 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserDeleted;
 
 
-class UserDatabase extends TestCase
+class UserDatabaseTest extends TestCase
 {
     use DatabaseTransactions;    
     use WithoutMiddleware;

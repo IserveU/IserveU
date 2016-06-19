@@ -111,7 +111,7 @@ class MotionController extends ApiController {
 	public function store(StoreMotionRequest $request)
 	{
 		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
-
+		
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
 		}
@@ -180,8 +180,8 @@ class MotionController extends ApiController {
 			abort(404,'Motion does not exist');
 		}
 
-		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motion')){
-			abort(401,'User does not have permission to restore this motion');
+		if($motion->user->id != Auth::user()->id && !Auth::user()->can('delete-motion')){
+			abort(401,'User does not have permission to restore and delete motions');
 		}
 
 		$motion->deleted_at = null; //restore() isn't working either
