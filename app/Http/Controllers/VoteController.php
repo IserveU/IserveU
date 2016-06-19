@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 
-use App\Http\Requests\Vote\CreateVoteRequest;
 use App\Http\Requests\Vote\DestroyVoteRequest;
-use App\Http\Requests\Vote\EditVoteRequest;
 use App\Http\Requests\Vote\ShowVoteRequest;
 use App\Http\Requests\Vote\StoreVoteRequest;
 use App\Http\Requests\Vote\UpdateVoteRequest;
@@ -35,25 +33,10 @@ class VoteController extends ApiController {
 
 		return Vote::all();	
 		
-		
 		if(Auth::user()->can('view-vote')){ //Administrator able to see any vote
 			return Vote::all();	
 		}		
 		return Vote::where('user_id',Auth::user()->id)->get(); //Get standard users comment votes	
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(CreateVoteRequest $request){
-
-		if(!Auth::user()->can('create-vote')){
-			abort(401,'You do not have permission to create a vote on a motion');			
-		}
-
-		return (new Vote)->fields;
 	}
 
 	/**
@@ -63,15 +46,8 @@ class VoteController extends ApiController {
 	 */
 	public function store(StoreVoteRequest $request)
 	{
-		
-		//Check if vote exists
-		$vote = Vote::where('user_id',Auth::user()->id)->where('motion_id',Request::input('motion_id'))->first();
-		if($vote){
-			$vote->position = Request::input('position');
-		} else {
-			$vote  = new Vote(Request::all());
-			$vote->user_id = Auth::user()->id;	
-		}
+		$vote  = new Vote($request->all());
+		$vote->user_id = Auth::user()->id;	
 
  		if(!$vote->save()){
 			abort(403,$vote->errors);
@@ -98,18 +74,7 @@ class VoteController extends ApiController {
 		
 		return $vote; //This person has no right to see this vote
 	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(Vote $vote, EditVoteRequest $request)
-	{
-		return $vote->fields;
-	}
-
+	
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -145,13 +110,6 @@ class VoteController extends ApiController {
 	 */
 	public function destroy(Vote $vote, DestroyVoteRequest $request)
 	{
-		if(!Auth::user()->can('create-vote')){
-			abort(401,"user can not create or destroy votes");
-		}
-
-		if($vote->user_id != Auth::user()->id){
-			abort(401,"User does not have permission to destroy another users vote");
-		}
 
 		$vote->position = 0;
 		$vote->save();

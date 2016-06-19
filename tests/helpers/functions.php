@@ -46,9 +46,12 @@
 
 		$motion = postMotion($self, ['status' => 2]);
 
-		$vote = factory(App\Vote::class)->make(['motion_id' => $motion->id])->toArray();
-		$vote = $self->call('POST', '/api/vote', $vote);
+		$vote = factory(App\Vote::class)->make(['motion_id' => $motion->id,'user_id'=>$self->user->id])
+			->setVisible(['user_id','motion_id','position'])->toArray();
+		
 
+		$vote = $self->call('POST', '/api/vote', $vote);
+		
 	    $self->assertResponseOk();
 
 		return $vote->getOriginalContent(); //This is an object

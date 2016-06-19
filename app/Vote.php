@@ -85,6 +85,7 @@ class Vote extends NewApiModel {
 		/* validation required on new */		
 		static::creating(function($model){
 			if(!$model->motion->motionOpenForVoting){
+				dd('errors');
 				$model->errors = "This motion is not open to voting";
 				return false;
 			} 

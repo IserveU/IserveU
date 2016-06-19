@@ -58,15 +58,6 @@ class CommentController extends ApiController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(){
-		return (new Comment)->fields;
-	}
-
-	/**
 	 * Store a newly created resource in storage. Requires the vote_id to be submitted
 	 *
 	 * @param int vote_id the comment will be attached to
@@ -111,24 +102,6 @@ class CommentController extends ApiController {
 	}
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id to edit this
-	 * @return Response
-	 */
-	public function edit(Comment $comment)
-	{
-		if(!$comment){
-			abort(400,'Comment does not exist');
-		}
-
-		if(!Auth::user()->can('create-comment')){
-			abort(403,'You do not have permission to update a comment');
-		}
-
-		return $comment->fields;
-	}
 	/**
 	 * Update the specified resource in storage. If it has been deleted, this will undelete it.
 	 *

@@ -22,7 +22,7 @@ class AdministratorTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
-  
+    
 
     /** @test  just putting this here for now*/ 
     public function it_can_get_motion_comments(){
@@ -236,6 +236,7 @@ class AdministratorTest extends TestCase
         // Update Vote
         $this->call('PATCH', '/api/vote/'.$vote->id, 
                   [ 'position' => $new_position, 'id' => $vote->id ]);
+
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => $new_position, 'user_id' => $this->user->id]);
     }
@@ -294,7 +295,7 @@ class AdministratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_vote()
+    public function it_can_abstain_vote()
     {
         // As per the API delete route, you cannot delete a vote, you may only switch to abstain.
         
@@ -302,6 +303,7 @@ class AdministratorTest extends TestCase
         
         // Delete Vote
         $this->call('DELETE', '/api/vote/'.$vote->id);
+
         $this->assertResponseOk();
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => 0, 'user_id' => $this->user->id]);
 

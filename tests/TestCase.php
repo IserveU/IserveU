@@ -40,6 +40,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function setUp(){
         parent::setUp();
 
+        foreach(\File::files(base_path("storage/logs")) as $filename){
+            File::delete($filename);
+        }
+
+
         \Config::set('mail.driver', 'log');
     }
 

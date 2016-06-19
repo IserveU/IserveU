@@ -1,9 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-// use App\Http\Requests;
-// use App\Http\Controllers\Controller;
-// use Illuminate\Support\Facades\Input;
-
 
 use Auth;
 use DB;
@@ -11,9 +7,7 @@ use Setting;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Motion\CreateMotionRequest;
 use App\Http\Requests\Motion\DestroyMotionRequest;
-use App\Http\Requests\Motion\EditMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreMotionRequest;
 use App\Http\Requests\Motion\UpdateMotionRequest;
@@ -107,14 +101,7 @@ class MotionController extends ApiController {
 		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(CreateMotionRequest $request){
-		return (new Motion)->fields;	// don't really need these routes 	
-	}
+
 
 	/**
 	 * Store a newly created resource in storage.
@@ -147,16 +134,6 @@ class MotionController extends ApiController {
 		return $this->motionTransformer->transform($motion);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(EditMotionRequest $request, Motion $motion)
-	{
-		return $motion->fields;
-	}
 
 	/**
 	 * Update the specified resource in storage.

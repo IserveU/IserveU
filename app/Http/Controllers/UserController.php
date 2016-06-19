@@ -14,9 +14,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\DestroyUserRequest;
-use App\Http\Requests\User\EditUserRequest;
 use App\Http\Requests\User\ShowUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -75,14 +73,6 @@ class UserController extends ApiController {
 			
 	}
 
-	/**
-	 * Show the form for creating a new user.
-	 *
-	 * @return Response
-	 */
-	public function create(CreateUserRequest $request){
-
-	}
 
 	/**
 	 * Store a newly created resource in storage, this will be created by the user (not an admin)
@@ -109,18 +99,6 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function show(ShowUserRequest $request, User $user){
-		return $this->userTransformer->transform($user);
-	}
-
-	/**
-	 * Can't update most of the fields once they have been verified, only email/password/public.
-	 * If they go to update their name(s), DOB or any other details that shouldn't change they need to resend us government issued Photo ID
-	 * If they update their address we will need to reset their verified to until today, and check the governments database
-	 *
-	 * @param  User  $user
-	 * @return Response
-	 */
-	public function edit(EditUserRequest $request, User $user){
 		return $this->userTransformer->transform($user);
 	}
 

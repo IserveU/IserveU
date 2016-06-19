@@ -7,6 +7,7 @@ use Auth;
 
 use App\Policies\VotePolicy;
 
+
 class StoreVoteRequest extends Request
 {  
     
@@ -17,11 +18,8 @@ class StoreVoteRequest extends Request
      */
     public function authorize()
     {
-        if(!Auth::user()->can('create-vote')){
-            return false;
-        }
+        return (new VotePolicy())->inputsAllowed($this->input(),$this->route()->parameter('vote'));
 
-        return true;
     }
 
     /**
@@ -33,7 +31,7 @@ class StoreVoteRequest extends Request
     {
         return [
             'motion_id'     =>  'integer|required|exists:motions,id|unique_with:votes,user_id',
-            'position'      =>  'integer|digits_between:-1,1',
+            'position'      =>  'integer|min:-1|max:1',
             'user_id'       =>  'integer|required|exists:users,id'
         ];
     }

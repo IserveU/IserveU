@@ -21,10 +21,6 @@ class UpdateMotionRequest extends Request
        return (new MotionPolicy())->inputsAllowed($this->input(),$this->route()->parameter('motion'));
 
 
-       dd($requestAllowed);
-
-
-
     }
 
     /**

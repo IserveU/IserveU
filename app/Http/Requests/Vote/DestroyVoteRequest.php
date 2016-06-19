@@ -5,6 +5,8 @@ namespace App\Http\Requests\Vote;
 use App\Http\Requests\Request;
 use Auth;
 
+use App\Policies\VotePolicy;
+
 class DestroyVoteRequest extends Request
 {
     /**
@@ -14,11 +16,7 @@ class DestroyVoteRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('delete-vote')){
-            return true;
-        }
-
-        return false;
+        return (new VotePolicy())->inputsAllowed($this->input(),$this->route()->parameter('vote'));
     }
 
     /**
