@@ -8,12 +8,17 @@
 
 		this.check = checkUserForNullFields;
 
+
+		/**
+		*	This function checks the passed in user whether or not they are missing
+		*	these required fields. This should probably be handled by the API
+		*   to be honest. But we can reconcile it nonetheless.
+		*/
 		function checkUserForNullFields (userData) {
 
 			userData = userData ? userData : user.self;
 
-			 var nullField = false;
-  
+			var nullField = false;
   
 		    angular.forEach(userData, function(e, o) {
 		      
@@ -21,7 +26,6 @@
 		        
 		        if (!e || e === null)
 		          nullField = true;
-
 		      }
 		      
 		    });

@@ -11,9 +11,8 @@
 
 		self.copyText = {
 
-			unverifiedUser: ['<p>Your identity has not yet been identified. Our system is created for Yellowknife citizens,',
-							 ' if you complete your profile, our administrative team will verify your identity.</p>',
-							 '<p>Alternatively, you can go to one of the IserveU locations in town and get a member',
+			unverifiedUser: ['<p>Your identity has not yet been identified. Our system is created for Yellowknife citizens to vote on city council motions.',
+							 '<p>You can go to one of the IserveU locations in town and get an organization member',
 							 ' to personally confirm your identity, address and date of birth against the Canadian',
 							 ' registered voters repository.</p><br><p>Regards,<br>The IserveU Crew</p>'
 							].join(''),
@@ -44,24 +43,32 @@
 
 			if(!Authorizer.canAccess('create-vote')) {
 
+				// console.log('failed to pass permission test to create-vote');
 
-				if( incompleteProfileService.check(thisUser) ) {
+				// if( incompleteProfileService.check(thisUser) ) {
 
-					self.primaryButton.text = 'Go to user profile';
-					self.primaryButton.action = function() {
-						$state.go('edit-user', {id: $rootScope.authenticatedUser.id});
-					}
+				// 	console.log('failed to have full profile');
+
+					self.primaryButton.text = 'Got it!';
+
+
+					// self.primaryButton.text = 'Go to user profile';
+					// self.primaryButton.action = function() {
+					// 	$state.go('edit-user', {id: $rootScope.authenticatedUser.id});
+					// }
 					return self.copyText.unverifiedUser;
-				}
-				else {
+				// }
+				// else {
 
-					self.primaryButton.text = 'Close';
-					self.primaryButton.action = function() {
-						removeNotification();
-					}
-					return self.copyText.pendingReview;
+				// 	console.log('has full profile and is waiting');
 
-				}
+				// 	self.primaryButton.text = 'Close';
+				// 	self.primaryButton.action = function() {
+				// 		removeNotification();
+				// 	}
+				// 	return self.copyText.pendingReview;
+
+				// }
 
 			}
 
