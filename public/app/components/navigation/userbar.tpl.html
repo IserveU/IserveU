@@ -35,7 +35,7 @@
 
             <span hide-gt-sm>
 
-                <p class="md-body-2" layout-padding>Site Menu</p>
+                <p class="md-body-2 userbar__menu-header" layout-padding>Site Menu</p>
 
                 <md-menu-item ng-repeat="page in user.pageObj.index">
                   <md-button aria-label="link to page"  ui-sref="pages({id:page.slug})">
@@ -48,14 +48,6 @@
             </span>
 
             <span ng-show="userIsLoggedIn">
-                <md-menu-item ui-sref="edit-user({id:authenticatedUser.id})">
-                    <md-button aria-label="go to your profile">
-                        <div layout="row">
-                            <p flex translate="{{'YOUR_PROFILE'}}"></p>
-                            <md-icon class="mdi mdi-account-circle"></md-icon>
-                        </div>
-                    </md-button>
-                </md-menu-item>
 
                 <md-menu-item has-permission="create-motion, administrate-permission" ui-sref="dashboard">
                     <md-button aria-label="go to admin dashboard">
@@ -84,6 +76,16 @@
                     </md-button>
                 </md-menu-item>
 
+                <md-divider has-permission="create-motion"></md-divider>
+
+                <md-menu-item ui-sref="edit-user({id:authenticatedUser.id})">
+                    <md-button aria-label="go to your profile">
+                        <div layout="row">
+                            <p flex translate="{{'YOUR_PROFILE'}}"></p>
+                            <md-icon class="mdi mdi-account-circle"></md-icon>
+                        </div>
+                    </md-button>
+                </md-menu-item>
 
                 <md-menu-item>
                     <md-button aria-label="logout" ng-click="user.logout()">
