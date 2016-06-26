@@ -27,8 +27,7 @@
 			<p class="md-body-1">{{ comment.text }}</p>
 
 
-			<!-- this is not working as an eval -->
-			<comment-vote ng-if="comment.vote.position == (-1 || 0)"></comment-vote>
+			<comment-vote ng-if="(comment.vote.position == -1 || comment.vote.position == 0)"></comment-vote>
 
 			<md-divider ng-show="!$last" class="md-default-theme"></md-divider>
 

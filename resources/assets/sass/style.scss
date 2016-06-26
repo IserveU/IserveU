@@ -721,7 +721,7 @@ md-menu-item{
 		}
 	}
 
-	div.motion-comments {
+	section.motion-comments {
 		p, h4, i{
 			display:inline;
 		}
@@ -738,6 +738,10 @@ md-menu-item{
 		&.abstained {
 			background-color: $lightGrey;
 		}
+	}
+
+	&.abstained {
+			background-color: $lightGrey;
 	}
 	div.comment-votes {
 		padding: 0;

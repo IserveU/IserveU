@@ -80,7 +80,6 @@
 			}
 
 			else {
-				console.log('asdfasdf');
 				return removeNotification();
 			}
 
