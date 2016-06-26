@@ -110,7 +110,6 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function update(UpdateUserRequest $request, User $user){
-
 		//If the user has the authentication level, they can change some things
 		$user->update($request->except('token'));
 

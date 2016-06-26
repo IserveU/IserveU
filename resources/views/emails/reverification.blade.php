@@ -2,10 +2,6 @@
 
 @section('content')
 
-{!! Log::info("abcd ".var_export($user->date_of_birth,true)) !!}
-
-{!! Log::info("anddone") !!}
-
 
 <p>Hi {{$user->first_name}}</p>
 

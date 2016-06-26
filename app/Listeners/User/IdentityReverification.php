@@ -36,8 +36,7 @@ class IdentityReverification{
         if(!$this->changedCriticialIdentityFields($event->user)){
             return true;
         }
-        
-   
+           
         
         if($event->user->identity_verified){
             Mail::send('emails.reverification', ['user' => $event->user], function ($m) use ($event) {
