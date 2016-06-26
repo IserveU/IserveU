@@ -30,7 +30,7 @@
 		$response = $self->call('POST', '/api/motion', $motion);
 
 		if($response->getStatusCode()!=$expectedCode){
-			dd($response->getContent);	//Dump fails
+			dd($response->getContent());	//Dump fails
 		}
 
 		$self->assertResponseStatus($expectedCode);
@@ -44,7 +44,7 @@
 			// stuff
 		}
 
-		$motion = postMotion($self, ['status' => 2]);
+		$motion = factory(App\Motion::class,'published')->create();
 
 		$vote = factory(App\Vote::class)->make(['motion_id' => $motion->id,'user_id'=>$self->user->id])
 			->setVisible(['user_id','motion_id','position'])->toArray();
@@ -53,7 +53,6 @@
 		$vote = $self->call('POST', '/api/vote', $vote);
 		
 	    $self->assertResponseOk();
-
 		return $vote->getOriginalContent(); //This is an object
 	}
 
@@ -80,28 +79,6 @@
 	}
 
 
-	function postCommentVote($self)
-	{
-		if(!$self){
-			// stuff
-		}
-
-		$vote = postVote($self);
-		$comment = createComment($vote->id);
-
-	    // Make a comment vote
-	    $comment_vote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->toArray();
-
-		if(isset($self->token)){
-			$comment_vote = array_merge($comment_vote, ['token' => $self->token]);
-		}
-
-	    $comment_vote = $self->call('POST', '/api/comment_vote', $comment_vote);
-
-		$self->assertResponseOk();
-
-		return $comment_vote->getOriginalContent();
-	}
 
     /*****************************************************************
     *

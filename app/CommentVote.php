@@ -13,7 +13,7 @@ use App\Events\CommentVoteDeleted;
 
 
 
-class CommentVote extends ApiModel {
+class CommentVote extends NewApiModel {
 
 	use SoftDeletes, Eloquence, Mappable;
 
@@ -27,13 +27,8 @@ class CommentVote extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['position']; //Don't be tempted to put 'comment_id','vote_id' in here. End up having to guard them and create dumb functions if something is "updateable"
+	protected $fillable = ['position','vote_id','comment_id']; 
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var Array
-	 */
-	protected $adminFillable = [];
 
 	/**
 	 * The default attributes included in the JSON/Array
@@ -41,30 +36,13 @@ class CommentVote extends ApiModel {
 	 */
 	protected $visible = ['position','comment_id','id','comment_position'];
 
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var Array
-	 */
-	protected $adminVisible = ['user_id','motion_id'];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var Array
-	 */
-	protected $creatorVisible = [];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  [];
 
 	/**
 	 * The mapped attributes for 1:1 relations
 	 * @var array
 	 */ 
   	protected $maps = [
-     	'vote' 				=> 	['user_id','motion_id'],
+     	//'vote' 				=> 	['user_id','motion_id'],
      	'comment_position'	=>	'comment.vote.position',
      	'comment_user_id'	=>	'comment.vote.user_id'
     ];
@@ -104,15 +82,7 @@ class CommentVote extends ApiModel {
 	 */
 	protected $unique = ['comment_id']; //Not actually unique, it's a 'unique with' vote_id
 
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-			'position' 		=>	['tag'=>'radio','type'=>'radio','label'=>'Attribute Name','placeholder'=>'Email Address'],
-		 	'comment_id' 	=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>''],
-	];
-
+	
 	/**
 	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
 	 * @var array
@@ -170,9 +140,21 @@ class CommentVote extends ApiModel {
 		return $query;
 	}
 
+	public function scopeOnMotion($query,$motionId){
+		return $query->whereHas('vote', function($q)  use ($motionId){
+			$q->where('motion_id',$motionId);
+		});
+	}
+
+	public function scopeByUser($query,$userId){
+		return $query->whereHas('vote', function($q)  use ($userId){
+			$q->where('user_id',$userId);
+		});
+	}
+
 	/************************************* Relationships ********************************************/
 
-	public function vote(){	
+	public function vote(){
 		return $this->belongsTo('App\Vote');
 	}
 

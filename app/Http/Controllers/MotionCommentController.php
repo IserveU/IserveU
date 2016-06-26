@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\Comment;
 use App\CommentVote;
+use App\Motion;
 use \Cache;
 use Setting;
 
@@ -20,7 +21,7 @@ class MotionCommentController extends ApiController
      *
      * @return Response
      */
-    public function index($motion){
+    public function index(Motion $motion){
         
         $comments = array();
             
@@ -37,8 +38,8 @@ class MotionCommentController extends ApiController
 
 
         if(Auth::check()) {
-            $comments['thisUsersComment'] = Comment::where('motion_id',$motion->id)->with('vote')->where('user_id',Auth::user()->id)->first();
-            $comments['thisUsersCommentVotes'] = CommentVote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->get();
+           $comments['thisUsersComment'] = Comment::with('vote')->onMotion($motion->id)->byUser(Auth::user()->id)->first();
+            $comments['thisUsersCommentVotes'] = CommentVote::onMotion($motion->id)->byUser(Auth::user()->id)->get();
         }
 
 

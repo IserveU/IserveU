@@ -163,9 +163,17 @@ $factory->define(App\Vote::class, function ($faker) use ($factory) {
 
 $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
 
-    return [
-        'position' => $faker->numberBetween($min = -1, $max = 1)
-    ];
+    $comment = factory(App\Comment::class)->create();
 
+    //A second vote on that comment
+    $vote = factory(App\Vote::class)->create([
+        'motion_id' =>  $comment->motion_id
+    ]);
+
+    return [
+        'position'      =>  $faker->numberBetween($min = -1, $max = 1),
+        'comment_id'    =>  $comment->id,
+        'vote_id'       =>  $vote->id
+    ];
 });
 

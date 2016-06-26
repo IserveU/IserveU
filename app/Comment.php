@@ -162,6 +162,18 @@ class Comment extends NewApiModel {
 	}
 
 
+	public function scopeOnMotion($query,$motionId){
+		return $query->whereHas('vote', function($q)  use ($motionId){
+			$q->where('motion_id',$motionId);
+		});
+	}
+
+	public function scopeByUser($query,$userId){
+		return $query->whereHas('vote', function($q)  use ($userId){
+			$q->where('user_id',$userId);
+		});
+	}
+
 	/**********************************  Relationships *****************************************/
 	public function commentVotes(){
 		return $this->hasMany('App\CommentVote');
