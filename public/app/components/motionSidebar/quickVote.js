@@ -111,7 +111,7 @@
     return {
     	controller: quickVoteController,
     	controllerAs: 'quickVote',
-    	templateUrl: 'app/components/motionSidebar/quickvote.tpl.html'
+    	templateUrl: 'app/components/motionSidebar/quickVote.tpl.html'
     }
     
   }
