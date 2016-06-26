@@ -11,8 +11,9 @@ use App\Events\VoteDeleting;
 
 use Auth;
 use Carbon\Carbon;
+use Cache;
 
-class Vote extends ApiModel {
+class Vote extends NewApiModel {
 
 	use SoftDeletes, Eloquence, Mappable;
 
@@ -64,42 +65,12 @@ class Vote extends ApiModel {
 	 */	
     protected $appends = [];
 
-    /**
-     * The rules for all the variables
-     * @var Array
-     */
-	protected $rules = [
-		'motion_id' 	=>	'integer|exists:motions,id|unique_with:votes,user_id',
-		'position'		=>	'integer',
-		'user_id'		=>	'integer|exists:users,id',
-		'id'			=>	'integer'
-	];
-
-	/**
-	 * The attributes required on an update
-	 * @var Array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The attributes required when creating the model
-	 * @var Array
-	 */
-	protected $onCreateRequired = ['motion_id','position','user_id'];
-	
-	/**
-	 * The attributes that are unique so that the exclusion can be put on them on update validation
-	 * @var array
-	 */
-	protected $unique = ['motion_id'];
-
 	/**
 	 * The front end field details for the attributes in this model 
 	 * @var array
 	 */
 	protected $fields = [
 		'position' 		=>	['tag'=>'radio','type'=>'integer','label'=>'Position','placeholder'=>''],
-		// 	'attribute_name' 		=>	['tag'=>'input','type'=>'email/password','label'=>'Attribute Name','placeholder'=>'Email Address'],
 	];
 
 	/**
@@ -113,8 +84,8 @@ class Vote extends ApiModel {
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
-			if(!$model->validate()) return false;
 			if(!$model->motion->motionOpenForVoting){
+				dd('errors');
 				$model->errors = "This motion is not open to voting";
 				return false;
 			} 
@@ -128,11 +99,14 @@ class Vote extends ApiModel {
 		});
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
+			\Log::info('Trying to update the vote');
 			if(!$model->motion->motionOpenForVoting){
+				\Log::info("This motion is no longer open to voting");
+
 				$model->errors = "This motion is no longer open to voting";
 				return false;
 			}
+
 
 			return true;
 		});

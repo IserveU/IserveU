@@ -1,9 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-// use App\Http\Requests;
-// use App\Http\Controllers\Controller;
-// use Illuminate\Support\Facades\Input;
-
 
 use Auth;
 use DB;
@@ -11,9 +7,7 @@ use Setting;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Motion\CreateMotionRequest;
 use App\Http\Requests\Motion\DestroyMotionRequest;
-use App\Http\Requests\Motion\EditMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreMotionRequest;
 use App\Http\Requests\Motion\UpdateMotionRequest;
@@ -107,14 +101,7 @@ class MotionController extends ApiController {
 		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(CreateMotionRequest $request){
-		return (new Motion)->fields;	// don't really need these routes 	
-	}
+
 
 	/**
 	 * Store a newly created resource in storage.
@@ -124,7 +111,7 @@ class MotionController extends ApiController {
 	public function store(StoreMotionRequest $request)
 	{
 		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
-
+		
 		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
 			$motion->user_id = Auth::user()->id;
 		}
@@ -147,16 +134,6 @@ class MotionController extends ApiController {
 		return $this->motionTransformer->transform($motion);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(EditMotionRequest $request, Motion $motion)
-	{
-		return $motion->fields;
-	}
 
 	/**
 	 * Update the specified resource in storage.
@@ -203,8 +180,8 @@ class MotionController extends ApiController {
 			abort(404,'Motion does not exist');
 		}
 
-		if($motion->user->id != Auth::user()->id && !Auth::user()->can('administrate-motion')){
-			abort(401,'User does not have permission to restore this motion');
+		if($motion->user->id != Auth::user()->id && !Auth::user()->can('delete-motion')){
+			abort(401,'User does not have permission to restore and delete motions');
 		}
 
 		$motion->deleted_at = null; //restore() isn't working either

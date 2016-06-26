@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\RequestsMotion\;
+namespace App\Http\Requests\Vote;
 
 use App\Http\Requests\Request;
+use App\Vote;
 use Auth;
 
-class CreateMotionRequest extends Request
+class ShowVoteRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,10 +15,12 @@ class CreateMotionRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('create-motion')){
-            return true;
-        }
+        if(Auth::user()->can('show-vote')) return true;
 
+        $vote =  $this->route()->parameter('vote');
+
+        if($vote->user_id == Auth::user()->id) return true;
+            
         return false;
     }
 

@@ -4,9 +4,9 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserApi extends TestCase
+class UserApiTest extends TestCase
 {
-   // use DatabaseTransactions;    
+    use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()

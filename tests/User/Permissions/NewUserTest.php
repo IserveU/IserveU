@@ -4,11 +4,11 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class NewUserTestUser extends TestCase
+class NewUserTest extends TestCase
 {
 
 
- use DatabaseTransactions;    
+ //use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
@@ -100,18 +100,23 @@ class NewUserTestUser extends TestCase
     /** @test */
     public function it_can_update_its_own_details()
     {
-        $user = $this->user;
+        $this->user;
 
-        $updateData = ['first_name'     => 'updated_first_name', 
-                       'last_name'      => 'updated_last_name',
-                       'preferences'    =>  json_encode(['setting','mysetting'])
-                       ];
+        $updateData = [
+            'first_name'     => 'Ufirst', 
+            'last_name'      => 'Ulast',
+            'preferences'    =>  [
+                'setting'=>'mysetting'
+            ]
+        ];
                        
-        $this->call('PATCH', '/api/user/'.$user->id, $updateData);
+        $this->patch('/api/user/'.$this->user->id, $updateData);
+      
         $this->assertResponseOk();
-
-        $this->seeJson(array_merge($updateData, ['id' => $user->id]));
-        $this->seeInDatabase('users',array($updateData));
+        $this->seeInDatabase('users',array_merge(['id'=>$this->user->id],[
+            'first_name'     => 'Ufirst', 
+            'last_name'      => 'Ulast'
+        ]));
 
     }
 

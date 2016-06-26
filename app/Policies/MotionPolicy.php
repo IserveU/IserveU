@@ -23,14 +23,15 @@ class MotionPolicy
                  return false;
             }
 
-
-         //   if(!$this->closing && $value == 1){
-        //             $closing = new Carbon;
-        //             $closing->addHours(Setting::get('motion.default_closing_time_delay',72));
-        //             $this->closing = $closing;
-        //         }
-
         }
+
+        if(!Auth::check()){
+            return false;
+        }
+
+        if(Auth::user()->can('administrate-motion')){
+            return true;
+        }     
 
         if(!Auth::user()->can('create-motion')){
             return false;

@@ -37,7 +37,6 @@ class CheckUserRoles
             return true;
         }
 
-
        // DB::enableQueryLog();
         $user = $event->user;
         $user->load('roles');

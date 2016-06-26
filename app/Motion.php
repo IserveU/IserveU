@@ -149,9 +149,7 @@ class Motion extends ApiModel {
 
 	public function getMotionOpenForVotingAttribute(){
 
-		/**
-		*	This is a localized economies forever open thing.
-		*/
+		// Motions can stay open forever ATM
 		if($this->closing === null){
 			return true;
 		}

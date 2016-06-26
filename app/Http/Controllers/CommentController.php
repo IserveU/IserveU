@@ -13,6 +13,11 @@ use DB;
 use Validator;
 use Carbon\Carbon;
 
+use App\Http\Requests\Comment\DestroyCommentRequest;
+use App\Http\Requests\Comment\ShowCommentRequest;
+use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
+use App\Http\Requests\Comment\IndexCommentRequest;
 
 class CommentController extends ApiController {
 
@@ -21,7 +26,7 @@ class CommentController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index(){
+	public function index(IndexCommentRequest $request){
 
 		$input = Request::all();
 
@@ -58,41 +63,23 @@ class CommentController extends ApiController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(){
-		return (new Comment)->fields;
-	}
-
-	/**
 	 * Store a newly created resource in storage. Requires the vote_id to be submitted
 	 *
 	 * @param int vote_id the comment will be attached to
 	 * @return Response
 	 */
-	public function store(){
-		if(!Auth::user()->can('create-comment')){
-			abort(401,'You do not have permission to write a comment');
-		}
-
-		$vote = Vote::find(Request::get('vote_id'));
-		if(!$vote){
-			abort(403,"There is no vote with the provided ID of (".Request::get('vote_id').")");
-		}
-
-		if($vote->user_id != Auth::user()->id){
-			abort(403,"You can not comment tied to another users vote");
-		}
-
-		$comment = Comment::onlyTrashed()->where('vote_id',$vote->id)->where('user_id',Auth::user()->id)->first();
+	public function store(StoreCommentRequest $request){
+	
+		$comment = Comment::onlyTrashed()
+					->where('vote_id', $request->input('vote_id'))
+					->where('user_id',Auth::user()->id)->first();
+		
 		if($comment){
 			$comment->forceDelete();
 		}
 		
-		$comment = new Comment(Request::all());
-		$comment->vote_id = $vote->id;
+		$comment = new Comment($request->all());
+		$comment->vote_id = $request->input('vote_id');
 
 		if(!$comment->save()){
 			abort(403,$comment->errors);
@@ -106,50 +93,21 @@ class CommentController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Comment $comment){
+	public function show(ShowCommentRequest $request, Comment $comment){
 		return $comment;
 	}
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id to edit this
-	 * @return Response
-	 */
-	public function edit(Comment $comment)
-	{
-		if(!$comment){
-			abort(400,'Comment does not exist');
-		}
-
-		if(!Auth::user()->can('create-comment')){
-			abort(403,'You do not have permission to update a comment');
-		}
-
-		return $comment->fields;
-	}
 	/**
 	 * Update the specified resource in storage. If it has been deleted, this will undelete it.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Comment $comment)
+	public function update(UpdateCommentRequest $request, Comment $comment)
 	{
-		if(!Auth::user()->can('create-comment')){
-			abort(401,'You do not have permission to update a comment');
-		}
-
-		if(!$comment){
-			abort(400,'Comment does not exist');
-		}
-
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('administrate-comment')){
-			abort(401,'User does not have permission to edit this comment');
-		}
-
-		$comment->secureFill(Request::except('token'));
+		
+		$comment->fill($request->except('token'));
 
 		if(!$comment->save()){ //Validation failed show errors
 			abort(403,$comment->errors);
@@ -166,13 +124,8 @@ class CommentController extends ApiController {
 	 * @param  Comment  $comment The comment you want to destroy
 	 * @return Response
 	 */
-	public function destroy(Comment $comment)
+	public function destroy(DestroyCommentRequest $request, Comment  $comment)
 	{
-
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('delete-comment')){
-			abort(401,'User does not have permission to delete this comment');
-		}
-
 		$comment->delete();
 
 		return $comment;

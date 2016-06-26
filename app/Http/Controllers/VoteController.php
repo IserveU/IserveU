@@ -1,6 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+
+use App\Http\Requests\Vote\DestroyVoteRequest;
+use App\Http\Requests\Vote\ShowVoteRequest;
+use App\Http\Requests\Vote\StoreVoteRequest;
+use App\Http\Requests\Vote\UpdateVoteRequest;
+use App\Http\Requests\Vote\IndexVoteRequest;
+
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Support\Facades\Request;
@@ -21,11 +28,10 @@ class VoteController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(IndexVoteRequest $request)
 	{
 
 		return Vote::all();	
-		
 		
 		if(Auth::user()->can('view-vote')){ //Administrator able to see any vote
 			return Vote::all();	
@@ -34,39 +40,14 @@ class VoteController extends ApiController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create(){
-
-		if(!Auth::user()->can('create-vote')){
-			abort(401,'You do not have permission to create a vote on a motion');			
-		}
-
-		return (new Vote)->fields;
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StoreVoteRequest $request)
 	{
-		//Check if the user has permission to cast votes
-		if(!Auth::user()->can('create-vote')){
-			abort(401,'You do not have permission to create a vote');
-		}
-
-		//Check if vote exists
-		$vote = Vote::where('user_id',Auth::user()->id)->where('motion_id',Request::input('motion_id'))->first();
-		if($vote){
-			$vote->position = Request::input('position');
-		} else {
-			$vote  = new Vote(Request::all());
-			$vote->user_id = Auth::user()->id;	
-		}
+		$vote  = new Vote($request->all());
+		$vote->user_id = Auth::user()->id;	
 
  		if(!$vote->save()){
 			abort(403,$vote->errors);
@@ -81,7 +62,7 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Vote $vote)
+	public function show(Vote $vote, ShowVoteRequest $request)
 	{
 		if(Auth::user()->can('show-vote')){ //Is a person who can review votes
 			return $vote;
@@ -93,25 +74,14 @@ class VoteController extends ApiController {
 		
 		return $vote; //This person has no right to see this vote
 	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(Vote $vote)
-	{
-		return $vote->fields;
-	}
-
+	
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Vote $vote)
+	public function update(Vote $vote, UpdateVoteRequest $request)
 	{
 		//Check if the user has permission to cast votes
 		if(!Auth::user()->can('create-vote')){
@@ -138,15 +108,8 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Vote $vote)
+	public function destroy(Vote $vote, DestroyVoteRequest $request)
 	{
-		if(!Auth::user()->can('create-vote')){
-			abort(401,"user can not create or destroy votes");
-		}
-
-		if($vote->user_id != Auth::user()->id){
-			abort(401,"User does not have permission to destroy another users vote");
-		}
 
 		$vote->position = 0;
 		$vote->save();
