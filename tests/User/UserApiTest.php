@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserApiTest extends TestCase
 {
-   // use DatabaseTransactions;    
+    use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
