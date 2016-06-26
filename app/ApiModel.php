@@ -45,7 +45,7 @@ class ApiModel extends Model
     public function validate(){
         $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
         if($validator->fails()){
-             dd($validator->messages());
+           //  dd($validator->messages());
 
             $this->errors = $validator->messages();
             return false;

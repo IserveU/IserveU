@@ -11,14 +11,14 @@ use Request;
 
 use Carbon\Carbon;
 
-use App\Events\CommentDeleted;
+use App\Events\Comment\CommentDeleted;
 
-use App\Events\CommentUpdated;
-use App\Events\CommentCreated;
+use App\Events\Comment\CommentUpdated;
+use App\Events\Comment\CommentCreated;
 
 
 
-class Comment extends ApiModel {
+class Comment extends NewApiModel {
 	
 	use SoftDeletes, Eloquence, Mappable;
 
@@ -78,44 +78,6 @@ class Comment extends ApiModel {
 	 */	
     protected $appends = ['position','motion_id','commentRank','user'];  
 
-    /**
-     * The rules for all the variables
-     * @var Array
-     */
-	protected $rules = [
-        'text'			=>	'min:3|string',
-        'vote_id'		=>	'integer|exists:votes,id|unique:comments,vote_id',
-        'id'			=>	'integer'
-	];
-
-	/**
-	 * The attributes required on an update
-	 * @var Array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The attributes required when creating the model
-	 * @var Array
-	 */
-	protected $onCreateRequired = ['text'];
-	
-	/**
-	 * The attributes that are unique so that the exclusion can be put on them on update validation
-	 * @var array
-	 */
-	protected $unique = ['vote_id'];
-
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'text' 					=>	['tag'=>'textarea','type'=>'textarea','label'=>'','placeholder'=>'Your comment on this motion'],
-		//? 'vote_id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>''],
-		// 'id' 					=>	['tag'=>'hidden','type'=>'hidden','label'=>'','placeholder'=>'']
-	];
-
 
 	/**
 	 * The fields that are dates/times
@@ -123,25 +85,17 @@ class Comment extends ApiModel {
 	 */
 	protected $dates = ['created_at','updated_at'];
 
-	/**
-	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
-	 * @var array
-	 */
-	protected $locked = [];
-
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
 		parent::boot();
 
 		static::creating(function($model){
-			if(!$model->validate()) return false;
 			event(new CommentCreated($model));
 			return true;
 		});
 
 		static::updating(function($model){
-			if(!$model->validate()) return false;
 			event(new CommentUpdated($model));
 			return true;
 		});
