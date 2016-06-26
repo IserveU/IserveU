@@ -6,11 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionPermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
+  //  use DatabaseTransactions;    
     use WithoutMiddleware;
-
-
-
 
 
 
@@ -222,10 +219,10 @@ class MotionPermissionTest extends TestCase
         $this->seeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
 
-  /** @test */
+    /** @test */
     public function it_cannot_restore_a_motion()
     {
-                $this->signInAsPermissionedUser('create-motion');
+        $this->signInAsPermissionedUser('create-motion');
 
         $motion  = factory(App\Motion::class)->create();
         $motion->delete();
@@ -233,7 +230,7 @@ class MotionPermissionTest extends TestCase
         // Restore motion
         $this->call('GET', '/api/motion/'.$motion->id.'/restore');
         $this->assertResponseStatus(401);
-        $this->seeInDatabase('motions', ['deleted_at' => null]);
+        $this->dontSeeInDatabase('motions', ['id'=>$motion->id,'deleted_at' => null]);
     }
 
     /** @test */
