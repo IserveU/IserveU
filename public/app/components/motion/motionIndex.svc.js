@@ -16,15 +16,16 @@ angular
 
 		_current_page: 1,
 
+		_last_page: null,
+
 		_next_page: 2,
 
 		_paginating: true,
 
 		_load: function() {
-
 			var self = this;
 
-			if(self._index.length > 0)
+			if(self._index.length > 0 || self._current_page === self._last_page)
 				return false;
 
 			self._paginating = true;
@@ -33,6 +34,7 @@ angular
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
+				self._last_page = results.last_page;
 				self._paginating = false;
 
 			}, function(error) {
@@ -48,10 +50,9 @@ angular
 		},
 
 		loadMoreMotions: function() {
-
 			var self = this;
 
-			if(!self._next_page)
+			if(!self._next_page || self._current_page === self._last_page)
 				return false;
 
 			self._paginating = true;
@@ -60,12 +61,12 @@ angular
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = self._index.concat(results.data);
+				self._last_page = results.last_page;
 				self._paginating = false;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve next page of motion index.');
 			});
-
 		},
 
 		nextPage: function(url) {
