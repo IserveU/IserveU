@@ -65,19 +65,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 	protected $hidden = ['password'];
 
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */
-   	protected $maps = [
-       	'government_identification'		=> 	'governmentIdentification'
-    ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','government_identification','need_identification'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','need_identification'];
 
     protected $with = ['roles','community'];
 

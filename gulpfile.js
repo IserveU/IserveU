@@ -25,7 +25,7 @@ elixir(function(mix) {
         '/bower/angular-messages/angular-messages.min.js',
         '/bower/angular-ui-router/release/angular-ui-router.min.js',
         '/bower/angular-sanitize/angular-sanitize.min.js',
-        '/bower/satellizer/satellizer.min.js',
+        '/bower/satellizer/dist/satellizer.min.js',
         '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
         // '/bower/textAngular/dist/textAngular-sanitize.min.js',
         '/bower/textAngular/dist/textAngularSetup.js',

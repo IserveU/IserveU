@@ -45,25 +45,25 @@ Route::get('/settings', function(){
 
 Route::group(array('prefix' => 'api'), function(){				
 
-		if ($token = JWTAuth::getToken()) {
+	if ($token = JWTAuth::getToken()) {
 
-			$user = JWTAuth::parseToken()->authenticate();
+		$user = JWTAuth::parseToken()->authenticate();
 
-	    }
+    }
 
-		Route::resource('comment', 'CommentController');
-		Route::resource('community', 'CommunityController');
-		Route::resource('delegation', 'DelegationController');
-		Route::resource('department', 'DepartmentController');
-		Route::resource('file', 'FileController');
-		Route::resource('ethnic_origin', 'EthnicOriginController');
-		Route::resource('motion', 'MotionController');
-		Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
-		Route::resource('motion.motionfile','MotionFileController');
-		Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
-		Route::resource('page', 'PageController');
-		Route::resource('setting', 'SettingController');
-		Route::resource('user', 'UserController');
+	Route::resource('comment', 'CommentController');
+	Route::resource('community', 'CommunityController');
+	Route::resource('delegation', 'DelegationController');
+	Route::resource('department', 'DepartmentController');
+	Route::resource('file', 'FileController');
+	Route::resource('ethnic_origin', 'EthnicOriginController');
+	Route::resource('motion', 'MotionController');
+	Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
+	Route::resource('motion.motionfile','MotionFileController');
+	Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
+	Route::resource('page', 'PageController');
+	Route::resource('setting', 'SettingController');
+	Route::resource('user', 'UserController');
 
 
 	Route::group(['middleware' => 'jwt.auth'], function(){

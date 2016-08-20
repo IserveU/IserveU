@@ -24,7 +24,9 @@ class CreateNewUser extends TestCase
      
         $user = factory(App\User::class)->make();
 
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password']))->toArray());
+
+
 
         $this->assertResponseStatus(200);
 
