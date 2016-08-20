@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class Login extends TestCase
 {
-	
+	use DatabaseTransactions;
 
 	/** @test **/
     public function login_with_correct_details()

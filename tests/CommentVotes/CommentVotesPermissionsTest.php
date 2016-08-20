@@ -6,7 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CommentVotesPermissionsTest extends TestCase
 {
-  //  use DatabaseTransactions;    
+  
+    use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
