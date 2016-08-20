@@ -81,6 +81,7 @@ Route::group(array('prefix' => 'api'), function(){
 		
 		Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
 		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
+
 		Route::resource('user.role', 'UserRoleController'); 
 
 		Route::resource('vote', 'VoteController');
