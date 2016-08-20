@@ -9,9 +9,9 @@
 	
 	angular
 		.module('iserveu')
-		.directive('isuFileUpload', ['$isuFormProvider', isuFileUploader]);
+		.directive('isuFileUpload', ['isuSectionProvider', isuFileUploader]);
 
-	function isuFileUploader($isuFormProvider) {
+	function isuFileUploader(isuSectionProvider) {
 
 		function isuFileUploaderController($scope, $attrs) {
 
@@ -65,17 +65,17 @@
 
 			// private method
 			function fileApiMethod(id, method, data) {
-				angular.extend($isuFormProvider.defaults, 
-					{target: $isuFormProvider.defaults.fileEndpoint+'/'+id, 
+				angular.extend(isuSectionProvider.defaults, 
+					{target: isuSectionProvider.defaults.fileEndpoint+'/'+id, 
 					method: method});
 
-				$isuFormProvider.callMethodToApi(data);
+				isuSectionProvider.callMethodToApi(data);
 			}
 
 			// ngflow methods
 			var index = 0, oIndex,
 			ngFlowFunctions = {
-				flowInit: {target: $isuFormProvider.defaults.fileEndpoint, testChunks: false},
+				flowInit: {target: isuSectionProvider.defaults.fileEndpoint, testChunks: false},
 				successHandler: function(msg) {
 					$scope.fileArrayIds.push( JSON.parse(msg).id );
 				},
