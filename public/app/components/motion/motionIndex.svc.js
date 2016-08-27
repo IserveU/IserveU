@@ -20,7 +20,9 @@ angular
 
 		_next_page: 2,
 
-		_paginating: true,
+		_paginating: false,
+
+		_stopPaginating: false,
 
 		_load: function() {
 			var self = this;
@@ -35,7 +37,8 @@ angular
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
 				self._last_page = results.last_page;
-				self._paginating = false;
+				self._paginating = results.next_page_url ? false : true;
+				self._stopPaginating = results.next_page_url ? true : false;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve initial index of motions.');
@@ -62,7 +65,8 @@ angular
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = self._index.concat(results.data);
 				self._last_page = results.last_page;
-				self._paginating = false;
+				self._paginating = results.next_page_url ? false : true;
+				self._stopPaginating = results.next_page_url ? true : false;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve next page of motion index.');
