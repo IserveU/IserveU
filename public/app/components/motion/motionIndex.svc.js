@@ -50,6 +50,13 @@ angular
 			for (var i = originalLength; i > 0; i--) {
 			     this._index.pop();
 			}
+
+			this._current_page = 1;
+			this._last_page = null;
+			this._next_page = 2;
+			this._paginating = false;
+			this._stopPaginating = false;
+
 		},
 
 		loadMoreMotions: function() {
