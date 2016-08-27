@@ -26,7 +26,8 @@
 
 		function redirect(){
 
-			$rootScope.userIsLoggedIn = true;
+			// @deprecated and moved to func: setLoginAuthDetails
+			// $rootScope.userIsLoggedIn = true;
 
 			return $rootScope.redirectUrlName 
 				   ? $state.transitionTo($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
@@ -34,16 +35,14 @@
 		}
 
 		 function setLoginAuthDetails (user, token, resetPassword){
-			if(token)
-				localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
+			if(token) localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
 
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			$rootScope.authenticatedUser = user;
+			$rootScope.userIsLoggedIn = true;
 
-			if(resetPassword){
-				$rootScope.userIsLoggedIn = true;
+			if(resetPassword)
 				$state.transitionTo('edit-user', {id: user.id});
-			}
 			else
 				redirect();
 		}
