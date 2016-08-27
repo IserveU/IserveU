@@ -15,7 +15,7 @@
   </div>
 
 
-  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn"> 
+  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn && authenticatedUser"> 
 
     <my-comments layout flex></my-comments>
     <my-votes layout flex></my-votes>
