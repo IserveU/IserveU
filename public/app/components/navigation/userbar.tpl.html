@@ -26,8 +26,8 @@
   <span flex></span>
 
   <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
-    <md-menu md-position-mode="target-right target">
-        <md-button aria-label="User Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+    <md-menu class="nav__menu" md-position-mode="target-right target">
+        <md-button aria-label="User Menu" id="nav__button" class="md-icon-button" ng-click="$mdOpenMenu()">
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ng-if="$mdMedia('gt-sm')"></md-icon>
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-menu" ng-if="!$mdMedia('gt-sm')"></md-icon>
         </md-button>
@@ -52,7 +52,7 @@
                 <md-menu-item has-permission="create-motion, administrate-permission" ui-sref="dashboard">
                     <md-button aria-label="go to admin dashboard">
                         <div layout="row">
-                            <p flex>Admin Dashboard</p>
+                            <p flex>Dashboard</p>
                             <md-icon class="mdi mdi-view-dashboard"></md-icon>
                         </div>
                     </md-button>
@@ -88,7 +88,7 @@
                 </md-menu-item>
 
                 <md-menu-item>
-                    <md-button aria-label="logout" ng-click="user.logout()">
+                    <md-button class="logout__button" aria-label="logout" ng-click="user.logout()">
                         <div layout="row">
                             <p flex>{{ 'LOGOUT' | translate}} {{::authenticatedUser.first_name}}</p>
                             <md-icon class="mdi mdi-logout"></md-icon>

@@ -1,4 +1,4 @@
-<md-dialog aria-label="Terms and Conditions"  ng-cloak>
+<md-dialog class="terms_conditions"  aria-label="Terms and Conditions" ng-cloak>
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Terms and Conditions</h2>
@@ -23,7 +23,7 @@
       More on IserveU
     </md-button>
     <span flex></span>
-    <md-button class="md-raised md-accent" ng-click="answer('agree')">
+    <md-button class="md-raised md-accent terms_conditions__button" ng-click="answer('agree')">
       {{ userIsLoggedIn ? 'Close' : 'I Agree' }}
     </md-button>
   </div>
