@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class JWT extends TestCase
 {
     use WithoutMiddleware;
+    use DatabaseTransactions;
 
     public function setUp()
     {

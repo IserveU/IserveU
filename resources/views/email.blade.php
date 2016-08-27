@@ -50,7 +50,7 @@
         <table class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color:#f3f3f3;" bgcolor="#f3f3f3;">
           <tr>
             <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#<?php echo Setting::get('theme.primary.400');?>;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="<?php echo Setting::get('email.footer.website');?>"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
-              <img src="<?=asset('/themes/'.Setting::get('themename','default').'/logo/logo_allwhite.png')?>">
+              <img width="200" src="<?=asset('/themes/'.Setting::get('themename','default').'/logo/logo_allwhite.png')?>">
             </h1></a></td>
             <td width="50" align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"></td>
             <td align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #323232;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"><h1>{{isset($title)?$title:""}}</h1></td>

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateNewUser extends TestCase
 {
-
+    use DatabaseTransactions;
 
     public function setUp(){
         parent::setUp();
@@ -21,12 +21,11 @@ class CreateNewUser extends TestCase
 	/** @test **/
     public function submit_new_user_details()
     {	
-     
-        $user = factory(App\User::class)->make();
+        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email','password'])->toArray();
 
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password']))->toArray());
+        $user['password'] = 'abcd1234';
 
-
+        $this->post('/api/user',$user);
 
         $this->assertResponseStatus(200);
 
@@ -34,7 +33,7 @@ class CreateNewUser extends TestCase
         $content = json_decode($this->response->getContent());
    
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
-        $this->seeInDatabase('users',array('email'=>$user->email,'first_name'=>$user->first_name));
+        $this->seeInDatabase('users',array('email'=>$user['email'],'first_name'=>$user['first_name']));
 
     }
 
@@ -81,10 +80,13 @@ class CreateNewUser extends TestCase
     {   
         $this->setSettings(['security.verify_citizens'=>false]);
         
+        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email'])->toArray();
 
-        $user = factory(App\User::class)->make();
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+        $user['password']   =  'abcd1234';
 
+        $this->post('/api/user',$user);
+
+        
         $this->assertResponseStatus(200);
 
         $content = json_decode($this->response->getContent());
@@ -102,9 +104,9 @@ class CreateNewUser extends TestCase
     {   
         $this->setSettings(['security.verify_citizens'=>true]);
         
-
-        $user = factory(App\User::class)->make();
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email'])->toArray();
+        $user['password']   =  'abcd1234';
+        $this->post('/api/user',$user);
 
         $this->assertResponseStatus(200);
 

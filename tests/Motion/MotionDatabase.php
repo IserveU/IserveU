@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionDatabaseTest extends TestCase
 {
-
+    use DatabaseTransactions;
 
      /** @test  */
     public function status_scope_get_motions_with_a_status()
