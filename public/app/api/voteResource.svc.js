@@ -36,6 +36,11 @@
 	    *
 	    ******************************************************************/
 
+
+	    /**
+	    *	
+	    * 	@params: {user_id: number, motion_id: number, position: number}
+	    */
 		function castVote(data) {
 			return Vote.save(data).$promise.then(function(success) {
 				return success;
@@ -44,6 +49,10 @@
 			});
 		}
 
+	    /**
+	    *	
+	    * 	@params: {id: number, user_id: number, motion_id: number, position: number}
+	    */
 		function updateVote(data) {
 			return Vote.update({id:data.id}, data).$promise.then(function(success) {
 				return success;
