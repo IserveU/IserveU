@@ -107,8 +107,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
     protected $casts = [
-        'preferences' => 'array',
+        'preferences' => 'array'
     ];
+
+    // public function getPreferencesAttribute(){
+    // 	dd($this->attributes['preferences']);
+    // }
 
 	/**************************************** Standard Methods **************************************** */
 

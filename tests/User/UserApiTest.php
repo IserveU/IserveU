@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+   // use DatabaseTransactions;    
     use WithoutMiddleware;
 
     public function setUp()
@@ -21,10 +21,11 @@ class UserApiTest extends TestCase
 
         $faker = \Faker\Factory::create();
 
-        $preferences = [
-            "religion"      =>  $faker->word,
+        $preferences = json_encode([
+            "ham"           =>  "cheese",
             "icons"         =>  "Awesome Icons"    
-        ];
+        ]);
+
 
         $this->patch('/api/user/'.$this->user->id,['preferences'=>$preferences]);
 
@@ -32,27 +33,36 @@ class UserApiTest extends TestCase
 
         $user = $this->user->fresh();
 
-        $this->assertContains($preferences['religion'],$user->preferences);
+        $this->assertContains("cheese",$user->preferences);
     }
 
     /** @test  ******************/
     public function can_create_user_with_preferences(){
 
+        $user = factory(App\User::class)->make([
+
+        ]);
+
+
+
         $faker = \Faker\Factory::create();
 
-        $preferences = [
-            "religion"      =>  $faker->word 
-        ];
+        $preferences = json_encode([
+            "occupation"      =>  "student"
+        ]);
      
         $user = factory(App\User::class)->make([
             "preferences"   =>  $preferences
-        ]);
+        ])->setVisible(['first_name','last_name','email','password','preferences'])->toArray();
 
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password','preferences'])->toArray())
+        $user['password'] = $faker->password;
+
+        $this->post('/api/user',$user)
+             ->assertResponseStatus(200)
              ->seeJson([
-                
-                    'preferences'   =>  $preferences
-                
+                    'preferences'   =>  [
+                        'occupation'    =>  'student'
+                    ]
              ]);
     }
 

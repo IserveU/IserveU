@@ -39,7 +39,7 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\DeleteUser',
 			'App\Listeners\User\DeleteActiveVotes'
 		],
-		'App\Events\Motion\MotionUpdated' => [
+		'App\Events\Motion\MotionUpdated' => [ //Added notes on what this does to model
 			'App\Listeners\Motion\SendNotificationEmail',
 			'App\Listeners\Motion\AlertVoters'
 		],
@@ -57,11 +57,8 @@ class EventServiceProvider extends ServiceProvider {
 		'App\Events\VoteDeleting' => [
 			'App\Listeners\Vote\DeleteVoteComment',
 		],
-		'App\Events\Motion\MotionCreated' => [
-			'App\Listeners\Motion\CreateDeferredVotes',
-		],
-		'App\Events\DepartmentCreated' => [
-			'App\Listeners\Department\CreateDepartmentDelegations',
+		'App\Events\Motion\MotionCreated' => [ //Added notes on what this does to model
+	
 		],
 		'App\Events\CommentDeleted' => [
 			'App\Listeners\Comment\DeleteCommentVotes',
@@ -109,9 +106,9 @@ class EventServiceProvider extends ServiceProvider {
 	 * @param  \Illuminate\Contracts\Events\Dispatcher  $events
 	 * @return void
 	 */
-	public function boot(DispatcherContract $events)
+	public function boot()
 	{
-		parent::boot($events);
+		parent::boot();
 	}
 
 }

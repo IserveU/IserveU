@@ -104,9 +104,9 @@ class NewUserTest extends TestCase
         $updateData = [
             'first_name'     => 'Ufirst', 
             'last_name'      => 'Ulast',
-            'preferences'    =>  [
+            'preferences'    =>  json_encode([
                 'setting'=>'mysetting'
-            ]
+            ])
         ];
                        
         $this->patch('/api/user/'.$this->user->id, $updateData);

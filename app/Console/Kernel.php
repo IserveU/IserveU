@@ -12,9 +12,8 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'App\Console\Commands\Inspire',
 		'App\Console\Commands\EmailDailySummary',
-		'App\Console\Commands\RankGeneration',
+		'App\Console\Commands\RankGeneration', //Should be a Cache
 		'App\Console\Commands\ShuffleDefaultDelegations',
         '\App\Console\Commands\Setup\InitializeApp',
         '\App\Console\Commands\Setup\SetNewDefaults'
@@ -28,8 +27,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+
 
 		$schedule->command('emails:daily')
 				 ->daily();

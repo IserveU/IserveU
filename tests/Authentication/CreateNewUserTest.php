@@ -20,10 +20,12 @@ class CreateNewUser extends TestCase
 
 	/** @test **/
     public function submit_new_user_details()
-    {	
+    {
+       
         $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email','password'])->toArray();
 
         $user['password'] = 'abcd1234';
+      
 
         $this->post('/api/user',$user);
 
