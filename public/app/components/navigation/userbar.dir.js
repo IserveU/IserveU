@@ -13,10 +13,11 @@ angular
 		'auth', 
 		'afterauth', 
 		'UserbarService', 
-		'pageObj', 
+		'pageObj',
+		'motionIndex',
 	userBar]);
 
-	function userBar($translate, $mdSidenav, $mdMedia, $state, auth, afterauth, UserbarService, pageObj){
+	function userBar($translate, $mdSidenav, $mdMedia, $state, auth, afterauth, UserbarService, pageObj, motionIndex){
 		
 	  	 /** @ngInject */
 		function UserbarController($scope) {
@@ -47,7 +48,9 @@ angular
 			}
 
 			this.toggleSidebar = function(id) {
-				$mdSidenav(id).toggle(); 
+				$mdSidenav(id).toggle().then(function(){
+					motionIndex._load();
+				}); 
 			}
 		};
 

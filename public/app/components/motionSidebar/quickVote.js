@@ -62,7 +62,9 @@
 
 					updateVote({
 						id: motion.user_vote.id,
-						position: position
+						motion_id: motion.id, 
+						position: position,
+						user_id: $rootScope.authenticatedUser.id
 					}, motion);
 				};
 			};
@@ -74,12 +76,13 @@
 		*
 		*******************************************************************/
 		
-		function castVote(motion, pos){
+		function castVote(motion, position){
 			voteResource.castVote({
 				motion_id: motion.id, 
-				position: pos
+				position: position,
+				user_id: $rootScope.authenticatedUser.id
 			}).then(function(r){
-				successHandler(r, pos, motion);
+				successHandler(r, position, motion);
 			});
 		}
 
