@@ -10,7 +10,6 @@
 		"zizaco/entrust": "dev-master",
 		"guzzlehttp/guzzle" : ">=4.0|<7.0",
         "sofa/eloquence": "~5.2@dev",
-		"tymon/jwt-auth": "0.5.*",
 		"felixkiss/uniquewith-validator": "2.*",
 		"fzaninotto/faker": "^1.5",
 		"pda/pheanstalk": "~3.0",

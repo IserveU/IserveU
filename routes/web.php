@@ -36,20 +36,20 @@ Route::get('/settings', function(){
 	
 	$user = null;
 	
-	if ($token = JWTAuth::getToken()) {
-		$user = JWTAuth::parseToken()->authenticate();
-    }
 	return Setting::all();
 });
 
 
-Route::group(array('prefix' => 'api'), function(){				
+Route::group(['prefix' => 'api'], function(){				
 
-	if ($token = JWTAuth::getToken()) {
+	
 
-		$user = JWTAuth::parseToken()->authenticate();
+	Route::get('users/{user}',function(App\User $user){
+		dd(Auth::user());
+		dd($user);
 
-    }
+	});
+
 
 	Route::resource('comment', 'CommentController');
 	Route::resource('community', 'CommunityController');
@@ -57,8 +57,9 @@ Route::group(array('prefix' => 'api'), function(){
 	Route::resource('department', 'DepartmentController');
 	Route::resource('file', 'FileController');
 	Route::resource('ethnic_origin', 'EthnicOriginController');
+
 	Route::resource('motion', 'MotionController');
-	Route::resource('motion.comment','MotionCommentController', ['only'=>['index']]);
+	Route::resource('motion/{motion}/comment','MotionCommentController'); //, ['only'=>['index']]
 	Route::resource('motion.motionfile','MotionFileController');
 	Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
 	Route::resource('page', 'PageController');
@@ -66,7 +67,8 @@ Route::group(array('prefix' => 'api'), function(){
 	Route::resource('user', 'UserController');
 
 
-	Route::group(['middleware' => 'jwt.auth'], function(){
+
+	Route::group(['middleware' => 'auth:api'], function(){
 
 
 		Route::resource('background_image', 'BackgroundImageController');

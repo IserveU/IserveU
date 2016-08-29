@@ -58,7 +58,7 @@
 
 
 
-	function postComment($self, $attributes = [])
+	function postComment($self, $attributes = [],$code = 200)
 	{
 		if(!$self){
 			// stuff
@@ -74,6 +74,7 @@
 
 	    $response = $self->call('POST','/api/comment', $comment);
 
+	    $self->assertResponseStatus($code);
 	    
 		return $response->getOriginalContent();
 	}
@@ -189,5 +190,9 @@
 
 	}
 
+
+	function getUserWithToken($api_token){
+		return \App\User::where('api_token',$api_token)->first();
+	}
 	
 ?>

@@ -63,7 +63,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
-	protected $hidden = ['password'];
+	protected $hidden = ['password','api_token'];
 
 
 	/**
@@ -110,9 +110,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         'preferences' => 'array'
     ];
 
-    // public function getPreferencesAttribute(){
-    // 	dd($this->attributes['preferences']);
-    // }
+
 
 	/**************************************** Standard Methods **************************************** */
 
@@ -158,6 +156,14 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		 	Redis::publish('connection', json_encode($data));
 
 			return true;
+		});
+
+		static::saving(function($model){
+
+			if(!$model->api_token){
+				$model->api_token = str_random(60);
+			}
+
 		});
 
 		static::deleted(function($model){

@@ -16,7 +16,7 @@ class MotionFileController extends ApiController {
 
 	function __construct()
 	{
-		$this->middleware('jwt.auth',['except'=>['index','show']]);
+		$this->middleware('auth.api',['except'=>['index','show']]);
 
 	}
 

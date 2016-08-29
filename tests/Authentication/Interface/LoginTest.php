@@ -4,9 +4,28 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class Login extends TestCase
+class LoginTest extends TestCase
 {
 	use DatabaseTransactions;
+
+
+    /** @test **/
+    public function login_as_new_user_and_get_token()
+    {   
+
+        $user = factory(App\User::class)->create([
+            'password'  => 'abcd1234'
+        ]);
+
+
+        $this->post('authenticate',array_merge($user->setVisible(['email'])->toArray(),['password'=>'abcd1234']))
+            ->assertResponseStatus(200)
+            ->seeJson([
+                'api_token' => $user->api_token
+            ]);
+
+    }
+
 
 	/** @test **/
     public function login_with_correct_details()
@@ -19,11 +38,11 @@ class Login extends TestCase
         	'password'	=> 	$password
         ]);
 
-        $this->post( '/authenticate',['email' => $user->email,'password' => $password]);
-
-        $content = json_decode($this->response->getContent());
-   
-        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
+        $this->post( '/authenticate',['email' => $user->email,'password' => $password])
+            ->assertResponseStatus(200)
+            ->seeJson([
+                'api_token' => $user->api_token
+            ]);
     }
 
 
@@ -32,11 +51,14 @@ class Login extends TestCase
     {	
         $user = factory(App\User::class)->create();
 
-        $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword"]);
-        $this->assertResponseStatus(401);
-        $content = json_decode($this->response->getContent());
 
-        $this->assertEquals($content, null);
+        $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword"])
+             ->assertResponseStatus(401)
+             ->seeJson([
+                "error"     =>    "Invalid credentials",
+                "message"   =>    "Either your username or password are incorrect"
+            ]);
+
 
     }
 
@@ -54,25 +76,4 @@ class Login extends TestCase
         $this->seeInDatabase('users',array('id'=>$user->id,'login_attempts'=>2));
     }
 
-
-    /** @test **/
-    public function create_and_login_as_minimal_specs_new_user()
-    {   
-        $user = factory(App\User::class)->make();
-      
-        $this->post('/api/user',array_merge($user->setVisible(['first_name','last_name','email'])->toArray(),['password'=>'abcd1234']));
-
-        $this->assertResponseStatus(200);
-
-        $this->post('authenticate',['email'=>$user->email,'password'=>'abcd1234']);
-
-        $content = json_decode($this->response->getContent());
-        
-        if(!$content){
-            dd($this->response->getContent());
-        }
-
-        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
-    }
-    
 }

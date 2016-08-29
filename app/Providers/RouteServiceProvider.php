@@ -23,17 +23,23 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		parent::boot();
 
-		\Route::model('user','App\User');
-		\Route::model('motion','App\Motion');
-		\Route::model('motionfile','App\MotionFile');
-		\Route::model('file','App\File');
-		\Route::model('vote','App\Vote');
-		\Route::model('comment','App\Comment');
-		\Route::model('comment_vote','App\CommentVote');
-		\Route::model('background_image','App\BackgroundImage');
-		\Route::model('department', 'App\Department');
+		Route::model('user','App\User');
+		Route::model('motion','\App\Motion');
+		Route::model('motionfile','App\MotionFile');
+		Route::model('file','App\File');
+		Route::model('vote','App\Vote');
+		Route::model('comment','App\Comment');
+		Route::model('comment_vote','App\CommentVote');
+		Route::model('background_image','App\BackgroundImage');
+		Route::model('department', 'App\Department');
+
+        app('router')->bind('motion', function ($motion) {
+            return \App\Motion::find($motion);
+        });
+
+      
+        parent::boot();
 
 	}
 

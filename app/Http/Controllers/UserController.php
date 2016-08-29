@@ -30,7 +30,7 @@ class UserController extends ApiController {
 	public function __construct(UserTransformer $userTransformer)
 	{	
 		$this->userTransformer = $userTransformer;
-		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
+		$this->middleware('auth:api',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 
 	/**
@@ -81,16 +81,14 @@ class UserController extends ApiController {
 	 */
 	public function store(StoreUserRequest $request){
 		//Create a new user and fill secure fields
-		$newUser = User::create($request->except('token'));
+		$user = User::create($request->except('token'));
+
 
 		if(!Setting::get('security.verify_citizens')){
-			$newUser->addUserRoleByName('citizen');
+			$user->addUserRoleByName('citizen');
 		}
 
-		$token = JWTAuth::fromUser($newUser);
-
-	
-		return response()->json(compact('token','user'),200,[],JSON_UNESCAPED_UNICODE);
+	    return response(["api_token"=>$user->api_token],200);
 	}
 
 	/**

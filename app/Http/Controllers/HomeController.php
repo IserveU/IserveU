@@ -20,7 +20,7 @@ class HomeController extends ApiController {
 	 */
 	public function __construct()
 	{
-		$this->middleware('jwt.auth');
+		$this->middleware('auth.api');
 	}
 
 	/**

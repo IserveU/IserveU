@@ -15,7 +15,10 @@ class ShowMotionRequest extends Request
      */
     public function authorize()
     {
-        $motion =  $this->route()->parameter('motion');
+
+        $motion =  $this->route()->parameter('motion'); //TO GET RESOURCE ROUTING WORKING
+
+        
 
         if($motion->status < 2){
             if(!Auth::check()){

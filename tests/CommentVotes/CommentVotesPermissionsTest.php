@@ -8,7 +8,6 @@ class CommentVotesPermissionsTest extends TestCase
 {
   
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {
@@ -26,6 +25,13 @@ class CommentVotesPermissionsTest extends TestCase
     /** @test */
     public function it_can_vote_on_another_persons_comment()
     {
+        $this->signInAsAdmin();
+        $motion = factory(App\Motion::class,'published')->create();
+
+        $this->get('/api/motion/'.$motion->id)
+            ->assertResponseStatus(200);
+
+
         $this->signInAsPermissionedUser('create-comment_vote');
  
         $comment = factory(App\Comment::class)->create(); //Someone's comment
@@ -34,15 +40,17 @@ class CommentVotesPermissionsTest extends TestCase
             'motion_id' =>  $comment->vote->motion_id,
             'user_id'   =>  $this->user->id
         ]);
-       
+        
+
         // Make a comment vote
-        $commentVote = factory(App\CommentVote::class)->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])->setVisible(['position','vote_id','comment_id'])->toArray();
+        $commentVote = factory(App\CommentVote::class)
+            ->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])
+            ->setVisible(['position','vote_id','comment_id'])
+            ->toArray();
 
 
-        $this->post('/api/comment_vote', $commentVote);
-
-
-        $this->assertResponseOk();
+        $this->post('/api/comment_vote',array_merge($commentVote))
+            ->assertResponseStatus(200);
 
         $this->seeInDatabase('comment_votes', 
             [

@@ -8,7 +8,6 @@ class NewUserTest extends TestCase
 {
 
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {

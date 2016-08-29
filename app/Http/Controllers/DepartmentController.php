@@ -25,7 +25,7 @@ class DepartmentController extends ApiController {
 	public function __construct(DepartmentTransformer $departmentTransformer)
 	{
 		$this->departmentTransformer = $departmentTransformer;
-		$this->middleware('jwt.auth',['except'=>['index','show']]);
+		$this->middleware('auth.api',['except'=>['index','show']]);
 	}
 
 	/**

@@ -14,7 +14,6 @@ use App\Events\User\UserDeleted;
 class UserModelTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
    
     /** @test **/
