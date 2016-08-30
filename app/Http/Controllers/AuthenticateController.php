@@ -41,7 +41,7 @@ class AuthenticateController extends ApiController
 
         event(new UserLoginSucceeded($user));
 
-        return response(["api_token"=>$user->api_token],200);
+        return response(["api_token"=>$user->api_token,'user'=>$user],200);
 
     }
 
