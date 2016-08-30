@@ -12,20 +12,14 @@ class UserLoginFailed extends Event
     use SerializesModels;
 
     public $user;
-    public $credentials;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($credentials)
+    public function __construct(User $user)
     {            
-        $this->user = User::withEmail($credentials['email'])->first();
-        if(!$this->user){
-            abort(403,"Email address not in database");
-        }
-
-        $this->credentials = $credentials;
+        $this->user = $user;
     }
 
     /**

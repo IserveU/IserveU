@@ -35,9 +35,11 @@ use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
 
+use Illuminate\Notifications\Notifiable;
+
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
+	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait, Notifiable;
 
 	use EntrustUserTrait{
 		EntrustUserTrait::save as entrustSave;
@@ -63,7 +65,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
-	protected $hidden = ['password'];
+	protected $hidden = ['password','api_token'];
 
 
 	/**
@@ -107,8 +109,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
     protected $casts = [
-        'preferences' => 'array',
+        'preferences' => 'array'
     ];
+
+
 
 	/**************************************** Standard Methods **************************************** */
 
@@ -154,6 +158,14 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		 	Redis::publish('connection', json_encode($data));
 
 			return true;
+		});
+
+		static::saving(function($model){
+
+			if(!$model->api_token){
+				$model->api_token = str_random(60);
+			}
+
 		});
 
 		static::deleted(function($model){

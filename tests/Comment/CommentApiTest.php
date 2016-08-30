@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CommentApiTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {
@@ -22,19 +21,27 @@ class CommentApiTest extends TestCase
     *
     ******************************************************************/
     
+    /** @test  */
+    public function user_id_is_visible(){
+        
+        $comment = factory(App\Comment::class)->create();
+
+        
+        $this->get('/api/motion/'.$comment->vote->motion_id.'/comment')
+             ->assertResponseStatus(200)
+             ->seeJson([
+                'user_id'   =>  $comment->vote->user_id
+            ]);
+    
+ 
+    }
+
 
     /** @test */ 
     public function it_can_get_motion_comments(){
         $motion = factory(App\Motion::class,'published')->create();
 
-        $thisUsersVote = factory(App\Vote::class)->create([
-            'motion_id' => $motion->id
-        ]);
-
-        $thisUsersComment = factory(App\Comment::class)->create([
-            'vote_id' => $thisUsersVote->id
-        ]);
-
+      
         $positiveVote = factory(App\Vote::class)->create([
             'motion_id' => $motion->id,
             'position'  => 1
@@ -72,13 +79,10 @@ class CommentApiTest extends TestCase
             ],
             'disagreeComments' => [
                 '*' =>  ['id','text']
-            ],
-            'thisUsersComment',
-            'thisUsersCommentVotes'
+            ]
         ]);
     
 
-        $this->response->getContent();
     }
 
 
@@ -86,6 +90,7 @@ class CommentApiTest extends TestCase
     /** @test */
     public function changing_vote_shows_changed_comments()
     {
+        \Cache::flush();
         $vote = factory(App\Vote::class)->create([
             'user_id'   =>  $this->user->id,
             'position'  =>  1
@@ -99,7 +104,7 @@ class CommentApiTest extends TestCase
             ->assertResponseStatus(200);
 
         $response = json_decode($this->response->getContent(),true);
-            
+       
         $this->assertEquals(count($response['agreeComments']),1);
         $this->assertEquals(count($response['disagreeComments']),0);
 

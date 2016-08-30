@@ -7,12 +7,11 @@ use App\Http\Controllers\ApiController;
 
 use App\User;
 use Auth;
-use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Events\User\UserLoginFailed;
 use App\Events\SendPasswordReset;
 use Carbon\Carbon;
-
+use Hash;
 use App\Events\User\UserLoginSucceeded;
 
 
@@ -26,36 +25,25 @@ class AuthenticateController extends ApiController
      */
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        
-        $checkUser = User::where('email',$credentials['email'])->first();
 
-        if($checkUser && $checkUser->locked_until && $checkUser->locked_until->gt(Carbon::now())){
-            abort(401,'Account is locked until '.$checkUser->locked_until);
+        if (!$user = User::where(['email' => $request->email])->first()){
+            return  response(["error"=>"Invalid credentials","message"=>"This user does not exist"],401); 
         }
 
-        try {         
-            // attempt to verify the credentials and create a token for the user
-           if (! $token = JWTAuth::attempt($credentials)) {
-                event(new UserLoginFailed($credentials));
-               
-                abort(401,"Invalid credentials");
-            }
-
-        } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            abort(500,'Unable to create token');
-            
+        if($user && $user->locked_until && $user->locked_until->gt(Carbon::now())){
+            abort(401,'Account is locked until '.$user->locked_until);
         }
 
-        $user = Auth::user();
+        if(!Hash::check($request->password, $user->password)){
+            event(new UserLoginFailed($user));
+            return  response(["error"=>"Invalid credentials","message"=>"Either your username or password are incorrect"],401); 
+        }
 
 
         event(new UserLoginSucceeded($user));
 
+        return response(["api_token"=>$user->api_token],200);
 
-        // all good so return the token
-        return response()->json(compact('token','user'));
     }
 
     public function noPassword($remember_token){

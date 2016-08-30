@@ -39,48 +39,10 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
-		if ($e instanceof Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            return response()->json(['token_expired'], $e->getStatusCode());
-        } else if ($e instanceof Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
-        } else if ($e instanceof Tymon\JWTAuth\Exceptions\JWTException) {
-            return response()->json(['token_absent'], $e->getStatusCode());
-        }
-
-        
-        
-		// if ($request->ajax())
-	 //    {
-	 //        // Define the response
-	 //        $response = [
-	 //            'errors' => 'Sorry, something went wrong.',
-	 //            'message' => $e->getMessage()
-	 //        ];
-
-	 //        // If the app is in debug mode
-	 //        if (config('app.debug'))
-	 //        {
-	 //            // Add the exception class name, message and stack trace to response
-	 //            $response['exception'] = get_class($e); // Reflection might be better here
-	 //          	$response['file'] = $e->getFile();
-	 //          	$response['line'] = $e->getLine();
-	 //          	$response['trace'] = $e->getTrace();
-
-	 //        }
-
-	 //        // Default response of 400
-	 //        $status = 400;
-
-	 //        // If this exception is an instance of HttpException
-	 //        if ($this->isHttpException($e))
-	 //        {
-	 //            // Grab the HTTP status code from the Exception
-	 //            $status = $e->getStatusCode();
-	 //        }
-
-	 //        // Return a JSON response with the response array and status code
-	 //        return response()->json($response, $status);
-	 //    }
+		if ($e instanceof \Illuminate\Auth\AuthenticationException ) {
+            return response("Authentication required", 401);
+        } 
+ 		
 
 
 

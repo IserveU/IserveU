@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CommentPermissionTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {
@@ -28,7 +27,6 @@ class CommentPermissionTest extends TestCase
     {
 
         $comment = factory(App\Comment::class)->create();
-
 
         $this->get('/api/comment');
 
@@ -54,10 +52,9 @@ class CommentPermissionTest extends TestCase
         $this->signInAsPermissionedUser('create-comment');
 
         $comment = postComment($this);
-       
+
 
         $this->seeInDatabase('comments',[
-            'id'    => $comment->id,
             'text'  => $comment->text
         ]);
     }
@@ -172,6 +169,7 @@ class CommentPermissionTest extends TestCase
         $this->get('/api/comment/'.$comment->id);
 
         $this->assertResponseStatus(200);
+
         $this->seeJson([ 'id' => $comment->id, 'text' => $comment->text ]);
     }
 

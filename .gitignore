@@ -9,6 +9,8 @@
 /resources/bower/*
 /storage/logs/*
 
+.idea
+
 _ide_helper.php
 npm-debug.log
 .env

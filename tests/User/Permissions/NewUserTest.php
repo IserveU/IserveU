@@ -8,7 +8,6 @@ class NewUserTest extends TestCase
 {
 
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {
@@ -104,9 +103,9 @@ class NewUserTest extends TestCase
         $updateData = [
             'first_name'     => 'Ufirst', 
             'last_name'      => 'Ulast',
-            'preferences'    =>  [
+            'preferences'    =>  json_encode([
                 'setting'=>'mysetting'
-            ]
+            ])
         ];
                        
         $this->patch('/api/user/'.$this->user->id, $updateData);

@@ -20,7 +20,7 @@ use App\Events\Comment\CommentCreated;
 
 class Comment extends NewApiModel {
 	
-	use SoftDeletes, Eloquence, Mappable;
+	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -44,8 +44,11 @@ class Comment extends NewApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['text','vote','user','id','commentRank', 'created_at', 'updated_at']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
+	protected $visible = ['text','vote','id','commentRank','created_at','updated_at']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
 	
+	
+	protected $with = ['vote','commentRank'];
+
 	/**
 	 * The attributes visible to an administrator of this model
 	 * @var Array
@@ -64,19 +67,12 @@ class Comment extends NewApiModel {
 	 */
 	protected $publicVisible =  [];
 
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */
-   	protected $maps = [
-     	'vote' 			=> 	['motion_id','position','user','user_id'] /* User ID is here for the benefit of the getMotionComments */
-    ];
-	
+
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['position','motion_id','commentRank','user'];  
+    protected $appends = ['position','motion_id','commentRank'];  
 
 
 	/**
@@ -113,6 +109,8 @@ class Comment extends NewApiModel {
 	
 	/****************************************** Getters & Setters ************************************/
 
+
+
 	/**
 	 * @return integer the mutator to get the sum of all the comment votes
 	 */
@@ -142,13 +140,14 @@ class Comment extends NewApiModel {
 
 	/************************************* Scopes *****************************************/
 
-	public function scopeAgree($query){
-		return $query->where('position',1);
+
+
+	public function scopePosition($query,$position){
+		return $query->whereHas('vote',function($q) use ($position) {
+			$q->where('position',$position);
+		});
 	}
 
-	public function scopeDisagree($query){
-		return $query->where('position','!=',1);
-	}
 
 	public function scopeBetweenDates($query,$startDate,$endDate){
 		if($startDate)	$query = $query->where('created_at','>=',$startDate);

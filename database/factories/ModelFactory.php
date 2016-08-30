@@ -167,7 +167,7 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
 
     //A second vote on that comment
     $vote = factory(App\Vote::class)->create([
-        'motion_id' =>  $comment->motion_id
+        'motion_id' =>  $comment->vote->motion_id
     ]);
 
     return [

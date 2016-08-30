@@ -118,12 +118,15 @@ class Motion extends ApiModel {
 		});
 
 		static::created(function($model){
+			// Does  Nothing
 			event(new MotionCreated($model));
 			return true;	
 		});
 
 
 		static::updating(function($model){
+			//SendNotificationEmail
+			//AlertVoters
 			event(new MotionUpdated($model));
 			return true;			
 		});

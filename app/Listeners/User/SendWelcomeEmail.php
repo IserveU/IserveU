@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Mail;
 use Setting;
-
+use App\Notifications\BetaNotification;
 
 class SendWelcomeEmail
 {
@@ -46,8 +46,6 @@ class SendWelcomeEmail
              $m->to($user->email,$user->first_name)
              ->subject("Welcome To ".Setting::get('site.name',"IserveU"));
         });   
-
-
 
     }
 }

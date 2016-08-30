@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class MotionFilterPermissionTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
 
     /*****************************************************************

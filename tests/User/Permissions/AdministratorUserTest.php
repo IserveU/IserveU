@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class AdministratorUserTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
     public function setUp()
     {

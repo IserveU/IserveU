@@ -29,7 +29,7 @@ class MotionController extends ApiController {
 	function __construct(MotionTransformer $motionTransformer)
 	{
 		$this->motionTransformer = $motionTransformer;
-		$this->middleware('jwt.auth',['except'=>['index','show']]);
+		$this->middleware('auth:api',['except'=>['index','show']]);
 	}
 
 	/**

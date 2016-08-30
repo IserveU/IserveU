@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class MotionPermissionTest extends TestCase
 {
     use DatabaseTransactions;    
-    use WithoutMiddleware;
 
 
 
@@ -25,7 +24,8 @@ class MotionPermissionTest extends TestCase
 
     /** @test */
     public function it_cannot_see_an_unpublished_motion()
-    {   $this->signIn();
+    {   
+        $this->signIn();
         $motion = factory(App\Motion::class, 'draft')->create();
 
         $response = $this->call('GET', '/api/motion/'.$motion->id);
@@ -55,10 +55,10 @@ class MotionPermissionTest extends TestCase
         $review = factory(App\Motion::class, 'review')->make()->toArray();
 
         $response = $this->call('POST', '/api/motion', $draft);
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(401, $response->status());
 
         $response = $this->call('POST', '/api/motion', $review);
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(401, $response->status());
 
         $this->signIn(); //No Role
         $response = $this->call('POST', '/api/motion', $draft);

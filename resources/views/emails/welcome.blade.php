@@ -8,4 +8,5 @@
 
 <?php echo \Setting::get('email.welcome'); ?>
 
+
 @endsection
