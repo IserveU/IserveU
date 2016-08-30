@@ -5,43 +5,51 @@
   angular
     .module('iserveu')
     .directive('motionSidebar', 
-    	['$mdSidenav',
+    	['$timeout',
+       '$mdSidenav',
     	 'motionIndex',
     	 'motionSearchFactory',
 
     	motionSidebar]);
    
-  function motionSidebar($mdSidenav, motionIndex, motionSearchFactory) {
+  function motionSidebar($timeout, $mdSidenav, motionIndex, motionSearchFactory) {
 
     	function MotionSidebarController($scope) {
     		
-            $scope.$mdSidenav = $mdSidenav;
+        $scope.$mdSidenav = $mdSidenav;
 
-            // global context for this
+        // global context for this
     		var self = this;
             
-            /** @type {exports}  */
+        /** @type {exports}  */
     		self.motionIndex = motionIndex;
     		self.search = motionSearchFactory; 
 
-            /**
-             * Pull to fill sidebar using motionIndex service. 
-             * @return {} 
-             */
-            self.loadMotions = function() {
-                if(Object.keys(self.motionIndex._index).length === 0){
-                    self.motionIndex._load();            
-                }
-                else{
-                    self.motionIndex.loadMoreMotions();   
-                }
-            }
+        /**
+         * Pull to fill sidebar using motionIndex service. 
+         * @return {} 
+         */
+        self.loadMotions = function() {
+            console.log('loadingmotions');
 
-            /**
-             * Close sidenav.
-             * @param  {string} id $mdSidenav identifier
-             * @return {}
-             */
+            // if(!$mdSidenav('left').isLockedOpen())
+            //   return;
+
+            if(Object.keys(self.motionIndex._index).length === 0){
+                self.motionIndex._load();            
+            }
+            else if(self.motionIndex._stopPaginating){
+                self.motionIndex._paginating = true;
+            } else {
+                self.motionIndex.loadMoreMotions();
+            }
+        }
+
+        /**
+         * Close sidenav.
+         * @param  {string} id $mdSidenav identifier
+         * @return {}
+         */
     		self.closeSidenav = function(id) { 
     			$mdSidenav(id).close(); 
     		};
