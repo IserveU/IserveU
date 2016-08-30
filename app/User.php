@@ -119,7 +119,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	public static function boot(){
 		parent::boot();
 
-		/* validation required on new */		
 		static::creating(function($model){
 			event(new UserCreating($model));
 
@@ -165,6 +164,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 			if(!$model->api_token){
 				$model->api_token = str_random(60);
 			}
+			return true;
 
 		});
 

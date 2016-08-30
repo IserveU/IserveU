@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\User;
+
 class LoginTest extends TestCase
 {
 	use DatabaseTransactions;
@@ -25,6 +27,24 @@ class LoginTest extends TestCase
             ]);
 
     }
+
+
+
+
+
+    /** @test **/
+    public function login_as_default_user_and_get_token()
+    {   
+
+        $this->post('authenticate',['password'=>'abcd1234','email'=>'admin@iserveu.ca'])
+            ->assertResponseStatus(200)
+            ->seeJson([
+                'api_token' => User::first()->api_token
+            ]);
+
+    }
+
+
 
 
 	/** @test **/
@@ -58,9 +78,24 @@ class LoginTest extends TestCase
                 "error"     =>    "Invalid credentials",
                 "message"   =>    "Either your username or password are incorrect"
             ]);
+    }
 
+
+
+    /** @test **/
+    public function login_fails_with_non_existant_user()
+    {   
+
+
+        $this->post( '/authenticate',['password'=>'abcd1234','email'=>'notarealpersonatallhere@iserveu.ca'])
+             ->assertResponseStatus(401)
+             ->seeJson([
+                "error"     =>    "Invalid credentials",
+                "message"   =>    "This user does not exist"
+            ]);
 
     }
+
 
     /** @test **/
     public function login_attempts_increment()

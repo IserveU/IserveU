@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class VotingTest extends TestCase 
+class VotingApiTest extends TestCase 
 {
 
     /*****************************************************************
@@ -26,6 +26,12 @@ class VotingTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+    }
+
+
+
+    public function create_vote_test(){
+        
     }
 
     /** @test */
@@ -61,7 +67,7 @@ class VotingTest extends TestCase
         $this->assertEquals($publishedMotion['status'], 2);
 
         // 1 representative votes for, one votes against
-        $response = $this->post('/api/vote/', ['motion_id' => $publishedMotion['id'], 'position' => 1]);
+        $this->post('/api/vote/', ['motion_id' => $publishedMotion['id'], 'position' => 1]);
       //  dd($response);
         $this->post('/api/vote/', ['motion_id' => $publishedMotion['id'], 'position' => -1]);
 

@@ -39,7 +39,6 @@ class AuthenticateController extends ApiController
             return  response(["error"=>"Invalid credentials","message"=>"Either your username or password are incorrect"],401); 
         }
 
-
         event(new UserLoginSucceeded($user));
 
         return response(["api_token"=>$user->api_token],200);
