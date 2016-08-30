@@ -1,10 +1,7 @@
 <md-content class="flex md-default-theme motion-sidebar">
   
   <motion-search hide-gt-lg hide-lg hide-gt-md hide-md flex>></motion-search>
-    <div infinite-scroll="motionSidebar.loadMotions()"
-         infinite-scroll-container="'.site-sidenav'"
-         infinite-scroll-distance="0" 
-         infinite-scroll-disabled="motionSidebar.motionIndex._paginating">
+    <div >
 
       <md-list>
           <md-subheader ng-show="motionSidebar.search._filteredBy">
@@ -31,7 +28,7 @@
             <p class="md-body-1 ellipsis" translate="{{'NO_MOTIONS'}}"></p>
           </md-list-item>
 
-          <md-progress-circular md-mode="indeterminate" ng-if="motionSidebar.motionIndex._paginating && motionSidebar.motionIndex._stopPaginating"></md-progress-circular>
+          <md-progress-circular md-mode="indeterminate" ng-if="motionSidebar.motionIndex._paginating && !motionSidebar.motionIndex._stopPaginating"></md-progress-circular>
 
           <md-subheader ng-if="itemsInReview.length">
               <p>Upcoming {{ 'MOTIONS' | translate }}:</p>

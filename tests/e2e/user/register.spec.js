@@ -1,6 +1,7 @@
 describe('iserveu first landing on login page as new user', function() {
 
   beforeEach(function() {
+     pending('Force skip');
   });
 
   var testEmailAddress = Math.random().toString(36).substring(7);
@@ -77,6 +78,12 @@ describe('iserveu first landing on login page as new user', function() {
     expect(browser.getLocationAbsUrl()).toEqual('/home');
   });
 
+  it('it should see correct welcome page', function() {
+
+
+  });
+
+
   it('it should be able to logout and get redirected', function() {
 
     var cornerCog = element(by.css('div.md-toolbar-item > md-menu > button[ng-click="$mdOpenMenu()"]'));
@@ -106,6 +113,5 @@ describe('iserveu first landing on login page as new user', function() {
     loginButton.click();
     expect(browser.getLocationAbsUrl()).toEqual('/home');
   });
-
 
 });

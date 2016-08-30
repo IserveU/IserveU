@@ -49,6 +49,7 @@ angular
 			},
 
 			setOverallPosition: function(overallPosition) {
+				console.log(overallPosition);
 				this.setData({overallPosition: overallPosition});
 			},
 
@@ -64,20 +65,28 @@ angular
 
 		// private function
 		function getOverallPosition(votes) {
+			console.log(votes);
 			if(!votes['-1'] && !votes['1'] && !votes['0']) {
 	            votes.setOverallPosition( overallPosition.default );
 			}
-	    	else if (votes['-1'] && !votes['1']) {
+	    	else if (votes['-1'] && !votes['1'] && !votes['0']) {
 	            votes.setOverallPosition( overallPosition.disagree );
 	    	}
-	    	else if (!votes['-1'] && votes['1']) {
+	    	else if (!votes['-1'] && votes['1'] && !votes['0']) {
 	            votes.setOverallPosition( overallPosition.agree );
 	    	}
 	        else if (votes['0'] && !votes['-1'] && !votes['1']) {
 	            votes.setOverallPosition( overallPosition.abstain );
 	        }
 	    	else if (votes['-1'].active.number > votes['1'].active.number) {
+	    		console.log('onehere');
 	            votes.setOverallPosition( overallPosition.disagree );
+	    	}
+			else if (votes['-1'] && !votes['1']) {
+	            votes.setOverallPosition( overallPosition.disagree );
+	    	}
+	    	else if (!votes['-1'] && votes['1']) {
+	            votes.setOverallPosition( overallPosition.agree );
 	    	}
 	    	else if (votes['-1'].active.number < votes['1'].active.number) {
 	            votes.setOverallPosition( overallPosition.agree );

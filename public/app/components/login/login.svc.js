@@ -42,7 +42,7 @@
 			}, function(e) {
 
 				factory.loggingIn = false;
-				errorHandler( e.data.message );
+				errorHandler( e );
 			
 			});		
 		};
@@ -76,6 +76,8 @@
 
 
 		function errorHandler(message) {
+
+			console.log(message);
 
 			for (var i in factory.errors) 
 				factory.errors[i] = false;
