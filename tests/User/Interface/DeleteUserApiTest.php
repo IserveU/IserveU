@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserApiTest extends TestCase
+class DeleteUserApiTest extends TestCase
 {
     use DatabaseTransactions;    
 
@@ -13,13 +13,13 @@ class UserApiTest extends TestCase
         parent::setUp();
     }
 
-
+    /////////////////////////////////////////////////////////// CORRECT RESPONSES
+   
     /** @test  ******************/
-    public function user_recieves_notification_of_beta(){
-        $this->signIn();
-
-    
+    public function delete_user_correct_response(){
+        
     }
 
-
+    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
+    
 }

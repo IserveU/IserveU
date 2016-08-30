@@ -27,6 +27,15 @@ class UserModelTest extends TestCase
         $user = factory(App\User::class,'verified')->create();
     }
  
+
+
+    /** @test  ******************/
+    public function user_recieves_notification_of_beta(){
+        $this->markTestSkipped("missing");
+
+    }
+
+
     /** @test **/
     public function check_update_events_file(){
         $user = factory(App\User::class,'verified')->create();
