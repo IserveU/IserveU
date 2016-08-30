@@ -17,7 +17,7 @@ class StoreMotionRequest extends Request
      */
     public function authorize()
     {
-        
+
         return (new MotionPolicy())->inputsAllowed(
                     $this->all(),
                     $this->route()->parameter('motion')

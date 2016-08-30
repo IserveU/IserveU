@@ -35,9 +35,11 @@ use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
 
+use Illuminate\Notifications\Notifiable;
+
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
+	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait, Notifiable;
 
 	use EntrustUserTrait{
 		EntrustUserTrait::save as entrustSave;
