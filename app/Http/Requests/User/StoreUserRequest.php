@@ -17,17 +17,18 @@ class StoreUserRequest extends Request
         'middle_name'               =>  'string',
         'ethnic_origin_id'          =>  'integer|exists:ethnic_origins,id',
         'date_of_birth'             =>  'date',
-        'public'                    =>  'boolean',
+        'status'                    =>  'string',
         'login_attempts'            =>  'integer',
         'identity_verified'         =>  'boolean',
         'remember_token'            =>  'unique:users,remember_token',
         'postal_code'               =>  'string',
         'street_name'               =>  'string',
         'street_number'             =>  'integer',
-        'unit_number'               =>  'integer',
+        'unit_number'               =>  'string',
         'address_verified_until'    =>  'date|before:+2000 days|after:today',
         'agreement_accepted'        =>  'boolean',
-        'preferences'               =>  'json'
+        'preferences'               =>  'json',
+        'community_id'              =>  'exists:communities,id'
     ];
 
 

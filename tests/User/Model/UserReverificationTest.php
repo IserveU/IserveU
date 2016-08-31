@@ -12,8 +12,6 @@ class UserVerificationTest extends TestCase
     {
         parent::setUp();
 
-
-        //Something
     }
 
 

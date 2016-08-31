@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration {
 
             $table->integer('community_id')->unsigned()->nullable();
             
-			$table->boolean('public')->default(0);
+			$table->string('status')->default('private');
 
 			$table->integer('ethnic_origin_id')->unsigned()->nullable();
 			$table->date('date_of_birth')->nullable();

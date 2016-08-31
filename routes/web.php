@@ -17,6 +17,8 @@ Route::get('/', function() {
 	return view('index');
 });
 
+Validator::extend('notRequired', 'CustomValidation@notRequired');
+
 Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
@@ -91,3 +93,4 @@ Route::group(['prefix' => 'api'], function(){
 
 	});
 });
+

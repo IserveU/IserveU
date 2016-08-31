@@ -7,7 +7,6 @@ use App\Http\Controllers\ApiController;
 
 use App\User;
 use Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Events\User\UserLoginFailed;
 use App\Events\SendPasswordReset;
 use Carbon\Carbon;
@@ -47,29 +46,19 @@ class AuthenticateController extends ApiController
 
     public function noPassword($remember_token){
 
-        try{
-            if(empty($remember_token)){
-                abort(403,'No password reset code provided');
-            }
-
-            $user = User::where('remember_token',$remember_token)->first();
-
-            if(!$user){
-                abort(404,'Reset token invalid or expired');
-            }
-
-            $token = JWTAuth::fromUser($user);
-            Auth::loginUsingId($user->id);
-            
-        } catch (JWTException $e) {
-            abort(500,'could not create token');
+        if(empty($remember_token)){
+            abort(403,'No password reset code provided');
         }
-  
+
+        $user = User::where('remember_token',$remember_token)->first();
+
+        if(!$user){
+            abort(404,'Reset token invalid or expired');
+        }
+
+        return response(["api_token"=>$user->api_token,'user'=>$user],200);
+
         event(new UserLoginSucceeded($user));
-
-
-        // all good so return the token
-        return response()->json(compact('token','user'));
 
     }
 

@@ -9,8 +9,6 @@ use Auth;
 use Hash;
 use Zizaco\Entrust\Entrust;
 use Illuminate\Http\Response;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 

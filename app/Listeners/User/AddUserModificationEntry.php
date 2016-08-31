@@ -4,10 +4,11 @@ namespace App\Listeners\User;
 
 use App\Events\User\UserUpdated;
 use App\UserModification;
-use JWTAuth;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+
+use Auth;
 
 class AddUserModificationEntry
 {
@@ -31,12 +32,11 @@ class AddUserModificationEntry
     {
         $user = $event->user;
         $modifiedRecord = new UserModification;
-        $token = JWTAuth::getToken();
-        if($token){
-            $creator = JWTAuth::parseToken()->authenticate();
-            $modifiedRecord->modification_by_id = $creator->id;
+        
+        if(Auth::check()){
+            $modifiedRecord->modification_by_id = Auth::user()->id;
         } else {
-            $modifiedRecord->modification_by_id = $user->id; //Created own record
+            $modifiedRecord->modification_by_id = $user->id; //Registered themselves
         }
      
         $modifiedRecord->modification_to_id = $user->id;

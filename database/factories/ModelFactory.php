@@ -23,6 +23,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'last_name'         => $faker->lastName,
         'email'             => $faker->email,
         'password'          => $faker->password,
+        'postal_code'       => "X1A1A4",
         'public'            => 0,
         'ethnic_origin_id'	=> $ethnicOrigin->id,
         'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
@@ -30,7 +31,9 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'identity_verified' => 0,
         'created_at'        => \Carbon\Carbon::now(),
         'community_id'      => $community->id,
-        'street_name'       =>  $faker->streetName
+        'street_name'       => $faker->streetName,
+        'unit_number'       => $faker->randomDigit.$faker->randomLetter,
+        'status'            => 'private'
     ];
 });
 

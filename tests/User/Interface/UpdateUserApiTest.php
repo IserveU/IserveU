@@ -69,7 +69,7 @@ class UpdateUserApiTest extends TestCase
     }
 
     /** @test  ******************/
-    public function update_user_with_ethnic_origin_id(){ // May need to change this to text
+    public function update_user_with_invalid_ethnic_origin_id(){ // May need to change this to text
         
     }
 
@@ -89,8 +89,6 @@ class UpdateUserApiTest extends TestCase
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-
-
 
     /** @test  ******************/
     public function update_user_with_invalid_email_fails(){
@@ -123,7 +121,7 @@ class UpdateUserApiTest extends TestCase
     }
 
 
-     /** @test  ******************/
+    /** @test  ******************/
     public function update_user_with_invalid_community_fails(){
         
     }
