@@ -43,6 +43,13 @@ class Handler extends ExceptionHandler {
      */
     public function render($request, Exception $exception)
     {
+
+        if ($exception instanceof \Illuminate\Validation\ValidationException){
+            //IF THIS IS A FACTORY CALL IT WILL NOT WORK
+            return response()->json($exception->validator->getMessageBag(), 400);
+        }
+
+
         return parent::render($request, $exception);
     }
 

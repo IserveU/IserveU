@@ -195,7 +195,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $this;
     }
 
-    /**
+  /**
      * Assert that the client response has a given code.
      *
      * @param  int  $code
@@ -203,11 +203,27 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function assertResponseStatus($code)
     {
+
         $actual = $this->response->getStatusCode();
 
-        PHPUnit::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \n\n\n ResponseContent". $this->response->getContent());
+        if($actual==$code){
+            $this->assertEquals($actual,$code);
+            return $this;
+        }
 
+
+        if($actual!=200){
+            $message = "A request to failed to get expected status code. Received status code [{$actual}].";
+
+            $responseException = isset($this->response->exception)
+                    ? $this->response->exception : null;
+
+            throw new \Illuminate\Foundation\Testing\HttpException($message, null, $responseException);
+            return $this;
+        }
+
+
+        PHPUnit_Framework_TestCase::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \nResponseContent:    ". $this->response->getContent());
         return $this;
     }
-
 }

@@ -76,17 +76,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     protected $with = ['roles','community'];
 
-	/**
-	 * The variables that are required when you do an update
-	 * @var array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The variables requied when you do the initial create
-	 * @var array
-	 */
-	protected $onCreateRequired = ['email','password','first_name','last_name'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation

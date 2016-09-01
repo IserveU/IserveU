@@ -16,7 +16,6 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
     $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
     $community = \App\Community::orderBy(\DB::raw('RAND()'))->first();
 
-
     return [
         'first_name'        => $faker->firstName,
         'middle_name'       => $faker->name,
@@ -24,16 +23,16 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'email'             => $faker->email,
         'password'          => $faker->password,
         'postal_code'       => "X1A1A4",
-        'public'            => 0,
         'ethnic_origin_id'	=> $ethnicOrigin->id,
-        'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
+        'date_of_birth'		=> $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now')->format("Y-m-d"),
         'login_attempts'	=> 0,
         'identity_verified' => 0,
         'created_at'        => \Carbon\Carbon::now(),
         'community_id'      => $community->id,
         'street_name'       => $faker->streetName,
         'unit_number'       => $faker->randomDigit.$faker->randomLetter,
-        'status'            => 'private'
+        'status'            => 'private',
+        'agreement_accepted'=> $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now')->format("Y-m-d")
     ];
 });
 

@@ -10,23 +10,23 @@ class StoreUserRequest extends Request
 
 
     protected $rules = [
-        'email'                     =>  'email|required|unique:users,email',
-        'password'                  =>  'required',
-        'first_name'                =>  'required|string',
-        'last_name'                 =>  'required|string',
-        'middle_name'               =>  'string',
+        'email'                     =>  'email|required|unique:users,email|min:0',
+        'password'                  =>  'required|min:8',
+        'first_name'                =>  'required|string|filled',
+        'last_name'                 =>  'required|string|filled',
+        'middle_name'               =>  'string|filled',
         'ethnic_origin_id'          =>  'integer|exists:ethnic_origins,id',
-        'date_of_birth'             =>  'date',
-        'status'                    =>  'string',
+        'date_of_birth'             =>  'date|before:today',
+        'status'                    =>  'string|valid_status',
         'login_attempts'            =>  'integer',
         'identity_verified'         =>  'boolean',
         'remember_token'            =>  'unique:users,remember_token',
-        'postal_code'               =>  'string',
+        'postal_code'               =>  'string|max:10',
         'street_name'               =>  'string',
         'street_number'             =>  'integer',
         'unit_number'               =>  'string',
-        'address_verified_until'    =>  'date|before:+2000 days|after:today',
-        'agreement_accepted'        =>  'boolean',
+        'address_verified_until'    =>  'date|after:today|before:+2000 days',
+        'agreement_accepted'        =>  'date|before:yesterday|after:tomorrow', //You cant accept an agreement on creation ATM
         'preferences'               =>  'json',
         'community_id'              =>  'exists:communities,id'
     ];

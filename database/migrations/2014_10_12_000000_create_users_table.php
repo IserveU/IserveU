@@ -40,7 +40,7 @@ class CreateUsersTable extends Migration {
 			$table->integer('login_attempts')->default(0);
 			$table->datetime('locked_until')->nullable();
 
-            $table->boolean('agreement_accepted')->default(0);
+            $table->date('agreement_accepted')->nullable();
 
 
 			$table->softDeletes();

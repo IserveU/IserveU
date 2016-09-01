@@ -15,29 +15,8 @@ class IndexUserApiTest extends TestCase
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES 
 
-
-    /** @test  ******************/
-    public function show_other_public_user_correct_fields(){
-        
-    }
-
-    /** @test  ******************/
-    public function show_other_private_user_correct_fields(){
-        
-    }
-
-    /** @test  ******************/
-    public function show_own_private_user_correct_fields(){
-        
-    }
-
-    /** @test  ******************/
-    public function show_own_public_user_correct_fields(){
-        
-    }
-
-    /** @test  ******************/
-    public function show_nopermission_correct_fields(){
+    /** @test */
+    public function filter_user_by(){
         
     }
 

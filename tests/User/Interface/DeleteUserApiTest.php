@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteUserApiTest extends TestCase
 {
-    use DatabaseTransactions;
     use WithoutMiddleware;
 
     public function setUp()
@@ -18,6 +17,11 @@ class DeleteUserApiTest extends TestCase
    
     /** @test  ******************/
     public function delete_user_correct_response(){
+        $this->signIn();
+
+        $this->delete("/api/user/".$this->user->id)
+            ->assertResponseStatus(200);
+
         
     }
 
