@@ -29,10 +29,6 @@
 
 		$response = $self->call('POST', '/api/motion', $motion);
 
-		if($response->getStatusCode()!=$expectedCode){
-			dd($response->getContent());	//Dump fails
-		}
-
 		$self->assertResponseStatus($expectedCode);
 
 		return App\Motion::find($response->getOriginalContent()['id']); //This was an array

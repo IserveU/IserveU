@@ -57,14 +57,14 @@ $factory->defineAs(App\User::class, 'public', function (Faker\Generator $faker) 
 
     $user = $factory->raw(App\User::class);
 
-    return array_merge($user, ['public' => 1]);
+    return array_merge($user, ['status' => "public"]);
 });
 
 $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)  use ($factory) {
 
     $user = $factory->raw(App\User::class);
 
-    return array_merge($user, ['public' => 0]);
+    return array_merge($user, ['status' => "private"]);
 });
 
 

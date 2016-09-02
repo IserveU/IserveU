@@ -226,4 +226,127 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         PHPUnit_Framework_TestCase::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \nResponseContent:    ". $this->response->getContent());
         return $this;
     }
+
+    ////////// APITestCase Workings
+
+    /**
+     * Posts a model with the given fields and checks that the status code matches
+     * @param  Array  $fields An array of fields to post
+     * @param  integer $code   The code expected
+     */
+    function storeFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee=null){
+        $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
+
+        $this->post($this->route,$contentToPost)
+                ->assertResponseStatus($expectedCode);
+
+        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
+    }
+
+   /**
+     * Posts a model with the required fields merged with any content that user wants to submit
+     * @param  Array  $content An array of content to merge into a post
+     * @param  integer $code   The code expected
+     */
+    function storeContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null){
+
+        $defaultPost = $this->getPostArray($this->class,$this->defaultFields);
+
+        $mergedContentToPost = array_merge($defaultPost, $contentToPost);
+
+        $this->post($this->route,$this->removeNullValues($mergedContentToPost))
+                ->assertResponseStatus($expectedCode);
+
+        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValue($mergedContentToPost,$this->alwaysHidden));
+        
+    }
+
+  
+    /**
+     * Makes a user and updates them with the fields asked for
+     * @param  Array  $fields An array of fields to post
+     * @param  integer $code   The code expected
+     */
+    public function updateFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee=null){
+
+        if(!$this->modelToUpdate){
+            $this->modelToUpdate = factory($this->class)->create();
+        }
+
+        $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
+
+
+        $this->patch($this->route.$this->modelToUpdate->id,$contentToPost)
+                ->assertResponseStatus($expectedCode);
+
+        $contentToPost['id'] = $this->modelToUpdate->id;
+
+        if($expectedCode==200) $this->seeInDatabase('users',$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
+    }
+
+
+
+   /**
+     * Makes a user then merges them in with any content that user wants to submit
+     * @param  Array  $content An array of content to merge into a post
+     * @param  integer $code   The code expected
+     */
+    public function updateContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null){
+
+        if(!$this->modelToUpdate){
+            $this->modelToUpdate = factory($this->class)->create();
+        }
+
+        $defaultPost = $this->getPostArray($this->class,$this->defaultFields);
+
+        $mergedContentToPost = array_merge($defaultPost, $contentToPost);
+
+        $this->patch($this->route.$this->modelToUpdate->id,$this->removeNullValues($mergedContentToPost))
+                ->assertResponseStatus($expectedCode);
+
+        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValue($mergedContentToPost,$this->alwaysHidden));
+    }
+
+
+    /**
+     * Gets a user post array with given fields
+     * @param  Array $fields An array of fields
+     * @return Array         An array ready to post
+     */
+    public function getPostArray($class,$fields){
+        $post = factory($class)->make()->setVisible($fields)->toArray();
+        
+        // Get hidden fields
+        if(in_array("password" ,$fields)){
+            $post['password']   = 'abcd1234!';
+        }
+        return $post;
+    }
+
+    /**
+     * Gets an array without the 
+     * @param  [type] $array [description]
+     * @param  [type] $value [description]
+     * @return [type]        [description]
+     */
+    public function getArrayWithoutValues($array, $values){
+        foreach($values as $value){
+            unset($array[$value]);    
+        }        
+        return $array;
+      
+    }
+
+    /**
+     * Gets all the keys out of the array where the value is null
+     * @param  Array $array Array candidate
+     * @return Array        Array with null values filtered out
+     */
+    public function removeNullValues($array){
+        return array_filter($array, function($value){
+            return $value !== null;
+        });  
+    }
+
+
 }
