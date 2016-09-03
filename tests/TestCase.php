@@ -218,7 +218,15 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             $responseException = isset($this->response->exception)
                     ? $this->response->exception : null;
 
+
+            if ($responseException instanceof \Illuminate\Validation\ValidationException){
+                $message .= response()->json($responseException->validator->getMessageBag(), 400);
+            }
+             
             throw new \Illuminate\Foundation\Testing\HttpException($message, null, $responseException);
+            
+
+
             return $this;
         }
 
@@ -316,10 +324,19 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function getPostArray($class,$fields){
         $post = factory($class)->make()->setVisible($fields)->toArray();
         
-        // Get hidden fields
-        if(in_array("password" ,$fields)){
-            $post['password']   = 'abcd1234!';
+        // Restore always hidden fields
+        foreach($this->alwaysHidden as $hiddenField){
+            if(in_array($hiddenField,$fields)){
+                $post[$hiddenField]   = 'abcd1234!'; //Usually (if not always) password
+            }
         }
+
+        foreach($post as $postField => $postValue){
+            if(!in_array($postField,$fields)){
+                unset($post[$postField]);    
+            }
+        }
+
         return $post;
     }
 

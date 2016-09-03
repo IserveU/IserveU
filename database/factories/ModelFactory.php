@@ -11,7 +11,6 @@
 */
 
 
-//https://github.com/fzaninotto/Faker
 $factory->define(App\User::class, function ($faker) use ($factory) {
     $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
     $community = \App\Community::orderBy(\DB::raw('RAND()'))->first();
@@ -69,20 +68,25 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 
 
 
+
+
 /************************* Different Motion Status Factories ***********************************/
 
 $factory->define(App\Motion::class, function ($faker) use ($factory) {
  
+
+
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
-        'department_id' => $faker->biasedNumberBetween($min = 1, $max = 8, $function = 'sqrt'),
+        'department_id' => 1, //factory(App\Department::class)->create()->id,
         'user_id'       =>  function(){
             return factory(App\User::class,'verified')->create()->id;
         },
         'closing'       => new DateTime(),
         'text'          => $faker->paragraph($nbSentences =10),
-        'created_at'    => new DateTime()
+        'created_at'    => new DateTime(),
+        'status'        => 'published'
     ];
 });
 
@@ -91,7 +95,7 @@ $factory->defineAs(App\Motion::class, 'draft', function (Faker\Generator $faker)
 
     $motion = $factory->raw(App\Motion::class);
 
-    return array_merge($motion, ['status' => 0,
+    return array_merge($motion, ['status' => 'draft',
                                 'title' => $faker->sentence($nbWords = 4). " Draft"]
                     );
 });
@@ -100,7 +104,7 @@ $factory->defineAs(App\Motion::class, 'review', function (Faker\Generator $faker
 
     $motion = $factory->raw(App\Motion::class);
 
-    return array_merge($motion, ['status' => 1,
+    return array_merge($motion, ['status' => 'review',
                                 'title' => $faker->sentence($nbWords = 4). " Review"]
                     );
 
@@ -111,7 +115,7 @@ $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $fa
     $motion = $factory->raw(App\Motion::class);
 
 
-    return array_merge($motion, array_merge(createClosingDate(), ['status' => 2,
+    return array_merge($motion, array_merge(createClosingDate(), ['status' => 'published',
                 'title' => $faker->sentence($nbWords = 4). " Published"]) );
 });
 
@@ -121,7 +125,7 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
 
     $date = \Carbon\Carbon::now();
 
-    return array_merge($motion, ['status' => 3,
+    return array_merge($motion, ['status' => 'closed',
                                 'title' => $faker->sentence($nbWords = 4). " Closed"]
                     );
 

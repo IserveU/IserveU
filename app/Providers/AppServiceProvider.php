@@ -43,17 +43,19 @@ class AppServiceProvider extends ServiceProvider {
 
 
 		Validator::replacer('valid_status', function($message, $attribute, $rule, $parameters) {
-            return $message.". The current time on the server is ".\Carbon\Carbon::now();
+            return $message." Invalid status. The current time on the server is ".\Carbon\Carbon::now();
         });
 
         Validator::extend('valid_status', function($attribute, $value, $parameters, $validator) {
                 $data = $validator->getData();
 
                 $status = $data[$attribute];
-                
-                if(!in_array($status,['draft','submitted','editing','scheduled','published','public','private'],true)){
+
+                if(!in_array($status,['draft','submitted','editing','closed','published','public','private'],true)){
+
                     return false; //Not a valid status
                 }
+
 
                 if(!array_key_exists('published_at',$data)){
                     return true; //don't case a problem if it doesn't exist

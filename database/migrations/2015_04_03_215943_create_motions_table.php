@@ -21,7 +21,7 @@ class CreateMotionsTable extends Migration {
         	$table->integer('department_id')->unsigned()->default(1);
             $table->dateTime('closing')->nullable()->default(null);
             $table->integer('user_id')->unsigned();
-            $table->tinyInteger('status')->default(0)->unsigned(); 
+            $table->string('status')->default('draft'); 
 
             $table->softDeletes();            
             $table->timestamps();

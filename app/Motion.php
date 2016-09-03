@@ -13,11 +13,10 @@ use Setting;
 use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
 
-use App\Section\Sectionable;
 
 class Motion extends ApiModel {
 
-	use SoftDeletes, Eloquence, Mappable, Sectionable;
+	use SoftDeletes, Eloquence, Mappable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -29,7 +28,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id','closing','status','sections'];
+	protected $fillable = ['title','text','summary','department_id','closing','status','user_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -43,7 +42,7 @@ class Motion extends ApiModel {
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
 						  'MotionOpenForVoting','closing','motion_rank','user_vote',
-						  'status', 'updated_at', 'sections'];
+						  'status','updated_at'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
@@ -105,7 +104,7 @@ class Motion extends ApiModel {
 	protected $locked = ['title','text'];
 
 	protected $attributes = [
-		'status'	=> 0 //default draft
+		'status'	=> 'draft' //default draft
 	];
 
 	/**************************************** Standard Methods **************************************** */
@@ -162,7 +161,7 @@ class Motion extends ApiModel {
 			return false;
 		}
 
-		if($this->attributes['status'] != 2) {
+		if($this->attributes['status'] != 'published') {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
@@ -175,32 +174,7 @@ class Motion extends ApiModel {
 		return true;
 	}
 
-	/**
-	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
-	 */
-	public function setStatusAttribute($value){
-		//Converts value to the integer if not set
-		if(!is_numeric($value)){
-			switch ($value){
-				case 'draft':
-					$value = 0;
-					break;
-				case 'review':
-					$value = 1;
-					break;
-				case 'published':
-					$value = 2;
-					break;
-				case 'closed':
-					$value = 3;
-					break;
-			}
-		}
-
-		$this->attributes['status'] = $value;
-
-		return true;
-	}
+	
 
 	/************************************* Casts & Accesors *****************************************/
 
@@ -209,11 +183,9 @@ class Motion extends ApiModel {
 	/************************************* Scopes ***************************************************/
 
 	//Maybe just depreciate this for the global scope below?
-	public function scopePublished($query){
-		return $query->where('status',2);
-	}
+	
 
-	public function scopeStatus($query,$status=2){
+	public function scopeStatus($query,$status='published'){
 		if(is_array($status)){
 			return $query->whereIn('status',$status);
 		}

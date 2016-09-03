@@ -34,9 +34,11 @@ class StoreMotionRequest extends Request
     {
         return [
             'title'             =>  'required|min:8|unique:motions,title',
-            'status'            =>  'integer',
+            'summary'           =>  'string',
+            'text'              =>  'nullable',
+            'status'            =>  'string|valid_status',
             'department_id'     =>  'required|integer|exists:departments,id',
-            'closing'           =>  'date',
+            'closing'           =>  'date|after:today',
             'user_id'           =>  'integer|exists:users,id',
             'id'                =>  'integer'
         ];
