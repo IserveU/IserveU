@@ -160,7 +160,8 @@ return [
 		'App\Providers\TestingServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'anlutro\LaravelSettings\ServiceProvider'
+		'anlutro\LaravelSettings\ServiceProvider',
+		 Cviebrock\EloquentSluggable\ServiceProvider::class
 	],
 
 	/*

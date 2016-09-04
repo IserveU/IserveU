@@ -5,9 +5,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Support\Facades\Validator;
 use Request;
-
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Department extends NewApiModel {
+
+
+	use Sluggable;
 
 	/**
 	 * The database table used by the model.
@@ -28,6 +31,22 @@ class Department extends NewApiModel {
 	 * @var array
 	 */
 	protected $visible = ['name','active','id'];
+
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => ['name']
+            ],
+            'onUpdate'	=> true
+        ];
+    }
 
 
 	/**************************************** Standard Methods **************************************** */

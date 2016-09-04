@@ -63,14 +63,11 @@ class StoreMotionApiTest extends MotionApi
 
 
    	/** @test  ******************/
-    public function store_motion_with_no_title_fails(){
+    public function store_motion_with_empty_title_fails(){
         $this->storeContentGetSee([
             'title'     => ''
         ],400);
-
-        $this->storeContentGetSee([
-            'title'     => null
-        ],400);        
+     
     }
 
 

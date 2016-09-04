@@ -34,17 +34,15 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 
 use Illuminate\Notifications\Notifiable;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait, Notifiable;
+	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, Sluggable;
 
 	use EntrustUserTrait{
-		EntrustUserTrait::save as entrustSave;
-        Eloquence::save insteadof EntrustUserTrait;
-
         // EntrustUserTrait::can as may; //There is an entrust collision here
         // Authorizable::can insteadof EntrustUserTrait;
 
@@ -101,6 +99,21 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         'preferences' => 'array'
     ];
 
+  
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' 	=> ['first_name','last_name'],
+				'onUpdate'	=> true
+            ]
+        ];
+    }
 
 
 	/**************************************** Standard Methods **************************************** */

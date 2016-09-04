@@ -17,9 +17,11 @@ class DeleteMotionApiTest extends TestCase
    
     /** @test  ******************/
     public function delete_motion_correct_response(){
-        $this->signIn();
+        $this->signInAsRole('administrator');
 
-        $this->delete("/api/motion/".$this->motion->id)
+        $motion = factory(App\Motion::class)->create();
+
+        $this->delete("/api/motion/".$motion->id)
             ->assertResponseStatus(200);
 
         

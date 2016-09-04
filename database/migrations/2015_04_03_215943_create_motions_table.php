@@ -16,6 +16,7 @@ class CreateMotionsTable extends Migration {
             $table->increments('id');
             $table->string('title');
             $table->string('summary');
+            $table->string('slug')->unique();
             $table->text('text');
 
         	$table->integer('department_id')->unsigned()->default(1);

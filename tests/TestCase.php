@@ -289,7 +289,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $contentToPost['id'] = $this->modelToUpdate->id;
 
-        if($expectedCode==200) $this->seeInDatabase('users',$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
+        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
     }
 
 
