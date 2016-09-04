@@ -27,7 +27,7 @@ class Vote extends NewApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['motion_id','position'];
+	protected $fillable = ['motion_id','position','user_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -84,29 +84,14 @@ class Vote extends NewApiModel {
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
-			if(!$model->motion->motionOpenForVoting){
-				$model->errors = "This motion is not open to voting";
-				return false;
-			} 
-
 			return true;	
 		});
 
 		static::created(function($model){
-			event(new VoteCreated($model));
 			return true;
 		});
 
 		static::updating(function($model){
-			\Log::info('Trying to update the vote');
-			if(!$model->motion->motionOpenForVoting){
-				\Log::info("This motion is no longer open to voting");
-
-				$model->errors = "This motion is no longer open to voting";
-				return false;
-			}
-
-
 			return true;
 		});
 
@@ -116,7 +101,10 @@ class Vote extends NewApiModel {
 		});
 
 		static::deleting(function($model){
-			event(new VoteDeleting($model));
+			if($this->comment){
+				$this->comment->delete();
+			}
+ 			
 			return true;
 		});	
 

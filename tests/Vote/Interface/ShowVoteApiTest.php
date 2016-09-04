@@ -4,29 +4,35 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteMotionApiTest extends TestCase
+class ShowVoteApiTest extends TestCase
 {
     use DatabaseTransactions;    
 
+
+
     public function setUp()
     {
+
         parent::setUp();
     }
 
+    
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
    
-    /** @test  ******************/
-    public function delete_motion_correct_response(){
+    /** @test */
+    public function show_vote_test(){
         $this->signInAsRole('administrator');
 
-        $motion = factory(App\Motion::class)->create();
+        $vote = factory(App\Vote::class)->create();
 
-        $this->delete("/api/motion/".$motion->id)
-            ->assertResponseStatus(200);
 
-        
+        $this->visit("/api/vote/".$vote->id)
+            ->seeJsonStructure([
+                'id','position','motion_id','user_id','deferred_to_id'
+            ])->dontSeeJson([
+              
+            ]);
+
     }
 
-    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

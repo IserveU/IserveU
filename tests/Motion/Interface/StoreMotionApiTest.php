@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class StoreMotionApiTest extends MotionApi
 {
    
-    use WithoutMiddleware;
+    use DatabaseTransactions;    
 
     public function setUp()
     {   

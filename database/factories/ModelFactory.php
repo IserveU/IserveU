@@ -83,9 +83,9 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'user_id'       =>  function(){
             return factory(App\User::class,'verified')->create()->id;
         },
-        'closing'       => new DateTime(),
+        'closing'       => Carbon\Carbon::tomorrow(),
         'text'          => $faker->paragraph($nbSentences =10),
-        'created_at'    => new DateTime(),
+        'created_at'    => Carbon\Carbon::now(),
         'status'        => 'published'
     ];
 });

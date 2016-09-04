@@ -188,6 +188,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $content = json_decode($this->response->getContent());
 
         if(!$content){
+            echo "here";
             dd($this->response->getContent());
         }
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
@@ -282,7 +283,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         }
 
         $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
-
 
         $this->patch($this->route.$this->modelToUpdate->id,$contentToPost)
                 ->assertResponseStatus($expectedCode);

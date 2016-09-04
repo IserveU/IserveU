@@ -4,9 +4,9 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteMotionApiTest extends TestCase
+class DeleteVoteApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -16,12 +16,12 @@ class DeleteMotionApiTest extends TestCase
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
    
     /** @test  ******************/
-    public function delete_motion_correct_response(){
+    public function delete_vote_correct_response(){
         $this->signInAsRole('administrator');
 
-        $motion = factory(App\Motion::class)->create();
+        $vote = factory(App\Vote::class)->create();
 
-        $this->delete("/api/motion/".$motion->id)
+        $this->delete("/api/vote/".$vote->id)
             ->assertResponseStatus(200);
 
         
