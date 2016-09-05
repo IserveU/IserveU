@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
+
 use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
@@ -12,12 +11,11 @@ use Setting;
 
 use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
-
-use App\Section\Sectionable;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Motion extends ApiModel {
 
-	use SoftDeletes, Eloquence, Mappable, Sectionable;
+	use SoftDeletes, Sluggable;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -29,7 +27,7 @@ class Motion extends ApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id','closing','status','sections'];
+	protected $fillable = ['title','text','summary','department_id','closing','status','user_id'];
 
 	/**
 	 * The attributes fillable by the administrator of this model
@@ -42,8 +40,8 @@ class Motion extends ApiModel {
 	 * @var array
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'MotionOpenForVoting','closing','motion_rank','user_vote',
-						  'status', 'updated_at', 'sections'];
+						  'MotionOpenForVoting','closing','user_vote',
+						  'status','updated_at','slug'];
 	
 	/**
 	 * The attributes hidden in the JSON/Array
@@ -63,20 +61,12 @@ class Motion extends ApiModel {
 	 */
 	protected $creatorVisible = ['status','user_id'];
 
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */
-   	protected $maps = [
-       	'motion_rank'		=> 	'lastestRank.rank',
-       	'user_vote'			=>	'userVote'
-    ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['MotionOpenForVoting','motion_rank','user_vote'];
+    protected $appends = ['MotionOpenForVoting','user_vote'];
 
   
 
@@ -105,8 +95,26 @@ class Motion extends ApiModel {
 	protected $locked = ['title','text'];
 
 	protected $attributes = [
-		'status'	=> 0 //default draft
+		'title'		=> 	'New Motion',
+		'status'	=> 	'draft' //default draft
 	];
+
+  
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' 	=> ['title'],
+             	'onUpdate'	=> true
+            ]
+        ];
+    }
+
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
@@ -125,8 +133,8 @@ class Motion extends ApiModel {
 
 
 		static::updating(function($model){
-			//SendNotificationEmail
-			//AlertVoters
+			// SendNotificationEmail
+			// AlertVoters
 			event(new MotionUpdated($model));
 			return true;			
 		});
@@ -142,7 +150,7 @@ class Motion extends ApiModel {
 	/************************************* Getters & Setters ****************************************/
 
 	public function setClosingAttribute($value){
-		if(!$this->motionRanks->isEmpty()){
+		if(!$this->votes->isEmpty()){
 			abort(403, "People have already began voting on this motion, you can not change its closing date");
 		}
 
@@ -162,7 +170,7 @@ class Motion extends ApiModel {
 			return false;
 		}
 
-		if($this->attributes['status'] != 2) {
+		if($this->attributes['status'] != 'published') {
 			$this->errors = "This motion is not published and cannot be voted on";
 			return false;
 		}
@@ -175,32 +183,14 @@ class Motion extends ApiModel {
 		return true;
 	}
 
-	/**
-	 * @param boolean checks that the user is an admin, returns false if not. Automatically sets the closing time to be one week out from now.
-	 */
-	public function setStatusAttribute($value){
-		//Converts value to the integer if not set
-		if(!is_numeric($value)){
-			switch ($value){
-				case 'draft':
-					$value = 0;
-					break;
-				case 'review':
-					$value = 1;
-					break;
-				case 'published':
-					$value = 2;
-					break;
-				case 'closed':
-					$value = 3;
-					break;
-			}
+	public function getUserVoteAttribute(){
+		if($this->thisUserVote){
+			return $this->thisUserVote->toArray();
 		}
-
-		$this->attributes['status'] = $value;
-
-		return true;
+		return null;
 	}
+
+	
 
 	/************************************* Casts & Accesors *****************************************/
 
@@ -209,11 +199,9 @@ class Motion extends ApiModel {
 	/************************************* Scopes ***************************************************/
 
 	//Maybe just depreciate this for the global scope below?
-	public function scopePublished($query){
-		return $query->where('status',2);
-	}
+	
 
-	public function scopeStatus($query,$status=2){
+	public function scopeStatus($query,$status='published'){
 		if(is_array($status)){
 			return $query->whereIn('status',$status);
 		}
@@ -288,7 +276,7 @@ class Motion extends ApiModel {
 	}
 	
 	public function votes(){
-		return $this->hasMany('App\Vote'); //->select(['id','motion_id','position','deferred']); //Trying to hide the userid so you can't find out an ID and then figure out their voting record
+		return $this->hasMany('App\Vote');
 	}
 
 	public function motionFiles(){
@@ -299,22 +287,11 @@ class Motion extends ApiModel {
 		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
 	}
 
-	public function motionRanks(){
-		return $this->hasMany('App\MotionRank');
-	}
-
-	
-	public function lastestRank(){
-		return $this->hasOne('App\MotionRank')->latest();
-	}
-
-	public function userVote(){
+	public function thisUserVote(){
 		if(Auth::check()){
 			return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);
 		}
-		else{ 
-			return $this->hasMany('App\Vote');
-		}
+		return $this;
 	}
 
 }

@@ -7,7 +7,7 @@ use Auth;
 
 use App\Policies\MotionPolicy;
 
-class StoreMotionRequest extends Request
+class StoreUpdateMotionRequest extends Request
 {  
     
     /**
@@ -17,7 +17,6 @@ class StoreMotionRequest extends Request
      */
     public function authorize()
     {
-
         return (new MotionPolicy())->inputsAllowed(
                     $this->all(),
                     $this->route()->parameter('motion')
@@ -32,11 +31,14 @@ class StoreMotionRequest extends Request
      */
     public function rules()
     {
+
         return [
-            'title'             =>  'required|min:8|unique:motions,title',
-            'status'            =>  'integer',
-            'department_id'     =>  'required|integer|exists:departments,id',
-            'closing'           =>  'date',
+            'title'             =>  'filled|min:1|unique:motions,title|string',
+            'summary'           =>  'string',
+            'text'              =>  'nullable',
+            'status'            =>  'string|valid_status',
+            'department_id'     =>  'integer|exists:departments,id',
+            'closing'           =>  'date|after:today',
             'user_id'           =>  'integer|exists:users,id',
             'id'                =>  'integer'
         ];

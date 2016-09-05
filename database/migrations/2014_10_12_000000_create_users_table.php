@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('email')->unique();
 			$table->string('password', 60);
+            $table->string('slug');
 
 			$table->string('first_name');
 			$table->string('middle_name')->nullable();
@@ -28,7 +29,7 @@ class CreateUsersTable extends Migration {
 
             $table->integer('community_id')->unsigned()->nullable();
             
-			$table->boolean('public')->default(0);
+			$table->string('status')->default('private');
 
 			$table->integer('ethnic_origin_id')->unsigned()->nullable();
 			$table->date('date_of_birth')->nullable();
@@ -40,7 +41,7 @@ class CreateUsersTable extends Migration {
 			$table->integer('login_attempts')->default(0);
 			$table->datetime('locked_until')->nullable();
 
-            $table->boolean('agreement_accepted')->default(0);
+            $table->date('agreement_accepted')->nullable();
 
 
 			$table->softDeletes();

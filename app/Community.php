@@ -10,7 +10,6 @@ use DB;
 use Illuminate\Support\Facades\Validator;
 use Request;
 
-use App\Events\DepartmentCreated;
 
 class Community extends ApiModel
 {

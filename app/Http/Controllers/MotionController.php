@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\Motion\DestroyMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
-use App\Http\Requests\Motion\StoreMotionRequest;
-use App\Http\Requests\Motion\UpdateMotionRequest;
+use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Http\Requests\Motion\IndexMotionRequest;
 
 use App\Transformers\MotionTransformer;
@@ -108,7 +107,7 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(StoreMotionRequest $request)
+	public function store(StoreUpdateMotionRequest $request)
 	{
 		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
 		
@@ -141,14 +140,13 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(UpdateMotionRequest $request, Motion $motion)
+	public function update(StoreUpdateMotionRequest $request, Motion $motion)
 	{
-		$motion->secureFill( $request->all() );
 
-		if(!$motion->save()){
-		 	abort(403,$motion->errors);
-		}
+		$motion->fill($request->all());
+		$motion->save();
 
+		
 		return $this->motionTransformer->transform($motion);
 	}
 
@@ -161,13 +159,14 @@ class MotionController extends ApiController {
 	public function destroy(DestroyMotionRequest $request, Motion $motion)
 	{
 		$votes = $motion->votes;
-		
-		if(!$votes){ //Has not recieved votes
+
+		if($votes->isEmpty()){ //Has not recieved votes
+			
 			$motion->forceDelete();
 			return $motion;
 		} 
 
-		$motion->status = 0;
+		$motion->status = 'deleted';
 		$motion->save();
 		$motion->delete(); //Motion kept in the database	
 		return $motion;
