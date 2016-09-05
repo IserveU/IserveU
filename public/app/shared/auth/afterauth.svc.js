@@ -35,7 +35,7 @@
 		}
 
 		 function setLoginAuthDetails (user, token, resetPassword){
-			if(token) localStorage.setItem( 'satellizer_token', JSON.stringify( token ) );
+			if(token) localStorage.setItem( 'api_token', token );
 
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			$rootScope.authenticatedUser = user;

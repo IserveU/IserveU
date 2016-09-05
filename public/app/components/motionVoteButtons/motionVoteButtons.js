@@ -71,28 +71,42 @@
 				}
 			};
 
+			function firstArrayKeyOrBase(user_vote) {
+				if(angular.isArray(user_vote))
+					if(user_vote.length == 1) 
+						return user_vote[0];
+					else 
+						return { position: null };
+				else {
+					if(user_vote.hasOwnProperty('position'))
+						return user_vote;
+					else 
+						return { position: null };
+				}
+			}
+
 			self.commonButtonFunctions = {
 				ariaLabel: 'Vote button to ' + this.type,
 				isDisabled: function(motion) {
 					return isVotingEnabled(motion);
 				},
 
-				isActiveClass: function(userVote) {
-					userVote = userVote || {position: null};
+				isActiveClass: function(motion) {
+					if(!motion || !motion.hasOwnProperty('user_vote') || !motion.user_vote) {
+						return false;
+					}
 
+					var userVote = firstArrayKeyOrBase(motion.user_vote);
 					if( userVote.position == this.value ) {
 						this.icon = this.activeIcon;
 						return true;
 					}
-
 					return false;
 				},
 
 				cast: function(motion) {
-
-					var userVote = motion.user_vote || {position: null};
+					var userVote = firstArrayKeyOrBase(motion.user_vote);
 					castVote(this, userVote, motion);
-
 					return true;
 				},
 
@@ -114,20 +128,23 @@
 
 			function castVote(button, userVote, motion) {
 
+				console.log(userVote);
+
 				if(!$rootScope.userIsLoggedIn){
 					ToastMessage.mustBeLoggedIn('to vote');
 					return false;
 				}
 
-				if( isVotingEnabled(motion) )
+				if( isVotingEnabled(motion) ) 
 					return false;
 
-				if(userVote.position == button.value)
+				if(userVote.position == button.value){
+					console.log(userVote);
 					return false;
+				}
 				
 				button.icon = 'loading';
 				motion.motionVotes.setOverallPositionLoading();
-
 
 				if( userVote && userVote.position != button.value && userVote.position != null) {
 					voteResource.updateVote({
@@ -142,6 +159,8 @@
 								type.icon = angular.copy(type.originalIcon);
 							}
 						});
+
+						console.log(results);
 
 						successHandler(button, motion, results);
 
@@ -158,6 +177,9 @@
 						user_id: $rootScope.authenticatedUser.id
 					}).then(function(results) {
 
+						console.log(results);
+
+
 						button.icon = angular.copy(button.activeIcon);
 						successHandler(button, motion, results);
 
@@ -170,6 +192,8 @@
 			}
 
 			function successHandler(button, motion, results) {
+
+				console.log(results);
 
 				button.icon = angular.copy(button.activeIcon);
 

@@ -9,7 +9,9 @@
 	function auth($resource, $http, $sanitize, CSRF_TOKEN, $auth, $q) {
 
 		var login = function(credentials) {
+			console.log('login');
 			return $auth.login(sanitizeCredentials(credentials)).then(function(user) {
+				console.log(user);
 				return user;
 			}, function(error) {
 				return $q.reject(error);
@@ -24,12 +26,13 @@
 			return {
 		    	email: $sanitize(credentials.email),
 		    	password: $sanitize(credentials.password),
-		    	csrf_token: CSRF_TOKEN
+		    	// csrf_token: CSRF_TOKEN
 		  	};
 		};
 
 		var getAuthenticatedUser = function() {
 			return $http.get('api/user/authenticateduser').success(function(result) {
+				console.log(result);
 				return result;
 			}).error(function(error) {
 				return error;
@@ -38,6 +41,7 @@
 		
 		var postAuthenticate = function(credentials) {
 			return $http.post('authenticate', credentials).success(function(result) {
+				console.log(result);
 				return result;
 			}).error(function(error) {
 				return error;
@@ -53,7 +57,9 @@
 		}
 
 		var postUserCreate = function(credentials) {
-			return $http.post('api/user', credentials).success(function(result) {					
+			return $http.post('api/user', credentials).success(function(result) {
+				
+			console.log(result);					
 				return result;
 			})
 			  .error(function(error) {

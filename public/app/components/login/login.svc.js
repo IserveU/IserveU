@@ -37,12 +37,12 @@
 			auth.login( credentials )
 				.then(function(r) {
 
-				successHandler(r.data.user, r.data.token);
+				successHandler(r.data.user, r.data.api_token);
 			
 			}, function(e) {
 
 				factory.loggingIn = false;
-				errorHandler( e );
+				errorHandler( e.data );
 			
 			});		
 		};
@@ -54,7 +54,7 @@
 			auth.postUserCreate( factory.newUser )
 				.then(function(r){
 				
-				successHandler(r.data.user, r.data.token);
+				successHandler(r.data.user, r.data.api_token);
 			
 			}, function(e) {
 
@@ -76,24 +76,24 @@
 
 
 		function errorHandler(message) {
+			
+			for (var i in factory.error) 
+				factory.error[i] = false;
 
 			console.log(message);
 
-			for (var i in factory.errors) 
-				factory.errors[i] = false;
-
-			if( message == "Invalid credentials" ){
+			if( message.error == "Invalid credentials" ){
 				factory.errors.invalidCredentials = true;
 			}
-			else if(message == "Email address not in database"){
+			else if(message.error == "Email address not in database"){
 				factory.errors.invalidEmail = true;
 			}
-			else if(angular.isString(message) && message.substr(0, 17) == 'Account is locked'){
+			else if(angular.isString(message.error) && message.error.substr(0, 17) == 'Account is locked'){
 				factory.errors.accountLocked = true;
 			}
-			else if( angular.isArray(message) ){
-				for(var i in message){
-					if(message[i] == "validation.unique" )
+			else if( angular.isArray(message.error) ){
+				for(var i in message.error){
+					if(message.error[i] == "validation.unique" )
 						factory.errors.emailNotValid = true;
 				}
 			}

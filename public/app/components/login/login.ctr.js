@@ -15,6 +15,8 @@
 	function login(loginService, auth, resetPasswordService, ToastMessage, utils) {	
 
 		this.service = loginService;
+
+		/** exports functions to local scope (binded to 'this') */
 		this.extendRegisterForm = extendRegisterForm;
 		this.forgotPassword = forgotPassword;
 		this.sendResetPassword = sendResetPassword;
@@ -36,7 +38,8 @@
 		};
 
 
-		// Resets data
+		/** Initializes data, and also resets on state change. */
+
 		loginService.loggingIn = false;
 		resetPasswordService.check();
     }

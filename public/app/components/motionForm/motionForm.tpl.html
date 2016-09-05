@@ -86,9 +86,9 @@
 
 					<md-input-container has-permission="administrate-motion" flex>
 						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
-							<md-option value="0">Draft</md-option>
-							<md-option value="1">In review</md-option>
-							<md-option name="publish_value" value="2">Publish</md-option> 
+							<md-option class="select-option__draft" value="0">Draft</md-option>
+							<md-option class="select-option__review" value="1">In review</md-option>
+							<md-option class="select-option__publish" value="2">Publish</md-option> 
 						</md-select>
 						
 						<div ng-messages="motionForm.status.$error" role="alert">
@@ -106,7 +106,7 @@
 				</div>
 
 				<spinner class="create-motion__button" layout layout-align="center end" 
-						 form-name="motionForm" name="'Save'" on-hide="form.processing" 
+						 form-name="" name="'Save'" on-hide="form.processing" 
 						 secondary-btn="{control: form.cancel, name: 'Cancel'}">
 				</spinner>
 			</div>

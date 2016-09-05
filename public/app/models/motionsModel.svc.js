@@ -126,6 +126,8 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 		*	Update the user's votes attached to this Motion.
 		*/
 		reloadUserVote: function(vote) {
+			console.log(this.user_vote);
+			console.log(vote);
 			return angular.extend(this.user_vote, {}, {position: vote.position});
 		},
 

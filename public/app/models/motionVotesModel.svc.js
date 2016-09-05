@@ -63,7 +63,7 @@ angular
 
 		}
 
-		// private function
+		// private function this is breaking ... working on it in JSBIN TODO:
 		function getOverallPosition(votes) {
 			console.log(votes);
 			if(!votes['-1'] && !votes['1'] && !votes['0']) {
