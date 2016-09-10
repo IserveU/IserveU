@@ -13,14 +13,8 @@ use Carbon\Carbon;
 //While migrating things off the old one
 class NewApiModel extends Model
 {
-    public $errors;
 
-    public $rulesParsed = false; 
-
-    protected $adminVisible = [];
-    protected $adminFillable = [];
-
-
+    protected $skipVisibility = false;
 
     public function getCreatedAtAttribute($attr) {        
         $carbon = Carbon::parse($attr);
@@ -28,7 +22,7 @@ class NewApiModel extends Model
         return array(
             'diff'          =>      $carbon->diffForHumans(),
             'alpha_date'    =>      $carbon->format('j F Y'),
-            'carbon'        =>        $carbon
+            'carbon'        =>      $carbon
         );
     }
 
@@ -42,46 +36,6 @@ class NewApiModel extends Model
         );
     }
  
-    public function validate(){
-        $validator = Validator::make($this->getAttributes(),$this->getRulesAttribute());
-
-        if($validator->fails()){
-            $this->errors = $validator->messages();
-            return false;
-        }       
-        return true;
-    }
-
-    public function getFieldsAttribute(){
-        $result = [];
-
-        $values = $this->toArray(); //Ensures security
-
-        foreach($this->getFillableAttribute() as $key){
-            if(!empty($this->fields[$key])){
-                $field = [
-                    'key'              =>  $key,
-                    'type'              =>  $this->fields[$key]['type'],
-                    'templateOptions'   =>  [
-                        'valueProp'         =>  isset($values[$key])?$values[$key]:null,
-                        'required'          =>  (strpos('required',$this->rules[$key]))?true:false,
-                        'label'             =>  $this->fields[$key]['label'],
-                        'rules'             =>  $this->rules[$key]
-                    ]
-                ];
-                $result[] = $field;
-            }
-        }
-        return $result;
-    }
-
-    // public function getLockedAttribute(){
-    //     if(Auth::user()->can('administrate-'.$this->table)){
-    //         $this->locked = [];
-    //     }
-    //     return $this->locked;
-    // }
-
     public function getAlteredLockedFields(){
         $dirty = $this->getDirty();
         $changed = array();
@@ -93,44 +47,28 @@ class NewApiModel extends Model
         return $changed;
     }
 
-    public function secureFill(array $input){
-        $this->getFillableAttribute();
-        return parent::fill($input);
-    }
 
-    public function getFillableAttribute(){
-        if(Auth::user()->can("administrate-".$this->table)){ //Admin
-            $this->fillable = array_unique(array_merge($this->adminFillable, $this->fillable));
-        }
-        return $this->fillable;
+    public function skipVisibility(){
+        $this->skipVisibility = true;
+        //Figure out how to loop all attributes $this->attributes->getkeys();
+        $this->setVisible(['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences']);
+
+        return $this;
     }
 
 
-   
+    public function toArray(){
+        $this->setVisibility();
 
-    public function getRulesAttribute(){
-
-        if($this->rulesParsed){
-            return $this->rules; //Prevents 'required' and update IDS being added many times
-        }
-
-        if($this->id){ //Existing record            
-
-            foreach($this->unique as $value){ //Stops the unique values from ruining everything
-                $this->rules[$value] = $this->rules[$value].",".$this->id;
-            }
-
-            $this->rules = AddRule($this->rules,$this->onUpdateRequired,'required'); //Need to require things after appending the ID
-
-        }
-        
-        if(Request::method()=="POST" || Request::method()=="GET"){ //Initial create
-            $this->rules = AddRule($this->rules,$this->onCreateRequired,'required');
-            //return $this->rules; //DOn't add on things that aren't actual validation rules
-        }
-
-        $this->rulesParsed = true;
-        return $this->rules;    
+        return parent::toArray();        
     }
+
+    public function toJson($options =0 ){
+        $this->setVisibility();
+
+        return parent::toJson($options);
+    }
+
+
 
 }

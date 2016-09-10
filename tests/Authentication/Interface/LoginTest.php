@@ -73,7 +73,7 @@ class LoginTest extends TestCase
 
 
         $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword"])
-             ->assertResponseStatus(401)
+             ->assertResponseStatus(403)
              ->seeJson([
                 "error"     =>    "Invalid credentials",
                 "message"   =>    "Either your username or password are incorrect"

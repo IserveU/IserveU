@@ -35,7 +35,7 @@ class AuthenticateController extends ApiController
 
         if(!Hash::check($request->password, $user->password)){
             event(new UserLoginFailed($user));
-            return  response(["error"=>"Invalid credentials","message"=>"Either your username or password are incorrect"],401); 
+            return  response(["error"=>"Invalid credentials","message"=>"Either your username or password are incorrect"],403); 
         }
 
         event(new UserLoginSucceeded($user));
