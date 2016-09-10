@@ -79,6 +79,14 @@ class UpdateUserApiTest extends UserApi
     }
 
 
+    /** @test  ******************/
+    public function update_user_user_with_agreement_accepted(){
+        $this->skipDatabaseCheck = ['agreement_accepted'];
+        $this->updateContentGetSee([
+            'agreement_accepted'=> 1
+        ],200);
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
 
@@ -201,7 +209,7 @@ class UpdateUserApiTest extends UserApi
     }
 
     /** @test  ******************/
-    public function update_user_with_agreement_accepted_in_past_fails(){
+    public function update_user_with_agreement_accepted_date_fails(){
 
         $this->updateContentGetSee([
             'agreement_accepted'     =>  \Carbon\Carbon::yesterday()->toDateString()

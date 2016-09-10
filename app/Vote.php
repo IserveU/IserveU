@@ -29,35 +29,15 @@ class Vote extends NewApiModel {
 	 */
 	protected $fillable = ['motion_id','position','user_id'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var Array
-	 */
-	protected $adminFillable = [];
+
 
 	/**
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = [''];
+	protected $visible = [];
 
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var Array
-	 */
-	protected $adminVisible = ['user_id'];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var Array
-	 */
-	protected $creatorVisible = ['motion_id','user_id','position','id','visited'];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  ['first_name','last_name','public','id'];
+	
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
@@ -65,19 +45,7 @@ class Vote extends NewApiModel {
 	 */	
     protected $appends = [];
 
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'position' 		=>	['tag'=>'radio','type'=>'integer','label'=>'Position','placeholder'=>''],
-	];
 
-	/**
-	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
-	 * @var array
-	 */
-	protected $locked = [];
 
 	/**************************************** Standard Methods *****************************************/
 	public static function boot(){
@@ -131,21 +99,6 @@ class Vote extends NewApiModel {
 	
 	/************************************* Getters & Setters ****************************************/
 	
-	/**
-	 * @return Overrides the API Model, will see if it can be intergrated into it
-	 */
-	public function getVisibleAttribute(){ //Should be manually run because ... fill this in if you can think of a reason
-
-		if(Auth::check() && Auth::user()->id==$this->user_id){
-			$this->setVisible = array_unique(array_merge($this->creatorVisible, $this->visible));
-		}
-
-		if(($this->user) && $this->user->public){ //I'm really confused how a vote can not have a user somehow
-			$this->setVisible = array_unique(array_merge($this->publicVisible, $this->visible));
-		}
-
-		return parent::getVisibleAttribute();
-	}
 
 	public function setPositionAttribute($value){
 		if(Auth::check() && Auth::user()->id == $this->user_id){

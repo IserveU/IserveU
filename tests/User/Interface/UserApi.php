@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class UserApi extends TestCase
 {
-    use DatabaseTransactions;
 
 
     protected $route                =   "/api/user/";

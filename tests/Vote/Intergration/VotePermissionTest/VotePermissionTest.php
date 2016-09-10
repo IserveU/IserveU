@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VotePermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
+    //use DatabaseTransactions;    
 
     public function setUp()
     {
@@ -77,7 +77,7 @@ class VotePermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id.'/vote');
+        $this->get('/api/motion/'.$motion->id.'/vote');
 
         $this->assertResponseOk();
     }
@@ -87,15 +87,13 @@ class VotePermissionTest extends TestCase
     /** @test */
     public function it_cannot_create_a_vote()
     {
+        
+        $this->motion       =   factory(App\Motion::class)->create();
+        $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
-        $motion = factory(App\Motion::class, 'published')->create();
+        $this->storeFieldsGetSee(['position'],403);   
 
-        $vote = ['position'  => 1, 
-                 'motion_id' => $motion->id];
 
-        $response = $this->call('POST', '/api/vote', $vote);
-
-        $this->assertEquals(403, $response->status());
     }
 
 }

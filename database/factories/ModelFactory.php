@@ -31,7 +31,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'street_name'       => $faker->streetName,
         'unit_number'       => $faker->randomDigit.$faker->randomLetter,
         'status'            => 'private',
-        'agreement_accepted'=> $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now')->format("Y-m-d")
+        'agreement_accepted'=> 1
     ];
 });
 

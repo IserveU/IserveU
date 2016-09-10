@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class StoreVoteApiTest extends VoteApi
 {
    
-    use DatabaseTransactions;
+   // use DatabaseTransactions;
 
 
 

@@ -36,17 +36,6 @@ class NewApiModel extends Model
         );
     }
  
-    public function getAlteredLockedFields(){
-        $dirty = $this->getDirty();
-        $changed = array();
-        foreach($this->locked as $key){
-            if(array_key_exists($key,$dirty)){
-                array_push($changed,$key);
-            }
-        }
-        return $changed;
-    }
-
 
     public function skipVisibility(){
         $this->skipVisibility = true;

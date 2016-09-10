@@ -51,15 +51,16 @@ class MotionVoteController  extends ApiController{
      */
     public function store(Motion $motion, StoreUpdateVoteRequest $request)
     {   
+
         $vote  = Vote::updateOrCreate([
             'motion_id' =>  $motion->id,
             'user_id'   =>  Auth::user()->id            
         ],[
             'motion_id' =>  $motion->id,
             'user_id'   =>  Auth::user()->id,
-            'postion'   =>  $request->input('position')
+            'position'  =>  $request->input('position')
         ]);
-            
+
         return $vote;
     }
 }
