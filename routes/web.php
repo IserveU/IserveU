@@ -52,9 +52,9 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('ethnic_origin', 'EthnicOriginController');
 
 	Route::resource('motion', 'MotionController');
-	Route::resource('motion/{motion}/comment','MotionCommentController'); //, ['only'=>['index']]
+	Route::resource('motion/{motion}/comment','MotionCommentController',['only'=>['index']]);
 	Route::resource('motion.motionfile','MotionFileController');
-	Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index','store']]);
+
 	Route::resource('page', 'PageController');
 	Route::resource('setting', 'SettingController');
 	Route::resource('user', 'UserController');
@@ -63,6 +63,7 @@ Route::group(['prefix' => 'api'], function(){
 
 	Route::group(['middleware' => 'auth:api'], function(){
 
+		Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index','store']]);
 
 		Route::resource('background_image', 'BackgroundImageController');
 
@@ -80,7 +81,7 @@ Route::group(['prefix' => 'api'], function(){
 		Route::resource('user.role', 'UserRoleController'); 
 
 		Route::resource('vote', 'VoteController');
-
+		Route::resource('vote/{vote}/comment','VoteCommentController', ['only'=>['store']]);
 
 	});
 });

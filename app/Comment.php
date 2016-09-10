@@ -16,7 +16,7 @@ use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
 use App\Events\Comment\CommentCreated;
 
-
+use Auth;
 
 class Comment extends NewApiModel {
 	
@@ -32,13 +32,8 @@ class Comment extends NewApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['text'];
+	protected $fillable = ['text','vote_id'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var Array
-	 */
-	protected $adminFillable = [];
 
 	/**
 	 * The default attributes included in the JSON/Array
@@ -48,24 +43,6 @@ class Comment extends NewApiModel {
 	
 	
 	protected $with = ['vote','commentRank'];
-
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var Array
-	 */
-	protected $adminVisible = [];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var Array
-	 */
-	protected $creatorVisible = [];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  [];
 
 
 	/**
@@ -101,6 +78,35 @@ class Comment extends NewApiModel {
 			return true;
 		});
 	}
+
+
+
+    public function skipVisibility(){
+
+       $this->setVisible(array_merge(array_keys($this->attributes)));
+    }
+
+
+    public function setVisibility(){
+
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
+            $this->skipVisibility();
+        }
+
+        if($this->publiclyVisible){
+			$this->setVisible(['user','last_name','id','community_id']);
+        }
+
+
+		$this->setVisible(['text','created_at','vote_id','id']);
+
+
+
+        return $this;
+    }
+
+
 
 	/**************************************** Custom Methods **************************************** */
 	

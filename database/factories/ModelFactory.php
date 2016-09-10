@@ -139,12 +139,14 @@ $factory->define(App\Comment::class, function ($faker) use ($factory) {
 
     return [
         'text'      =>   $faker->sentence($nbWords = 10),
+        'status'    =>   'public',
         'vote_id'   =>   function(){
             return factory(App\Vote::class)->create()->id;
         }
     ];
 
 });
+
 
 
 /************************* Vote Factories ***********************************/
