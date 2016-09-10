@@ -11,44 +11,42 @@ class MotionDatabaseTest extends TestCase
      /** @test  */
     public function status_scope_get_motions_with_a_status()
     {
-        $this->markTestSkipped('status is incorrect');
         $motionDraft = factory(App\Motion::class,'draft')->create();
         $motionReview = factory(App\Motion::class,'review')->create();     
         $motionPublished = factory(App\Motion::class,'published')->create();
         $motionClosed = factory(App\Motion::class,'closed')->create();
 
 
-        $motion = \App\Motion::status(0)->first();
-        $this->assertEquals($motion->status,0);
+        $motion = \App\Motion::status('draft')->first();
+        $this->assertEquals($motion->status,'draft');
 
-        $motion = \App\Motion::status(1)->first();
-        $this->assertEquals($motion->status,1);
+        $motion = \App\Motion::status('review')->first();
+        $this->assertEquals($motion->status,'review');
 
-        $motion = \App\Motion::status(2)->first();
-        $this->assertEquals($motion->status,2);
+        $motion = \App\Motion::status('published')->first();
+        $this->assertEquals($motion->status,'published');
 
-        $motion = \App\Motion::status(3)->first();
-        $this->assertEquals($motion->status,3);
+        $motion = \App\Motion::status('closed')->first();
+        $this->assertEquals($motion->status,'closed');
     }
 
      /** @test  */
     public function status_scope_get_motions_with_many_status()
     {
-        $this->markTestSkipped('get motions with many status');
         $motionDraft = factory(App\Motion::class,'draft')->create();
         $motionReview = factory(App\Motion::class,'review')->create();     
         $motionPublished = factory(App\Motion::class,'published')->create();
         $motionClosed = factory(App\Motion::class,'closed')->create();
 
-        $motion = \App\Motion::status([0,1,2])->first();
-        $this->assertNotEquals($motion->status,3);
+        $motion = \App\Motion::status(['draft','review','published'])->first();
+        $this->assertNotEquals($motion->status,'closed');
 
-        $motion = \App\Motion::status([1,2,3])->first();
-        $this->assertNotEquals($motion->status,0);
+        $motion = \App\Motion::status(['review','published','closed'])->first();
+        $this->assertNotEquals($motion->status,'draft');
  
-        $motion = \App\Motion::status([2,3])->first();
-        $this->assertNotEquals($motion->status,0);
-        $this->assertNotEquals($motion->status,1);
+        $motion = \App\Motion::status(['published','closed'])->first();
+        $this->assertNotEquals($motion->status,'draft');
+        $this->assertNotEquals($motion->status,'review');
     }
 
 
