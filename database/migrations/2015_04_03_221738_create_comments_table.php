@@ -16,7 +16,7 @@ class CreateCommentsTable extends Migration {
             $table->increments('id');
             $table->text('text');
             $table->softDeletes();
-            $table->boolean('status')->default('private'); 
+            $table->string('status')->default('private'); 
             $table->integer('vote_id')->unsigned()->unique();
 
             $table->timestamps();

@@ -5,10 +5,11 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class storeApiTest extends UserApi
+class StoreUserApiTest extends UserApi
 {
    
     use WithoutMiddleware;
+    //use DatabaseTransactions;
 
     public function setUp()
     {   
@@ -78,6 +79,16 @@ class storeApiTest extends UserApi
     /** @test  ******************/
     public function store_user_with_address_verified_until(){
         $this->storeFieldsGetSee(['address_verified_until','email','password','first_name','last_name'],200);                
+    }
+
+
+    /** @test  ******************/
+    public function store_user_with_agreement_accepted(){
+         //Agreement accepted isn't a DB column
+        $this->skipDatabaseCheck = ['agreement_accepted'];
+        $this->storeContentGetSee([
+            'agreement_accepted'=> 1
+        ],200);
     }
 
 
@@ -230,9 +241,9 @@ class storeApiTest extends UserApi
     }
 
     /** @test  ******************/
-    public function store_user_with_agreement_accepted_in_past_fails(){
+    public function store_user_with_agreement_accepted_as_date_fails(){
         $this->storeContentGetSee([
-            'agreement_accepted'     =>  \Carbon\Carbon::yesterday()
+            'agreement_accepted'     =>  \Carbon\Carbon::now()
         ],400);   
     }
 

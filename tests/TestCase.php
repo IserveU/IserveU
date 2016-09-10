@@ -393,7 +393,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $nonJsonFields = array_diff_key($contentPosted,array_flip($jsonFields));
 
-        if(!empty($nonJsonFields)) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($nonJsonFields,$this->alwaysHidden));
+        if(!empty($nonJsonFields)) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($nonJsonFields,$this->skipDatabaseCheck));
 
         foreach($jsonFields as $jsonField){
             $query = $this->class::where('content->'.$jsonField,$contentPosted[$jsonField]);
@@ -415,11 +415,15 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function setUnsetDefaults(){
         if(!isset($this->alwaysHidden)){
-            $this->alwaysHidden = ['password'];
+            $this->alwaysHidden = []; //Guessing if not set
         }
 
         if(!isset($this->table)){
             $this->table =(new $this->class)->getTable();
+        }
+
+        if(!isset($this->skipDatabaseCheck)){
+            $this->skipDatabaseCheck = $this->alwaysHidden;
         }
     }
 

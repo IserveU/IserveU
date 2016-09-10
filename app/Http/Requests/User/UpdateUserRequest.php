@@ -29,7 +29,7 @@ class UpdateUserRequest extends Request
         'street_number'             =>  'integer',
         'unit_number'               =>  'string',
         'address_verified_until'    =>  'date|after:today|before:+2000 days',
-        'agreement_accepted'        =>  'date|after:now',
+        'agreement_accepted'        =>  'boolean',
         'preferences'               =>  'json',
         'community_id'              =>  'exists:communities,id'
     ];

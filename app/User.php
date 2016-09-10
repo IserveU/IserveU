@@ -73,7 +73,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','need_identification'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','need_identification',"agreement_accepted"];
 
     protected $with = ['roles','community'];
 
@@ -248,7 +248,21 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 	/****************************************** Getters & Setters ************************************/
 
+	/**
+	 * @param string takes a string and hashes it into a password
+	 */
+	public function setAgreementAcceptedAttribute($value){
+		if($value) $this->attributes['agreement_accepted_date'] = Carbon::now();
+	}
 	
+	/**
+	 * @param string takes a string and hashes it into a password
+	 */
+	public function getAgreementAcceptedAttribute(){
+		if($this->attributes['agreement_accepted_date']) return true;
+		return false;
+	}
+
 
 	/**
 	 * @param string takes a string and hashes it into a password
