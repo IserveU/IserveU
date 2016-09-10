@@ -82,6 +82,14 @@ class AppServiceProvider extends ServiceProvider {
         });        
 
 
+        Validator::replacer('reject', function($message, $attribute, $rule, $parameters) {
+            return "Field not allowed";
+        });
+
+        Validator::extend('reject', function($attribute, $value, $parameters, $validator) {
+                return false;
+        });  
+
 	
 	}
 

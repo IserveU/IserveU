@@ -93,7 +93,7 @@ class UserController extends ApiController {
 	 * @return Response
 	 */
 	public function show(Request $request, User $user){
-		return $this->userTransformer->transform($user);
+		return $user;
 	}
 
 

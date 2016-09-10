@@ -44,18 +44,9 @@ Route::get('/settings', function(){
 
 Route::group(['prefix' => 'api'], function(){				
 
-	
-
-	Route::get('users/{user}',function(App\User $user){
-		dd(Auth::user());
-		dd($user);
-
-	});
-
 
 	Route::resource('comment', 'CommentController');
 	Route::resource('community', 'CommunityController');
-	Route::resource('delegation', 'DelegationController');
 	Route::resource('department', 'DepartmentController');
 	Route::resource('file', 'FileController');
 	Route::resource('ethnic_origin', 'EthnicOriginController');
@@ -63,7 +54,7 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('motion', 'MotionController');
 	Route::resource('motion/{motion}/comment','MotionCommentController'); //, ['only'=>['index']]
 	Route::resource('motion.motionfile','MotionFileController');
-	Route::resource('motion.vote','MotionVoteController', ['only'=>['index']]);
+	Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index','store']]);
 	Route::resource('page', 'PageController');
 	Route::resource('setting', 'SettingController');
 	Route::resource('user', 'UserController');

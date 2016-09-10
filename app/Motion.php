@@ -161,22 +161,19 @@ class Motion extends ApiModel {
 	public function getMotionOpenForVotingAttribute(){
 
 		// Motions can stay open forever ATM
-		if($this->closing === null){
-			return true;
-		}
+		if($this->closing === null) return true;
 
 		//Created without a status but not saved
-		if(!array_key_exists('status',$this->attributes)){
-			return false;
-		}
+		if(!array_key_exists('status',$this->attributes)) return false;
+		
 
-		if($this->attributes['status'] != 'published') {
-			$this->errors = "This motion is not published and cannot be voted on";
-			return false;
-		}
+		//This motion is not published and cannot be voted on
+		if($this->attributes['status'] != 'published') return false;
+		
 
 		if($this->closing->lt(Carbon::now())){
-			$this->errors = "This motion is closed for voting";
+			$this->attributes['status'] = 'closed';
+			$this->save();
 			return false;
 		}		
 

@@ -43,19 +43,9 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Motion\SendNotificationEmail',
 			'App\Listeners\Motion\AlertVoters'
 		],
-		'App\Events\VoteCreated' => [
-			'App\Listeners\Vote\SetDeferedToVotes',
-			//'App\Listeners\Motion\BalanceDeferredVotes' //Not needed with one councilor, not a big issue immediately
-			'App\Listeners\Comment\ClearMotionCommentCache'
-		],
 		'App\Events\VoteUpdated' => [
 			'App\Listeners\Vote\CheckCommentVotes',
-			'App\Listeners\Vote\SetDeferedToVotes',
-			//'App\Listeners\Motion\BalanceDeferredVotes',  //Not needed with one councilor, not a big issue immediately
 			'App\Listeners\Comment\ClearMotionCommentCache',
-		],
-		'App\Events\VoteDeleting' => [
-			'App\Listeners\Vote\DeleteVoteComment',
 		],
 		'App\Events\Motion\MotionCreated' => [ //Added notes on what this does to model
 	

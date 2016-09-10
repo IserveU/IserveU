@@ -36,11 +36,13 @@ use App\Events\User\UserDeleted;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
+use App\Repositories\StatusTrait;
+
 use Illuminate\Notifications\Notifiable;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, Sluggable;
+	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
 
 	use EntrustUserTrait{
         // EntrustUserTrait::can as may; //There is an entrust collision here
@@ -63,7 +65,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
-	protected $hidden = ['password','api_token'];
+	protected $visible = [''];
+
 
 
 	/**
@@ -115,15 +118,32 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         ];
     }
 
+   /**
+     * Default attribute values
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status'    =>     'private'
+    ];
 
-	/**************************************** Standard Methods **************************************** */
+    /**
+     * The two statuses that a user can have
+     * @var [type]
+     */
+	public static $statuses = [
+        'private'    =>  'hidden',
+        'public'     =>  'visible'
+    ];
+
+	/**************************************** Overrides **************************************** */
 
 	public static function boot(){
 		parent::boot();
 
 		static::creating(function($model){
 			event(new UserCreating($model));
-
+			
 			return true;
 		});
 
@@ -134,6 +154,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		});
 
 		static::updating(function($model){
+
 			event(new UserUpdating($model));
 
 			return true;
@@ -177,6 +198,27 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	}
 
 
+    public function setVisibility(){
+        if($this->skipVisibility){
+            return $this;
+        }
+
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
+
+
+            $this->setVisible(['email','id','slug','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified','address_verified_until','preferences','status']);
+        }
+
+        if($this->publiclyVisible){
+			$this->setVisible(['first_name','last_name','id','community_id']);
+        }
+
+
+        return $this;
+    }
+
+
 	/**************************************** Custom Methods **************************************** */
     
 	/**
@@ -205,73 +247,11 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	    $this->roles()->detach($userRole->id);
     }
 
-    public function getFillableAttribute(){
-        if(!Auth::check()){ //If not logged in, don't go to parent
-			return $this->fillable;
-        }
-        return parent::getFillableAttribute();
-    }
-
-    public function createDefaultDelegations($departments = null,  $representatives = null){
-    	if(!$this->can('create-vote')){
-    		return true;
-    	}
-
-    	if(!$departments){
-			$departments =  Department::all();    		
-    	}
-    	if(!$representatives){
-    		$representatives = 	User::representative()->get();
-    	}
-
-    	if($representatives->isEmpty()){
-            return true;// "there are no representatives";
-        }
-
-        if($this->hasRole('representative')){
-        	return true; //A representative cannot delegate
-        }
-
-        // Code to potentially do this more efficiently with fewer database calls
-        // $userDelegations = $user->delegatedFrom;
-        // $filteredDepartments = $departments->filter(function($item){
-        //     return $item->id; + is not in a flattened array of this users delegations
-        // });
-        //  $insertsArray = [];
-        //foreach($filteredDepartments as $filteredDepartment){
-            // Add to the inserts array, at the end do one huge insert
-        //}
-    	// $this->insert(Insert all these array items)
- 		foreach($departments as $department){
-            $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
-            $newDelegation = new Delegation;
-            $newDelegation->department_id       =   $department->id;
-            $newDelegation->delegate_from_id    =   $this->id;
-            $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
-            $newDelegation->save();
-        }
-    }
+   
 
 	/****************************************** Getters & Setters ************************************/
 
-	/**
-	 * @return Overrides the API Model, will see if it can be intergrated into it
-	 */
-	public function getVisibleAttribute(){
-		if(!Auth::check()){
-			return $this->visible;
-		}
-
-		if(Auth::user()->id==$this->id){ // Logged in user
-			$this->visible = array_unique(array_merge($this->creatorVisible, $this->visible));
-		} 
-
-		if($this->public) { //Public profile
-			$this->visible = array_unique(array_merge($this->publicVisible, $this->visible));
-		}
-
-		return parent::getVisibleAttribute();
-	}
+	
 
 	/**
 	 * @param string takes a string and hashes it into a password
@@ -337,23 +317,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	    	$this->load('avatar');		
 		return $this->getRelation('avatar');
 	}
-
-	// public function getDateOfBirthAttribute(){
-	// 	return \Carbon\Carbon::
-	// }
-
-	/**
-	 * @return The permissions attached to this user through entrust
-	 */
-	// public function getGovernmentIdentificationAttribute(){
-	// 	if(!Auth::user()->can('administrate-user')){
-	// 		return null;
-	// 	}
-
-	// 	if (!array_key_exists('governmentIdentification',$this->relations))
-	//     	$this->load('governmentIdentification');		
-	// 	return $this->getRelation('governmentIdentification');
-	// }
 
 
 	public function getTotalDelegationsToAttribute(){

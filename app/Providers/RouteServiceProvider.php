@@ -39,6 +39,10 @@ class RouteServiceProvider extends ServiceProvider {
         });
 
       
+        app('router')->bind('vote', function ($vote) {
+            return \App\Vote::find($vote);
+        });
+
         parent::boot();
 
 	}

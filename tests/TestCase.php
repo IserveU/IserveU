@@ -188,6 +188,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $content = json_decode($this->response->getContent());
 
         if(!$content){
+            echo "here";
             dd($this->response->getContent());
         }
         $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
@@ -235,20 +236,27 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $this;
     }
 
+ 
+
     ////////// APITestCase Workings
 
     /**
      * Posts a model with the given fields and checks that the status code matches
      * @param  Array  $fields An array of fields to post
      * @param  integer $code   The code expected
+     * @param  String $responseToSee An optional string to look for
      */
-    function storeFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee=null){
+    function storeFieldsGetSee($fieldsToPost,$expectedCode=200,$responseToSee="",$jsonFields=[]){
         $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
 
         $this->post($this->route,$contentToPost)
-                ->assertResponseStatus($expectedCode);
+             ->assertResponseStatus($expectedCode);
 
-        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
+        if($responseToSee) $this->see($responseToSee);
+
+        if($expectedCode==200) $this->checkDatabaseFor($contentToPost,$jsonFields);
+
+        return $this;
     }
 
    /**
@@ -256,7 +264,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  Array  $content An array of content to merge into a post
      * @param  integer $code   The code expected
      */
-    function storeContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null){
+    function storeContentGetSee($contentToPost,$expectedCode=200,$reponseToSee="",$jsonFields=[]){
 
         $defaultPost = $this->getPostArray($this->class,$this->defaultFields);
 
@@ -265,17 +273,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->post($this->route,$this->removeNullValues($mergedContentToPost))
                 ->assertResponseStatus($expectedCode);
 
-        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValue($mergedContentToPost,$this->alwaysHidden));
+        if($expectedCode==200) $this->checkDatabaseFor($contentToPost,$jsonFields);
         
     }
 
-  
     /**
      * Makes a user and updates them with the fields asked for
      * @param  Array  $fields An array of fields to post
      * @param  integer $code   The code expected
      */
-    public function updateFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee=null){
+    public function updateFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee="",$jsonFields=[]){
 
         if(!$this->modelToUpdate){
             $this->modelToUpdate = factory($this->class)->create();
@@ -283,13 +290,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
 
-
         $this->patch($this->route.$this->modelToUpdate->id,$contentToPost)
                 ->assertResponseStatus($expectedCode);
 
         $contentToPost['id'] = $this->modelToUpdate->id;
 
-        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($contentToPost,$this->alwaysHidden));
+        if($expectedCode==200) $this->checkDatabaseFor($contentToPost,$jsonFields);
+
     }
 
 
@@ -299,7 +306,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  Array  $content An array of content to merge into a post
      * @param  integer $code   The code expected
      */
-    public function updateContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null){
+    public function updateContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null,$jsonFields=[]){
 
         if(!$this->modelToUpdate){
             $this->modelToUpdate = factory($this->class)->create();
@@ -311,8 +318,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $this->patch($this->route.$this->modelToUpdate->id,$this->removeNullValues($mergedContentToPost))
                 ->assertResponseStatus($expectedCode);
+       
+        $contentToPost['id'] = $this->modelToUpdate->id;
 
-        if($expectedCode==200) $this->seeInDatabase($this->table,$this->getArrayWithoutValue($mergedContentToPost,$this->alwaysHidden));
+        if($expectedCode==200) $this->checkDatabaseFor($contentToPost,$jsonFields);
+
     }
 
 
@@ -341,10 +351,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * Gets an array without the 
-     * @param  [type] $array [description]
-     * @param  [type] $value [description]
-     * @return [type]        [description]
+     * Gets an array without the values in the the values array
+     * @param  Array $array Array of values
+     * @param  Array $value Values to remove
+     * @return Array        Array without the values
      */
     public function getArrayWithoutValues($array, $values){
         foreach($values as $value){
@@ -365,5 +375,33 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         });  
     }
 
+
+    /**
+     * Looks for any fields in the database and also checks JSON columns
+     * @param  Array    $contentPosted Array of key value pairs to check for
+     * @param  Array    $jsonFields    Keys of any fields that are JSON
+     * @return $this
+     */
+    
+    public function checkDatabaseFor($contentPosted,$jsonFields){
+
+        $nonJsonFields = array_diff_key($contentPosted,array_flip($jsonFields));
+
+        if(!empty($nonJsonFields)) $this->seeInDatabase($this->table,$this->getArrayWithoutValues($nonJsonFields,$this->alwaysHidden));
+
+        foreach($jsonFields as $jsonField){
+            $query = $this->class::where('content->'.$jsonField,$contentPosted[$jsonField]);
+
+            if(array_key_exists('id',$contentPosted)){
+                $query->where('id',$contentPosted['id']);
+            }
+
+            $record = $query->first();
+
+            $this->assertNotEquals($record,null,"Unable to find JSON record for '$jsonField' in the database equal to '$contentPosted[$jsonField]'");
+            $this->assertNotEquals($record->$jsonField,null);           
+        }
+        return $this;
+    }
 
 }
