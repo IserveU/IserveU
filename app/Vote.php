@@ -39,7 +39,7 @@ class Vote extends NewApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['motion_id','position','id','deferred_to_id', 'motion','user_id']; //Count is used in motion controller, motion is used to get user/{id}/vote and have the motion attached
+	protected $visible = [''];
 
 	/**
 	 * The attributes visible to an administrator of this model
@@ -110,6 +110,20 @@ class Vote extends NewApiModel {
 
 	}
 
+    public function setVisibility(){
+
+        //If self or show-other-private-user
+        if(Auth::check() && Auth::user()->id==$this->user_id){
+            $this->setVisible(['id','position','motion_id','user_id','deferred_to_id','visited']);
+        }
+
+        if($this->user->publiclyVisible){
+			$this->setVisible(['id','position','motion_id','id','deferred_to_id']);
+        }
+
+
+        return $this;
+    }
 
 	/************************************* Custom Methods *******************************************/
 	

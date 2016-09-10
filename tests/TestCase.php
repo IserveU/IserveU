@@ -247,6 +247,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  String $responseToSee An optional string to look for
      */
     function storeFieldsGetSee($fieldsToPost,$expectedCode=200,$responseToSee="",$jsonFields=[]){
+        $this->setUnsetDefaults();
+
         $contentToPost = $this->getPostArray($this->class,$fieldsToPost);
 
         $this->post($this->route,$contentToPost)
@@ -265,6 +267,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  integer $code   The code expected
      */
     function storeContentGetSee($contentToPost,$expectedCode=200,$reponseToSee="",$jsonFields=[]){
+        $this->setUnsetDefaults();
 
         $defaultPost = $this->getPostArray($this->class,$this->defaultFields);
 
@@ -283,6 +286,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  integer $code   The code expected
      */
     public function updateFieldsGetSee($fieldsToPost,$expectedCode=200,$reponseToSee="",$jsonFields=[]){
+        $this->setUnsetDefaults();
 
         if(!$this->modelToUpdate){
             $this->modelToUpdate = factory($this->class)->create();
@@ -307,6 +311,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param  integer $code   The code expected
      */
     public function updateContentGetSee($contentToPost,$expectedCode=200,$reponseToSee=null,$jsonFields=[]){
+        $this->setUnsetDefaults();
 
         if(!$this->modelToUpdate){
             $this->modelToUpdate = factory($this->class)->create();
@@ -340,6 +345,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
                 $post[$hiddenField]   = 'abcd1234!'; //Usually (if not always) password
             }
         }
+       
 
         foreach($post as $postField => $postValue){
             if(!in_array($postField,$fields)){
@@ -402,6 +408,19 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             $this->assertNotEquals($record->$jsonField,null);           
         }
         return $this;
+    }
+
+    /**
+     * Guessing the things that people should be setting
+     */
+    public function setUnsetDefaults(){
+        if(!isset($this->alwaysHidden)){
+            $this->alwaysHidden = ['password'];
+        }
+
+        if(!isset($this->table)){
+            $this->table =(new $this->class)->getTable();
+        }
     }
 
 }

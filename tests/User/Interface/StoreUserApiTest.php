@@ -230,18 +230,10 @@ class storeApiTest extends UserApi
     }
 
     /** @test  ******************/
-    public function store_user_with_agreement_accepted_fails(){
-        $this->storeContentGetSee([
-            'agreement_accepted'     =>  \Carbon\Carbon::today()
-        ],400);        
-
+    public function store_user_with_agreement_accepted_in_past_fails(){
         $this->storeContentGetSee([
             'agreement_accepted'     =>  \Carbon\Carbon::yesterday()
-        ],400);
-
-        $this->storeContentGetSee([
-            'agreement_accepted'     =>  \Carbon\Carbon::tomorrow()
-        ],400);     
+        ],400);   
     }
 
 }
