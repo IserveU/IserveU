@@ -79,10 +79,6 @@ class UserController extends ApiController {
 		//Create a new user and fill secure fields
 		$user = User::create($request->except('token'));
 
-		if(!Setting::get('security.verify_citizens')){
-			$user->addUserRoleByName('citizen');
-		}
-
 		$user->skipVisibility();
 
 		$user->setHidden(['password']);
