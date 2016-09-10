@@ -42,11 +42,9 @@ class UpdateCommentRequest extends Request
      */
     public function rules()
     {
-        $comment = $this->route()->parameter('comment');
 
         return [
-            'text'          =>  'min:3|string',
-            'id'            =>  'integer'
+            'text'          =>  'filled|string'
         ];
 
     }

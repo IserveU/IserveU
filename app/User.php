@@ -151,7 +151,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 			event(new UserCreated($model));
 
 			if(!Setting::get('security.verify_citizens')){
-
 				$model->addUserRoleByName('citizen');
 			}
 
@@ -219,7 +218,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
 
-            $this->setVisible(['email','id','slug','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified','address_verified_until','preferences','status']);
+            $this->skipVisibility();
         }
 
         if($this->publiclyVisible){
@@ -237,9 +236,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @param Adds the named role to a user
 	 */
     public function addUserRoleByName($name){
-	    $userRole = Role::where('name','=',$name)->firstOrFail();
+	    $userRole = Role::where('name','=',$name)->first();
 
-	    if (!$this->roles->contains($userRole->id)) {
+	    if ($userRole && !$this->roles->contains($userRole->id)) {
 	    	$this->roles()->attach($userRole->id);
 		}
 
