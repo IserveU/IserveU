@@ -96,4 +96,7 @@ class CreateNewUser extends TestCase
 
         $this->dontSeeInDatabase('role_user',array('user_id'=>$user->id,'role_id'=>$citizenRole->id));
     }
+
+
+
 }

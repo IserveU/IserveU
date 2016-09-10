@@ -66,7 +66,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
 	protected $visible = [''];
-
+	protected $hidden = ['password'];
 
 
 	/**

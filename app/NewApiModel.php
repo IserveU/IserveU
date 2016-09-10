@@ -39,8 +39,11 @@ class NewApiModel extends Model
 
     public function skipVisibility(){
         $this->skipVisibility = true;
+
+
+
         //Figure out how to loop all attributes $this->attributes->getkeys();
-        $this->setVisible(['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences']);
+        $this->setVisible(array_keys($this->attributes));
 
         return $this;
     }

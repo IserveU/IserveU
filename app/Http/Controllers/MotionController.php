@@ -12,7 +12,6 @@ use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Http\Requests\Motion\IndexMotionRequest;
 
-use App\Transformers\MotionTransformer;
 
 use App\MotionRank;
 use App\Motion;
@@ -23,11 +22,10 @@ use App\Vote;
 
 class MotionController extends ApiController {
 
-	protected $motionTransformer;
 
-	function __construct(MotionTransformer $motionTransformer)
+	function __construct()
 	{
-		$this->motionTransformer = $motionTransformer;
+		
 		$this->middleware('auth:api',['except'=>['index','show']]);
 	}
 
@@ -94,10 +92,9 @@ class MotionController extends ApiController {
 			$motions->take(1);
 		}
 
-		$paginator = $motions->simplePaginate($limit);
-		$motions   = $this->motionTransformer->transformCollection( $paginator->all() );
+		$motions = $motions->paginate($limit);
 
-		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
+		return $motions;
 	}
 
 
@@ -119,7 +116,7 @@ class MotionController extends ApiController {
 		 	abort(403,$motion->errors);
 		}
 
-     	return $this->motionTransformer->transform($motion);
+     	return $motion;
 	}
 
 	/**
@@ -130,7 +127,7 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion,ShowMotionRequest $request)
 	{
-		return $this->motionTransformer->transform($motion);
+		return $motion;
 	}
 
 
@@ -145,9 +142,8 @@ class MotionController extends ApiController {
 
 		$motion->fill($request->all());
 		$motion->save();
-
 		
-		return $this->motionTransformer->transform($motion);
+		return $motion;
 	}
 
 	/**

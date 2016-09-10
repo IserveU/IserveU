@@ -21,7 +21,7 @@ class StoreUserApiTest extends UserApi
     
     /** @test  ******************/
     public function store_user_with_email_and_password(){
-        $this->storeFieldsGetSee(['email','password','first_name','last_name'],200);
+        $this->storeFieldsGetSee(['email','password','first_name','last_name'],200,'first_name');
         
     }
 

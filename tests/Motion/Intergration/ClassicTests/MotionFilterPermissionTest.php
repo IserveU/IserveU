@@ -20,7 +20,6 @@ class MotionFilterPermissionTest extends TestCase
     /** @test */
     public function motion_index_permissions_working()
     {
-        $this->markTestSkipped('waiting until end of refactor');
         $this->signInAsPermissionedUser('show-motion');
         $motions = generateMotions($this);
         //Default with no filters
@@ -53,7 +52,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionReview'],
                     $motions['motionMyReview']
                 ],
-                ['status'=>[0]]
+                ['status'=>['draft']]
         );
         $this->assertResponseStatus(200);
    
@@ -71,7 +70,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionClosed'],
                     $motions['motionMyClosed']
                 ],
-                ['status'=>[1]]
+                ['status'=>['review']]
         );
         $this->assertResponseStatus(200);
 
@@ -89,7 +88,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionClosed'],
                     $motions['motionMyClosed']
                 ],
-                ['status'=>[0,1]]
+                ['status'=>['draft','review']]
         );
         $this->assertResponseStatus(200);
     }
@@ -98,7 +97,6 @@ class MotionFilterPermissionTest extends TestCase
     /** @test */
     public function motion_index_without_permission()
     {
-                $this->markTestSkipped('waiting until end of refactor');
 
         $this->signIn();
         $motions = generateMotions($this);
@@ -133,7 +131,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionReview'],
                     $motions['motionMyReview']
                 ],
-                ['status'=>[2]]
+                ['status'=>['published']]
         );
         $this->assertResponseStatus(200);
    
@@ -151,7 +149,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionDraft'],
                     $motions['motionReview']
                 ],
-                ['status'=>[0,1]]
+                ['status'=>['draft','review']]
         );
         $this->assertResponseStatus(200);
 
@@ -170,7 +168,7 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionDraft'],
                     $motions['motionReview']
                 ],
-                ['status'=>[0]]
+                ['status'=>['draft']]
         );
         $this->assertResponseStatus(200);    
     }
