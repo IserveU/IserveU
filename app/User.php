@@ -203,7 +203,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
 
-
             $this->setVisible(['email','id','slug','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified','address_verified_until','preferences','status']);
         }
 

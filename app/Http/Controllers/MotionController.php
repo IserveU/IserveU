@@ -25,7 +25,7 @@ class MotionController extends ApiController {
 
 	function __construct()
 	{
-		
+		//Because this controller is partially visible
 		$this->middleware('auth:api',['except'=>['index','show']]);
 	}
 
@@ -157,18 +157,19 @@ class MotionController extends ApiController {
 		$votes = $motion->votes;
 
 		if($votes->isEmpty()){ //Has not recieved votes
-			
 			$motion->forceDelete();
 			return $motion;
 		} 
 
 		$motion->status = 'deleted';
 		$motion->save();
+
 		$motion->delete(); //Motion kept in the database	
 		return $motion;
 	}
 
 	public function restore($id){
+
 		$motion = Motion::withTrashed()->with('user')->find($id);
 
 		if(!$motion){

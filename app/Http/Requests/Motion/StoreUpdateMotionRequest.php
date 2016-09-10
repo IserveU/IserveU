@@ -33,7 +33,7 @@ class StoreUpdateMotionRequest extends Request
     {
 
         return [
-            'title'             =>  'filled|min:1|unique:motions,title|string',
+            'title'             =>  'filled|min:1,title|string',
             'summary'           =>  'string',
             'text'              =>  'nullable',
             'status'            =>  'string|valid_status',
