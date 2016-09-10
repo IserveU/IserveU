@@ -21,16 +21,16 @@ class ShowVoteApiTest extends TestCase
    
     /** @test */
     public function show_vote_test(){
-        $this->signInAsRole('administrator');
 
         $vote = factory(App\Vote::class)->create();
 
+        $this->signIn($vote->user);
 
         $this->visit("/api/vote/".$vote->id)
             ->seeJsonStructure([
                 'id','position','motion_id','user_id','deferred_to_id'
             ])->dontSeeJson([
-              
+
             ]);
 
     }

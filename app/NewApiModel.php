@@ -58,13 +58,17 @@ class NewApiModel extends Model
 
 
     public function toArray(){
-        $this->setVisibility();
+        if(!$this->skipVisibility){
+            $this->setVisibility();
+        }
 
         return parent::toArray();        
     }
 
-    public function toJson($options =0 ){
-        $this->setVisibility();
+    public function toJson($options =0 ){     
+        if(!$this->skipVisibility){
+            $this->setVisibility();
+        }
 
         return parent::toJson($options);
     }

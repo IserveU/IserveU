@@ -30,7 +30,8 @@ class AuthenticateController extends ApiController
         }
 
         if($user && $user->locked_until && $user->locked_until->gt(Carbon::now())){
-            abort(401,'Account is locked until '.$user->locked_until);
+
+            return  response(["error"=>"Invalid credentials","message"=>'Account is locked until '.$user->locked_until],401); 
         }
 
         if(!Hash::check($request->password, $user->password)){
@@ -47,19 +48,17 @@ class AuthenticateController extends ApiController
     public function noPassword($remember_token){
 
         if(empty($remember_token)){
-            abort(403,'No password reset code provided');
+            return  response(["error"=>"No password reset code provided","message"=>'Account is locked until '.$user->locked_until],403); 
         }
 
         $user = User::where('remember_token',$remember_token)->first();
 
         if(!$user){
-            abort(404,'Reset token invalid or expired');
-        }
-
-        return response(["api_token"=>$user->api_token,'user'=>$user],200);
+            return  response(["error"=>"Reset Token Invalid","message"=>"Reset token invalid or not found"],404);
+        }       
 
         event(new UserLoginSucceeded($user));
-
+        return response(["api_token"=>$user->api_token,'user'=>$user],200);
     }
 
     public function resetPassword(Request $request){

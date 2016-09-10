@@ -143,7 +143,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 		static::creating(function($model){
 			event(new UserCreating($model));
-			
+
 			return true;
 		});
 
@@ -199,9 +199,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
     public function setVisibility(){
-        if($this->skipVisibility){
-            return $this;
-        }
 
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){

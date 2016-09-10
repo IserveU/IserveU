@@ -26,7 +26,7 @@ class StoreUserRequest extends Request
         'street_number'             =>  'integer',
         'unit_number'               =>  'string',
         'address_verified_until'    =>  'date|after:today|before:+2000 days',
-        'agreement_accepted'        =>  'date|before:yesterday|after:tomorrow', //You cant accept an agreement on creation ATM
+        'agreement_accepted'        =>  'date|after:now',
         'preferences'               =>  'json',
         'community_id'              =>  'exists:communities,id'
     ];

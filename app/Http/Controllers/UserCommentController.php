@@ -18,7 +18,7 @@ class UserCommentController extends ApiController
     public function index($user)
     {   
         if((Auth::user()->id != $user->id && !$user->public) && !Auth::user()->can('show-comment')) { //Not the current user, or public and not an admin
-             abort(401,"You do not have permission to view this non-public user's comments");
+             abort(403,"You do not have permission to view this non-public user's comments");
         }
 
         $comments = $user->comments->sortBy('created_at');

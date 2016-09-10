@@ -12,6 +12,9 @@ class VotePermissionTest extends TestCase
     {
         parent::setUp();
 
+        $this->class         =   App\Vote::class;
+        $this->route        =   "/api/vote/";
+
         $this->signIn();
     }
 
@@ -24,32 +27,28 @@ class VotePermissionTest extends TestCase
     /** @test */
     public function it_can_create_a_vote()
     {
-        $this->markTestSkipped('Re-enable after refactor');
 
         $this->signInAsPermissionedUser('create-vote');
-        $vote = postVote($this);
-     
-        $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => $vote->position, 'user_id' => $this->user->id]);
+        
+        $this->motion       =   factory(App\Motion::class)->create();
+        $this->route        =   "/api/motion/".$this->motion->id."/vote/";
+
+        $this->storeFieldsGetSee(['position'],200);   
+
     }
 
     /** @test */
     public function it_can_update_own_vote()
     {
-        $this->markTestSkipped('Re-enable after refactor');
 
         $this->signInAsPermissionedUser('create-vote');
 
-        $vote = factory(App\Vote::class)->create([
-            'user_id'   =>  \Auth::user()->id,
-            'position'  =>  1
+
+        $this->modelToUpdate = factory(App\Vote::class)->create([
+            'user_id'   =>      $this->user->id
         ]);
 
-        // Update Vote
-        $this->call('PATCH', '/api/vote/'.$vote->id, 
-                  [ 'position' => -1, 'id' => $vote->id ]);
-
-        $this->assertResponseOk();
-        $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => -1, 'user_id' => $this->user->id]);
+        $this->updateFieldsGetSee(['position'],200);
     }
 
 
@@ -57,7 +56,7 @@ class VotePermissionTest extends TestCase
     public function it_can_abstain_vote()
     {
         // As per the API delete route, you cannot delete a vote, you may only switch to abstain.
-                $this->signInAsPermissionedUser('create-vote');
+        $this->signInAsPermissionedUser('create-vote');
 
         $vote = factory(App\Vote::class)->create([
             'user_id'   =>  \Auth::user()->id,
@@ -88,7 +87,6 @@ class VotePermissionTest extends TestCase
     /** @test */
     public function it_cannot_create_a_vote()
     {
-        $this->markTestSkipped('Re-enable after refactor');
 
         $motion = factory(App\Motion::class, 'published')->create();
 
