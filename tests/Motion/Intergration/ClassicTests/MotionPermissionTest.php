@@ -56,28 +56,33 @@ class MotionPermissionTest extends TestCase
         $draft = factory(App\Motion::class, 'draft')->make()->setVisible(['title','summary'])->toArray();
         $review = factory(App\Motion::class, 'review')->make()->setVisible(['title','summary'])->toArray();
 
-        $response = $this->post('/api/motion', $draft)
+       $this->json('post','/api/motion', $draft)
             ->assertResponseStatus(401);
 
-        $response = $this->call('POST', '/api/motion', $review);
-        $this->assertEquals(401, $response->status());
+       $this->post('/api/motion', $draft) //If hitting this route, redirect to login
+            ->assertResponseStatus(302);
+
+       $this->json('post','/api/motion', $review)
+            ->assertResponseStatus(401);
+
+       $this->post('/api/motion', $review) //If hitting this route, redirect to login
+            ->assertResponseStatus(302);
 
         $this->signIn(); //No Role
-        $response = $this->call('POST', '/api/motion', $draft);
-        $this->assertEquals(403, $response->status());
+        $this->post('/api/motion', $review)
+            ->assertResponseStatus(403);
 
-        $response = $this->call('POST', '/api/motion', $review);
-        $this->assertEquals(403, $response->status());
+        $this->post('/api/motion', $review)
+            ->assertResponseStatus(403);
     }
 
     /** @test */
     public function it_can_see_a_closed_motion()
     {
-                $this->markTestSkipped('waiting until end of refactor');
 
         $motion = factory(App\Motion::class,'closed')->create();
 
-        $response = $this->call('GET', '/api/motion/'.$motion->id);
+        $response = $this->get('/api/motion/'.$motion->id);
 
         $this->assertResponseOk();
 
@@ -92,9 +97,8 @@ class MotionPermissionTest extends TestCase
 
         $motion = factory(App\Motion::class,'draft')->make()->toArray();
 
-        $this->post('/api/motion/',$motion);
-
-        $this->assertResponseStatus(403);
+        $this->post('/api/motion/',$motion)
+            ->assertResponseStatus(403);
 
         $this->dontSeeInDatabase('motions',array('title'=>$motion['title']));
 
@@ -104,13 +108,11 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_create_a_draft_motion()
     {
-                $this->markTestSkipped('waiting until end of refactor');
-
         $this->signInAsPermissionedUser('create-motion');
 
         $motion = factory(App\Motion::class,'draft')->make([
             'user_id'   =>  $this->user->id
-        ])->toArray();
+        ])->setVisible(['status','title'])->toArray();
 
         $this->post('/api/motion/',$motion);
 
@@ -168,17 +170,15 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_submit_a_draft_for_review()
     {
-                $this->markTestSkipped('waiting until end of refactor');
-
         $this->signInAsPermissionedUser('create-motion');
 
         $motion = factory(App\Motion::class,'draft')->create([
             'user_id'   => $this->user->id
-        ])->toArray();
+        ]);
 
-        $motion['status'] = 1;
+        $motionPatch['status'] = 'review';
 
-        $this->patch('/api/motion/'.$motion['id'],$motion);
+        $this->patch('/api/motion/'.$motion->id,$motionPatch);
 
         $this->assertResponseStatus(200);        
     }
@@ -201,20 +201,18 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_update_a_closing_date_motion()
     {   
-                $this->markTestSkipped('waiting until end of refactor');
 
         $this->signInAsPermissionedUser('administrate-motion');
     
-        $updated = factory(App\Motion::class)->create()->toArray();
+        $toUpdate = factory(App\Motion::class)->create();
 
         // Create new Closing Date
-        $updated = array_merge($updated, createClosingDate() );
+        $updated = createClosingDate();
 
-        $this->call('PATCH', '/api/motion/'.$updated['id'], $updated);
+        $this->patch('/api/motion/'.$toUpdate->id, $updated)
+            ->assertResponseStatus(200);
 
-        $this->assertResponseOk();
-
-        $this->seeInDatabase('motions', ['title' => $updated['title'], 'summary' => $updated['summary'], 'closing' => $updated['closing']]);
+        $this->seeInDatabase('motions', ['title' => $toUpdate->title, 'closing' => $updated['closing']]);
     }
 
     /** @test */
@@ -260,20 +258,19 @@ class MotionPermissionTest extends TestCase
     /** @test */ 
     public function it_can_restore_a_motion()
     {
-                $this->markTestSkipped('waiting until end of refactor');
+        $vote  = factory(App\Vote::class)->create(); //Or it will do a perma delete
 
-        $motion  = factory(App\Motion::class,'published')->create();
         $this->signInAsPermissionedUser('delete-motion');
         
         // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$motion->id);
+        $this->call('DELETE', '/api/motion/'.$vote->motion->id);
         $this->assertResponseOk();
-        $this->notSeeInDatabase('motions', ['id'=>$motion->id, 'deleted_at' => null ]);
+        $this->notSeeInDatabase('motions', ['id'=>$vote->motion->id, 'deleted_at' => null ]);
 
         // Restore motion
-        $this->call('GET', '/api/motion/'.$motion->id.'/restore');
+        $this->call('GET', '/api/motion/'.$vote->motion->id.'/restore');
         $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['id'=>$motion->id, 'deleted_at' => null]);
+        $this->seeInDatabase('motions', ['id'=>$vote->motion->id, 'deleted_at' => null]);
     }
 
 

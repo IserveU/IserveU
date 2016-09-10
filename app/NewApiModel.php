@@ -37,17 +37,6 @@ class NewApiModel extends Model
     }
  
 
-    public function skipVisibility(){
-        $this->skipVisibility = true;
-
-
-
-        //Figure out how to loop all attributes $this->attributes->getkeys();
-        $this->setVisible(array_keys($this->attributes));
-
-        return $this;
-    }
-
 
     public function toArray(){
         if(!$this->skipVisibility){

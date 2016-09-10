@@ -150,6 +150,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		static::created(function($model){
 			event(new UserCreated($model));
 
+			if(!Setting::get('security.verify_citizens')){
+
+				$model->addUserRoleByName('citizen');
+			}
+
+
 			return true;
 		});
 
@@ -198,11 +204,20 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	}
 
 
+    public function skipVisibility(){
+
+
+       $this->setVisible(array_merge(array_keys($this->attributes),
+	            ['permissions']
+	        	)
+       		);
+    }
+
+
     public function setVisibility(){
 
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
-
 
             $this->setVisible(['email','id','slug','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified','address_verified_until','preferences','status']);
         }
@@ -306,7 +321,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 				}
 			}
 		}
+		$permissions['apermission'] = "things";
 		return $permissions;
+
 	}
 
 	/**

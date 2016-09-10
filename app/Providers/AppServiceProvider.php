@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider {
 
                 $status = $data[$attribute];
 
-                if(!in_array($status,['draft','submitted','editing','closed','published','public','private'],true)){
+                if(!in_array($status,['draft','submitted','review','closed','published','public','private'],true)){
 
                     return false; //Not a valid status
                 }

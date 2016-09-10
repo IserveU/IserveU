@@ -12,8 +12,9 @@ class LoginTest extends TestCase
 
 
     /** @test **/
-    public function login_as_new_user_and_get_token()
+    public function login_as_new_user_and_get_token_and_permissions()
     {   
+        $this->setSettings(['security.verify_citizens'=>0]);
 
         $user = factory(App\User::class)->create([
             'password'  => 'abcd1234'
@@ -25,7 +26,7 @@ class LoginTest extends TestCase
             ->seeJson([
                 'api_token'     =>  $user->api_token,
                 'first_name'    =>  $user->first_name
-            ]);
+            ])->see('permissions');
 
     }
 

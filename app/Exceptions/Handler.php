@@ -49,7 +49,6 @@ class Handler extends ExceptionHandler {
             return response()->json($exception->validator->getMessageBag(), 400);
         }
 
-
         return parent::render($request, $exception);
     }
 

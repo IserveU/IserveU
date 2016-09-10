@@ -12,7 +12,7 @@ class CreateNewUser extends TestCase
 	/** @test **/
     public function register_self_as_new_user_details()
     {
-       
+        $this->setSettings(['security.verify_citizens'=>0]);
         $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email','password'])->toArray();
 
         $user['password'] = 'abcd1234';
@@ -29,10 +29,11 @@ class CreateNewUser extends TestCase
     /** @test **/
     public function login_as_minimal_specs_new_user()
     {   
-        $userSpecs = factory(App\User::class)->make()->setVisible(['email','first_name','last_name'])->toArray();
-        $user = factory(App\User::class)->create(array_merge($userSpecs,['password'=>'abcd1234']));
+        $user = factory(App\User::class)->create([
+            'password'  => "abcd1234!"
+        ]);
 
-        $this->post('authenticate',['email'=>$user->email,'password'=>'abcd1234'])
+        $this->post('/authenticate',['email'=>$user->email,'password'=>'abcd1234!'])
              ->assertResponseStatus(200)
              ->seeJson([
                 'api_token' => $user->api_token

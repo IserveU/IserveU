@@ -140,8 +140,8 @@ class Motion extends ApiModel {
 		});
 
 		static::deleting(function($model) { // before delete() method call this
-            $model->votes()->delete();
-            $model->files()->delete();
+           
+
         });
 	}
 
