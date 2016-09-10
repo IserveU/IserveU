@@ -13,13 +13,12 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_see_a_motion()
     {
-        $this->markTestSkipped('waiting until end of refactor');
 
         $motion =  factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id);
+        $this->get('/api/motion/'.$motion->id)
+            ->assertResponseStatus(200);
 
-        $this->assertResponseOk();
         $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
     }
 
@@ -39,14 +38,12 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_create_a_motion()
     {
-                $this->markTestSkipped('waiting until end of refactor');
-
         $this->signInAsPermissionedUser('create-motion');
         $motion  = postMotion($this);
 
         $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
 
-        $this->call('GET', '/api/motion/'.$motion->id);
+        $this->get('/api/motion/'.$motion->id);
         
         $this->assertResponseOk();
     }
@@ -55,13 +52,12 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_cannot_create_a_motion()
     {
-                $this->markTestSkipped('waiting until end of refactor');
 
-        $draft = factory(App\Motion::class, 'draft')->make()->toArray();
-        $review = factory(App\Motion::class, 'review')->make()->toArray();
+        $draft = factory(App\Motion::class, 'draft')->make()->setVisible(['title','summary'])->toArray();
+        $review = factory(App\Motion::class, 'review')->make()->setVisible(['title','summary'])->toArray();
 
-        $response = $this->call('POST', '/api/motion', $draft);
-        $this->assertEquals(401, $response->status());
+        $response = $this->post('/api/motion', $draft)
+            ->assertResponseStatus(401);
 
         $response = $this->call('POST', '/api/motion', $review);
         $this->assertEquals(401, $response->status());

@@ -15,7 +15,7 @@
 
 		$motion = factory(App\Motion::class)->make([
 			'user_id'	=>	$self->user->id
-		])->toArray();
+		])->setVisible(['title','summary'])->toArray();
 
 	    $attributes = array_merge($attributes, createClosingDate());
 
@@ -121,7 +121,7 @@
 	function publishMotion($motion, $user)
 	{
 
-		$updated = $user->call('PATCH', '/api/motion/'.$motion->id, ['status' => 2]);
+		$updated = $user->call('PATCH', '/api/motion/'.$motion->id, ['status' => 'published']);
 
         return $updated->getOriginalContent();
 
@@ -174,6 +174,7 @@
 	}
 
 	function filterCheck($self,$hasThese,$doesntHaveThese,$filters=[]){
+
         $self->call('GET', '/api/motion/',array_merge(['limit'=>5000],$filters));
 
         foreach($hasThese as $motion){

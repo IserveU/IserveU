@@ -23,7 +23,8 @@ class LoginTest extends TestCase
         $this->post('authenticate',array_merge($user->setVisible(['email'])->toArray(),['password'=>'abcd1234']))
             ->assertResponseStatus(200)
             ->seeJson([
-                'api_token' => $user->api_token
+                'api_token'     =>  $user->api_token,
+                'first_name'    =>  $user->first_name
             ]);
 
     }

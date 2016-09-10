@@ -288,7 +288,7 @@ class Motion extends ApiModel {
 		if(Auth::check()){
 			return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);
 		}
-		return $this;
+		return $this->hasOne('App\Vote');
 	}
 
 }

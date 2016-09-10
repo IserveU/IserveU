@@ -41,8 +41,9 @@ class AuthenticateController extends ApiController
 
         event(new UserLoginSucceeded($user));
 
-        return response(["api_token"=>$user->api_token,'user'=>$user],200);
+        $user->skipVisibility();
 
+        return $user;
     }
 
     public function noPassword($remember_token){
