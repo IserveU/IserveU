@@ -66,11 +66,13 @@ return [
 			'encrypt' => true,
 		],
 
-		'redis' => [
-			'driver' => 'redis',
-			'queue'  => 'default',
-			'expire' => 60,
-		],
+        'redis' => [
+            'driver' 		=> 'redis',
+            'connection' 	=> 'default',
+            'queue'      	=> env('QUEUE_NAME','default'),
+            'retry_after' 	=> 90,
+        ],
+
 
 	],
 

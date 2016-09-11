@@ -112,13 +112,14 @@ return [
 
 	'redis' => [
 
-		'cluster' => false,
+        'cluster' => false,
 
-		'default' => [
-			'host'     => 'localhost',
-			'port'     => 6379,
-			'database' => 0,
-		],
+        'default' => [
+            'host' => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => 0,
+        ],
 
 	],
 
