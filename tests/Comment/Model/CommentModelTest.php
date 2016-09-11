@@ -14,21 +14,7 @@ class CommentModelTest extends TestCase
 {
     use DatabaseTransactions;    
 
-    public function setUp()
-    {
-        parent::setUp();
 
-    }
-
-
-    /** @test **/
-    public function check_creation_events(){
-        $this->expectsEvents(CommentCreated::class);
-        $this->doesntExpectEvents(CommentUpdated::class);
-        $this->doesntExpectEvents(CommentDeleted::class);
-
-        factory(App\Comment::class)->create();
-    }
  
     /** @test **/
     public function check_update_events(){

@@ -80,12 +80,9 @@ class Comment extends NewApiModel {
 	}
 
 
-
     public function skipVisibility(){
-
        $this->setVisible(array_merge(array_keys($this->attributes)));
     }
-
 
     public function setVisibility(){
 

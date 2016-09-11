@@ -13,9 +13,12 @@ use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
 use Cviebrock\EloquentSluggable\Sluggable;
 
+use App\Repositories\StatusTrait;
+
+
 class Motion extends ApiModel {
 
-	use SoftDeletes, Sluggable;
+	use SoftDeletes, Sluggable, StatusTrait;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -115,6 +118,17 @@ class Motion extends ApiModel {
         ];
     }
 
+    /**
+     * The  statuses that a motion can have
+     * @var Array
+     */
+	public static $statuses = [
+        'draft'    	=>  'hidden',
+        'review'  	=>  'hidden',
+        'published' =>  'visible',
+        'closed'    =>  'visible'
+    ];
+
 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
@@ -187,6 +201,16 @@ class Motion extends ApiModel {
 		return null;
 	}
 
+	/**
+	 * A bridge to the comments on this motion
+	 * @return Collection A collection of comments
+	 */
+	public function getCommentsAttribute(){
+		$this->load(['votes.comment' => function ($q) use ( &$comments ) {
+		   $comments = $q->get()->unique();
+		}]);
+		return $comments;
+	}
 	
 
 	/************************************* Casts & Accesors *****************************************/
@@ -283,6 +307,14 @@ class Motion extends ApiModel {
 	public function files(){
 		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
 	}
+
+
+	public function comments(){
+		return $this->whereHas('votes',function($query) use ($rank){
+			$query->havingRaw('SUM(position) < '.$rank);
+		});
+	}
+
 
 	public function thisUserVote(){
 		if(Auth::check()){

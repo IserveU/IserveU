@@ -63,15 +63,13 @@ class CommentPermissionTest extends TestCase
     /** @test */
     public function it_cannot_create_a_comment()
     {
-
         $faker = Faker\Factory::create();
 
-        $motion = factory(App\Motion::class, 'published')->create();
+        $vote = factory(App\Vote::class)->create();
 
-        $comment = ['vote_id'  => 1, 
-                    'motion_id' => $motion->id];
+        $comment    = ['text' => "text for the motion"];
 
-        $response = $this->call('POST', '/api/comment', $comment);
+        $response   = $this->call('POST', '/api/vote/'.$vote->id.'/comment', $comment);
 
         $this->assertEquals(403, $response->status());
     }

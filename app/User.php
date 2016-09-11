@@ -129,7 +129,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     /**
      * The two statuses that a user can have
-     * @var [type]
+     * @var Array
      */
 	public static $statuses = [
         'private'    =>  'hidden',
