@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
+
 use Illuminate\Support\Facades\Validator;
 use App\Events\VoteUpdated;
 use App\Events\VoteCreated;
@@ -15,7 +14,7 @@ use Cache;
 
 class Vote extends NewApiModel {
 
-	use SoftDeletes, Eloquence, Mappable;
+	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -64,6 +63,8 @@ class Vote extends NewApiModel {
 		});
 
 		static::updated(function($model){
+			// CheckCommentVotes
+			// ClearMotionCommentCache
 			event(new VoteUpdated($model));
 			return true;
 		});

@@ -112,9 +112,9 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'draft')->make([
-            'user_id'   =>  $this->user->id
-        ])->setVisible(['status','title'])->toArray();
+        $motion['status'] = 'draft';
+        $motion['title'] = 'Who cares about these old tests?';
+        $motion['user_id'] = $this->user->id;
 
         $this->post('/api/motion/',$motion);
 

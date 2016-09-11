@@ -38,7 +38,7 @@ class Motion extends NewApiModel {
 	 * @var array
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'motion_open_for_voting','closing','user_vote','user_id'.
+						  'motionOpenForVoting','closing','userVote','user_id'.
 						  'status','updated_at','slug'];
 	
 
@@ -46,7 +46,7 @@ class Motion extends NewApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motion_open_for_voting','user_vote'];
+    protected $appends = ['motionOpenForVoting','userVote'];
 
   
 
@@ -129,7 +129,7 @@ class Motion extends NewApiModel {
     public function skipVisibility(){
        $this->setVisible(array_merge(array_keys($this->attributes),
 	            ['title','text','summary','department_id','id','votes',
-						  'motion_open_for_voting','closing','user_vote','user_id'.
+						  'motionOpenForVoting','closing','userVote','user_id'.
 						  'status','updated_at','slug']
 	        	)
        		);
