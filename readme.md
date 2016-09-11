@@ -3,6 +3,8 @@ eDemocracy Tool
 
 [![Gitter](https://badges.gitter.im/IserveU/IserveU.svg)](https://gitter.im/IserveU/IserveU?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+[![Build Status](https://travis-ci.org/IserveU/IserveU.svg?branch=master)](https://travis-ci.org/IserveU/IserveU)
+
 Run: "bower install" to get dependencies
 Run: "gulp watch" while working to continue compiling assets http://laravel.com/docs/5.0/elixir
 

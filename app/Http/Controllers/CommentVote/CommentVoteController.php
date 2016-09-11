@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers\CommentVote;
+use App\Http\Controllers\ApiController;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;

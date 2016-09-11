@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
 use Carbon\Carbon;
-use Setting;
+use App\Setting;
 
 use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
@@ -16,7 +16,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Repositories\StatusTrait;
 
 
-class Motion extends ApiModel {
+class Motion extends NewApiModel {
 
 	use SoftDeletes, Sluggable, StatusTrait;
 
@@ -32,53 +32,23 @@ class Motion extends ApiModel {
 	 */
 	protected $fillable = ['title','text','summary','department_id','closing','status','user_id'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var array
-	 */
-	protected $adminFillable = [];
 	
 	/**
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'MotionOpenForVoting','closing','user_vote','user_id'.
+						  'motionOpenForVoting','closing','userVote','user_id'.
 						  'status','updated_at','slug'];
 	
-
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var array
-	 */
-	protected $adminVisible = ['status','user_id'];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var array
-	 */
-	protected $creatorVisible = ['status','user_id'];
-
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['MotionOpenForVoting','user_vote'];
+    protected $appends = ['motionOpenForVoting','userVote'];
 
   
-
-	/**
-	 * The variables that are required when you do an update
-	 * @var array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * Fields that are unique so that the ID of this field can be appended to them in update validation
-	 * @var array
-	 */
-	protected $unique = ['title'];
 
 	/**
 	 * The fields that are dates/times
@@ -87,10 +57,7 @@ class Motion extends ApiModel {
 	protected $dates = ['created_at','updated_at','closing'];
 
 	/**
-	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
-	 * @var array
-	 */
-	protected $locked = ['title','text'];
+
 
 	protected $attributes = [
 		'title'		=> 	'New Motion',
@@ -130,6 +97,10 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
+			
+			if(!$model->user_id){
+				$model->user_id = Auth::user()->id;	
+			}
 
 			return true;	
 		});
@@ -155,7 +126,23 @@ class Motion extends ApiModel {
 	}
 
 	
-	
+    public function skipVisibility(){
+       $this->setVisible(array_merge(array_keys($this->attributes),
+	            ['title','text','summary','department_id','id','votes',
+						  'motionOpenForVoting','closing','userVote','user_id'.
+						  'status','updated_at','slug']
+	        	)
+       		);
+    }
+
+
+    public function setVisibility(){
+
+            $this->skipVisibility();
+      
+        return $this;
+    }
+
 	/************************************* Getters & Setters ****************************************/
 
 	public function setClosingAttribute($value){

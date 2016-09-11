@@ -153,15 +153,15 @@ $factory->define(App\Comment::class, function ($faker) use ($factory) {
 
 
 $factory->define(App\Vote::class, function ($faker) use ($factory) {
+    $citizenUser =  factory(App\User::class, 'verified')->create();
+    $citizenUser->addUserRoleByName('citizen');
 
     return [
         'position'      => $faker->numberBetween($min = -1, $max = 1),
         'motion_id'     =>  function(){
             return factory(App\Motion::class, 'published')->create()->id;
         },
-        'user_id'        =>  function(){
-            return factory(App\User::class, 'verified')->create()->id;
-        }
+        'user_id'        =>  $citizenUser->id
     ];
 
 });

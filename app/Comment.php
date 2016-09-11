@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
+
 use App\CommentVote;
 use DB;
 use Illuminate\Support\Facades\Validator;

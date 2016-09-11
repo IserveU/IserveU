@@ -8,7 +8,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
 
 
-    public $user;
+    public $user;   //Depreciated
 
     /**
      * The base URL to use while testing the application.
@@ -16,10 +16,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
-   
+
+
+  //  protected $paywallOn; Depreciated
+
     protected $settings = [];
-  
-  
+    protected $env = [];
+
     protected $files = array(
         'test.png' =>
             [
@@ -43,46 +46,67 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
             ]
     );
 
-
     public function setSettings($temporarySettings){
         foreach($temporarySettings as $key => $value){
-            $this->settings[$key] = Setting::get($key); //Getting the before value
-            Setting::set($key,$value);
+            $this->settings[$key] = \App\Setting::get($key); //Getting the before value
+            \App\Setting::set($key,$value);
         }
-        Setting::save();
+        \App\Setting::save();
     }
-  
+
+
+
+
     public function restoreSettings(){
+
         foreach($this->settings as $key => $value){
-            $this->settings[$key] = Setting::get($key);
-            Setting::set($key,$value);
+            if($value == null){
+                \App\Setting::forget($key);
+            } else {
+
+                $this->settings[$key] = \App\Setting::get($key);
+                \App\Setting::set($key,$value);    
+            }            
         }
-        Setting::save();
+
+        \App\Setting::save();
         $this->settings = [];
     }
 
     public function setEnv($temporaryEnv){
         foreach($temporaryEnv as $key => $value){
-            \Config::set($key,$value);
+            $this->env[$key] = getenv($key); //Getting the before value
+            putenv("$key=$value");
         }
     }
 
+    public function restoreEnv(){
+        foreach($this->env as $key => $value){
+            putenv("$key=$value");
+        }
+        $this->env = [];
+    }
 
     public function setUp(){
         parent::setUp();
+
         foreach(\File::files(base_path("storage/logs")) as $filename){
             File::delete($filename);
         }
 
-        $this->setEnv(['mail.driver'=>'log']);
+        //$this->clearLocalDevices();
+        \Config::set('mail.driver', 'log');
     }
-
 
     public function tearDown(){
         if(!empty($this->settings)){
             $this->restoreSettings();
         }
-        
+
+        if(!empty($this->env)){
+            $this->restoreEnv();
+        }
+
         parent::tearDown();
     }
 
@@ -95,106 +119,119 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         ini_set('memory_limit','1028M');
+
         $app = require __DIR__.'/../bootstrap/app.php';
+
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
         return $app;
     }
-
 
     public function signIn($user = null){
         if(!$user){
             $user = factory(App\User::class)->create();
         }
+
         $this->user = $user;
+
         $this->actingAs($this->user);
+
         return $this;
     }
 
 
     public function signInAsAdmin($user = null){
         $this->signIn($user);
+
         $this->user->addUserRoleByName('administrator');
+
         return $this;
     }
 
 
     public function signInAsPermissionedUser($permissionName){
+        if(!is_array($permissionName)){
+            $permissionName = [$permissionName];
+        }
+
         $role = Role::create([
-               'name'  => random_int(1000, 9999)."role_can_".$permissionName
+               'name'  => random_int(1000, 9999)."role_can_".$permissionName[0]
         ]);
-        $permission = Permission::where(['name'=>$permissionName])->first();
-        
-        $role->attachPermission($permission);
+   
+        foreach ($permissionName as $value) {
+            $permission = Permission::where(['name'=>$value])->first();
+            $role->attachPermission($permission);
+        }
+
         $this->signIn();
+
         $this->user->attachRole($role);
+
+        $free = \App\Role::called('free');
+                  
+        if($free){
+            $this->user->detachRole($free);            
+        }
+
         return $this;
     }
-  
+
+
+    public function signInAsPermissionlessUser(){
+        $this->signInAsPermissionedUser('role-with-no-permission');
+        return $this;
+    }
+
+
+
+    /**
+     * Kind of stupid function that can probably be fixed
+     * @return User The user
+     */
+    public function signInAsSubscriber(){
+
+        $user = createUserWithStripePlan();
+
+        $user->addUserRoleByName('subscriber');
+
+        $this->signIn($user);
+
+        return $this;
+
+    }
+
 
     public function signInAsRole($role){
         if(!$this->user){
             $this->signIn();
         }
+
         $this->user->addUserRoleByName($role);
+
         return $this;
     }
-
 
     public function getAnUploadedFile($filename = "test.png"){
         $faker = \Faker\Factory::create();
         $user = factory(App\User::class)->create();
+
         return [
             'file'  =>  new \Symfony\Component\HttpFoundation\File\UploadedFile(
-                base_path("tests/File/$filename"), $filename, $this->files[$filename]['type'], 12000, null, TRUE
+                base_path("tests/unit/File/$filename"), $filename, $this->files[$filename]['type'], 12000, null, TRUE
             ),
             'description'   => $faker->sentence,
             'user_id' =>        $user->id
         ];
-       
     }
 
-
-
-    public function assertHTTPExceptionStatus($expectedStatusCode, Closure $codeThatShouldThrow)
-    {
-        try 
-        {
-            $codeThatShouldThrow($this);
-            $this->assertFalse(true, "An HttpException should have been thrown by the provided Closure.");
-        } 
-        catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) 
-        {
-            // assertResponseStatus() won't work because the response object is null
-            $this->assertEquals(
-                $expectedStatusCode,
-                $e->getStatusCode(),
-                sprintf("Expected an HTTP status of %d but got %d.", $expectedStatusCode, $e->getStatusCode())
-            );
+    public function clearLocalDevices(){
+        //Clear out local devices
+        $devices = Device::where('ip_address','=','127.0.0.1')->get();
+        foreach($devices as $device){
+            $device->delete();
         }
     }
 
-
-
-    public function getTokenForUser($user)
-    {
-        if (Auth::user()){
-            Auth::logout();
-        }
-
-        Auth::loginUsingId($user->id);
-
-        $this->post( '/authenticate',['email' => $user->email,'password' => 'abcd1234']);
-
-        $content = json_decode($this->response->getContent());
-
-        if(!$content){
-            echo "here";
-            dd($this->response->getContent());
-        }
-        $this->assertObjectHasAttribute('token', $content, 'Token does not exists');
-
-        return $this;
-    }
 
   /**
      * Assert that the client response has a given code.
@@ -214,19 +251,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
 
         if($actual!=200){
-            $message = "A request to failed to get expected status code. Received status code [{$actual}].";
+            $message = "A request failed to get expected status code [$code]. Received status code [{$actual}].";
 
             $responseException = isset($this->response->exception)
                     ? $this->response->exception : null;
-
 
             if ($responseException instanceof \Illuminate\Validation\ValidationException){
                 $message .= response()->json($responseException->validator->getMessageBag(), 400);
             }
              
             throw new \Illuminate\Foundation\Testing\HttpException($message, null, $responseException);
-            
-
 
             return $this;
         }
@@ -236,9 +270,9 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $this;
     }
 
- 
 
     ////////// APITestCase Workings
+
 
     /**
      * Posts a model with the given fields and checks that the status code matches

@@ -1,7 +1,6 @@
 <?php
-
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Comment;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
