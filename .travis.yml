@@ -7,11 +7,11 @@ php:
   - 7.0
 
 before_install:
-  - ./travis/travis_mysql_5.7.sh
-  - ./travis/mysql-reset-root-password.sh
+  - ./scripts/travis_mysql_5.7.sh
+  - ./scripts/mysql-reset-root-password.sh
 
 before_script:
-  - cp .env.travis .env
+  - cp ./scripts/.env.travis ./.env
   - mysql -u root -e 'create database forge;'
   - composer self-update
   - composer install --no-interaction
