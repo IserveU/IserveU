@@ -38,7 +38,7 @@ class Motion extends NewApiModel {
 	 * @var array
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'MotionOpenForVoting','closing','user_vote','user_id'.
+						  /*'motion_open_for_voting',*/'closing',/*'user_vote',*/'user_id'.
 						  'status','updated_at','slug'];
 	
 
@@ -46,21 +46,9 @@ class Motion extends NewApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['MotionOpenForVoting','user_vote'];
+    protected $appends = [/*'motion_open_for_voting'*//*,'user_vote'*/];
 
   
-
-	/**
-	 * The variables that are required when you do an update
-	 * @var array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * Fields that are unique so that the ID of this field can be appended to them in update validation
-	 * @var array
-	 */
-	protected $unique = ['title'];
 
 	/**
 	 * The fields that are dates/times
@@ -68,11 +56,6 @@ class Motion extends NewApiModel {
 	 */
 	protected $dates = ['created_at','updated_at','closing'];
 
-	/**
-	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
-	 * @var array
-	 */
-	protected $locked = ['title','text'];
 
 	protected $attributes = [
 		'title'		=> 	'New Motion',
