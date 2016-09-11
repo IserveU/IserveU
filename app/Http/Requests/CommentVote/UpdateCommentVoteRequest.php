@@ -23,6 +23,8 @@ class UpdateCommentVoteRequest extends Request
         }
 
          if(!Auth::user()->can('create-comment_vote')){
+                    dd(Auth::user()->can('create-comment_vote'));
+
             return false; //abort(401,'You do not have permission to vote on a comment');
         }
 

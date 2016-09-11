@@ -8,7 +8,6 @@
 /public/fonts/*
 /resources/bower/*
 /storage/logs/*
-
 .idea
 
 _ide_helper.php
