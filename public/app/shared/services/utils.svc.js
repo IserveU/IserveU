@@ -4,25 +4,33 @@
 
 	angular
 		.module('iserveu')
-		.service('utils', ['$filter', utils]);
+		.factory('utils', ['$filter', utils]);
 
 	function utils($filter) {
 
-		this.capitalize = function(string) {
+		function capitalize(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
-		this.toTitleCase = function(str) {
-		    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		var date = {
+			stringify: function(date) {
+				if( date instanceof Date )
+					return $filter('date')(date, "yyyy-MM-dd HH:mm:ss");
+				return this.parse(date);
+			},
+			parse: function(date) {
+				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
+			}
 		}
 
-		this.isElementInViewport = function(el) {
+		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
+		function clearArray(array) {
+			return array.splice(0, array.length);
+		}
 
-		    if ( nullOrUndefined(el) )
-		    	return 0;
-
-		    if (typeof jQuery === "function" && el instanceof jQuery) {
-		        el = el[0];
+		function isElementInViewport(el) {
+		    if ( nullOrUndefined(el) ){
+		    	return false;
 		    }
 
 		    var rect = el.getBoundingClientRect();
@@ -35,41 +43,35 @@
 		    );
 		}
 
-		// Service recommendation 
-		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
-		this.clearArray = function(array) {
-			return array.splice(0, array.length);
-		}
-
-		this.nullOrUndefined = nullOrUndefined;
 		function nullOrUndefined (val) {
-			return !val || angular.isUndefined(val)
-		}
-	
-		this.date = {
-			stringify: function(date) {
-				if( date instanceof Date )
-					return $filter('date')(date, "yyyy-MM-dd HH:mm:ss");
-				return this.parse(date);
-			},
-			parse: function(date) {
-				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
-			}
+			return val === null || angular.isUndefined(val);
 		}
 
-		this.parseStringToObject = function() {
-			return function(json_string, obj, path) {
-				var parsed_string = JSON.parse(json_string);
-				return obj = path ? parsed_string[path] : parsed_string;
-			};
-		}
-
-		this.objectIsEmpty = function(obj) {
+		function objectIsEmpty(obj) {
 			return Object.keys(obj).length === 0;
 		}
 
-		
-	}
+		function parseStringToObject() {
+			return function(json_string, obj, path) {
+				var pars_str = JSON.parse(json_string);
+				return obj = path ? pars_str[path] : pars_str;
+			};
+		}
 
+		function toTitleCase(str) {
+		    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		}
+		
+		return { 
+			capitalize: capitalize,
+			date: date,
+			clearArray: clearArray,
+			isElementInViewport: isElementInViewport,
+			parseStringToObject: parseStringToObject,
+			nullOrUndefined: nullOrUndefined,
+			objectIsEmpty: objectIsEmpty,
+			toTitleCase: toTitleCase
+		}
+	}
 
 })();

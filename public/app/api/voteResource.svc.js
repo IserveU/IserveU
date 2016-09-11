@@ -23,26 +23,28 @@
 			}
 		});
 
-		var Vote = $resource('api/vote/:id', {ignoreLoadingBar:'@true'}, {
-	        'update': {
-	        	 method:'PUT',  
-	        	 ignoreLoadingBar: true 
-        	}
-	    });
+		var UpdateVote = $resource('api/vote/:id', {}, {
+			'update': {
+	        	method:'PUT',  
+	        	ignoreLoadingBar: true 
+			}
+		});
+
+		var Vote = $resource('api/motion/:motion_id/vote/:id', {ignoreLoadingBar:'@true'});
 
 	    /*****************************************************************
 	    *
 	    *	Server-side functions.
 	    *
 	    ******************************************************************/
-
+ 
 
 	    /**
 	    *	
 	    * 	@params: {user_id: number, motion_id: number, position: number}
 	    */
 		function castVote(data) {
-			return Vote.save(data).$promise.then(function(success) {
+			return Vote.save({motion_id:data.motion_id}, {position: data.position}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -54,7 +56,7 @@
 	    * 	@params: {id: number, user_id: number, motion_id: number, position: number}
 	    */
 		function updateVote(data) {
-			return Vote.update({id:data.id}, data).$promise.then(function(success) {
+			return UpdateVote.update({id:data.id}, {position: data.position}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);

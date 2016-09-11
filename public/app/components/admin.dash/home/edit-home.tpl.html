@@ -2,11 +2,7 @@
 	<md-card-content layout-padding>
 	<form name="editHome" ng-submit="edit.save()">
 	
-		<md-input-container style="margin-bottom: 0" flex>
-			<input ng-model="edit.settings.home.introduction.title"/>
-		</md-input-container>
-
-		<text-angular ng-model="edit.settings.home.introduction.text" ta-file-drop="taDropHandler"></text-angular>
+		<textarea alloy-editor id="homepage-editor" ng-model="edit.settings.home.introduction.text"></textarea>
 
 		<spinner layout layout-align="center end"
 				 form-name="editHome" name="'Save'" on-hide="edit.settings.saving"

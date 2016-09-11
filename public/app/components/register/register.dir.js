@@ -2,25 +2,27 @@
 	
 	angular
 		.module('iserveu')
-		.directive('registerForm', ['communityIndex', 'loginService', registerForm]);
+		.directive('registerForm', [
+			'communityResource', 
+			'loginService',
+		registerForm]);
 
-	function registerForm(communityIndex, loginService) {
+	function registerForm(communityResource, loginService) {
 
 		return {
 			controller: function() {
-
-				this.community = communityIndex;
-				communityIndex.loadAll();
-
+				var self = this;
+				
+				communityResource.getCommunities().then(function(results) {
+					self.communityIndex = results.data; 
+				});
 			},
 			controllerAs: 'register',
 			templateUrl: 'app/components/register/register.tpl.html',
 			link: function (scope, el, attrs) {
-
 				scope.$on('$destroy', function() {
 					loginService.creating = false;
 				});
-
 			}
 		}
 

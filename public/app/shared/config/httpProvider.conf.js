@@ -8,26 +8,22 @@
 
 	function($httpProvider){
 
+
 		$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"; // for AJAX
-		// $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = localStorage.getItem('api_token');
 
 		$httpProvider.interceptors.push(['$q', '$injector', function($q, $injector) {
 		    return {
 		      'request': function(config) {
-
-
 		      	// LARAVEL HACK
 		      	if(config.method === "PATCH" || config.method === "PUT") {
 			      	config.transformRequest = transformToFormData;
-		      		config.headers[ "Content-Type" ] = undefined;
-		      		config.headers["X-HTTP-Method-Override"] = "PATCH";
+			      	config.headers["Content-Type"] = undefined;
+			      	config.headers["X-HTTP-Method-Override"] = "PATCH";
 		      		config.method = "POST";
 		      	}
 
-		      	if(config.method !== "GET") {
-		      		config.params = config.params || {};
-		      		config.params.api_token = localStorage.getItem('api_token');
-		      	}
+		      	// probably not the best place to do this
+		      	config.headers["Authorization"] = "Bearer " + localStorage.getItem('api_token');
 
 		        return config || $q.when(config);
 		      },
@@ -35,6 +31,17 @@
 		        return config || $q.when(config);
 		      },
 		      'responseError': function(config) {
+		      	
+				var ERROR_CODES = [400, 403, 405, 500];
+		      	var toast = $injector.get("ToastMessage");
+		      
+		      	if(ERROR_CODES.includes(config.status)){
+			      	toast.report_error(config.data);
+		      	} else if(config.status === 401 && config.statusText === "Unauthorized"){
+			      	var loginService = $injector.get("loginService");
+			      	// loginService.clearCredentials();
+		      	}
+
 		      	return $q.reject(config);
 		      }
 		    };
@@ -47,7 +54,6 @@
 		*/
 		function transformToFormData(data, getHeaders) {
 			var _fd = new FormData();
-
             angular.forEach(data, function (val, key) {
             	if(val === null || 
             	   val === '' || 

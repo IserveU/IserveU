@@ -5,43 +5,56 @@
 	angular
 		.module('iserveu')
 		.controller('loginController', [
+			'$scope',
+			'authResource', 
 			'loginService', 
-			'auth', 
 			'resetPasswordService', 
 			'ToastMessage',
-			'utils',
 		login]);
 
-	function login(loginService, auth, resetPasswordService, ToastMessage, utils) {	
+	function login($scope, authResource, loginService, resetPasswordService, ToastMessage) {	
 
-		this.service = loginService;
+	    /*****************************************************************
+	    *
+	    *	Public Functions
+	    *
+	    ******************************************************************/
 
-		/** exports functions to local scope (binded to 'this') */
-		this.extendRegisterForm = extendRegisterForm;
-		this.forgotPassword = forgotPassword;
-		this.sendResetPassword = sendResetPassword;
+	    /** Global context for this */
+	    var self = this;
+
+		self.extendRegisterForm = extendRegisterForm,
+		self.forgotPassword = showForgotPassword,
+		self.passwordreminder = false,
+		self.registerform = false,
+		self.sendResetPassword = sendResetPassword,
+		self.service = loginService
 
 		function extendRegisterForm() {
-			this.registerform = !this.registerform;
-		};
+			self.registerform = !self.registerform;
+		}
 
-		function forgotPassword() {
-			this.passwordreminder = !this.passwordreminder;
-		};
+		function showForgotPassword() {
+			self.passwordreminder = !self.passwordreminder;
+		}
 
 		function sendResetPassword(){
-			auth.getResetPassword( loginService.credentials ).then(function(r) {
-
+			authResource.resetPassword( loginService.credentials ).then(function(results) {
 				ToastMessage.simple('Your email has been sent!');
+			});
+		}
+    
+	    /*****************************************************************
+	    *
+	    *	Initialization
+	    *
+	    ******************************************************************/
 
-			}, function(e) { console.log(e); });
-		};
-
-
-		/** Initializes data, and also resets on state change. */
-
-		loginService.loggingIn = false;
-		resetPasswordService.check();
+		(function init() {
+			// loginService.clearCredentials();
+			loginService.loggingIn = false;
+			resetPasswordService.check();
+		})();
     }
 
 }());

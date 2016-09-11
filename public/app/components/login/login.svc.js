@@ -4,105 +4,123 @@
 
 	angular
 		.module('iserveu')
-		.factory('loginService', ['$rootScope', 'auth', 'afterauth', 'ToastMessage',
-			loginService]);
+		.factory('loginService', [
+			'$rootScope',
+			'$timeout',
+			'authResource', 
+			'ToastMessage',
+			'utils',
+			'redirectService',
+			'motionIndex',
+		loginServiceFactory]);
 
   	 /** @ngInject */
-	function loginService($rootScope, auth, afterauth, ToastMessage) {
+	function loginServiceFactory($rootScope, $timeout, authResource, ToastMessage, utils, redirectService, motionIndex) {
 
-		var factory = {
-			creating: false,
-			loggingIn: false,
+		var Login = {
+			creating:       false,
+			loggingIn:      false,
 			publicComputer: false,
-			authError: false,
-			credentials: { email: '', password: '' },
-			newUser: { first_name: '',
-					   last_name: '',
-				       email: '',
-				       community_id: '',
-					   password: '',
-					   agreement_accepted: 1 },
-			errors: { emailNotValid: false,
-					  invalidCredentials: false,
-					  invalidEmail: false,
-					  accountLocked: false },
-			createUser: createUser,
-			login: login,
+			authError:      false,
+			credentials:  { email: '', 
+					   	    password: '' 
+						  },
+			newUser:      { first_name: '',
+					        last_name: '',
+				            email: '',
+				            community_id: '',
+					        password: '',
+					        agreement_accepted: true
+					      },
+			errors:       { emailNotValid: false,
+					        invalidCredentials: false,
+					        invalidEmail: false,
+					        accountLocked: false,
+					        default: {}
+					      },
+			clearCredentials: clearCredentials,
+			createUser:   register,
+			login:        login
 		};
+
+		function clearCredentials(redirect) {
+			$rootScope.authenticatedUser = null;
+			$rootScope.userIsLoggedIn = false;
+			localStorage.clear();
+			motionIndex.clear();
+
+			if(redirect) {
+				redirectService.onLogout();
+			}
+		}
 
 		function login(credentials) {
 
-			factory.loggingIn = true;
+			Login.loggingIn = true;
 
-			auth.login( credentials )
-				.then(function(r) {
-
-				successHandler(r.data.user, r.data.api_token);
-			
-			}, function(e) {
-
-				factory.loggingIn = false;
-				errorHandler( e.data );
-			
+			authResource.login( credentials ).then(function(results) {
+				successHandler( results.data );
+			}, function(error) {
+				Login.loggingIn = false;
+				errorHandler( error.data );
 			});		
 		};
 
-		function createUser() {
+		function register() {
 
-			factory.creating = true;
+			Login.creating = true;
 			
-			auth.postUserCreate( factory.newUser )
-				.then(function(r){
-				
-				successHandler(r.data.user, r.data.api_token);
-			
-			}, function(e) {
+			authResource.register( Login.newUser ).then(function(results){
+				successHandler( results.data );			
+			}, function(error) {
+				Login.creating  = false;
+				Login.authError = true;
 
-				factory.creating = false;
-				errorHandler( e.data );
-				factory.authError = true;
-
+				errorHandler( error.data );
 			});
 		};
 
-		function successHandler(user, token) {
+		function successHandler(user) {
 
+			$rootScope.userIsLoggedIn    = true;
 			$rootScope.authenticatedUser = user;
-			
-			afterauth.setLoginAuthDetails(user, token);
 
-			localStorage.setItem('public_computer', factory.publicComputer);
+			localStorage.setItem( 'api_token', user.api_token );
+			localStorage.setItem( 'user', JSON.stringify(user) );
+			localStorage.setItem( 'public_computer', Login.publicComputer );
+
+			$timeout(function() { redirectService.redirect() }, 250 );
 		}
 
+		function errorHandler(responseError) {
+			for (var i in Login.errors) // resets all erorrs
+				Login.errors[i] = false;
 
-		function errorHandler(message) {
-			
-			for (var i in factory.error) 
-				factory.error[i] = false;
+			var error = responseError.error.toLowerCase();
 
-			console.log(message);
-
-			if( message.error == "Invalid credentials" ){
-				factory.errors.invalidCredentials = true;
-			}
-			else if(message.error == "Email address not in database"){
-				factory.errors.invalidEmail = true;
-			}
-			else if(angular.isString(message.error) && message.error.substr(0, 17) == 'Account is locked'){
-				factory.errors.accountLocked = true;
-			}
-			else if( angular.isArray(message.error) ){
-				for(var i in message.error){
-					if(message.error[i] == "validation.unique" )
-						factory.errors.emailNotValid = true;
-				}
-			}
-			else {
-				ToastMessage.report_error(message);
+			switch(error) {
+				case "invalid credentials":
+					Login.errors.invalidCredentials = true;
+					break;
+				case "email address not in database":
+					Login.errors.invalidEmail = true;
+					break;
+				case "account is locked":
+					Login.errors.accountLocked = true;
+					break;
+				case "validation.unique":
+					Login.errors.emailNotValid = true;
+					break;
+				default:
+					Login.errors.default = {
+						show: true,
+						message: responseError.message
+					}
+					break;
 			}
 		};
 
-		return factory;
+		return Login;
 	}
 
 

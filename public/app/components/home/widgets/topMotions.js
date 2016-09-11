@@ -2,35 +2,27 @@
 	
 	angular
 		.module('iserveu')
-		.directive('topMotions', ['homeResource', 'homePageService', topMotions]);
+		.directive('topMotions', ['homeResource', 'utils', topMotions]);
 
-	function topMotions(homeResource, homePageService) {
+	function topMotions(homeResource, utils) {
 
 		function topMotionsController() {
 			
 			var self = this;
 
 			self.loading = true;
+			self.motionList = {};
 
-			function init() {
-
-				if(homePageService.topMotions.length > 0){
-					self.loading = false;
-					self.motionList = homePageService.topMotions;
-					return true;
-				}
-
+			(function init() {
 				homeResource.getTopMotion().then(function(results) {
+					var motions = results.data.data;					
 					self.loading = false;
-					self.motionList = homePageService.topMotions = results.data;
+					self.motionList = utils.objectIsEmpty(motions) ? false : motions;
 				}, function(error) {
 					self.loading = false;
 					throw new Error("Unable to retrieve top motion.");
 				});
-			}
-
-			init();
-
+			})();
 		}
 
 
