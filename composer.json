@@ -9,7 +9,7 @@
 		"league/csv": "~7.0",
 		"zizaco/entrust": "dev-master",
 		"guzzlehttp/guzzle" : ">=4.0|<7.0",
-        "sofa/eloquence": "~5.2@dev",
+        "sofa/eloquence": "5.3.*",
 		"felixkiss/uniquewith-validator": "2.*",
 		"fzaninotto/faker": "^1.5",
 		"pda/pheanstalk": "~3.0",
@@ -17,7 +17,7 @@
 		"spatie/laravel-backup": "^2.5",
 		"flow/jsonpath": "~0.3",
 		"anlutro/l4-settings": "^0.4.7",
-		"predis/predis": "^1.0",
+		"predis/predis": "^1.1",
 		"cviebrock/eloquent-sluggable": "^4.0"
 	},
 	"require-dev": {
