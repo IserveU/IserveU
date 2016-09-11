@@ -4,58 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Setting;
-use App\Http\Requests\StoreSetting;
-use App\BackgroundImage;
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\Setting\UpdateSettingRequest;
+use App\Setting;
 
 class SettingController extends ApiController
 {
 
-  /**
-     * SettingController middleware
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('setting.autosave'); 
-    }
-
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response    Returns a JSON of all the settings
      */
     public function index()
     {
-        return Setting::all();
+         return Setting::all();
     }
 
+  
     /**
-     * Creating the default settings.
+     * Update a Value in the settings
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request     $request  The PUT data in JSON
+     *                                                "key"   : leave empty if the setting you want
+     *                                                          to modify isn't in an array/object
+     *
+     *                                                "Value" : The new Value to give to your key
+     *
+     * @param  int                          $id         Key of the setting
+     *                                                  to modify
+     *
+     *
+     * @return \Illuminate\Http\Response    Returns a Json telling you if the
+     *                                      changes were successful or not
      */
-    public function create()
+    public function update(UpdateSettingRequest $request, $id)
     {
-      
+        // big hack
+        if(is_null($request->input('key'))){
+            $key = $id;
+        } else {
+            $key = $id . '.' . $request->input('key');
+        }
+
+        $value = $request->input('value');
+
+        return Setting::update($key, $value) ?
+            response()->json(array(
+                    'message' => 'setting saved.'
+                ), 200) :
+            response()->json(array(
+                'message' => 'key missing.'
+            ), 400);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        Setting::set( $request->input('name'), $request->input('value') );
-
-        return Setting::all();
+    public function spa(){
+        return \Theme::view('setting.directive');
     }
 
-   
+ 
 }

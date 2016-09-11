@@ -24,7 +24,7 @@ use Redis;
 use Event;
 use Mail;
 use DB;
-use Setting;
+use App\Setting;
 
 use App\Role;
 

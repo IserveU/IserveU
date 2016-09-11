@@ -23,15 +23,13 @@ Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
-
-// where is this being used?
 Route::get('background_image', 'BackgroundImageController@index');
 
-// rename api/file
-Route::resource('file', 'FileController');
 
-// rename api/setting
-Route::resource('setting', 'SettingController');
+Route::get('setting', 'SettingController@index');
+Route::group(['middleware' => ['auth','role:administrator']], function () {
+    Route::resource('setting', 'SettingController',['only'=>['update']]);
+});
 
 // merge two of these
 Route::get('/settings', function(){
