@@ -69,21 +69,17 @@ class CommentController extends ApiController {
 	 * @return Response
 	 */
 	public function store(StoreCommentRequest $request){
-	
-		$comment = Comment::onlyTrashed()
-					->where('vote_id', $request->input('vote_id'))
-					->where('user_id',Auth::user()->id)->first();
-		
-		if($comment){
-			$comment->forceDelete();
-		}
-		
+	    
+	    //Move into a validation method
+        $vote = \App\Vote::with('comment')->findOrFail($request->input('vote_id'));
+        if($vote->comment){
+            return  response(["error"=>"Already Commented","message"=>"You have already voted and should instead edit your vote"],400); 
+        }
+
 		$comment = new Comment($request->all());
 		$comment->vote_id = $request->input('vote_id');
+		$comment->save();
 
-		if(!$comment->save()){
-			abort(403,$comment->errors);
-		}
 		return $comment;
 	}
 
@@ -109,9 +105,7 @@ class CommentController extends ApiController {
 		
 		$comment->fill($request->except('token'));
 
-		if(!$comment->save()){ //Validation failed show errors
-			abort(403,$comment->errors);
-		}
+		$comment->save();
 
 		return $comment;
 	}

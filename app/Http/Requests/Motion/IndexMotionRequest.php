@@ -23,13 +23,13 @@ class IndexMotionRequest extends Request
 
         //If you're not an admin and haven't set a status, these are the defaults
         if(!$this->has('status')){
-            $this['status'] = [2,3];
+            $this['status'] = ['published','closed'];
            // $this->request->add(['status'=>[2,3]]); Didn't work
             return true;
         } 
 
 
-        if(array_intersect([0,1],$this->input('status'))){
+        if(array_intersect(['draft','review'],$this->input('status'))){
             if(!Auth::check() ){
                 return false;
             }
@@ -60,7 +60,8 @@ class IndexMotionRequest extends Request
             'newest'            =>  'boolean',
             'oldest'            =>  'boolean',
             'status'            =>  'array',
-            'user_id'           =>  'exists:users,id'
+            'user_id'           =>  'exists:users,id',
+            'limit'             =>  'integer'
         ];
     }
 }

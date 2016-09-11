@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
 
 use App\Vote;
+use App\Motion;
+use App\Http\Requests\Vote\StoreUpdateVoteRequest;
 
 class MotionVoteController  extends ApiController{
     /**
@@ -15,8 +18,10 @@ class MotionVoteController  extends ApiController{
      *
      * @return Response
      */
-    public function index($motion)
+    public function index(Motion $motion)
     {
+
+      //  return $motion->votes;
 
         $passiveVotes = Vote::where('motion_id',$motion->id)->cast()->passive()->get()->groupBy('deferred_to_id');
 
@@ -36,76 +41,28 @@ class MotionVoteController  extends ApiController{
             $votesCount[strval($id)]['active']['number'] = $count;
             $votesCount[strval($id)]['active']['percent'] = floor(($count/$totalVotes)*100);
         }
-        
-        
-
-
+       
         return $votesCount;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Motion $motion, StoreUpdateVoteRequest $request)
+    {   
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $vote  = Vote::updateOrCreate([
+            'motion_id' =>  $motion->id,
+            'user_id'   =>  Auth::user()->id            
+        ],[
+            'motion_id' =>  $motion->id,
+            'user_id'   =>  Auth::user()->id,
+            'position'  =>  $request->input('position')
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $vote;
     }
 }

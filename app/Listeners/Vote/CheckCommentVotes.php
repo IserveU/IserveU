@@ -22,7 +22,7 @@ class CheckCommentVotes
     }
 
     /**
-     * Handle the event.
+     * Update the comment votes cast by the user
      *
      * @param  VoteUpdated  $event
      * @return void
@@ -47,12 +47,8 @@ class CheckCommentVotes
         $newCommentVotes    =   CommentVote::where('vote_id',$vote->id)->onCommentsOfPosition($vote['position'])->restore(); //Comment Votes Cast by this user the new way
 
         if($vote->comment){
-            //echo $original['position']; Can not figure this out, just want to delete the 
-          //  DB::enableQueryLog();
-            //$commentsToDelete = CommentVote::where('comment_id',$vote->comment->id)->onCommentsOfPosition($original['position'])->notUser($vote->user_id)->delete(); // Delete the comment votes of this User
-           // return $commentsToDelete;
-            CommentVote::where('comment_id',$vote->comment->id)->forceDelete(); // Delete the comment votes of this User
-          //  print_r(DB::getQueryLog());
+            // Delete the comment votes on this users comments
+            CommentVote::where('comment_id',$vote->comment->id)->forceDelete(); 
         }
   
         return true;

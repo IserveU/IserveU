@@ -132,7 +132,9 @@
 				if( userVote && userVote.position != button.value && userVote.position != null) {
 					voteResource.updateVote({
 						id: userVote.id,
-						position: button.value
+						motion_id: motion.id,
+						position: button.value,
+						user_id: $rootScope.authenticatedUser.id
 					}).then(function(results) {
 
 						angular.forEach(self.buttons, function(type, key){
@@ -152,7 +154,8 @@
 				else {
 					voteResource.castVote({
 						motion_id: motion.id,
-						position: button.value
+						position: button.value,
+						user_id: $rootScope.authenticatedUser.id
 					}).then(function(results) {
 
 						button.icon = angular.copy(button.activeIcon);
