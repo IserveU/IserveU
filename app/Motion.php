@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Auth;
 use Carbon\Carbon;
-use Setting;
+use App\Setting;
 
 use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;

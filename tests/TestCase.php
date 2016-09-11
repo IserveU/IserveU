@@ -8,7 +8,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
 
 
-    protected $user;
+    public $user;   //Depreciated
 
     /**
      * The base URL to use while testing the application.
@@ -168,9 +168,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->user->attachRole($role);
 
         $free = \App\Role::called('free');
-        $this->user->detachRole($free);
-
-
+                  
+        if($free){
+            $this->user->detachRole($free);            
+        }
 
         return $this;
     }
@@ -250,7 +251,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
 
         if($actual!=200){
-            $message = "A request to failed to get expected status code. Received status code [{$actual}].";
+            $message = "A request failed to get expected status code [$code]. Received status code [{$actual}].";
 
             $responseException = isset($this->response->exception)
                     ? $this->response->exception : null;

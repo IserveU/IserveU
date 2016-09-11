@@ -1,8 +1,6 @@
 <?php 
 namespace App;
 
-//use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
 

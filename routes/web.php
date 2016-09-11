@@ -15,7 +15,7 @@ use App\BackgroundImage;
 
 Route::get('/', function() {
 	return view('index');
-});
+})->name('home');
 
 Validator::extend('notRequired', 'CustomValidation@notRequired');
 
@@ -23,68 +23,64 @@ Route::post('authenticate', 'AuthenticateController@authenticate');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
 
-Route::get('background_image', 'BackgroundImageController@index');
-
-
-Route::get('setting', 'SettingController@index');
-Route::group(['middleware' => ['auth','role:administrator']], function () {
-    Route::resource('setting', 'SettingController',['only'=>['update']]);
-});
-
-// merge two of these
-Route::get('/settings', function(){
-	
-	$user = null;
-	
-	return Setting::all();
-});
-
 
 Route::group(['prefix' => 'api'], function(){				
+	
+	//User
+	Route::resource('user', 'User\UserController');
+	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]); 
+	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]); 
+	Route::resource('user.role', 'User\UserRoleController',['only'=>['index','store','update','destroy']]); 
 
+	//Vote
+	Route::resource('vote', 'Vote\VoteController', ['only'=>['index','show','update','destroy']]);
+	Route::resource('vote/{vote}/comment','Vote\VoteCommentController', ['only'=>['store']]);
 
-	Route::resource('comment', 'CommentController');
-	Route::resource('community', 'CommunityController');
-	Route::resource('department', 'DepartmentController');
-	Route::resource('file', 'FileController');
-	Route::resource('ethnic_origin', 'EthnicOriginController');
+	//Comment
+	Route::get('comment/{id}/restore','Comment\CommentController@restore'); //Could add deleted status and update it
+	Route::resource('comment', 'Comment\CommentController',['except'=>['store']]);
+	Route::resource('comment/{comment}/comment_vote','Comment\CommentCommentVoteController',['only'=>['store']]);
 
-	Route::resource('motion', 'MotionController');
-	Route::resource('motion/{motion}/comment','MotionCommentController',['only'=>['index']]);
-	Route::resource('motion.motionfile','MotionFileController');
+	//Comment Vote
+	Route::resource('comment_vote', 'CommentVote\CommentVoteController',['except'=>['store']]);
 
+	//Motion
+	Route::resource('motion/{motion}/vote','Motion\MotionVoteController', ['only'=>['index','store']]);
+	Route::resource('motion/{motion}/comment','Motion\MotionCommentController',['only'=>['index']]);
+	Route::get('motion/{id}/restore','Motion\MotionController@restore');
+	//Route::resource('motion.motionfile','Motion\MotionFileController'); //Should be updated in file rework to share same
+	//Route::post('motionfile/flowUpload', 'Motion\MotionFileController@flowUpload');  //Should be updated in file rework to share same
+	Route::resource('motion', 'Motion\MotionController');
+
+	//Page
 	Route::resource('page', 'PageController');
-	Route::resource('setting', 'SettingController');
-	Route::resource('user', 'UserController');
 
-	Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index']]);
+	//Role
+	Route::resource('role', 'RoleController',['only'=>['index']]); //What is this for?
 
-	Route::group(['middleware' => 'auth:api'], function(){
+	//Setting	
+	Route::resource('setting', 'SettingController',['only'=>['index','update']]);
 
-		Route::resource('comment/{comment}/comment_vote','CommentCommentVoteController',['only'=>['store']]);
-		Route::resource('comment_vote', 'CommentVoteController',['except'=>['store']]);
+	//Administrator only
+	Route::group(['middleware' => ['role:administrator']], function(){
 
-		Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['store']]);
+		//Community
+		Route::resource('community', 'CommunityController');
 
+		//Department
+		Route::resource('department', 'DepartmentController');
+
+		//Ethnic Origin
+		Route::resource('ethnic_origin', 'EthnicOriginController');
+
+		//File
+		//Route::resource('file', 'FileController');
+
+		//Background Image
 		Route::resource('background_image', 'BackgroundImageController');
-
-		Route::get('comment/{id}/restore','CommentController@restore');
-
-		Route::get('motion/{id}/restore','MotionController@restore');
-		Route::post('motionfile/flowUpload', 'MotionFileController@flowUpload');
-
-		Route::resource('role', 'RoleController');
-		
-		Route::resource('user.vote', 'UserVoteController'); //, ['only'=>['index']]);
-		Route::resource('user.comment', 'UserCommentController'); //, ['only'=>['index']]);
-
-		Route::resource('user.role', 'UserRoleController'); 
-
-		Route::resource('vote', 'VoteController');
-		Route::resource('vote/{vote}/comment','VoteCommentController', ['only'=>['store']]);
-
-
-
 	});
+
+
+
 });
 

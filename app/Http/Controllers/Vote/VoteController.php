@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers\Vote;
+use App\Http\Controllers\ApiController;
 
 use App\Http\Requests;
 
@@ -67,6 +69,8 @@ class VoteController extends ApiController {
 	 */
 	public function update(Vote $vote, StoreUpdateVoteRequest $request)
 	{
+		
+
         $vote->update([
         	'position'	=> 	$request->input('position')
         ]);

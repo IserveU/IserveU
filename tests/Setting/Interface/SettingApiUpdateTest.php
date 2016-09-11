@@ -28,7 +28,7 @@ class SettingApiUpdateTest extends TestCase
     /** @test */
     public function update_present_key_suceeds()
     {
-        $this->patch('/setting/testsetting', ['value' => 'false'])
+        $this->patch('/api/setting/testsetting', ['value' => 'false'])
             ->assertResponseStatus(200);
 
     }
@@ -36,7 +36,7 @@ class SettingApiUpdateTest extends TestCase
     /** @test */
     public function update_present_nested_key_suceeds()
     {
-        $this->patch('/setting/testnestedsetting', ['key'=>'nested', 'value' => 'false'])
+        $this->patch('/api/setting/testnestedsetting', ['key'=>'nested', 'value' => 'false'])
             ->assertResponseStatus(200);
     }
 
@@ -46,16 +46,16 @@ class SettingApiUpdateTest extends TestCase
     /** @test */
     public function update_missing_key_fails()
     {
-        $this->put('/api/setting/adadad', ['value' => 'false'])
-            ->assertResponseStatus(400);
+        $this->put('/api/api/setting/adadad', ['value' => 'false'])
+            ->assertResponseStatus(404);
 
     }
 
     /** @test */
     public function update_missing_nested_key_fails()
     {
-        $this->put('/api/setting/notnested', ['key'=>'notexist', 'value' => 'false'])
-            ->assertResponseStatus(400);
+        $this->put('/api/api/setting/notnested', ['key'=>'notexist', 'value' => 'false'])
+            ->assertResponseStatus(404);
 
     }
 

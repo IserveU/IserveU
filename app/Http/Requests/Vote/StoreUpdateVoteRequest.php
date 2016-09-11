@@ -25,7 +25,6 @@ class StoreUpdateVoteRequest extends Request
         if(!$motion){
             $motion = $vote->motion;
         }
-
         return (new VotePolicy())->inputsAllowed($this->input(),$motion,$vote);
 
     }

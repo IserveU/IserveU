@@ -1,5 +1,6 @@
-<?php namespace App\Http\Controllers;
-
+<?php
+namespace App\Http\Controllers\Motion;
+use App\Http\Controllers\ApiController;
 
 use Auth;
 use DB;

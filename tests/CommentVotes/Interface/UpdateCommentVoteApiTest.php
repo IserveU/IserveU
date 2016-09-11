@@ -13,6 +13,7 @@ class UpdateCommentVoteApiTest extends commentvoteApi
     public function setUp()
     {
         parent::setUp();
+        $this->setSettings(['security.verify_citizens',false]);
 
         $this->modelToUpdate = factory(App\CommentVote::class)->create();
 

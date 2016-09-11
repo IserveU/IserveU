@@ -25,7 +25,7 @@ class SettingApiIndexTest extends TestCase
     /** @test */
     public function index_sees_setting_json()
     {   
-        $this->get('/setting')
+        $this->get('/api/setting')
             ->assertResponseStatus(200)
             ->seeJsonEquals(Setting::all());
 

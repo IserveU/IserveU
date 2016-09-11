@@ -11,6 +11,12 @@ use App\Setting;
 class SettingController extends ApiController
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => 'update']);
+        $this->middleware('role:administrator', ['only' => 'update']);
+    }
+
     /**
      * Display a listing of the resource.
      *
