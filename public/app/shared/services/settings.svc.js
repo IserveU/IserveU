@@ -4,13 +4,13 @@
 
 	angular
 		.module('iserveu')
-		.factory('settings', ['$http', 'SETTINGS_JSON', 'auth', 'refreshLocalStorage', 
-			settings]);
+		.factory('settings', ['$http', 'SETTINGS_JSON', 'refreshLocalStorage', 
+			settingsFactory]);
 
   	 /** @ngInject */
-	function settings ($http, SETTINGS_JSON, auth, refreshLocalStorage) {
+	function settingsFactory ($http, SETTINGS_JSON, refreshLocalStorage) {
 
-		var factory = {
+		var Settings = {
 			/**
 			*	Variable to store settings data. Sub-bool is
 			*	front-end spinner.
@@ -28,7 +28,7 @@
 				$http.post('/setting', data).success(function(r){
 
 					refreshLocalStorage.setItem('settings', r);
-					factory.data.saving = false;
+					Settings.data.saving = false;
 
 				}).error(function(e) { console.log(e); });
 			},
@@ -57,14 +57,12 @@
 
 				if ( type === 'palette' )
 					this.saveArray( 'theme', data.assignThemePalette(data) );
-				// else if ( type === 'home')
-				// 	console.log(data);
 				else 
 					this.saveArray( type, data );					
 			}
 		}
 
-		return factory;
+		return Settings;
 
 	}
 

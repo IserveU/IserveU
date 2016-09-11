@@ -27,7 +27,7 @@ angular
 		_load: function() {
 			var self = this;
 
-			if(self._index.length > 0 || self._current_page === self._last_page)
+			if(self._index.length > 0)
 				return false;
 
 			self._paginating = true;
@@ -38,7 +38,7 @@ angular
 				self._index = results.data;
 				self._last_page = results.last_page;
 				self._paginating = false;
-				self._stopPaginating = results.next_page_url ? true : false;
+				self._stopPaginating = results.next_page_url ? false : true;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve initial index of motions.');
@@ -69,14 +69,11 @@ angular
 
 			motionResource.getMotionsIndex(self._next_page).then(function(results) {
 
-				console.log('getMotionsIndex');
-
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = self._index.concat(results.data);
 				self._last_page = results.last_page;
 				self._paginating = false;;
-				self._stopPaginating = results.next_page_url ? true : false;
-
+				self._stopPaginating = results.next_page_url ? false : true;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve next page of motion index.');
@@ -84,7 +81,6 @@ angular
 		},
 
 		nextPage: function(url) {
-			var self = this;
 			return url ? url.slice(-1) : null;
 		},
 

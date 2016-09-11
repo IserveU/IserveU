@@ -8,6 +8,7 @@
 			'$state', 
 			'$stateParams', 
 			'$timeout', 
+			'$translate',
 			'isuSectionProvider', 
 			'Motion',
 			'motionIndex', 
@@ -15,14 +16,11 @@
 			'ToastMessage', 
 			'motionDepartments', 
 			'motionFilesFactory',
-			'errorHandler', 
 			'Authorizer', 
-			'utils', 
-			'SETTINGS_JSON',
-			motionForm]);
+		motionForm]);
 
 	function motionForm($state, $stateParams, $timeout, isuSectionProvider, Motion, motionIndex, motionFileResource, 
-		ToastMessage, motionDepartments, motionFilesFactory, errorHandler, Authorizer, utils, SETTINGS_JSON) {
+		ToastMessage, motionDepartments, motionFilesFactory, Authorizer) {
 
 		function motionFormController($scope) {
 			var self = this;
@@ -30,50 +28,55 @@
 			self.createMotion = $state.current.name == 'create-motion' ? true : false;
 			self.departments = motionDepartments;
 			self.existingMotionFiles = [];
-	        self.motion = { closing: new Date(+new Date + 12096e5), status: 0 };
+	        self.motion = new Motion({ closing: new Date(+new Date + 12096e5), status: 'draft' });
 			self.motionFile  = motionFilesFactory;
 			self.motionFiles = [];
 			self.processing = false;
+			self.cancel = cancel;
+			self.triggerSpinner = triggerSpinner;
+			self.successHandler = successHandler;
 
-	        self.cancel = function() {
+	        function cancel() {
 	        	ToastMessage.cancelChanges(function(){
 	        		self.createMotion ? $state.go('dashboard') : $state.go('motion', {id: self.motion.id});
         		});
 	        };
 
-	        self.successHandler = function(r) {
-
+	        function successHandler(r) {
 	            motionFilesFactory.attach(r.id, self.motionFiles);
 	            motionIndex.reloadOne( Motion.build(r) );
 
-	            if(Authorizer.canAccess('edit-motion'))
+	            if(motion.id) {
+	            	ToastMessage.simple("You successfully updated this " + $translate.instant('MOTION'));
+	            } else if(Authorizer.canAccess('edit-motion')){
 	            	ToastMessage.simple("Your submission has been sent in for review!");
+	            }
 		            
 	            $timeout(function() {
 		           	$state.go( 'motion', ( {id: r.id} ), {reload: true} );
 	            }, 600);
 	        };
 
-			self.triggerSpinner = function(val) {
+			function triggerSpinner(val) {
 				self.processing = val || !self.processing;
-			};
-
-			/** Initializing function to get motion data. */
-			function init(id) {
-				if(self.createMotion)
-					return 0;
-
-				self.motion = Motion.get(id);
-
-	     		motionFileResource.getMotionFiles(id).then(function(r){
-					self.existingMotionFiles = r;
-				});
 			}
 
-	        init($stateParams.id);
-	        motionDepartments.loadAll();
-		}
+			/** Initializing function to get motion data. */
+			(function init() {
+				
+		        motionDepartments.loadAll();
 
+				// if edit-motion	        
+				if( self.createMotion ) return false;
+
+				self.motion = Motion.get($stateParams.id);
+
+	     		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
+					self.existingMotionFiles = r;
+				});
+
+			})();
+		}
 
 		function motionFormLink(scope, el, attrs, ctrl) {
 			
@@ -87,20 +90,16 @@
 					{target: '/api/motion', method: 'POST'} :
 					{target: '/api/motion/'+$stateParams.id, method: 'PATCH'});		
 
-				ctrl.motion.closing = SETTINGS_JSON.allow_closing 
-					? utils.date.stringify(ctrl.motion.closing) : new Date(NaN);
+				var motion = ctrl.motion._sanitize();
 
-				isuSectionProvider.callMethodToApi(ctrl.motion)
-					.then(function(success){
-						ctrl.triggerSpinner(false);
-						ctrl.successHandler(success);
-					}, function(error){
-						ctrl.triggerSpinner(false);
-						errorHandler(error);
-					});
+				isuSectionProvider.callMethodToApi(motion).then(function(success){
+					ctrl.triggerSpinner(false);
+					ctrl.successHandler(success);
+				}, function(error){
+					ctrl.triggerSpinner(false);
+				});
 			});
 		}
-
 
 		return {
 			link: motionFormLink,

@@ -1,146 +1,8 @@
-// @import 'materialoverrides'
+@import 'utils/utils';
+@import 'vendor/vendor';
+@import 'common/common';
+@import 'components/components';
 
-/* color variables */
-$primaryColor: rgb(0,172,177);
-$primaryLight: rgb(107, 201, 208);
-$primaryDark: rgb(0, 110, 115);
-
-$accentColor: rgb(255,118,0);
-$accentLight: rgb(250, 178, 116);
-$accentDark: rgb(164, 79, 36);
-
-
-/* shades */
-$white: #ffffff;
-$darkGrey: #666666;
-$midGrey: #cccccc;
-$lightGrey:  #f2f2f2;
-
-$padding: 16px;
-
-$backgroundTransparency: 0.17;
-
-$cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-
-//temp
-.home {
-	md-card {margin: 10px;}
-	md-card-content { padding: 10px;}
-	md-list{
-		padding:0;
-		a{
-			padding:10px; margin:0;
-		}
-	}
-}
-
-.inline-save-icons {
-	md-icon {
-		display:inline-block; 
-		position: relative; 
-		cursor: pointer;
-		font-size: 17px !important; 
-		left: -1px !important; 
-		bottom: 1px !important;		
-	}
-}
-
-#loading-bar .bar {
-	background-color: $accentColor !important;
-}
-
-#notification {
-	background-color: $primaryLight;
-	position: relative;
-	top: -9px;
-	p{
-		color: 	$white;
-		font-weight: 500;
-		line-height: 23px;
-	}
-	button{
-		font-weight: 600px;
-	}
-}
-
-#dashboard {
-	.title {
-		cursor:pointer;
-	}
-	.department-manager {
-		input[disabled] {
-			color: black;
-			background-image: none;
-		}
-	}
-}
-
-// style preset for md-card style that emulates angular.io's material style.
-.inline-icon {
-	display:inline-block; 
-	position: relative; 
-	cursor: pointer;
-	font-size: 17px !important; 
-	left: -1px !important; 
-	bottom: 1px !important;
-}	
-.title-icon {
-	@extend .inline-icon;
-	font-size: 19px !important; 
-	left: 3px !important; 
-	vertical-align:inherit;
-}
-.title-header{
-	font-size: 16px; margin-bottom: 18px; display:inline-block;
-	opacity: .87;
-}
-.title-subhead{
-	@extend .title-header;
-	font-size: 14px;
-	color: $darkGrey;
-}
-.title-svg-icon {
-	display:inline-block; 
-	width: 18px;
-}
-.fab-tool-animate {
-  transition-duration: .5s;
-   -o-transition:	all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  -moz-transition:	 all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  -webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-p.beta-message {
-	font-size: 11px; 
-	color: white; 
-	margin-top:0px; 
-	padding-top:5px; 
-	padding-left:16px;
-}
-
-@media screen and (min-width:320px) {
-	p.beta-message {
-		font-size: 10px;
-		padding-left:8px;
-	}
-}	
-
-@media screen and (min-width: 320px) and (max-width: 750px) {
-	iframe {
-		width: 250px;
-		max-width: 250px !important;
-		height: auto;
-	}
-}
-
-
-// end temp
-	// iframe {
-	// 	width: 250px;
-	// 	max-width: 250px !important;
-	// 	height: auto;
-	// }
 
 // Element Overrides
 html,body{
@@ -150,17 +12,11 @@ html,body{
 body{
 	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
 	overflow: hidden;
-}
 
-md-caption.imagecredit{
-	text-align: right;
-	padding:$padding;
-	color:#fff;
-	text-shadow: 0px 0px 5px #000000;
-
-	a{
-		color: #fff;
-	}
+	background-position: center center;
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 img {max-width:100%;}
@@ -207,86 +63,6 @@ form{
 
 *:focus {
     outline: none;
-}
-
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('/fonts/fontawesome-webfont.eot?v=4.3.0');
-  src: url('/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-// Angular Material overrides
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
-}
-
-md-toast{
-	position: fixed;
-}
-
-ng-message{
-	position:relative;
-}
-
-[layout-margin]{
-	margin: $padding/2;
-}
-
-[layout-padding]{
-	padding: $padding/2;
-}
-
-md-fab-toolbar.md-right md-fab-trigger{
-	right:$padding/2;
-}
-
-md-card{
-	margin: 0;
-	md-card-content {
-		padding: 0;
-	}
-}
-
-md-progress-linear {
-	> div:first-child {
-		height: 3px;
-	}
-}
-
-md-progress-circular {
-	margin: auto;
-}
-
-md-sidenav{
- 	background-color: rgba(255,255,255,1) !important;	
-} 
-
-// for toolbar shadow
-md-sidenav.md-locked-open {
-	z-index: 0;
-}
-
-.mdi {
-  font-size:24px;
-}
-
-// fix of hiding menu container behind shit.
-.md-select-menu-container  {
-	z-index: 999;
-}
-.md-backdrop-select {
-	z-index: 999;
-}
-
-// End Angular Material overrides
-
-.background-image{
-	background-position: center center;
-	background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 
 .main-nav-button {
@@ -373,44 +149,7 @@ md-sidenav.md-locked-open {
 		}
 	}
 
-	.voting{
-
-	    transition: all 0.3s ease;
-	    opacity: 1;
-
-	    &.ng-hide-add, 
-	    &.ng-hide-remove{ 
-	        display: inline-block !important;
-	    }
-
-	    &.ng-hide{
-	        opacity: 0;
-	    }
-
-		button{
-			margin: 0px;
-			height: 100px;
-		}
-
-		md-icon{
-			height: 80%;
-			width: 25%;
-		}
-		.raised {
-			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-		}
-		.statusbar button.md-raised.md-button.md-default-theme{
-			border-radius: 0px;
-			margin: 8px;
-			display: block !important;
-			.deferred-agree{
-				background-color: #22e7ec;
-			}
-			.deferred-disagree {
-				background-color: #ff9a00;
-			}
-		}
-	}
+	
 
 	.voting-disabled {
 		md-icon {
@@ -436,51 +175,6 @@ md-sidenav.md-locked-open {
 	p.md-body-1{
 		margin: $padding/2;
 	}
-
-}
-
-.motionVotes__buttons {
-    transition: all 0.3s ease;
-    opacity: 1;
-
-    &.ng-hide-add, 
-    &.ng-hide-remove{ 
-        display: inline-block !important;
-    }
-
-    &.ng-hide{
-        opacity: 0;
-    }
-
-	button{
-		margin: 0px;
-		height: 100px;
-	}
-
-	md-icon{
-		height: 80%;
-		width: 25%;
-	}
-	.raised {
-		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
-	}
-}
-
-.motionVotes__buttons--abstain {
-	margin: 8px;
-}
-
-.motionVotes__buttons--agree {
-	margin: 8px; 
-	margin-left: 0px;
-}
-
-.motionVotes__buttons--disagree {
-	margin: 8px; 
-	margin-right: 0px;
-}
-
-.motionVotes__statusbar {
 
 }
 
@@ -784,6 +478,17 @@ md-menu-item{
 	}
 }
 
+.imagecredit{
+	text-align: right;
+	padding:$padding;
+	color:#fff;
+	text-shadow: 0px 0px 5px #000000;
+
+	a{
+		color: #fff;
+	}
+}
+
 
 // user stuff 
 .edit-user-profile {
@@ -833,3 +538,110 @@ md-menu-item{
 	margin-bottom: 0;
 
 }
+
+
+//temp
+.home {
+	md-card {margin: 10px;}
+	md-card-content { padding: 10px;}
+	md-list{
+		padding:0;
+		a{
+			padding:10px; margin:0;
+		}
+	}
+}
+
+.inline-save-icons {
+	md-icon {
+		display:inline-block; 
+		position: relative; 
+		cursor: pointer;
+		font-size: 17px !important; 
+		left: -1px !important; 
+		bottom: 1px !important;		
+	}
+}
+
+#loading-bar .bar {
+	background-color: $accentColor !important;
+}
+
+#notification {
+	background-color: $primaryLight;
+	position: relative;
+	top: -9px;
+	p{
+		color: 	$white;
+		font-weight: 500;
+		line-height: 23px;
+	}
+	button{
+		font-weight: 600px;
+	}
+}
+
+#dashboard {
+	.title {
+		cursor:pointer;
+	}
+	.department-manager {
+		input[disabled] {
+			color: black;
+			background-image: none;
+		}
+	}
+}
+
+// style preset for md-card style that emulates angular.io's material style.
+.inline-icon {
+	display:inline-block; 
+	position: relative; 
+	cursor: pointer;
+	font-size: 17px !important; 
+	left: -1px !important; 
+	bottom: 1px !important;
+}	
+.title-icon {
+	@extend .inline-icon;
+	font-size: 19px !important; 
+	left: 3px !important; 
+	vertical-align:inherit;
+}
+.title-header{
+	font-size: 16px; margin-bottom: 18px; display:inline-block;
+	opacity: .87;
+}
+.title-subhead{
+	@extend .title-header;
+	font-size: 14px;
+	color: $darkGrey;
+}
+.title-svg-icon {
+	display:inline-block; 
+	width: 18px;
+}
+
+p.beta-message {
+	font-size: 11px; 
+	color: white; 
+	margin-top:0px; 
+	padding-top:5px; 
+	padding-left:16px;
+}
+
+@media screen and (min-width:320px) {
+	p.beta-message {
+		font-size: 10px;
+		padding-left:8px;
+	}
+}	
+
+@media screen and (min-width: 320px) and (max-width: 750px) {
+	iframe {
+		width: 250px;
+		max-width: 250px !important;
+		height: auto;
+	}
+}
+

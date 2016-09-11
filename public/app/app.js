@@ -9,15 +9,16 @@
 			'ngMaterial',
 			'ngMessages',
 			'ngSanitize', 
-			'satellizer',
-			'textAngular',
+			'satellizer',  //deprecated
+			// 'textAngular', //depecrated
 			'ui.router',
 			'flow',
             'infinite-scroll',
 			'pascalprecht.translate',
 			'mdColorPicker',
 			'isu-form-sections',
-			'angular-loading-bar'
+			'angular-loading-bar',
+	        'alloyeditor'
 		])
 		.run(['$rootScope', '$auth', '$window', '$timeout', '$globalProvider',
 			function($rootScope, $auth, $window, $timeout, $globalProvider) {
@@ -55,8 +56,13 @@
         var $http = initInjector.get('$http');
 
         return $http.get('settings').then(function(response) {
-			localStorage.setItem('settings', JSON.stringify(response.data));
-            iserveu.constant('SETTINGS_JSON', response.data);
+
+        	var settings = response.data;
+
+			localStorage.setItem('settings', JSON.stringify(settings));
+            iserveu.constant('SETTINGS_JSON', settings);
+            document.body.style.backgroundImage = 'url('+ (settings.background_image || '/themes/default/photos/background.png')+')';
+
         }, function(errorResponse) {
             console.log('error');
         });

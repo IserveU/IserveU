@@ -29,6 +29,8 @@
 
 	    var Restore = $resource('api/comment/:id/restore');
 
+	    var endpoint = '/api/comment/';
+
 	    /*****************************************************************
 	    *
 	    *	Server-side functions.

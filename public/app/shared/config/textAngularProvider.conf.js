@@ -1,21 +1,21 @@
-(function() {
+// (function() {
 	
-	'use strict';
+// 	'use strict';
 
-	angular
-		.module('iserveu')
-		.config(['$provide',
+// 	angular
+// 		.module('iserveu')
+// 		.config(['$provide',
 
-  	 /** @ngInject */
-	function($provide){
+//   	 /** @ngInject */
+// 	function($provide){
 
-		$provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
+// 		$provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
 
-			taOptions.forceTextAngularSanitize = false; 
-	        return taOptions;
-	    }]);
+// 			taOptions.forceTextAngularSanitize = false; 
+// 	        return taOptions;
+// 	    }]);
 
-	}]);
+// 	}]);
 
 
-})();
+// })();
