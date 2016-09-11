@@ -201,6 +201,16 @@ class Motion extends ApiModel {
 		return null;
 	}
 
+	/**
+	 * A bridge to the comments on this motion
+	 * @return Collection A collection of comments
+	 */
+	public function getCommentsAttribute(){
+		$this->load(['votes.comment' => function ($q) use ( &$comments ) {
+		   $comments = $q->get()->unique();
+		}]);
+		return $comments;
+	}
 	
 
 	/************************************* Casts & Accesors *****************************************/
@@ -297,6 +307,14 @@ class Motion extends ApiModel {
 	public function files(){
 		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
 	}
+
+
+	public function comments(){
+		return $this->whereHas('votes',function($query) use ($rank){
+			$query->havingRaw('SUM(position) < '.$rank);
+		});
+	}
+
 
 	public function thisUserVote(){
 		if(Auth::check()){

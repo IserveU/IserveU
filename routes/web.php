@@ -63,12 +63,14 @@ Route::group(['prefix' => 'api'], function(){
 
 	Route::group(['middleware' => 'auth:api'], function(){
 
+		Route::resource('comment/{comment}/comment_vote','CommentCommentVoteController',['only'=>['store']]);
+		Route::resource('comment_vote', 'CommentVoteController',['except'=>['store']]);
+
 		Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index','store']]);
 
 		Route::resource('background_image', 'BackgroundImageController');
 
 		Route::get('comment/{id}/restore','CommentController@restore');
-		Route::resource('comment_vote', 'CommentVoteController');
 
 		Route::get('motion/{id}/restore','MotionController@restore');
 		Route::post('motionfile/flowUpload', 'MotionFileController@flowUpload');
@@ -82,6 +84,8 @@ Route::group(['prefix' => 'api'], function(){
 
 		Route::resource('vote', 'VoteController');
 		Route::resource('vote/{vote}/comment','VoteCommentController', ['only'=>['store']]);
+
+
 
 	});
 });

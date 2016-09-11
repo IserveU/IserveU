@@ -272,7 +272,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $defaultPost = $this->getPostArray($this->class,$this->defaultFields);
 
         $mergedContentToPost = array_merge($defaultPost, $contentToPost);
-
+       
         $this->post($this->route,$this->removeNullValues($mergedContentToPost))
                 ->assertResponseStatus($expectedCode);
 
