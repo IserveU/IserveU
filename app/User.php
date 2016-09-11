@@ -207,7 +207,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
        $this->setVisible(array_merge(array_keys($this->attributes),
-	            ['permissions']
+	            ['permissions','agreement_accepted']
 	        	)
        		);
     }

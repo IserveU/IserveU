@@ -18,8 +18,10 @@ class MotionVoteController  extends ApiController{
      *
      * @return Response
      */
-    public function index($motion)
+    public function index(Motion $motion)
     {
+
+      //  return $motion->votes;
 
         $passiveVotes = Vote::where('motion_id',$motion->id)->cast()->passive()->get()->groupBy('deferred_to_id');
 

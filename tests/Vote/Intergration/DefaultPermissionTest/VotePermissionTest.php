@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VotePermissionTest extends TestCase
 {
-    //use DatabaseTransactions;    
+    use DatabaseTransactions;    
 
     public function setUp()
     {
@@ -15,7 +15,7 @@ class VotePermissionTest extends TestCase
         $this->class         =   App\Vote::class;
         $this->route        =   "/api/vote/";
 
-        $this->signIn();
+
     }
 
     /*****************************************************************
@@ -64,9 +64,9 @@ class VotePermissionTest extends TestCase
         ]);
         
         // Delete Vote
-        $this->delete('/api/vote/'.$vote->id);
+        $this->delete('/api/vote/'.$vote->id)
+              ->assertResponseStatus(200);
 
-        $this->assertResponseOk();
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => 0, 'user_id' => $this->user->id]);
 
     }
@@ -77,9 +77,8 @@ class VotePermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->get('/api/motion/'.$motion->id.'/vote');
-
-        $this->assertResponseOk();
+        $this->get('/api/motion/'.$motion->id.'/vote')
+            ->assertResponseStatus(200);
     }
 
 
@@ -91,7 +90,7 @@ class VotePermissionTest extends TestCase
         $this->motion       =   factory(App\Motion::class)->create();
         $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
-        $this->storeFieldsGetSee(['position'],403);   
+        $this->storeFieldsGetSee(['position'],302);   
 
 
     }
