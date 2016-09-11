@@ -65,10 +65,11 @@
 		]);
 
 	    // Make a comment
-	    $comment = factory(App\Comment::class)->make()->toArray();
-	    $comment = array_merge($comment, ['vote_id' => $vote->id]);
+	    $comment = factory(App\Comment::class)->make()->setVisible(['text'])->toArray();
 
-	    $response = $self->call('POST','/api/comment', $comment);
+	   	unset($comment["vote_id"]);
+
+	    $response = $self->call('POST','/api/vote/'.$vote->id.'/comment', $comment);
 
 	    $self->assertResponseStatus($code);
 	    

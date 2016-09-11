@@ -49,7 +49,7 @@ abstract class Request extends FormRequest {
             $validator = parent::getValidatorInstance();
             // Add universal rules
             $validator->setRules(array_merge(
-                ['_method'=>'string'],
+                ['api_token'=>'string','_method'=>'string'],
                 $validator->getRules())
             );
             $data = $this->all();

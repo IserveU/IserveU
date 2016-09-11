@@ -13,9 +13,12 @@ use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
 use Cviebrock\EloquentSluggable\Sluggable;
 
+use App\Repositories\StatusTrait;
+
+
 class Motion extends ApiModel {
 
-	use SoftDeletes, Sluggable;
+	use SoftDeletes, Sluggable, StatusTrait;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -114,6 +117,17 @@ class Motion extends ApiModel {
             ]
         ];
     }
+
+    /**
+     * The  statuses that a motion can have
+     * @var Array
+     */
+	public static $statuses = [
+        'draft'    	=>  'hidden',
+        'review'  	=>  'hidden',
+        'published' =>  'visible',
+        'closed'    =>  'visible'
+    ];
 
 
 	/**************************************** Standard Methods **************************************** */
