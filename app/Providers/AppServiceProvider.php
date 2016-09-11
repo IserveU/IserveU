@@ -90,8 +90,8 @@ class AppServiceProvider extends ServiceProvider {
                 return false;
         });  
 
-	
-	}
+
+	}                  
 
 	/**
 	 * Register any application services.

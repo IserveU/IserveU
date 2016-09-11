@@ -1,8 +1,7 @@
 <?php
 
 namespace App;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
+
 use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -18,8 +17,6 @@ use Illuminate\Support\Facades\Validator;
 class File extends ApiModel
 {
      
-	use Eloquence, Mappable;
-
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
 	 * @var string

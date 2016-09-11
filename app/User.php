@@ -1,8 +1,6 @@
 <?php 
 namespace App;
 
-//use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
 
@@ -13,8 +11,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Sofa\Eloquence\Eloquence; // base trait
-use Sofa\Eloquence\Mappable; // extension trait
 
 use Auth;
 use Hash;
@@ -24,7 +20,7 @@ use Redis;
 use Event;
 use Mail;
 use DB;
-use Setting;
+use App\Setting;
 
 use App\Role;
 

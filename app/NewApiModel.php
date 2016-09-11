@@ -37,6 +37,15 @@ class NewApiModel extends Model
     }
  
 
+    public function skipVisibility(){
+       $this->setVisible(array_keys($this->attributes));
+    }
+
+    public function setVisibility(){
+        $this->skipVisibility();
+        return $this;
+    }
+
 
     public function toArray(){
         if(!$this->skipVisibility){

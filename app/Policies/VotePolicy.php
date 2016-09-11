@@ -15,7 +15,11 @@ class VotePolicy
 
 
     public function inputsAllowed(array $inputs, Motion $motion, Vote $vote = null){
-        
+        if(!Auth::check()){
+            return false;
+        }
+                  
+
         if(!Auth::user()->can('create-vote')){
             return false;
         }    
