@@ -17,6 +17,7 @@ before_script:
   - mysql -u root -e 'create database forge;'
   - composer self-update
   - composer install --no-interaction
+  - php artisan migrate --force
   - php artisan setup:initialize -qn
 
 script:
