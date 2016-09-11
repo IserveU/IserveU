@@ -9,13 +9,9 @@ use Auth;
 use Hash;
 use Zizaco\Entrust\Entrust;
 use Illuminate\Http\Response;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\User\DestroyUserRequest;
-use App\Http\Requests\User\ShowUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
@@ -30,7 +26,7 @@ class UserController extends ApiController {
 	public function __construct(UserTransformer $userTransformer)
 	{	
 		$this->userTransformer = $userTransformer;
-		$this->middleware('jwt.auth',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
+		$this->middleware('auth:api',['except'=>['create','store', 'authenticatedUser','resetPassword']]);
 	} 
 
 	/**
@@ -81,16 +77,13 @@ class UserController extends ApiController {
 	 */
 	public function store(StoreUserRequest $request){
 		//Create a new user and fill secure fields
-		$newUser = User::create($request->except('token'));
+		$user = User::create($request->except('token'));
 
-		if(!Setting::get('security.verify_citizens')){
-			$newUser->addUserRoleByName('citizen');
-		}
+		$user->skipVisibility();
 
-		$token = JWTAuth::fromUser($newUser);
+		$user->setHidden(['password']);
 
-		$user = $newUser->toArray();
-		return response()->json(compact('token','user'),200,[],JSON_UNESCAPED_UNICODE);
+	    return $user;
 	}
 
 	/**
@@ -98,8 +91,8 @@ class UserController extends ApiController {
 	 * @param  User  $user
 	 * @return Response
 	 */
-	public function show(ShowUserRequest $request, User $user){
-		return $this->userTransformer->transform($user);
+	public function show(Request $request, User $user){
+		return $user;
 	}
 
 
@@ -141,11 +134,7 @@ class UserController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(DestroyUserRequest $request, User $user){
-
-		if(Auth::user()->id != $user->id && !Auth::user()->can('delete-user')){
-			abort(401,'You do not have permission to delete this user');
-		}
+	public function destroy(Request $request, User $user){
 
 	 	$user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
 	 	return $user;

@@ -25,6 +25,7 @@
 	    ******************************************************************/
 
 		function getDepartments() {
+			console.log('getDepartments');
 			return Department.query().$promise.then(function(success) {
 				return success;
 			}, function(error) {

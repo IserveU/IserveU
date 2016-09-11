@@ -4,8 +4,7 @@ use App\Http\Requests;
 
 use App\Http\Requests\Vote\DestroyVoteRequest;
 use App\Http\Requests\Vote\ShowVoteRequest;
-use App\Http\Requests\Vote\StoreVoteRequest;
-use App\Http\Requests\Vote\UpdateVoteRequest;
+use App\Http\Requests\Vote\StoreUpdateVoteRequest;
 use App\Http\Requests\Vote\IndexVoteRequest;
 
 use App\Http\Controllers\Controller;
@@ -20,7 +19,7 @@ class VoteController extends ApiController {
 
 	function __construct()
 	{
-		$this->middleware('jwt.auth',['except'=>['index','show']]);
+		$this->middleware('auth:api',['except'=>['index','show']]);
 	}
 
 	/**
@@ -39,22 +38,7 @@ class VoteController extends ApiController {
 		return Vote::where('user_id',Auth::user()->id)->get(); //Get standard users comment votes	
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(StoreVoteRequest $request)
-	{
-		$vote  = new Vote($request->all());
-		$vote->user_id = Auth::user()->id;	
-
- 		if(!$vote->save()){
-			abort(403,$vote->errors);
-		}
-			
-		return $vote;
-	}
+	
 
 	/**
 	 * Display the specified resource. User with decent permissions can see who posses other people votes, or you can see your own vote.
@@ -62,7 +46,7 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Vote $vote, ShowVoteRequest $request)
+	public function show(ShowVoteRequest $request, Vote $vote)
 	{
 		if(Auth::user()->can('show-vote')){ //Is a person who can review votes
 			return $vote;
@@ -81,24 +65,12 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Vote $vote, UpdateVoteRequest $request)
+	public function update(Vote $vote, StoreUpdateVoteRequest $request)
 	{
-		//Check if the user has permission to cast votes
-		if(!Auth::user()->can('create-vote')){
-			abort(401,'You do not have permission to update a vote');
-		}
-
-		if($vote->user_id != Auth::user()->id){
-			abort(401,"This user does not have permission to edit this vote");
-		}
-
-		//Validate the input
-		$vote->secureFill(Request::all());
-
- 		if(!$vote->save()){
-			abort(403,$vote->errors);
-		}
-		//event(new UserChangedVote($vote));
+        $vote->update([
+        	'position'	=> 	$request->input('position')
+        ]);
+            
 		return $vote;
 	}
 
@@ -108,9 +80,8 @@ class VoteController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(Vote $vote, DestroyVoteRequest $request)
+	public function destroy(DestroyVoteRequest $request, Vote $vote)
 	{
-
 		$vote->position = 0;
 		$vote->save();
 		return $vote;

@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class FilterTest extends TestCase
 {
     use DatabaseTransactions;
-    use WithoutMiddleware;
 
     public function setUp()
     {

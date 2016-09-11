@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use Auth;
 
 use App\Policies\CommentPolicy;
+use App\Comment;
 
 class UpdateCommentRequest extends Request
 {
@@ -16,7 +17,7 @@ class UpdateCommentRequest extends Request
      */
     public function authorize()
     {   
-        $comment = $this->route()->parameter('comment');
+        $comment = $this->route()->parameter('comment'); 
 
         if(Auth::user()->can('administrate-comment')){
             return true;
@@ -26,7 +27,7 @@ class UpdateCommentRequest extends Request
             return false; //Cant change your comments after the fact
         }
 
-        if($comment->user->id == Auth::user()->id){
+        if($comment->vote->user_id == Auth::user()->id){
             return true; //This users comment
         }
 
@@ -41,11 +42,9 @@ class UpdateCommentRequest extends Request
      */
     public function rules()
     {
-        $comment = $this->route()->parameter('comment');
 
         return [
-            'text'          =>  'min:3|string',
-            'id'            =>  'integer'
+            'text'          =>  'filled|string'
         ];
 
     }

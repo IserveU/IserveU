@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider {
 
@@ -20,35 +21,82 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function boot(Router $router)
+	public function boot()
 	{
-		parent::boot($router);
 
-		$router->model('user','App\User');
-		$router->model('motion','App\Motion');
-		$router->model('motionfile','App\MotionFile');
-		$router->model('file','App\File');
-		$router->model('vote','App\Vote');
-		$router->model('comment','App\Comment');
-		$router->model('comment_vote','App\CommentVote');
-		$router->model('background_image','App\BackgroundImage');
-		$router->model('department', 'App\Department');
+		Route::model('user','App\User');
+		Route::model('motion','\App\Motion');
+		Route::model('motionfile','App\MotionFile');
+		Route::model('file','App\File');
+		Route::model('vote','App\Vote');
+		Route::model('comment','App\Comment');
+		Route::model('comment_vote','App\CommentVote');
+		Route::model('background_image','App\BackgroundImage');
+		Route::model('department', 'App\Department');
+
+        app('router')->bind('motion', function ($motion) {
+            return \App\Motion::find($motion);
+        });
+
+      
+        app('router')->bind('vote', function ($vote) {
+            return \App\Vote::find($vote);
+        });
+
+        parent::boot();
 
 	}
 
 
-	/**
-	 * Define the routes for the application.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function map(Router $router)
-	{
-		$router->group(['namespace' => $this->namespace], function($router)
-		{
-			require app_path('Http/routes.php');
-		});
-	}
+    /**
+     * Define the routes for the application.
+     *
+     * @return void
+     */
+    public function map()
+    {
+        $this->mapWebRoutes();
+        $this->mapApiRoutes();
+        //
+    }
+
+
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/web.php');
+        });
+    }
+
+
+
+   /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api',
+            'namespace' => $this->namespace,
+            'prefix' => 'api',
+        ], function ($router) {
+            require base_path('routes/api.php');
+        });
+    }
 
 }

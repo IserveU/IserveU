@@ -20,7 +20,7 @@ class DestroyCommentRequest extends Request
             return true;
         }
 
-        if($comment->user->id == Auth::user()->id){
+        if($comment->vote->user_id == Auth::user()->id){
             return true;
         }
 

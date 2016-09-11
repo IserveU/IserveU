@@ -9,11 +9,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\Motion\DestroyMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
-use App\Http\Requests\Motion\StoreMotionRequest;
-use App\Http\Requests\Motion\UpdateMotionRequest;
+use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Http\Requests\Motion\IndexMotionRequest;
 
-use App\Transformers\MotionTransformer;
 
 use App\MotionRank;
 use App\Motion;
@@ -24,12 +22,11 @@ use App\Vote;
 
 class MotionController extends ApiController {
 
-	protected $motionTransformer;
 
-	function __construct(MotionTransformer $motionTransformer)
+	function __construct()
 	{
-		$this->motionTransformer = $motionTransformer;
-		$this->middleware('jwt.auth',['except'=>['index','show']]);
+		//Because this controller is partially visible
+		$this->middleware('auth:api',['except'=>['index','show']]);
 	}
 
 	/**
@@ -95,10 +92,9 @@ class MotionController extends ApiController {
 			$motions->take(1);
 		}
 
-		$paginator = $motions->simplePaginate($limit);
-		$motions   = $this->motionTransformer->transformCollection( $paginator->all() );
+		$motions = $motions->paginate($limit);
 
-		return array_merge(['data' => $motions], ['next_page_url' => $paginator->nextPageUrl() ]);
+		return $motions;
 	}
 
 
@@ -108,7 +104,7 @@ class MotionController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function store(StoreMotionRequest $request)
+	public function store(StoreUpdateMotionRequest $request)
 	{
 		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
 		
@@ -120,7 +116,7 @@ class MotionController extends ApiController {
 		 	abort(403,$motion->errors);
 		}
 
-     	return $this->motionTransformer->transform($motion);
+     	return $motion;
 	}
 
 	/**
@@ -131,7 +127,7 @@ class MotionController extends ApiController {
 	 */
 	public function show(Motion $motion,ShowMotionRequest $request)
 	{
-		return $this->motionTransformer->transform($motion);
+		return $motion;
 	}
 
 
@@ -141,15 +137,13 @@ class MotionController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(UpdateMotionRequest $request, Motion $motion)
+	public function update(StoreUpdateMotionRequest $request, Motion $motion)
 	{
-		$motion->secureFill( $request->all() );
 
-		if(!$motion->save()){
-		 	abort(403,$motion->errors);
-		}
-
-		return $this->motionTransformer->transform($motion);
+		$motion->fill($request->all());
+		$motion->save();
+		
+		return $motion;
 	}
 
 	/**
@@ -161,19 +155,21 @@ class MotionController extends ApiController {
 	public function destroy(DestroyMotionRequest $request, Motion $motion)
 	{
 		$votes = $motion->votes;
-		
-		if(!$votes){ //Has not recieved votes
+
+		if($votes->isEmpty()){ //Has not recieved votes
 			$motion->forceDelete();
 			return $motion;
 		} 
 
-		$motion->status = 0;
+		$motion->status = 'deleted';
 		$motion->save();
+
 		$motion->delete(); //Motion kept in the database	
 		return $motion;
 	}
 
 	public function restore($id){
+
 		$motion = Motion::withTrashed()->with('user')->find($id);
 
 		if(!$motion){

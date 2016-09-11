@@ -42,7 +42,7 @@
 			}, function(e) {
 
 				factory.loggingIn = false;
-				errorHandler( e.data.message );
+				errorHandler( e );
 			
 			});		
 		};
@@ -59,7 +59,7 @@
 			}, function(e) {
 
 				factory.creating = false;
-				errorHandler( e.data.message );
+				errorHandler( e.data );
 				factory.authError = true;
 
 			});
@@ -77,6 +77,8 @@
 
 		function errorHandler(message) {
 
+			console.log(message);
+
 			for (var i in factory.errors) 
 				factory.errors[i] = false;
 
@@ -89,9 +91,11 @@
 			else if(angular.isString(message) && message.substr(0, 17) == 'Account is locked'){
 				factory.errors.accountLocked = true;
 			}
-			else if( message.hasOwnProperty('email') ){
-				if( message.email[0] == "validation.unique" )
-					factory.errors.emailNotValid = true;
+			else if( angular.isArray(message) ){
+				for(var i in message){
+					if(message[i] == "validation.unique" )
+						factory.errors.emailNotValid = true;
+				}
 			}
 			else {
 				ToastMessage.report_error(message);

@@ -11,7 +11,7 @@
 			'isuSectionProvider', 
 			'Motion',
 			'motionIndex', 
-			'motionfile', 
+			'motionFileResource', 
 			'ToastMessage', 
 			'motionDepartments', 
 			'motionFilesFactory',
@@ -21,7 +21,7 @@
 			'SETTINGS_JSON',
 			motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, isuSectionProvider, Motion, motionIndex, motionfile, 
+	function motionForm($state, $stateParams, $timeout, isuSectionProvider, Motion, motionIndex, motionFileResource, 
 		ToastMessage, motionDepartments, motionFilesFactory, errorHandler, Authorizer, utils, SETTINGS_JSON) {
 
 		function motionFormController($scope) {
@@ -30,7 +30,7 @@
 			self.createMotion = $state.current.name == 'create-motion' ? true : false;
 			self.departments = motionDepartments;
 			self.existingMotionFiles = [];
-	        self.motion = { closing: new Date(), status: 0 };
+	        self.motion = { closing: new Date(+new Date + 12096e5), status: 0 };
 			self.motionFile  = motionFilesFactory;
 			self.motionFiles = [];
 			self.processing = false;
@@ -65,7 +65,7 @@
 
 				self.motion = Motion.get(id);
 
-	     		motionfile.getMotionFiles(id).then(function(r){
+	     		motionFileResource.getMotionFiles(id).then(function(r){
 					self.existingMotionFiles = r;
 				});
 			}

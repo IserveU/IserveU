@@ -34,8 +34,8 @@
           </md-input-container>
 
           <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
-            <spinner form-name="loginform" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
-            <md-button ng-click="login.extendRegisterForm()">Create</md-button>
+            <spinner class="login__button" form-name="loginform" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
+            <md-button class="create__button" ng-click="login.extendRegisterForm()">Create</md-button>
           </div>
 
           <div style="right:12px">

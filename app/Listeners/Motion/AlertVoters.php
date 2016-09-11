@@ -34,6 +34,8 @@ class AlertVoters
 
         if(!empty($changedFields)){
 
+
+
             $motionVotes = Vote::whereHas('user',function($query){
                 $query->whereNull('deleted_at');
             })->where('motion_id',$motion->id)->get();

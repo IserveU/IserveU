@@ -158,10 +158,10 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		'App\Providers\TestingServiceProvider',
-		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'anlutro\LaravelSettings\ServiceProvider'
+		'anlutro\LaravelSettings\ServiceProvider',
+		 Cviebrock\EloquentSluggable\ServiceProvider::class
 	],
 
 	/*
@@ -211,7 +211,6 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Html'		=> 'Illuminate\Html\HtmlFacade',
 		'Entrust' 	=> 'Zizaco\Entrust\EntrustFacade',
-		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth',
 		'Image'		=> 'Intervention\Image\Facades\Image',
 		'Setting'	=> 'anlutro\LaravelSettings\Facade'
 	],

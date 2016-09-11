@@ -37,19 +37,6 @@ class CommentVoteController extends ApiController {
 
 
 	/**
-	 * Store a newly created resource in storage. Requires a post with 'comment_id' and 'position'
-	 *
-	 * @return Response
-	 */
-
-	public function store(StoreCommentVoteRequest $request){
-		
-		$commentVote  =  CommentVote::create($request->all());
-
-		return $commentVote;
-	}
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -59,7 +46,6 @@ class CommentVoteController extends ApiController {
 	{
 		return $commentVote;
 	}
-
 	
 
 	/**

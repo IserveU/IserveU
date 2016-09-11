@@ -7,12 +7,10 @@ use App\Http\Controllers\ApiController;
 
 use App\User;
 use Auth;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Events\User\UserLoginFailed;
 use App\Events\SendPasswordReset;
 use Carbon\Carbon;
-
+use Hash;
 use App\Events\User\UserLoginSucceeded;
 
 
@@ -26,64 +24,43 @@ class AuthenticateController extends ApiController
      */
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        
-        $checkUser = User::where('email',$credentials['email'])->first();
 
-        if($checkUser && $checkUser->locked_until && $checkUser->locked_until->gt(Carbon::now())){
-            abort(401,'Account is locked until '.$checkUser->locked_until);
+        if (!$user = User::where(['email' => $request->email])->first()){
+            return  response(["error"=>"Invalid credentials","message"=>"This user does not exist"],401); 
         }
 
-        try {         
-            // attempt to verify the credentials and create a token for the user
-           if (! $token = JWTAuth::attempt($credentials)) {
-                event(new UserLoginFailed($credentials));
-               
-                abort(401,"Invalid credentials");
-            }
+        if($user && $user->locked_until && $user->locked_until->gt(Carbon::now())){
 
-        } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            abort(500,'Unable to create token');
-            
+            return  response(["error"=>"Invalid credentials","message"=>'Account is locked until '.$user->locked_until],401); 
         }
 
-        $user = Auth::user();
-
+        if(!Hash::check($request->password, $user->password)){
+            event(new UserLoginFailed($user));
+            return  response(["error"=>"Invalid credentials","message"=>"Either your username or password are incorrect"],403); 
+        }
 
         event(new UserLoginSucceeded($user));
 
+        $user = $user->fresh();
+        $user->skipVisibility();
 
-        // all good so return the token
-        return response()->json(compact('token','user'));
+        return $user;
     }
 
     public function noPassword($remember_token){
 
-        try{
-            if(empty($remember_token)){
-                abort(403,'No password reset code provided');
-            }
-
-            $user = User::where('remember_token',$remember_token)->first();
-
-            if(!$user){
-                abort(404,'Reset token invalid or expired');
-            }
-
-            $token = JWTAuth::fromUser($user);
-            Auth::loginUsingId($user->id);
-            
-        } catch (JWTException $e) {
-            abort(500,'could not create token');
+        if(empty($remember_token)){
+            return  response(["error"=>"No password reset code provided","message"=>'Account is locked until '.$user->locked_until],403); 
         }
-  
+
+        $user = User::where('remember_token',$remember_token)->first();
+
+        if(!$user){
+            return  response(["error"=>"Reset Token Invalid","message"=>"Reset token invalid or not found"],404);
+        }       
+
         event(new UserLoginSucceeded($user));
-
-
-        // all good so return the token
-        return response()->json(compact('token','user'));
-
+        return response(["api_token"=>$user->api_token,'user'=>$user],200);
     }
 
     public function resetPassword(Request $request){

@@ -17,12 +17,12 @@
 	    var MyComments =  $resource('api/user/:id/comment', {}, {
 		    query: {
 		        method: 'GET',
-		        params: {
-		        	id: $rootScope.authenticatedUser.id || null
-		        },
 		        isArray: true,
 		        ignoreLoadingBar: true,
 		        transformResponse: function(data, header){
+		          // if(!data) return {}
+		          console.log(data);
+
 		          var jsonData = JSON.parse(data);
 				  var comments = [];
 
@@ -39,7 +39,6 @@
 			query: {
 		        method: 'GET',
 		        params: {
-		        	id: $rootScope.authenticatedUser.id || null,
 		        	limit: 5
 		        },
 		        ignoreLoadingBar: true
@@ -80,7 +79,8 @@
 	    ******************************************************************/
 	    
 		function getMyComments() {
-			return MyComments.query().$promise.then(function(results) {
+			var id = $rootScope.authenticatedUser.id;
+			return MyComments.query({id: id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);
@@ -88,7 +88,8 @@
 		}
 
 	    function getMyVotes() {
-			return MyVotes.query().$promise.then(function(results) {
+			var id = $rootScope.authenticatedUser.id;
+			return MyVotes.query({id: id}).$promise.then(function(results) {
 				return results;
 			}, function(error) {
 				return $q.reject(error);

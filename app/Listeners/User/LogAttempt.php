@@ -37,8 +37,7 @@ class LogAttempt
             $event->user->locked_until = Carbon::now()->addHours(3);
         }
 
-        if(!$event->user->save()){ //Validation failed show errors
-            abort(403,$event->user->errors);
-        }
+        $event->user->save();
+
     }
 }

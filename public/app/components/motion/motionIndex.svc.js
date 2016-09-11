@@ -16,15 +16,18 @@ angular
 
 		_current_page: 1,
 
+		_last_page: null,
+
 		_next_page: 2,
 
-		_paginating: true,
+		_paginating: false,
+
+		_stopPaginating: false,
 
 		_load: function() {
-
 			var self = this;
 
-			if(self._index.length > 0)
+			if(self._index.length > 0 || self._current_page === self._last_page)
 				return false;
 
 			self._paginating = true;
@@ -33,7 +36,9 @@ angular
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
+				self._last_page = results.last_page;
 				self._paginating = false;
+				self._stopPaginating = results.next_page_url ? true : false;
 
 			}, function(error) {
 				throw new Error('Unable to retrieve initial index of motions.');
@@ -45,27 +50,37 @@ angular
 			for (var i = originalLength; i > 0; i--) {
 			     this._index.pop();
 			}
+
+			this._current_page = 1;
+			this._last_page = null;
+			this._next_page = 2;
+			this._paginating = false;
+			this._stopPaginating = false;
+
 		},
 
 		loadMoreMotions: function() {
-
 			var self = this;
 
-			if(!self._next_page)
+			if(!self._next_page || self._current_page === self._last_page || self._stopPaginating)
 				return false;
 
 			self._paginating = true;
 
 			motionResource.getMotionsIndex(self._next_page).then(function(results) {
 
+				console.log('getMotionsIndex');
+
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = self._index.concat(results.data);
-				self._paginating = false;
+				self._last_page = results.last_page;
+				self._paginating = false;;
+				self._stopPaginating = results.next_page_url ? true : false;
+
 
 			}, function(error) {
 				throw new Error('Unable to retrieve next page of motion index.');
 			});
-
 		},
 
 		nextPage: function(url) {

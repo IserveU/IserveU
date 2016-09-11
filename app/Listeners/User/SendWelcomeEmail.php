@@ -7,7 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Mail;
-
+use Setting;
+use App\Notifications\BetaNotification;
 
 class SendWelcomeEmail
 {
@@ -31,25 +32,20 @@ class SendWelcomeEmail
     { 
         $user = $event->user;
 
-        $data = array(
-            'user'  =>  $user,
-            'title' =>  'Welcome'
-        );
+        $data = [
+            'user'                  =>  $user,
+            'created_by_other'      =>  true
+        ];
 
-
-        if($user->modificationTo->first()->modification_by_id == $user->id){ //If this created user created themselves
-
-
-            Mail::send('emails.welcome',$data, function ($m) use ($user) {
-                 $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
-            });            
-        } else { //This created user was made by another user
-            Mail::send('emails.welcomecreated', $data, function ($m) use ($user) {
-                 $m->to($user->email, $user->first_name)->subject('Welcome To IserveU');
-            });
+        //If this created user created themselves
+        if($user->modificationTo->first()->modification_by_id == $user->id){ 
+            $data['created_by_other']   = false;
         }
 
-
+        Mail::send('emails.welcome',['data'=>$data], function ($m) use ($user) {
+             $m->to($user->email,$user->first_name)
+             ->subject("Welcome To ".Setting::get('site.name',"IserveU"));
+        });   
 
     }
 }

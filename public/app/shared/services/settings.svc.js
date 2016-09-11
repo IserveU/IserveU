@@ -52,9 +52,8 @@
 			*	to the key value of Laravel's Settings library.
 			*/
 			saveTypeOf: function (type, data) {
-
-				if( angular.isString(data) && JSON.parse(data).filename )
-					data = JSON.parse(data).filename;
+				if( angular.isString(data) && angular.toJson(data).hasOwnProperty('filename' ))
+					data = angular.toJson(data).filename;
 
 				if ( type === 'palette' )
 					this.saveArray( 'theme', data.assignThemePalette(data) );
