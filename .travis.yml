@@ -19,6 +19,8 @@ before_script:
   - composer self-update
   - composer install --no-interaction
   - npm install
+  - bower update
+  - gulp
   - php artisan setup:initialize admin@iserveu.ca abcd1234 yes
 
 script:
