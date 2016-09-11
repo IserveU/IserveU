@@ -38,7 +38,7 @@ class Motion extends NewApiModel {
 	 * @var array
 	 */
 	protected $visible = ['title','text','summary','department_id','id','votes',
-						  /*'motion_open_for_voting',*/'closing',/*'user_vote',*/'user_id'.
+						  'motion_open_for_voting','closing','user_vote','user_id'.
 						  'status','updated_at','slug'];
 	
 
@@ -46,7 +46,7 @@ class Motion extends NewApiModel {
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = [/*'motion_open_for_voting'*//*,'user_vote'*/];
+    protected $appends = ['motion_open_for_voting','user_vote'];
 
   
 
@@ -55,6 +55,8 @@ class Motion extends NewApiModel {
 	 * @var array
 	 */
 	protected $dates = ['created_at','updated_at','closing'];
+
+	/**
 
 
 	protected $attributes = [
