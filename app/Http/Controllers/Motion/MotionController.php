@@ -107,16 +107,8 @@ class MotionController extends ApiController {
 	 */
 	public function store(StoreUpdateMotionRequest $request)
 	{
-		$motion = (new Motion)->secureFill( $request->all() ); //Does the fields specified as fillable in the model
+		$motion = Motion::create( $request->all() );
 		
-		if(!$motion->user_id){ /* Secure fill populates this if the user is an admin*/
-			$motion->user_id = Auth::user()->id;
-		}
-
-		if(!$motion->save()){
-		 	abort(403,$motion->errors);
-		}
-
      	return $motion;
 	}
 
@@ -140,10 +132,7 @@ class MotionController extends ApiController {
 	 */
 	public function update(StoreUpdateMotionRequest $request, Motion $motion)
 	{
-
-		$motion->fill($request->all());
-		$motion->save();
-		
+		$motion->update($request->all());	
 		return $motion;
 	}
 

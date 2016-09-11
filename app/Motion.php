@@ -16,7 +16,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Repositories\StatusTrait;
 
 
-class Motion extends ApiModel {
+class Motion extends NewApiModel {
 
 	use SoftDeletes, Sluggable, StatusTrait;
 
@@ -32,11 +32,6 @@ class Motion extends ApiModel {
 	 */
 	protected $fillable = ['title','text','summary','department_id','closing','status','user_id'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var array
-	 */
-	protected $adminFillable = [];
 	
 	/**
 	 * The attributes included in the JSON/Array
@@ -46,19 +41,6 @@ class Motion extends ApiModel {
 						  'MotionOpenForVoting','closing','user_vote','user_id'.
 						  'status','updated_at','slug'];
 	
-
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var array
-	 */
-	protected $adminVisible = ['status','user_id'];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var array
-	 */
-	protected $creatorVisible = ['status','user_id'];
-
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
@@ -130,6 +112,10 @@ class Motion extends ApiModel {
 		parent::boot();
 
 		static::creating(function($model){
+			
+			if(!$model->user_id){
+				$model->user_id = Auth::user()->id;	
+			}
 
 			return true;	
 		});
@@ -155,7 +141,23 @@ class Motion extends ApiModel {
 	}
 
 	
-	
+    public function skipVisibility(){
+       $this->setVisible(array_merge(array_keys($this->attributes),
+	            ['title','text','summary','department_id','id','votes',
+						  'MotionOpenForVoting','closing','user_vote','user_id'.
+						  'status','updated_at','slug']
+	        	)
+       		);
+    }
+
+
+    public function setVisibility(){
+
+            $this->skipVisibility();
+      
+        return $this;
+    }
+
 	/************************************* Getters & Setters ****************************************/
 
 	public function setClosingAttribute($value){
