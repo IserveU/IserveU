@@ -273,8 +273,11 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @param string takes a string and hashes it into a password
 	 */
 	public function getAgreementAcceptedAttribute(){
-		if($this->attributes['agreement_accepted_date']) return true;
-		return false;
+		if(!array_key_exists("agreement_accepted_date",$this->attributes)) return false;
+
+		if(!$this->attributes['agreement_accepted_date']) return false;
+		
+		return true;
 	}
 
 
