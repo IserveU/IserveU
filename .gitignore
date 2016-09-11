@@ -10,8 +10,6 @@
 /storage/logs/*
 .idea
 
-.idea
-
 _ide_helper.php
 npm-debug.log
 .env
