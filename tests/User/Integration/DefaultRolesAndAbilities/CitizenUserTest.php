@@ -11,6 +11,7 @@ class CitizenUserTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $this->setSettings(['security.verify_citizens'=>1]);
 
         $this->signInAsRole('citizen');
     }

@@ -52,6 +52,7 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_cannot_create_a_motion()
     {
+        $this->setSettings(['security.verify_citizens'=>1]);
 
         $draft = factory(App\Motion::class, 'draft')->make()->setVisible(['title','summary'])->toArray();
         $review = factory(App\Motion::class, 'review')->make()->setVisible(['title','summary'])->toArray();
@@ -69,6 +70,7 @@ class MotionPermissionTest extends TestCase
             ->assertResponseStatus(302);
 
         $this->signIn(); //No Role
+
         $this->post('/api/motion', $review)
             ->assertResponseStatus(403);
 

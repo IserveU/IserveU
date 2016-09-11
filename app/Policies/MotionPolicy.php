@@ -35,7 +35,7 @@ class MotionPolicy
 
         if(!Auth::user()->can('create-motion')){
             return false;
-        }     
+        }    
    
         //Can't change the status over 1 if not an admin
         if(array_key_exists("status",$inputs)){

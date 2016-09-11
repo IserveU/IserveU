@@ -13,7 +13,7 @@ use Auth;
 
 class CommentVote extends NewApiModel {
 
-	use SoftDeletes; //, Eloquence, Mappable;
+	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -88,17 +88,27 @@ class CommentVote extends NewApiModel {
 	/************************************* Scopes ***************************************************/
 
 	/**
-	 * [scopeCommentsOfPosition description]
-	 * @param  [type] $query    [description]
-	 * @param  [type] $position [description]
-	 * @return [type]           [description]
+	 * Gets comment votes on comment of a certain position
+	 * @param  Builder $query    
+	 * @param  Integer $position The position held
+	 * @return Builder
 	 */
 	public function scopeOnCommentsOfPosition($query,$position){
-		return $query->where('comment_position','=',$position);
+		return $query->whereHas('comment.vote',function($q) use ($position){
+			$q->where('position',$position);
+		});
 	}
 
-	public function scopeNotUser($query,$user_id){
-		return $query->where('comment_user_id','!=',$user_id);
+	/**
+	 * Comment votes not from a user
+	 * @param  Builder $query
+	 * @param  Integer $userId The id of a user who has made comment vottes
+	 * @return [type]         [description]
+	 */
+	public function scopeNotUser($query,$userId){
+		return $query->whereHas('vote',function($q) use ($userId){
+			$q->where('user_id',$userId);
+		});
 	}
 
 	public function scopeBetweenDates($query,$startDate,$endDate){

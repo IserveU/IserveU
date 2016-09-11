@@ -44,12 +44,12 @@ class CommentVotesPermissionsTest extends TestCase
 
         // Make a comment vote
         $commentVote = factory(App\CommentVote::class)
-            ->make(['comment_id' => $comment->id, 'vote_id' => $vote->id])
-            ->setVisible(['position','vote_id','comment_id'])
+            ->make(['comment_id' => $comment->id])
+            ->setVisible(['position'])
             ->toArray();
 
 
-        $this->post('/api/comment_vote',array_merge($commentVote))
+        $this->post('/api/comment/'.$comment->id.'/comment_vote',$commentVote)
             ->assertResponseStatus(200);
 
         $this->seeInDatabase('comment_votes', 

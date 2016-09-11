@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CommentApiTest extends TestCase
+class MotionCommentApiTest extends TestCase
 {
     use DatabaseTransactions;    
 
@@ -22,14 +22,14 @@ class CommentApiTest extends TestCase
     ******************************************************************/
     
     /** @test  */
-    public function user_id_is_visible(){
+    public function user_id_is_not_visible(){
         
         $comment = factory(App\Comment::class)->create();
 
         
         $this->get('/api/motion/'.$comment->vote->motion_id.'/comment')
              ->assertResponseStatus(200)
-             ->seeJson([
+             ->dontSeeJson([
                 'user_id'   =>  $comment->vote->user_id
             ]);
     

@@ -59,14 +59,14 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('setting', 'SettingController');
 	Route::resource('user', 'UserController');
 
-
+	Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index']]);
 
 	Route::group(['middleware' => 'auth:api'], function(){
 
 		Route::resource('comment/{comment}/comment_vote','CommentCommentVoteController',['only'=>['store']]);
 		Route::resource('comment_vote', 'CommentVoteController',['except'=>['store']]);
 
-		Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['index','store']]);
+		Route::resource('motion/{motion}/vote','MotionVoteController', ['only'=>['store']]);
 
 		Route::resource('background_image', 'BackgroundImageController');
 
