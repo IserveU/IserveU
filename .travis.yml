@@ -18,6 +18,7 @@ before_script:
   - mysql -u root -e 'create database forge;'
   - composer self-update
   - composer install --no-interaction
+  - npm install
   - php artisan setup:initialize admin@iserveu.ca abcd1234 yes
 
 script:
