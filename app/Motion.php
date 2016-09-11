@@ -129,7 +129,7 @@ class Motion extends NewApiModel {
     public function skipVisibility(){
        $this->setVisible(array_merge(array_keys($this->attributes),
 	            ['title','text','summary','department_id','id','votes',
-						  'MotionOpenForVoting','closing','user_vote','user_id'.
+						  'motion_open_for_voting','closing','user_vote','user_id'.
 						  'status','updated_at','slug']
 	        	)
        		);
