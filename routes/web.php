@@ -19,9 +19,9 @@ Route::get('/', function() {
 
 Validator::extend('notRequired', 'CustomValidation@notRequired');
 
-Route::post('authenticate', 'AuthenticateController@authenticate');
-Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword');
-Route::get('authenticate/{remember_token}','AuthenticateController@noPassword');
+Route::post('authenticate', 'AuthenticateController@authenticate')->name('login');
+Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword')->name('reset.trigger');
+Route::get('authenticate/{remember_token}','AuthenticateController@noPassword')->name('reset.return');
 
 
 Route::group(['prefix' => 'api'], function(){				
@@ -37,7 +37,7 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('vote/{vote}/comment','Vote\VoteCommentController', ['only'=>['store']]);
 
 	//Comment
-	Route::get('comment/{id}/restore','Comment\CommentController@restore'); //Could add deleted status and update it
+	//Route::get('comment/{id}/restore','Comment\CommentController@restore'); //Could add deleted status and update it
 	Route::resource('comment', 'Comment\CommentController',['except'=>['store','create','edit']]);
 	Route::resource('comment/{comment}/comment_vote','Comment\CommentCommentVoteController',['only'=>['store']]);
 
@@ -47,7 +47,7 @@ Route::group(['prefix' => 'api'], function(){
 	//Motion
 	Route::resource('motion/{motion}/vote','Motion\MotionVoteController', ['only'=>['index','store']]);
 	Route::resource('motion/{motion}/comment','Motion\MotionCommentController',['only'=>['index']]);
-	Route::get('motion/{id}/restore','Motion\MotionController@restore');
+	//Route::get('motion/{id}/restore','Motion\MotionController@restore');
 	//Route::resource('motion.motionfile','Motion\MotionFileController'); //Should be updated in file rework to share same
 	//Route::post('motionfile/flowUpload', 'Motion\MotionFileController@flowUpload');  //Should be updated in file rework to share same
 	Route::resource('motion', 'Motion\MotionController',['except'=>['create','edit']]);
