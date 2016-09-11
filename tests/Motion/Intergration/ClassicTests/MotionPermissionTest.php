@@ -35,19 +35,7 @@ class MotionPermissionTest extends TestCase
         $this->assertEquals(403, $response->status());
     }
 
-    /** @test */
-    public function it_can_create_a_motion()
-    {
-        $this->signInAsPermissionedUser('create-motion');
-        $motion  = postMotion($this);
-
-        $this->seeInDatabase('motions', ['title' => $motion->title, 'summary' => $motion->summary]);
-
-        $this->get('/api/motion/'.$motion->id);
-        
-        $this->assertResponseOk();
-    }
-
+   
 
     /** @test */
     public function it_cannot_create_a_motion()
@@ -112,9 +100,9 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'draft')->make([
-            'user_id'   =>  $this->user->id
-        ])->setVisible(['status','title'])->toArray();
+        $motion['status'] = 'draft';
+        $motion['title'] = 'Who cares about these old tests?';
+        $motion['user_id'] = $this->user->id;
 
         $this->post('/api/motion/',$motion);
 
