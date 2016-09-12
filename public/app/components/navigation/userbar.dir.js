@@ -10,14 +10,14 @@ angular
 		'$mdSidenav', 
 		'$mdMedia', 
 		'$state',
-		'auth', 
-		'afterauth', 
+		'authResource', 
+		'loginService', 
 		'UserbarService', 
 		'pageObj',
 		'motionIndex',
 	userBar]);
 
-	function userBar($translate, $mdSidenav, $mdMedia, $state, auth, afterauth, UserbarService, pageObj, motionIndex){
+	function userBar($translate, $mdSidenav, $mdMedia, $state, authResource, loginService, UserbarService, pageObj, motionIndex){
 		
 	  	 /** @ngInject */
 		function UserbarController($scope) {
@@ -36,11 +36,7 @@ angular
 			}
 
 			this.logout = function() {
-				$state.transitionTo('login');		
-
-				auth.logout().then(function() {
-					afterauth.clearCredentials();
-				});				
+				authResource.logout().then( loginService.clearCredentials(true) );				
 			}
 
 			this.switchMenuButton = function(){
@@ -48,9 +44,7 @@ angular
 			}
 
 			this.toggleSidebar = function(id) {
-				$mdSidenav(id).toggle().then(function(){
-					motionIndex._load();
-				}); 
+				$mdSidenav(id).toggle().then( motionIndex._load() );
 			}
 		};
 

@@ -1,18 +1,16 @@
-<div class="motionVotes__buttons" layout="row" flex>
+<div class="motion__votes-button_container" layout="row" flex>
 
-  <md-card ng-repeat="voteButton in motionVoteButtons.buttons" class="{{::voteButton.class}}" ng-hide="voteButton.hidden" flex>
+  <md-card ng-repeat="button in motionVoteButtons.buttons" class="motion__votes-button {{ ::button.type }}" ng-hide="button.hidden" flex>
     <md-card-content>
+                 
+      <md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)"
+                 ng-class="button.selectedClass" layout-fill>
 
-      <md-button ng-click="voteButton.cast(motion)"
-                 ng-class="[ { 'voting-disabled': voteButton.isDisabled(motion) }, 
-                             {'raised' : voteButton.isActiveClass(motion.user_vote)} ]"
-                 aria-label="{{voteButton.ariaLabel}}" layout-fill>
-
-          <md-icon class="{{voteButton.iconClass}}" md-svg-src="/themes/{{::themename}}/{{ voteButton.icon }}.svg"></md-icon>
+          <md-icon ng-class="button.selectedColour" md-svg-src="/themes/{{::themename}}/icons/{{ button.selectedIcon }}.svg"></md-icon>
 
       </md-button>
 
-      <md-tooltip>{{ voteButton.getMessage(motion) }}</md-tooltip>
+      <md-tooltip>{{ button.tooltip }}</md-tooltip>
     </md-card-content>
   </md-card>
 </div>

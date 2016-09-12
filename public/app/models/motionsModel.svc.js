@@ -9,43 +9,58 @@ angular
 	'motionResource',
 	'MotionComments',
 	'MotionFile',
-	'MotionVotes', 
-	'errorHandler', 
-function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, errorHandler){
-
+	'MotionVotes',
+	'$state',
+	'ToastMessage',
+	'SETTINGS_JSON',
+	'utils',
+function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $state, ToastMessage, SETTINGS_JSON, utils){
 
 	function Motion(motionData) {
 		if(motionData) {
 			this.setData(motionData);
-		} 
+		}
 	}
 
 	Motion.prototype = {
 
+		_sanitize: function() {
+			return angular.extend({}, {
+				title: this.title,
+				summary: this.summary,
+				text: this.text,
+				status: this.status,
+				department_id: this.department_id,
+				closing: this.getClosing(),
+				user_id: this.user_id,
+				id: this.id
+			})
+		},
+
+		refreshExtensions: function() {
+			this.getMotionComments();
+			this.getMotionVotes();
+			this.reloadMotionIndex();
+		},
+
 		setData: function(motionData) {
+			console.log(motionData);
 			angular.extend(this, motionData);
+			return this;
 		},
 
 		load: function(id) {
 			var self = this;
 			motionResource.getMotion(id).then(function(result) {
-				self.setData(result);
-				self.getMotionComments(id);
-				self.getMotionFiles(id);
-				self.getMotionVotes(id);
-				self.reloadMotionIndex();
-			}, function(error) {
-				errorHandler(error);
+				self.setData(result).refreshExtensions();
 			});
 		},
 
 		delete: function() {
 			var self = this;
 			motionResource.deleteMotion(id).then(function(result){
-				self.setData(result);	
+				self.setData(result).refreshExtensions();	
 				// redirect and toast
-			}, function(error){
-				errorHandler(error);
 			});
 		},
 
@@ -54,9 +69,15 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 			motionResource.updateMotion(data).then(function(result){
 				self.setData(result);	
 				// redirect and toast
-			}, function(error){
-				errorHandler(error)
 			});
+		},
+
+		getClosing: function() {
+			if(this.status === 'published') {
+				return undefined;
+			} else {
+				return SETTINGS_JSON.allow_closing ? utils.date.stringify(this.closing) : new Date(NaN);
+			}
 		},
 
 		/**
@@ -72,8 +93,6 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 			}, function(error){
 				// temporary fix for php error
 				self.setData({motionComments: null });	
-
-				// errorHandler(error);
 			});	
 		},
 
@@ -100,8 +119,6 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 					self.setData({motionFiles: motionFiles});
 				}
 
-			}, function(error){
-				errorHandler(error);
 			});
 		},
 
@@ -109,30 +126,38 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 		*	Get the votes associated with this Motion.
 		*/
 		getMotionVotes: function(id) {
-			var self = this;
+			var self = this; 
 			id = id || self.id;
-			motionResource.getMotionVotes(id).then(function(result){
-				
-				var motionVotes = new MotionVotes(result.data);
-				self.setData({motionVotes: motionVotes});
-				motionVotes.getOverallPosition();
 
-			}, function(error){
-				errorHandler(error);
+			motionResource.getMotionVotes(id).then(function(result){
+				if(!('motionVotes' in self)) {
+					self.setData({motionVotes: new MotionVotes(result)});
+					self.motionVotes.getOverallPosition();
+				} else {
+					self.motionVotes.reload(result).getOverallPosition();
+				}
 			});
+		},
+
+		reloadMotionIndex: function() {
+			return motionIndex.reloadOne(this);
 		},
 
 		/**
 		*	Update the user's votes attached to this Motion.
 		*/
 		reloadUserVote: function(vote) {
-			return angular.extend(this.user_vote, {}, {position: vote.position});
+			console.log(vote);
+			this.user_vote = {};
+			this.user_vote = {motion_id: vote.motion_id, id: vote.id, position: +vote.position};
+			console.log(this);
 		},
 
-		reloadMotionIndex: function() {
-			return motionIndex.reloadOne(this);
+		reloadOnVoteSuccess: function(vote) {
+			this.reloadUserVote(vote);
+			this.getMotionVotes();
+			this.reloadMotionIndex();
 		}
-
 	}
 
 	Motion.build = function(motionData) {
@@ -161,6 +186,13 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, e
 			}
 			var newMotion = Motion.build(motion);
 			return newMotion;
+		}
+	}
+
+	function errorHandler(error) {
+		if(error.status === 404) {
+			ToastMessage.simple('The requested page does not exist.')
+			$state.go('home');
 		}
 	}
 
