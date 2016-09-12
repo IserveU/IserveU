@@ -8,39 +8,85 @@
 
 	function($httpProvider){
 
+
 		$httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"; // for AJAX
-		$httpProvider.defaults.headers.common['X-CSRFToken'] = localStorage.getItem('satellizer_token');
 
-		/** 
-		/* This is being unused ... it's a good concept that will come in handy later as an error handler
-		/* as well as a trigger for 200 triggers!
+		$httpProvider.interceptors.push(['$q', '$injector', function($q, $injector) {
+		    return {
+		      'request': function(config) {
+		      	// LARAVEL HACK
+		      	if(config.method === "PATCH" || config.method === "PUT") {
+			      	config.transformRequest = transformToFormData;
+			      	config.headers["Content-Type"] = undefined;
+			      	config.headers["X-HTTP-Method-Override"] = "PATCH";
+		      		config.method = "POST";
+		      	}
+
+		      	// probably not the best place to do this
+		      	config.headers["Authorization"] = "Bearer " + localStorage.getItem('api_token');
+
+		        return config || $q.when(config);
+		      },
+		      'response': function(config) {
+		        return config || $q.when(config);
+		      },
+		      'responseError': function(config) {
+		      	
+				var ERROR_CODES = [400, 403, 405, 500];
+		      	var toast = $injector.get("ToastMessage");
+		      
+		      	if(ERROR_CODES.includes(config.status)){
+			      	toast.report_error(config.data);
+		      	} else if(config.status === 401 && config.statusText === "Unauthorized"){
+			      	var loginService = $injector.get("loginService");
+			      	// loginService.clearCredentials();
+		      	}
+
+		      	return $q.reject(config);
+		      }
+		    };
+
+		}]);
+
+
+		/**
+		*	Transforms object array into FormData type to post to API.
 		*/
-		
-		// $httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope) {
-		// 	var $state, $http;
+		function transformToFormData(data, getHeaders) {
+			var _fd = new FormData();
+            angular.forEach(data, function (val, key) {
+            	if(val === null || 
+            	   val === '' || 
+            	   angular.isUndefined(val) ||
+            	   key.charAt(0) === '$') return;
 
-		// 	$timeout(function() {
-		// 		$http = $injector.get('$http');
-		// 		$state = $injector.get('$state');
-		// 	});
-		
+            	if(typeof val === 'object' && Object.keys(val).length !== 0)
+                    transformObjectToFormData(_fd, val, key);
+                else if(key.charAt(0) !== '$' && typeof val === 'string' || typeof val === 'number' || val instanceof File)
+            		_fd.append(key, val);
+            });
 
-		// 	return {
-		// 		responseError: function(rejection) {
-		// 			if(rejection.status === 401)
-		// 				// $state.go('permissionfail');
+            function transformObjectToFormData(fd, obj, key) {
+            	angular.forEach(obj, function(i, e){
+            		if(typeof i === 'object'){
 
-		// 			if(rejection.status === 403)
-		// 				// access forbidden
-		
-		// 			return $q.reject(rejection);
-		// 		}
-		// 	}
-		// });
+            			if(typeof e === 'string' && e.charAt(0) === '$') return;
+
+            			var t = key+'['+e+']';
+                		if(i instanceof File){
+                			fd.append(t, i)
+                		}
+                		// checks for primitive number and string that does not begin with $
+                		else if (Array.isArray(e) || typeof e === 'object' || typeof e === 'number' || ( typeof e === 'string' && e.charAt(0) !== '$'))
+                			transformObjectToFormData(fd, i, t);
 
 
-
-
+                	} else if(!angular.isUndefined(i))
+                		fd.append(key+'['+e+']', i);
+            	});
+            }
+            return _fd;
+		}
 
 	}]);
 

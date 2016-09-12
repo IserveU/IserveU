@@ -2,16 +2,18 @@
 	
 	angular
 		.module('iserveu')
-		.directive('homePage', homePage);
+		.directive('homePage', ['$state', homePage]);
 
-	function homePage() {
+	function homePage($state) {
 
-		function homePageController() {
-			
-			// do something
+		function homePageController() {			
+			/* function exports */
+			this.edit = edit;
 
+			function edit() {
+				$state.go('edit-home');
+			}
 		}
-
 
 		return {
 			controller: homePageController,

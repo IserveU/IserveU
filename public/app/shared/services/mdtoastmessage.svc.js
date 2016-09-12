@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('ToastMessage', ['$state', '$mdToast', '$timeout', '$translate', 'utils', ToastMessage]);
+		.factory('ToastMessage', ['$rootScope', '$state', '$mdToast', '$timeout', '$translate', 'utils', ToastMessage]);
 
      /** @ngInject */
-	function ToastMessage($state, $mdToast, $timeout, $translate, utils) {
+	function ToastMessage($rootScope, $state, $mdToast, $timeout, $translate, utils) {
 	
         function simple(message, time){
             var timeDelay = time || 1000;
@@ -41,10 +41,9 @@
 
 
         function customFunction(message, affirmative, fn, warning){
-            var toast = action(message, affirmative, warning);
-            $mdToast.show(toast).then(function(r){
-                if(r == 'ok')
-                    fn();
+            var toast = action(message, affirmative, warning || true);
+            return $mdToast.show(toast).then(function(r){
+                if(r == 'ok') fn();
             });
         }
 
@@ -71,10 +70,10 @@
         }
 
         function mustBeLoggedIn(reason){
-            customFunction("You must be logged in " + reason, "Go", 
-                function(){
-                    $state.go('login');
-                }, true);
+            return $rootScope.userIsLoggedIn ? false : 
+            (function(){ return true && customFunction("You must be logged in "+reason, "Go",
+                function(){ $state.go('login') })
+            })();
         }
 
         function voteSuccess(type){

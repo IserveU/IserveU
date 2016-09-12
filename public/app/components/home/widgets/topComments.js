@@ -2,35 +2,26 @@
 	
 	angular
 		.module('iserveu')
-		.directive('topComments', ['homeResource', 'homePageService', topComments]);
+		.directive('topComments', ['homeResource', topComments]);
 
-	function topComments(homeResource, homePageService) {
+	function topComments(homeResource) {
 
 		function topCommentsController() {
 			
 			var self = this;
 
 			self.loading = true;
+			self.motionList = {};
 
-			function init() {
-
-				if(homePageService.topComments.length > 0) {
-					self.loading = false;
-					self.commentList = homePageService.topComments;
-					return true;
-				}
-
+			(function init() {
 				homeResource.getTopComments().then(function(results){
 					self.loading = false;
-					self.commentList = homePageService.topComments = results;
+					self.commentList = results.data;
 				}, function(error){
 					self.loading = false;
 					throw new Error("Unable to retrieve top comments.");
 				});
-			}
-
-			init();
-
+			})();
 		}
 
 

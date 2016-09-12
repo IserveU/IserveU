@@ -177,13 +177,9 @@
 			<h3 class="title-header">Terms & Conditions</h3>
 		</div>
 		<div ng-if="showTermsAndConditions" layout="column">
-			<md-input-container>
-				<textarea ng-model="content.settings.site.terms"></textarea>
-			</md-input-container>
-		
-
+	
+			<textarea alloy-editor id="terms-conditions-editor" ng-model="content.settings.site.terms"></textarea>
 			<spinner ng-click="content.service.saveTypeOf('site.terms', content.settings.site.terms);" name="'Save'" on-hide="content.settings.saving"></spinner>
-
 
 		</div>
 		</md-card-content>

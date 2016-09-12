@@ -2,34 +2,27 @@
 	
 	angular
 		.module('iserveu')
-		.directive('myVotes', ['homeResource', 'homePageService', myVotes]);
+		.directive('myVotes', ['homeResource', myVotes]);
 
-	function myVotes(homeResource, homePageService) {
+	function myVotes(homeResource) {
 
 		function myVotesController() {
 			
 			var self = this;
 
-			self.loading = true;
+			self.loading  = true;
+			self.voteList = {};
 
-			function init() {
-
-				if(homePageService.myVotes.length > 0) {
-					self.loading = false;
-					self.voteList = homePageService.myVotes;
-					return true;
-				}
+			(function init() {
 
 				homeResource.getMyVotes().then(function(results){
-					self.loading = false;
-					self.voteList = homePageService.myVotes = results.data;
+					self.loading  = false;
+					self.voteList = results.data.data;
 				}, function(error) {
 					self.loading = false;
 					throw new Error("Unable to retrieve my votes.");
 				});
-			}
-
-			init();
+			})();
 
 		}
 

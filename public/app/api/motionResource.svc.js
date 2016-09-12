@@ -66,6 +66,7 @@
 		function getMotion(id) {
 			console.log('getMotion');
 			return Motion.get({id:id}).$promise.then(function(success) {
+				console.log(success);
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -105,14 +106,10 @@
 		}
 
 		function getMotionVotes(id) {
-			// return MotionVotes.query({id:id}).$promise.then(function(success){
-			// 	return success;
-			// }, function(error) {
-			// 	return $q.reject(error);
-			// });
 	    	return $http.get('api/motion/'+id+'/vote', {
 		        withCredentials: true,
 		        headers: {'Content-Type': undefined },
+		        ignoreLoadingBar: true,
 		        transformRequest: angular.identity
 		    }).success(function(success) {
 				return success;
