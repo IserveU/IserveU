@@ -94,10 +94,17 @@ angular
 		},
 
 		reloadOne: function(motion) {
-			for(var i in this._index) {
-				if( motion.id == this._index[i].id )
+			var i = 0;
+
+			for(i in this._index) {
+				if( motion.id == this._index[i].id ) {
 					this._index[i] = motion;
+					return true;
+				}
 			}
+
+			this._index[++i] = motion;
+
 			return true;
 		}
 	}

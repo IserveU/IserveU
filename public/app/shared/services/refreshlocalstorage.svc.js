@@ -38,7 +38,7 @@
 	
 
 		function getSettings() {
-			return $http.get('settings').success(function(results) {
+			return $http.get('/api/setting').success(function(results) {
 				return result;
 			}).error(function(error) {
 				return error;

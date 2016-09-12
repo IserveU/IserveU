@@ -90,7 +90,7 @@
 			else if ( motion.status === 'review' ) {
 				return "This "+ item + " is currently being reviewed and is not open for voting.";
 			}
-			else if ( !motion.MotionOpenForVoting ) {
+			else if ( !motion.motionOpenForVoting ) {
 				return "This "+ item + " is closed for voting.";
 			} else {
 				return type + " with this " +  item;
@@ -98,7 +98,7 @@
 		}
 
 		function isVotingEnabled(motion) {
-			return ( !motion.MotionOpenForVoting || !Authorizer.canAccess('create-vote') ||  motion.status === 'review' );
+			return ( !motion.motionOpenForVoting || !Authorizer.canAccess('create-vote') ||  motion.status === 'review' );
 		}
 
 		return {
