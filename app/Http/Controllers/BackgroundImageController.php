@@ -31,22 +31,7 @@ class BackgroundImageController extends ApiController
         return $backgroundImage;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        if(!Auth::user()->can('create-background_image')){
-            abort(401,'You do not have permission to create a motion');
-        }
 
-        $backgroundImageFields      = (new BackgroundImage)->fields;
-        $fileFields                 = (new File)->fields;
-        
-        return array_merge($fileFields,$backgroundImageFields);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -92,20 +77,7 @@ class BackgroundImageController extends ApiController
         return $backgroundImage;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit(BackgroundImage $backgroundImage)
-    {
-        $backgroundImageFields      = $backgroundImage->fields;
-        $fileFields                 = $backgroundImage->file->fields;
-        
-        return array_merge($fileFields,$backgroundImageFields);
-    }
-
+  
     /**
      * Update the specified resource in storage.
      *
