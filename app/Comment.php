@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
+
 use App\CommentVote;
 use DB;
 use Illuminate\Support\Facades\Validator;
@@ -16,11 +15,11 @@ use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
 use App\Events\Comment\CommentCreated;
 
-
+use Auth;
 
 class Comment extends NewApiModel {
 	
-	use SoftDeletes, Eloquence, Mappable;
+	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -32,51 +31,24 @@ class Comment extends NewApiModel {
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['text'];
+	protected $fillable = ['text','vote_id'];
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var Array
-	 */
-	protected $adminFillable = [];
 
 	/**
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['text','vote','user','id','commentRank', 'created_at', 'updated_at']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
+	protected $visible = ['text','vote','id','commentRank','created_at','updated_at','user_id']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
 	
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var Array
-	 */
-	protected $adminVisible = [];
-
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var Array
-	 */
-	protected $creatorVisible = [];
-
-	/**
-	 * The attributes visible if the entry is marked as public
-	 * @var array
-	 */
-	protected $publicVisible =  [];
-
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */
-   	protected $maps = [
-     	'vote' 			=> 	['motion_id','position','user','user_id'] /* User ID is here for the benefit of the getMotionComments */
-    ];
 	
+	protected $with = ['vote','commentRank'];
+
+
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['position','motion_id','commentRank','user'];  
+    protected $appends = ['position','motion_id','commentRank'];  
 
 
 	/**
@@ -106,12 +78,40 @@ class Comment extends NewApiModel {
 		});
 	}
 
+
+    public function skipVisibility(){
+       $this->setVisible(array_merge(array_keys($this->attributes)));
+    }
+
+    public function setVisibility(){
+
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
+            $this->skipVisibility();
+        }
+
+        if($this->publiclyVisible){
+			$this->setVisible(['user','last_name','id','community_id']);
+        }
+
+
+		$this->setVisible(['text','created_at','vote_id','id']);
+
+
+
+        return $this;
+    }
+
+
+
 	/**************************************** Custom Methods **************************************** */
 	
 
 
 	
 	/****************************************** Getters & Setters ************************************/
+
+
 
 	/**
 	 * @return integer the mutator to get the sum of all the comment votes
@@ -142,13 +142,14 @@ class Comment extends NewApiModel {
 
 	/************************************* Scopes *****************************************/
 
-	public function scopeAgree($query){
-		return $query->where('position',1);
+
+
+	public function scopePosition($query,$position){
+		return $query->whereHas('vote',function($q) use ($position) {
+			$q->where('position',$position);
+		});
 	}
 
-	public function scopeDisagree($query){
-		return $query->where('position','!=',1);
-	}
 
 	public function scopeBetweenDates($query,$startDate,$endDate){
 		if($startDate)	$query = $query->where('created_at','>=',$startDate);

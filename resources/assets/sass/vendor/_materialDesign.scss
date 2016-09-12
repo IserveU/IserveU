@@ -1,0 +1,79 @@
+.floating-button__directive {
+	position: fixed;
+	right: 15px;
+}
+
+.floating-button__directive md-fab-trigger > button > md-icon {
+	margin-bottom: 18px;
+}
+
+.floating-button__directive .md-fab-action-item md-icon {
+	margin-bottom: 6px;
+}
+
+.floating-button__directive md-fab-speed-dial {
+	transition-duration: .5s;
+	-o-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	-moz-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	-webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+// Angular Material overrides
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+md-toast{
+	position: fixed;
+}
+
+ng-message{
+	position:relative;
+}
+
+[layout-margin]{
+	margin: $padding/2;
+}
+
+[layout-padding]{
+	padding: $padding/2;
+}
+
+md-card{
+	margin: 0;
+	md-card-content {
+		padding: 0;
+	}
+}
+
+md-progress-linear {
+	> div:first-child {
+		height: 3px;
+	}
+}
+
+md-progress-circular {
+	margin: auto;
+}
+
+md-sidenav{
+ 	background-color: rgba(255,255,255,1) !important;	
+} 
+
+// for toolbar shadow
+md-sidenav.md-locked-open {
+	z-index: $zBody;
+}
+
+.mdi {
+  font-size:24px;
+}
+
+.md-select-menu-container  {
+	z-index: 999;
+}
+.md-backdrop-select {
+	z-index: 999;
+}
+
+// End Angular Material overrides

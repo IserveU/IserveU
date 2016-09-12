@@ -23,6 +23,8 @@ class UpdateCommentVoteRequest extends Request
         }
 
          if(!Auth::user()->can('create-comment_vote')){
+                    dd(Auth::user()->can('create-comment_vote'));
+
             return false; //abort(401,'You do not have permission to vote on a comment');
         }
 
@@ -44,12 +46,11 @@ class UpdateCommentVoteRequest extends Request
      * @return array
      */
     public function rules()
-    {
-        $commentVote = $this->route()->parameter('commentVote');
-
+    {        
         return [
-            'text'          =>  'min:3|string',
-            'id'            =>  'integer'
+            'comment_id'    =>  'reject',
+            'position'      =>  'integer|min:-1|max:1|required|filled',
+            'vote_id'       =>  'reject'
         ];
 
     }

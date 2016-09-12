@@ -14,27 +14,27 @@ class VotePolicy
     use HandlesAuthorization;
 
 
-    public function inputsAllowed(array $inputs, Vote $vote = null){
-        
+    public function inputsAllowed(array $inputs, Motion $motion, Vote $vote = null){
+        if(!Auth::check()){
+            return false;
+        }
+                  
+
         if(!Auth::user()->can('create-vote')){
             return false;
         }    
 
-        if($vote){ //An update
-            $motion = $vote->motion;
-        } else {
-           if(!array_key_exists('motion_id',$inputs)) { //Had to put this here because form requests do auth first
-                abort(403,'motion_id field required to create a new vote');
-            }
-            $motion = Motion::findOrFail($inputs['motion_id']);
+        if(!$motion->exists()){
+            abort(403,'Motion does not exist');
         }
 
         if(!$motion->motionOpenForVoting){ //Motion has closed/expired
-
-             return false;
+             abort(403,"Motion isnt not open for voting");
         }
 
+
         if(array_key_exists('user_id',$inputs) && $inputs['user_id']!=Auth::user()->id) { 
+            abort(403,"You can only update and create your own vote");
             // Can only vote/alter own
             return false;
         }

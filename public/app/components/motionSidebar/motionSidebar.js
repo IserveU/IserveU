@@ -5,33 +5,52 @@
   angular
     .module('iserveu')
     .directive('motionSidebar', 
-    	['$mdSidenav',
+    	['$timeout',
+       '$mdSidenav',
     	 'motionIndex',
     	 'motionSearchFactory',
-
     	motionSidebar]);
    
-  function motionSidebar($mdSidenav, motionIndex, motionSearchFactory) {
+  function motionSidebar($timeout, $mdSidenav, motionIndex, motionSearchFactory) {
 
-    	function MotionSidebarController() {
+    	function MotionSidebarController($scope) {
+    		
+        $scope.$mdSidenav = $mdSidenav;
 
-    		// global context for this
+        /** global context for this */
     		var self = this;
-
+            
+        /** @type {exports} */
+        self.closeSidenav = closeSidenav;
+        self.loadMotions = loadMotions;
     		self.motionIndex = motionIndex;
     		self.search = motionSearchFactory; 
-    		
-    		self.closeSidenav = function(id) { 
-    			$mdSidenav(id).close(); 
-    		};
 
-    		// Initial pull to fill sidebar using motionIndex service.	
-    		self.motionIndex._load();
+        /**
+         * Pull to fill sidebar using motionIndex service. 
+         * @return {} 
+         */
+        function loadMotions() {
+          if(Object.keys(self.motionIndex._index).length === 0){
+              return self.motionIndex._load();            
+          } else {
+              return self.motionIndex.loadMoreMotions();
+          }
+        }
+
+        /**
+         * Close sidenav.
+         * @param  {string} id $mdSidenav identifier
+         * @return {}
+         */
+    		function closeSidenav(id) { 
+    			  $mdSidenav(id).close(); 
+    		};
 
     	};
 
         return {
-        	controller: MotionSidebarController,
+        	controller: ['$scope', MotionSidebarController],
         	controllerAs: 'motionSidebar',
           	templateUrl: 'app/components/motionSidebar/motionSidebar.tpl.html'
         }

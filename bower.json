@@ -25,7 +25,9 @@
     "textAngular": "1.4.2",
     "themes": "git@github.com:/IserveU/themes.git",
     "md-color-picker": "*",
-    "isu-form-sections": "*"
+    "isu-form-sections": "*",
+    "angular-alloyeditor": "^0.0.4",
+    "alloyeditor": "^1.2.3"
   },
   "private": true,
   "resolutions": {

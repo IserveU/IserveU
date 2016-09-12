@@ -5,65 +5,50 @@
   angular
     .module('iserveu')
     .directive('quickVote', [
-    	'$rootScope', 
-    	'$state',
-    	'$stateParams',
     	'$translate', 
     	'voteResource',
     	'Motion',
-    	'motionIndex',
     	'ToastMessage', 
     	'Authorizer', 
     	'SETTINGS_JSON',
 	quickVote]);
 
-  function quickVote($rootScope, $state, $stateParams, $translate, voteResource, Motion, motionIndex, ToastMessage, Authorizer, SETTINGS_JSON) {
+  function quickVote($translate, voteResource, Motion, ToastMessage, Authorizer, SETTINGS_JSON) {
 
   	function quickVoteController() {
 
-  		var self = this;
-
-        self.cycleVote = cycleVote;
+        this.cycleVote = cycleVote;
 
 		function cycleVote (motion){
 
-			if(!$rootScope.userIsLoggedIn){
-
-				ToastMessage.mustBeLoggedIn('to vote');
-			
+			if(ToastMessage.mustBeLoggedIn('to vote')) {
+				return; 
 			}
-			else if(!motion.MotionOpenForVoting){
-
+			else if(!motion.MotionOpenForVoting) {
 				ToastMessage.simple("This " + $translate.instant('MOTION') + " is not open for voting.", 1000);
-			
 			}
-			else if(!Authorizer.canAccess('create-vote')){
-
+		 	else if(!Authorizer.canAccess('create-vote')) {
 				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
-			
 			}
 			else { 
-				if(!motion.user_vote){
-
+				if( !motion.user_vote && !motion.user_vote.id ){
 					var position = SETTINGS_JSON.abstain ? 0 : 1;
-					castVote( motion, position );
-				
+					castVote(motion, position);
 				}
 				else {
 
 		            var position, data;
 					
 		            if(SETTINGS_JSON.abstain) {
+		            	// increment without including abstain value == 0
 						position = motion.user_vote.position != 1 ? (motion.user_vote.position + 1) : -1;
 					}
 					else {
+						// increment normally
 						position = motion.user_vote.position == 1 ? -1 : 1;
 					}
 
-					updateVote({
-						id: motion.user_vote.id,
-						position: position
-					}, motion);
+					updateVote(motion, position);
 				};
 			};
 		}
@@ -74,35 +59,29 @@
 		*
 		*******************************************************************/
 		
-		function castVote(motion, pos){
+		function castVote(motion, position){
 			voteResource.castVote({
 				motion_id: motion.id, 
-				position: pos
+				position: position,
 			}).then(function(r){
-				successHandler(r, pos, motion);
+				successHandler(r, motion);
 			});
 		}
 
-		function updateVote(data, motion){
-			voteResource.updateVote(data).then(function(r) {
-				successHandler(r, data.position, motion);
+		function updateVote(motion, position){
+			voteResource.updateVote({
+				id: motion.user_vote.id,
+				position: position,
+			}).then(function(r) {
+				successHandler(r, motion);
 			});
 		}
 
-		function successHandler(vote, pos, motion) {
-
+		function successHandler(vote, motion) {
 			if( !(motion instanceof Motion) ){
 				motion = Motion.build(motion);
 			}
-
-			motion.reloadUserVote( vote );
-			motion.getMotionVotes();
-			motionIndex.reloadOne( motion );
-
-			if(motion.id == $stateParams.id) {
-				$state.reload();
-			}
-
+			motion.reloadOnVoteSuccess( vote );
 		}
 
   	}

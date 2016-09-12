@@ -12,8 +12,8 @@
   
   <md-input-container flex>
     <label>Which community do you reside in?</label>
-    <md-select ng-model="login.service.newUser.community_id" required>
-        <md-option ng-repeat="c in register.community.index" ng-value="c.id" required>{{c.name}}</md-option>
+    <md-select class="select_input__communities" ng-model="login.service.newUser.community_id" required>
+        <md-option ng-repeat="c in register.communityIndex" ng-value="c.id" required>{{c.name}}</md-option>
     </md-select>
     <div ng-messages="registerform.community.$error">
       <div ng-message="required">Community name is required.</div>

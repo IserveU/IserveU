@@ -41,8 +41,57 @@ class AppServiceProvider extends ServiceProvider {
             });
         }
 
-	
-	}
+
+		Validator::replacer('valid_status', function($message, $attribute, $rule, $parameters) {
+            return $message." Invalid status. The current time on the server is ".\Carbon\Carbon::now();
+        });
+
+        Validator::extend('valid_status', function($attribute, $value, $parameters, $validator) {
+                $data = $validator->getData();
+
+                $status = $data[$attribute];
+
+                if(!in_array($status,['draft','submitted','review','closed','published','public','private'],true)){
+
+                    return false; //Not a valid status
+                }
+
+
+                if(!array_key_exists('published_at',$data)){
+                    return true; //don't case a problem if it doesn't exist
+                }
+
+                $published_at = $data['published_at'];
+
+                //Get the date
+                if(!($published_at instanceof \Carbon\Carbon)){
+                    $published_at = new \Carbon\Carbon($published_at);
+                }
+                
+                // You cant set something as "published" and set the published date in the future
+                if($status == "published" && $published_at>\Carbon\Carbon::now()){
+                    return false;
+                }
+
+                // You can set something as "scheduled" and have the published date in the past
+                if($status == "scheduled" && $published_at<\Carbon\Carbon::now()){
+                    return false;
+                }
+
+                return true;
+        });        
+
+
+        Validator::replacer('reject', function($message, $attribute, $rule, $parameters) {
+            return "Field not allowed";
+        });
+
+        Validator::extend('reject', function($attribute, $value, $parameters, $validator) {
+                return false;
+        });  
+
+
+	}                  
 
 	/**
 	 * Register any application services.
@@ -60,12 +109,6 @@ class AppServiceProvider extends ServiceProvider {
 			'App\Services\Registrar'
 		);
 
-
-		if ($this->app->environment() == 'local') {
-        	$this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
-    	}
-
- 
 	}
 
 }

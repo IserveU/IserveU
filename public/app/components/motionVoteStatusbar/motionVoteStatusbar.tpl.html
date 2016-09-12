@@ -1,28 +1,15 @@
-<div class="statusbar" layout="row" layout-align="center center" flex> 
+<div class="motion__votes-statusbar_container" layout="row" layout-align="center center" flex> 
 
-    <md-button ng-if="motion.motionVotes['1'] && motion.motionVotes['1'].active" style="width:{{ motion.motionVotes['1'].active.percent }}%; margin:0" class="agree md-raised md-primary" aria-label="Number in agreement">
-      <md-tooltip>{{ motion.motionVotes['1'].active.number }} {{motion.MotionOpenForVoting ? ('AGREE' | translate) : ('AGREED' | translate) }} </md-tooltip>
+    <md-button ng-if="$ctrl.statusbar.agree" style="width:{{ $ctrl.statusbar.agree.percent }}%;" class="agree md-raised md-primary motion__votes-statusbar_agree" aria-label="Number in agreement">
+      <md-tooltip>{{ $ctrl.statusbar.agree.number }} agreed</md-tooltip>
     </md-button>
 
-    <md-button ng-if="motion.motionVotes['1'] && motion.motionVotes['1'].passive" style="width:{{ motion.motionVotes['1'].passive.percent }}%; background-color:#00dbd5; margin:0" class="md-raised" aria-label="Number in deferred agreement">
-      <md-tooltip>{{ motion.motionVotes['1'].passive.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
+    <md-button ng-if="settingsGlobal.abstain && $ctrl.statusbar.abstain" style="width:{{ $ctrl.statusbar.abstain.percent }}%;" class="abstain md-raised md-grey motion__votes-statusbar_abstain" aria-label="Number abstaining">
+      <md-tooltip>{{ $ctrl.statusbar.abstain.number  }} abstained</md-tooltip>
     </md-button>
 
-    <md-button ng-if="settingsGlobal.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].active" style="width:{{ motion.motionVotes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey;" aria-label="Number abstaining">
-      <md-tooltip>{{ motion.motionVotes['0'].active.number }} {{ motion.MotionOpenForVoting? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>
-    </md-button>
-
-    <md-button ng-if="settingsGlobal.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].passive"  style="width:{{  motion.motionVotes['0'].passive.percent }}%; background-color: #c3c3c3; margin:0" class="deferred_abstain md-raised md-primary" aria-label="Number in deferred abstained">
-      <md-tooltip>{{ motion.motionVotes['0'].passive.number }} {{ 'ABSTAIN_DEFERRALS' | translate }} </md-tooltip>
-    </md-button>
-
-    <md-button ng-if="motion.motionVotes['-1'] && motion.motionVotes['-1'].passive" style="width:{{ motion.motionVotes['-1'].passive.percent }}%; background-color: #ff9a00; margin:0" class="deferred-disagree md-raised md-primary" aria-label="Number in deferred agreement">
-      <md-tooltip>{{ motion.motionVotes['-1'].passive.number }} {{ 'DISAGREE_DEFERRALS' | translate }} </md-tooltip>
-    </md-button>
-
-
-    <md-button ng-if="motion.motionVotes['-1']" style="width:{{ motion.motionVotes['-1'].active.percent }}%; margin:0" class="disagree md-raised md-accent" aria-label="Number in disagreement">
-      <md-tooltip>{{ motion.motionVotes['-1'].active.number }} {{ motion.MotionOpenForVoting ? ('DISAGREE' | translate) : ('DISAGREED' | translate) }} </md-tooltip>
+    <md-button ng-if="$ctrl.statusbar.disagree" style="width:{{ $ctrl.statusbar.disagree.percent }}%;" class="disagree md-raised md-accent motion__votes-statusbar_disagree" aria-label="Number in disagreement">
+      <md-tooltip>{{ $ctrl.statusbar.disagree.number }} disagreed</md-tooltip>
     </md-button>
 
 </div>

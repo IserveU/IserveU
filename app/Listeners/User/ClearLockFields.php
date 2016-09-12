@@ -30,11 +30,10 @@ class ClearLockFields
 
         $user->remember_token   = null;
         $user->login_attempts   = 0;
-        $user->locked_until     = null;        
+        $user->locked_until     = null;
 
-        if(!$user->save()){ //Validation failed show errors
-            abort(403,$event->user->errors);
-        }
+        $user->save();
+
         
     }
 }

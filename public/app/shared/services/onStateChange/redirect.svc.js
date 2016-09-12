@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.service('redirect', ['$rootScope', '$state', redirect]);
+		.service('redirectService', ['$rootScope', '$state', redirectService]);
 
 	/** @ngInject */
-	function redirect($rootScope, $state) {
+	function redirectService($rootScope, $state) {
 
 		/**
 		*	Redirect function for when a user is forwarded to a site URL and
@@ -36,7 +36,21 @@
 			};
 		}; 
 
+		/**
+		 * Basic redirect if there has been a login. It will take the user to their previous
+		 * state before they were required to login. Or if they were given a URL they did
+		 * not have permissions to.
+		 * @return {stateChange}  Previously visted state.
+		 */
+		this.redirect = function() {
+			return $rootScope.redirectUrlName 
+			   ? $state.transitionTo($rootScope.redirectUrlName, {"id": $rootScope.redirectUrlID}) 
+			   : $state.transitionTo('home');
+		}
 
+		this.onLogout = function() {
+			$state.transitionTo('login');
+		}
 
 	}
 

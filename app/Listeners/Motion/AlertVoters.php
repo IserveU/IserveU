@@ -3,6 +3,7 @@
 namespace App\Listeners\Motion;
 
 use App\Vote;
+use App\Motion;
 use App\Events\Motion\MotionUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,9 +31,9 @@ class AlertVoters
     {
         $motion = $event->motion;
 
-        $changedFields = $motion->getAlteredLockedFields();
 
-        if(!empty($changedFields)){
+
+        if($this->hasAlteredLockedFields($motion)){
 
             $motionVotes = Vote::whereHas('user',function($query){
                 $query->whereNull('deleted_at');
@@ -51,5 +52,18 @@ class AlertVoters
             }
 
         }
+    }
+
+    public function hasAlteredLockedFields(Motion $motion){
+        $dirty = $motion->getDirty();
+
+        if(array_key_exists('title',$dirty)){
+            return true;
+        }
+        if(array_key_exists('text',$dirty)){
+            return true;
+        }
+
+        return false;
     }
 }

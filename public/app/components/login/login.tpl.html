@@ -7,13 +7,13 @@
 
     <md-content class="md-whiteframe-z5 loginbox" layout="row" layout-padding layout-wrap flex>
 
-        <form name="loginform" ng-if="!login.registerform" layout="column" flex novalidate>
+        <form name="loginForm" ng-if="!login.registerform" layout="column" flex novalidate>
           
           <md-input-container flex>
             <label>Email</label>
             <input type="email" label="email" name="email" ng-model="login.service.credentials.email" autofocus required>
-              <div ng-messages="loginform.email.$error || login.service.errors.invalidEmail">
-                <div ng-if="loginform.email.$dirty" ng-message="required">Email is required</div>
+              <div ng-messages="loginForm.email.$error || login.service.errors.invalidEmail">
+                <div ng-if="loginForm.email.$dirty" ng-message="required">Email is required</div>
                 <div ng-if="login.service.errors.invalidEmail" class="md-caption">This email is not registered to the site.</div>
               </div>
           </md-input-container>
@@ -21,10 +21,12 @@
           <md-input-container flex>
             <label>Password</label>
             <input type="password" name="password" ng-model="login.service.credentials.password" required>
-              <div ng-messages="loginform.password.$error || login.service.errors.invalidCredentials">  
-                <div ng-if="loginform.password.$dirty" ng-message="required">Password is required.</div>
+              <div ng-messages="loginForm.password.$error || login.service.errors.invalidCredentials">  
+                <div ng-if="loginForm.password.$dirty" ng-message="required">Password is required.</div>
                 <div ng-if="login.service.errors.invalidCredentials" class="md-caption">Password and email combination do not match.</div>
               </div>
+
+            <a layout layout-align="end end" href="" ng-click="login.sendResetPassword()">Forgot password?</a>
           </md-input-container>
 
           <md-input-container ng-if="login.service.errors.accountLocked" style="margin:0" flex>
@@ -33,13 +35,15 @@
             </div>
           </md-input-container>
 
-          <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
-            <spinner form-name="loginform" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
-            <md-button ng-click="login.extendRegisterForm()">Create</md-button>
-          </div>
+          <md-input-container ng-if="login.service.errors.default.show" style="margin:0" flex>
+            <div ng-messages="true">
+              <div class="md-caption">{{ login.service.errors.default.message }}</div>
+            </div>
+          </md-input-container>
 
-          <div style="right:12px">
-            <md-button ng-show="login.service.errors.invalidCredentials" ng-click="login.sendResetPassword()">Forgot password</md-button>
+          <div layout="row" layout-align="center center" layout-padding style="padding-top:0px">
+            <spinner class="login__button" form-name="loginForm" ng-click="login.service.login( login.service.credentials )" name="'Login'" on-hide="login.service.loggingIn"></spinner>
+            <md-button class="create__button" ng-click="login.extendRegisterForm()">Create</md-button>
           </div>
 
           <div layout-padding style="padding-top:0px" layout-align="end end">

@@ -1,8 +1,6 @@
 <?php 
 namespace App;
 
-//use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
 
@@ -13,8 +11,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Sofa\Eloquence\Eloquence; // base trait
-use Sofa\Eloquence\Mappable; // extension trait
 
 use Auth;
 use Hash;
@@ -24,7 +20,7 @@ use Redis;
 use Event;
 use Mail;
 use DB;
-use Setting;
+use App\Setting;
 
 use App\Role;
 
@@ -34,15 +30,17 @@ use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+
+use App\Repositories\StatusTrait;
+
+use Illuminate\Notifications\Notifiable;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
 
-	use Authorizable, CanResetPassword, Eloquence, Mappable, AuthenticatableTrait;
+	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
 
 	use EntrustUserTrait{
-		EntrustUserTrait::save as entrustSave;
-        Eloquence::save insteadof EntrustUserTrait;
-
         // EntrustUserTrait::can as may; //There is an entrust collision here
         // Authorizable::can insteadof EntrustUserTrait;
 
@@ -63,35 +61,18 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
 
 
+	protected $visible = [''];
 	protected $hidden = ['password'];
 
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */
-   	protected $maps = [
-       	'government_identification'		=> 	'governmentIdentification'
-    ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','government_identification','need_identification'];
+    protected $appends = ['permissions','totalDelegationsTo', 'user_role','avatar','need_identification',"agreement_accepted"];
 
     protected $with = ['roles','community'];
 
-	/**
-	 * The variables that are required when you do an update
-	 * @var array
-	 */
-	protected $onUpdateRequired = ['id'];
-
-	/**
-	 * The variables requied when you do the initial create
-	 * @var array
-	 */
-	protected $onCreateRequired = ['email','password','first_name','last_name'];
 
 	/**
 	 * Fields that are unique so that the ID of this field can be appended to them in update validation
@@ -114,15 +95,48 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
     protected $casts = [
-        'preferences' => 'array',
+        'preferences' => 'array'
     ];
 
-	/**************************************** Standard Methods **************************************** */
+  
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' 	=> ['first_name','last_name'],
+				'onUpdate'	=> true
+            ]
+        ];
+    }
+
+   /**
+     * Default attribute values
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status'    =>     'private'
+    ];
+
+    /**
+     * The two statuses that a user can have
+     * @var Array
+     */
+	public static $statuses = [
+        'private'    =>  'hidden',
+        'public'     =>  'visible'
+    ];
+
+	/**************************************** Overrides **************************************** */
 
 	public static function boot(){
 		parent::boot();
 
-		/* validation required on new */		
 		static::creating(function($model){
 			event(new UserCreating($model));
 
@@ -132,10 +146,16 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		static::created(function($model){
 			event(new UserCreated($model));
 
+			if(!Setting::get('security.verify_citizens')){
+				$model->addUserRoleByName('citizen');
+			}
+
+
 			return true;
 		});
 
 		static::updating(function($model){
+
 			event(new UserUpdating($model));
 
 			return true;
@@ -163,11 +183,47 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 			return true;
 		});
 
+		static::saving(function($model){
+
+			if(!$model->api_token){
+				$model->api_token = str_random(60);
+			}
+			return true;
+
+		});
+
 		static::deleted(function($model){
 			event(new UserDeleted($model));
 			return true;
 		});
 	}
+
+
+    public function skipVisibility(){
+
+
+       $this->setVisible(array_merge(array_keys($this->attributes),
+	            ['permissions','agreement_accepted']
+	        	)
+       		);
+    }
+
+
+    public function setVisibility(){
+
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
+
+            $this->skipVisibility();
+        }
+
+        if($this->publiclyVisible){
+			$this->setVisible(['first_name','last_name','id','community_id']);
+        }
+
+
+        return $this;
+    }
 
 
 	/**************************************** Custom Methods **************************************** */
@@ -176,9 +232,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @param Adds the named role to a user
 	 */
     public function addUserRoleByName($name){
-	    $userRole = Role::where('name','=',$name)->firstOrFail();
+	    $userRole = Role::where('name','=',$name)->first();
 
-	    if (!$this->roles->contains($userRole->id)) {
+	    if ($userRole && !$this->roles->contains($userRole->id)) {
 	    	$this->roles()->attach($userRole->id);
 		}
 
@@ -198,73 +254,28 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	    $this->roles()->detach($userRole->id);
     }
 
-    public function getFillableAttribute(){
-        if(!Auth::check()){ //If not logged in, don't go to parent
-			return $this->fillable;
-        }
-        return parent::getFillableAttribute();
-    }
-
-    public function createDefaultDelegations($departments = null,  $representatives = null){
-    	if(!$this->can('create-vote')){
-    		return true;
-    	}
-
-    	if(!$departments){
-			$departments =  Department::all();    		
-    	}
-    	if(!$representatives){
-    		$representatives = 	User::representative()->get();
-    	}
-
-    	if($representatives->isEmpty()){
-            return true;// "there are no representatives";
-        }
-
-        if($this->hasRole('representative')){
-        	return true; //A representative cannot delegate
-        }
-
-        // Code to potentially do this more efficiently with fewer database calls
-        // $userDelegations = $user->delegatedFrom;
-        // $filteredDepartments = $departments->filter(function($item){
-        //     return $item->id; + is not in a flattened array of this users delegations
-        // });
-        //  $insertsArray = [];
-        //foreach($filteredDepartments as $filteredDepartment){
-            // Add to the inserts array, at the end do one huge insert
-        //}
-    	// $this->insert(Insert all these array items)
- 		foreach($departments as $department){
-            $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
-            $newDelegation = new Delegation;
-            $newDelegation->department_id       =   $department->id;
-            $newDelegation->delegate_from_id    =   $this->id;
-            $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
-            $newDelegation->save();
-        }
-    }
+   
 
 	/****************************************** Getters & Setters ************************************/
 
 	/**
-	 * @return Overrides the API Model, will see if it can be intergrated into it
+	 * @param string takes a string and hashes it into a password
 	 */
-	public function getVisibleAttribute(){
-		if(!Auth::check()){
-			return $this->visible;
-		}
-
-		if(Auth::user()->id==$this->id){ // Logged in user
-			$this->visible = array_unique(array_merge($this->creatorVisible, $this->visible));
-		} 
-
-		if($this->public) { //Public profile
-			$this->visible = array_unique(array_merge($this->publicVisible, $this->visible));
-		}
-
-		return parent::getVisibleAttribute();
+	public function setAgreementAcceptedAttribute($value){
+		if($value) $this->attributes['agreement_accepted_date'] = Carbon::now();
 	}
+	
+	/**
+	 * @param string takes a string and hashes it into a password
+	 */
+	public function getAgreementAcceptedAttribute(){
+		if(!array_key_exists("agreement_accepted_date",$this->attributes)) return false;
+
+		if(!$this->attributes['agreement_accepted_date']) return false;
+		
+		return true;
+	}
+
 
 	/**
 	 * @param string takes a string and hashes it into a password
@@ -308,7 +319,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 				}
 			}
 		}
+		$permissions['apermission'] = "things";
 		return $permissions;
+
 	}
 
 	/**
@@ -330,23 +343,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	    	$this->load('avatar');		
 		return $this->getRelation('avatar');
 	}
-
-	// public function getDateOfBirthAttribute(){
-	// 	return \Carbon\Carbon::
-	// }
-
-	/**
-	 * @return The permissions attached to this user through entrust
-	 */
-	// public function getGovernmentIdentificationAttribute(){
-	// 	if(!Auth::user()->can('administrate-user')){
-	// 		return null;
-	// 	}
-
-	// 	if (!array_key_exists('governmentIdentification',$this->relations))
-	//     	$this->load('governmentIdentification');		
-	// 	return $this->getRelation('governmentIdentification');
-	// }
 
 
 	public function getTotalDelegationsToAttribute(){

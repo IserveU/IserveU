@@ -41,6 +41,8 @@ class InitializeApp extends Command
      */
     public function handle()
     {
+        \Artisan::call("migrate:refresh");
+
 
         if(\File::exists("storage/settings.json")){
             if(filter_var($this->argument('wipesettings'),FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to wipe your existing /storage/settings.json file?')){
@@ -69,7 +71,7 @@ class InitializeApp extends Command
             'password'      =>  $password,
             'first_name'    => 'Default',
             'last_name'     => 'User',
-            'public'        => 1
+            'status'        => 'public'
         ]);
 
         $this->info("Creating Admin: $email / $password");

@@ -19,10 +19,7 @@
 				})
 
       			ngModelController.$formatters.push(function(data) {
-      				
-      				var date = data.carbon ? 
-	      				new Date(data.carbon.date) : new Date();
-      				
+      				var date = data.carbon ? new Date(data.carbon.date) : new Date(data);
       				return date;
 			    });
 			}

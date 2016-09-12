@@ -4,110 +4,81 @@
 
 	angular
 		.module('iserveu')
-		.factory('homeResource', ['$resource', '$q', '$rootScope', homeResource]);
+		.factory('homeResource', [
+			'$http',
+			'$rootScope',
+			'$q',
+			'utils',
+		homeResource]);
 
-	function homeResource($resource, $q, $rootScope) {
+	function homeResource($http, $rootScope, $q, utils) {
 
 		/****************************************************************
 		*
-		*	Resource setters using Angular's internal ngResource.
+		*	Resource setters @deprecated Angular's internal ngResource.
 		*
 		*****************************************************************/
 
-	    var MyComments =  $resource('api/user/:id/comment', {}, {
-		    query: {
-		        method: 'GET',
-		        params: {
-		        	id: $rootScope.authenticatedUser.id || null
-		        },
-		        isArray: true,
-		        ignoreLoadingBar: true,
-		        transformResponse: function(data, header){
-		          var jsonData = JSON.parse(data);
-				  var comments = [];
+		var _api = {
+			myComments:  '/api/user/:id/comment',
+			myVotes:     '/api/user/:id/vote',
+			topComments: '/api/comment',
+			topMotion:   '/api/motion'
+		};
 
-		          angular.forEach(jsonData, function(comment){
-		          	comments.push(comment);
-		          });
+		var cacheData = {
+			myComments: {},
+			myVotes: {},
+			topComments: {},
+			topMotion: {}
+		}
 
-		          return comments;
-		        }
-		    }
-	    });
+		var getMyComments = function() {
+			return query( regexReplace(_api.myComments), 'myComments' );
+		}
 
-		var MyVotes = $resource('api/user/:id/vote', {}, {
-			query: {
-		        method: 'GET',
-		        params: {
-		        	id: $rootScope.authenticatedUser.id || null,
-		        	limit: 5
-		        },
-		        ignoreLoadingBar: true
-			}
-		});
+	    var getMyVotes = function() {
+			return query( regexReplace(_api.myVotes), 'myVotes' );
+		}
 
-	    var TopComments = $resource('api/comment/:id', {}, {
-        	query: {
-			    method: 'GET',
-		        params: {},
-		        ignoreLoadingBar: true,
-		        isArray: true,
-		      	transformResponse: function(data, header){
-		      		var comments = [];
-		      		if(data.length < 0)
-						comments = data.slice(0,5);
-			        return comments;
-		        }
+		var getTopComments = function() {
+			return query( _api.topComments, 'topComments' );
+		}
 
-	    	}
-	    });
-
-	    var TopMotion = $resource('api/motion/', {}, { 
-			query: {
-		        method: 'GET',
-		        params: {
-		        	rank_greater_than: 0,
-		        	take: 1
-		        },
-				ignoreLoadingBar: true
-			}
-		});
+		var getTopMotion = function() {
+			console.log(cacheData['topMotion']);
+			return query( _api.topMotion, 'topMotion', { rank_greater_than: 0 } );
+		}
 
 	    /*****************************************************************
 	    *
-	    *	Server-side functions.
+	    *	Private Functions
 	    *
 	    ******************************************************************/
-	    
-		function getMyComments() {
-			return MyComments.query().$promise.then(function(results) {
+		
+		// TODO: make this more functional, but at the moment just hardcoded.
+		function regexReplace(string, regex) {
+			var id = $rootScope.authenticatedUser.id;
+			return string.replace( ':id', id );
+		}
+
+		function query(_endpoint, key, data) {
+
+			if(!utils.objectIsEmpty( cacheData[key] )) {
+				return $q.when({data: cacheData[key]});
+			}
+
+			return $http({
+				method: 'GET',
+				isArray: true,
+				url: _endpoint,
+				data: data || {},
+				ignoreLoadingBar: true
+			}).success(function(results){
+				cacheData[key] = results;
 				return results;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-	    function getMyVotes() {
-			return MyVotes.query().$promise.then(function(results) {
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		function getTopComments() {
-			return TopComments.query().$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
-		}
-
-		function getTopMotion() {
-			return TopMotion.query().$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
+			}).error(function(error){
+				return error;
 			});
 		}
 

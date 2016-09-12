@@ -3,19 +3,17 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use Sofa\Eloquence\Eloquence;
-use Sofa\Eloquence\Mappable;
 use Illuminate\Support\Facades\Validator;
 
 use App\Events\CommentVoteUpdated;
 use App\Events\CommentVoteCreated;
 use App\Events\CommentVoteDeleted;
 
-
+use Auth;
 
 class CommentVote extends NewApiModel {
 
-	use SoftDeletes, Eloquence, Mappable;
+	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -34,73 +32,28 @@ class CommentVote extends NewApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['position','comment_id','id','comment_position'];
+	protected $visible = [''];
 
-
-	/**
-	 * The mapped attributes for 1:1 relations
-	 * @var array
-	 */ 
-  	protected $maps = [
-     	//'vote' 				=> 	['user_id','motion_id'],
-     	'comment_position'	=>	'comment.vote.position',
-     	'comment_user_id'	=>	'comment.vote.user_id'
-    ];
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['user_id','motion_id','comment_position'];  
+    protected $appends = [];  
 
-    /**
-     * The rules for all the variables
-     * @var Array
-     */  
-	protected $rules = [
-        'comment_id' 	=>	'integer|exists:comments,id|unique_with:comment_votes,vote_id',
-        'position'		=>	'integer|min:-1|max:1|required', //Always required
-        'id'			=>	'integer',
-        'vote_id'		=>	'integer|exists:votes,id'
-	];
-
-	/**
-	 * The attributes required on an update
-	 * @var Array
-	 */
-	protected $onUpdateRequired = ['id','position'];
-
-	/**
-	 * The attributes required when creating the model
-	 * @var Array
-	 */
-	protected $onCreateRequired = ['comment_id','vote_id'];
-	
-	/**
-	 * The attributes that are unique so that the exclusion can be put on them on update validation
-	 * @var array
-	 */
-	protected $unique = ['comment_id']; //Not actually unique, it's a 'unique with' vote_id
-
-	
-	/**
-	 * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes)
-	 * @var array
-	 */
-	protected $locked = [];
-
+ 
 	/**************************************** Standard Methods **************************************** */
 	public static function boot(){
 		parent::boot();
 		/* validation required on new */		
 		static::creating(function($model){
 			event(new CommentVoteCreated($model));
-			return $model->validate();	
+			return true;
 		});
 
 		static::updating(function($model){
 			event(new CommentVoteUpdated($model));
-			return $model->validate();			
+			return true;
 		});
 
 		static::deleted(function($model){
@@ -108,6 +61,22 @@ class CommentVote extends NewApiModel {
 			return true;
 		});		
 	}
+
+
+    public function skipVisibility(){
+       $this->setVisible(array_merge(array_keys($this->attributes)));
+    }
+
+
+    public function setVisibility(){
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->vote->user->id || Auth::user()->hasRole('administrator'))){
+            $this->skipVisibility();
+        }
+        
+        return $this;
+    }
+
 
 	/************************************* Custom Methods *******************************************/
 	
@@ -119,17 +88,27 @@ class CommentVote extends NewApiModel {
 	/************************************* Scopes ***************************************************/
 
 	/**
-	 * [scopeCommentsOfPosition description]
-	 * @param  [type] $query    [description]
-	 * @param  [type] $position [description]
-	 * @return [type]           [description]
+	 * Gets comment votes on comment of a certain position
+	 * @param  Builder $query    
+	 * @param  Integer $position The position held
+	 * @return Builder
 	 */
 	public function scopeOnCommentsOfPosition($query,$position){
-		return $query->where('comment_position','=',$position);
+		return $query->whereHas('comment.vote',function($q) use ($position){
+			$q->where('position',$position);
+		});
 	}
 
-	public function scopeNotUser($query,$user_id){
-		return $query->where('comment_user_id','!=',$user_id);
+	/**
+	 * Comment votes not from a user
+	 * @param  Builder $query
+	 * @param  Integer $userId The id of a user who has made comment vottes
+	 * @return [type]         [description]
+	 */
+	public function scopeNotUser($query,$userId){
+		return $query->whereHas('vote',function($q) use ($userId){
+			$q->where('user_id',$userId);
+		});
 	}
 
 	public function scopeBetweenDates($query,$startDate,$endDate){

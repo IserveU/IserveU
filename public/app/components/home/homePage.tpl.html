@@ -1,7 +1,10 @@
 <div class="home" ng-cloak layout layout-wrap flex>
 
-
-<home-fab></home-fab>
+  <floating-button has-permission="administrate-motion"
+    init-buttons="['edit']"
+    on-edit="homePage.edit()">  
+  </floating-button>
+  
 
   <div layout="column" layout-gt-xs="column" layout-md="column" layout-lg="column" layout-gt-lg="row" flex="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto">
 
@@ -15,7 +18,7 @@
   </div>
 
 
-  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn"> 
+  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn && authenticatedUser"> 
 
     <my-comments layout flex></my-comments>
     <my-votes layout flex></my-votes>

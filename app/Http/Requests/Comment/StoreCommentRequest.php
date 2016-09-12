@@ -23,19 +23,18 @@ class StoreCommentRequest extends Request
             //abort(401,'You do not have permission to write a comment');
         }
 
-        $vote = Vote::findOrFail(Request::get('vote_id'));
-    
+        $vote = $this->route()->parameter('vote'); 
+
         if(!$vote->motion->motionOpenForVoting){
             return false; //Cant comment on closed motions
         }
-
+        
         if($vote->user_id != Auth::user()->id){
             return false; //You can not comment tied to another users vote
         }
 
+
         return true;
-
-
     }
 
     /**
@@ -46,8 +45,8 @@ class StoreCommentRequest extends Request
     public function rules()
     {
         return [
-            'text'          =>  'min:3|string',
-            'vote_id'       =>  'integer|exists:votes,id|unique:comments,vote_id',
+            'text'          =>  'filled|required|string',
+            'vote_id'       =>  'reject',
             'id'            =>  'integer'
         ];
     }

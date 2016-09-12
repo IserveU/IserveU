@@ -44,8 +44,9 @@ class StoreCommentVoteRequest extends Request
     public function rules()
     {
         return [
-            'comment_id'    =>  'exists:comments,id|required',
-            'vote_id'       =>  'exists:votes,id|required'
+            'comment_id'    =>  'reject',
+            'position'      =>  'integer|min:-1|max:1|required|filled',
+            'vote_id'       =>  'reject'
         ];
     }
 

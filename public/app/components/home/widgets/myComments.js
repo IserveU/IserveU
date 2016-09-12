@@ -2,36 +2,28 @@
 	
 	angular
 		.module('iserveu')
-		.directive('myComments', ['homeResource', 'homePageService', myComments]);
+		.directive('myComments', ['homeResource', myComments]);
 
-	function myComments(homeResource, homePageService) {
+	function myComments(homeResource) {
 
 		function myCommentsController() {
 			
 			var self = this;
 
 			self.loading = true;
+			self.commentList = {};
 
-			function init() {
+			(function init() {
 				
-				if(homePageService.myComments.length > 0) {
-					self.loading = false;
-					self.commentList = homePageService.myComments;
-					return true;
-				}
-
 				homeResource.getMyComments().then(function(results) {
 					self.loading = false;
-					self.commentList = homePageService.myComments = results;
+					self.commentList = results.data;
 				}, function(error) {
 					self.loading = false;
 					throw new Error("Unable to retreive my comments.");
 				});
 
-			}
-
-			init();
-
+			})();
 		}
 
 

@@ -16,50 +16,43 @@ var gulp = require('gulp'),
 elixir(function(mix) {
     
     mix.scripts([
-        '/bower/angular/angular.js',
-        '/bower/jquery/dist/jquery.min.js',
-        '/bower/angular-animate/angular-animate.min.js',
-        '/bower/angular-aria/angular-aria.min.js',
-        '/bower/angular-material/angular-material.min.js',        
-        '/bower/angular-resource/angular-resource.min.js',
-        '/bower/angular-messages/angular-messages.min.js',
-        '/bower/angular-ui-router/release/angular-ui-router.min.js',
-        '/bower/angular-sanitize/angular-sanitize.min.js',
-        '/bower/satellizer/satellizer.min.js',
-        '/bower/textAngular/dist/textAngular.min.js', // requires bootstrap but check in a couple months check for material option
-        // '/bower/textAngular/dist/textAngular-sanitize.min.js',
-        '/bower/textAngular/dist/textAngularSetup.js',
-        '/iframeCompatibleSanitize.min.js',
-        '/bower/textAngular/dist/textAngular-rangy.min.js',
-        '/bower/ng-flow/dist/ng-flow-standalone.min.js',
-        '/bower/angular-translate/angular-translate.min.js',
-        '/bower/angular-translate-storage-local/angular-translate-storage-local.min.js',
-        '/bower/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
-        '/bower/angular-cookies/angular-cookies.min.js',
-        '/bower/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
-        '/bower/tinycolor/dist/tinycolor-min.js',
-        '/bower/md-color-picker/dist/mdColorPicker.min.js',
-        '/bower/isu-form-sections/dist/isu-form-sections.min.js',
-        '/bower/angular-loading-bar/build/loading-bar.min.js'
-        ],'public/js/dependencies.js', './resources');// added resources as third argument to point directly to the resources directory and not have /js in there
+        '/angular/angular.js',
+        '/jquery/dist/jquery.min.js',
+        '/angular-animate/angular-animate.min.js',
+        '/angular-aria/angular-aria.min.js',
+        '/angular-material/angular-material.min.js',        
+        '/angular-resource/angular-resource.min.js',
+        '/angular-messages/angular-messages.min.js',
+        '/angular-ui-router/release/angular-ui-router.min.js',
+        '/angular-sanitize/angular-sanitize.min.js',
+        '/satellizer/dist/satellizer.min.js', //depecrated, maybe
+        '/ng-flow/dist/ng-flow-standalone.min.js',
+        '/angular-translate/angular-translate.min.js',
+        '/angular-translate-storage-local/angular-translate-storage-local.min.js',
+        '/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
+        '/angular-cookies/angular-cookies.min.js',
+        '/ngInfiniteScroll/build/ng-infinite-scroll.min.js',
+        '/tinycolor/dist/tinycolor-min.js',
+        '/md-color-picker/dist/mdColorPicker.min.js',
+        '/isu-form-sections/dist/isu-form-sections.min.js',
+        '/angular-loading-bar/build/loading-bar.min.js',
+        '/angular-alloyeditor/dist/angular-alloyeditor.min.js'
+        ],'public/js/dependencies.js', './resources/bower');// added resources as third argument to point directly to the resources directory and not have /js in there
  	
     mix.scriptsIn('public/app','public/js/app.js');
 
     mix.styles([
-        '/bower/angular-material/angular-material.min.css',
-        '/bower/mdi/css/materialdesignicons.min.css',
-        '/bower/textAngular/dist/textAngular.css',
-        '/bower/bootstrap-css-only/css/bootstrap.min.css',
-        '/bower/font-awesome/css/font-awesome.min.css',
-        '/bower/md-color-picker/dist/mdColorPicker.min.css',
-        '/bower/angular-loading-bar/build/loading-bar.css'
-    ],'public/css/dependencies.css', './resources'); 
+        '/angular-material/angular-material.min.css',
+        '/mdi/css/materialdesignicons.min.css',
+        '/md-color-picker/dist/mdColorPicker.min.css',
+        '/angular-loading-bar/build/loading-bar.css'
+    ],'public/css/dependencies.css', './resources/bower'); 
     
     mix.sass(['style.scss'],'public/css');
 
     mix.copy('./resources/bower/mdi/fonts', './public/build/fonts'); //The default icon set
+    mix.copy('./resources/bower/alloyeditor/dist/alloy-editor/assets/fonts', './public/build/css/fonts');
     mix.copy('./resources/bower/themes', './public/themes');
-    mix.copy('./resources/bower/font-awesome/fonts', './public/fonts');
     
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
 });

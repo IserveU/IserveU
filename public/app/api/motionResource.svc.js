@@ -37,6 +37,7 @@
 			query: {
 				method: 'GET',
 				ignoreLoadingBar: true,
+				cancellable: true
 			}
 		});
 
@@ -63,7 +64,9 @@
 	    ******************************************************************/
 
 		function getMotion(id) {
+			console.log('getMotion');
 			return Motion.get({id:id}).$promise.then(function(success) {
+				console.log(success);
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -71,6 +74,7 @@
 		}
 
 		function getMotionByStatus(status) {
+			console.log('getMotionByStatus');
 			return $http({
                 method: "GET",
                 url: "/api/motion",
@@ -102,14 +106,10 @@
 		}
 
 		function getMotionVotes(id) {
-			// return MotionVotes.query({id:id}).$promise.then(function(success){
-			// 	return success;
-			// }, function(error) {
-			// 	return $q.reject(error);
-			// });
 	    	return $http.get('api/motion/'+id+'/vote', {
 		        withCredentials: true,
 		        headers: {'Content-Type': undefined },
+		        ignoreLoadingBar: true,
 		        transformRequest: angular.identity
 		    }).success(function(success) {
 				return success;
@@ -136,6 +136,7 @@
 		}
 		
 		function getMotions(data) {
+			console.log('getMotions');
 			return Motion.get(data).$promise.then(function(succcess) {
 				return succcess;
 			}, function(error) {
@@ -145,6 +146,7 @@
 
 		function getMotionsIndex(next_page) {
 			return MotionIndex.query({page: next_page}).$promise.then(function(success) {
+				console.log('returnign success');
 				return success;
 			}, function(error) {
 				return $q.reject(error);
