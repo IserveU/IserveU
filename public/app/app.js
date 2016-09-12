@@ -33,7 +33,7 @@
 
 			    $rootScope.$on('cfpLoadingBar:loading',function(){
 		    		$rootScope.pageLoading = true;
-			    });
+		    });
 
 			    $rootScope.$on('cfpLoadingBar:completed',function(){
 		    		$rootScope.pageLoading = false;
@@ -55,7 +55,7 @@
         var initInjector = angular.injector(['ng']);
         var $http = initInjector.get('$http');
 
-        return $http.get('settings').then(function(response) {
+        return $http.get('/api/setting').then(function(response) {
 
         	var settings = response.data;
 

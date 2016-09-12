@@ -65,7 +65,7 @@
 					</md-input-container>
 
 
-					<div ng-if="form.motion.status > 1 && settingsGlobal.allow_closing">
+					<div ng-if="form.motion.status == 'published' && settingsGlobal.allow_closing">
 						<div>
 							<h3 class="title-header">Closing Date</h3>
 						</div>

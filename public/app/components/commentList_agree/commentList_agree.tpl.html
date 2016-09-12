@@ -18,7 +18,7 @@
 			<p class="md-caption">{{ comment.created_at.diff }}</p>
 			<p class="md-body-1">{{ comment.text }}</p>
 
-			<comment-vote ng-if="comment.vote.position == 1"></comment-vote>
+			<comment-vote ng-if="motion.userVote.position == 1"></comment-vote>
 
 			<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
 		
