@@ -62,6 +62,14 @@
 		    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
 		
+		function transformObjectToArray(obj) {
+			var tmp = [];
+			angular.forEach(obj, function(el, key) {
+				tmp.push(el);
+			});
+			return tmp;
+		}
+
 		return { 
 			capitalize: capitalize,
 			date: date,
@@ -70,7 +78,8 @@
 			parseStringToObject: parseStringToObject,
 			nullOrUndefined: nullOrUndefined,
 			objectIsEmpty: objectIsEmpty,
-			toTitleCase: toTitleCase
+			toTitleCase: toTitleCase,
+			transformObjectToArray: transformObjectToArray
 		}
 	}
 

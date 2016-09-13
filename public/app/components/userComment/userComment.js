@@ -16,13 +16,16 @@
 		
 			var self = this, comments;
 
+
+			function fetchUserComments() {
+				commentResource.getUserComments({user_id: $rootScope.authenticatedUser.id}).then(determineCommentExists);
+			}
+
 			function determineCommentExists(userComments) {
 				if(!$scope.motion || !$scope.motion.userVote){
 					return false;
 				}
-
-				comments = comments || userComments;
-
+				comments = comments || userComments.data;
 				for( var i in comments ) {
 					if(comments[i].vote_id === $scope.motion.userVote.id) {
 						self.comment = new Comment(comments[i]);
@@ -33,12 +36,8 @@
 			}
 
 			$scope.$watch('motion.motionComments', function(value, oldValue) {
-
-				console.log('userComment ccomment exists changes ');
-				if( value !== undefined ) {
-					commentResource.getUserComments({user_id: $rootScope.authenticatedUser.id}).then(function(results){
-						determineCommentExists(results);
-					});
+				if( value !== undefined && $rootScope.authenticatedUser) {
+					fetchUserComments();
 				}
 			}, true);
 
@@ -48,13 +47,10 @@
 
 				var waitUntil = $interval(function() {
 					if(!utils.objectIsEmpty( $scope.motion )){
-						commentResource.getUserComments({user_id: $rootScope.authenticatedUser.id}).then(function(results){
-							determineCommentExists(results);
-						});
+						fetchUserComments();
 						$interval.cancel(waitUntil);
 					}
 				}, 500);
-
 			})();
 		}
 
