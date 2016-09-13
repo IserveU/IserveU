@@ -64,26 +64,6 @@ class CommentController extends ApiController {
 
 	}
 
-	/**
-	 * Store a newly created resource in storage. Requires the vote_id to be submitted
-	 *
-	 * @param int vote_id the comment will be attached to
-	 * @return Response
-	 */
-	public function store(StoreCommentRequest $request){
-	    
-	    //Move into a validation method
-        $vote = \App\Vote::with('comment')->findOrFail($request->input('vote_id'));
-        if($vote->comment){
-            return  response(["error"=>"Already Commented","message"=>"You have already voted and should instead edit your vote"],400); 
-        }
-
-		$comment = new Comment($request->all());
-		$comment->vote_id = $request->input('vote_id');
-		$comment->save();
-
-		return $comment;
-	}
 
 	/**
 	 * Display the specified resource.
@@ -105,10 +85,9 @@ class CommentController extends ApiController {
 	public function update(UpdateCommentRequest $request, Comment $comment)
 	{
 		
-		$comment->fill($request->except('token'));
+		$comment->update($request->except('token'));
 
-		$comment->save();
-
+	
 		return $comment;
 	}
 
