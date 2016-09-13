@@ -21,12 +21,11 @@
 				<div>
 					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
 					<h3  class="title-header">Body</h3>
-					<textarea alloy-editor class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding>
-						Click to start writing ...
-					</textarea>
+					<textarea alloy-editor class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
 				</div>
-		
-				<div has-permission="create-motion">
+				
+				<!-- TODO: deprecated, waiting on backend	 -->
+<!-- 				<div has-permission="create-motion">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
 
@@ -35,7 +34,7 @@
 					isu-existing-files="{{form.existingMotionFiles}}">
 					</isu-file-upload>
 				</div>
-
+ -->
 				<div>
 					<md-icon class="mdi mdi-view-list title-icon"></md-icon>
 						<h3 class="title-header">Options</h3>

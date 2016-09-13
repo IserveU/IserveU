@@ -31,7 +31,7 @@
 				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
 			}
 			else { 
-				if( !motion.userVote && !motion.userVote.id ){
+				if( !motion.userVote || motion.userVote && !motion.userVote.id ){
 					var position = SETTINGS_JSON.abstain ? 0 : 1;
 					castVote(motion, position);
 				}
