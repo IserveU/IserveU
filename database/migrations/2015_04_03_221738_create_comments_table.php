@@ -15,7 +15,6 @@ class CreateCommentsTable extends Migration {
 		Schema::create('comments', function(Blueprint $table) {
             $table->increments('id');
             $table->text('text');
-            $table->softDeletes();
             $table->string('status')->default('private'); 
             $table->integer('vote_id')->unsigned()->unique();
 
