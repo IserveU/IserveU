@@ -42,7 +42,8 @@
 	        };
 
 	        function successHandler(r) {
-	            motionFilesFactory.attach(r.id, self.motionFiles);
+	        	/** deprecrated */
+	            // motionFilesFactory.attach(r.id, self.motionFiles);
 
 	            self.motion.setData(r).refreshExtensions();
 
@@ -71,9 +72,10 @@
 
 				self.motion = Motion.get($stateParams.id);
 
-	     		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
-					self.existingMotionFiles = r;
-				});
+				// TODO: motionFileResource no longer exists
+	   //   		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
+				// 	self.existingMotionFiles = r;
+				// });
 
 			})();
 		}
