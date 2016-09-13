@@ -304,11 +304,11 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	}
 
 	public function scopeOrderByNewest($query){
-		return $query->orderBy('created_at', 'asc');
+		return $query->orderBy('created_at', 'desc');
 	}
 
 	public function scopeOrderByOldest($query){
-		return $query->orderBy('created_at', 'desc');
+		return $query->orderBy('created_at', 'asc');
 	}
 
 	public function scopeRankGreaterThan($query,$rank){

@@ -238,7 +238,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
        		);
     }
 
-
+    
     public function setVisibility(){
 
         //If self or show-other-private-user

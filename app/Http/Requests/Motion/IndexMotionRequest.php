@@ -18,7 +18,6 @@ class IndexMotionRequest extends Request
     public function authorize()
     {
 
-
         if(Auth::check() && Auth::user()->can('show-motion')) return true;
 
         //If you're not an admin and haven't set a status, these are the defaults

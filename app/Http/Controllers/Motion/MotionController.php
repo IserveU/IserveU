@@ -46,7 +46,6 @@ class MotionController extends ApiController {
 				$query->where('user_id',Auth::user()->id);
 			}]);
 		
-			//dd(DB::getQueryLog());
 		} else {
 			$motions = (new Motion)->newQuery();
 		}

@@ -73,9 +73,10 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 /************************* Different Motion Status Factories ***********************************/
 
 $factory->define(App\Motion::class, function ($faker) use ($factory) {
- 
 
-
+    //If not defined, then random status
+    $statuses =  ['draft','review','published','closed'];
+    $status = $statuses[array_rand($statuses)];
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
@@ -83,10 +84,10 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'user_id'       =>  function(){
             return factory(App\User::class,'verified')->create()->id;
         },
-        'closing'       => Carbon\Carbon::tomorrow(),
+        'closing'       => $status=="closed"?Carbon\Carbon::now()->subDays(rand(1,5)):Carbon\Carbon::tomorrow(),
         'text'          => $faker->paragraph($nbSentences =10),
-        'created_at'    => Carbon\Carbon::now(),
-        'status'        => 'published'
+        'created_at'    => Carbon\Carbon::now()->subDays(rand(5,30)),
+        'status'        => $status
     ];
 });
 

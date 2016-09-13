@@ -18,7 +18,7 @@ class IndexCommunityApiTest extends CommunityApi
 
     /** @test */
     public function default_community_filter(){
-        $this->get($this->route)->dump();
+        $this->get($this->route);
         
     }
 
