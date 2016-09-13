@@ -1,7 +1,6 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\CommentVote;
 use DB;
@@ -19,7 +18,6 @@ use Auth;
 
 class Comment extends NewApiModel {
 	
-	use SoftDeletes;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -69,6 +67,13 @@ class Comment extends NewApiModel {
 
 		static::updating(function($model){
 			event(new CommentUpdated($model));
+			return true;
+		});
+
+		static::deleting(function($model){
+			if($model->commentVotes){
+				//Database is doing this
+			}
 			return true;
 		});
 

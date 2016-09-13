@@ -22,7 +22,7 @@ class CreateCommentVotesTable extends Migration {
         });
 
         Schema::table('comment_votes', function($table){
- 			$table->foreign('comment_id')->references('id')->on('comments');
+ 			$table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
  			$table->foreign('vote_id')->references('id')->on('votes');
  			$table->unique(array('comment_id','vote_id')); //On a particular comment you can only vote once
         });
