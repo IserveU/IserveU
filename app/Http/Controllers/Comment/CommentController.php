@@ -127,23 +127,5 @@ class CommentController extends ApiController {
 		return $comment;
 	}
 
-	public function restore($id){
-		$comment = Comment::withTrashed()->with('vote.user')->find($id);
-
-		if(!$comment){
-			abort(404,'Comment does not exist');
-		}
-
-		if($comment->user->id != Auth::user()->id && !Auth::user()->can('administrate-comment')){
-			abort(401,'User does not have permission to restore this comment');
-		}
-
-		$comment->deleted_at = null; //restore() isn't working either
-		if(!$comment->save()){
-			abort(400,$comment->errors);
-		}
-
-		return $comment;
-	}
 
 }

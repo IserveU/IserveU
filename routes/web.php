@@ -37,7 +37,6 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('vote/{vote}/comment','Vote\VoteCommentController', ['only'=>['store']]);
 
 	//Comment
-	//Route::get('comment/{id}/restore','Comment\CommentController@restore'); //Could add deleted status and update it
 	Route::resource('comment', 'Comment\CommentController',['except'=>['store','create','edit']]);
 	Route::resource('comment/{comment}/comment_vote','Comment\CommentCommentVoteController',['only'=>['store']]);
 
