@@ -161,7 +161,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	/****************************************** Getters & Setters ************************************/
 
 
-
 	/**
 	 * @return integer the mutator to get the sum of all the comment votes
 	 */

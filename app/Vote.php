@@ -190,6 +190,11 @@ class Vote extends NewApiModel implements CachedModel {
 		return $this->hasOne('App\Comment');
 	}
 
+
+	public function commentVotes(){
+		return $this->hasMany('App\CommentVote');
+	}
+
 	public function deferred(){
 		return $this->belongsTo('App\User','deferred_to_id');
 	}

@@ -8,12 +8,20 @@
 			<div layout="column" flex layout-padding>
 
 				<div>
-					<md-icon class="mdi mdi-details title-icon"></md-icon>
-						<h3 class="title-header">Title</h3>
-
+					<h3 class="title-header">{{ 'MOTION' | translate }} Title</h3>
 					<div layout="column" flex>
 						<md-input-container style="margin-top: 0; margin-bottom: 0;">
 							<input name="title" type="text" ng-model="form.motion.title" minlength="8" required/>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-subject title-icon" ></md-icon>
+					<h3 class="title-header">Summary</h3>
+					<div layout="column" flex>
+						<md-input-container style="margin-top: 0; margin-bottom: 0;">
+							<input name="title" type="text" ng-model="form.motion.summary" minlength="8" required/>
 						</md-input-container>
 					</div>
 				</div>

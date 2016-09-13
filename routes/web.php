@@ -29,7 +29,8 @@ Route::group(['prefix' => 'api'], function(){
 	//User
 	Route::resource('user', 'User\UserController',['except'=>['create','edit']]);
 	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]); 
-	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]); 
+	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]);
+	Route::resource('user.comment_vote', 'User\UserCommentVoteController',['only'=>['index']]); 
 	Route::resource('user.role', 'User\UserRoleController',['only'=>['index','store','update','destroy']]); 
 
 	//Vote

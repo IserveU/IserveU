@@ -92,7 +92,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
 
 	protected $attributes = [
-		'status'	=>	'private'
+		'status'	=>	'draft'
 	];
 
     /**
@@ -103,7 +103,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
         'draft'    	=>  'hidden',
         'review'  	=>  'hidden',
         'published' =>  'visible',
-        'closed'    =>  'visible'
+        'closed'    =>  'visible',
+        'deleted'    => 'hidden'
     ];
 
 

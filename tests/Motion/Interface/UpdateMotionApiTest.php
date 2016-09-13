@@ -12,6 +12,9 @@ class UpdateMotionApiTest extends MotionApi
     public function setUp()
     {
         parent::setUp();
+
+        $this->modelToUpdate = factory($this->class,'published')->create();
+
         $this->signInAsRole('administrator');
     }
 

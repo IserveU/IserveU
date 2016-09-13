@@ -1,18 +1,18 @@
-<md-toolbar id="userbar" class="md-whiteframe-z2 site-content-toolbar" layout="row" layout-align="center center" md-scroll-shrink>
+<md-toolbar id="userbar" class="md-whiteframe-z2 site-content-toolbar nav__header" layout="row" layout-align="center center" md-scroll-shrink>
 
-    <md-toolbar-filler ng-class="settingsGlobal.module.motions?'motion-enabled flex':''" hide-xs hide-sm>
+    <md-toolbar-filler class="nav__header-filler_container" ng-class="settingsGlobal.module.motions?'motion-enabled flex':''" hide-xs hide-sm>
         <motion-search></motion-search>
     </md-toolbar-filler>
 
-    <div hide-gt-lg hide-lg hide-gt-md hide-md>
-        <md-button class="md-icon-button home-btn" aria-label="Home Button">
-          <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg"  ui-sref="home"></md-icon>
+    <div class="nav__header-button_container" hide-gt-lg hide-lg hide-gt-md hide-md>
+        <md-button class="md-icon-button nav__header-button home-button" aria-label="Home Button">
+          <md-icon class="nav__header-button_icon" md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg" ui-sref="home"></md-icon>
         </md-button>
 
-        <button class="main-nav-button md-button md-ink-ripple" style="margin:0; padding:0;" ng-mousedown="user.toggleSidebar('left'); user.switchMenuButton()" aria-label="Toggle Sidebar">
+        <button class="main-nav-button md-button md-ink-ripple nav__header-button" ng-mousedown="user.toggleSidebar('left'); user.switchMenuButton()" aria-label="Toggle Sidebar">
           <div layout="row">
             {{ 'MOTIONS' | translate}}
-            <md-icon ng-class="user.menuButton?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+            <md-icon class="nav__header-button_icon toggle-sidebar" ng-class="user.menuButton?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
           </div>
         </button>
     </div>

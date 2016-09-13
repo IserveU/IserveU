@@ -52,7 +52,7 @@ class IndexMotionApiTest extends MotionApi
             ]);    
     }
 
-
+    
 
     /** @test */
     public function motion_filter_by_newest_defaults(){
@@ -63,6 +63,7 @@ class IndexMotionApiTest extends MotionApi
         $motions = json_decode($this->response->getContent());
         
         //Does not work
+        $this->markTestSkipped('Would be a lot easier to test with a front end');
         //$this->assertEquals($newestMotion->id,$motions->data[0]->id);
     }
 

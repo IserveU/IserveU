@@ -170,10 +170,9 @@ class MotionController extends ApiController {
 		}
 
 		$motion->deleted_at = null; //restore() isn't working either
-		if(!$motion->save()){
-			abort(400,$motion->errors);
-		}
-
+		$motion->status = 'closed'; //restore() isn't working either
+		$motion->save();
+		
 		return $motion;
 	}
 

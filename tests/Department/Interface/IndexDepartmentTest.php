@@ -18,7 +18,9 @@ class IndexDepartmentApiTest extends DepartmentApi
 
     /** @test */
     public function default_department_filter(){
-        $this->get($this->route)->dump();
+        $this->get($this->route)->seeJsonStructure([
+            "*" => ['id','name']
+        ]);
         
     }
 
