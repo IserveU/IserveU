@@ -66,8 +66,9 @@ class Vote extends NewApiModel implements CachedModel {
 
 		static::updated(function($model){
 			// CheckCommentVotes
-			// ClearMotionCommentCache
 			event(new VoteUpdated($model));
+			$model->flushRelatedCache();
+			$model->flushCache();
 			return true;
 		});
 
@@ -98,6 +99,7 @@ class Vote extends NewApiModel implements CachedModel {
      * @return null
      */
     public function flushRelatedCache($fromModel = null){
+    	$this->motion->flushCache();
 
     }
 

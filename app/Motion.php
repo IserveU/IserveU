@@ -16,6 +16,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Repositories\StatusTrait;
 
 use App\Repositories\Contracts\CachedModel;
+use Cache;
 use App\Repositories\Contracts\VisibilityModel;
 
 
@@ -149,8 +150,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
      */
 
     public function flushCache($fromModel = null){
-        Cache::tags('motion.'.$vote->motion->id)->flush();
-    	Cache::forget('motion'.$vote->motion_id.'_comments');
+        Cache::tags('motion.'.$this->id)->flush();
+    	Cache::forget('motion'.$this->id.'_comments');
     	\Cache::flush(); //Just for now
     }
 

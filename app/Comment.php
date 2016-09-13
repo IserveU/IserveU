@@ -134,7 +134,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
     public function setVisibility(){
 
         //If self or show-other-private-user
-        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
+        if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->can('show-comment'))){
             $this->skipVisibility();
         }
 
