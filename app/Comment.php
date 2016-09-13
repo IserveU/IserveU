@@ -16,8 +16,15 @@ use App\Events\Comment\CommentCreated;
 
 use Auth;
 
-class Comment extends NewApiModel {
+use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Contracts\VisibilityModel;
+
+use App\Repositories\StatusTrait;
+
+
+class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	
+	use StatusTrait;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -36,17 +43,17 @@ class Comment extends NewApiModel {
 	 * The default attributes included in the JSON/Array
 	 * @var Array
 	 */
-	protected $visible = ['text','vote','id','commentRank','created_at','updated_at','user_id']; //The user model guards this, but it must be included (If this gives too much, try just removing user_id)
+	protected $visible = [''];
 	
 	
-	protected $with = ['vote','commentRank'];
+	protected $with = ['vote.user','commentRankRelation'];
 
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['position','motion_id','commentRank'];  
+    protected $appends = ['motion','commentRank','user','userName'];  
 
 
 	/**
@@ -54,6 +61,15 @@ class Comment extends NewApiModel {
 	 * @var array
 	 */
 	protected $dates = ['created_at','updated_at'];
+
+    /**
+     * The two statuses that a comment can have
+     * @var Array
+     */
+	public static $statuses = [
+        'private'    =>  'hidden',
+        'public'     =>  'visible'
+    ];
 
 
 	/**************************************** Standard Methods **************************************** */
@@ -83,10 +99,32 @@ class Comment extends NewApiModel {
 		});
 	}
 
+	//////////////////////// Caching Implementation
+ 
+   /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
 
-    public function skipVisibility(){
-       $this->setVisible(array_merge(array_keys($this->attributes)));
+    public function flushCache($fromModel = null){
+    	\Cache::flush(); //Just for now
     }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+
+	//////////////////////// Visibility Implementation
+
 
     public function setVisibility(){
 
@@ -96,11 +134,12 @@ class Comment extends NewApiModel {
         }
 
         if($this->publiclyVisible){
-			$this->setVisible(['user','last_name','id','community_id']);
+        	
+			$this->addVisible(['vote.user','user','userName']);
         }
 
 
-		$this->setVisible(['text','created_at','vote_id','id']);
+		$this->addVisible(['text','created_at','id','commentRank']);
 
 
 
@@ -124,13 +163,18 @@ class Comment extends NewApiModel {
 	public function getCommentRankAttribute()
 	{
 	  // if relation is not loaded already, let's do it first
-	  if ( ! array_key_exists('commentRank', $this->relations)) 
-	    $this->load('commentRank');
+	  if ( ! array_key_exists('commentRankRelation', $this->relations)) 
+	    $this->load('commentRankRelation');
 	 
-	  $related = $this->getRelation('commentRank');
+	  $related = $this->getRelation('commentRankRelation');
 	 
 	  // then return the count directly
 	  return ($related) ? (int) $related->rank : 0;
+	}
+
+
+	public function getUserNameAttribute(){
+		return $this->user->first_name." (".$this->user->community->name.")";
 	}
 
 	/************************************* Casts & Accesors *****************************************/
@@ -138,7 +182,7 @@ class Comment extends NewApiModel {
 	/**
 	 * @return The sum of all the comment votes 
 	 */
-	public function commentRank()
+	public function commentRankRelation()
 	{
 	  return $this->hasOne('App\CommentVote')
 	    ->selectRaw('comment_id, sum(position) as rank')
@@ -190,4 +234,26 @@ class Comment extends NewApiModel {
 	}
 
 
+	/**
+	 * A bridge to the user of this comment
+	 * @return Collection A collection of comments
+	 */
+	public function getUserAttribute(){
+		$this->load(['vote.user' => function ($q) use ( &$user ) {
+		   $user = $q->first();
+		}]);
+		return $user;
+	}
+
+
+	/**
+	 * A bridge to the user of this comment
+	 * @return Collection A collection of comments
+	 */
+	public function getMotionAttribute(){
+		$this->load(['vote.motion' => function ($q) use ( &$motion ) {
+		   $motion = $q->first();
+		}]);
+		return $motion;
+	}
 }

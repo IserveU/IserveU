@@ -15,8 +15,9 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 use App\Repositories\StatusTrait;
 
+use App\Repositories\Contracts\CachedModel;
 
-class Motion extends NewApiModel {
+class Motion extends NewApiModel implements CachedModel{
 
 	use SoftDeletes, Sluggable, StatusTrait;
 
@@ -124,6 +125,35 @@ class Motion extends NewApiModel {
 
         });
 	}
+
+	//////////////////////// Caching Implementation
+ 
+   /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+
+    public function flushCache($fromModel = null){
+        Cache::tags('motion.'.$vote->motion->id)->flush();
+    	Cache::forget('motion'.$vote->motion_id.'_comments');
+    	\Cache::flush(); //Just for now
+    }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+
+
+
 
 	
     public function skipVisibility(){

@@ -14,7 +14,10 @@ use Carbon\Carbon;
 class NewApiModel extends Model
 {
 
-    protected $skipVisibility = false;
+    /**
+     * Set by the skipVisibility() method
+     */
+    private $skipVisibility = false;
 
     public function getCreatedAtAttribute($attr) {        
         $carbon = Carbon::parse($attr);
@@ -37,32 +40,47 @@ class NewApiModel extends Model
     }
  
 
-    public function skipVisibility(){
-       $this->setVisible(array_keys($this->attributes));
+
+    public function removeVisible($value){
+        if(is_array($value)){
+            $this->visible = array_diff_key($this->visible,$value);
+
+            return $this->visible;
+        }
+
+        if(array_key_exists($value,$this->visible)) unset($this->visible[$value]);
+        return $this->visible;
     }
 
-    public function setVisibility(){
-        $this->skipVisibility();
-        return $this;
+    /**
+     * Makes sure that all attributes of this model are visible
+     * Then sets the skipVisibility variable so they are not overridden
+     * @return null
+     */
+    public function skipVisibility(){
+       $this->setVisible(array_keys($this->attributes));
+       $this->skipVisibility = true;
     }
 
 
     public function toArray(){
-        if(!$this->skipVisibility){
-            $this->setVisibility();
+        if($this->skipVisibility){
+            return parent::toArray();        
         }
 
+        $this->setVisibility();
         return parent::toArray();        
     }
 
-    public function toJson($options =0 ){     
-        if(!$this->skipVisibility){
-            $this->setVisibility();
+    public function toJson($options =0 ){
+        if($this->skipVisibility){
+            return parent::toJson($options);
         }
 
+
+        $this->setVisibility();
         return parent::toJson($options);
     }
-
 
 
 }

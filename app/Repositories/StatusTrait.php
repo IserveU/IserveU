@@ -7,7 +7,7 @@ use Carbon\Carbon;
 *   A reusable status and published trait to manage visibility of montions and users
 **/
 
-trait StatusTrait{ 
+trait StatusTrait{
 
     /**
      * Gets the statuses considered visible by this model to the general public

@@ -36,7 +36,9 @@ use App\Repositories\StatusTrait;
 
 use Illuminate\Notifications\Notifiable;
 
-class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
+use App\Repositories\Contracts\CachedModel;
+
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel {
 
 	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
 
@@ -198,6 +200,30 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		});
 	}
 
+	
+	//////////////////////// Caching Implementation
+ 
+   /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+
+    public function flushCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
 
     public function skipVisibility(){
 
@@ -232,7 +258,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @param Adds the named role to a user
 	 */
     public function addUserRoleByName($name){
-	    $userRole = Role::where('name','=',$name)->first();
+	    if($this->hasRole($name)){
+	    	return true;
+	    }
+
+ 	    $userRole = Role::where('name','=',$name)->first();
+
 
 	    if ($userRole && !$this->roles->contains($userRole->id)) {
 	    	$this->roles()->attach($userRole->id);

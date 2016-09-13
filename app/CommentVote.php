@@ -11,7 +11,9 @@ use App\Events\CommentVoteDeleted;
 
 use Auth;
 
-class CommentVote extends NewApiModel {
+use App\Repositories\Contracts\CachedModel;
+
+class CommentVote extends NewApiModel implements CachedModel {
 
 	use SoftDeletes;
 
@@ -61,6 +63,34 @@ class CommentVote extends NewApiModel {
 			return true;
 		});		
 	}
+
+
+	//////////////////////// Caching Implementation
+
+    /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+
+    public function flushCache($fromModel = null){
+
+
+    	
+    	\Cache::flush(); //Just for now
+    }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
 
 
     public function skipVisibility(){

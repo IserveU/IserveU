@@ -12,7 +12,9 @@ use Auth;
 use Carbon\Carbon;
 use Cache;
 
-class Vote extends NewApiModel {
+use App\Repositories\Contracts\CachedModel;
+
+class Vote extends NewApiModel implements CachedModel {
 
 	use SoftDeletes;
 
@@ -78,6 +80,26 @@ class Vote extends NewApiModel {
 		});	
 
 	}
+
+	//////////////////////// Caching Implementation
+
+    /**
+     * Remove this items cache and nested elements
+     *
+     * @return null
+     */
+    public function flushCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+
+    }
 
     public function setVisibility(){
 
