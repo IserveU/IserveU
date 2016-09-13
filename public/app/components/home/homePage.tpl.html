@@ -1,4 +1,4 @@
-<div class="home" ng-cloak layout layout-wrap flex>
+<div class="home" ng-cloak layout-wrap flex>
 
   <floating-button has-permission="administrate-motion"
     init-buttons="['edit']"
@@ -6,22 +6,21 @@
   </floating-button>
   
 
-  <div layout="column" layout-gt-xs="column" layout-md="column" layout-lg="column" layout-gt-lg="row" flex="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto">
+  <div flex layout="row" layout-sm="column" layout-xs="column">
 
-    <home-introduction layout flex="50"></home-introduction>
-
-    <div layout layout="column" flex="50">
-      <top-motions layout flex="50"></top-motions>
-      <top-comments layout flex="50"></top-comments>
+    <div flex flex-lg="50" flex-order="0">
+      <home-introduction></home-introduction>
+      <span ng-if="userIsLoggedIn && authenticatedUser" flex>
+        <my-comments></my-comments>
+        <my-votes></my-votes>
+      </span>
     </div>
 
-  </div>
 
-
-  <div layout-gt-md="row" layout-gt-xs="column" flex="100" flex-xs="100" flex-gt-xs="90" flex-md="90" flex-lg="90" style="margin: auto" layout-wrap ng-if="userIsLoggedIn && authenticatedUser"> 
-
-    <my-comments layout flex></my-comments>
-    <my-votes layout flex></my-votes>
+    <div flex flex-lg="50" flex-order="1">
+      <top-motions></top-motions>
+      <top-comments></top-comments>
+    </div>
 
   </div>
 
