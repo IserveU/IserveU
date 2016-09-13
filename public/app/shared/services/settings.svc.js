@@ -5,10 +5,10 @@
 	angular
 		.module('iserveu')
 		.factory('settings', ['$http', 'SETTINGS_JSON', 'refreshLocalStorage', 
-			settingsFactory]);
+			settingsServiceFactory]);
 
   	 /** @ngInject */
-	function settingsFactory ($http, SETTINGS_JSON, refreshLocalStorage) {
+	function settingsServiceFactory ($http, SETTINGS_JSON, refreshLocalStorage) {
 
 		var Settings = {
 			/**
@@ -25,12 +25,12 @@
 			},
 			/** Post function */
 			save: function(data) {
-				$http.post('/setting', data).success(function(r){
-
+				$http.patch('/api/setting/'+data.name, {value: data.value}).success(function(r) {
+					
 					refreshLocalStorage.setItem('settings', r);
 					Settings.data.saving = false;
 
-				}).error(function(e) { console.log(e); });
+				}).error(function(e) { });
 			},
 			/**
 			*	Robust check with guard so that you are not submitting

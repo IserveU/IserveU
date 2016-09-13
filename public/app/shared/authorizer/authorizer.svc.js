@@ -14,8 +14,6 @@
 
 		this.canAccess = function(requirePermissions) {
 
-			return true;
-
 			var user = $rootScope.authenticatedUser;
 
 			if(!user || angular.isUndefined(requirePermissions))

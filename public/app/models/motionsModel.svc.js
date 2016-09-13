@@ -148,14 +148,15 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		*/
 		reloadUserVote: function(vote) {
 			console.log(vote);
-			this.user_vote = {};
-			this.user_vote = {motion_id: vote.motion_id, id: vote.id, position: +vote.position};
+			this.userVote = {};
+			this.userVote = {motion_id: vote.motion_id, id: vote.id, position: +vote.position};
 			console.log(this);
 		},
 
 		reloadOnVoteSuccess: function(vote) {
-			this.reloadUserVote(vote);
+			this.getMotionComments();
 			this.getMotionVotes();
+			this.reloadUserVote(vote);
 			this.reloadMotionIndex();
 		}
 	}

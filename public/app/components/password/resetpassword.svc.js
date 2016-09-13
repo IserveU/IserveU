@@ -23,6 +23,7 @@
 					authResource.logout();
 					localStorage.clear();
 					$rootScope.userIsLoggedIn = false;
+					
 				}
 
 				postToken($stateParams.token);

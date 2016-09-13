@@ -7,7 +7,7 @@
 
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
-        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('logo','default')?>"> 
+        <link rel="icon shortcut" href="<?=Setting::get('logo','default')?>"> 
 
         <!-- Alloy Editor Dependencies -->
         <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all.js"></script>
@@ -20,7 +20,7 @@
 
     <body ng-cloak=""> 
         <!-- Headers -->
-        <beta-message></beta-message>
+        <beta-message ng-if="settingsGlobal.themename === 'default'"></beta-message>
         <user-bar ng-if="!isLoginState"></user-bar>
 
         <div layout="row">

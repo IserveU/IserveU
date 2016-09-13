@@ -7,9 +7,8 @@ angular
 	.factory('motionDepartments', 
 		['$http',
 		 'motionDepartmentResource', 
-		 'errorHandler',
 	
-	function($http, motionDepartmentResource, errorHandler) {
+	function($http, motionDepartmentResource) {
 
 	var motionDepartment = {
 		index: [],
@@ -24,9 +23,7 @@ angular
 			// TODO: make a get sanitizer that strips promise and such with method below
 			motionDepartmentResource.getDepartments().then(function(success){
 				self.index = JSON.parse(angular.toJson(success));
-			}, function(error){
-				errorHandler(error);
-			})
+			});
 		}
 	}
 

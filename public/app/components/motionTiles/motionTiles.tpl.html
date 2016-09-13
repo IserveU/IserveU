@@ -6,11 +6,11 @@
     </md-grid-tile>
 
     <md-grid-tile ng-if="settingsGlobal.allow_closing" class="md-whiteframe-z1">
-	    <md-icon ng-show="!motion.MotionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg">
+	    <md-icon ng-show="!motion.motionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg">
 	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
 	    </md-icon>
 
-	    <md-icon ng-show="motion.MotionOpenForVoting && motion.status > 1" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg">
+	    <md-icon ng-show="motion.motionOpenForVoting && motion.status > 1" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg">
 	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing.alpha_date }}</md-tooltip>
 	    </md-icon>		 
     </md-grid-tile>
@@ -26,6 +26,6 @@
 
     <md-grid-tile class="md-whiteframe-z1">
 	    <md-icon md-svg-icon="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon>
-	    <md-tooltip md-direction="{{::direction}}">IserveU certified</md-tooltip>
+	    <md-tooltip md-direction="{{::direction}}">{{ settingsGlobal.site.name }}</md-tooltip>
     </md-grid-tile>
 </md-grid-list>

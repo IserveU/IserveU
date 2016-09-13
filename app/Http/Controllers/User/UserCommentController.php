@@ -7,6 +7,7 @@ use Auth;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class UserCommentController extends ApiController
 {
@@ -15,7 +16,7 @@ class UserCommentController extends ApiController
      *
      * @return Response
      */
-    public function index($user)
+    public function index(User $user)
     {   
         if((Auth::user()->id != $user->id && !$user->public) && !Auth::user()->can('show-comment')) { //Not the current user, or public and not an admin
              abort(403,"You do not have permission to view this non-public user's comments");

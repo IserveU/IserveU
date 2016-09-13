@@ -24,12 +24,21 @@
 		        params: {},
 		        isArray: true,
 		        ignoreLoadingBar: true
-	    	}
+	    	},
 	    });
 
 	    var Restore = $resource('api/comment/:id/restore');
 
-	    var endpoint = '/api/comment/';
+	    var CreateComment = $resource('api/vote/:vote_id/comment', {ignoreLoadingBar:'@true'});
+
+	    var UserComment = $resource('api/user/:user_id/comment', {}, {
+	    	query: {
+	    		method: 'GET',
+	    		isArray: true,
+	    		params: {},
+	    		ignoreLoadingBar: true
+	    	}
+	    })
 
 	    /*****************************************************************
 	    *
@@ -53,8 +62,16 @@
 			});
 		}
 
+		function getUserComments(data) {
+			return UserComment.query({user_id: data.user_id}).$promise.then(function(results) {
+				return results;
+			}, function(error) {
+				return $q.reject(error);
+			});
+		}
+
 		function saveComment(data) {
-			return Comment.save(data).$promise.then(function(success) {
+			return CreateComment.save({vote_id: data.vote_id}, {text: data.text}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -62,7 +79,7 @@
 		}
 
 		function updateComment(data) {
-			return Comment.update({id:data.id}, data).$promise.then(function(success) {
+			return Comment.update({id:data.id}, {text: data.text}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);
@@ -88,6 +105,7 @@
 		return {
 			getComment: getComment,
 			getComments: getComments,
+			getUserComments: getUserComments,
 			deleteComment: deleteComment,
 			restoreComment: restoreComment,
 			saveComment: saveComment,

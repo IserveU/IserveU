@@ -6,7 +6,7 @@
         <md-progress-circular md-mode="indeterminate" ng-if="topMotions.loading"></md-progress-circular>
 
         <md-list ng-if="!topMotions.loading">
-          <md-list-item ng-if="topMotions.motionList" ng-repeat="motion in topMotions.motionList">
+          <md-list-item ui-sref-active="active" ng-if="topMotions.motionList" ng-repeat="motion in topMotions.motionList | limitTo: 5">
             <p class="md-body-1" ui-sref="motion({id:motion.id})">{{motion.title}}</p>
             <md-button class="md-icon-button" aria-label="topMotionRedirect" ui-sref="motion({id:motion.id})">
               <md-icon class="mdi" layout-align="end" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>

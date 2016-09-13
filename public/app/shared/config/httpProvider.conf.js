@@ -32,15 +32,20 @@
 		      },
 		      'responseError': function(config) {
 		      	
-				var ERROR_CODES = [400, 403, 405, 500];
+				var ERROR_CODES = [400, 405, 500];
 		      	var toast = $injector.get("ToastMessage");
 		      
 		      	if(ERROR_CODES.includes(config.status)){
 			      	toast.report_error(config.data);
 		      	} else if(config.status === 401 && config.statusText === "Unauthorized"){
 			      	var loginService = $injector.get("loginService");
-			      	// loginService.clearCredentials();
-		      	}
+			      	loginService.clearCredentials();
+		      	} else if(config.status === 401) {
+		      		toast.mustBeLoggedIn("to perform this action.");
+		      	} 
+		      	// else if(config.status === 403) { // currently too many 403s..
+		      	// 	toast.simple("You do not have permission to perform this action.");
+		      	// }
 
 		      	return $q.reject(config);
 		      }

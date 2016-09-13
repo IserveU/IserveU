@@ -1,0 +1,17 @@
+<md-card>
+	<md-card-content layout-padding>
+		<form name="editPage">
+
+		<md-input-container style="width: 100%; margin-bottom: 0">
+			<input ng-model="edit.pageService.title"/>
+		</md-input-container>
+		
+
+	   <textarea alloy-editor id="create-page-editor" ng-model="edit.pageService.content"></textarea>
+
+	   <div layout="row">
+			<spinner name="edit.saveString" ng-click="edit.save()" on-hide="edit.pageService.processing"></spinner>
+			<md-button ng-click="edit.cancel()">Cancel</md-button>
+		</div>
+	</md-card-content>
+</md-card>

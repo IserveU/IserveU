@@ -1,7 +1,5 @@
 <section flex layout-padding>
 
-	<span ng-init="userCommentEdit.comment.setData(motion.motionComments.thisUsersComment)"></span>
-
 	<header> 
 		<md-icon class="mdi mdi-comment-text-outline"></md-icon>
 		<h1>Your comment</h1>
@@ -10,6 +8,7 @@
 	<p class="md-body-1" ng-hide="userCommentEdit.editing">{{ userCommentEdit.comment.text }}</p>
 
 	<div ng-show="userCommentEdit.editing" layout="column">
+	
 
 		<md-input-container>
 			<textarea layout-padding aria-label="Your comment" ng-model="userCommentEdit.comment.text" focus-input="userCommentEdit.editing"></textarea>

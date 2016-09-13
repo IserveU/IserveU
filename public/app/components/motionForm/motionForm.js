@@ -11,7 +11,6 @@
 			'$translate',
 			'isuSectionProvider', 
 			'Motion',
-			'motionIndex', 
 			'motionFileResource', 
 			'ToastMessage', 
 			'motionDepartments', 
@@ -19,7 +18,7 @@
 			'Authorizer', 
 		motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, isuSectionProvider, Motion, motionIndex, motionFileResource, 
+	function motionForm($state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionFileResource, 
 		ToastMessage, motionDepartments, motionFilesFactory, Authorizer) {
 
 		function motionFormController($scope) {
@@ -43,10 +42,12 @@
 	        };
 
 	        function successHandler(r) {
-	            motionFilesFactory.attach(r.id, self.motionFiles);
-	            motionIndex.reloadOne( Motion.build(r) );
+	        	/** deprecrated */
+	            // motionFilesFactory.attach(r.id, self.motionFiles);
 
-	            if(motion.id) {
+	            self.motion.setData(r).refreshExtensions();
+
+	            if(self.motion.id) {
 	            	ToastMessage.simple("You successfully updated this " + $translate.instant('MOTION'));
 	            } else if(Authorizer.canAccess('edit-motion')){
 	            	ToastMessage.simple("Your submission has been sent in for review!");
@@ -71,9 +72,10 @@
 
 				self.motion = Motion.get($stateParams.id);
 
-	     		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
-					self.existingMotionFiles = r;
-				});
+				// TODO: motionFileResource no longer exists
+	   //   		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
+				// 	self.existingMotionFiles = r;
+				// });
 
 			})();
 		}
