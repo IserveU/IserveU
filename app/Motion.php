@@ -16,8 +16,10 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Repositories\StatusTrait;
 
 use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Contracts\VisibilityModel;
 
-class Motion extends NewApiModel implements CachedModel{
+
+class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
 	use SoftDeletes, Sluggable, StatusTrait;
 
@@ -38,16 +40,22 @@ class Motion extends NewApiModel implements CachedModel{
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'motionOpenForVoting','closing','userVote','user_id'.
-						  'status','updated_at','slug'];
+	protected $visible = [''];
 	
+	
+	/**
+	 * The attributes included in the JSON/Array
+	 * @var array
+	 */
+	protected $with = ['departmentRelation'];
+	
+
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motionOpenForVoting','userVote'];
+    protected $appends = ['motionOpenForVoting','userVote','department','userComment'];
 
   
 
@@ -152,24 +160,25 @@ class Motion extends NewApiModel implements CachedModel{
     }
 
 
-
-
-
 	
-    public function skipVisibility(){
-       $this->setVisible(array_merge(array_keys($this->attributes),
-	            ['title','text','summary','department_id','id','votes',
-						  'motionOpenForVoting','closing','userVote','user_id'.
-						  'status','updated_at','slug']
-	        	)
-       		);
-    }
+	//////////////////////// Visibility Implementation
 
 
     public function setVisibility(){
 
-            $this->skipVisibility();
-      
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->user_id || Auth::user()->hasRole('administrator'))){
+            $this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','user','motionOpenForVoting']);
+        }
+
+        if(Auth::check()){
+        	$this->addVisible(['userVote','userComment']);
+        }
+
+        if($this->publiclyVisible){
+			$this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','motionOpenForVoting']);
+        }
+
         return $this;
     }
 
@@ -213,6 +222,15 @@ class Motion extends NewApiModel implements CachedModel{
 		return null;
 	}
 
+
+	public function getUserCommentAttribute(){
+		if($this->thisUserVote){
+			return $this->thisUserVote->comment;
+		}
+		return null;
+	}
+	
+
 	/**
 	 * A bridge to the comments on this motion
 	 * @return Collection A collection of comments
@@ -222,6 +240,13 @@ class Motion extends NewApiModel implements CachedModel{
 		   $comments = $q->get()->unique();
 		}]);
 		return $comments;
+	}
+
+
+	public function getDepartmentAttribute(){
+		return $this->departmentRelation();
+
+		dd($this->departmentRelation); //return $this->department();
 	}
 	
 
@@ -304,7 +329,7 @@ class Motion extends NewApiModel implements CachedModel{
 		return $this->belongsTo('App\Event');
 	}
 
-	public function department(){
+	public function departmentRelation(){
 		return $this->belongsTo('App\Department');
 	}
 	

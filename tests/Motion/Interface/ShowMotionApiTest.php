@@ -21,12 +21,14 @@ class ShowMotionApiTest extends TestCase
         $this->signInAsRole('administrator');
 
         $motion = factory(App\Motion::class)->create();
-
-
+        // dd(\App\Department::first()->motion);
+        // dd($motion->departmentRelation()->get());
         $this->visit("/api/motion/".$motion->id)
             ->seeJsonStructure([
-                'title','text','summary','department_id','id','motionOpenForVoting','closing','userVote','status','updated_at'
-            ])->dontSeeJson([
+                'title','text','summary','id','motionOpenForVoting','closing','userVote','status','updated_at' //,'department'
+            ])
+            //->see($motion->department->name)
+            ->dontSeeJson([
                 'votes','users'
             ]);
 

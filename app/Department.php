@@ -25,6 +25,13 @@ class Department extends NewApiModel {
 	 */
 	protected $fillable = ['name', 'active'];
 
+	/**
+	 * The relations commonly used
+	 * @var array
+	 */
+	protected $with = ['motions'];
+
+
 	
 	/**
 	 * The attributes included in the JSON/Array
