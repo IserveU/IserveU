@@ -125,7 +125,7 @@ class DefaultCommentPermissionTest extends TestCase
         $this->delete('/api/comment/'.$comment->id);
         
         $this->assertResponseOk();
-        $this->dontSeeInDatabase('comments', ['id'=>$comment->id,'deleted_at' => null]);
+        $this->dontSeeInDatabase('comments', ['id'=>$comment->id]);
     }
 
 
@@ -140,7 +140,7 @@ class DefaultCommentPermissionTest extends TestCase
         $this->delete('/api/comment/'.$comment->id);
         
         $this->assertResponseOk();
-        $this->dontSeeInDatabase('comments', ['id'=>$comment->id,'deleted_at' => null]);
+        $this->dontSeeInDatabase('comments', ['id'=>$comment->id]);
     }
 
     /** @test */
@@ -154,7 +154,7 @@ class DefaultCommentPermissionTest extends TestCase
         $this->delete('/api/comment/'.$comment->id);
         
         $this->assertResponseStatus(403);
-        $this->seeInDatabase('comments', ['id'=>$comment->id,'deleted_at' => null]);
+        $this->seeInDatabase('comments', ['id'=>$comment->id]);
     }
 
 

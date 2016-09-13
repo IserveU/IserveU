@@ -89,6 +89,11 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
         ];
     }
 
+
+	protected $attributes = [
+		'status'	=>	'private'
+	];
+
     /**
      * The  statuses that a motion can have
      * @var Array
@@ -167,7 +172,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
     public function setVisibility(){
 
         //If self or show-other-private-user
-        if(Auth::check() && (Auth::user()->id==$this->user_id || Auth::user()->hasRole('administrator'))){
+        if(Auth::check() && (Auth::user()->id==$this->user_id || Auth::user()->can('show-motion'))){
             $this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','user','motionOpenForVoting']);
         }
 
