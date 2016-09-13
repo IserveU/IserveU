@@ -38,7 +38,12 @@
     	    data: {
     	        requireLogin: true,
                 moduleMotion: true
-    	    }
+    	    },
+            onEnter: ['$state', '$stateParams', function($state, $stateParams) {
+                if(!$stateParams.id) {
+                    $state.go('home');
+                }
+            }]
     	})
         .state('edit-motion', {
             url: '/edit-'+SETTINGS_JSON.jargon.en.motion.toLowerCase()+'/:id',
@@ -140,8 +145,7 @@
         })
         .state('login', {
             url: '/login',
-        	controller: 'loginController as login',
-        	templateUrl: 'app/components/login/login.tpl.html',
+            template: '<login-portal></login-portal>',
             data: {
                 requireLogin: false
             }
