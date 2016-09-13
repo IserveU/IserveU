@@ -59,7 +59,7 @@
 			return function (value){
 				var out = [];
 				for (var i in value) {
-					if ( Authorizer.canAccess('administrate-motion') && value[i].status == 'published' )
+					if ( value[i].status == 'published' || Authorizer.canAccess('administrate-motion') )
 						out.push(value[i]);
 				}
 				return out;

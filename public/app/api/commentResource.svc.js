@@ -4,9 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.factory('commentResource', ['$resource', '$q', commentResource]);
+		.factory('commentResource', ['$resource', '$http', '$q', commentResource]);
 
-	function commentResource($resource, $q) {
+	function commentResource($resource, $http, $q) {
 
 		/****************************************************************
 		*
@@ -31,15 +31,6 @@
 
 	    var CreateComment = $resource('api/vote/:vote_id/comment', {ignoreLoadingBar:'@true'});
 
-	    var UserComment = $resource('api/user/:user_id/comment', {}, {
-	    	query: {
-	    		method: 'GET',
-	    		isArray: true,
-	    		params: {},
-	    		ignoreLoadingBar: true
-	    	}
-	    })
-
 	    /*****************************************************************
 	    *
 	    *	Server-side functions.
@@ -63,11 +54,17 @@
 		}
 
 		function getUserComments(data) {
-			return UserComment.query({user_id: data.user_id}).$promise.then(function(results) {
-				return results;
-			}, function(error) {
-				return $q.reject(error);
-			});
+			return $http({
+				method: 'GET',
+				url: 'api/user/'+data.user_id+'/comment',
+				params: {
+					ignoreLoadingBar: true
+				}
+			}).success(function(results){
+				return results.data || results;
+			}).error(function(error){
+				return error.data || error;
+			})
 		}
 
 		function saveComment(data) {

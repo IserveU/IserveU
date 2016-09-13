@@ -132,6 +132,7 @@
 
 				angular.forEach(self.buttons, function(button, key) {
 					angular.extend(button, self.commonFunctions);
+					button.setDefault();
 				});
 			})();
 		}
