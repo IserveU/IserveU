@@ -65,7 +65,7 @@
 		]);
 
 	    // Make a comment
-	    $comment = factory(App\Comment::class)->make()->setVisible(['text'])->toArray();
+	    $comment = factory(App\Comment::class)->make()->skipVisibility()->toArray();
 
 	   	unset($comment["vote_id"]);
 

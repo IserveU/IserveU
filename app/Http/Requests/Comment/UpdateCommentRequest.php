@@ -44,7 +44,8 @@ class UpdateCommentRequest extends Request
     {
 
         return [
-            'text'          =>  'filled|string'
+            'text'          =>  'filled|string',
+            'status'        =>  'valid_status'
         ];
 
     }

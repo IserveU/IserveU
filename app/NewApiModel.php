@@ -60,6 +60,7 @@ class NewApiModel extends Model
     public function skipVisibility(){
        $this->setVisible(array_keys($this->attributes));
        $this->skipVisibility = true;
+       return $this;
     }
 
 

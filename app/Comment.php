@@ -36,7 +36,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes that are fillable by a creator of the model
 	 * @var Array
 	 */
-	protected $fillable = ['text','vote_id'];
+	protected $fillable = ['text','vote_id','status'];
 
 
 	/**
@@ -61,6 +61,11 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	 * @var array
 	 */
 	protected $dates = ['created_at','updated_at'];
+
+
+	protected $attributes = [
+		'status'	=>	'private'
+	];
 
     /**
      * The two statuses that a comment can have

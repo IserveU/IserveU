@@ -93,11 +93,6 @@ class CommentVote extends NewApiModel implements CachedModel {
 
 
 
-    public function skipVisibility(){
-       $this->setVisible(array_merge(array_keys($this->attributes)));
-    }
-
-
     public function setVisibility(){
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->vote->user->id || Auth::user()->hasRole('administrator'))){

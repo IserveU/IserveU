@@ -47,7 +47,8 @@ class StoreCommentRequest extends Request
         return [
             'text'          =>  'filled|required|string',
             'vote_id'       =>  'reject',
-            'id'            =>  'integer'
+            'id'            =>  'integer',
+            'status'        =>  'valid_status'
         ];
     }
 
