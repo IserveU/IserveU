@@ -18,6 +18,8 @@
 	        'update': { method:'PUT' }
 	    });
 
+	    var SaveCommentVote = $resource('api/comment/:id/comment_vote',  {ignoreLoadingBar:'@true'});
+
 	    /*****************************************************************
 	    *
 	    *	Server-side functions.
@@ -25,7 +27,7 @@
 	    ******************************************************************/
 	    
 		function saveCommentVotes(data) {
-			return CommentVote.save(data).$promise.then(function(success) {
+			return SaveCommentVote.save({id:data.comment_id}, {position: data.position}).$promise.then(function(success) {
 				return success;
 			}, function(error) {
 				return $q.reject(error);

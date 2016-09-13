@@ -28,11 +28,11 @@
 				cast: function(motion) {
 
 					if( ToastMessage.mustBeLoggedIn('to vote.') ||  
-						motion.user_vote && motion.user_vote.position == this.value || 
+						motion.userVote && motion.userVote.position == this.value || 
 						motionVoteButtonService.isVotingEnabled(motion) )
 					return false;
 
-					castVote(this, motion.user_vote, motion);
+					castVote(this, motion.userVote, motion);
 				},
 
 				setActive: function() {
@@ -75,7 +75,9 @@
 					position: button.value
 				}
 
-				motion.user_vote.position = button.value;
+				motion.userVote = motion.userVote || {};
+				motion.userVote.position = button.value;
+
 
 				if( !data.id ) {
 					voteResource.castVote(data).then(function(results) {
@@ -97,8 +99,8 @@
 			}
 
 
-			$scope.$watch('motion.user_vote', function(vote, oldVote) {
-				if( vote && vote.id && vote !== oldVote) {
+			$scope.$watch('motion.userVote', function(vote) {
+				if( vote && vote.id ) {
 
 					self.buttons.agree.setDefault();
 					self.buttons.abstain.setDefault();
@@ -117,7 +119,7 @@
 
 			(function init() {
 				var untilMotion = $interval(function(){
-					if($scope.motion && $scope.motion.hasOwnProperty('MotionOpenForVoting')) {
+					if($scope.motion && $scope.motion.hasOwnProperty('motionOpenForVoting')) {
 						var motion = $scope.motion;
 						for(var i in self.buttons) {
 							var button = self.buttons[i];

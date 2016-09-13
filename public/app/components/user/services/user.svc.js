@@ -13,7 +13,7 @@
 	        'update': { method:'PUT' }
 	    });
 		var UserEdit = $resource('api/user/:id/edit');
-		var YourUser = $resource('api/settings');
+		var YourUser = $resource('api/setting');
 
 		function getIndex() {
 			return User.get().$promise.then(function(results) {

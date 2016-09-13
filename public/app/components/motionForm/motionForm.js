@@ -11,7 +11,6 @@
 			'$translate',
 			'isuSectionProvider', 
 			'Motion',
-			'motionIndex', 
 			'motionFileResource', 
 			'ToastMessage', 
 			'motionDepartments', 
@@ -19,7 +18,7 @@
 			'Authorizer', 
 		motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, isuSectionProvider, Motion, motionIndex, motionFileResource, 
+	function motionForm($state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionFileResource, 
 		ToastMessage, motionDepartments, motionFilesFactory, Authorizer) {
 
 		function motionFormController($scope) {
@@ -44,9 +43,10 @@
 
 	        function successHandler(r) {
 	            motionFilesFactory.attach(r.id, self.motionFiles);
-	            motionIndex.reloadOne( Motion.build(r) );
 
-	            if(motion.id) {
+	            self.motion.setData(r).refreshExtensions();
+
+	            if(self.motion.id) {
 	            	ToastMessage.simple("You successfully updated this " + $translate.instant('MOTION'));
 	            } else if(Authorizer.canAccess('edit-motion')){
 	            	ToastMessage.simple("Your submission has been sent in for review!");

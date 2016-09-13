@@ -25,8 +25,8 @@
 			},
 			/** Post function */
 			save: function(data) {
-				$http.post('/setting', data).success(function(r){
-
+				$http.post('/api/setting', data).success(function(r) {
+					
 					refreshLocalStorage.setItem('settings', r);
 					Settings.data.saving = false;
 
