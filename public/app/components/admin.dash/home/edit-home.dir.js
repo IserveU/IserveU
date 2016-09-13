@@ -29,11 +29,12 @@
 
 			$scope.$watch('edit.settings.saving',
 				function redirect(newValue, oldValue) {
+					console.log(newValue);
+
 					if(newValue == false && oldValue == true){
 						$state.go('home', {}, {reload: true});
 					};
-				}
-			);
+				}, true);
 		}
 
 		return {

@@ -58,9 +58,7 @@
 
 			Login.loggingIn = true;
 
-			authResource.login( credentials ).then(function(results) {
-				successHandler( results.data );
-			}, function(error) {
+			authResource.login( credentials ).then(successHandler, function(error) {
 				Login.loggingIn = false;
 				errorHandler( error.data );
 			});		
@@ -70,9 +68,7 @@
 
 			Login.creating = true;
 			
-			authResource.register( Login.newUser ).then(function(results){
-				successHandler( results.data );			
-			}, function(error) {
+			authResource.register( Login.newUser ).then(successHandler, function(error) {
 				Login.creating  = false;
 				Login.authError = true;
 
@@ -80,10 +76,15 @@
 			});
 		};
 
-		function successHandler(user) {
+		function successHandler(res) {
+			var user = res.data || res;
+
+			console.log(user);
+
 
 			$rootScope.userIsLoggedIn    = true;
 			$rootScope.authenticatedUser = user;
+			$rootScope.authenticatedUser.permissions = transformObjectToArray($rootScope.authenticatedUser.permissions);
 
 			localStorage.setItem( 'api_token', user.api_token );
 			localStorage.setItem( 'user', JSON.stringify(user) );
@@ -119,6 +120,15 @@
 					break;
 			}
 		};
+
+		function transformObjectToArray(obj) {
+			var tmp = [];
+			angular.forEach(obj, function(el, key) {
+				tmp.push(el);
+			});
+			return tmp;
+		}
+
 
 		return Login;
 	}

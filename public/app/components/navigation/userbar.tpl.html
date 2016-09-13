@@ -17,7 +17,7 @@
         </button>
     </div>
 
-    <div ng-repeat="page in user.pageObj.index" hide-sm hide-xs>
+    <div ng-repeat="page in user.pageService.index" hide-sm hide-xs>
         <button class="main-nav-button md-button md-ink-ripple" aria-label="Open new page" ui-sref="pages({id:page.slug})">
           {{ ::page.title }}
         </button>
@@ -37,7 +37,7 @@
 
                 <p class="md-body-2 userbar__menu-header" layout-padding>Site Menu</p>
 
-                <md-menu-item ng-repeat="page in user.pageObj.index">
+                <md-menu-item ng-repeat="page in user.pageService.index">
                   <md-button aria-label="link to page"  ui-sref="pages({id:page.slug})">
                         <div layout="row">
                             <p flex>{{ ::page.title }}</p>

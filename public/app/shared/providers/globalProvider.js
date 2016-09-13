@@ -74,6 +74,10 @@ angular.module('iserveu')
 			*   they do not have all the required permissions.
 			*/
 			checkPermissions: function(ev, requirePermissions) {
+
+				if(!requirePermissions) {
+					return true;
+				}
 				
 				var $state = $injector.get('$state');
 				var $rootScope = $injector.get('$rootScope');

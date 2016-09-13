@@ -4,39 +4,37 @@
 
 	angular
 		.module('iserveu')
-		.directive('createPageContent', [
-			'$state', 'pageObj', 'ToastMessage',
-			createPage]);
+		.directive('createPageContent', 
+			['$state',
+			 'pageService',
+			 'ToastMessage',
+		createPage]);
 
-  	/** @ngInject */
-	function createPage($state, pageObj, ToastMessage) {
+	function createPage($state, pageService, ToastMessage) {
 
 		function createPageController() {
 
-			this.pageObj = pageObj;
+			this.service = pageService;
+			this.save    = save;
+			this.cancel  = cancel;
 
-			this.cancel = function() {
+			function save(data) {
+				pageService.processing = true;
+				pageService.save(data);
+			}
+
+			function cancel() {
 				ToastMessage.cancelChanges(function(){
 					$state.go('dashboard');
 				});
 			};
 		};
 
-
 		return {
 			controller: createPageController,
 			controllerAs: 'create',
-			template: ['<md-card><md-card-content><form name="page" ng-submit="page.$valid && create.pageObj.save(create.form)">',
-					   '<md-input-container style="width: 100%">',
-					   '<input placeholder="Page title" ng-model="create.form.title" required/></md-input-container>',
-					   '<textarea alloy-editor id="create-page-editor" ng-model="create.form.content"></textarea>',
-					   '<div layout="row"><spinner name="\'Create\'" on-hide="create.pageObj.processing"></spinner>',
-					   '<md-button ng-click="create.cancel()">Cancel</md-button></div>',
-					   '</md-card-content></md-card>'].join('')
+			templateUrl: 'app/components/pages/create-page.tpl.html'
 		}
-
-
-
 	}
 
 })();

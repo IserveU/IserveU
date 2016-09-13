@@ -154,8 +154,9 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		},
 
 		reloadOnVoteSuccess: function(vote) {
-			this.reloadUserVote(vote);
+			this.getMotionComments();
 			this.getMotionVotes();
+			this.reloadUserVote(vote);
 			this.reloadMotionIndex();
 		}
 	}

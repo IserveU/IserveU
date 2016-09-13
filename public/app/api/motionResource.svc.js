@@ -71,12 +71,12 @@
 			});
 		}
 
-		function getMotionByStatus(status) {
+		function getDrafts(status) {
 			return $http({
                 method: "GET",
                 url: "/api/motion",
                 params: {
-                     'status[]': status
+                     'status[]': ['draft', 'review']
                 },
                 ignoreLoadingBar: true
           	}).then(function(success){
@@ -121,7 +121,7 @@
                 method: "GET",
                 url: "/api/motion",
                 params: {
-                     'status[]': [0],
+                     'status[]': ['draft', 'review', 'published'],
                      user_id: $rootScope.authenticatedUser.id
                 },
                 ignoreLoadingBar: true
@@ -185,7 +185,7 @@
 		return {
 			// GET
 			getMotion: getMotion,
-			getMotionByStatus: getMotionByStatus,
+			getDrafts: getDrafts,
 			getMotionFiles: getMotionFiles,
 			getMotionComments: getMotionComments,
 			getMotionVotes: getMotionVotes,
