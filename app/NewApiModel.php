@@ -52,6 +52,17 @@ class NewApiModel extends Model
         return $this->visible;
     }
 
+
+    /**
+     * A default that just sets the standard attributes for plain models
+     * @return null
+     */
+    public function setVisibility(){
+       $this->setVisible($this->visible);
+       return $this;
+    }
+
+
     /**
      * Makes sure that all attributes of this model are visible
      * Then sets the skipVisibility variable so they are not overridden

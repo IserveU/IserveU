@@ -60,14 +60,17 @@ Route::group(['prefix' => 'api'], function(){
 	//Setting	
 	Route::resource('setting', 'SettingController',['only'=>['index','update']]);
 
+	//Community
+	Route::resource('community', 'CommunityController',['only'=>['index']]);
+
+	//Department
+	Route::resource('department', 'DepartmentController',['only'=>['index','store','update','destroy']]);
+
 	//Administrator only
 	Route::group(['middleware' => ['role:administrator']], function(){
 
-		//Community
-		Route::resource('community', 'CommunityController',['except'=>['create','edit']]);
-
-		//Department
-		Route::resource('department', 'DepartmentController',['except'=>['create','edit']]);
+	
+	
 
 		//Ethnic Origin
 		Route::resource('ethnic_origin', 'EthnicOriginController',['only'=>['index']]);

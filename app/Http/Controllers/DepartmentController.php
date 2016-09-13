@@ -22,10 +22,10 @@ class DepartmentController extends ApiController {
 	
 	protected $departmentTransformer;
 
-	public function __construct(DepartmentTransformer $departmentTransformer)
+	public function __construct()
 	{
-		$this->departmentTransformer = $departmentTransformer;
-		$this->middleware('auth:api',['except'=>['index','show']]);
+		$this->middleware('role:administrator',['except'=>['index','show']]);
+
 	}
 
 	/**
@@ -35,23 +35,10 @@ class DepartmentController extends ApiController {
 	 */
 	public function index()
 	{
-		$departments = $this->departmentTransformer->transformCollection( Department::all()->toArray() );
-		return $departments;
+		return Department::all();
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		if(!Auth::user()->can('create-department')){
-			abort(401,'You do not have permission to create a department');
-		}
-		return (new Department)->rules();
 
-	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -74,35 +61,7 @@ class DepartmentController extends ApiController {
 		return $department;
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit(Department $department)
-	{
-		if(!Auth::user()->can('create-department')){
-			abort(403,'You do not have permission to create/update departments');
-		}
-
-		if(!$department->user_id!=Auth::user()->id && !Auth::user()->can('administrate-department')){ //Is not the user who made it, or the site admin
-			abort(401,"This user can not edit department ($id)");
-		}
-
-		return $department->fields;
-	}
 
 	/**
 	 * Update the specified resource in storage.

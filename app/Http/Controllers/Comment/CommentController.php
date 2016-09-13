@@ -87,7 +87,6 @@ class CommentController extends ApiController {
 		
 		$comment->update($request->except('token'));
 
-	
 		return $comment;
 	}
 

@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Department extends NewApiModel {
+
+
+
+class Department extends NewApiModel{
 
 
 	use Sluggable;
