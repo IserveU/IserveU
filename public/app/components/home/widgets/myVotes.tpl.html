@@ -8,7 +8,7 @@
     <md-progress-circular md-mode="indeterminate" ng-if="myVotes.loading"></md-progress-circular>
 
     <div ng-if="!myVotes.loading">
-      <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList">
+      <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList | limitTo: 5">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
        <span ng-switch="{{ vote.position }}">
           <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>

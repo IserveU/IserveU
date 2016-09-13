@@ -1,6 +1,7 @@
 .floating-button__directive {
 	position: fixed;
 	right: 15px;
+	z-index: $zNavigation;
 }
 
 .floating-button__directive md-fab-trigger > button > md-icon {

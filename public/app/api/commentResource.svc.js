@@ -34,6 +34,7 @@
 	    var UserComment = $resource('api/user/:user_id/comment', {}, {
 	    	query: {
 	    		method: 'GET',
+	    		isArray: true,
 	    		params: {},
 	    		ignoreLoadingBar: true
 	    	}
