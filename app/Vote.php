@@ -130,6 +130,12 @@ class Vote extends NewApiModel implements CachedModel {
 		$this->attributes['position'] 				= 	$value;
 	}
 
+	public function getPositionHumanReadableAttribute(){
+		if($this->position == 1) return "for";
+		if($this->position == -1) return "against";
+		return "abstain";
+	}
+
 
 	/************************************* Casts & Accesors *****************************************/
 
