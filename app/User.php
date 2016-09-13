@@ -37,8 +37,10 @@ use App\Repositories\StatusTrait;
 use Illuminate\Notifications\Notifiable;
 
 use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Contracts\VisibilityModel;
 
-class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel {
+
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel, VisibilityModel {
 
 	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
 
@@ -225,8 +227,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     }
 
 
-    public function skipVisibility(){
 
+	//////////////////////// Visibility Implementation
+    
+    public function skipVisibility(){
 
        $this->setVisible(array_merge(array_keys($this->attributes),
 	            ['permissions','agreement_accepted']
@@ -250,6 +254,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         return $this;
     }
+
+
 
 
 	/**************************************** Custom Methods **************************************** */

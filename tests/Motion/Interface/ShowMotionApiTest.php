@@ -25,9 +25,9 @@ class ShowMotionApiTest extends TestCase
         // dd($motion->departmentRelation()->get());
         $this->visit("/api/motion/".$motion->id)
             ->seeJsonStructure([
-                'title','text','summary','id','motionOpenForVoting','closing','userVote','status','updated_at' //,'department'
+                'title','text','summary','id','motionOpenForVoting','closing','userVote','status','updated_at','department'
             ])
-            //->see($motion->department->name)
+            //->see($motion->departmentRelation->name)
             ->dontSeeJson([
                 'votes','users'
             ]);

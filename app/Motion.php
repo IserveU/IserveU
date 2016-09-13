@@ -48,7 +48,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $with = ['departmentRelation'];
+	protected $with = ['department'];
 	
 
 
@@ -250,9 +250,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
 
 	public function getDepartmentAttribute(){
-		return $this->departmentRelation();
+		return $this->department()->first();
 
-		dd($this->departmentRelation); //return $this->department();
 	}
 	
 
@@ -335,7 +334,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		return $this->belongsTo('App\Event');
 	}
 
-	public function departmentRelation(){
+	public function department(){
 		return $this->belongsTo('App\Department');
 	}
 	

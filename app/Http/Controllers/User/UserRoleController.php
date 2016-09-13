@@ -62,7 +62,7 @@ class UserRoleController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        dd('incomplete');
+        abort(200,'incomplete');
     }
 
     /**

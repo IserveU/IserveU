@@ -32,7 +32,7 @@ class Department extends NewApiModel{
 	 * The relations commonly used
 	 * @var array
 	 */
-	protected $with = ['motions'];
+	protected $with = [];
 
 
 	
