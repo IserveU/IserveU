@@ -39,6 +39,7 @@
 					        default: {}
 					      },
 			clearCredentials: clearCredentials,
+			clearErrorMessages: clearErrorMessages,
 			createUser:   register,
 			login:        login
 		};
@@ -51,6 +52,13 @@
 
 			if(redirect) {
 				redirectService.onLogout();
+			}
+		}
+
+		function clearErrorMessages() {
+			Login.authError = false;
+			for (var i in Login.errors) {
+				Login.errors[i] = false;
 			}
 		}
 
@@ -84,7 +92,7 @@
 
 			$rootScope.userIsLoggedIn    = true;
 			$rootScope.authenticatedUser = user;
-			$rootScope.authenticatedUser.permissions = transformObjectToArray($rootScope.authenticatedUser.permissions);
+			$rootScope.authenticatedUser.permissions = utils.transformObjectToArray($rootScope.authenticatedUser.permissions);
 
 			localStorage.setItem( 'api_token', user.api_token );
 			localStorage.setItem( 'user', JSON.stringify(user) );
@@ -94,8 +102,8 @@
 		}
 
 		function errorHandler(responseError) {
-			for (var i in Login.errors) // resets all erorrs
-				Login.errors[i] = false;
+
+			clearErrorMessages();
 
 			var error = responseError.error.toLowerCase();
 
@@ -120,15 +128,6 @@
 					break;
 			}
 		};
-
-		function transformObjectToArray(obj) {
-			var tmp = [];
-			angular.forEach(obj, function(el, key) {
-				tmp.push(el);
-			});
-			return tmp;
-		}
-
 
 		return Login;
 	}

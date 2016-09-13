@@ -145,8 +145,7 @@
         })
         .state('login', {
             url: '/login',
-        	controller: 'loginController as login',
-        	templateUrl: 'app/components/login/login.tpl.html',
+            template: '<login-portal></login-portal>',
             data: {
                 requireLogin: false
             }
