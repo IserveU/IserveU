@@ -14,7 +14,7 @@
 
 			var self = this; // global context for 'this'
 
-			motionResource.getMotionByStatus([0,1]).then(function(r){
+			motionResource.getDrafts(['draft', 'review']).then(function(r){
 				self.motions = r.data.data;
 			}, function(e){
 				errorHandler(e);

@@ -17,7 +17,7 @@ angular
 
             $timeout(function() {
 
-                var alloyEditor = AlloyEditor.editable(attrs.id);
+                var alloyEditor = AlloyEditor.editable(attrs.id, { startupFocus : true });
 
                 if (!ngModel) {
                     return;
@@ -47,9 +47,16 @@ angular
 
                 nativeEditor.on('pasteState', function(_el) {
                     var content = nativeEditor.getData();
-                    content = content.replace(/--&nbsp;/g, '&mdash;');
-                    content = content.replace(/-- /g, '&mdash;');
-                    content = replaceGDocs(content);
+
+                    // console.log(content);
+
+                    // if(!content || content == '') {
+                    //     nativeEditor.insertHtml('<p style="opacity: .7">Click to start writing ... </p>');
+                    // } else {
+                        content = content.replace(/--&nbsp;/g, '&mdash;');
+                        content = content.replace(/-- /g, '&mdash;');
+                        content = replaceGDocs(content);
+                    // }
 
                     ngModel.$setViewValue(content);
 

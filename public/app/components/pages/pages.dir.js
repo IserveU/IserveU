@@ -5,30 +5,54 @@
 
 	angular
 		.module('iserveu')
-		.directive('pageContent', ['$stateParams', 'pageObj', 'UserbarService', pageContent]);
+		.directive('pageContent', [
+			'$state',
+			'$stateParams',
+			'pageService',
+			'UserbarService',
+			'ToastMessage',
+		pageContent]);
 
   	 /** @ngInject */
-	function pageContent($stateParams, pageObj, UserbarService) {
+	function pageContent($state, $stateParams, pageService, UserbarService, ToastMessage) {
 
 
 		function pageController() {
 
-			this.pageObj = pageObj;
-
+			this.service = pageService;
 			this.loading = "loading";
 
-			pageObj.initLoad($stateParams.id);
+	/****** Exports =================================================== */
+	
+			this.create  = create;
+			this.edit    = edit;
+			this.destroy = destroy;
 
-			UserbarService.title = pageObj.title;
+			function create() {
+				$state.go('create-page');
+			}
 
+			function edit() {
+				$state.go('edit-page', {id: pageService.slug});
+			}
+
+			function destroy() {
+				ToastMessage.destroyThis("page", function() {
+					pageService.delete($stateParams.id);
+				});
+			};
+
+	/****** Initialization ============================================ */
+			(function init() {
+				UserbarService.title = pageService.title;
+				pageService.initLoad($stateParams.id);
+			})();
 		}
-
 
 		return {
 			controller: pageController,
-			controllerAs: 'p',
-			template: ['<pages-fab></pages-fab><section layout-margin><md-card ng-class="p.pageObj.pageLoading ? p.loading : none " flex><md-card-content>',
-					   '<p ng-bind-html="p.pageObj.content" layout-padding></p></md-card-content></md-card></section>'].join('')
+			controllerAs: 'page',
+			templateUrl: 'app/components/pages/pages.tpl.html' 
 		}
 
 	}

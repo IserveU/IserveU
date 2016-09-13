@@ -61,7 +61,8 @@ class IndexMotionRequest extends Request
             'oldest'            =>  'boolean',
             'status'            =>  'array',
             'user_id'           =>  'exists:users,id',
-            'limit'             =>  'integer'
+            'limit'             =>  'integer',
+            'page'              =>  'integer'
         ];
     }
 }

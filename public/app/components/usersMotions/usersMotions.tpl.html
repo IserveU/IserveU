@@ -3,7 +3,7 @@
 
 	<md-toolbar class="md-hue-1 md-tall profile-toolbar" layout-align="center front">
 		<h2 class="title-header" style="font-size: 23px; opacity: .8; margin: 20px">My {{'MOTIONS' | translate}}</h2>
-		<p class="md-caption" style="margin-left: 20px">You've submitted these motions and they are currently being reviewed.</p>
+		<!-- <p class="md-caption" style="margin-left: 20px">You've submitted these motions and they are currently being reviewed.</p> -->
 	</md-toolbar>
 
 
@@ -14,7 +14,7 @@
 
 		<md-list-item ui-sref="motion({id:motion.id})">
 
-			<p class="md-body-1">{{ motion.title }}</p>
+			<p class="md-body-1">{{ motion.title }}</p> <i class="md-caption">[ {{ motion.status}} ]</i>
             <md-button class="md-icon-button" aria-label="Motion Redirect" ui-sref="motion({id:motion.id})">
               <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
             </md-button>

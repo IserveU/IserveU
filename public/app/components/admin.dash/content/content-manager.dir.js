@@ -5,21 +5,21 @@
 	angular
 		.module('iserveu')
 		.directive('contentManager', [
-			'pageObj', 'settings', 'ToastMessage',
+			'pageService', 'settings', 'ToastMessage',
 			contentManager]);
 
 	/** @ngInject */
-	function contentManager(pageObj, settings, ToastMessage) {
+	function contentManager(pageService, settings, ToastMessage) {
 
 		function contentController() {
 
-			this.pages = pageObj;
+			this.pages = pageService;
 			this.service = settings;
 			this.settings = settings.getData();
 
 			this.deletePage = function(slug) {
 				ToastMessage.destroyThis("page", function() {
-					pageObj.delete(slug);
+					pageService.delete(slug);
 				});
 			};
 

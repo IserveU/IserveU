@@ -10,7 +10,7 @@ class UpdateSettingRequest extends Request
 
     protected $rules = [
         'key'   => 'string',
-        'value' => 'required|json'
+        'value' => 'required'
     ];
 
     /**

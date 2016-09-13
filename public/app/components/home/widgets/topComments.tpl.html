@@ -7,7 +7,7 @@
 
 
       <md-list ng-if="!topComments.loading">
-        <div ng-if="topComments.commentList" ng-repeat="comment in topComments.commentList">
+        <div ng-if="topComments.commentList" ng-repeat="comment in topComments.commentList | limitTo: 5">
 
         <md-list-item ui-sref-active="active" ui-sref="motion({id:comment[0].vote.motion_id})">
           <p class="md-body-1">{{comment[0].text | limitTo: 120}}{{comment.text[0].length > 120 ? '...' : ''}}</p>

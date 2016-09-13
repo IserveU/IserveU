@@ -13,11 +13,11 @@ angular
 		'authResource', 
 		'loginService', 
 		'UserbarService', 
-		'pageObj',
+		'pageService',
 		'motionIndex',
 	userBar]);
 
-	function userBar($translate, $mdSidenav, $mdMedia, $state, authResource, loginService, UserbarService, pageObj, motionIndex){
+	function userBar($translate, $mdSidenav, $mdMedia, $state, authResource, loginService, UserbarService, pageService, motionIndex){
 		
 	  	 /** @ngInject */
 		function UserbarController($scope) {
@@ -25,7 +25,7 @@ angular
 			$scope.$mdMedia = $mdMedia;
 
 			this.userbarservice = UserbarService;
-			this.pageObj = pageObj;
+			this.pageService = pageService;
 			this.preferredLang = "English";
 			this.languages = [{name:'English', key:'en'},
 							  {name:'French', key:'fr'}];

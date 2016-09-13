@@ -8,9 +8,8 @@ angular
 	['$http',
 	 'commentResource',
 	 'ToastMessage',
-	 'errorHandler',
 
-function($http, commentResource, ToastMessage, errorHandler) {
+function($http, commentResource, ToastMessage) {
 
 	function Comment(commentData) {
 
@@ -19,6 +18,7 @@ function($http, commentResource, ToastMessage, errorHandler) {
 		}
 
 		this.posting = false;
+		this.exists  = false;
 
 	}
 
@@ -32,8 +32,8 @@ function($http, commentResource, ToastMessage, errorHandler) {
 			// this = angular.copy(commentData);
 		},
 
-		submit: function(voteId, motion) {
-			submit(this, voteId, motion)
+		submit: function(motion) {
+			submit(this, motion)
 		},
 
 		update: function(motion) {
@@ -51,21 +51,22 @@ function($http, commentResource, ToastMessage, errorHandler) {
 	*
 	*/
 
-	function submit(comment, voteId, motion) {
+	function submit(comment, motion) {
 
 		var self = comment;
 		self.posting = true;
 
 		commentResource.saveComment({
-			vote_id: voteId,
+			vote_id: motion.userVote.id,
 			text: self.text
 		}).then(function(success){
 			self.posting = false;
+			self.exists  = true;
+			console.log(self);
+			
 			motion.getMotionComments(motion.id);
 		}, function(error){
-			errorHandler(error);
 			self.posting = false;
-
 		});
 	}
 
@@ -77,11 +78,11 @@ function($http, commentResource, ToastMessage, errorHandler) {
 			text: self.text
 		}).then(function(success){
 			self.posting = false;
+			self.exists  = true;
+			console.log(self);
 			motion.getMotionComments(motion.id);
 		}, function(error){
-			errorHandler(error);
 			self.posting = false;
-
 		});
 	}
 
@@ -91,7 +92,9 @@ function($http, commentResource, ToastMessage, errorHandler) {
 		ToastMessage.destroyThisThenUndo("comment", function() {
             commentResource.deleteComment(self.id).then(function(results) {
 				motion.getMotionComments(motion.id);
-            }); 
+				self.exists = false;
+            });
+            self.setData(null);
 		}, function() {
 			commentResource.restoreComment(self.id).then(function(results){
 				motion.getMotionComments(motion.id);

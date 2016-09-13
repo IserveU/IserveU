@@ -39,7 +39,11 @@
 			      	toast.report_error(config.data);
 		      	} else if(config.status === 401 && config.statusText === "Unauthorized"){
 			      	var loginService = $injector.get("loginService");
-			      	// loginService.clearCredentials();
+			      	loginService.clearCredentials();
+		      	} else if(config.status === 401) {
+		      		toast.mustBeLoggedIn("to perform this action.");
+		      	} else if(config.status === 401) {
+		      		toast.simple("You do not have permission to perform this action.");
 		      	}
 
 		      	return $q.reject(config);

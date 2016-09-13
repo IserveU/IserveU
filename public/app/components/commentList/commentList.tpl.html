@@ -1,8 +1,17 @@
 <section ng-show="motion.motionComments" flex>
 	<div flex layout="row">
 
-		<comment-list-agree flex></comment-list-agree>
-		<comment-list-disagree flex></comment-list-disagree>
+    <md-tabs md-dynamic-height md-border-bottom flex layout-align="center center">
+        <md-tab label="agree ({{ motion.motionComments.agreeComments.length }})">
+			<comment-list-agree flex></comment-list-agree>
+        </md-tab>
+        <md-tab label="abstain ({{ motion.motionComments.abstainComments.length }})">
+			<comment-list-abstain flex></comment-list-abstain>
+        </md-tab>
+        <md-tab label="disagree ({{ motion.motionComments.disagreeComments.length }})">
+			<comment-list-disagree flex></comment-list-disagree>
+        </md-tab>
+    </md-tabs>
 
 	</div>
 </section>
