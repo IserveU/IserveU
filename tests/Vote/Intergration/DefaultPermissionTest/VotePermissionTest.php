@@ -30,7 +30,7 @@ class VotePermissionTest extends TestCase
 
         $this->signInAsPermissionedUser('create-vote');
         
-        $this->motion       =   factory(App\Motion::class)->create();
+        $this->motion       =   factory(App\Motion::class,'published')->create();
         $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
         $this->storeFieldsGetSee(['position'],200);   
@@ -87,7 +87,7 @@ class VotePermissionTest extends TestCase
     public function it_cannot_create_a_vote()
     {
         
-        $this->motion       =   factory(App\Motion::class)->create();
+        $this->motion       =   factory(App\Motion::class,'published')->create();
         $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
         $this->storeFieldsGetSee(['position'],302);   

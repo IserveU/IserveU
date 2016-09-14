@@ -111,6 +111,7 @@ class MotionCommentApiTest extends TestCase
         $vote->position = -1;
         $vote->save();
 
+
         $this->get('/api/motion/'.$vote->motion_id.'/comment')
             ->assertResponseStatus(200);
 

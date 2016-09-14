@@ -65,7 +65,7 @@
 		]);
 
 	    // Make a comment
-	    $comment = factory(App\Comment::class)->make()->setVisible(['text'])->toArray();
+	    $comment = factory(App\Comment::class)->make()->skipVisibility()->toArray();
 
 	   	unset($comment["vote_id"]);
 
@@ -193,4 +193,35 @@
 		return \App\User::where('api_token',$api_token)->first();
 	}
 	
+
+
+	function aNormalMotion($status = "published"){
+  		$motion 	=   factory(App\Motion::class,$status)->create();
+
+        $votes 		=   factory(App\Vote::class,10)->create([
+        	'motion_id'	=>	$motion->id
+        ]);
+
+        $commentingVotes = $votes->every(4);
+
+        foreach($commentingVotes as $commentingVote){
+            factory(App\Comment::class)->create([
+            	'vote_id'	=>	$commentingVote->id
+            ]);
+        }
+
+        //Each commenter likes a random comment
+        foreach($votes as $vote){
+            \App\CommentVote::create([
+                'comment_id'    =>  $motion->comments->random()->id,
+                'vote_id'       =>  $vote->id,
+                'position'      =>  rand(-1,1)
+            ]);
+        }
+
+        return $motion;
+	}
+         
+      
+
 ?>

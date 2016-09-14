@@ -39,7 +39,7 @@ class MotionPolicy
    
         //Can't change the status over 1 if not an admin
         if(array_key_exists("status",$inputs)){
-            if(!Auth::user()->can('administrate-motion') && $inputs['status'] > 1){
+            if(!Auth::user()->can('administrate-motion') && ($inputs['status'] == 'published' || $inputs['status'] == 'closed')){
                 return false;
             }
         }
