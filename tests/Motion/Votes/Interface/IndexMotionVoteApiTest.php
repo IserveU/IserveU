@@ -40,10 +40,10 @@ class IndexMotionVoteApiTest extends TestCase
                     'abstain' => [
                         "active"
                     ],
-                    'for' => [
+                    'agree' => [
                         "active"
                     ],
-                    'against' => [
+                    'disagree' => [
                         "active"
                     ]
                 ]);
