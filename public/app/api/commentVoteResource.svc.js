@@ -4,15 +4,22 @@
 
 	angular
 		.module('iserveu')
-		.factory('commentVoteResource', ['$resource', '$q', commentVoteResource]);
+		.factory('commentVoteResource', [
+			'$resource',
+			'$q',
+			'$http',
+			'utils',
+		commentVoteResource]);
 
-	function commentVoteResource($resource, $q) {
+	function commentVoteResource($resource, $q, $http, utils) {
 
 		/****************************************************************
 		*
 		*	Resource setters using Angular's internal ngResource.
 		*
 		*****************************************************************/
+
+	    var _userCommentVoteIndex = {};
 
 		var CommentVote = $resource('api/comment_vote/:id', {}, {
 	        'update': { method:'PUT' }
@@ -25,34 +32,74 @@
 	    *	Server-side functions.
 	    *
 	    ******************************************************************/
-	    
-		function saveCommentVotes(data) {
-			return SaveCommentVote.save({id:data.comment_id}, {position: data.position}).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
+
+		function getUserCommentVotes(data) {
+			
+			console.log('getUserCommentVotes@commentVoteResource');
+
+			if(!utils.objectIsEmpty( _userCommentVoteIndex )) {
+				console.log('_userCommentVoteIndex isEmpty@commentVoteResource');
+				return $q.when({data: _userCommentVoteIndex });
+			}
+
+			return $http({
+				method: 'GET',
+				url: 'api/user/'+data.user_id+'/comment_vote',
+				params: {
+					ignoreLoadingBar: true
+				}
+			}).success(function(results){
+				console.log('_userCommentVoteIndex Success!');
+				_userCommentVoteIndex = results.data || results;
+				return results;
+			}).error(function(error){
+				return error.data || error;
+			})
 		}
 
-		function updateCommentVotes(data) {
-			return CommentVote.update({id:data.id}, data).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
+		function saveCommentVote(data) {
+			return SaveCommentVote.save({id:data.comment_id}, {position: data.position})
+					.$promise.then(successHandler).catch(errorHandler);
 		}
 
-		function deleteCommentVote(id) {
-			return CommentVote.delete(id).$promise.then(function(success) {
-				return success;
-			}, function(error) {
-				return $q.reject(error);
-			});
+		function updateCommentVote(data) {
+			return CommentVote.update({id:data.id}, { position: data.position }).$promise.then(successHandler).catch(errorHandler);
+		}
+
+		function deleteCommentVote(data) {
+			return CommentVote.delete({id:data.id}).$promise.then(function(results){
+				successHandler(results, data.id)
+			}).catch(errorHandler);
+		}
+
+		function successHandler(res, id) {
+			var body = res.data || res;
+
+			if(!utils.objectIsEmpty( _userCommentVoteIndex )) {
+
+				for(var i in _userCommentVoteIndex) {
+					if( body.id === _userCommentVoteIndex[i].id ) {
+						if(id !== 'undefined') {
+							delete _userCommentVoteIndex[i];
+						} else {
+							_userCommentVoteIndex[i] = body;
+						}
+					}				
+				}
+			}
+
+			return body;
+		}
+
+		function errorHandler(error) {
+			return $q.reject(error);
 		}
 
 		return {
-			saveCommentVotes: saveCommentVotes,
-			updateCommentVotes: updateCommentVotes,
+			_userCommentVoteIndex: _userCommentVoteIndex,
+			getUserCommentVotes: getUserCommentVotes,
+			saveCommentVote: saveCommentVote,
+			updateCommentVote: updateCommentVote,
 			deleteCommentVote: deleteCommentVote
 		}
 	}

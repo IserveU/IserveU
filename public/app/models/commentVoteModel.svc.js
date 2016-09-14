@@ -4,12 +4,10 @@
 
 angular
 .module('iserveu')
-.factory('CommentVote', 
-	['$http',
-	 'commentVoteResource',
-	 'errorHandler',
+.factory('CommentVote', [
+	'commentVoteResource',
 
-function($http, commentVoteResource, errorHandler) {
+function(commentVoteResource) {
 
 	function CommentVote(commentVoteData) {
 
@@ -20,20 +18,20 @@ function($http, commentVoteResource, errorHandler) {
 		this.agree = {
 			type: 'agree',
 			value: 1,
-			icon: 'thumb-up-outline',
+			selectedIcon: 'thumb-up-outline',
 			class: 'md-primary',
 			activeIcon: 'thumb-up',
-			originalIcon: 'thumb-up-outline',
+			defaultIcon: 'thumb-up-outline',
 			isActive: false
 		};
 
 		this.disagree = {
 			type: 'disagree',
 			value: -1,
-			icon: 'thumb-down-outline',
+			selectedIcon: 'thumb-down-outline',
 			class: 'md-accent',
 			activeIcon: 'thumb-down',
-			originalIcon: 'thumb-down-outline',
+			defaultIcon: 'thumb-down-outline',
 			isActive: false
 		};
 	}
@@ -45,32 +43,30 @@ function($http, commentVoteResource, errorHandler) {
 		},
 
 		setActive: function(type) {
-
+			type = stringifyPosition(type);
 			this[type].isActive = true;
-			this[type].icon = this[type].activeIcon;
-
+			this[type].selectedIcon = this[type].activeIcon;
 		},
 
-		castVote: function(comment, type, motion) {
-
-			var otherType = type === 'agree' ? 'disagree' : 'agree';
-
-			var target = this[type];
-			var other = this[otherType];
-
-			if(target.isActive) {
-				deleteCommentVote(this, target, motion);
-			}
-			else {
-				if(target.isActive || other.isActive) {
-					update(this, target, other, motion);				
-				} else {
-					save(this, target, comment, motion);
-				}				
-			}
-
+		setDefault: function(type) {
+			type = stringifyPosition(type);
+			this[type].isActive = false;
+			this[type].selectedIcon = this[type].defaultIcon;
 		},
 
+		castVote: function(comment_id, pos) {
+
+			var type    = stringifyPosition( pos );
+			var oldType = stringifyPosition( pos *= -1 );
+
+			if( this[type].isActive ) {
+				destroy(this, type);
+			} else if( this[oldType].isActive && this.id  ) {
+				update( this, type, oldType );
+			} else {
+				create( this, type, comment_id );
+			}
+		}
 	}
 
     /*****************************************************************
@@ -79,70 +75,51 @@ function($http, commentVoteResource, errorHandler) {
     *
     ******************************************************************/
 
-	function switchIconClasses(target, otherTarget) {
+    function numberifyPosition(pos) {
+    	if(!angular.isString(pos) || pos.length <= 2) {
+			return +pos;
+		}
+		return pos == 'agree' ? 1 : -1;
+    }
 
-		target.icon = target.activeIcon;
-		otherTarget.icon = otherTarget.originalIcon;
-		otherTarget.isActive = !otherTarget.isActive;
-	
+	function stringifyPosition(pos) {
+		if(angular.isString(pos) && pos.length > 2) {
+			return pos;
+		}
+		return pos === 1 ? 'agree' : 'disagree';
 	}
 
-	function save(commentVote, target, comment, motion) {
-		target.icon = target.activeIcon;
-		commentVoteResource.saveCommentVotes({
-
-			comment_id: comment.id,
-			position: target.value
-	
+	function create(self, type, comment_id) {
+		self.setActive(type); // either put here or above.
+		commentVoteResource.saveCommentVote({
+			comment_id: comment_id,
+			position: numberifyPosition(type)
 		}).then(function(success){
-
-			commentVote.id = success.id;
-			target.icon = target.activeIcon;
-			target.isActive = !target.isActive;
-
-			motion.getMotionComments();
-
+			self.id  = success.id;
 		}, function(error){
-			target.icon = target.originalIcon;
-			errorHandler(error);
+			self.setDefault(type);
 		});
 	}
 
-	function update(commentVote, target, otherTarget, motion) {
-		switchIconClasses(target, otherTarget);
-		commentVoteResource.updateCommentVotes({
-		
-			id: commentVote.id,
-			position: target.value
-		
-		}).then(function(success){
+	function update(self, type, oldType) {
 
-			target.isActive = !target.isActive;
-			motion.getMotionComments();
+		self.setActive(type);
+		self.setDefault(oldType);
 
-
-		}, function(error){
-			switchIconClasses(otherTarget, target);
-			errorHandler(error);
+		commentVoteResource.updateCommentVote({
+			id: self.id,
+			position: numberifyPosition(type)
+		}).then(function(success){}, function(error){
+			self.setDefault(type);
 		});
 	}
 
-	function deleteCommentVote(commentVote, target, motion) {
-		target.icon = target.originalIcon;
-		commentVoteResource.deleteCommentVote({
-		
-			id: commentVote.id
-		
-		}).then(function(success){
-
-			target.isActive = !target.isActive;
-			delete commentVote.id;
-
-			motion.getMotionComments();
-
+	function destroy(self, type) {
+		self.setDefault(type);
+		commentVoteResource.deleteCommentVote({id: self.id}).then(function(){
+			delete self.id;
 		}, function(error){
-			target.icon = target.activeIcon;
-			errorHandler(error);
+			self.setActive(type);
 		});
 	}
 
