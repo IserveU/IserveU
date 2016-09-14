@@ -2,9 +2,13 @@
 	
 	angular
 		.module('iserveu')
-		.directive('commentList', ['utils', commentList]);
+		.directive('commentList', [
+			'$rootScope',
+			'commentVoteResource',
+			'utils',
+		commentList]);
 
-	function commentList(utils) {
+	function commentList($rootScope, commentVoteResource, utils) {
 
 
 		function commentListController($scope) {
@@ -12,12 +16,16 @@
 			var self = this;
 			
 			self.selectedIndex = 0;
-			self.count = count;
+			self.count = utils.count;
 
-			function count(objectArray) {
-				if(objectArray instanceof Object) {
-					return Object.keys(objectArray).length;
+			function fetchUserCommentVotes() {
+				if(!$rootScope.authenticatedUser) {
+					return false;
 				}
+
+				commentVoteResource.getUserCommentVotes({user_id: $rootScope.authenticatedUser.id}).then(function(results){
+					$scope.commentVoteList = results.data;
+				});
 			}
 
 			function fetchSelectedIndex(userVote) {
@@ -40,7 +48,11 @@
 			}, true);
 
 			(function init() {
-				utils.waitUntil( function() { return !utils.objectIsEmpty( $scope.motion ) }, fetchSelectedIndex );
+				utils.waitUntil( function() { return !utils.objectIsEmpty( $scope.motion ) }, 
+					function fetchItems() {
+						fetchSelectedIndex();
+						fetchUserCommentVotes();
+					});
 			})();
 		}
 

@@ -85,9 +85,10 @@ form{
 	background-color: rgba(255,255,255, $backgroundTransparency) !important;
 }
 
-.loginbox{
-	background-color: rgba(255,255,255, .8) !important;
-}
+// deprecated
+// .loginbox{
+// 	background-color: rgba(255,255,255, .8) !important;
+// }
 
 #footer{
 	bottom:0px;
@@ -114,7 +115,7 @@ form{
 	}
 
 	&.loading{
-		.loginbox, md-card-content{
+		md-card-content{
 			filter: blur(5px) grayscale(0.5);
 			transition-delay: 3s;
 		}
@@ -132,25 +133,7 @@ form{
 			text-align: center;		
 		}
 	}
-
-	.bio {
-		display: block;
-		img {
-			width: 100px !important; height:auto !important; 
-		}
-		span {
-			display: inline-block;
-		}
-	}
-
-	.budget {
-		p {
-			display: block;
-		}
-	}
-
 	
-
 	.voting-disabled {
 		md-icon {
 			color: $midGrey !important;
@@ -583,20 +566,6 @@ md-menu-item{
 	width: 18px;
 }
 
-p.beta-message {
-	font-size: 11px; 
-	color: white; 
-	margin-top:0px; 
-	padding-top:5px; 
-	padding-left:16px;
-}
-
-@media screen and (min-width:320px) {
-	p.beta-message {
-		font-size: 10px;
-		padding-left:8px;
-	}
-}	
 
 @media screen and (min-width: 320px) and (max-width: 750px) {
 	iframe {

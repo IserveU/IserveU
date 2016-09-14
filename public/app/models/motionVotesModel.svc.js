@@ -43,7 +43,7 @@ angular
 			},
 			tie: {
 				icon: 'thumbs-up-down',
-				message: 'There was a tie'
+				message: 'There has been a majority tie'
 			}
 		}
 
@@ -67,54 +67,52 @@ angular
 			},
 
 			reload: function(motionVoteData) {
+				// resets motion vote data
+				angular.extend(this, {abstain: null, agree: null, disagree: null});
 				this.setData(motionVoteData);
 				return this;
 			}
 		}
 
 		function extractData(votes) {
-			var $v = votes.data || votes;
-
-			for(var i in $v) {
-				i = +i;
-			}
+			var _votes = votes.data || votes;
 
 			function parse(key, type){
-				return key && key.active.number;
+				return ( key && key.active && key.active.number ) ? key.active.number : 0;
 			}
-
-			var $d = angular.extend({}, {
-				abstain:  parse($v[0]),
-				agree:    parse($v[1]),
-				disagree: parse($v[-1])
+			// using this for the time being
+			var _d = angular.extend({}, {
+				abstain:  parse(_votes.abstain),
+				agree:    parse(_votes.agree),
+				disagree: parse(_votes.disagree)
 			});
 
 			// literally every permutation ... hopefully.
-			if( $d.disagree && ( !$d.agree || !$d.abstain ) ||
-				$d.disagree > $d.agree && $d.disagree > $d.abstain ) {
-	            votes.setOverallPosition( overallPosition.disagree );
-				return 'disagree';
-			} else if (  $d.agree && ( !$d.disagree || !$d.abstain ) ||
-				$d.agree > $d.disagree && $d.agree > $d.abstain  ) {
-			    votes.setOverallPosition( overallPosition.agree );
-				return 'agree'
-			} else if (  $d.abstain && ( !$d.disagree || !$d.agree ) ||
-				$d.abstain > $d.disagree && $d.abstain > $d.agree  ) {
-	            votes.setOverallPosition( overallPosition.abstain );
-				return 'abstain';
-			} else if ( !$d.abstain && !$d.agree && !$d.disagree ) {
+			if ( _d.abstain === _d.agree && _d.abstain > _d.disagree || 
+						_d.abstain === _d.disagree && _d.abstain > _d.agree    ||
+						_d.agree   === _d.disagree && _d.agree > _d.abstain ||
+						( _d.agree === _d.disagree && _d.agree === _d.abstain && _d.agree !== null) ) {
+				 votes.setOverallPosition( overallPosition.tie );
+				return 'tie';
+			} else if ( !_d.abstain && !_d.agree && !_d.disagree ) {
 				 votes.setOverallPosition( overallPosition.default );
 				return 'no votes';
-			} else if ( $d.abstain === $d.agree    && $d.abstain > $d.disagree || 
-						$d.abstain === $d.disagree && $d.abstain > $d.agree    ||
-						$d.agree   === $d.disagree && $d.agree > $d.abstain) {
-				return 'tie';
-			}
+			} else if( _d.disagree && ( !_d.agree || !_d.abstain ) ||
+				_d.disagree > _d.agree && _d.disagree > _d.abstain ) {
+	            votes.setOverallPosition( overallPosition.disagree );
+				return 'disagree';
+			} else if (  _d.agree && ( !_d.disagree || !_d.abstain ) ||
+				_d.agree > _d.disagree && _d.agree > _d.abstain  ) {
+			    votes.setOverallPosition( overallPosition.agree );
+				return 'agree'
+			} else if (  _d.abstain && ( !_d.disagree || !_d.agree ) ||
+				_d.abstain > _d.disagree && _d.abstain > _d.agree  ) {
+	            votes.setOverallPosition( overallPosition.abstain );
+				return 'abstain';
+			} 
 		}
 
-
 		return MotionVotes;
-
 
 }])
 
