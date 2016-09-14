@@ -13,7 +13,7 @@ class CreateNewUser extends TestCase
     public function register_self_as_new_user_details()
     {
         $this->setSettings(['security.verify_citizens'=>0]);
-        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email','password'])->toArray();
+        $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
         $user['password'] = 'abcd1234';
       
@@ -57,7 +57,7 @@ class CreateNewUser extends TestCase
     {   
         $this->setSettings(['security.verify_citizens'=>false]);
         
-        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email'])->toArray();
+        $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
         $user['password']   =  'abcd1234';
 
@@ -79,8 +79,8 @@ class CreateNewUser extends TestCase
     public function check_instant_citizen_verify_setting_off()
     {   
         $this->setSettings(['security.verify_citizens'=>true]);
-
-        $user = factory(App\User::class)->make()->setVisible(['first_name','last_name','email'])->toArray();
+        
+        $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
         $user['password']   =  'abcd1234';
 

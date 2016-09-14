@@ -85,12 +85,12 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'draft')->make()->toArray();
+        $user = factory(App\Motion::class,'draft')->create();
 
-        $this->post('/api/motion/',$motion)
+        $this->post('/api/motion/',['status'=>'draft','title'=>"The title","user_id"=>$user->id])
             ->assertResponseStatus(403);
 
-        $this->dontSeeInDatabase('motions',array('title'=>$motion['title']));
+        $this->dontSeeInDatabase('motions',array('title'=>'The title','user_id'=>$user->id));
 
     }
 
@@ -117,7 +117,8 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'published')->make()->toArray();
+        $motion['status']   = 'published';
+        $motion['title']    = 'These old test suck!';
 
         $this->post('/api/motion/',$motion);
 
@@ -131,10 +132,10 @@ class MotionPermissionTest extends TestCase
 
         $motion = factory(App\Motion::class,'draft')->create([
             'user_id'   => $this->user->id
-        ])->toArray();
+        ])->skipVisibility()->setVisible(['title','id'])->toArray();
 
-        $motion['status'] = 2;
-
+        $motion['status'] = "published"; //Publish it
+        
         $this->patch('/api/motion/'.$motion['id'],$motion);
 
         $this->assertResponseStatus(403);        
@@ -148,9 +149,9 @@ class MotionPermissionTest extends TestCase
 
         $motion = factory(App\Motion::class,'review')->create([
             'user_id'   => $this->user->id
-        ])->toArray();
+        ])->skipVisibility()->setVisible(['title','id'])->toArray();
 
-        $motion['status'] = 2;
+        $motion['status'] = "published";
 
         $this->patch('/api/motion/'.$motion['id'],$motion);
 
@@ -254,7 +255,7 @@ class MotionPermissionTest extends TestCase
         
         // Delete Motion
         $this->call('DELETE', '/api/motion/'.$vote->motion->id);
-        $this->assertResponseOk();
+        $this->assertResponseStatus(200);
         $this->notSeeInDatabase('motions', ['id'=>$vote->motion->id, 'deleted_at' => null ]);
 
         // Restore motion

@@ -15,8 +15,12 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 use App\Repositories\StatusTrait;
 
+use App\Repositories\Contracts\CachedModel;
+use Cache;
+use App\Repositories\Contracts\VisibilityModel;
 
-class Motion extends NewApiModel {
+
+class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
 	use SoftDeletes, Sluggable, StatusTrait;
 
@@ -37,16 +41,22 @@ class Motion extends NewApiModel {
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['title','text','summary','department_id','id','votes',
-						  'motionOpenForVoting','closing','userVote','user_id'.
-						  'status','updated_at','slug'];
+	protected $visible = [''];
 	
+	
+	/**
+	 * The attributes included in the JSON/Array
+	 * @var array
+	 */
+	protected $with = ['department'];
+	
+
 
 	/**
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motionOpenForVoting','userVote'];
+    protected $appends = ['motionOpenForVoting','userVote','department','userComment'];
 
   
 
@@ -80,6 +90,11 @@ class Motion extends NewApiModel {
         ];
     }
 
+
+	protected $attributes = [
+		'status'	=>	'draft'
+	];
+
     /**
      * The  statuses that a motion can have
      * @var Array
@@ -88,7 +103,8 @@ class Motion extends NewApiModel {
         'draft'    	=>  'hidden',
         'review'  	=>  'hidden',
         'published' =>  'visible',
-        'closed'    =>  'visible'
+        'closed'    =>  'visible',
+        'deleted'    => 'hidden'
     ];
 
 
@@ -125,21 +141,51 @@ class Motion extends NewApiModel {
         });
 	}
 
-	
-    public function skipVisibility(){
-       $this->setVisible(array_merge(array_keys($this->attributes),
-	            ['title','text','summary','department_id','id','votes',
-						  'motionOpenForVoting','closing','userVote','user_id'.
-						  'status','updated_at','slug']
-	        	)
-       		);
+	//////////////////////// Caching Implementation
+ 
+   /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+
+    public function flushCache($fromModel = null){
+        Cache::tags('motion.'.$this->id)->flush();
+    	Cache::forget('motion'.$this->id.'_comments');
+    	\Cache::flush(); //Just for now
     }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+
+	
+	//////////////////////// Visibility Implementation
 
 
     public function setVisibility(){
 
-            $this->skipVisibility();
-      
+        //If self or show-other-private-user
+        if(Auth::check() && (Auth::user()->id==$this->user_id || Auth::user()->can('show-motion'))){
+            $this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','user','motionOpenForVoting']);
+        }
+
+        if(Auth::check()){
+        	$this->addVisible(['userVote','userComment']);
+        }
+
+        if($this->publiclyVisible){
+			$this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','motionOpenForVoting']);
+        }
+
         return $this;
     }
 
@@ -183,6 +229,15 @@ class Motion extends NewApiModel {
 		return null;
 	}
 
+
+	public function getUserCommentAttribute(){
+		if($this->thisUserVote){
+			return $this->thisUserVote->comment;
+		}
+		return null;
+	}
+	
+
 	/**
 	 * A bridge to the comments on this motion
 	 * @return Collection A collection of comments
@@ -192,6 +247,12 @@ class Motion extends NewApiModel {
 		   $comments = $q->get()->unique();
 		}]);
 		return $comments;
+	}
+
+
+	public function getDepartmentAttribute(){
+		return $this->department()->first();
+
 	}
 	
 
@@ -244,11 +305,11 @@ class Motion extends NewApiModel {
 	}
 
 	public function scopeOrderByNewest($query){
-		return $query->orderBy('created_at', 'asc');
+		return $query->orderBy('created_at', 'desc');
 	}
 
 	public function scopeOrderByOldest($query){
-		return $query->orderBy('created_at', 'desc');
+		return $query->orderBy('created_at', 'asc');
 	}
 
 	public function scopeRankGreaterThan($query,$rank){

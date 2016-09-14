@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class StoreVoteApiTest extends VoteApi
 {
    
-   // use DatabaseTransactions;
+    use DatabaseTransactions;
 
 
 
@@ -20,7 +20,7 @@ class StoreVoteApiTest extends VoteApi
     public function setUp()
     {   
         parent::setUp();
-        $this->motion       =   factory(App\Motion::class)->create();
+        $this->motion       =   factory(App\Motion::class,'published')->create();
         $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
         $this->signInAsRole('administrator');

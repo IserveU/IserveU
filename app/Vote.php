@@ -12,7 +12,9 @@ use Auth;
 use Carbon\Carbon;
 use Cache;
 
-class Vote extends NewApiModel {
+use App\Repositories\Contracts\CachedModel;
+
+class Vote extends NewApiModel implements CachedModel {
 
 	use SoftDeletes;
 
@@ -64,8 +66,9 @@ class Vote extends NewApiModel {
 
 		static::updated(function($model){
 			// CheckCommentVotes
-			// ClearMotionCommentCache
 			event(new VoteUpdated($model));
+			$model->flushRelatedCache();
+			$model->flushCache();
 			return true;
 		});
 
@@ -78,6 +81,27 @@ class Vote extends NewApiModel {
 		});	
 
 	}
+
+	//////////////////////// Caching Implementation
+
+    /**
+     * Remove this items cache and nested elements
+     *
+     * @return null
+     */
+    public function flushCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
+
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	$this->motion->flushCache();
+
+    }
 
     public function setVisibility(){
 
@@ -106,6 +130,12 @@ class Vote extends NewApiModel {
 			$this->attributes['deferred_to_id']		=	NULL;
 		}
 		$this->attributes['position'] 				= 	$value;
+	}
+
+	public function getPositionHumanReadableAttribute(){
+		if($this->position == 1) return "for";
+		if($this->position == -1) return "against";
+		return "abstain";
 	}
 
 
@@ -158,6 +188,11 @@ class Vote extends NewApiModel {
 
 	public function comment(){
 		return $this->hasOne('App\Comment');
+	}
+
+
+	public function commentVotes(){
+		return $this->hasMany('App\CommentVote');
 	}
 
 	public function deferred(){

@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Validator;
 use Request;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Department extends NewApiModel {
+
+
+
+class Department extends NewApiModel{
 
 
 	use Sluggable;
@@ -24,6 +27,13 @@ class Department extends NewApiModel {
 	 * @var array
 	 */
 	protected $fillable = ['name', 'active'];
+
+	/**
+	 * The relations commonly used
+	 * @var array
+	 */
+	protected $with = [];
+
 
 	
 	/**

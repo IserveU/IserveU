@@ -36,7 +36,11 @@ use App\Repositories\StatusTrait;
 
 use Illuminate\Notifications\Notifiable;
 
-class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable {
+use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Contracts\VisibilityModel;
+
+
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel, VisibilityModel {
 
 	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
 
@@ -58,7 +62,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences'];
+	protected $fillable = ['email','ethnic_origin_id','password','first_name','middle_name','last_name','date_of_birth','public','website', 'postal_code', 'street_name', 'street_number', 'unit_number','agreement_accepted', 'community_id','identity_verified', 'address_verified_until','preferences',"status"];
 
 
 	protected $visible = [''];
@@ -198,32 +202,56 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 		});
 	}
 
+	
+	//////////////////////// Caching Implementation
+ 
+   /**
+     * Remove this items cache and nested elements
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
 
-    public function skipVisibility(){
+    public function flushCache($fromModel = null){
+    	\Cache::flush(); //Just for now
+    }
 
-
-       $this->setVisible(array_merge(array_keys($this->attributes),
-	            ['permissions','agreement_accepted']
-	        	)
-       		);
+    /**
+     * Clears the caches of related models or there relations if needed
+     * 
+     * @param  Model $fromModel The model calling this (if exists)
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+    	\Cache::flush(); //Just for now
     }
 
 
+
+	//////////////////////// Visibility Implementation
+    
+  
+
+    
     public function setVisibility(){
 
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->id || Auth::user()->hasRole('administrator'))){
 
-            $this->skipVisibility();
+			$this->addVisible(["id","email","slug", "first_name","middle_name","last_name","postal_code","street_name","street_number","unit_number","community_id","status","ethnic_origin_id","date_of_birth","address_verified_until","agreement_accepted","identity_verified","preferences","login_attempts","locked_until","agreement_accepted_date","deleted_at","remember_token","created_at","updated_at","government_identification_id", "avatar_id","api_token","permissions"]);
+
         }
 
+
         if($this->publiclyVisible){
-			$this->setVisible(['first_name','last_name','id','community_id']);
+			$this->addVisible(['first_name','last_name','id','community_id']);
         }
 
 
         return $this;
     }
+
+
 
 
 	/**************************************** Custom Methods **************************************** */
@@ -232,7 +260,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 	 * @param Adds the named role to a user
 	 */
     public function addUserRoleByName($name){
-	    $userRole = Role::where('name','=',$name)->first();
+	    if($this->hasRole($name)){
+	    	return true;
+	    }
+
+ 	    $userRole = Role::where('name','=',$name)->first();
+
 
 	    if ($userRole && !$this->roles->contains($userRole->id)) {
 	    	$this->roles()->attach($userRole->id);
@@ -306,6 +339,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         );
     }
 
+	
 	/**
 	 * @return The permissions attached to this user through entrust
 	 */
@@ -315,13 +349,26 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 			$role_permissions = $role->perms()->get();
 			foreach($role_permissions as $permission){
 				if(!in_array($permission->name,$permissions)){
-					$permissions[]=$permission->name;
+					array_push($permissions,$permission->name);
+
 				}
 			}
 		}
-		$permissions['apermission'] = "things";
 		return $permissions;
 
+	}
+
+
+
+	/**
+	 * A bridge to the comment votes of this user
+	 * @return Collection A collection of comment votes
+	 */
+	public function getCommentVotesAttribute(){
+		$this->load(['votes.commentVotes' => function ($q) use ( &$commentVotes ) {
+		   $commentVotes = $q->get()->unique();
+		}]);
+		return $commentVotes;
 	}
 
 	/**
