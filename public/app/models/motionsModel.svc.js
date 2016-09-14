@@ -44,7 +44,6 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		},
 
 		setData: function(motionData) {
-			console.log(motionData);
 			angular.extend(this, motionData);
 			return this;
 		},
@@ -130,11 +129,14 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 			id = id || self.id;
 
 			motionResource.getMotionVotes(id).then(function(result){
+
+				var data = result.data || data;
+
 				if(!('motionVotes' in self)) {
-					self.setData({motionVotes: new MotionVotes(result)});
+					self.setData({motionVotes: new MotionVotes(data)});
 					self.motionVotes.getOverallPosition();
 				} else {
-					self.motionVotes.reload(result).getOverallPosition();
+					self.motionVotes.reload(data).getOverallPosition();
 				}
 			});
 		},
@@ -147,10 +149,8 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		*	Update the user's votes attached to this Motion.
 		*/
 		reloadUserVote: function(vote) {
-			console.log(vote);
 			this.userVote = {};
 			this.userVote = {motion_id: vote.motion_id, id: vote.id, position: +vote.position};
-			console.log(this);
 		},
 
 		reloadOnVoteSuccess: function(vote) {

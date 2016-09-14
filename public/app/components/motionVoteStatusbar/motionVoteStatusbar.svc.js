@@ -15,22 +15,17 @@
 		}
 
 		var setStatusbar = function(motionVotes) {
+			var votes = motionVotes.data || motionVotes;
 
-			var $v = motionVotes.data || motionVotes;
-
-			for(var i in $v) {
-				i = +i;
+			function parse(key){
+				return key && { percent: key.active.percent, number: key.active.number };
 			}
 
 			statusbar = angular.extend({}, {
-				abstain:  parse($v[0],  'abstain'),
-				agree:    parse($v[1],  'agree'),
-				disagree: parse($v[-1], 'disagree')
-			})
-
-			function parse(key, type){
-				return key && { percent: key.active.percent, number: key.active.number };
-			}
+				abstain:  parse(votes.abstain),
+				agree:    parse(votes.agree),
+				disagree: parse(votes.disagree)
+			});
 		}
 
 		return {
