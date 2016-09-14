@@ -4,12 +4,23 @@
 
 	angular
 		.module('iserveu')
-		.factory('utils', ['$filter', '$interval', utils]);
+		.factory('utils', ['$filter', '$interval', '$timeout', utils]);
 
-	function utils($filter, $interval) {
+	function utils($filter, $interval, $timeout) {
 
 		function capitalize(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
+		}
+
+		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
+		function clearArray(array) {
+			return array.splice(0, array.length);
+		}
+
+		function count(objectArray) {
+			if(objectArray instanceof Object) {
+				return Object.keys(objectArray).length;
+			}
 		}
 
 		var date = {
@@ -21,11 +32,6 @@
 			parse: function(date) {
 				return $filter('date')( (new Date(date)), "yyyy-MM-dd HH:mm:ss");
 			}
-		}
-
-		// @ http://stackoverflow.com/questions/22898927/injecting-scope-into-an-angular-service-function
-		function clearArray(array) {
-			return array.splice(0, array.length);
 		}
 
 		function isElementInViewport(el) {
@@ -79,13 +85,14 @@
 					doMethod();
 					$interval.cancel(waitUntil);
 				}
-			}, 100, (waitTime % 500));
+			}, 100, (waitTime / 100));
 		}
 
 		return { 
 			capitalize: capitalize,
-			date: date,
 			clearArray: clearArray,
+			count: count,
+			date: date,
 			isElementInViewport: isElementInViewport,
 			parseStringToObject: parseStringToObject,
 			nullOrUndefined: nullOrUndefined,
