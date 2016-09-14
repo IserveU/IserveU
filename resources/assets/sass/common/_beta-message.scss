@@ -1,0 +1,14 @@
+p.beta-message {
+	font-size: 11px; 
+	color: white; 
+	margin-top:0px; 
+	padding-top:5px; 
+	padding-left:16px;
+}
+
+@media screen and (min-width:320px) {
+	p.beta-message {
+		font-size: 10px;
+		padding-left:8px;
+	}
+}
