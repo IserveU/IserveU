@@ -28,7 +28,7 @@ class ShowVoteApiTest extends TestCase
 
         $this->visit("/api/vote/".$vote->id)
             ->seeJsonStructure([
-                'id','position','motion_id','user_id','deferred_to_id'
+                'id','position','motion_id','deferred_to_id'
             ])->dontSeeJson([
 
             ]);
