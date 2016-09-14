@@ -4,9 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.factory('utils', ['$filter', utils]);
+		.factory('utils', ['$filter', '$interval', utils]);
 
-	function utils($filter) {
+	function utils($filter, $interval) {
 
 		function capitalize(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
@@ -70,6 +70,18 @@
 			return tmp;
 		}
 
+		function waitUntil(tryMethod, doMethod, waitTime) {
+			
+			waitTime = waitTime || 7000;
+
+			var waitUntil = $interval(function () {
+				if(tryMethod()) {
+					doMethod();
+					$interval.cancel(waitUntil);
+				}
+			}, 100, (waitTime % 500));
+		}
+
 		return { 
 			capitalize: capitalize,
 			date: date,
@@ -79,7 +91,8 @@
 			nullOrUndefined: nullOrUndefined,
 			objectIsEmpty: objectIsEmpty,
 			toTitleCase: toTitleCase,
-			transformObjectToArray: transformObjectToArray
+			transformObjectToArray: transformObjectToArray,
+			waitUntil: waitUntil
 		}
 	}
 
