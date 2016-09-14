@@ -27,8 +27,6 @@
 				var comment_votes = res.data || res,
 				 	comment_id    = $scope.$eval($attrs.commentId);
 
-				 console.log(comment_votes);
-
 				for(var i in comment_votes) {
 					if( comment_votes[i].comment_id == comment_id){
 						self.button.setData( comment_votes[i] );
@@ -38,19 +36,19 @@
 			}
 
 
-			$scope.$watch(function() { return commentVoteResource._userCommentVoteIndex;}, function(_index, _oldIndex) {
+			// $scope.$watch(function() { return commentVoteResource._userCommentVoteIndex;}, function(_index, _oldIndex) {
 
-				console.log('scope watch comment vote resource triggered');
+			// 	console.log('scope watch comment vote resource triggered');
 
-			console.log($scope.$parent.$parent.commentVoteList);
+			// console.log($scope.$parent.$parent.commentVoteList);
 
-				if( _index && !utils.objectIsEmpty(_index) ) {
+			// 	if( _index && !utils.objectIsEmpty(_index) ) {
 
-				console.log('scope watch comment vote index not empty');
+			// 	console.log('scope watch comment vote index not empty');
 
-					console.log(_index);
-				}
-			});
+			// 		console.log(_index);
+			// 	}
+			// });
 
 
 			(function init() {
