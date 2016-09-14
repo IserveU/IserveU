@@ -29,7 +29,8 @@ Route::group(['prefix' => 'api'], function(){
 	//User
 	Route::resource('user', 'User\UserController',['except'=>['create','edit']]);
 	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]); 
-	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]); 
+	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]);
+	Route::resource('user.comment_vote', 'User\UserCommentVoteController',['only'=>['index']]); 
 	Route::resource('user.role', 'User\UserRoleController',['only'=>['index','store','update','destroy']]); 
 
 	//Vote
@@ -60,14 +61,17 @@ Route::group(['prefix' => 'api'], function(){
 	//Setting	
 	Route::resource('setting', 'SettingController',['only'=>['index','update']]);
 
+	//Community
+	Route::resource('community', 'CommunityController',['only'=>['index']]);
+
+	//Department
+	Route::resource('department', 'DepartmentController',['only'=>['index','store','update','destroy']]);
+
 	//Administrator only
 	Route::group(['middleware' => ['role:administrator']], function(){
 
-		//Community
-		Route::resource('community', 'CommunityController',['except'=>['create','edit']]);
-
-		//Department
-		Route::resource('department', 'DepartmentController',['except'=>['create','edit']]);
+	
+	
 
 		//Ethnic Origin
 		Route::resource('ethnic_origin', 'EthnicOriginController',['only'=>['index']]);

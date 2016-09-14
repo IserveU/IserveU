@@ -26,7 +26,7 @@ class MotionCommentController extends ApiController
         $comments = [];
 
             
-        $comments = Cache::tags(['motion.'.$motion->id])->remember('motion'.$motion->id.'_comments', Setting::get('comments.cachetime',60), function() use ($motion){
+        $comments = Cache::tags(['motion.'.$motion->id])->remember('motion'.$motion->id.'_comments', 60, function() use ($motion){
 
             $comments['agreeComments'] =  Comment::whereHas('vote',function($q) use ($motion){
                 $q->where('motion_id',$motion->id);

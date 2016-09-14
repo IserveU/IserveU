@@ -14,6 +14,10 @@
 $factory->define(App\User::class, function ($faker) use ($factory) {
     $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
     $community = \App\Community::orderBy(\DB::raw('RAND()'))->first();
+  
+    //If not defined, then random status
+    $statuses =  ['public','private'];
+    $status = $statuses[array_rand($statuses)];
 
     return [
         'first_name'        => $faker->firstName,
@@ -30,7 +34,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'community_id'      => $community->id,
         'street_name'       => $faker->streetName,
         'unit_number'       => $faker->randomDigit.$faker->randomLetter,
-        'status'            => 'private',
+        'status'            => $status,
         'agreement_accepted'=> 1
     ];
 });
@@ -73,9 +77,10 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 /************************* Different Motion Status Factories ***********************************/
 
 $factory->define(App\Motion::class, function ($faker) use ($factory) {
- 
 
-
+    //If not defined, then random status
+    $statuses =  ['draft','review','published'];
+    $status = $statuses[array_rand($statuses)];
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
@@ -83,10 +88,10 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'user_id'       =>  function(){
             return factory(App\User::class,'verified')->create()->id;
         },
-        'closing'       => Carbon\Carbon::tomorrow(),
+        'closing'       => Carbon\Carbon::now()->addDays(rand(1,5)),
         'text'          => $faker->paragraph($nbSentences =10),
-        'created_at'    => Carbon\Carbon::now(),
-        'status'        => 'published'
+        'created_at'    => Carbon\Carbon::now()->subDays(rand(5,30)),
+        'status'        => $status
     ];
 });
 
@@ -126,6 +131,7 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
     $date = \Carbon\Carbon::now();
 
     return array_merge($motion, ['status' => 'closed',
+                                'closing'   =>  Carbon\Carbon::now()->subDays(rand(1,5)),
                                 'title' => $faker->sentence($nbWords = 4). " Closed"]
                     );
 

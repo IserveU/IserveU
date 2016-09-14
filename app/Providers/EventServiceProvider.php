@@ -44,30 +44,28 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\Motion\AlertVoters'
 		],
 		'App\Events\VoteUpdated' => [
-			'App\Listeners\Vote\CheckCommentVotes',
-			'App\Listeners\Comment\ClearMotionCommentCache',
+			'App\Listeners\Vote\CheckCommentVotes'
 		],
 		'App\Events\Motion\MotionCreated' => [ //Added notes on what this does to model
 	
 		],
 		'App\Events\CommentDeleted' => [
-			'App\Listeners\Comment\DeleteCommentVotes',
-			'App\Listeners\Comment\ClearMotionCommentCache',
+			'App\Listeners\Comment\DeleteCommentVotes'
 		],
 		'App\Events\CommentCreated' => [
-			'App\Listeners\Comment\ClearMotionCommentCache',
+
 		],
 		'App\Events\CommentUpdated' => [
-			'App\Listeners\Comment\ClearMotionCommentCache',
+
 		],
 		'App\Events\CommentVoteCreated' => [
-			'App\Listeners\Comment\ClearMotionCommentCache',
+
 		],
 		'App\Events\CommentVoteUpdated' => [
-			'App\Listeners\Comment\ClearMotionCommentCache',
+
 		],
 		'App\Events\CommentVoteDeleted' => [
-			'App\Listeners\Comment\ClearMotionCommentCache',
+
 		],
 		'App\Events\SendPasswordReset' => [
 			'App\Listeners\User\SetRememberToken',

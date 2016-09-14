@@ -42,7 +42,8 @@ class AuthenticateController extends ApiController
         event(new UserLoginSucceeded($user));
 
         $user = $user->fresh();
-        $user->skipVisibility();
+        
+        Auth::setUser($user);
 
         return $user;
     }

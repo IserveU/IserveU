@@ -1,10 +1,11 @@
 <?php
+include_once('MotionApi.php');
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteMotionApiTest extends TestCase
+class DeleteMotionApiTest extends MotionApi
 {
     use DatabaseTransactions;    
 

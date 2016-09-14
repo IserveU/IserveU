@@ -7,7 +7,7 @@ use Carbon\Carbon;
 *   A reusable status and published trait to manage visibility of montions and users
 **/
 
-trait StatusTrait{ 
+trait StatusTrait{
 
     /**
      * Gets the statuses considered visible by this model to the general public
@@ -61,6 +61,11 @@ trait StatusTrait{
      * @return boolean If the model is considered to be publically visible
      */
     public function getPubliclyVisibleAttribute(){
+        if(!$this->status){
+            abort(500,"Default status not set in model");
+        }
+
+
         if(static::$statuses[$this->status]=='visible'){
             return true;
         }
