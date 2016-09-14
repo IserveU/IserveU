@@ -1,4 +1,4 @@
-<md-card layout-margin flex>
+<md-card class="comment-list__container" layout-margin flex>
 	<md-card-content flex>
 
 		<header layout-margin>
@@ -8,24 +8,26 @@
 
 		<md-divider></md-divider>
 
-		<section class="motion-comments" ng-repeat="comment in motion.motionComments.agreeComments | orderBy: comment.commentRank" layout-padding>
+		<section class="comment-list__list-item-container" ng-repeat="comment in motion.motionComments.agreeComments | orderBy: comment.commentRank" layout-padding>
 
-			<header layout layout-align="front">
+			<header layout layout-align="front" class="comment-list__list-item-header">
 				<md-icon class="mdi mdi-account-circle title-icon"></md-icon>
 				<h3 ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
 			</header>
 
-			<p class="md-caption">{{ comment.created_at.diff }}</p>
-			<p class="md-body-1">{{ comment.text }}</p>
+			<div class="comment-list__list-item">
+				<p class="md-caption comment-list__list-item-date">{{ comment.created_at.diff }}</p>
+				<p class="md-body-1 comment-list__list-item-text">{{ comment.text }}</p>
 
-			<comment-vote ng-if="motion.userVote.position == 1"></comment-vote>
+				<comment-vote ng-if="motion.userVote.position == 1"></comment-vote>
+			</div>
 
 			<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
 	
 		</section>
 
-		<section>
-			<div style="margin: 3px 0 0 8px;" ng-show="motion.motionComments.agreeComments.length == 0">
+		<section class="comment-list__list-item-container zero-comments" ng-show="motion.motionComments.agreeComments.length == 0">
+			<div>
 				<md-icon class="mdi mdi-microphone-off title-icon"></md-icon>
 				<h1 class="md-subhead title-header">No comments have been made for agree.</h1>
 			</div>

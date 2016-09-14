@@ -1,0 +1,39 @@
+.nav__header {
+	padding:0px;
+}
+
+.nav__header-filler_container {
+	margin-right: 21px;		
+	&.motion-enabled {
+		max-width: 400px;
+		min-width: 400px;
+	}
+}
+
+.nav__header-button_container {
+
+}
+
+.nav__header-button {
+
+}
+
+.nav__header-button .home-page {
+
+}
+
+.nav__header-button_icon {
+
+}
+
+.nav__header-button_icon.toggle-sidebar {
+	&.mdi-menu-up{
+		transition: .3s;
+	    vertical-align: top;
+	}
+	&.go-up {
+		transform: rotate(180deg);
+		transition: .3s;
+	    vertical-align: bottom;
+	}
+}

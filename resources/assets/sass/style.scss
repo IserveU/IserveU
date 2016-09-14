@@ -316,25 +316,6 @@ input.sidebar-search-input {
 /** End sidebar Styles **/
 
 /** Toolbar styles **/
-md-toolbar.site-content-toolbar{
-	padding:0px;
-	md-toolbar-filler {
-		margin-right: 21px;		
-		&.motion-enabled {
-			max-width: 400px;
-			min-width: 400px;
-		}
-	}
-	//animation for menu button
-	.mdi-menu-up{
-		transition: .3s;
-	}
-	.go-up {
-		transform: rotate(180deg);
-		transition: .3s;
-	}
-}
-
 .md-toolbar-tools{
 	md-menu{
 		.md-button, md-icon{
@@ -366,7 +347,14 @@ md-menu-item{
 	    transform: rotate(40deg);
   	}
 }
-// End
+
+// user bar menu stuff
+.userbar__menu-header {
+	margin-bottom: 0;
+
+}
+/** End toolbar Styles **/
+
 
 
 //animation for accordian
@@ -385,13 +373,6 @@ md-menu-item{
 	}
 	h3 {
 		display:inline-block;
-	}
-	.mdi-menu-up{
-		transition: .3s;
-	}
-	.go-up {
-		transform: rotate(180deg);
-		transition: .3s;
 	}
 }
 // end accordian 
@@ -429,22 +410,6 @@ md-menu-item{
 		p.md-body-1 {
 			display: block;
 		}
-		&.abstained {
-			background-color: $lightGrey;
-		}
-	}
-
-	&.abstained {
-			background-color: $lightGrey;
-	}
-	div.comment-votes {
-		padding: 0;
-		md-button {
-			margin: 0;
-		}
-		p.md-caption {
-			margin-bottom:0 !important; margin-top: 11px !important;
-		}
 	}
 }
 
@@ -470,12 +435,12 @@ md-menu-item{
 			right: 30px !important;
 		}
 	}
-	.comment-votes{
-		display: inline-block; margin-right: 10px; float: right !important;
-		md-icon {
-			@extend .title-svg-icon;
-		}
-	}
+	// .comment-votes{
+	// 	display: inline-block; margin-right: 10px; float: right !important;
+	// 	md-icon {
+	// 		@extend .title-svg-icon;
+	// 	}
+	// }
 }
 
 .imagecredit{
@@ -533,11 +498,7 @@ md-menu-item{
 // end user stuff
 
 
-// user bar menu stuff
-.userbar__menu-header {
-	margin-bottom: 0;
 
-}
 
 
 //temp
