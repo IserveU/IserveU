@@ -10,11 +10,12 @@
 			'$state',
 			'Authorizer',
 			'Motion',
+			'motionResource',
 			'motionIndex',
 			'ToastMessage',
 		displayMotion]);
 
-	function displayMotion($rootScope, $stateParams, $state, Authorizer, Motion, motionIndex, ToastMessage) {
+	function displayMotion($rootScope, $stateParams, $state, Authorizer, Motion, motionResource, motionIndex, ToastMessage) {
 
 	  function MotionController($scope) {
 
