@@ -8,13 +8,12 @@
 
 	function communityResource($http, $q, utils) {
 
-		var deferred = $q.defer();
 		var index = {};
 
 		function getCommunities () {
 
 			if( !utils.objectIsEmpty(index) ) {
-				return deferred.resolve({data: index}).promise; 
+				return $q.when({data: index});
 			}
 
 			return $http({
