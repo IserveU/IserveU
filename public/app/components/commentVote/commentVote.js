@@ -36,31 +36,16 @@
 			}
 
 
-			// $scope.$watch(function() { return commentVoteResource._userCommentVoteIndex;}, function(_index, _oldIndex) {
-
-			// 	console.log('scope watch comment vote resource triggered');
-
-			// console.log($scope.$parent.$parent.commentVoteList);
-
-			// 	if( _index && !utils.objectIsEmpty(_index) ) {
-
-			// 	console.log('scope watch comment vote index not empty');
-
-			// 		console.log(_index);
-			// 	}
-			// });
-
-
 			(function init() {
 				if(!$rootScope.authenticatedUser) {
 					return false;
 				}
 
-				utils.waitUntil(function(){ return !utils.objectIsEmpty($scope.motion) && !utils.objectIsEmpty( $scope.$parent.$parent.commentVoteList ); }, fetchUserCommentVotes );
+				utils.waitUntil(function scopeDependenciesAreInstantiated(){ 
+					return !utils.objectIsEmpty($scope.motion) && ( $scope.$parent && $scope.$parent.$parent && !utils.objectIsEmpty( $scope.$parent.$parent.commentVoteList )); 
+				}, fetchUserCommentVotes);
 
 			})();
-
-
 		}
 
 		return {

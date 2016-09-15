@@ -5,17 +5,18 @@
 		<h1>Write a comment</h1>
 	</header>
 
+
 	<div ng-if="userCommentCreate.writing" layout="column" layout-padding flex>
 
 		<form layout="column" name="commentForm" flex="100"> 
 			<md-input-container flex>
-				<textarea columns="4" ng-model="userCommentCreate.comment.text" required></textarea>
+				<textarea columns="4" ng-model="userComment.text" required></textarea>
 			</md-input-container>
 
 
 			<spinner layout="row" layout-align="front end" 
-					 primary-action="userCommentCreate.comment.submit(motion)"
-					 form-name="commentForm" name="'Submit'" on-hide="userCommentCreate.comment.posting" 
+					 primary-action="userComment.submit(motion)"
+					 form-name="commentForm" name="'Submit'" on-hide="userComment.posting" 
 					 secondary-btn="{control: userCommentCreate.writeComment, name: 'Close'}">
 			</spinner>
 

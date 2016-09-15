@@ -16,21 +16,24 @@
 		
 			var self = this, comments;
 
+			$scope.isEmpty = utils.iobjectIsEmpty;
+			$scope.userComment = new Comment();
 
 			function fetchUserComments() {
 				commentResource.getUserComments({user_id: $rootScope.authenticatedUser.id}).then(determineCommentExists);
 			}
 
 			function determineCommentExists(userComments) {
+				
 				if(!$scope.motion || !$scope.motion.userVote){
 					return false;
 				}
-				comments = comments || userComments.data;
+
+				comments = userComments.data || userComments;
 				for( var i in comments ) {
 					if(comments[i].vote_id === $scope.motion.userVote.id) {
-						self.comment = new Comment(comments[i]);
-						self.comment.exists = true;
-						console.log(self.comment);
+						$scope.userComment.setData(comments[i]);
+						$scope.userComment.exists = true;
 					}
 				}
 			}
@@ -56,7 +59,6 @@
 
 		return {
 			controller: ['$scope', userCommentController],
-			controllerAs: 'userComment',
 			templateUrl: 'app/components/userComment/userComment.tpl.html'
 		}
 

@@ -5,16 +5,17 @@
 		<h1>Your comment</h1>
 	</header>
 
-	<p class="md-body-1" ng-hide="userCommentEdit.editing">{{ userCommentEdit.comment.text }}</p>
+
+	<p class="md-body-1" ng-hide="userCommentEdit.editing">{{ userComment.text }}</p>
 
 	<div ng-show="userCommentEdit.editing" layout="column">
 	
 
 		<md-input-container>
-			<textarea layout-padding aria-label="Your comment" ng-model="userCommentEdit.comment.text" focus-input="userCommentEdit.editing"></textarea>
+			<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
 		</md-input-container>
 
-		<spinner layout="row" primary-action="userCommentEdit.comment.update(motion); userCommentEdit.editComment()"
+		<spinner layout="row" primary-action="userComment.update(motion); userCommentEdit.editComment()"
 				 name="'Save Comment'"
 				 secondary-btn="{control: userCommentEdit.editComment, name: 'Close'}">
 		</spinner>
@@ -26,7 +27,7 @@
 			<md-icon class="md-primary mdi mdi-pencil"></md-icon>
 		</md-button>
 	
-		<md-button class="md-icon-button" ng-click="userCommentEdit.comment.delete(motion)" aria-label="delete comment button">
+		<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button">
 			<md-icon class="md-warn mdi mdi-delete"></md-icon>
 		</md-button>
 	</div>
