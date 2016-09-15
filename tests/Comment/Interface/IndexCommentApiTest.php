@@ -5,9 +5,11 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexCommentApiTest extends TestCase
+class IndexCommentApiTest extends CommentApi
 {
     use DatabaseTransactions;    
+
+
 
     public function setUp()
     {
@@ -17,7 +19,16 @@ class IndexCommentApiTest extends TestCase
     ///////////////////////////////////////////////////////////CORRECT RESPONSES 
 
     /** @test */
-    public function filter_comment_by(){
+    public function comment_filter_defaults(){
+        $this->getStaticMotion();
+
+        $this->get($this->route)
+             ->assertResponseStatus(200)
+             ->seeJsonStructure([
+                "*" => [
+                    'id','text','created_at','commentRank','user','userName','motionTitle','motionId'
+                ]
+            ]);
         
     }
 

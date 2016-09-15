@@ -87,8 +87,25 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->env = [];
     }
 
+    public static $aNormalMotion;
+
+    /**
+     * To speed up tests so there is one motion that can be used to check
+     * things on
+     * @return App\Motion One fully stocked motion
+     */
+    public function getStaticMotion(){
+
+        if(!static::$aNormalMotion){
+            static::$aNormalMotion = aNormalMotion();
+        }
+
+        return static::$aNormalMotion;
+    }
+
     public function setUp(){
         parent::setUp();
+
 
         foreach(\File::files(base_path("storage/logs")) as $filename){
             File::delete($filename);

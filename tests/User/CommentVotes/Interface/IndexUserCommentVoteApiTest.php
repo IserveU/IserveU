@@ -6,11 +6,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexUserCommentVoteApiTest extends TestCase
 {
-    // use DatabaseTransactions;    
+    
+    use DatabaseTransactions;    
 
 
     protected static $userCommentVoting;
-    protected static $aNormalMotion;
+ 
 
     public function setUp()
     {
@@ -19,11 +20,11 @@ class IndexUserCommentVoteApiTest extends TestCase
 
         if(is_null(static::$userCommentVoting)){
 
-            static::$aNormalMotion = aNormalMotion();
+            $motion = getStaticMotion();
 
             $vote   =   factory(App\Vote::class)->create();
 
-            foreach(static::$aNormalMotion->comments as $comment){
+            foreach($motion->comments as $comment){
 
                 \App\CommentVote::create([
                     'comment_id'    =>  $comment->id,
