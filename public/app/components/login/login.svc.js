@@ -105,7 +105,7 @@
 
 			clearErrorMessages();
 
-			var error = responseError.error.toLowerCase();
+			var error = responseError.error ? responseError.error.toLowerCase() : responseError;
 
 			switch(error) {
 				case "invalid credentials":
@@ -123,8 +123,9 @@
 				default:
 					Login.errors.default = {
 						show: true,
-						message: responseError.message
+						message: responseError.message || "Something went wrong!"
 					}
+					console.log(responseError);
 					break;
 			}
 		};
