@@ -36,6 +36,13 @@
 			}
 
 
+			$scope.$watch('motion.motionComments', function(value, oldValue) {
+				if( value !== undefined && $rootScope.authenticatedUser) {
+					fetchUserCommentVotes();
+				}
+			}, true);
+	
+
 			(function init() {
 				if(!$rootScope.authenticatedUser) {
 					return false;
