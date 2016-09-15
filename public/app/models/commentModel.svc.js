@@ -17,6 +17,8 @@ function($http, commentResource, ToastMessage) {
 			this.setData(commentData);
 		}
 
+
+		this.id = commentData ? commentData.id : null;
 		this.posting = false;
 		this.exists  = false;
 
@@ -62,8 +64,7 @@ function($http, commentResource, ToastMessage) {
 		}).then(function(success){
 			self.posting = false;
 			self.exists  = true;
-			console.log(self);
-			
+			self.id = success.id;
 			motion.getMotionComments(motion.id);
 		}, function(error){
 			self.posting = false;
@@ -79,7 +80,6 @@ function($http, commentResource, ToastMessage) {
 		}).then(function(success){
 			self.posting = false;
 			self.exists  = true;
-			console.log(self);
 			motion.getMotionComments(motion.id);
 		}, function(error){
 			self.posting = false;
@@ -89,16 +89,12 @@ function($http, commentResource, ToastMessage) {
 	function deleteComment(comment, motion) {			
 		
 		var self = comment;
-		ToastMessage.destroyThisThenUndo("comment", function() {
+		ToastMessage.destroyThis("comment", function() {
             commentResource.deleteComment(self.id).then(function(results) {
-				motion.getMotionComments(motion.id);
 				self.exists = false;
-            });
-            self.setData(null);
-		}, function() {
-			commentResource.restoreComment(self.id).then(function(results){
+				self.setData({id: null, text: null, posting: null, exists: null});
 				motion.getMotionComments(motion.id);
-			})
+            });
 		});
 	}
 
