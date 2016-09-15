@@ -4,7 +4,6 @@ namespace App\Listeners\User;
 
 use App\Events\User\UserLoginFailed;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Hash;
 use Mail;
 
@@ -17,6 +16,7 @@ class SendResetEmail
      */
     public function __construct()
     {
+
         //
     }
 

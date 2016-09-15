@@ -20,7 +20,7 @@ class IndexUserCommentVoteApiTest extends TestCase
 
         if(is_null(static::$userCommentVoting)){
 
-            $motion = getStaticMotion();
+            $motion = $this->getStaticMotion();
 
             $vote   =   factory(App\Vote::class)->create();
 
