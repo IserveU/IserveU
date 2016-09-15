@@ -71,8 +71,10 @@ angular
 
 			motionResource.getMotionsIndex(self._next_page).then(function(results) {
 
+				console.log(results);
+
 				self._next_page = self.nextPage(results.next_page_url);
-				self._index = angular.isArray(self._index) ? self._index.concat(results.data) : result.data;
+				self._index = angular.isArray(self._index) ? self._index.concat(results.data) : results.data;
 				self._last_page = results.last_page;
 				self._paginating = false;;
 				self._stopPaginating = results.next_page_url ? false : true;
