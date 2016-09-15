@@ -2,9 +2,9 @@
 	
 	angular
 		.module('iserveu')
-		.directive('myComments', ['homeResource', myComments]);
+		.directive('myComments', ['$rootScope', 'homeResource', myComments]);
 
-	function myComments(homeResource) {
+	function myComments($rootScope, homeResource) {
 
 		function myCommentsController() {
 			
@@ -15,6 +15,11 @@
 
 			(function init() {
 				
+				if(!$rootScope.authenticatedUser) {
+					self.loading = false;
+					return false;
+				}
+
 				homeResource.getMyComments().then(function(results) {
 					self.loading = false;
 					self.commentList = results.data;

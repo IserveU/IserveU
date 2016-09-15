@@ -2,9 +2,9 @@
 	
 	angular
 		.module('iserveu')
-		.directive('myVotes', ['homeResource', myVotes]);
+		.directive('myVotes', ['$rootScope', 'homeResource', myVotes]);
 
-	function myVotes(homeResource) {
+	function myVotes($rootScope, homeResource) {
 
 		function myVotesController() {
 			
@@ -14,6 +14,11 @@
 			self.voteList = {};
 
 			(function init() {
+
+				if(!$rootScope.authenticatedUser) {
+					self.loading = false;
+					return false;
+				}
 
 				homeResource.getMyVotes().then(function(results){
 					self.loading  = false;
