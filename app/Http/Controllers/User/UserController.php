@@ -81,10 +81,11 @@ class UserController extends ApiController {
 		//Create a new user and fill secure fields
 		$user = User::create($request->except('token'));
 
-		$user->skipVisibility();
+		if(Auth::check()) return $user->skipVisibility();
 
-		$user->setHidden(['password']);
-
+		$user = $user->fresh();
+        
+        Auth::setUser($user);
 	    return $user;
 	}
 
