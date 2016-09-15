@@ -12,8 +12,8 @@
 
           <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in motionSidebar.motionIndex._index | isPublished | filter:motionSidebar.search.text" ui-sref-active="active" ui-sref="motion({id:motion.id})" ng-click="motionSidebar.closeSidenav('left')">
 
-            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::motion.icon}}.svg">
-              <md-tooltip md-direction="right">{{ ::motion.department }}</md-tooltip>
+            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{ ::motion.department.name | slugify }}.svg">
+              <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
             </md-icon>
 
             <p class="md-body-1 ellipsis">{{ ::motion.title }}</p>
@@ -37,7 +37,9 @@
           </md-subheader>
 
           <md-list-item ng-if="itemsInReview.length" layout="row" ng-repeat="review in itemsInReview = (motionSidebar.motionObj.data | isInReview | filter:motionSidebar.search.text)" ui-sref-active="active" ui-sref="motion({id:review.id})" ng-click="motionSidebar.closeSidenav('left')">
-            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{::review.icon}}.svg"></md-icon>
+            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{ ::review.depaartment.name | slugify }}.svg">
+              <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
+            </md-icon>
             <p>{{ ::review.title }}</p>
           </md-list-item>
       </md-list>
