@@ -1,4 +1,4 @@
-<section layout-margin layout="column" ng-class="{ 'loading' : !motion }" flex>
+<section layout-margin ng-class="{ 'loading' : !motion }" layout-wrap flex>
  
   <floating-button ng-if="isThisUsers(motion.user_id)"
     init-buttons="['create', 'edit', 'delete']"
@@ -7,41 +7,17 @@
     on-delete="destroy()">  
   </floating-button>
   
-	<md-card flex>
-		<md-card-content flex>
+  <div flex>
+	<md-card layout layout-margin flex>
+		<md-card-content layout-padding flex>
 
-		<article id="motion" layout="row" layout-sm="column" flex="100">
-			<div flex="90" flex-sm="100" flex-order="1" flex-order-gt-sm="1" layout-padding>
+<!-- layout-xs="column" layout-sm="column" layout-gt-lg="row"  -->
+		<article id="motion" layout="row" layout-xs="column" layout-sm="column" flex="100">
+			<div flex="90" flex-sm="100" flex-xs="100" flex-order="1" flex-order-sm="1" flex-order-gt-sm="1" layout-padding style="flex: 1 0 auto !important;">
 		
 				<header>
 					<h1 class="md-display-2 motion__title">{{ ::motion.title }}</h1>
 				</header>
-
-				<!-- TODO: make into a component -->
-				<div layout="row" layout-sm="column" layout-xs="column" flex="55" flex-sm="100" flex-xs="100" flex-md="75" flex-lg="100">
-					<section ng-repeat="section in motion.sections" flex>
-
-						<div class="budget" ng-show="section.type=='Budget'" flex-order="section.order" flex>
-							<h3 class="title-header">Projected Costs</h3>
-							<p>${{::section.content.price | number}}</p>
-							<p>{{::section.content.description}}</p>
-						</div>
-
-
-						<div ng-show="section.type=='Profile'" flex="50" flex-sm="100" flex-xs="100" flex-order="section.order">
-							<h3 class="title-header">Proposed by:</h3>
-							<div class="bio" flex>
-								<img file-id="{{::section.content.file_id}}" flex-order="0"/>
-								<span flex-order="1">
-									<p>{{::section.content.heading}}</p>
-									<a href="{{::section.content.subheading}}" target="_blank">{{::section.content.subheading}}</a>
-									<i>{{::section.content.description}}</i>
-								</span>
-							</div>
-						</div>
-
-					</section>
-				</div>
 
 				<section flex="100">
 					<header ng-if="motion.text">
@@ -54,7 +30,7 @@
 					</div>
 					
 				</section>
-
+<!-- 	@depcrecated
 				<section ng-if="motion.motionFiles" flex="100">
 					<header>
 						<md-icon class="mdi mdi-chart-bar"></md-icon>
@@ -66,18 +42,20 @@
 						<img ng-show="file.isImage" ng-src="/uploads/{{::file.filename}}" />
 					</div>
 				</section>
-
+ -->
 
 			</div>
 	
-			<motion-tiles flex="10" flex-sm="100" flex-order-sm="1" flex-order="2" flex-order-gt-sm="2" layout-margin></motion-tiles>
+			<div flex="10" flex-sm="100" flex-xs="100" flex-order="2" flex-order-sm="2" flex-order-gt-sm="2" layout-margin  style="flex: 1 0 auto !important;">
+				<motion-tiles></motion-tiles>
+			</div>
 
 		</article>
 		</md-card-content>
 	</md-card>
-		
+</div>
+
 	<motion-votes class="motionVotes" ng-show="motion.motionVotes"></motion-votes>
-	<!-- rename styles below; else css selector on the element names -->
 	<user-comment id="comment"></user-comment>
 	<comment-list id="display-comments"></comment-list>
 

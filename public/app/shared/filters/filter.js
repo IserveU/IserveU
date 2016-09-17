@@ -8,6 +8,14 @@
 		      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
 		    }
 		})
+		.filter('customLongDate', ['$filter', function($filter) {
+			return function (value) {
+				if(!value) return value;
+				var convertedDateString = value.replace(/-/gi, '/'); 
+				var customDate = new Date(convertedDateString);
+				return $filter('date')(customDate, 'MMM d, y');
+			}
+		}])
 		.filter('dateToDate', function() {
 		  	return function(input) {
 		    	input = new Date(input);
@@ -40,6 +48,14 @@
 		    return function(obj) {
 		    	return Object.keys(obj).map(function(key){return obj[key];});
 		    }
+	 	})
+	 	.filter('slugify', function() {
+			return function(value) {
+				if(!value) return value;
+				return value.toLowerCase()        
+							.replace(/[^\w ]+/g,'')
+					        .replace(/ +/g,'_');
+			}
 	 	})
 	 	.filter('bytes', function() {
 			return function(bytes, precision) {
