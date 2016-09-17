@@ -72,11 +72,11 @@ trait StatusTrait{
         return false;
     }
 
-    public function scopeVisible($query){
+    public function scopePubliclyVisible($query){
         $query->whereIn('status',static::visibleStatuses());
     } 
 
-    public function scopeHidden($query)
+    public function scopePubliclyHidden($query)
     {
         $query->whereIn('status',static::hiddenStatuses());
     }

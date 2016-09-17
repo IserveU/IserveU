@@ -9,7 +9,7 @@ class StoreUserApiTest extends UserApi
 {
    
     use WithoutMiddleware;
-    //use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function setUp()
     {   
@@ -73,7 +73,6 @@ class StoreUserApiTest extends UserApi
     /** @test  ******************/
     public function store_user_with_date_of_birth(){ 
         $this->storeFieldsGetSee(['date_of_birth','ethnic_origin_id','email','password','first_name','last_name'],200);
-        
     }
 
     /** @test  ******************/
@@ -216,6 +215,17 @@ class StoreUserApiTest extends UserApi
             'date_of_birth'     =>   9000
         ],400);             
     }
+
+    /** @test  ******************/
+    public function store_user_with_no_date_of_birth_when_required_fails(){
+        $this->setSettings(['security.ask_for_birthday_on_create'=>0]);
+
+
+        $this->storeContentGetSee([
+            'date_of_birth'     =>  null
+        ],400);
+    }
+
 
     /** @test  ******************/
     public function store_user_with_date_of_birth_in_future_fails(){

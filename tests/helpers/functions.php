@@ -198,7 +198,7 @@
 	function aNormalMotion($status = "published"){
   		$motion 	=   factory(App\Motion::class,$status)->create();
 
-        $votes 		=   factory(App\Vote::class,10)->create([
+        $votes 		=   factory(App\Vote::class,16)->create([
         	'motion_id'	=>	$motion->id
         ]);
 
