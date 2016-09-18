@@ -65,13 +65,11 @@ class StoreUserRequest extends Request
     {
         $rules = [];
 
-        // Can you beliebe that you could not figure this out?
-        dd($this->$rules['date_of_birth'].'|required');
-        //if(Setting::get('security.ask_for_birthday_on_create',0)){
-            $this->rules['date_of_birth'] = $this->$rules['date_of_birth'].'|required';
-        //}
+        //If birthday is required in create
+        if(Setting::get('security.ask_for_birthday_on_create',0)){
+            $this->rules['date_of_birth'] = $this->rules['date_of_birth'].'|required';
+        }
 
-        dd(array_merge($this->rules));
         return array_merge($rules,$this->rules);
     }
 }
