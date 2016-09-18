@@ -11,7 +11,6 @@ class IndexUserCommentVoteApiTest extends TestCase
 
 
     protected static $userCommentVoting;
- 
 
     public function setUp()
     {
@@ -22,7 +21,9 @@ class IndexUserCommentVoteApiTest extends TestCase
 
             $motion = $this->getStaticMotion();
 
-            $vote   =   factory(App\Vote::class)->create();
+            $vote   =   factory(App\Vote::class)->create([
+                'motion_id' =>  $motion->id
+            ]);
 
             foreach($motion->comments as $comment){
 
@@ -35,6 +36,7 @@ class IndexUserCommentVoteApiTest extends TestCase
             }
 
             static::$userCommentVoting = $vote->user;
+            \DB::commit();
         }
 
         $this->signIn(static::$userCommentVoting);
@@ -45,18 +47,39 @@ class IndexUserCommentVoteApiTest extends TestCase
 
     /** @test */
     public function default_user_comment_vote_filter(){
+        $this->get('/api/user/'.static::$userCommentVoting->id."/comment_vote")
+             ->seeJsonStructure([
+                "*" =>  ["id","position","comment_id","vote_id","created_at"]
+            ]);
 
-        $this->get('/api/user/'.static::$userCommentVoting->id."/comment_vote");
     }
 
 
     /** @test */
-    public function by_motion_user_comment_vote_filter(){
-        $this->markTestSkipped('user seems to work but then the motion query is showing all the users but not multiple ones for any single user');
+    public function by_motion_user_comment_vote_filter_in(){
+        $motion = $this->getStaticMotion();
 
-        $this->response = $this->call("GET",'/api/user/'.static::$userCommentVoting->id."/comment_vote",['motion_id'=>static::$aNormalMotion->id]);
 
+        $commentVoteIds = static::$userCommentVoting->commentVotes->pluck('id')->toArray();
+
+        $this->json("GET",'/api/user/'.static::$userCommentVoting->id."/comment_vote",['motion_id'=>$motion->id]);
+
+        foreach($commentVoteIds as $commentVoteId){
+            $this->see($commentVoteId);
+        }
     }
+
+
+    /** @test */
+    public function by_motion_user_comment_vote_filter_out(){
+        $motion = factory(App\Motion::class,'published')->create();
+
+        $this->json("GET",'/api/user/'.static::$userCommentVoting->id."/comment_vote",['motion_id'=>55555555])
+                ->seeJson([]);
+
+      
+    }
+  
   
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

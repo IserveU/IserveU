@@ -218,8 +218,7 @@ class StoreUserApiTest extends UserApi
 
     /** @test  ******************/
     public function store_user_with_no_date_of_birth_when_required_fails(){
-        $this->setSettings(['security.ask_for_birthday_on_create'=>0]);
-
+        $this->setSettings(['security.ask_for_birthday_on_create'=>1]);
 
         $this->storeContentGetSee([
             'date_of_birth'     =>  null

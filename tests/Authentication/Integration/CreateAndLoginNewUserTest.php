@@ -35,7 +35,7 @@ class CreateAndLoginNewUserTest extends TestCase
     /** @test **/
     public function check_instant_citizen_verify_setting_on()
     {   
-        $this->setSettings(['security.verify_citizens'=>false]);
+        $this->setSettings(['security.verify_citizens'=>0]);
         
         $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
@@ -43,6 +43,7 @@ class CreateAndLoginNewUserTest extends TestCase
 
         $this->post('/api/user',$user)
              ->assertResponseStatus(200)
+             ->see('create-vote')
              ->seeInDatabase('users',array('first_name'=>$user['first_name']));
 
         $apiToken = json_decode($this->response->getContent())->api_token;
@@ -58,7 +59,7 @@ class CreateAndLoginNewUserTest extends TestCase
     /** @test **/
     public function check_instant_citizen_verify_setting_off()
     {   
-        $this->setSettings(['security.verify_citizens'=>true]);
+        $this->setSettings(['security.verify_citizens'=>1]);
         
         $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
@@ -66,6 +67,7 @@ class CreateAndLoginNewUserTest extends TestCase
 
         $this->post('/api/user',$user)
              ->assertResponseStatus(200)
+             ->dontSee('create-vote')
              ->seeInDatabase('users',array('first_name'=>$user['first_name']));
 
         $apiToken = json_decode($this->response->getContent())->api_token;

@@ -202,7 +202,7 @@
         	'motion_id'	=>	$motion->id
         ]);
 
-        $commentingVotes = $votes->every(4);
+        $commentingVotes = $votes->every(3);
 
         foreach($commentingVotes as $commentingVote){
             factory(App\Comment::class)->create([
