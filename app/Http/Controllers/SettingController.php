@@ -68,5 +68,14 @@ class SettingController extends ApiController
         return \Theme::view('setting.directive');
     }
 
+
+
+    /**
+     * Manually flushes the site's cache
+     * @return null
+     */
+    public function flushCache(){
+        \Cache::flush();
+    }
  
 }

@@ -60,6 +60,9 @@ class SetDefaultSettings
         $this->ifNotSetThenSet('security.login_attempts_lock',5);
         $this->ifNotSetThenSet('security.verify_citizens',true);
 
+        $this->ifNotSetThenSet('security.ask_for_birthday_on_create',false);
+
+
         $this->ifNotSetThenSet('abstain', true);
 
         $this->ifNotSetThenSet('jargon.en',array(

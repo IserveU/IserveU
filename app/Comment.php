@@ -53,7 +53,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['motion','commentRank','user','userName'];  
+    protected $appends = ['motion','commentRank','user','userName','motionTitle','motionId'];  
 
 
 	/**
@@ -144,8 +144,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
         }
 
 
-		$this->addVisible(['text','created_at','id','commentRank']);
-
+		$this->addVisible(['text','created_at','id','commentRank','motionTitle','motionId']);
 
 
         return $this;
@@ -193,6 +192,23 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	    ->groupBy('comment_id');
 	}
 
+	/**
+	 * Gets the motion title for Comment Index requests
+	 * @return String The title of the motion this was made on
+	 */
+	public function getMotionTitleAttribute(){
+		return $this->motion->title;
+	}
+
+	/**
+	 * Gets the ID of the motion this was made on
+	 * @return Integer The ID of the motion this was made on
+	 */
+	public function getMotionIdAttribute(){
+		return $this->motion->id;
+	}
+
+
 	/************************************* Scopes *****************************************/
 
 
@@ -238,6 +254,8 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	}
 
 
+
+
 	/**
 	 * A bridge to the user of this comment
 	 * @return Collection A collection of comments
@@ -260,4 +278,5 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 		}]);
 		return $motion;
 	}
+
 }

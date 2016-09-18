@@ -198,11 +198,11 @@
 	function aNormalMotion($status = "published"){
   		$motion 	=   factory(App\Motion::class,$status)->create();
 
-        $votes 		=   factory(App\Vote::class,10)->create([
+        $votes 		=   factory(App\Vote::class,16)->create([
         	'motion_id'	=>	$motion->id
         ]);
 
-        $commentingVotes = $votes->every(4);
+        $commentingVotes = $votes->every(3);
 
         foreach($commentingVotes as $commentingVote){
             factory(App\Comment::class)->create([
