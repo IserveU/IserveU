@@ -27,7 +27,7 @@ class ShowMotionApiTest extends MotionApi
         $this->visit("/api/motion/".$motion->id)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'title','text','summary','id','motionOpenForVoting','closing','userVote','status','updated_at',
+                'title','text','summary','id','motionOpenForVoting','closing_at','userVote','status','updated_at',
                 'department' => [
                     'name','id','slug'
                 ]

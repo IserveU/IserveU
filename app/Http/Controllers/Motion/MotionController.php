@@ -70,21 +70,22 @@ class MotionController extends ApiController {
 			$motions->department($request->input('department_id'));
 		}
 
-		if($request->has('is_current')){
-			$motions->current($request->input('is_current'));
-		}
-
-		if($request->has('is_expired')){
-			$motions->expired($request->input('is_expired'));
-		}
-
-		if($request->has('newest')){
-			$motions->orderByNewest($request->input('newest'));
+		if($request->has('closing_before')){
+			$motions->closingBefore($request->input('closing_before'));
 		}
 	
-		if($request->has('oldest')){
-			$motions->orderByOldest($request->input('oldest'));
+		if($request->has('closing_after')){
+			$motions->closingAfter($request->input('closing_after'));
 		}
+
+		if($request->has('by_closing_at')){
+			$motions->orderByClosingAt($request->input('by_closing_at'));
+		}
+
+		if($request->has('by_created_at')){
+			$motions->orderByCreatedAt($request->input('by_created_at'));
+		}
+
 
 		if($request->has('take')){
 			$motions->take($request->input('take'));

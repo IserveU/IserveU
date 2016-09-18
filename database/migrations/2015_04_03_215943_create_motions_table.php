@@ -20,7 +20,7 @@ class CreateMotionsTable extends Migration {
             $table->text('text');
 
         	$table->integer('department_id')->unsigned()->default(1);
-            $table->dateTime('closing')->nullable()->default(null);
+            $table->dateTime('closing_at')->nullable()->default(null);
             $table->integer('user_id')->unsigned();
             $table->string('status')->default('draft'); 
 

@@ -74,7 +74,7 @@ class IndexUserCommentVoteApiTest extends TestCase
     public function by_motion_user_comment_vote_filter_out(){
         $motion = factory(App\Motion::class,'published')->create();
 
-        $this->json("GET",'/api/user/'.static::$userCommentVoting->id."/comment_vote",['motion_id'=>55555555])
+        $this->json("GET",'/api/user/'.static::$userCommentVoting->id."/comment_vote",['motion_id'=>$motion->id])
                 ->seeJson([]);
 
       

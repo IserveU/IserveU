@@ -62,7 +62,7 @@ class MotionDatabaseTest extends TestCase
             'title'         =>  $faker->word,
             'summary'       =>  $faker->sentence,
             'text'          =>  "<p>".$faker->sentence."</p>",
-            'closing'       =>  \Carbon\Carbon::now()->addDays(14)
+            'closing_at'    =>  \Carbon\Carbon::now()->addDays(14)
         ];
 
         $motionDraft->update($newDetails);
@@ -81,7 +81,7 @@ class MotionDatabaseTest extends TestCase
             'title'         =>  $faker->word,
             'summary'       =>  $faker->sentence,
             'text'          =>  "<p>".$faker->sentence."</p>",
-            'closing'       =>  \Carbon\Carbon::now()->addDays(14)
+            'closing_at'    =>  \Carbon\Carbon::now()->addDays(14)
         ];
 
         $motion->update($newDetails);

@@ -94,7 +94,7 @@
 	{
 		$closing = new DateTime();
 	    
-	    return ['closing' => $closing->add(new DateInterval('P7D'))];
+	    return ['closing_at' => $closing->add(new DateInterval('P7D'))];
 	}
 
 

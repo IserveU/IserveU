@@ -203,7 +203,7 @@ class MotionPermissionTest extends TestCase
         $this->patch('/api/motion/'.$toUpdate->id, $updated)
             ->assertResponseStatus(200);
 
-        $this->seeInDatabase('motions', ['title' => $toUpdate->title, 'closing' => $updated['closing']]);
+        $this->seeInDatabase('motions', ['title' => $toUpdate->title, 'closing_at' => $updated['closing_at']]);
     }
 
     /** @test */

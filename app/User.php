@@ -431,8 +431,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 
 
-
-
 	/************************************* Casts & Accesors *****************************************/
 
 	/**

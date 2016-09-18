@@ -34,7 +34,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes that are fillable by a creator of the model
 	 * @var array
 	 */
-	protected $fillable = ['title','text','summary','department_id','closing','status','user_id'];
+	protected $fillable = ['title','text','summary','department_id','closing_at','status','user_id'];
 
 	
 	/**
@@ -48,7 +48,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $with = ['department'];
+	protected $with = ['department','user'];
 	
 
 
@@ -56,7 +56,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes appended and returned (if visible) to the user
 	 * @var array
 	 */	
-    protected $appends = ['motionOpenForVoting','userVote','department','userComment'];
+    protected $appends = ['motionOpenForVoting','userVote','department','userComment','rank'];
 
   
 
@@ -64,7 +64,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The fields that are dates/times
 	 * @var array
 	 */
-	protected $dates = ['created_at','updated_at','closing'];
+	protected $dates = ['created_at','updated_at','closing_at'];
 
 	/**
 
@@ -175,7 +175,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
         //If self or show-other-private-user
         if(Auth::check() && (Auth::user()->id==$this->user_id || Auth::user()->can('show-motion'))){
-            $this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','user','motionOpenForVoting']);
+            $this->addVisible(['id','user_id','title','summary','slug','text','department','closing_at','status','created_at','updated_at','user','motionOpenForVoting']);
         }
 
         if(Auth::check()){
@@ -183,7 +183,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
         }
 
         if($this->publiclyVisible){
-			$this->addVisible(['id','title','summary','slug','text','department','closing','status','created_at','updated_at','motionOpenForVoting']);
+			$this->addVisible(['id','user_id','title','summary','slug','text','department','closing_at','status','created_at','updated_at','user','motionOpenForVoting','rank']);
         }
 
         return $this;
@@ -191,19 +191,19 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
 	/************************************* Getters & Setters ****************************************/
 
-	public function setClosingAttribute($value){
+	public function setClosingAtAttribute($value){
 		if(!$this->votes->isEmpty()){
 			abort(403, "People have already began voting on this motion, you can not change its closing date");
 		}
 
-		$this->attributes['closing'] = $value;
+		$this->attributes['closing_at'] = $value;
 		return true;
 	}
 
 	public function getMotionOpenForVotingAttribute(){
 
 		// Motions can stay open forever ATM
-		if($this->closing === null) return true;
+		if($this->closing_at === null) return true;
 
 		//Created without a status but not saved
 		if(!array_key_exists('status',$this->attributes)) return false;
@@ -213,7 +213,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		if($this->attributes['status'] != 'published') return false;
 		
 
-		if($this->closing->lt(Carbon::now())){
+		if($this->closing_at->lt(Carbon::now())){
 			$this->attributes['status'] = 'closed';
 			$this->save();
 			return false;
@@ -249,12 +249,19 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		return $comments;
 	}
 
-
+	/**
+	 * Why 
+	 * @return [type] [description]
+	 */
 	public function getDepartmentAttribute(){
 		return $this->department()->first();
-
 	}
-	
+
+
+	public function getRankAttribute(){
+		return $this->votes()->sum('position');
+	}
+
 
 	/************************************* Casts & Accesors *****************************************/
 
@@ -276,12 +283,14 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		return $query->where('user_id',$user_id);
 	}
 
+	/** Depreciated in favor of Closing Before/After */
 	public function scopeExpired($query){
-		return $query->where('closing', '<=', Carbon::now());
+		return $query->where('closing_at', '<=', Carbon::now());
 	}
-
+	
+	/** Depreciated in favor of Closing Before/After */
 	public function scopeCurrent($query){
-		return $query->where('closing', '>=', Carbon::now());
+		return $query->where('closing_at', '>=', Carbon::now());
 	}
 
 	public function scopeDepartment($query,$department_id){
@@ -297,19 +306,19 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	}	
 
 	public function scopeClosingBefore($query,Carbon $time){
-		return $query->where('closing','<=',$time);
+		return $query->where('closing_at','<=',$time);
 	}
 
 	public function scopeClosingAfter($query,Carbon $time){
-		return $query->where('closing','>=',$time);
+		return $query->where('closing_at','>=',$time);
 	}
 
-	public function scopeOrderByNewest($query){
-		return $query->orderBy('created_at', 'desc');
+	public function scopeOrderByClosingAt($query,$direction='desc'){
+		return $query->orderBy('closing_at',$direction);
 	}
 
-	public function scopeOrderByOldest($query){
-		return $query->orderBy('created_at', 'asc');
+	public function scopeOrderByCreatedAt($query,$direction='desc'){
+		return $query->orderBy('created_at',$direction);
 	}
 
 	public function scopeRankGreaterThan($query,$rank){
