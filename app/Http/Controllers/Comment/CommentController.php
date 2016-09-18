@@ -55,12 +55,12 @@ class CommentController extends ApiController {
 			return $validator->errors();
 		}
 
-		$comments = Comment::with('commentvotes','vote')->betweenDates($input['start_date'],$input['end_date'])->get()->sortBy(function($comment){
-			return $comment->commentvotes->count();
-		});
+		$comments = Comment::with('commentvotes','vote')
+					->betweenDates($input['start_date'],$input['end_date'])
+					->get()
+					->sortBy('commentRank')->reverse();
 
-
-		return $comments->sortBy('commentRank')->chunk($input['number'])->reverse();
+		return $comments;
 
 	}
 

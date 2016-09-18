@@ -1,11 +1,11 @@
 <?php
-include_once('CommentApi.php');
+include_once('AuthenticateApi.php');
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexCommentApiTest extends CommentApi
+class NoPasswordApiTest extends AuthenticateApi
 {
     use DatabaseTransactions;    
 
@@ -18,20 +18,21 @@ class IndexCommentApiTest extends CommentApi
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES 
 
-    /** @test */
-    public function comment_filter_defaults(){
-        $this->getStaticMotion();
+   
 
-        $this->get($this->route)
-             ->assertResponseStatus(200)
-             ->seeJsonStructure([
-                "*" => [
-                    'id','text','created_at','commentRank','user','userName','motionTitle','motionId'
-                ]
-            ]);
+
+    /** @test **/
+    public function submit_remember_token_and_reset_password()
+    {   
+        $user = factory(App\User::class)->create();
         
+        $this->get('/authenticate/'.$user->remember_token)
+            ->assertResponseStatus(200)
+            ->see($user->email)
+            ->see($user->api_token);
     }
 
+   
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
     
 }

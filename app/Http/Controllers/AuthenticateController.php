@@ -50,6 +50,7 @@ class AuthenticateController extends ApiController
 
     public function noPassword($remember_token){
 
+        
         if(empty($remember_token)){
             return  response(["error"=>"No password reset code provided","message"=>'Account is locked until '.$user->locked_until],403); 
         }
@@ -61,11 +62,18 @@ class AuthenticateController extends ApiController
         }       
 
         event(new UserLoginSucceeded($user));
+
+        $user = $user->fresh();
+        
+        Auth::setUser($user);
+
+
         return response(["api_token"=>$user->api_token,'user'=>$user],200);
     }
 
     public function resetPassword(Request $request){
-        $credentials = $request->only('email', 'password');       
+        $credentials = $request->only('email', 'password');  
+     
         event(new SendPasswordReset($credentials));
         
         return response()->json(array('message'=>'password reset sent'));

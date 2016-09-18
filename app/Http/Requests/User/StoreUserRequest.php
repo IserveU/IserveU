@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
+use App\Setting;
 use Auth;
 
 class StoreUserRequest extends Request
@@ -62,6 +63,13 @@ class StoreUserRequest extends Request
      */
     public function rules()
     {
-        return $this->rules;
+        $rules = [];
+
+        //If birthday is required in create
+        if(Setting::get('security.ask_for_birthday_on_create',0)){
+            $this->rules['date_of_birth'] = $this->rules['date_of_birth'].'|required';
+        }
+
+        return array_merge($rules,$this->rules);
     }
 }

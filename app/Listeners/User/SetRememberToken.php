@@ -32,6 +32,7 @@ class SetRememberToken
 
         $hash = str_random(99);
         $user->remember_token = $hash;
+
   
     }
 }

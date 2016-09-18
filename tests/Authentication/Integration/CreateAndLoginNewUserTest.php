@@ -4,13 +4,14 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CreateNewUser extends TestCase
+class CreateAndLoginNewUserTest extends TestCase
 {
     use DatabaseTransactions;
 
 
+
 	/** @test **/
-    public function register_self_as_new_user_details()
+    public function register_self_as_new_user_and_get_details()
     {
         $this->setSettings(['security.verify_citizens'=>0]);
         $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
@@ -19,43 +20,22 @@ class CreateNewUser extends TestCase
       
 
         $this->post('/api/user',$user)
-            ->assertResponseStatus(200);
+            ->assertResponseStatus(200)
+            ->seeJsonStructure([
+                'permissions',
+                'remember_token'
+            ]);
 
         $this->seeInDatabase('users',array('email'=>$user['email'],'first_name'=>$user['first_name']));
 
     }
 
 
-    /** @test **/
-    public function login_as_minimal_specs_new_user()
-    {   
-        $user = factory(App\User::class)->create([
-            'password'  => "abcd1234!"
-        ]);
-
-        $this->post('/authenticate',['email'=>$user->email,'password'=>'abcd1234!'])
-             ->assertResponseStatus(200)
-             ->seeJson([
-                'api_token' => $user->api_token
-             ]);
-    }
-
-    /** @test **/
-    public function try_to_register_user_with_duplicate_email_address()
-    {   
-
-        $user = factory(App\User::class)->create();
-
-        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
-
-        $this->assertResponseStatus(400);
- 
-    }
 
     /** @test **/
     public function check_instant_citizen_verify_setting_on()
     {   
-        $this->setSettings(['security.verify_citizens'=>false]);
+        $this->setSettings(['security.verify_citizens'=>0]);
         
         $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
@@ -63,6 +43,7 @@ class CreateNewUser extends TestCase
 
         $this->post('/api/user',$user)
              ->assertResponseStatus(200)
+             ->see('create-vote')
              ->seeInDatabase('users',array('first_name'=>$user['first_name']));
 
         $apiToken = json_decode($this->response->getContent())->api_token;
@@ -78,7 +59,7 @@ class CreateNewUser extends TestCase
     /** @test **/
     public function check_instant_citizen_verify_setting_off()
     {   
-        $this->setSettings(['security.verify_citizens'=>true]);
+        $this->setSettings(['security.verify_citizens'=>1]);
         
         $user = factory(App\User::class)->make()->skipVisibility()->setVisible(['first_name','last_name','email'])->toArray();
 
@@ -86,6 +67,7 @@ class CreateNewUser extends TestCase
 
         $this->post('/api/user',$user)
              ->assertResponseStatus(200)
+             ->dontSee('create-vote')
              ->seeInDatabase('users',array('first_name'=>$user['first_name']));
 
         $apiToken = json_decode($this->response->getContent())->api_token;

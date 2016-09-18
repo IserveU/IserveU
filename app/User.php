@@ -154,7 +154,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 				$model->addUserRoleByName('citizen');
 			}
 
-
 			return true;
 		});
 

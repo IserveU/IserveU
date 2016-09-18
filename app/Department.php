@@ -9,8 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 
 
-
-class Department extends NewApiModel{
+class Department extends NewApiModel {
 
 
 	use Sluggable;
@@ -40,7 +39,7 @@ class Department extends NewApiModel{
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $visible = ['name','active','id'];
+	protected $visible = ['name','active','id','slug'];
 
 
     /**

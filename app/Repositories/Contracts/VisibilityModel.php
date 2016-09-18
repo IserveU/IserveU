@@ -48,7 +48,7 @@ interface VisibilityModel
      * @param Builder $query
      * @return  Builder
      */
-    public function scopeVisible($query);
+    public function scopePubliclyVisible($query);
 
 
     /**
@@ -57,6 +57,6 @@ interface VisibilityModel
      * @param   Builder $query
      * @return  Builder
      */
-    public function scopeHidden($query);
+    public function scopePubliclyHidden($query);
 
 }

@@ -21,6 +21,7 @@ class SendPasswordReset extends Event
     public function __construct($credentials)
     {
         $this->user = User::withEmail($credentials['email'])->first();
+
         if(!$this->user){
             abort(403,"Email address not in database");
         }
