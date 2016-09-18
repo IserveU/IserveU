@@ -19,15 +19,13 @@ class UserCommentVoteController extends ApiController
      */
     public function index(User $user, Request $request)
     {   
-        if(!$request->has('motion_id')){
-            return $user->comment_votes; //All comment votes
+        $query = CommentVote::byUser($user->id);
+
+        if($request->has('motion_id')){
+            $query->onMotion($request->motion_id);
         }
 
-       // dd($request->motion_id);
-        $commentVotes = CommentVote::byUser($user->id)->onMotion($request->motion_id)->get();
-
-        dd($commentVotes);
-
+        return $query->get();
     }
 
 }

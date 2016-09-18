@@ -1,14 +1,41 @@
 <?php
+include_once('AuthenticateApi.php');
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\User;
-
-class LoginTest extends TestCase
+class AuthenticateApiTest extends AuthenticateApi
 {
-	use DatabaseTransactions;
+    use DatabaseTransactions;
+
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    /////////////////////////////////////////////////////////// CORRECT RESPONSES
+   
+   
+
+	/** @test **/
+    public function login_with_correct_details()
+    {	
+        $faker = \Faker\Factory::create();
+
+        $password = $faker->password;
+
+        $user = factory(App\User::class)->create([
+        	'password'	=> 	$password
+        ]);
+
+        $this->post( '/authenticate',['email' => $user->email,'password' => $password])
+            ->assertResponseStatus(200)
+            ->seeJson([
+                'api_token' => $user->api_token
+            ]);
+    }
+
 
 
     /** @test **/
@@ -31,40 +58,36 @@ class LoginTest extends TestCase
 
 
 
-
-
     /** @test **/
-    public function login_as_default_user_and_get_token()
+    public function login_as_minimal_specs_new_user()
     {   
-
-        $this->post('authenticate',['password'=>'abcd1234','email'=>'admin@iserveu.ca'])
-            ->assertResponseStatus(200)
-            ->seeJson([
-                'api_token' => User::first()->api_token
-            ]);
-
-    }
-
-
-
-
-	/** @test **/
-    public function login_with_correct_details()
-    {	
-        $faker = \Faker\Factory::create();
-
-        $password = $faker->password;
-
         $user = factory(App\User::class)->create([
-        	'password'	=> 	$password
+            'password'  => "abcd1234!"
         ]);
 
-        $this->post( '/authenticate',['email' => $user->email,'password' => $password])
-            ->assertResponseStatus(200)
-            ->seeJson([
+        $this->post('/authenticate',['email'=>$user->email,'password'=>'abcd1234!'])
+             ->assertResponseStatus(200)
+             ->seeJson([
                 'api_token' => $user->api_token
-            ]);
+             ]);
     }
+
+    /** @test **/
+    public function try_to_register_user_with_duplicate_email_address()
+    {   
+
+        $user = factory(App\User::class)->create();
+
+        $this->post('/api/user',$user->setVisible(['first_name','last_name','email','password'])->toArray());
+
+        $this->assertResponseStatus(400);
+ 
+    }
+
+
+
+    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
+    
 
 
 	/** @test **/
@@ -81,7 +104,7 @@ class LoginTest extends TestCase
             ]);
     }
 
-
+    
 
     /** @test **/
     public function login_fails_with_non_existant_user()
@@ -95,21 +118,6 @@ class LoginTest extends TestCase
                 "message"   =>    "This user does not exist"
             ]);
 
-    }
-
-
-    /** @test **/
-    public function login_attempts_increment()
-    {	
-        $user = factory(App\User::class)->create();
-
-        $this->seeInDatabase('users',array('id'=>$user->id,'login_attempts'=>0));
-
-        $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword1"]);
-        $this->seeInDatabase('users',array('id'=>$user->id,'login_attempts'=>1));
-
-        $this->post( '/authenticate',['email' => $user->email,'password' => "wrongpassword2"]);    
-        $this->seeInDatabase('users',array('id'=>$user->id,'login_attempts'=>2));
     }
 
 }

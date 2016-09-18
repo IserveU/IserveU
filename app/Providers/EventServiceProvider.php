@@ -69,8 +69,7 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\SendPasswordReset' => [
 			'App\Listeners\User\SetRememberToken',
-			'App\Listeners\User\SetRandomPassword',
-			'App\Listeners\User\SendResetEmail'	
+			'App\Listeners\User\SendResetEmail',
 		],
 		'App\Events\SendDailyEmails' => [
 			'App\Listeners\Motion\SendDailyPublicMotionSummary',
