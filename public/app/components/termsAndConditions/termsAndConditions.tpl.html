@@ -1,5 +1,5 @@
 <md-dialog class="terms-and-conditions" aria-label="Terms and Conditions" ng-cloak>
-  
+
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Terms and Conditions</h2>
@@ -16,7 +16,7 @@
       Accordingly, if you disagree with these terms and conditions or any part of these terms and conditions, you must not use our website.
       </p>
 
-      <p>{{ settingsGlobal.site.terms }}</p>
+      <p class="md-body-1" ng-bind-html="settingsGlobal.site.terms | trustAsHtml"></p>
 
     </div>
   </md-dialog-content>
@@ -30,5 +30,5 @@
       {{ userIsLoggedIn ? 'Close' : 'I Agree' }}
     </md-button>
   </div>
-  
+
 </md-dialog>
