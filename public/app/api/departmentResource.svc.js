@@ -9,13 +9,11 @@
 	function departmentResource($http, $q, utils) {
 
 		var index = {};
-		var deferred = $q.defer();
 
 		function getDepartments () {
 
 			if( !utils.objectIsEmpty(index) ) {
-				deferred.resolve({data: index}); 
-				return deferred.promise;
+				return $q.when({data: index});
 			}
 
 			return $http({

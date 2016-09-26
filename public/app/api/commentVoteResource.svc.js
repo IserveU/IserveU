@@ -40,7 +40,6 @@
 			console.log(_userCommentVoteIndex);
 
 			if(!utils.objectIsEmpty( _userCommentVoteIndex )) {
-				console.log('_userCommentVoteIndex isEmpty@commentVoteResource');
 				return $q.when({data: _userCommentVoteIndex });
 			}
 
@@ -51,10 +50,7 @@
 					ignoreLoadingBar: true
 				}
 			}).success(function(results){
-				console.log('_userCommentVoteIndex Success!');
 				_userCommentVoteIndex = results.data || results;
-				console.log('setting _userCommentVoteIndex');
-				console.log(_userCommentVoteIndex);
 				return results;
 			}).error(function(error){
 				return error.data || error;
@@ -67,7 +63,8 @@
 		}
 
 		function updateCommentVote(data) {
-			return CommentVote.update({id:data.id}, { position: data.position }).$promise.then(successHandler).catch(errorHandler);
+			return CommentVote.update({id:data.id}, { position: data.position })
+					.$promise.then(successHandler).catch(errorHandler);
 		}
 
 		function deleteCommentVote(data) {
@@ -78,7 +75,6 @@
 
 		function successHandler(res, id) {
 			var body = res.data || res;
-
 
 			if(!utils.objectIsEmpty( _userCommentVoteIndex )) {
 
