@@ -254,7 +254,8 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_rank_less_than(){
         $this->signInAsRole('administrator');
-
+        
+        //Create a vote on a motion last than 1
         $vote = factory(App\Vote::class)->create([
             'position'  =>  -1
         ]);
