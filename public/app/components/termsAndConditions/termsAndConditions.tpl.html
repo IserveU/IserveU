@@ -1,4 +1,5 @@
-<md-dialog class="terms_conditions"  aria-label="Terms and Conditions" ng-cloak>
+<md-dialog class="terms-and-conditions" aria-label="Terms and Conditions" ng-cloak>
+
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Terms and Conditions</h2>
@@ -8,16 +9,18 @@
       </md-button>
     </div>
   </md-toolbar>
+
   <md-dialog-content style="max-width:800px; max-height:810px;" flex-order="0">
     <div class="md-dialog-content">
       <h2>By using our website, you accept these terms and conditions in full</h2><p class="md-body-1">
       Accordingly, if you disagree with these terms and conditions or any part of these terms and conditions, you must not use our website.
       </p>
 
-      <p>{{ settings.site.terms }}</p>
+      <p class="md-body-1" ng-bind-html="settingsGlobal.site.terms | trustAsHtml"></p>
 
     </div>
   </md-dialog-content>
+
   <div layout="row" flex-order="1">
     <md-button href="http://iserveu.ca/about" target="_blank" ng-if="settingsGlobal.themename === 'default'">
       More on IserveU
@@ -27,4 +30,5 @@
       {{ userIsLoggedIn ? 'Close' : 'I Agree' }}
     </md-button>
   </div>
+
 </md-dialog>

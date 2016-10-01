@@ -28,8 +28,25 @@
 			});
 		}
 
+		function retrieveNameById(id) {
+			if( utils.objectIsEmpty(index) ) {
+				return getCommunities().then(function(results){
+					return retrieveNameById(id);
+				});
+			} else {
+				var name;
+				index.forEach(function(el) {
+					if (el.id == id) { name = el.name; }
+				});
+
+				return $q.when(name);
+			}
+
+		}
+
 		return {
 			getCommunities: getCommunities,
+			retrieveNameById: retrieveNameById,
 			index: index
 		}
 	}

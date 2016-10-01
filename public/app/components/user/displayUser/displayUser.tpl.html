@@ -1,0 +1,63 @@
+<div class="user-profile" ng-cloak flex>
+
+  <floating-button has-permission="administrate-user"
+    init-buttons="['create', 'edit', 'delete']"
+    on-create="display.create()"
+    on-edit="display.edit()"
+    on-delete="display.destroy()">  
+  </floating-button>
+
+  <md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
+    <profile-toolbar></profile-toolbar>
+
+    <md-card-content class="profile-display" layout="column" layout-padding layout-margin>
+
+      <h3 class="title-header" style="margin-bottom: 0">Contact</h3>
+
+      <div flex="100">
+        <md-icon class="mdi mdi-email"></md-icon>
+        <p class="title-header" style="margin-bottom: 0; font-size: 14px">{{ profile.email }}</p>
+      </div>
+
+    <h3 ng-show="profile.community" class="title-header" style="margin-bottom: 0">About</h3>
+
+    <div ng-show="profile.community">
+        <md-icon class="mdi mdi-home"></md-icon>
+        <p class="title-header" style="margin-bottom: 0; font-size: 14px">{{ profile.community }}</p>
+    </div>
+
+    </md-card-content>
+  </md-card>
+
+
+  <md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;" ng-if="profile.public || display.administrator">
+    <md-card-content style="padding: 10px">
+
+        <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
+        <h3 class="title-header">Recent votes</h3>
+
+        <md-progress-circular md-mode="indeterminate" ng-if="display.retrieving"></md-progress-circular>
+
+        <div ng-if="!display.retrieving">
+          
+          <md-list style="margin: 0" ng-repeat="vote in display.votes">
+            <md-list-item style="margin: 0"  ui-sref-active="active" ui-sref="motion({id:vote.motion_id})">
+               <span ng-switch="{{ vote.position }}">
+                  <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
+                  <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
+                  <md-icon ng-switch-when="0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+                </span>
+              <p class="md-body-1" ui-sref="motion({id:vote.motion_id})">{{vote.motion.title}}</p>
+            </md-list-item>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list>
+
+          <p ng-show="!display.votes" class="md-body-1">This user has not voted on anything.</p>
+        
+        </div>
+
+
+    </md-card-content>
+  </md-card>
+
+</div>

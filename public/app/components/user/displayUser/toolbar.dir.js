@@ -24,7 +24,7 @@
 
 		return {
 			controller: ['$scope', profileToolbarController],
-			templateUrl: 'app/components/user/components/profile/toolbar.tpl.html'
+			templateUrl: 'app/components/user/displayUser/toolbar.tpl.html'
 		}
 
 	}

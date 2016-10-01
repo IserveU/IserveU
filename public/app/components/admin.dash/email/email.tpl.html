@@ -1,0 +1,24 @@
+ <md-content class="content-manager">
+
+
+
+  <md-card>
+    <md-card-content layout-padding>
+    <div class="title" ng-click="showWelcome = !showWelcome">
+      <h3 class="title-header">Welcome Email</h3>
+    </div>
+    <div ng-if="showWelcome" layout="column">
+  
+      <textarea alloy-editor id="welcome-email-editor" ng-model="email.settings.email.welcome"></textarea>
+
+      <div layout="row" layout-align="center center">
+        <spinner ng-click="email.service.saveTypeOf('email.welcome', email.settings.email.welcome);" name="'Save'" on-hide="email.settings.saving"></spinner>
+        <md-button ng-click="showWelcome = !showWelcome">Cancel</md-button>
+      </div>
+      
+    </div>
+    </md-card-content>
+  </md-card>
+  
+
+</md-content>
