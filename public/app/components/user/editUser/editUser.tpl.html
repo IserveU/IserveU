@@ -1,0 +1,104 @@
+<div flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
+<!-- <profile-toolbar></profile-toolbar> -->
+  <md-card>
+    <md-card-content ng-hide="roles.showEdit">
+  
+
+    <md-list ng-cloak style="padding: 0" flex>
+
+      <md-subheader class="md-no-sticky">Personal Information</md-subheader>
+        <md-list-item ng-repeat="item in form.personalInformation" class="md-2-line" flex>
+          <md-icon class="mdi {{ item.icon }}"></md-icon>
+          <div class="md-list-item-text" ng-hide="item.edit">
+            <h3>{{ item.label }}</h3>
+            <p>{{ item.data }}</p>
+          </div>
+
+          <div class="md-list-item-text" ng-show="item.edit" ng-switch="item.label">
+            <div ng-switch-when="Name" edit-name-field></div>
+            <div ng-switch-when="Community" edit-community-field></div>
+            <div ng-switch-when="Birthday" edit-birthday-field></div>
+          </div>
+
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+
+          <md-button class="md-secondary" ng-show="item.edit" ng-disabled="item.form.$invalid" type="submit" ng-click="saveField($event, item)">
+            <span ng-hide="item.saving">Save</span>
+            <md-icon md-svg-src="/themes/default/loading.svg" ng-show="item.saving"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Cancel</md-button>
+
+        </md-list-item>
+
+<!-- START SECTION DIVIDER -->
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Contact Information</md-subheader>
+<!-- END SECTION DIVIDER -->
+      
+      <md-list-item ng-repeat="item in form.contactInformation" class="md-2-line">
+        <md-icon class="mdi {{ item.icon }}"></md-icon>  
+          <div class="md-list-item-text" ng-hide="item.edit">
+            <h3>{{ item.label }}</h3>
+            <p>{{ item.data }}</p>
+          </div>
+
+          <div class="md-list-item-text" ng-show="item.edit" ng-switch="item.label" flex>
+            <div ng-switch-when="Email" edit-email-field></div>
+            <div ng-switch-when="Telephone" edit-telephone-field></div>
+            <div ng-switch-when="Address" edit-address-field></div>
+          </div>
+
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+
+          <md-button class="md-secondary" ng-show="item.edit" ng-disabled="item.form.$invalid" type="submit" ng-click="saveField($event, item)">
+            <span ng-hide="item.saving">Save</span>
+            <md-icon md-svg-src="/themes/default/loading.svg" ng-show="item.saving"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Cancel</md-button>
+
+      </md-list-item>
+
+<!-- START SECTION DIVIDER -->
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Security Settings</md-subheader>
+<!-- END SECTION DIVIDER -->
+      
+      <md-list-item ng-repeat="item in form.securitySettings" class="md-2-line">
+        <md-icon class="mdi {{ item.icon }}"></md-icon>  
+          <div class="md-list-item-text" ng-hide="item.edit">
+            <h3>{{ item.label }}</h3> 
+            <p>{{ item.data | capitalize }}</p>
+          </div>
+
+          <div class="md-list-item-text" ng-show="item.edit" ng-switch="item.label" flex>
+            <div ng-switch-when="Show profile" edit-status-field></div>
+            <div ng-switch-when="Password" edit-password-field></div>
+          </div>
+
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-disabled="item.form.$invalid" type="submit" ng-click="saveField($event, item)">
+            <span ng-hide="item.saving">Save</span>
+            <md-icon md-svg-src="/themes/default/loading.svg" ng-show="item.saving"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Cancel</md-button>
+
+      </md-list-item>
+
+<!-- START SECTION DIVIDER -->
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky" has-permission="administrate-permission">Roles & Permissions</md-subheader>
+<!-- END SECTION DIVIDER -->
+<!--       TODO:
+      <md-list-item ng-repeat="item in form.rolesAndPermissions" class="md-2-line">
+      </md-list-item> -->
+
+    </md-list>
+    </md-card-content>
+  </md-card>
+</div>

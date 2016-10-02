@@ -4,10 +4,10 @@
 
 	angular
 		.module('iserveu')
-		.service('fabLink', ['$window', 'utils', fabLink]);
+		.service('floatingButtonService', ['$window', 'utils', floatingButtonService]);
 
   	 /** @ngInject */
-	function fabLink($window, utils) {
+	function floatingButtonService($window, utils) {
 
 		return function(el) {
 
