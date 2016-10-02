@@ -166,16 +166,9 @@ trait PolishedTest
 
 
     public function getAnUploadedFile($filename = "test.png"){
-        $faker = \Faker\Factory::create();
-        $user = factory(App\User::class)->create();
-
-        return [
-            'file'  =>  new \Symfony\Component\HttpFoundation\File\UploadedFile(
-                base_path("tests/unit/File/$filename"), $filename, $this->files[$filename]['type'], 12000, null, TRUE
-            ),
-            'description'   => $faker->sentence,
-            'user_id' =>        $user->id
-        ];
+        return new \Symfony\Component\HttpFoundation\File\UploadedFile(
+            base_path("tests/unit/File/$filename"), $filename, $this->files[$filename]['type'], 12000, null, TRUE
+        );
     }
 
 

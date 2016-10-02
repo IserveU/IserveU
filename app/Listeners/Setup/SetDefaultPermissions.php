@@ -138,18 +138,6 @@ class SetDefaultPermissions
             'description'   =>  'Can see who placed a vote and a detailed record of all votes cast (like most recent vote)'
         ]);
 
-        $createBackgroundImage =  Permission::updateOrCreate([
-            'name'          =>  'create-background_image',
-            'display_name'  =>  'Create Background Images',
-            'description'   =>  'Can create and upload a background image'
-        ]);
-
-        $editBackgroundImage =  Permission::updateOrCreate([
-            'name'          =>  'administrate-background_image',
-            'display_name'  =>  'Edit Background Images',
-            'description'   =>  'Can activate and edit other background images'
-        ]);
-
         $createDepartment =  Permission::updateOrCreate(['name'=>'create-department'],[
             'name'          =>  'create-department',
             'display_name'  =>  'Create Departments',
@@ -162,7 +150,6 @@ class SetDefaultPermissions
             'description'   =>  'Can activate and departments'
         ]);
 
-
         $representative->perms()->sync(array($createComment->id,
                                              $createVote->id,
                                              $createMotion->id,
@@ -171,8 +158,7 @@ class SetDefaultPermissions
                                              $createCommentVote->id,
                                              $viewCommentVote->id));
 
-        $citizen->perms()->sync(array($createBackgroundImage->id,
-                                          $createComment->id,
+        $citizen->perms()->sync(array($createComment->id,
                                           $createCommentVote->id,
                                           $createMotion->id,
                                           $createVote->id));
@@ -191,8 +177,6 @@ class SetDefaultPermissions
                                         $createCommentVote->id,
                                         $viewCommentVote->id,
                                         $editPermission->id,
-                                        $createBackgroundImage->id,
-                                        $editBackgroundImage->id,
                                         $createDepartment->id,
                                         $editDepartment->id));    
     }

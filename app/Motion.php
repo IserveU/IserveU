@@ -12,6 +12,7 @@ use App\Setting;
 use App\Events\Motion\MotionUpdated;
 use App\Events\Motion\MotionCreated;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 use App\Repositories\StatusTrait;
 
@@ -22,7 +23,7 @@ use App\Repositories\Contracts\VisibilityModel;
 
 class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 
-	use SoftDeletes, Sluggable, StatusTrait;
+	use SoftDeletes, Sluggable, SluggableScopeHelpers, StatusTrait;
 
 	/**
 	 * The name of the table for this model, also for the permissions set for this model
@@ -48,7 +49,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes included in the JSON/Array
 	 * @var array
 	 */
-	protected $with = ['department','user'];
+	protected $with = ['department','user','files'];
 	
 
 
@@ -351,15 +352,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 	public function votes(){
 		return $this->hasMany('App\Vote');
 	}
-
-	public function motionFiles(){
-		return $this->hasMany('App\MotionFile');
-	}
-
-	public function files(){
-		return $this->hasManyThrough('App\File','App\MotionFile','motion_id','id');
-	}
-
 
 	public function comments(){
 		return $this->whereHas('votes',function($query) use ($rank){

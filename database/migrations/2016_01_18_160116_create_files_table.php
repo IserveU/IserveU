@@ -13,31 +13,27 @@ class CreateFilesTable extends Migration
     public function up()
     {
 
-        Schema::create('file_categories', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
-
         Schema::create('files', function(Blueprint $table) {
             $table->increments('id');
             $table->string('filename');
+            $table->string('folder')->nullable();
+            $table->string('slug');
             $table->string('title')->nullable();
-            $table->boolean('image')->default(0);
-            // $table->integer('file_category_id')->unsigned();
-            $table->timestamps();
+            $table->string('description')->nullable();
+            $table->integer('user_id')->unsigned();
+            $table->integer('replacement_id')->unsigned()->nullable();
 
-            // $table->foreign('file_category_id')->references('id')->on('file_categories');
+            $table->string('type')->default('image');
+
+            $table->morphs('fileable');
+
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
-        Schema::create('motion_files', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('file_id')->unique()->unsigned();
-            $table->integer('motion_id')->unsigned();
-            $table->timestamps();
 
-            $table->foreign('motion_id')->references('id')->on('motions');
-            $table->foreign('file_id')->references('id')->on('files');
+        Schema::table('files', function(Blueprint $table) {
+            $table->foreign('replacement_id')->references('user_id')->on('files');
         });
 
 
@@ -57,14 +53,7 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('motion_files', function($table){
-            $table->dropForeign('motion_files_motion_id_foreign');
-            $table->dropForeign('motion_files_file_id_foreign');
-        });
 
-        // Schema::table('files', function($table){
-        //     $table->dropForeign('files_file_category_id_foreign');
-        // });
 
         Schema::table('users', function($table){
             $table->dropForeign('users_avatar_id_foreign');
@@ -73,8 +62,6 @@ class CreateFilesTable extends Migration
             $table->dropColumn('avatar_id');
         });
 
-        Schema::drop('motion_files');
         Schema::drop('files');
-        Schema::drop('file_categories');
     }
 }

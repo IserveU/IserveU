@@ -43,10 +43,10 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-            "tests/TestCase.php"
+            "tests/unit/TestCase.php"
 		],
 		"files": [
-			"tests/helpers/functions.php"
+			"tests/unit/helpers/functions.php"
 		] 
 	},
 	"scripts": {
