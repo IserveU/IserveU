@@ -47,7 +47,7 @@ class UpdateMotionApiTest extends MotionApi
 
      /** @test  ******************/
     public function update_motion_with_closing(){
-         $this->updateFieldsGetSee(['title','department_id','closing'],200);
+         $this->updateFieldsGetSee(['title','department_id','closing_at'],200);
     }
 
      /** @test  ******************/
@@ -92,11 +92,11 @@ class UpdateMotionApiTest extends MotionApi
     /** @test  ******************/
     public function update_motion_with_closing_in_past_fails(){
         $this->updateContentGetSee([
-            'closing'     =>  \Carbon\Carbon::yesterday()
+            'closing_at'     =>  \Carbon\Carbon::yesterday()
         ],400);
 
         $this->updateContentGetSee([
-            'closing'     =>  \Carbon\Carbon::yesterday()->toDateString()
+            'closing_at'     =>  \Carbon\Carbon::yesterday()->toDateString()
         ],400);
     }
 

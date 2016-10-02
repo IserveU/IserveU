@@ -53,7 +53,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	 * The attributes appended and returned (if visible) to the user
 	 * @var Array
 	 */	
-    protected $appends = ['motion','commentRank','user','userName','motionTitle','motionId'];  
+    protected $appends = ['motion','commentRank','user','motionTitle','motionId'];  
 
 
 	/**
@@ -176,9 +176,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel{
 	}
 
 
-	public function getUserNameAttribute(){
-		return $this->user->first_name." (".$this->user->community->name.")";
-	}
 
 	/************************************* Casts & Accesors *****************************************/
 	

@@ -68,7 +68,7 @@ class RankGeneration extends Command
                     $currentRank    =   $motionRanks[0]->rank;
                     $previousRank   =   $motionRanks[1]->rank;
                     if(($currentRank>0 && $previousRank<0) || ($currentRank<0 && $previousRank>0)){ //If between these two it changed
-                        $motion->closing = $motion->closing['carbon']->addHours(Setting::get('motion.hours_to_autoextend_by',12));
+                        $motion->closing_at = $motion->closing_at['carbon']->addHours(Setting::get('motion.hours_to_autoextend_by',12));
                         $motion->save();                
                     }
                 }

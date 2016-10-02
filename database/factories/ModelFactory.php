@@ -88,7 +88,7 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'user_id'       =>  function(){
             return factory(App\User::class,'verified')->create()->id;
         },
-        'closing'       => Carbon\Carbon::now()->addDays(rand(1,5)),
+        'closing_at'       => Carbon\Carbon::now()->addDays(rand(1,5)),
         'text'          => $faker->paragraph($nbSentences =10),
         'created_at'    => Carbon\Carbon::now()->subDays(rand(5,30)),
         'status'        => $status
@@ -131,7 +131,7 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
     $date = \Carbon\Carbon::now();
 
     return array_merge($motion, ['status' => 'closed',
-                                'closing'   =>  Carbon\Carbon::now()->subDays(rand(1,5)),
+                                'closing_at'   =>  Carbon\Carbon::now()->subDays(rand(1,5)),
                                 'title' => $faker->sentence($nbWords = 4). " Closed"]
                     );
 
