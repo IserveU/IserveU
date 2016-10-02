@@ -24,6 +24,7 @@ class CreateFilesTable extends Migration
             $table->integer('replacement_id')->unsigned()->nullable();
 
             $table->string('type')->default('image');
+            $table->string('mime');
 
             $table->morphs('fileable');
 
