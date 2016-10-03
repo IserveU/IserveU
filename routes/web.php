@@ -48,9 +48,8 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('motion/{motion}/vote','Motion\MotionVoteController', ['only'=>['index','store']]);
 	Route::resource('motion/{motion}/comment','Motion\MotionCommentController',['only'=>['index']]);
 	Route::get('motion/{id}/restore','Motion\MotionController@restore');
-	//Route::resource('motion.motionfile','Motion\MotionFileController'); //Should be updated in file rework to share same
-	//Route::post('motionfile/flowUpload', 'Motion\MotionFileController@flowUpload');  //Should be updated in file rework to share same
 	Route::resource('motion', 'Motion\MotionController',['except'=>['create','edit']]);
+	Route::resource('motion/{motion}/file', 'FileController',['except'=>['create','edit','index']]);
 
 	//Page
 	Route::resource('page', 'PageController',['except'=>['create','edit']]);
@@ -69,18 +68,11 @@ Route::group(['prefix' => 'api'], function(){
 
 	//Administrator only
 	Route::group(['middleware' => ['role:administrator']], function(){
-
-	
 	
 
 		//Ethnic Origin
 		Route::resource('ethnic_origin', 'EthnicOriginController',['only'=>['index']]);
 
-		//File
-		//Route::resource('file', 'FileController');
-
-		//Background Image
-		Route::resource('background_image', 'BackgroundImageController',['except'=>['create','edit']]);
 	});
 
 

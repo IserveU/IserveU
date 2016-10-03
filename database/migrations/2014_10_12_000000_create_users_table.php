@@ -43,6 +43,7 @@ class CreateUsersTable extends Migration {
 
             $table->date('agreement_accepted_date')->nullable();
 
+            $table->string('api_token',60)->unique();
 
 			$table->softDeletes();
 			$table->rememberToken();

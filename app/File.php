@@ -3,271 +3,282 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Intervention\Image\ImageManagerStatic as Image;
-
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-
-use App\FileCategory;
-
 use Storage;
+use Auth;
+use Log;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Requests\File\CreateFileRequest;
+use App\Http\Requests\File\UpdateFileRequest;
+use Carbon\Carbon;
 
-use Illuminate\Support\Facades\Validator;
+use App\Article;
+use App\Filters\QueryFilter;
+use App\Repositories\ArrayHelper;
+use App\Repositories\FileTypeCategoryHelper;
 
-class File extends ApiModel
-{
-     
-	/**
-	 * The name of the table for this model, also for the permissions set for this model
-	 * @var string
-	 */
-	protected $table = 'files';
+use Intervention\Image\ImageManagerStatic as Images;
+use App\Repositories\Contracts\CachedModel;
 
-	/**
-	 * The attributes that are fillable by a creator of the model
-	 * @var array
-	 */
-	protected $fillable = ['filename','title', 'file'];
+use Cviebrock\EloquentSluggable\Sluggable;
+use Flow\Config as FlowConfig;
+use Flow\Request as FlowRequest;
+use Flow\Basic as FlowBasic;
+use Illuminate\Support\Facades\Input;
 
-	/**
-	 * The attributes fillable by the administrator of this model
-	 * @var array
-	 */
-	protected $adminFillable = [];
-	
-	/**
-	 * The attributes included in the JSON/Array
-	 * @var array
-	 */
-	protected $visible = []; //Hide because government IDs can be uploaded here
-	
-	/**
-	 * The attributes visible to an administrator of this model
-	 * @var array
-	 */
-	protected $adminVisible = ['id','filename','title','type'];
 
-	/**
-	 * The attributes visible to the user that created this model
-	 * @var array
-	 */
-	protected $creatorVisible = ['id','filename','title','type'];
+class File extends NewApiModel implements CachedModel {
 
-	/**
-	 * The attributes appended and returned (if visible) to the user
-	 * @var array
-	 */	
-    protected $appends = [];
+    use Sluggable;
 
     /**
-     * The rules for all the variables
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'files';
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
-	protected $rules = [
-		'title' 				=>	'sometimes',
-        'filename'				=>	'min:30|unique:files,filename',
-        'file'					=>	'mimes:png,pdf,jpg,jpeg,gif',
-        'image'					=>	'boolean',
-        'file_category_id'		=>	'integer',
-	];
+    protected $fillable = [
+        'title','description','user_id','folder'
+    ];
 
-	/**
-	 * The variables that are required when you do an update
-	 * @var array
-	 */
-	protected $onUpdateRequired = [];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
 
-	/**
-	 * The variables requied when you do the initial create
-	 * @var array
-	 */
-	protected $onCreateRequired = ['filename'];
+    ];
 
-	/**
-	 * Fields that are unique so that the ID of this field can be appended to them in update validation
-	 * @var array
-	 */
-	protected $unique = ['filename'];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+    ];
 
-	/**
-	 * The front end field details for the attributes in this model 
-	 * @var array
-	 */
-	protected $fields = [
-		'title' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your filename'],
-		'file'	 		=>	['tag'=>'file','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'filename'	 	=>	['tag'=>'md-switch','type'=>'X','label'=>'Attribute Name','placeholder'=>''],
-		'image'	 		=>	['tag'=>'md-switch','type'=>'hidden','label'=>'The file type of this','placeholder'=>''],
-		'category_id' 		=>	['tag'=>'input','type'=>'text','label'=>'Title','placeholder'=>'The title/caption/name of your file'],
-	];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at', 'updated_at',
+    ];
 
+   /**
+     * Require default attribute values
+     *
+     * @var array
+     */
 
-	/**
-	 * The fields that are locked. When they are changed they cause events like resetting people's accounts
-	 * @var array
-	 */
-	protected $locked = [];
-
-
-	/**************************************** Standard Methods **************************************** */
-	public static function boot(){
-		parent::boot();
-
-		static::creating(function($model){
-			if(!$model->validate()) return false;
-			return true;
-		});
-
-		static::updating(function($model){
-			if(!$model->validate()) return false;
-			return true;
-		});
-
-		static::deleted(function($model){
-			// \File::delete(getcwd()."/uploads/".$model->fileCategory->name."/".$model->filename);
-			return true;
-		});
-
-	}
-
-
-	/************************************* Custom Methods *******************************************/
-	
-	// public function uploadFile($file_category_name,$input_name="file",Request $request){
-
-	// 	$file_max_size = $this->iniGetBytes('upload_max_filesize');
-	// 	$post_max_size = $this->iniGetBytes('post_max_size');
-
-	// 	if($_SERVER['CONTENT_LENGTH'] > $post_max_size) {
-	// 		abort(403, "The file is too big. There is a post limit of ".ini_get('post_max_size')." on the server.");
-	// 	}
-
-	// 	$file_category = FileCategory::where('name',$file_category_name)->first();
-	// 	if(!$file_category){
-	// 		$file_category = FileCategory::create(['name'=>$file_category_name]);
-	// 	}
-
-	// 	$this->file_category_id = $file_category->id;
-	// 	$this->title 			= $request->input('title');
-	// 	$file = $request->file($input_name);
-
-	// 	if(!$file){
-	// 		return false;
-	// 	}
-
-	// 	$size = $file->getSize();
-	// 	if($size > $file_max_size) {
-	// 		abort(403, "The file is too big. Files should be less than ".ini_get('upload_max_filesize').".");
-	// 	}
-
-	// 	try{
-	// 		$mimeType = $file->getMimeType();
-	// 	} catch (\Exception $e){
-	// 		\Log::error($e->getMessage()); //Sometimes if the file is too big, but it will catch it later on when you try to move the file
-	// 	}
-
-	// 	if(isset($mimeType) && substr($mimeType, 0, 5) == 'image') {		
-
-	// 		try {
-	//       		$img = Image::make($file)->resize(1920, null, function($constraint){
-	//       			$constraint->aspectRatio();
-	//       			$constraint->upsize();
-	//       		});
-	// 		} catch (Exception $e) {
-	// 		    abort(400,'There was an error uploading and resizing the image');
-	// 		} catch (NotReadableException $e){
-	// 			abort(403,"Unable to read image from file");
-	// 		}
-
-	// 		$this->image = true;
-
-	// 	    $filename = md5($img->response()).".png";
-	// 	    $img->save(getcwd()."/uploads/".$this->fileCategory->name."/$filename");   
-	// 	} else {
-	// 	    $filename = md5($file).".".$file->getClientOriginalExtension();
-	// 		$file->move(getcwd()."/uploads/".$this->fileCategory->name, $filename);
-	// 		$this->image = false;
-	// 	}
-
-	// 	$this->filename 	=	$filename;
-
-	// }
-	
-	// public function iniGetBytes($value){
-	// 	$value = trim(ini_get($value));
-	// 	$last = strtolower($value{strlen($value) -1});
-
-	// 	switch ($last) {
-	//         case 'g':
-	//             $value *= 1024;
-	//         case 'm':
-	//             $value *= 1024;
-	//         case 'k':
-	//             $value *= 1024;
-	//     }
-
-	// 	return $value;
-	// }
-
-	/************************************* Getters & Setters ****************************************/
-
-
-    //Upload a file from a URL, could add local storage
-    public function setUploadFileAttribute($url){
-        
-        $fileHeaders = get_headers($url);
-       
-        if($fileHeaders[0] != 'HTTP/1.1 404 Not Found'){
-
-            $file = file_get_contents($url);
-            $tmp = explode(".", $url);
-            $ext = end($tmp);
-            $name = md5(preg_replace('#^https?://#', '', $url)).".$ext";
-
-            //Upload image
-            Storage::put($name,$file);
-
-            $file->move(getcwd()."/uploads/", $name);
-
-            $this->attributes['filename'] = $name;
+    protected $attributes = [
  
-        }
+    ];
+
+
+    protected $flowFilename = '';
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'filename',
+                'save_to' =>'slug'        ]
+        ];
     }
 
-    public function setFileAttribute(\Symfony\Component\HttpFoundation\File\UploadedFile $file){
-        if(!$file){
-            return false;
-        }
 
-        $filename       = md5($file).".".$file->getClientOriginalExtension();
+    /**************************************** Standard Methods ****************************************/
+
+    protected $file;
+
+    public static function boot(){
+        parent::boot();
+
+        static::creating(function($model){
+
+            return true; 
+        });
+
+        static::saving(function($model){
+            if(!$model->user_id){
+                $model->user_id = \Auth::user()->id;
+            }
+            
+            $destinationPath = storage_path().'/app/'.$model->folder;
+            
+            if(!file_exists($destinationPath)) {
+                \File::makeDirectory($destinationPath);
+            }
+            if($model->folder){
+                \File::move(storage_path().'/app/'.$model->filename,$destinationPath.'/'.$model->filename);
+            }
+
+            
+            if(\File::exists($destinationPath.$model->filename) ){
+                $mimeType = \File::mimeType($destinationPath.$model->filename);
+                $model->mime = substr($mimeType, strrpos($mimeType, '/') + 1);
+                $model->type = File::categorizeTypeOfFile($model->filename, $mimeType);
+                \Log::info('storing a '.$model->type_category);
+                                          
+            }
+        return true; 
+        });
+
+        static::saved(function($model){
+
+            $model->flushCache($model);
+            $model->flushRelatedCache($model);
+
+        });
+        static::updated(function($model){
+        });
+        static::deleted(function($model){
+
+            $model->flushCache($model);    
+            $model->flushRelatedCache($model);
+            
+            Storage::delete($model->filename);
+
+        });
+    }
+
+
+    /********************************Cache Clear Interface Method Implementation***************************/
+   
+
+    /**
+     * Clear cache of this model
+     *
+     * @return null
+     */
+    public function flushCache($fromModel = null){
+        
+    }
+
+    /**
+     * Clear cache of models with caching related to this model
+     *
+     * @return null
+     */
+    public function flushRelatedCache($fromModel = null){
+
+     
+
+    }
+
+
+    /**************************************** Getters and Setters ****************************************/
+
+
+    public function setFilenameAttribute($filename){
         $this->attributes['filename'] = $filename;
-        $this->attributes['title'] = $file->getClientOriginalName();
+    }
 
-        Storage::put($filename,file_get_contents($file->getRealPath()));
+    public function setFolderAttribute($folder){
+        $folder = snake_case($folder);
+        $this->attributes['folder'] = $folder;
+    }
 
-        $file->move(getcwd()."/uploads/", $filename);
+    public function getLocationAttribute(){
+        if($this->folder){
+            $path = 'app/'.$this->folder;
+        }
+        return storage_path('app/'.$this->folder."/".$this->filename);
+    }
+
+    public function getPublicFilenameAttribute(){
+        $name = str_slug($this->title);
+        if(!$name){
+            $name = "download_".$this->type.'.'.\File::extension($this->filename);
+        }
+
+        return $name;
     }
 
 
-    public function setTitleAttribute($title){
-    	$this->attributes['title'] = $title;
+
+    /**
+     * Checks to see if the file is immediately or distantly the child of an object
+     * @param  ApiModel $parent thing to check relation with
+     * @return boolean   If this is related to the parent or not
+     */
+    public function isAssociatedWith($parent){
+        
+        if(!$this->fileable){
+            return false; //Can't be associated with anything
+        }
+
+        //Direct relation (hero image/avatar)       
+        if($this->fileable->getModelKey() == $parent->getModelKey()) return true;
+ 
+        return false;
     }
 
 
+    
+    public static function categorizeTypeOfFile(String $filename,String $mimeType){
+        
+            $type_category = substr($mimeType, 0, strrpos($mimeType, '/'));
+        
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $documents = array("doc","docx","xls","xlsx","pdf","ppt","pptx");
+            $archives = array("zip","rar");
 
-	/************************************* Casts & Accesors *****************************************/
+            if(in_array($extension,$documents)) return $type_category = "document";
+            if(in_array($extension,$archives)) return $type_category = "archive";
+
+            else return $type_category;
+    }
 
 
+    public function resize($width = null,$height = null){
 
-	/************************************* Scopes ***************************************************/
+        return Images::cache(function($image) use ($width,$height){
+
+            return $image->make($this->location)->resize($width,$height, function ($constraint) {
+
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        },20,true); 
+
+    }
 
 
+/***************************SCOPE FUNCTIONS ***********************************************************************/    
+  
 
-	/************************************* Relationships ********************************************/
+    /**************************************** Defined Relationships ****************************************/
 
-	public function motion(){
-		return $this->belongsToManyThrough('App\Motion','App\MotionFile');
-	}
+    /**
+     * The things files are attached to, at this stage almost always one image
+     * @return Image The image this file is attached to
+     */
+    public function fileable(){
+        return $this->morphTo();   
+    }
+
+    /**
+     * Every file has either an owner or uploader
+     */
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 
 	public function userIdentification(){
 		return $this->belongsTo('App\User','government_identification_id');
@@ -277,8 +288,5 @@ class File extends ApiModel
 		return $this->belongsTo('App\User','avatar_id');
 	}
 
-	public function fileCategory(){
-		return $this->belongsTo('App\FileCategory');
-	}
 
 }

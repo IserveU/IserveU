@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'App\Console\Commands\EmailDailySummary',
-		'App\Console\Commands\RankGeneration', //Should be a Cache
 		'App\Console\Commands\ShuffleDefaultDelegations',
         '\App\Console\Commands\Setup\InitializeApp',
         '\App\Console\Commands\Setup\SetNewDefaults'

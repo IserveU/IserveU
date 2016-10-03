@@ -6,7 +6,6 @@ use App\Events\Setup\Defaults;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use App\BackgroundImage;
 
 use Setting;
 
@@ -105,8 +104,6 @@ class SetDefaultSettings
                     'A200' => 'ffb473', 'A400' => 'ffb473', 'A700' => 'a64d00', 'contrastDefaultColor' => 'light'
                 )
             ));
-
-        $this->ifNotSetThenSet('background_image', (new BackgroundImage)->today());
 
         $this->ifNotSetThenSet('logo', 'default');
 

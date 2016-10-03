@@ -35,7 +35,10 @@ class RouteServiceProvider extends ServiceProvider {
 		Route::model('department', 'App\Department');
 
         app('router')->bind('motion', function ($motion) {
-            return \App\Motion::find($motion);
+            if(is_numeric($motion)){
+                return \App\Motion::find($motion);
+            }
+            return \App\Motion::findBySlug($motion);
         });
 
       

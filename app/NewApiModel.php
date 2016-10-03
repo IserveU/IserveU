@@ -119,4 +119,8 @@ class NewApiModel extends Model
     }
 
 
+    public function files(){
+        return $this->morphMany('App\File','fileable');
+    }
+
 }
