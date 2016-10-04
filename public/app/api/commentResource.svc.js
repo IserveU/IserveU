@@ -15,9 +15,9 @@
 		*****************************************************************/
 
 		var Comment = $resource('api/comment/:id', {}, {
-	        'update': { 
+	        'update': {
 	        	method:'PUT',
-		        ignoreLoadingBar: true 
+		        ignoreLoadingBar: true
 	        },
         	query: {
 			    method: 'GET',

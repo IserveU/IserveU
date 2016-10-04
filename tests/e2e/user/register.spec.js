@@ -31,18 +31,18 @@ describe('iserveu first landing on login page as new user', function() {
 
 
     login.createButton.click(); // opens register form
-    
+
     register.fillRegisterForm({
       email: testEmailAddress,
       password: 'abcd1234'
     });
 
     register.registerButton.click();
-    browser.driver.sleep(500); 
+    browser.driver.sleep(500);
 
     expect(register.termsAndConditions.isPresent());
     register.termsAndConditionsButton.click();
-    browser.driver.sleep(2000); 
+    browser.driver.sleep(2000);
     expect(browser.getLocationAbsUrl()).toEqual('/home');
 
   });
@@ -57,10 +57,14 @@ describe('iserveu first landing on login page as new user', function() {
 
     var menu = new Menu();
 
+    var injector = angular.element(document.body).injector()
+    var service = injector.get('infinite-scroll');
+    service.stop();
+
     menu.dropdown.click();
-    browser.driver.sleep(500); 
+    browser.driver.sleep(500);
     menu.logoutButton.click();
-    browser.driver.sleep(1000); 
+    browser.driver.sleep(1000);
     expect(browser.getLocationAbsUrl()).toEqual('/login');
 
   });

@@ -4,7 +4,7 @@
 		<form name="motionForm" ng-submit="motionForm.$valid" layout="column" layout-padding
 		 	  isu-section-init = "{autopost: false}"
 		 	  isu-section-object = "form.motion">
-			
+
 			<div layout="column" flex layout-padding>
 
 				<div>
@@ -17,7 +17,7 @@
 				</div>
 
 				<div>
-					<md-icon class="mdi mdi-subject title-icon" ></md-icon>
+					<!-- <md-icon class="mdi mdi-subject title-icon" ></md-icon> -->
 					<h3 class="title-header">Summary</h3>
 					<div layout="column" flex>
 						<md-input-container style="margin-top: 0; margin-bottom: 0;">
@@ -29,16 +29,16 @@
 				<div>
 					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
 					<h3  class="title-header">Body</h3>
-					<textarea alloy-editor class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
+					<textarea alloy-editor flow-init class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
 				</div>
-				
+
 				<!-- TODO: deprecated, waiting on backend	 -->
 <!-- 				<div has-permission="create-motion">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
 
-					<isu-file-upload 
-					isu-bind-files="form.motionFiles" 
+					<isu-file-upload
+					isu-bind-files="form.motionFiles"
 					isu-existing-files="{{form.existingMotionFiles}}">
 					</isu-file-upload>
 				</div>
@@ -63,9 +63,9 @@
 						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
 							<md-option class="select-option__draft" value="draft">Draft</md-option>
 							<md-option class="select-option__review" value="review">In review</md-option>
-							<md-option class="select-option__publish" value="published">Publish</md-option> 
+							<md-option class="select-option__publish" value="published">Publish</md-option>
 						</md-select>
-						
+
 						<div ng-messages="motionForm.status.$error" role="alert">
 							<div ng-message-exp="['required']">Please choose a status.</div>
 						</div>
@@ -80,8 +80,8 @@
 					</div>
 				</div>
 
-				<spinner class="create-motion__button" layout layout-align="center end" 
-						 form-name="" name="'Save'" on-hide="form.processing" 
+				<spinner class="create-motion__button" layout layout-align="center end"
+						 form-name="" name="'Save'" on-hide="form.processing"
 						 secondary-btn="{control: form.cancel, name: 'Cancel'}">
 				</spinner>
 			</div>

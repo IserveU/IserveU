@@ -9,8 +9,6 @@ var Helper = require('../helpers/helpers');
 
 describe('administrators interaction with creating/editing/voting on a motion', function() {
 
-
-
   it('should be able to login and see adminstration user nav stuff', function() {
 
   	browser.get('http://iserveu.local/#/login');
@@ -27,7 +25,7 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     browser.wait( helper.waitForUrlToChangeTo(/\/home/gi),
       1000, 'Expectation error: Timed out waiting for home state change.' );
 
-    expect(browser.getLocationAbsUrl()).toEqual('/home');    
+    expect(browser.getLocationAbsUrl()).toEqual('/home');
   });
 
 
@@ -36,8 +34,9 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     var menu = new Menu();
     var motionForm = new MotionFormPage();
     var helper = new Helper();
-
+    browser.ignoreSynchronization=true;
     menu.dropdown.click();
+    browser.driver.sleep(500);
     menu.createMotionButton.click();
   	expect(browser.getLocationAbsUrl()).toEqual('/create-motion');
 
@@ -46,7 +45,7 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     motionForm.saveButton.click();
 
     var REGEX = /\/motion\/[0-9]+/gi;
-    browser.wait( helper.waitForUrlToChangeTo(REGEX), 
+    browser.wait( helper.waitForUrlToChangeTo(REGEX),
         1000, 'Expectation error: Timed out waiting for motion state change.' );
 
     // TODO
@@ -88,9 +87,9 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     console.log(vote.agreeButton);
 
     // expect(vote.agreeButton.isEnabled()).toBe(false); // probably won't work
-    // expect(vote.disagreeButton.isEnabled()).toBe(true);  
+    // expect(vote.disagreeButton.isEnabled()).toBe(true);
     // expect(vote.abstainButton.isEnabled()).toBe(true);
-    
+
 
 
 
@@ -101,16 +100,16 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     // disagreeCounter should be same
     // abstainCounter should be same
     // commentColumn to be seen
-    // 
+    //
     // commentCreate should be seen
-    // 
+    //
     // disagreeButton.click()
     // disagree should be disabled
     // agree and abstain should be abled
     // disagree should have one more
     // agree should have one more
     // disagreeCommentColumn should be seen
-    // 
+    //
     // abstainButton.click();
     // abstain should be disabled
     // agree and disagree should be abled

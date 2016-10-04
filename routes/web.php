@@ -24,14 +24,14 @@ Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword'
 Route::get('authenticate/{remember_token}','AuthenticateController@noPassword')->name('reset.return');
 
 
-Route::group(['prefix' => 'api'], function(){				
-	
+Route::group(['prefix' => 'api'], function(){
+
 	//User
 	Route::resource('user', 'User\UserController',['except'=>['create','edit']]);
-	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]); 
+	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]);
 	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]);
-	Route::resource('user.comment_vote', 'User\UserCommentVoteController',['only'=>['index']]); 
-	Route::resource('user.role', 'User\UserRoleController',['only'=>['index','store','update','destroy']]); 
+	Route::resource('user.comment_vote', 'User\UserCommentVoteController',['only'=>['index']]);
+	Route::resource('user.role', 'User\UserRoleController',['only'=>['index','store','update','destroy']]);
 
 	//Vote
 	Route::resource('vote', 'Vote\VoteController', ['only'=>['index','show','update','destroy']]);
@@ -50,14 +50,16 @@ Route::group(['prefix' => 'api'], function(){
 	Route::get('motion/{id}/restore','Motion\MotionController@restore');
 	Route::resource('motion', 'Motion\MotionController',['except'=>['create','edit']]);
 	Route::resource('motion/{motion}/file', 'FileController',['except'=>['create','edit','index']]);
+	Route::get('motion/{motion}/file/{width}/{height?}', 'FileController@resize');
 
 	//Page
 	Route::resource('page', 'PageController',['except'=>['create','edit']]);
+	Route::resource('page/{page}/file', 'FileController',['except'=>['create','edit','index']]);
 
 	//Role
 	Route::resource('role', 'RoleController',['only'=>['index']]); //What is this for?
 
-	//Setting	
+	//Setting
 	Route::resource('setting', 'SettingController',['only'=>['index','update']]);
 
 	//Community
@@ -68,7 +70,7 @@ Route::group(['prefix' => 'api'], function(){
 
 	//Administrator only
 	Route::group(['middleware' => ['role:administrator']], function(){
-	
+
 
 		//Ethnic Origin
 		Route::resource('ethnic_origin', 'EthnicOriginController',['only'=>['index']]);

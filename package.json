@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prod": "gulp --production",
-    "dev": "gulp watch"
+    "dev": "gulp watch",
+    "test": "webdriver-manager start && protractor conf"
   }
 }

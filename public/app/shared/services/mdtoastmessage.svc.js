@@ -8,7 +8,7 @@
 
      /** @ngInject */
 	function ToastMessage($rootScope, $state, $mdToast, $timeout, $translate, utils) {
-	
+
         function simple(message, time){
             var timeDelay = time || 1000;
             return $mdToast.show(
@@ -29,14 +29,14 @@
         }
 
         function reload(time){
-            
-            time = time || 1000;
 
-            simple("The page will now refresh.", time);
-            
-            $timeout(function() {
-                location.reload();
-            }, time * 1.8 );
+            // time = time || 1000;
+
+            // simple("The page will now refresh.", time);
+
+            // $timeout(function() {
+            //     location.reload();
+            // }, time * 1.8 );
         }
 
 
@@ -70,14 +70,14 @@
         }
 
         function mustBeLoggedIn(reason){
-            return $rootScope.userIsLoggedIn ? false : 
+            return $rootScope.userIsLoggedIn ? false :
             (function(){ return true && customFunction("You must be logged in "+reason, "Go",
                 function(){ $state.go('login') })
             })();
         }
 
         function voteSuccess(type){
-            simple("You " + type + ( type === "abstain" ? "ed on" : "d with" ) + 
+            simple("You " + type + ( type === "abstain" ? "ed on" : "d with" ) +
                     " this " + $translate.instant('MOTION') );
         }
 
@@ -92,7 +92,7 @@
         // TODO: implment Error Handler Service
         function report_error(error){
 
-            var toast = action("Sorry, something went wrong.", "Report", true); 
+            var toast = action("Sorry, something went wrong.", "Report", true);
 
             $mdToast.show(toast).then(function(r) {
                 if (r == 'ok') {

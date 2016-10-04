@@ -31,6 +31,8 @@
 		};
 
 		function postToken(token){
+
+			console.log(token);
 			authResource.rememberToken( token ).then(function(results) {
 					loginService.successHandler( results.data );
 				}, function(error) {
