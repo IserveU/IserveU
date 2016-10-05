@@ -2,15 +2,13 @@
 
 	'use strict';
 
-	var iserveu = angular
-		.module('iserveu', [
+	var iserveu = angular.module('iserveu', [
 			'ngCookies',
 			'ngResource',
 			'ngMaterial',
 			'ngMessages',
-			'ngSanitize', 
-			'satellizer',  //deprecated
-			// 'textAngular', //depecrated
+			'ngSanitize',
+			'satellizer',
 			'ui.router',
 			'flow',
             'infinite-scroll',
@@ -20,20 +18,44 @@
 			'angular-loading-bar',
 	        'alloyeditor'
 		])
-		.run(['$rootScope', '$auth', '$window', '$timeout', '$globalProvider',
-			function($rootScope, $auth, $window, $timeout, $globalProvider) {
-				
-				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {	
+		.run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams', '$state', '$mdDialog', 'motionResource',
+			function($rootScope, $window, $timeout, $globalProvider, $stateParams, $state, $mdDialog, motionResource) {
 
-					$globalProvider.checkUser();
-					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
-					$globalProvider.setState( toState );
-					
+                $rootScope.preventStateChange = false;
+				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+
+                    console.log($rootScope.preventStateChange);
+                    console.log(toState);
+                    if(fromState.name === 'create-motion' && $stateParams.id) {
+                        event.preventDefault();
+
+                        var confirm = $mdDialog.confirm()
+                              .parent(angular.element(document.body))
+                              .title('Would you like to discard this draft?')
+                              .textContent('Your changes and draft will not be saved.')
+                              .ariaLabel('Navigate away from create-motion')
+                              .ok('Please do it!')
+                              .cancel('No thanks.');
+
+                        $mdDialog.show(confirm).then(function() {
+                            motionResource.deleteMotion($stateParams.id);
+                            $stateParams.id = null;
+                            $state.go(toState.name);
+                        }, function() {
+                        });
+
+                    } else {
+
+    					$globalProvider.checkUser();
+    					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
+    					$globalProvider.setState( toState );
+                    }
+
 				});
 
 			    $rootScope.$on('cfpLoadingBar:loading',function(){
 		    		$rootScope.pageLoading = true;
-		    });
+    		    });
 
 			    $rootScope.$on('cfpLoadingBar:completed',function(){
 		    		$rootScope.pageLoading = false;
@@ -43,7 +65,7 @@
 
 				$window.onbeforeunload = function(e) {
 					var publicComputer = localStorage.getItem('public_computer');
-					if(JSON.parse(publicComputer) == true) 
+					if(JSON.parse(publicComputer) == true)
 						return localStorage.clear();
 				};
 
@@ -61,12 +83,11 @@
 
 			localStorage.setItem('settings', JSON.stringify(settings));
             iserveu.constant('SETTINGS_JSON', settings);
-            document.body.style.backgroundImage = 'url('+ (settings.background_image || '/themes/default/photos/background.png')+')';
-
+            document.body.style.backgroundImage = ('url('+ (settings.background_image || '/themes/default/photos/background.png') + ')');
         }, function(errorResponse) {
             console.log('error');
         });
-    
+
     }
 
     function bootstrapApplication() {
@@ -74,5 +95,5 @@
             angular.bootstrap(document, ['iserveu'], {strictDi: true});
         });
     }
-		
+
 }());

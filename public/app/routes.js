@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -55,11 +55,31 @@
         })
         .state( 'create-motion', {
             url: '/create-'+SETTINGS_JSON.jargon.en.motion.toLowerCase(),
-            template: '<motion-form></motion-form>',
+            template: '<motion-form autopost="true"></motion-form>',
             data: {
                 requireLogin: true,
                 moduleMotion: true
-            }
+            },
+            onExit: ['$rootScope', '$mdDialog', '$stateParams', 'motionResource', function($rootScope, $mdDialog, $stateParams, motionResourcen) {
+
+                $rootScope.preventStateChange = true;
+                console.log('on exit');
+
+                // Appending dialog to document.body to cover sidenav in docs app
+                // var confirm = $mdDialog.confirm()
+                //       .title('Would you like to discard this draft?')
+                //       .textContent('Your changes and draft will not be saved.')
+                //       .ariaLabel('Navigate away from create-motion')
+                //       .ok('Please do it!')
+                //       .cancel('No thanks.');
+
+                // $mdDialog.show(confirm).then(function() {
+                //     motionResource.deleteMotion($stateParams.id);
+                //     $rootScope.preventStateChange = false;
+                // }, function() {
+                //     $rootScope.preventStateChange = true;
+                // });
+            }]
         })
         .state('my-motions', {
             url: '/my-motions',
@@ -73,7 +93,7 @@
             template: '<page-content></page-content>',
             data: {
                 requireLogin: true
-            }  
+            }
         })
         .state( 'edit-page', {
             url: '^/page/:id/edit',
@@ -81,7 +101,7 @@
             data: {
                 requireLogin: true,
                 requirePermissions: ['administrate-motion']
-            }  
+            }
         })
        .state( 'create-page', {
             url: '/create-page',
@@ -89,7 +109,7 @@
             data: {
                 requireLogin: true,
                 requirePermissions: ['create-motion']
-            }  
+            }
         })
         .state( 'user', {
             url: '/user/:id',
@@ -121,7 +141,7 @@
             data: {
                 requireLogin: true,
                 // requirePermissions: ['administrate-user'] this won't work because of shared state with my profile
-            },  
+            },
             resolve: {
                 profile: ['user', '$stateParams', function(user, $stateParams) {
                     var profile;
@@ -133,7 +153,7 @@
             controller: ['$scope', 'profile', function($scope, profile) {
                 $scope.profile = profile;
             }]
-        }) 
+        })
         .state( 'create-user', {
             url: '^/user/create',
             templateUrl: 'app/components/user/components/create-user/create-user.tpl.html',
@@ -162,9 +182,9 @@
         	templateUrl: 'app/shared/permissions/onfailure/permissionsfail.tpl.html',
             data: {
                 requireLogin: false
-            } 
-    	});    
-        	
+            }
+    	});
+
 	}]);
 
 })();

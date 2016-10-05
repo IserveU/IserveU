@@ -1,24 +1,20 @@
-(function() {
+// (function() {
 
-  'use strict';
+//   'use strict';
 
-  angular
-    .module('iserveu')
-    .directive('userSidebar', ['Authorizer', userSidebar]);
+//   angular
+//     .module('iserveu')
+//     .directive('userSidebar', ['Authorizer', userSidebar]);
 
-   /** @ngInject */
-  function userSidebar(Authorizer) {
+//    /** @ngInject */
+//   function userSidebar(Authorizer) {
 
-  	return {
+//   	return {
 
-      templateUrl: Authorizer.canAccess('administrate-user') ? 
+//       templateUrl: Authorizer.canAccess('administrate-user') ? 'app/components/user/components/user-sidebar/user-sidebar.tpl.html' : 'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
 
-      	'app/components/user/components/user-sidebar/user-sidebar.tpl.html' :
-      
-      	'app/components/motion/components/motion-sidebar/motion-sidebar.tpl.html'
-      
-      }
+//       }
 
-  	}
+//   	}
 
-})();
+// })();

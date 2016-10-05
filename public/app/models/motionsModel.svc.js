@@ -5,7 +5,7 @@
 angular
 .module('iserveu')
 .factory('Motion', [
-	'motionIndex', 
+	'motionIndex',
 	'motionResource',
 	'MotionComments',
 	'MotionFile',
@@ -26,12 +26,12 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 
 		_sanitize: function() {
 			return angular.extend({}, {
-				title: this.title,
+				title: this.title || "New Draft",
 				summary: this.summary,
 				text: this.text,
 				status: this.status,
 				department_id: this.department_id,
-				closing: this.getClosing(),
+				closing_at: this.getClosing(),
 				user_id: this.user_id,
 				id: this.id
 			})
@@ -58,7 +58,7 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		delete: function() {
 			var self = this;
 			motionResource.deleteMotion(id).then(function(result){
-				self.setData(result).refreshExtensions();	
+				self.setData(result).refreshExtensions();
 				// redirect and toast
 			});
 		},
@@ -66,7 +66,7 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		update: function(data) {
 			var self = this;
 			motionResource.updateMotion(data).then(function(result){
-				self.setData(result);	
+				self.setData(result);
 				// redirect and toast
 			});
 		},
@@ -75,7 +75,7 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 			if(this.status === 'published') {
 				return undefined;
 			} else {
-				return SETTINGS_JSON.allow_closing ? utils.date.stringify(this.closing) : new Date(NaN);
+				return SETTINGS_JSON.allow_closing ? utils.date.stringify(this.closing_at) : new Date(NaN);
 			}
 		},
 
@@ -87,12 +87,12 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 			id = id || self.id;
 			motionResource.getMotionComments(id).then(function(result){
 				var motionComments = new MotionComments(result);
-				self.setData({motionComments: motionComments});	
-			
+				self.setData({motionComments: motionComments});
+
 			}, function(error){
 				// temporary fix for php error
-				self.setData({motionComments: null });	
-			});	
+				self.setData({motionComments: null });
+			});
 		},
 
 		/**
@@ -125,7 +125,7 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		*	Get the votes associated with this Motion.
 		*/
 		getMotionVotes: function(id) {
-			var self = this; 
+			var self = this;
 			id = id || self.id;
 
 			motionResource.getMotionVotes(id).then(function(result){

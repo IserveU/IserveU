@@ -1,7 +1,7 @@
 (function() {
 
 	'use strict';
-	
+
 	angular
 		.module('iserveu')
 		.service('alloyService', ['utils', alloyService]);
@@ -18,7 +18,7 @@
                             test: AlloyEditor.SelectionTest.text,
                             tabIndex: 1
                         }]
-                    }			
+                    }
 				}
 			},
 			editor: {
@@ -57,10 +57,18 @@
                             }, 'bold', 'italic', 'quote', 'link', 'indentBlock', 'outdentBlock', 'ol', 'ul', 'underline', 'paragraphLeft', 'paragraphCenter', 'paragraphRight', 'removeFormat'],
                             test: AlloyEditor.SelectionTest.text,
                             tabIndex: -1
-                        }]
+                        },
+                        {
+                            name: 'image',
+                            buttons: ['imageLeft', 'imageCenter', 'imageRight'],
+                            test: AlloyEditor.SelectionTest.image
+                        }
+
+
+                        ]
                     }
                 }
- 			}		
+ 			}
         }
 
 		function getToolbar(toolbarRequest) {

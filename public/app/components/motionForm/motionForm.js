@@ -1,24 +1,25 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
 		.module('iserveu')
 		.directive('motionForm', [
-			'$state', 
-			'$stateParams', 
-			'$timeout', 
+			'$state',
+			'$stateParams',
+			'$timeout',
 			'$translate',
-			'isuSectionProvider', 
+			'isuSectionProvider',
 			'Motion',
-			'motionFileResource', 
-			'ToastMessage', 
-			'motionDepartments', 
+			'motionResource',
+			'motionFileResource',
+			'ToastMessage',
+			'motionDepartments',
 			'motionFilesFactory',
-			'Authorizer', 
+			'Authorizer',
 		motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionFileResource, 
+	function motionForm($state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionResource, motionFileResource,
 		ToastMessage, motionDepartments, motionFilesFactory, Authorizer) {
 
 		function motionFormController($scope) {
@@ -27,7 +28,7 @@
 			self.createMotion = $state.current.name == 'create-motion' ? true : false;
 			self.departments = motionDepartments;
 			self.existingMotionFiles = [];
-	        self.motion = new Motion({ closing: new Date(+new Date + 12096e5), status: 'draft' });
+	        self.motion = new Motion({ closing_at: new Date(+new Date + 12096e5), status: 'draft' });
 			self.motionFile  = motionFilesFactory;
 			self.motionFiles = [];
 			self.processing = false;
@@ -37,8 +38,13 @@
 
 	        function cancel() {
 	        	ToastMessage.cancelChanges(function(){
-	        		self.createMotion ? $state.go('dashboard') : $state.go('motion', {id: self.motion.id});
+	        		self.createMotion ? navigateAway() : $state.go('motion', {id: self.motion.id});
         		});
+
+        		function navigateAway(){
+                    motionResource.deleteMotion($stateParams.id);
+        			$state.go('dashboard');
+        		}
 	        };
 
 	        function successHandler(r) {
@@ -52,7 +58,7 @@
 	            } else if(Authorizer.canAccess('edit-motion')){
 	            	ToastMessage.simple("Your submission has been sent in for review!");
 	            }
-		            
+
 	            $timeout(function() {
 		           	$state.go( 'motion', ( {id: r.id} ), {reload: true} );
 	            }, 600);
@@ -64,10 +70,10 @@
 
 			/** Initializing function to get motion data. */
 			(function init() {
-				
+
 		        motionDepartments.loadAll();
 
-				// if edit-motion	        
+				// if edit-motion
 				if( self.createMotion ) return false;
 
 				self.motion = Motion.get($stateParams.id);
@@ -81,16 +87,33 @@
 		}
 
 		function motionFormLink(scope, el, attrs, ctrl) {
-			
+
+			var autopost = !!angular.element(el).attr('autopost');
+
+			if(autopost) {
+				angular.extend(isuSectionProvider.defaults, {target: '/api/motion', method: 'POST'});
+				var motion = ctrl.motion._sanitize();
+				isuSectionProvider.callMethodToApi(motion).then(function(success){
+					console.log(success);
+					$stateParams.id = success.id;
+
+					console.log($stateParams);
+				}, function(error){
+				});
+			}
+
 			el.bind('submit', function(ev){
 				ev.preventDefault();
+				saveMotion();
+			});
 
+			function saveMotion() {
 				ctrl.triggerSpinner(true);
 
-				angular.extend(isuSectionProvider.defaults, 
-					ctrl.createMotion ?
+				angular.extend(isuSectionProvider.defaults,
+					(!!!$stateParams.id) ?
 					{target: '/api/motion', method: 'POST'} :
-					{target: '/api/motion/'+$stateParams.id, method: 'PATCH'});		
+					{target: '/api/motion/'+$stateParams.id, method: 'PATCH'});
 
 				var motion = ctrl.motion._sanitize();
 
@@ -100,7 +123,7 @@
 				}, function(error){
 					ctrl.triggerSpinner(false);
 				});
-			});
+			}
 		}
 
 		return {

@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('settings', ['$http', 'SETTINGS_JSON', 'refreshLocalStorage', 
+		.factory('settings', ['$http', 'SETTINGS_JSON', 'refreshLocalStorage',
 			settingsServiceFactory]);
 
   	 /** @ngInject */
@@ -26,7 +26,7 @@
 			/** Post function */
 			save: function(data) {
 				$http.patch('/api/setting/'+data.name, {value: data.value}).success(function(r) {
-					
+
 					refreshLocalStorage.setItem('settings', r);
 					Settings.data.saving = false;
 
@@ -57,8 +57,8 @@
 
 				if ( type === 'palette' )
 					this.saveArray( 'theme', data.assignThemePalette(data) );
-				else 
-					this.saveArray( type, data );					
+				else
+					this.saveArray( type, data );
 			}
 		}
 
