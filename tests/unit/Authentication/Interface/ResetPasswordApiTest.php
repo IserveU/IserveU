@@ -21,7 +21,6 @@ class ResetPasswordApiTest extends AuthenticateApi
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
    
 
-
     /** @test **/
     public function submit_lost_password_request_for_email_that_exists()
     {
@@ -30,6 +29,19 @@ class ResetPasswordApiTest extends AuthenticateApi
         $this->post('authenticate/resetpassword',['email'=>$user->email])
             ->assertResponseStatus(200);
 
+    }
+
+
+
+    /** @test **/
+    public function submit_remember_token_and_reset_password()
+    {   
+        $user = factory(App\User::class)->create();
+        
+        $this->get('/authenticate/'.$user->remember_token)
+            ->assertResponseStatus(200)
+            ->see($user->email)
+            ->see($user->api_token);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
