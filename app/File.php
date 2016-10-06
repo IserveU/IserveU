@@ -19,6 +19,7 @@ use App\Repositories\FileTypeCategoryHelper;
 
 use Intervention\Image\ImageManagerStatic as Images;
 use App\Repositories\Contracts\CachedModel;
+use App\Repositories\FileUploadHelper;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Flow\Config as FlowConfig;
@@ -45,7 +46,7 @@ class File extends NewApiModel implements CachedModel {
      * @var array
      */
     protected $fillable = [
-        'title','description','user_id','folder'
+        'title','description','user_id','folder','replacement_id','filename'
     ];
 
     /**
@@ -58,11 +59,12 @@ class File extends NewApiModel implements CachedModel {
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes in the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = [
+    protected $visible = [
+        'id','slug','title','description','replacement_id','type','mime','fileable_id','fileable_type'
     ];
 
     /**
@@ -147,6 +149,17 @@ class File extends NewApiModel implements CachedModel {
         });
         static::updated(function($model){
         });
+
+        static::deleting(function($model){
+
+            if($model->previousVersion){
+                $model->previousVersion->delete();
+            }
+            
+            Storage::delete($model->filename);
+
+        });
+
         static::deleted(function($model){
 
             $model->flushCache($model);    
@@ -181,6 +194,28 @@ class File extends NewApiModel implements CachedModel {
 
     }
 
+
+    /*************************************** Custom Methods ***/
+
+
+    public function version(FileUploadHelper $fileHelper){
+        $oldVersion = $this->replicate(['id','slug']);
+        
+        $this->filename = $fileHelper->getFileName();
+        
+        $oldVersion->replacement_id = $this->id;
+
+        $this->fileable->files()->save($oldVersion); //A new file
+
+        return $oldVersion;
+    }
+            
+    public static function routes($model = 'motion'){
+
+        \Route::get($model.'/{'.$model.'}/file/{file}/download','FileController@download');
+        \Route::get($model.'/{'.$model.'}/file/{file}/resize/{width?}/{height?}', 'FileController@resize');
+        \Route::resource($model.'/{'.$model.'}/file', 'FileController',['except'=>['create','edit','index']]);
+    }
 
     /**************************************** Getters and Setters ****************************************/
 
@@ -287,6 +322,10 @@ class File extends NewApiModel implements CachedModel {
 	public function userAvatar(){
 		return $this->belongsTo('App\User','avatar_id');
 	}
+ 
 
+    public function previousVersion(){
+        return $this->hasOne('App\File','replacement_id');
+    }
 
 }

@@ -28,6 +28,8 @@ Route::group(['prefix' => 'api'], function(){
 
 	//User
 	Route::resource('user', 'User\UserController',['except'=>['create','edit']]);
+	Route::resource('user/{user}/file', 'FileController',['except'=>['create','edit','index']]);
+
 	Route::resource('user.vote', 'User\UserVoteController',['only'=>['index']]);
 	Route::resource('user.comment', 'User\UserCommentController',['only'=>['index']]);
 	Route::resource('user.comment_vote', 'User\UserCommentVoteController',['only'=>['index']]);
@@ -48,13 +50,14 @@ Route::group(['prefix' => 'api'], function(){
 	Route::resource('motion/{motion}/vote','Motion\MotionVoteController', ['only'=>['index','store']]);
 	Route::resource('motion/{motion}/comment','Motion\MotionCommentController',['only'=>['index']]);
 	Route::get('motion/{id}/restore','Motion\MotionController@restore');
+	
+
+   	\App\File::routes('motion');
 	Route::resource('motion', 'Motion\MotionController',['except'=>['create','edit']]);
-	Route::resource('motion/{motion}/file', 'FileController',['except'=>['create','edit','index']]);
-	Route::get('motion/{motion}/file/{width}/{height?}', 'FileController@resize');
 
 	//Page
+   	\App\File::routes('page');
 	Route::resource('page', 'PageController',['except'=>['create','edit']]);
-	Route::resource('page/{page}/file', 'FileController',['except'=>['create','edit','index']]);
 
 	//Role
 	Route::resource('role', 'RoleController',['only'=>['index']]); //What is this for?

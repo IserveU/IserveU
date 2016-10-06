@@ -119,6 +119,30 @@ class NewApiModel extends Model
     }
 
 
+    /**
+     * Calculate a unique key for model comparisions and caching
+     */
+    public function getModelKey()
+    {
+        return sprintf("%s/%s", 
+            get_class($this),
+            $this->id
+        );
+    }
+
+    /**
+     * Takes either the slug or the ID and finds the record
+     * @param  Integer||String $id 
+     * @return  Model
+     */
+    public static function findBySlugOrId($id){
+        if(is_numeric($id)){
+            return static::find($id);
+        }
+
+        return static::where('slug',$id)->first();
+    }
+
     public function files(){
         return $this->morphMany('App\File','fileable');
     }

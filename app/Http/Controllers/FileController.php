@@ -41,7 +41,6 @@ class FileController extends ApiController
         $file->filename = $fileHelper->getFileName();
         $file->fill($request->all());
         $file->save();
-
         $parent->files()->save($file);
 
         return $file;
@@ -50,27 +49,41 @@ class FileController extends ApiController
 
 
     /**
-     * Update a file in storage
+     * Lets you show a file as long as it is associated with the parent
+     * 
+     * @param  Model $parent The parent which has this file
+     * @param  File $file   The file model which has a file attached
+     * @return file response
+     */
+    public function show($parent, File $file){
+        if(!$file->isAssociatedWith($parent)){
+            abort(403);
+        }
+
+        return $file;
+    }
+
+    /**
+     * Update a file in storage and version the model
      *
      * @param  I\Illuminate\Http\Request  $request
      * @return \lluminate\Http\Response
      */
     public function update(StoreUpdateFileRequest $request, $parent, File $file)
-    {  
-        $fileHelper = FileUploadHelper::create($request,['fileField'=>'file']);
+    {
 
-        if(!$fileHelper->fileReady()){
-            return $fileHelper->getStatus();
+        //If there is a file attached, this model will be versioned
+        if($request->has('file')){
+            $fileHelper = FileUploadHelper::create($request,['fileField'=>'file']);
+
+            if(!$fileHelper->fileReady()){
+                return $fileHelper->getStatus();
+            }
+
+            $file->version($fileHelper);
         }
-
-        $newFile = new File;
-        $newFile->filename = $fileHelper->getFileName();
-        $newFile->fill($request->all());
-        $newFile->save();
-
-        $parent->files()->save($newFile);
-
-        $file->update(["replacement_id" => $newFile->id]);
+        
+        $file->update($request->all());
 
         return $file;
     }
@@ -82,12 +95,11 @@ class FileController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($parent, File $file = null)
+    public function destroy($parent, File $file)
     {
         if(!$file->isAssociatedWith($parent)){
             abort(403,"File not associated with this object");
         }
-
 
         $file->delete();
         return $file;
@@ -116,7 +128,7 @@ class FileController extends ApiController
      * @param  File  $file
      * @return \Illuminate\Http\Response
      */
-    public function resize($parent, File $file, $width = null, $height = null){
+    public function resize($parent, File $file, $width = 1920, $height = 1080){
         if(!$file->isAssociatedWith($parent)){
             abort(403);
         }
