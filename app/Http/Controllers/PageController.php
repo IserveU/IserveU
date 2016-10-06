@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\Page\StoreUpdatePageRequest;
 use App\Http\Controllers\Controller;
 
 use App\Page;
@@ -28,7 +29,7 @@ class PageController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdatePageRequest $request)
     {
         $page = Page::create($request->all());
 
@@ -41,10 +42,8 @@ class PageController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Page $page)
     {
-        $page = Page::where('slug', '=', $slug)->get();
-
         return $page;
     }
 
@@ -55,10 +54,9 @@ class PageController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(StoreUpdatePageRequest $request, Page $page)
     {
-        $page = Page::where('slug', '=', $slug)
-                    ->update($request->all());
+        $page->update($request->all());
 
         return $page;
     }
@@ -69,9 +67,9 @@ class PageController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy(Page $page)
     {
-        $page = Page::where('slug', '=', $slug)->delete();
+        $page->delete();
 
         return $page;
     }
