@@ -20,7 +20,6 @@ class EventServiceProvider extends ServiceProvider {
 			'App\Listeners\User\CheckUserRoles', //for some reason this is being fired on create and conflicting with processes
 		],
 		'App\Events\User\UserCreating' => [ //Things that "Save" the user model should go in here
-			'App\Listeners\User\SetRememberToken'
 		],
 		'App\Events\User\UserCreated' => [ //Things that save other records should go here
 			'App\Listeners\User\AddUserModificationEntry',
@@ -29,7 +28,6 @@ class EventServiceProvider extends ServiceProvider {
 		],
 		'App\Events\User\UserLoginFailed' => [
 			'App\Listeners\User\LogAttempt', // Also locks accounts
-			'App\Listeners\User\SetRememberToken', //Doesn't reset password
 			'App\Listeners\User\SendAccountLockEmail',
 		],
 		'App\Events\User\UserLoginSucceeded' => [
@@ -68,7 +66,6 @@ class EventServiceProvider extends ServiceProvider {
 
 		],
 		'App\Events\SendPasswordReset' => [
-			'App\Listeners\User\SetRememberToken',
 			'App\Listeners\User\SendResetEmail',
 		],
 		'App\Events\SendDailyEmails' => [
