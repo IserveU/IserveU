@@ -49,6 +49,14 @@ class File extends NewApiModel implements CachedModel {
         'title','description','user_id','folder','replacement_id','filename'
     ];
 
+
+    /**
+     * So that the motion page can see the index
+     *
+     * @var array
+     */
+    protected $with = ['previousVersion'];
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -64,7 +72,7 @@ class File extends NewApiModel implements CachedModel {
      * @var array
      */
     protected $visible = [
-        'id','slug','title','description','replacement_id','type','mime','fileable_id','fileable_type'
+        'id','slug','title','description','replacement_id','type','mime','fileable_id','fileable_type','previousVersion'
     ];
 
     /**
@@ -126,6 +134,11 @@ class File extends NewApiModel implements CachedModel {
             if(!file_exists($destinationPath)) {
                 \File::makeDirectory($destinationPath);
             }
+
+            if(!$model->filename){
+                return true;
+            }
+
             if($model->folder){
                 \File::move(storage_path().'/app/'.$model->filename,$destinationPath.'/'.$model->filename);
             }
@@ -214,7 +227,7 @@ class File extends NewApiModel implements CachedModel {
 
         \Route::get($model.'/{'.$model.'}/file/{file}/download','FileController@download');
         \Route::get($model.'/{'.$model.'}/file/{file}/resize/{width?}/{height?}', 'FileController@resize');
-        \Route::resource($model.'/{'.$model.'}/file', 'FileController',['except'=>['create','edit','index']]);
+        \Route::resource($model.'/{'.$model.'}/file', 'FileController',['except'=>['create','edit']]);
     }
 
     /**************************************** Getters and Setters ****************************************/

@@ -359,7 +359,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		});
 	}
 
-
 	public function thisUserVote(){
 		if(Auth::check()){
 			return $this->hasOne('App\Vote')->where('user_id',Auth::user()->id);

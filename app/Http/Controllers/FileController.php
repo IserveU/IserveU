@@ -21,6 +21,21 @@ use App\Repositories\FileUploadHelper;
 class FileController extends ApiController
 {
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  I\Illuminate\Http\Request  $request
+     * @return \lluminate\Http\Response
+     */
+    public function index($parent)
+    {  
+        $files = $parent->files->filter(function($value,$key){
+            return $value->replacement_id == null;
+        });
+
+        return $files;
+    }
+
 
     /**
      * Store a newly created resource in storage.

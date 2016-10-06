@@ -144,8 +144,10 @@ class FileUploadHelper{
      * @return [type]           [description]
      */
     public function handleRegularRequest(Request $request){
-
-        $file =  $request->file;
+        if(!$file =  $request->file){
+            return false;
+        }
+        
 
         $this->fileName = static::nameFile($file->getClientOriginalName());
 
