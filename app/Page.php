@@ -79,7 +79,7 @@ class Page extends NewApiModel
      */
 
     protected $attributes = [
-
+        'title' => "New Page"
     ];
 
     /**************************************** Data Mutators ****************************************/
