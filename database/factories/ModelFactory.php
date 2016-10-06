@@ -173,7 +173,7 @@ $factory->define(App\Vote::class, function ($faker) use ($factory) {
 });
 
 
-/************************* Comment Factories ***********************************/
+/************************* Comment Vote Factories ***********************************/
 
 $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
 
@@ -190,4 +190,16 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
         'vote_id'       =>  $vote->id
     ];
 });
+
+
+/************************* Page Factories ***********************************/
+
+$factory->define(App\Page::class, function ($faker) use ($factory) {
+
+    return [
+        'title'         => $faker->sentence($nbWords = 6),
+        'content'       => $faker->sentences(4,true)
+    ];
+});
+
 

@@ -35,13 +35,23 @@ class RouteServiceProvider extends ServiceProvider {
 		Route::model('department', 'App\Department');
 
         app('router')->bind('motion', function ($motion) {
-            if(is_numeric($motion)){
-                return \App\Motion::find($motion);
-            }
-            return \App\Motion::findBySlug($motion);
+            return \App\Motion::findBySlugOrId($motion);
         });
 
-      
+        app('router')->bind('file', function ($file) {
+            return \App\File::findBySlugOrId($file);
+        });
+
+        app('router')->bind('page', function ($page) {
+            return \App\Page::findBySlugOrId($page);
+        });
+
+
+        app('router')->bind('user', function ($user) {
+            return \App\User::findBySlugOrId($user);
+        });
+
+
         app('router')->bind('vote', function ($vote) {
             return \App\Vote::find($vote);
         });

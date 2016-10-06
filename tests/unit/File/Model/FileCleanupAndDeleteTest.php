@@ -47,6 +47,21 @@ class FileCleanupAndDeleteTest extends TestCase
 
     
 
+    /**
+     * @test
+     */
+    public function file_delete_cascades_older_versions(){
+        $fileA = factory(App\File::class)->create();
+
+        $fileB = factory(App\File::class)->create([
+            'replacement_id'    =>   $fileA->id
+        ]);
+
+        $fileA->delete();
+
+        $this->dontSeeInDatabase('files',['id'=>$fileB->id]);
+       
+    }
 }
 
 

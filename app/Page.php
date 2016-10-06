@@ -4,8 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends ApiModel
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Cviebrock\EloquentSluggable\Sluggable;
+
+class Page extends NewApiModel
 {
+    use SluggableScopeHelpers, Sluggable;
 
     /**
      * The table associated with the model.
@@ -21,7 +25,7 @@ class Page extends ApiModel
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'content'
+        'title','content'
     ];
 
     /**
@@ -50,6 +54,23 @@ class Page extends ApiModel
     protected $dates = [
         'created_at', 'updated_at'
     ];
+
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source'    => ['title'],
+                'onUpdate'  => true
+            ]
+        ];
+    }
+
 
    /**
      * Require default attribute values

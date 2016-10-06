@@ -31,6 +31,7 @@ use App\Events\User\UserUpdating;
 use App\Events\User\UserDeleted;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 use App\Repositories\StatusTrait;
 
@@ -42,7 +43,7 @@ use App\Repositories\Contracts\VisibilityModel;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel, VisibilityModel {
 
-	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable; //, StatusTrait;
+	use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers; //, StatusTrait;
 
 	use EntrustUserTrait{
         // EntrustUserTrait::can as may; //There is an entrust collision here
