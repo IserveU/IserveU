@@ -8,7 +8,7 @@ use App\File;
 
 use Carbon\Carbon;
 
-class UploadFileNormalWayTest extends TestCase
+class UploadFileTest extends TestCase
 {
 
   //  use DatabaseTransactions;

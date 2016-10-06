@@ -30,7 +30,12 @@ class StoreUpdateFileRequest extends Request
             'replacement_id'            =>      'reject', //Detected and set by code
             'fileable_id'               =>      'reject', //Detected and set by code
             'fileable_type'             =>      'reject', //Detected and set by code
+            'slug'                      =>      'reject', //Detected and set by code
             'filename'                  =>      'reject', //Detected and set by code
+            'type'                      =>      'reject', //Detected and set by code
+            'mime'                      =>      'reject', //Detected and set by code
+            'created_at'                =>      'reject', //Detected and set by code
+            'updated_at'                =>      'reject', //Detected and set by code
             'file'                      =>      'file',
             'flowChunkNumber'           =>      'string',
             'flowChunkSize'             =>      'string',
