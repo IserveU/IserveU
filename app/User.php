@@ -189,6 +189,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
 		static::saving(function($model){
 
+			if(!$model->remember_token){
+				$model->remember_token = str_random(99);
+			}
+
 			if(!$model->api_token){
 				$model->api_token = str_random(60);
 			}

@@ -6,7 +6,7 @@
 /public/build/*
 /public/icons/*
 /public/fonts/*
-/resources/bower/*
+/bower/*
 /storage/logs/*
 .idea
 
