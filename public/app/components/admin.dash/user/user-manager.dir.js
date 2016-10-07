@@ -11,12 +11,12 @@
 
 		function userController() {
 
-			var vm = this;
+			var self = this;
 
-			vm.users = {};
+			self.users = {};
 
 			user.getIndex().then(function(r) {
-				vm.users = r.data;
+				self.users = r.data;
 			}, function(e) { console.log(e); });
 
 		};

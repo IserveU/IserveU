@@ -1,8 +1,8 @@
 <md-card>
 	<md-card-content layout-padding>
 	<form name="editHome" ng-submit="edit.save()">
-	
-		<textarea alloy-editor id="homepage-editor" ng-model="edit.settings.home.introduction.text"></textarea>
+
+		<textarea alloy-editor flow-init id="homepage-editor" ng-model="edit.settings.home.introduction.text"></textarea>
 
 		<spinner layout layout-align="center end"
 				 form-name="editHome" name="'Save'" on-hide="edit.settings.saving"
@@ -37,12 +37,12 @@
 		    <form layout="column" ng-if="editHomeIntro" flex>
 
 		    	<md-input-container>
-		    		<label>Display Icon</label>	
+		    		<label>Display Icon</label>
 		    		<md-icon md-svg-src="{{ content.settings.home.introduction.icon }}"></md-icon>
 		    		<input type='file' ng-model='content.settings.home.introduction.icon'/>
 	    		</md-input-container>
 				<md-input-container>
-		    		<label>Title</label>	
+		    		<label>Title</label>
 		    		<input type='text' ng-model='content.settings.home.introduction.title'/>
 	    		</md-input-container>
 	    		<text-angular ng-model='content.settings.home.introduction.text' ta-file-drop="taDropHandler"></text-angular>
@@ -53,7 +53,7 @@
 		    </form>
 
 
-		    <div ng-if="!editHomeIntro"> 
+		    <div ng-if="!editHomeIntro">
 				<h2 class="title-subhead">Display</h2>
 
 				<div layout="column" style="margin-top: 15px">
@@ -62,7 +62,7 @@
 				    <md-checkbox ng-model="content.settings.home.widgets.top_comments">Top comments</md-checkbox>
 				    <md-checkbox ng-model="content.settings.home.widgets.top_motions">Top {{ 'MOTIONS' | translate | lowercase }}</md-checkbox>
 			    </div>
-		    
+
 				<spinner ng-click="content.service.saveTypeOf('home.widgets', content.settings.home.widgets)" name="'Save'" on-hide="content.settings.saving"></spinner>
 			</div>
 

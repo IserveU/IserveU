@@ -7,6 +7,7 @@ angular
 .factory('Motion', [
 	'motionIndex',
 	'motionResource',
+	'fileResource',
 	'MotionComments',
 	'MotionFile',
 	'MotionVotes',
@@ -14,7 +15,7 @@ angular
 	'ToastMessage',
 	'SETTINGS_JSON',
 	'utils',
-function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $state, ToastMessage, SETTINGS_JSON, utils){
+function(motionIndex, motionResource, fileResource, MotionComments, MotionFile, MotionVotes, $state, ToastMessage, SETTINGS_JSON, utils){
 
 	function Motion(motionData) {
 		if(motionData) {
@@ -38,6 +39,7 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		},
 
 		refreshExtensions: function() {
+			this.getMotionFiles();
 			this.getMotionComments();
 			this.getMotionVotes();
 			this.reloadMotionIndex();
@@ -99,9 +101,12 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 		*	Get the motion files associated with this Motion.
 		*/
 		getMotionFiles: function(id) {
+			console.log('getMotionFiles');
 			var self = this;
 			id = id || self.id;
-			motionResource.getMotionFiles(id).then(function(result){
+
+			fileResource.getFiles(id).then(function(result){
+				console.log(result);
 				var motionFiles = [];
 
 				for(var i in result) {
@@ -117,8 +122,26 @@ function(motionIndex, motionResource, MotionComments, MotionFile, MotionVotes, $
 				if(motionFiles.length > 0){
 					self.setData({motionFiles: motionFiles});
 				}
+			})
 
-			});
+			// motionResource.getMotionFiles(id).then(function(result){
+			// 	var motionFiles = [];
+
+			// 	for(var i in result) {
+			// 		// $$promise being created in the array
+			// 		// anyway to strip this out from the return?
+			// 		// ninstead of filter? also probably enhance this contract ..
+			// 		if(result[i].id) {
+			// 			var motionFile = new MotionFile(result[i]);
+			// 			motionFiles.push(motionFile);
+			// 		}
+			// 	}
+
+			// 	if(motionFiles.length > 0){
+			// 		self.setData({motionFiles: motionFiles});
+			// 	}
+
+			// });
 		},
 
 		/**

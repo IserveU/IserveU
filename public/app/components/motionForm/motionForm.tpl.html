@@ -32,17 +32,18 @@
 					<textarea alloy-editor flow-init class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
 				</div>
 
-				<!-- TODO: deprecated, waiting on backend	 -->
-<!-- 				<div has-permission="create-motion">
+				<div has-permission="create-motion">
 					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
 						<h3 class="title-header">Resources</h3>
 
-					<isu-file-upload
-					isu-bind-files="form.motionFiles"
-					isu-existing-files="{{form.existingMotionFiles}}">
-					</isu-file-upload>
+						<isu-file-upload
+							isu-bind-endpoint="/api/motion/{{form.motion.id}}/file"
+							isu-bind-files="form.motionFiles"
+							isu-existing-files="{{form.existingMotionFiles}}">
+						</isu-file-upload>
+						<p class="md-caption">pdf, doc, docx, etc.</p>
 				</div>
- -->
+
 				<div>
 					<md-icon class="mdi mdi-view-list title-icon"></md-icon>
 						<h3 class="title-header">Options</h3>

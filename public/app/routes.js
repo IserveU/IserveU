@@ -60,25 +60,8 @@
                 requireLogin: true,
                 moduleMotion: true
             },
-            onExit: ['$rootScope', '$mdDialog', '$stateParams', 'motionResource', function($rootScope, $mdDialog, $stateParams, motionResourcen) {
-
+            onExit: ['$rootScope', function($rootScope) {
                 $rootScope.preventStateChange = true;
-                console.log('on exit');
-
-                // Appending dialog to document.body to cover sidenav in docs app
-                // var confirm = $mdDialog.confirm()
-                //       .title('Would you like to discard this draft?')
-                //       .textContent('Your changes and draft will not be saved.')
-                //       .ariaLabel('Navigate away from create-motion')
-                //       .ok('Please do it!')
-                //       .cancel('No thanks.');
-
-                // $mdDialog.show(confirm).then(function() {
-                //     motionResource.deleteMotion($stateParams.id);
-                //     $rootScope.preventStateChange = false;
-                // }, function() {
-                //     $rootScope.preventStateChange = true;
-                // });
             }]
         })
         .state('my-motions', {
@@ -103,14 +86,15 @@
                 requirePermissions: ['administrate-motion']
             }
         })
-       .state( 'create-page', {
-            url: '/create-page',
-            template: '<create-page-content></create-page-content>',
-            data: {
-                requireLogin: true,
-                requirePermissions: ['create-motion']
-            }
-        })
+        // @depcrecated
+       // .state( 'create-page', {
+       //      url: '/create-page',
+       //      template: '<create-page-content autopost="true"></create-page-content>',
+       //      data: {
+       //          requireLogin: true,
+       //          requirePermissions: ['create-motion']
+       //      }
+       //  })
         .state( 'user', {
             url: '/user/:id',
             template: '<display-profile></display-profile>',

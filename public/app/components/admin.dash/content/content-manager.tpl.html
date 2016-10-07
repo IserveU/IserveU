@@ -1,134 +1,94 @@
-<md-content class="content-manager">
+ <md-list ng-cloak flex>
+      <md-subheader class="md-no-sticky">Content</md-subheader>
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Site Name</h3>
+            <h4>{{ settingsGlobal.site.name }}</h4>  <!-- help -->
+            <p>*Name of your site. Displays at the top of the browser name.</p>
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
+        <md-divider></md-divider>
 
-	<md-card>
-		<md-card-content layout-padding>
-		
-		<div class="title" ng-click="showCustomPages = !showCustomPages">
-		<md-icon class="mdi mdi-file-multiple title-icon"></md-icon>
-			<h3 class="title-header">Custom Pages</h3>
-		</div>
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Social Media Links</h3>
+            <div>
+              <ul style="list-style-type: none;">
+                <li><md-icon class="mdi mdi-twitter"></md-icon>Twitter</li>
+                <li><md-icon class="mdi mdi-facebook"></md-icon>Facebook</li>
+                <li><md-icon class="mdi mdi-home"></md-icon>Homepage</li>
+              </ul>
+            </div>
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
-		<div ng-if="showCustomPages">
-	    <ul ng-repeat="page in content.pages.index">
-		    <li>
-		    	<a ng-bind="page.title" ui-sref="pages({id:page.slug})"></a>
-			    	<md-icon ui-sref="edit-page({id:page.slug})" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
-			    	<md-icon ng-click="content.deletePage(page.slug)" class="mdi mdi-delete inline-icon"></md-icon>
-		    </li>
-	    </ul>
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Terms & Conditions</h3>
+            <h4>{{ settingsGlobal.site.terms | limitTo: 255 }} ...</h4>  <!-- ellispises off at a certain ## -->
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
-		    <div style="margin-bottom: 8px">
-				<a style="cursor:pointer" ui-sref="create-page">Create new page</a>
-					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
-			</div>
+        <md-divider></md-divider>
 
-	    </div>
-		</md-card-content>
-	</md-card>
+        <md-subheader class="md-no-sticky">Appearance</md-subheader>
 
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Logo & favicon</h3>
+            <h4><md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon></h4>
+            <p>* Your organization's logo. Displays in the corner.</p>
+          </div>
 
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Login image</h3>
+            <h4>IserveU</h4>  <!-- help -->
+            <p>*Name of your site. Displays at the top of the browser name.</p>
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Background Image</h3>
+            <h4>IserveU</h4>  <!-- help -->
+            <p>*Name of your site. Displays at the top of the browser name.</p>
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
-	<md-card>
-		<md-card-content layout-padding>
+        <md-list-item class="md-3-line" flex layout-padding>
+          <div class="md-list-item-text">
+            <h3>Theme</h3>
+            <h4>IserveU</h4>  <!-- help -->
+            <p>*Name of your site. Displays at the top of the browser name.</p>
+          </div>
+          <md-button class="md-icon-button md-secondary">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+        </md-list-item>
 
-		<div class="title" ng-click="showSiteModules = !showSiteModules">
-		<md-icon class="mdi mdi-view-quilt title-icon"></md-icon>
-			<h3 class="title-header">Site Modules</h3>
-		</div>
+        <md-divider></md-divider>
 
-		<div ng-if="showSiteModules" layout="column" style="margin-top: 15px">
-		    <md-checkbox ng-model="content.settings.module.motions">{{ 'MOTIONS' | translate }}</md-checkbox>
-		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
-		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
-	   
-			<spinner ng-click="content.service.saveTypeOf('module', content.settings.module)" name="'Save'" on-hide="content.settings.saving"></spinner>
-	    
-	    </div>
-
-	    </md-card-content>
-	</md-card>
-
-
-
-
-
-    <!-- TODO: this whole god damn thing -->
-	<md-card>
-		<md-card-content layout-padding>
-		<div class="title" ng-click="showSiteJargon = !showSiteJargon">
-			<md-icon class="mdi mdi-alpha title-icon"></md-icon>
-			<h3 class="title-header">Site Jargon</h3>
-		</div>
-
-		<div layout="column" ng-if="showSiteJargon">
-
-			<h2 class="title-subhead">English</h2>
-
-				<md-input-container>
-					<label>Singular</label>
-					<input type='text' ng-model='content.settings.jargon.en.motion'/>
-				</md-input-container>
-
-				<md-input-container>
-					<input type='text' ng-model='content.settings.jargon.en.department'/>
-				</md-input-container>
-
-
-				<md-input-container>
-					<label>Plural</label>
-					<input type='text' ng-model='content.settings.jargon.en.motions'/>
-				</md-input-container>
-
-				<md-input-container>
-					<input type='text' ng-model='content.settings.jargon.en.departments'/>
-				</md-input-container>
-
-			<h2 class="title-subhead">French</h2>
-
-				<md-input-container>
-					<label>Singulier</label>
-					<input type='text' ng-model='content.settings.jargon.fr.motion'/>
-				</md-input-container>
-
-				<md-input-container>
-					<input type='text' ng-model='content.settings.jargon.fr.department'/>
-				</md-input-container>
-
-				<md-input-container>
-					<label>Pluriel</label>
-					<input type='text' ng-model='content.settings.jargon.fr.motions'/>
-				</md-input-container>
-
-				<md-input-container>
-					<input type='text' ng-model='content.settings.jargon.fr.departments'/>
-				</md-input-container>
-
-
-			<spinner ng-click="content.service.saveTypeOf('jargon', content.settings.jargon)" name="'Save'" on-hide="content.settings.saving"></spinner>
-
-		</div>
-
-		</md-card-content>
-	</md-card>
-
-
-
-	<md-card>
-		<md-card-content layout-padding>
-		<div class="title" ng-click="showTermsAndConditions = !showTermsAndConditions">
-			<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
-			<h3 class="title-header">Terms & Conditions</h3>
-		</div>
-		<div ng-if="showTermsAndConditions" layout="column">
-	
-			<textarea alloy-editor id="terms-conditions-editor" ng-model="content.settings.site.terms"></textarea>
-			<spinner ng-click="content.service.saveTypeOf('site.terms', content.settings.site.terms);" name="'Save'" on-hide="content.settings.saving"></spinner>
-
-		</div>
-		</md-card-content>
-	</md-card>
-	
-
-</md-content>
+      <md-subheader class="md-no-sticky">Language</md-subheader>
+      <md-list-item class="md-2-line" flex></md-list-item>
+  </md-list>

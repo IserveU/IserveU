@@ -21,12 +21,14 @@
 		.run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams', '$state', '$mdDialog', 'motionResource',
 			function($rootScope, $window, $timeout, $globalProvider, $stateParams, $state, $mdDialog, motionResource) {
 
-                $rootScope.preventStateChange = false;
+        $rootScope.preventStateChange = false;
+
 				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
                     console.log($rootScope.preventStateChange);
                     console.log(toState);
-                    if(fromState.name === 'create-motion' && $stateParams.id) {
+
+                    if(!$rootScope.preventStateChange && fromState.name === 'create-motion' && $stateParams.id) {
                         event.preventDefault();
 
                         var confirm = $mdDialog.confirm()
@@ -40,10 +42,27 @@
                         $mdDialog.show(confirm).then(function() {
                             motionResource.deleteMotion($stateParams.id);
                             $stateParams.id = null;
-                            $state.go(toState.name);
+                            $state.go(toState.name || 'home');
                         }, function() {
                         });
 
+                    } else if(fromState.name === 'create-page' && $stateParams.id) {
+                        event.preventDefault();
+
+                        var confirm = $mdDialog.confirm()
+                              .parent(angular.element(document.body))
+                              .title('Would you like to discard this draft?')
+                              .textContent('Your changes and draft will not be saved.')
+                              .ariaLabel('Navigate away from create-motion')
+                              .ok('Please do it!')
+                              .cancel('No thanks.');
+
+                        $mdDialog.show(confirm).then(function() {
+                            pageService.destroy($stateParams.id);
+                            $stateParams.id = null;
+                            $state.go(toState.name || 'home');
+                        }, function() {
+                        });
                     } else {
 
     					$globalProvider.checkUser();

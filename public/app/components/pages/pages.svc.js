@@ -5,10 +5,10 @@
 
 	angular
 		.module('iserveu')
-		.factory('pageService', ['$http', '$state', pageServiceFactory]);
+		.factory('pageService', ['$http', '$state', '$stateParams', pageServiceFactory]);
 
   	 /** @ngInject */
-	function pageServiceFactory($http, $state) {
+	function pageServiceFactory($http, $state, $stateParams) {
 
 		var Page = {
 
@@ -18,18 +18,21 @@
 			index: {},
 			pageLoading: true,
 			processing: false,
-			initLoad: function(type) {
+			initLoad: function(slug) {
 				Page.pageLoading = true;
 
-				$http.get('/api/page/'+type).then(function(r){
+				$http.get('/api/page/'+slug).then(function(r){
 
-					if(r.data[0]){
-						Page.title = r.data[0].title;
-						Page.content = r.data[0].content;
-						Page.slug = r.data[0].slug;
+					var body = r.data || r;
+
+					if(body){
+						Page.id = body.id;
+						Page.title = body.title;
+						Page.content = body.content;
+						Page.slug = body.slug;
+						$stateParams.slug = body.slug;
 					}
 
-		
 					Page.pageLoading = false;
 				});
 			},
@@ -38,12 +41,23 @@
 					Page.index = r.data;
 				});
 			},
+			create: function(data) {
+				return $http.post('/api/page', data).then(function(r){
+					return r;
+				});
+			},
+			destroy: function(slug) {
+				return $http.delete('/api/page/'+slug).then(function(r){
+					return r;
+				});
+			},
 			save: function(data) {
 				console.log(data);
 				$http.post('/api/page', data).then(function(r){
+					var body = r.data || data;
 					Page.getIndex();
 					Page.processing = false;
-					$state.go('pages', {id: r.slug});
+					$state.go('pages', {id: body.slug});
 
 				});
 			},
@@ -56,9 +70,10 @@
 			},
 			update: function(slug, data) {
 				$http.patch('/api/page/'+slug, data).then(function(r){
+					var body = r.data || data;
 					Page.getIndex();
 					Page.processing = false;
-					$state.go('pages', {id: r.slug});
+					$state.go('pages', {id: body.slug});
 				});
 			}
 		}
