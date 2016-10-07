@@ -7,10 +7,10 @@
 
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
-        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('favicon','default')?>"> 
+        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('favicon','default')?>">
 
         <!-- Alloy Editor Dependencies -->
-        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>
         <script src="<?=elixir('js/dependencies.js')?>"></script>
         <script src="<?=elixir('js/app.js')?>"></script>
         <script>
@@ -18,7 +18,7 @@
         </script>
     </head>
 
-    <body ng-cloak=""> 
+    <body ng-cloak="">
         <!-- Headers -->
         <beta-message ng-if="settingsGlobal.themename === 'default'"></beta-message>
         <user-bar ng-if="!isLoginState"></user-bar>
@@ -28,7 +28,7 @@
             <md-sidenav ng-if="!isLoginState && settingsGlobal.module.motions"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 role="navigation"
-                md-component-id="left" 
+                md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
                 <motion-sidebar flex></motion-sidebar>
             </md-sidenav>
@@ -40,5 +40,5 @@
                 <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>
             </md-content>
         </div>
-    </body>        
-</html> 
+    </body>
+</html>
