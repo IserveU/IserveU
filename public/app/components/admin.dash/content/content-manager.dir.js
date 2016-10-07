@@ -13,17 +13,9 @@
 
 		function contentController() {
 
-			this.pages = pageService;
-			this.service = settings;
-			this.settings = settings.getData();
 
-			this.deletePage = function(slug) {
-				ToastMessage.destroyThis("page", function() {
-					pageService.delete(slug);
-				});
-			};
 
-		};
+		}
 
 
 		return {

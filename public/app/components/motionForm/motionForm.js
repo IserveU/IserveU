@@ -5,6 +5,7 @@
 	angular
 		.module('iserveu')
 		.directive('motionForm', [
+			'$rootScope',
 			'$state',
 			'$stateParams',
 			'$timeout',
@@ -13,13 +14,14 @@
 			'Motion',
 			'motionResource',
 			'motionFileResource',
+			'fileResource',
 			'ToastMessage',
 			'motionDepartments',
 			'motionFilesFactory',
 			'Authorizer',
 		motionForm]);
 
-	function motionForm($state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionResource, motionFileResource,
+	function motionForm($rootScope, $state, $stateParams, $timeout, $translate, isuSectionProvider, Motion, motionResource, motionFileResource, fileResource,
 		ToastMessage, motionDepartments, motionFilesFactory, Authorizer) {
 
 		function motionFormController($scope) {
@@ -51,6 +53,7 @@
 	        	/** deprecrated */
 	            // motionFilesFactory.attach(r.id, self.motionFiles);
 
+	            $rootScope.preventStateChange = true;
 	            self.motion.setData(r).refreshExtensions();
 
 	            if(self.motion.id) {
@@ -78,6 +81,11 @@
 
 				self.motion = Motion.get($stateParams.id);
 
+				fileResource.getFiles($stateParams.id).then(function(r){
+					console.log(r);
+					self.existingMotionFiles = r;
+				});
+
 				// TODO: motionFileResource no longer exists
 	   //   		motionFileResource.getMotionFiles($stateParams.id).then(function(r){
 				// 	self.existingMotionFiles = r;
@@ -96,7 +104,7 @@
 				isuSectionProvider.callMethodToApi(motion).then(function(success){
 					console.log(success);
 					$stateParams.id = success.id;
-
+					self.motion = new Motion(success);
 					console.log($stateParams);
 				}, function(error){
 				});

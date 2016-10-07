@@ -1,0 +1,134 @@
+<md-content class="content-manager">
+
+	<md-card>
+		<md-card-content layout-padding>
+		
+		<div class="title" ng-click="showCustomPages = !showCustomPages">
+		<md-icon class="mdi mdi-file-multiple title-icon"></md-icon>
+			<h3 class="title-header">Custom Pages</h3>
+		</div>
+
+		<div ng-if="showCustomPages">
+	    <ul ng-repeat="page in content.pages.index">
+		    <li>
+		    	<a ng-bind="page.title" ui-sref="pages({id:page.slug})"></a>
+			    	<md-icon ui-sref="edit-page({id:page.slug})" class="mdi mdi-pencil inline-icon" style="left: 5px !important"></md-icon>
+			    	<md-icon ng-click="content.deletePage(page.slug)" class="mdi mdi-delete inline-icon"></md-icon>
+		    </li>
+	    </ul>
+
+		    <div style="margin-bottom: 8px">
+				<a style="cursor:pointer" ui-sref="create-page">Create new page</a>
+					<md-icon class="mdi mdi-plus inline-icon" style="bottom: -2px !important"></md-icon>
+			</div>
+
+	    </div>
+		</md-card-content>
+	</md-card>
+
+
+
+
+
+	<md-card>
+		<md-card-content layout-padding>
+
+		<div class="title" ng-click="showSiteModules = !showSiteModules">
+		<md-icon class="mdi mdi-view-quilt title-icon"></md-icon>
+			<h3 class="title-header">Site Modules</h3>
+		</div>
+
+		<div ng-if="showSiteModules" layout="column" style="margin-top: 15px">
+		    <md-checkbox ng-model="content.settings.module.motions">{{ 'MOTIONS' | translate }}</md-checkbox>
+		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
+		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
+	   
+			<spinner ng-click="content.service.saveTypeOf('module', content.settings.module)" name="'Save'" on-hide="content.settings.saving"></spinner>
+	    
+	    </div>
+
+	    </md-card-content>
+	</md-card>
+
+
+
+
+
+    <!-- TODO: this whole god damn thing -->
+	<md-card>
+		<md-card-content layout-padding>
+		<div class="title" ng-click="showSiteJargon = !showSiteJargon">
+			<md-icon class="mdi mdi-alpha title-icon"></md-icon>
+			<h3 class="title-header">Site Jargon</h3>
+		</div>
+
+		<div layout="column" ng-if="showSiteJargon">
+
+			<h2 class="title-subhead">English</h2>
+
+				<md-input-container>
+					<label>Singular</label>
+					<input type='text' ng-model='content.settings.jargon.en.motion'/>
+				</md-input-container>
+
+				<md-input-container>
+					<input type='text' ng-model='content.settings.jargon.en.department'/>
+				</md-input-container>
+
+
+				<md-input-container>
+					<label>Plural</label>
+					<input type='text' ng-model='content.settings.jargon.en.motions'/>
+				</md-input-container>
+
+				<md-input-container>
+					<input type='text' ng-model='content.settings.jargon.en.departments'/>
+				</md-input-container>
+
+			<h2 class="title-subhead">French</h2>
+
+				<md-input-container>
+					<label>Singulier</label>
+					<input type='text' ng-model='content.settings.jargon.fr.motion'/>
+				</md-input-container>
+
+				<md-input-container>
+					<input type='text' ng-model='content.settings.jargon.fr.department'/>
+				</md-input-container>
+
+				<md-input-container>
+					<label>Pluriel</label>
+					<input type='text' ng-model='content.settings.jargon.fr.motions'/>
+				</md-input-container>
+
+				<md-input-container>
+					<input type='text' ng-model='content.settings.jargon.fr.departments'/>
+				</md-input-container>
+
+
+			<spinner ng-click="content.service.saveTypeOf('jargon', content.settings.jargon)" name="'Save'" on-hide="content.settings.saving"></spinner>
+
+		</div>
+
+		</md-card-content>
+	</md-card>
+
+
+
+	<md-card>
+		<md-card-content layout-padding>
+		<div class="title" ng-click="showTermsAndConditions = !showTermsAndConditions">
+			<md-icon class="mdi mdi-information-outline title-icon"></md-icon>
+			<h3 class="title-header">Terms & Conditions</h3>
+		</div>
+		<div ng-if="showTermsAndConditions" layout="column">
+	
+			<textarea alloy-editor id="terms-conditions-editor" ng-model="content.settings.site.terms"></textarea>
+			<spinner ng-click="content.service.saveTypeOf('site.terms', content.settings.site.terms);" name="'Save'" on-hide="content.settings.saving"></spinner>
+
+		</div>
+		</md-card-content>
+	</md-card>
+	
+
+</md-content>

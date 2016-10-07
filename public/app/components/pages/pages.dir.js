@@ -22,8 +22,8 @@
 			this.service = pageService;
 			this.loading = "loading";
 
-	/****** Exports =================================================== */
-	
+	/***=== Exports =================================================== */
+
 			this.create  = create;
 			this.edit    = edit;
 			this.destroy = destroy;
@@ -42,7 +42,7 @@
 				});
 			};
 
-	/****** Initialization ============================================ */
+	/***=== Initialization ============================================ */
 			(function init() {
 				UserbarService.title = pageService.title;
 				pageService.initLoad($stateParams.id);
@@ -52,7 +52,7 @@
 		return {
 			controller: pageController,
 			controllerAs: 'page',
-			templateUrl: 'app/components/pages/pages.tpl.html' 
+			templateUrl: 'app/components/pages/pages.tpl.html'
 		}
 
 	}

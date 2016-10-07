@@ -4,9 +4,9 @@
 
 angular
 .module('iserveu')
-.directive('alloyEditor', ['$rootScope', '$timeout', '$stateParams', 'alloyService', 'regexService', 'debouncer',  'CSRF_TOKEN', alloyEditor]);
+.directive('alloyEditor', ['$rootScope', '$timeout', '$state', '$stateParams', 'alloyService', 'regexService', 'debouncer',  'CSRF_TOKEN', alloyEditor]);
 
-    function alloyEditor($rootScope, $timeout, $stateParams, alloyService, regexService, debouncer, CSRF_TOKEN) {
+    function alloyEditor($rootScope, $timeout, $state, $stateParams, alloyService, regexService, debouncer, CSRF_TOKEN) {
 
         function alloyLink(scope, el, attrs, ngModel) {
 
@@ -59,8 +59,11 @@ angular
                     console.log(scope.$flow);
                     console.log(event);
 
-                    var motion_id = $stateParams.id;
-                    var endpoint  = '/api/motion/'+motion_id+'/file/';
+                    var item_id = $stateParams.slug || $stateParams.id;
+                    console.log($state);
+                    var parent_name = $state.current.name;
+                    parent_name = parent_name.split('-')[1];
+                    var endpoint  = '/api/'+parent_name+'/'+item_id+'/file/';
 
                     scope.$flow.opts.target  = endpoint;
                     scope.$flow.opts.headers = {
@@ -74,7 +77,7 @@ angular
                     scope.$flow.on('fileSuccess', function(file, message) {
                         console.log(message);
                         var file = JSON.parse(message);
-                        event.data.el.setAttribute('src', endpoint + file.id + '/1920');
+                        event.data.el.setAttribute('src', endpoint+file.slug+'/resize/1920');
                     });
 
                     scope.$flow.on('fileError', function(file, message) {

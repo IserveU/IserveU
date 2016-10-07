@@ -1,0 +1,52 @@
+<md-content class="content-manager">
+
+    <md-card>
+        <md-card-content layout-padding>
+
+        <md-list ng-cloak flex>
+            <md-list-item class="md-2-line" ui-sref="edit-home" flex>
+                <md-icon class="mdi mdi-home" style="margin-bottom: 28px"></md-icon>
+                <p>Home</p>
+            </md-list-item>
+
+
+            <md-list-item ng-repeat="page in pageManager.pages.index" ui-sref="edit-page({id:page.slug})" class="md-2-line" flex>
+                <div class="md-list-item-text md-offset">
+                    <h3>{{ ::page.title }}</h3>
+                    <p>
+                </div>
+                <md-button class="md-icon-button md-secondary" ng-click="pageManager.deletePage(page.slug)">
+                    <md-icon class="mdi mdi-delete"></md-icon>
+                </md-button>
+            </md-list-item>
+
+
+            <md-list-item class="md-2-line" flex>
+                <div ng-hide="createPage" class="md-list-item-text" ng-click="createPage = !createPage">
+                    <div class="md-list-item-text">Create a new page</div>
+                    <md-button ng-hide="createPage" class="md-icon-button md-secondary">
+                        <md-icon class="mdi mdi-plus"></md-icon>
+                    </md-button>
+                </div>
+
+                <div ng-show="createPage" class="md-list-item-text" >
+                    <md-input-container flex>
+                        <label>Title</label>
+                        <input type="text" ng-model="pageManager.newPage.title">
+                    </md-input-container>
+                    <p class="md-caption">*Name your page</p>
+                    <div layout="row" layout-align="center center">
+                        <spinner ng-click="pageManager.createPage()" name="'Save'" on-hide="pageManager.saving"></spinner>
+                        <md-button ng-click="createPage = !createPage">Cancel</md-button>
+                    </div>
+                </div>
+            </md-list-item>
+
+        </md-list>
+
+
+        </md-card-content>
+    </md-card>
+
+</md-content>
+

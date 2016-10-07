@@ -20,12 +20,13 @@
 	  function MotionController($scope) {
 
 	  		/**
-	  		*	Prototypical function from Motion model to load motion. 
+	  		*	Prototypical function from Motion model to load motion.
 	  		*	Attempts to get from motionIndex object, if there is
 	  		*	no motion it will pull from the API and create a new
 	  		*   Motion model and reinsert that into the index.
 	  		*/
 			$scope.motion = Motion.get( $stateParams.id );
+			console.log($scope.motion);
 
 			function create() {
 				$state.go('create-motion');
@@ -40,12 +41,12 @@
                     motionResource.deleteMotion($stateParams.id).then(function() {
                         $state.go('home', {}, {reload: true});
                         motionIndex._load();
-                    });        	
+                    });
 	        	});
 	        };
 
 		    function isThisUsers(user) {
-	        	if(Authorizer.canAccess('administrate-motion')) 
+	        	if(Authorizer.canAccess('administrate-motion'))
 	        		return true;
 	        	else if( $rootScope.userIsLoggedIn && ($rootScope.authenticatedUser.id === user) )
 	        		return true;

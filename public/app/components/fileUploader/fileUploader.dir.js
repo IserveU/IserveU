@@ -6,7 +6,7 @@
 (function() {
 
 	'use strict';
-	
+
 	angular
 		.module('iserveu')
 		.directive('isuFileUpload', ['isuSectionProvider', isuFileUploader]);
@@ -14,12 +14,11 @@
 	function isuFileUploader(isuSectionProvider) {
 
 		function isuFileUploaderController($scope, $attrs) {
-
 			// loads in existing files
 			var unbindWatch = $scope.$watch(function(){
 				return $scope.$eval($attrs.isuExistingFiles);
 			}, function(a){
-				if(a.length > 0) { 
+				if(a.length > 0) {
 					$scope.existingFiles = a;
 					unbindWatch();
 				}
@@ -28,10 +27,11 @@
 			$scope.fileArrayIds = [];
 			$scope.fileUploading = [];
 
-			$scope.changeProp = function(id, prop) {
-				if(typeof id !== 'number')
-					id = JSON.parse(id).id;
-				fileApiMethod(id, 'PATCH', prop);
+			$scope.changeProp = function(file, prop) {
+				console.log(file);
+				if(typeof file !== 'number')
+					file = file.slug || JSON.parse(file).slug;
+				fileApiMethod(file, 'PATCH', prop);
 			};
 
 			$scope.cancel = function(id) {
@@ -64,10 +64,11 @@
 			};
 
 			// private method
-			function fileApiMethod(id, method, data) {
-				angular.extend(isuSectionProvider.defaults, 
-					{target: isuSectionProvider.defaults.fileEndpoint+'/'+id, 
-					method: method});
+			function fileApiMethod(slug, method, data) {
+				angular.extend(isuSectionProvider.defaults, {
+					target: $attrs.isuBindEndpoint+'/'+slug,
+					method: method
+				});
 
 				isuSectionProvider.callMethodToApi(data);
 			}
@@ -75,20 +76,34 @@
 			// ngflow methods
 			var index = 0, oIndex,
 			ngFlowFunctions = {
-				flowInit: {target: isuSectionProvider.defaults.fileEndpoint, testChunks: false},
+				flowInit: {
+					target: isuSectionProvider.defaults.fileEndpoint,
+					headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('api_token')
+					},
+					testChunks: false
+				},
 				successHandler: function(msg) {
-					$scope.fileArrayIds.push( JSON.parse(msg).id );
+					$scope.fileArrayIds.push( JSON.parse(msg).slug );
 				},
 				errorHandler: function($file, $message, $flow) {
 					console.warn($file + ' could not be uploaded');
 				},
-				multipleFiles: function() { oIndex = angular.copy(index);},
-				started: function() { $scope.fileUploading[index] = 0; },
+				multipleFiles: function($files, $flow) {
+					$flow.opts.target = $attrs.isuBindEndpoint;
+					$flow.opts.query  = {
+						title: $files[0].name,
+					};
+				 	oIndex = angular.copy(index);
+				},
+				started: function($flow) {
+					$scope.fileUploading[index] = 0;
+				},
 				progress: function() {
 					$scope.fileUploading[index] = 90;
 					index += 1;
 				},
-				complete: function() { 
+				complete: function() {
 					for(var i = oIndex; i < index; i++)
 						$scope.fileUploading[i] = 100;
 				}
