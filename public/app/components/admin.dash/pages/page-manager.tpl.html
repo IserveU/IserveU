@@ -10,12 +10,12 @@
             </md-list-item>
 
 
-            <md-list-item ng-repeat="page in content.pages.index" ui-sref="edit-page({id:page.slug})" class="md-2-line" flex>
+            <md-list-item ng-repeat="page in pageManager.pages.index" ui-sref="edit-page({id:page.slug})" class="md-2-line" flex>
                 <div class="md-list-item-text md-offset">
                     <h3>{{ ::page.title }}</h3>
                     <p>
                 </div>
-                <md-button class="md-icon-button md-secondary" ng-click="content.deletePage(page.slug)">
+                <md-button class="md-icon-button md-secondary" ng-click="pageManager.deletePage(page.slug)">
                     <md-icon class="mdi mdi-delete"></md-icon>
                 </md-button>
             </md-list-item>
