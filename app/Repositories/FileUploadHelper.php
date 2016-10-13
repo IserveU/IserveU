@@ -195,7 +195,8 @@ class FileUploadHelper{
 
         //create configurations and request for file chunks.  
         $config = new FlowConfig(array(
-            'tempDir' => storage_path('app/flowtmp')
+            'tempDir'               =>      storage_path('app/flowtmp'),
+            'deleteChunksOnSave'    =>      false //Occasional race condition to delete files       
         ));
 
         $flowRequest = new FlowRequest();

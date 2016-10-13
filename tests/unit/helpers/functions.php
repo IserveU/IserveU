@@ -92,9 +92,8 @@
 
 	function createClosingDate()
 	{
-		$closing = new DateTime();
 	    
-	    return ['closing_at' => $closing->add(new DateInterval('P7D'))];
+	    return ['closing_at' => \Carbon\Carbon::now()->addDays(7)];
 	}
 
 

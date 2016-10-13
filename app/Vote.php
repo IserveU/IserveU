@@ -104,15 +104,17 @@ class Vote extends NewApiModel implements CachedModel {
     }
 
     public function setVisibility(){
+     	
+     	if($this->user->publiclyVisible){
+			$this->addVisible(['id','position','motion_id','id','deferred_to_id']);
+        }
 
         //If self or show-other-private-user
         if(Auth::check() && Auth::user()->id==$this->user_id){
-            $this->setVisible(['id','position','motion_id','user_id','deferred_to_id','visited']);
+            $this->addVisible(['id','position','motion_id','user_id','deferred_to_id','visited','updated_at']);
         }
 
-        if($this->user->publiclyVisible){
-			$this->setVisible(['id','position','motion_id','id','deferred_to_id']);
-        }
+   
 
 
         return $this;

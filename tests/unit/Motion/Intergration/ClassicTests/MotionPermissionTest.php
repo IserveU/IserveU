@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Carbon\Carbon;
+
 class MotionPermissionTest extends TestCase
 {
     use DatabaseTransactions;    
@@ -197,13 +199,10 @@ class MotionPermissionTest extends TestCase
     
         $toUpdate = factory(App\Motion::class)->create();
 
-        // Create new Closing Date
-        $updated = createClosingDate();
 
-        $this->patch('/api/motion/'.$toUpdate->id, $updated)
+        $this->patch('/api/motion/'.$toUpdate->id, ['closing_at'=>Carbon::tomorrow()])
             ->assertResponseStatus(200);
 
-        $this->seeInDatabase('motions', ['title' => $toUpdate->title, 'closing_at' => $updated['closing_at']]);
     }
 
     /** @test */

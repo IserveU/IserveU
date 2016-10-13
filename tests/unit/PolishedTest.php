@@ -1,7 +1,7 @@
 <?php
 use App\Role;
 use App\Permission;
-
+use Carbon\Carbon;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 trait PolishedTest
@@ -398,5 +398,68 @@ trait PolishedTest
             $this->skipDatabaseCheck = $this->alwaysHidden;
         }
     }
+
+
+
+    /**
+     * Assert that the JSON response has a given structure.
+     *
+     * @param  integer|0    $expected
+     * @param  array|null   $responseData
+     * @return $this
+     */
+    public function seeNumberOfResults($expected = 0, $responseData = null)
+    {
+        if(!$responseData){
+            $responseData = json_decode($this->response->getContent(), true)['data'];            
+        }
+
+        $this->assertEquals(count($responseData),$expected);
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * Asserts that the JSON response has a given structure.
+     *
+     * @param  string|desc      $order
+     * @param  string|id        $fieldName
+     * @return $this
+     */
+    public function seeOrderInTimeField($order = 'desc', $fieldName="id",$responseData = null)
+    {
+        if(!$responseData){
+            $responseData = json_decode($this->response->getContent(), true)['data'];            
+        }    
+
+        $this->assertTrue(count($responseData)>0);
+
+        $previousClosingAt = Carbon::parse($responseData[0][$fieldName]['carbon']['date']);
+
+        foreach($responseData as $record){
+
+            $thisClosingAt = Carbon::parse($record[$fieldName]['carbon']['date']);
+
+            if($order=='desc'){
+
+                $this->assertTrue(
+                    $thisClosingAt->lte($previousClosingAt)
+                );
+
+            } else {
+
+                $this->assertTrue(
+                    $thisClosingAt->gte($previousClosingAt)
+                );
+            }
+
+            $previousClosingAt = $thisClosingAt;
+        }
+
+    }
+
 
 }
