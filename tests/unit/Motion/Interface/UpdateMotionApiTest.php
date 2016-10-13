@@ -47,22 +47,22 @@ class UpdateMotionApiTest extends MotionApi
 
      /** @test  ******************/
     public function update_motion_with_closing(){
-         $this->updateFieldsGetSee(['title','department_id','closing_at'],200);
+         $this->updateContentGetSee(['closing_at'=>\Carbon\Carbon::tomorrow()],200);
     }
 
      /** @test  ******************/
     public function update_motion_with_user_id(){
-        $this->updateFieldsGetSee(['title','department_id','user_id'],200);
+        $this->updateFieldsGetSee(['user_id'],200);
     }
 
      /** @test  ******************/
     public function update_motion_with_status(){
-        $this->updateFieldsGetSee(['title','department_id','status'],200);        
+        $this->updateFieldsGetSee(['status'],200);        
     }
 
      /** @test  ******************/
     public function update_motion_with_budget(){
-        $this->updateFieldsGetSee(['title','department_id','budget'],200);        
+        $this->updateFieldsGetSee(['budget'],200);        
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

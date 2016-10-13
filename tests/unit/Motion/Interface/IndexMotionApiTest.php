@@ -19,8 +19,12 @@ class IndexMotionApiTest extends MotionApi
 
         if(is_null(static::$motions)){
             static::$motions =   factory(App\Motion::class,25)->create();
+
         }
+        factory(App\Motion::class,5)->create();
     }
+
+
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES 
 
@@ -59,24 +63,8 @@ class IndexMotionApiTest extends MotionApi
     public function motion_filter_by_created_at_ascending(){
         $this->signInAsRole('administrator');
         $this->json('GET',$this->route,['by_created_at'=>'asc'])
-                ->assertResponseStatus(200);
-        $motions = json_decode($this->response->getContent());
-
-        $this->assertTrue(($motions->total>0));
-
-        foreach($motions->data as $motion){
-
-            if(isset($previousCreatedAt)){
-
-                // echo $motion->created_at->carbon->date."\n\n";
-
-                $this->assertTrue(
-                  Carbon::parse($motion->created_at->carbon->date)->gte($previousCreatedAt)
-                );
-            }
-
-            $previousCreatedAt = Carbon::parse($motion->created_at->carbon->date);
-        }
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('asc','created_at');
     }
 
 
@@ -84,24 +72,9 @@ class IndexMotionApiTest extends MotionApi
     public function motion_filter_by_created_at_descending(){
         $this->signInAsRole('administrator');
         $this->json('GET',$this->route,['by_created_at'=>'desc'])
-                ->assertResponseStatus(200);
-        $motions = json_decode($this->response->getContent());
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('desc','created_at');
 
-        $this->assertTrue(($motions->total>0));
-
-        foreach($motions->data as $motion){
-
-            if(isset($previousCreatedAt)){
-
-             //   echo $motion->created_at->carbon->date."\n\n";
-
-                $this->assertTrue(
-                  Carbon::parse($motion->created_at->carbon->date)->lte($previousCreatedAt)
-                );
-            }
-
-            $previousCreatedAt = Carbon::parse($motion->created_at->carbon->date);
-        }
     }
 
 
@@ -110,24 +83,8 @@ class IndexMotionApiTest extends MotionApi
 
         $this->signInAsRole('administrator');
         $this->json('GET',$this->route,['by_closing_at'=>'desc'])
-                ->assertResponseStatus(200);
-        $motions = json_decode($this->response->getContent());
-
-        $this->assertTrue(($motions->total>0));
-
-        foreach($motions->data as $motion){
-
-            if(isset($previousClosingAt)){
-
-               // echo $motion->closing_at."\n\n";
-
-                $this->assertTrue(
-                  Carbon::parse($motion->closing_at)->lte($previousClosingAt)
-                );
-            }
-
-            $previousClosingAt = Carbon::parse($motion->closing_at);
-        }
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('desc','closing_at');
     }
 
 
@@ -136,24 +93,9 @@ class IndexMotionApiTest extends MotionApi
 
         $this->signInAsRole('administrator');
         $this->json('GET',$this->route,['by_closing_at'=>'asc'])
-                ->assertResponseStatus(200);
-        $motions = json_decode($this->response->getContent());
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('asc','closing_at');
 
-        $this->assertTrue(($motions->total>0));
-
-        foreach($motions->data as $motion){
-
-            if(isset($previousClosingAt)){
-
-              //  echo $motion->closing_at."\n\n";
-
-                $this->assertTrue(
-                  Carbon::parse($motion->closing_at)->gte($previousClosingAt)
-                );
-            }
-
-            $previousClosingAt = Carbon::parse($motion->closing_at);
-        }
     }
 
 

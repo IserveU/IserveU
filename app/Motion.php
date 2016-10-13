@@ -191,6 +191,23 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
     }
 
 	/************************************* Getters & Setters ****************************************/
+   
+
+    /**
+     * Converts the date/time to a handy set of date details
+     * @param  String $attr String of date to be parsed
+     * @return Array
+     */
+    public function getClosingAtAttribute($attr) {        
+        $carbon = Carbon::parse($attr);
+
+        return array(
+            'diff'          =>      $carbon->diffForHumans(),
+            'alpha_date'    =>      $carbon->format('j F Y'),
+            'carbon'        =>      $carbon
+        );
+    }
+
 
 	public function setClosingAtAttribute($value){
 		if(!$this->votes->isEmpty()){
@@ -214,7 +231,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel{
 		if($this->attributes['status'] != 'published') return false;
 		
 
-		if($this->closing_at->lt(Carbon::now())){
+		if($this->closing_at['carbon']->lt(Carbon::now())){
 			$this->attributes['status'] = 'closed';
 			$this->save();
 			return false;

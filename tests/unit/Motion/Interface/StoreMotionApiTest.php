@@ -40,7 +40,7 @@ class StoreMotionApiTest extends MotionApi
 
      /** @test  ******************/
     public function store_motion_with_closing(){
-         $this->storeFieldsGetSee(['title','department_id','closing_at'],200);
+         $this->storeContentGetSee(['closing_at'=>\Carbon\Carbon::tomorrow()],200);
     }
 
      /** @test  ******************/
