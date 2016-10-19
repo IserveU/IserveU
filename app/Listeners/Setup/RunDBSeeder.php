@@ -3,8 +3,6 @@
 namespace App\Listeners\Setup;
 
 use App\Events\Setup\Initialize;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RunDBSeeder
 {
@@ -21,7 +19,8 @@ class RunDBSeeder
     /**
      * Handle the event.
      *
-     * @param  Initialize  $event
+     * @param Initialize $event
+     *
      * @return void
      */
     public function handle(Initialize $event)

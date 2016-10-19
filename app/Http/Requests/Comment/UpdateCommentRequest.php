@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Comment;
 
+use App\Comment;
 use App\Http\Requests\Request;
 use Auth;
-
-use App\Policies\CommentPolicy;
-use App\Comment;
 
 class UpdateCommentRequest extends Request
 {
@@ -16,23 +14,22 @@ class UpdateCommentRequest extends Request
      * @return bool
      */
     public function authorize()
-    {   
-        $comment = $this->route()->parameter('comment'); 
+    {
+        $comment = $this->route()->parameter('comment');
 
-        if(Auth::user()->can('administrate-comment')){
+        if (Auth::user()->can('administrate-comment')) {
             return true;
         }
 
-        if(!$comment->vote->motion->motionOpenForVoting){
+        if (!$comment->vote->motion->motionOpenForVoting) {
             return false; //Cant change your comments after the fact
         }
 
-        if($comment->vote->user_id == Auth::user()->id){
+        if ($comment->vote->user_id == Auth::user()->id) {
             return true; //This users comment
         }
 
         return false;
-
     }
 
     /**
@@ -42,11 +39,9 @@ class UpdateCommentRequest extends Request
      */
     public function rules()
     {
-
         return [
-            'text'          =>  'filled|string',
-            'status'        =>  'valid_status|filled'
+            'text'          => 'filled|string',
+            'status'        => 'valid_status|filled',
         ];
-
     }
 }

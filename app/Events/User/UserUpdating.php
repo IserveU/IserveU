@@ -3,10 +3,8 @@
 namespace App\Events\User;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
 use App\User;
+use Illuminate\Queue\SerializesModels;
 
 class UserUpdating extends Event
 {
@@ -23,6 +21,7 @@ class UserUpdating extends Event
     {
         $this->user = $user;
     }
+
     /**
      * Get the channels the event should be broadcast on.
      *

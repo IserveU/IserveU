@@ -2,16 +2,16 @@
 
 namespace App\Events\Comment;
 
+use App\Comment;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Comment;
 
 class CommentUpdated extends Event
 {
     use SerializesModels;
 
     public $comment;
+
     /**
      * Create a new event instance.
      *
@@ -20,7 +20,7 @@ class CommentUpdated extends Event
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
-        $this->vote    = $comment->vote;
+        $this->vote = $comment->vote;
     }
 
     /**

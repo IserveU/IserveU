@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexUserApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     private static $users;
 
@@ -14,21 +12,17 @@ class IndexUserApiTest extends TestCase
     {
         parent::setUp();
 
-        if(is_null(static::$users)){
-            static::$users =   factory(App\User::class,5)->create();
-          
+        if (is_null(static::$users)) {
+            static::$users = factory(App\User::class, 5)->create();
         }
-
-
     }
 
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function default_user_filter(){
-        
+    public function default_user_filter()
+    {
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

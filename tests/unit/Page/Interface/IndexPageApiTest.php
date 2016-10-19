@@ -1,15 +1,13 @@
 <?php
-include_once('PageApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'PageApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Carbon\Carbon;
 
 class IndexPageApiTest extends PageApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     protected static $pages;
 
@@ -17,30 +15,28 @@ class IndexPageApiTest extends PageApi
     {
         parent::setUp();
 
-        if(is_null(static::$pages)){
-            static::$pages =   factory(App\Page::class,5)->create();
+        if (is_null(static::$pages)) {
+            static::$pages = factory(App\Page::class, 5)->create();
         }
     }
 
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function page_filter_defaults(){
+    public function page_filter_defaults()
+    {
         $this->get($this->route)
             ->seeJsonStructure([
-                "*" => [
+                '*' => [
                     'id',
                     'title',
                     'slug',
                     'content',
                     'created_at',
-                    'updated_at'
-                ]
+                    'updated_at',
+                ],
             ]);
     }
- 
-
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

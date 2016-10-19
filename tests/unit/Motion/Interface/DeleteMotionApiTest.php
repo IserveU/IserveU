@@ -1,13 +1,12 @@
 <?php
-include_once('MotionApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'MotionApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteMotionApiTest extends MotionApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -15,19 +14,17 @@ class DeleteMotionApiTest extends MotionApi
     }
 
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
+
     /** @test  ******************/
-    public function delete_motion_correct_response(){
+    public function delete_motion_correct_response()
+    {
         $this->signInAsRole('administrator');
 
         $motion = factory(App\Motion::class)->create();
 
-        $this->delete("/api/motion/".$motion->id)
+        $this->delete('/api/motion/'.$motion->id)
             ->assertResponseStatus(200);
-
-        
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

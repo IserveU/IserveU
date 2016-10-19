@@ -15,12 +15,16 @@ class ShowVoteRequest extends Request
      */
     public function authorize()
     {
-        if(Auth::user()->can('show-vote')) return true;
+        if (Auth::user()->can('show-vote')) {
+            return true;
+        }
 
-        $vote =  $this->route()->parameter('vote');
+        $vote = $this->route()->parameter('vote');
 
-        if($vote->user_id == Auth::user()->id) return true;
-            
+        if ($vote->user_id == Auth::user()->id) {
+            return true;
+        }
+
         return false;
     }
 

@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Illuminate\Database\Eloquent\Model;
 
 class Page extends NewApiModel
 {
@@ -25,7 +24,7 @@ class Page extends NewApiModel
      * @var array
      */
     protected $fillable = [
-        'title','content'
+        'title', 'content',
     ];
 
     /**
@@ -52,9 +51,8 @@ class Page extends NewApiModel
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
-
 
     /**
      * Return the sluggable configuration array for this model.
@@ -66,41 +64,37 @@ class Page extends NewApiModel
         return [
             'slug' => [
                 'source'    => ['title'],
-                'onUpdate'  => true
-            ]
+                'onUpdate'  => true,
+            ],
         ];
     }
 
-
-   /**
-     * Require default attribute values
+    /**
+     * Require default attribute values.
      *
      * @var array
      */
-
     protected $attributes = [
-        'title' => "New Page"
+        'title' => 'New Page',
     ];
 
     /**************************************** Data Mutators ****************************************/
 
-
     public function setTitleAttribute($input)
     {
-    	$this->attributes['title'] = $input;
+        $this->attributes['title'] = $input;
         $this->attributes['slug'] = str_slug($input);
     }
 
     public function setContentAttribute($input)
     {
-    	$this->attributes['content'] = $input;
+        $this->attributes['content'] = $input;
     }
 
-	/********************************** Defined Relationships ***************************************/
+    /********************************** Defined Relationships ***************************************/
 
-	public function file()
-	{
-		return $this->hasMany('App\File');
-	}
-
+    public function file()
+    {
+        return $this->hasMany('App\File');
+    }
 }

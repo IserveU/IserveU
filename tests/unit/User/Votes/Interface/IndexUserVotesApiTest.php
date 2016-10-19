@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexUserVotesApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     protected static $votingUser;
 
@@ -15,27 +13,25 @@ class IndexUserVotesApiTest extends TestCase
         parent::setUp();
 
 
-        if(is_null(static::$votingUser)){
-            static::$votingUser =   factory(App\User::class)->create();
+        if (is_null(static::$votingUser)) {
+            static::$votingUser = factory(App\User::class)->create();
 
-            $votes   =   factory(App\Vote::class,10)->create([
-                'user_id'   =>  static::$votingUser->id
+            $votes = factory(App\Vote::class, 10)->create([
+                'user_id'   => static::$votingUser->id,
             ]);
-
         }
 
         $this->signIn(static::$votingUser);
     }
 
-
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function default_user_vote_filter(){
-       
-        $this->get("/api/user/".static::$votingUser->id."/vote")
+    public function default_user_vote_filter()
+    {
+        $this->get('/api/user/'.static::$votingUser->id.'/vote')
                 ->assertResponseStatus(200)
-                ->seeJsonStructure([ 
+                ->seeJsonStructure([
                    'total',
                     'per_page',
                     'current_page',
@@ -44,18 +40,12 @@ class IndexUserVotesApiTest extends TestCase
                     'prev_page_url',
                     'from',
                     'to',
-                    'data'  =>  [
-                    "*" => ['id','position','motion_id','deferred_to_id']
-                   ]
+                    'data'  => [
+                    '*' => ['id', 'position', 'motion_id', 'deferred_to_id'],
+                   ],
                 ])
                 ->seeNumberOfResults(10);
-
     }
 
-
-
-
-
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

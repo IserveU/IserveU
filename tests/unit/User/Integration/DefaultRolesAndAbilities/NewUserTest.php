@@ -1,19 +1,15 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewUserTest extends TestCase
 {
-
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
         $this->signIn();
-
     }
 
     /*****************************************************************
@@ -23,9 +19,9 @@ class NewUserTest extends TestCase
     ******************************************************************/
 
     /** @test **/
-    public function show_public_user(){
-
-        $user = factory(App\User::class,'public')->create();
+    public function show_public_user()
+    {
+        $user = factory(App\User::class, 'public')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -37,9 +33,9 @@ class NewUserTest extends TestCase
     }
 
     /** @test **/
-    public function show_private_user(){
-
-        $user = factory(App\User::class,'private')->create();
+    public function show_private_user()
+    {
+        $user = factory(App\User::class, 'private')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -47,15 +43,14 @@ class NewUserTest extends TestCase
         $this->dontSee($user->first_name);
         $this->dontSee($user->last_name);
     }
-   
 
     /** @test */
     public function it_cannot_update_another_users_details()
     {
         $user = factory(App\User::class, 'private')->create();
 
-        $updateData = ['first_name' => 'updated_first_name', 
-                       'last_name'  => 'updated_last_name'];
+        $updateData = ['first_name' => 'updated_first_name',
+                       'last_name'  => 'updated_last_name', ];
 
         $response = $this->call('PATCH', '/api/user/'.$user->id, $updateData);
 
@@ -65,9 +60,7 @@ class NewUserTest extends TestCase
     /** @test */
     public function it_can_see_a_public_users_details()
     {
-        
-
-        $user = factory(App\User::class,'public')->create();
+        $user = factory(App\User::class, 'public')->create();
 
         $this->call('GET', '/api/user/'.$user->id);
 
@@ -86,7 +79,7 @@ class NewUserTest extends TestCase
 
         $this->assertResponseOk();
 
-        $this->seeJson([ 'id' => $user->id, 'email' => $user->email ]);
+        $this->seeJson(['id' => $user->id, 'email' => $user->email]);
     }
 
     /** @test */
@@ -95,21 +88,19 @@ class NewUserTest extends TestCase
         $this->user;
 
         $updateData = [
-            'first_name'     => 'Ufirst', 
+            'first_name'     => 'Ufirst',
             'last_name'      => 'Ulast',
-            'preferences'    =>  json_encode([
-                'setting'=>'mysetting'
-            ])
+            'preferences'    => json_encode([
+                'setting' => 'mysetting',
+            ]),
         ];
-                       
+
         $this->patch('/api/user/'.$this->user->id, $updateData);
-      
+
         $this->assertResponseOk();
-        $this->seeInDatabase('users',array_merge(['id'=>$this->user->id],[
-            'first_name'     => 'Ufirst', 
-            'last_name'      => 'Ulast'
+        $this->seeInDatabase('users', array_merge(['id' => $this->user->id], [
+            'first_name'     => 'Ufirst',
+            'last_name'      => 'Ulast',
         ]));
-
     }
-
 }

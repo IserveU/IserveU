@@ -3,12 +3,10 @@
 namespace App\Listeners\User;
 
 use App\Events\User\UserDeleted;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use DB;
 
-class DeleteUser{
-
+class DeleteUser
+{
     /**
      * Create the event listener.
      *
@@ -22,24 +20,24 @@ class DeleteUser{
     /**
      * Handle the event.
      *
-     * @param  UserDeleted  $event
+     * @param UserDeleted $event
+     *
      * @return void
      */
     public function handle(UserDeleted $event)
     {
-        
         $user = $event->user;
 
-        $votes      =   $user->votes;
-        $motions    =   $user->motions;
+        $votes = $user->votes;
+        $motions = $user->motions;
 
             //dd($user->modificationTo);
-        if($votes->isEmpty() && $motions->isEmpty()){
-            DB::table('user_modifications')->where('modification_to_id',$user->id)->delete();
-            DB::table('users')->where('id',$user->id)->delete();
+        if ($votes->isEmpty() && $motions->isEmpty()) {
+            DB::table('user_modifications')->where('modification_to_id', $user->id)->delete();
+            DB::table('users')->where('id', $user->id)->delete();
         } else {
-            $user->delete(); 
-            $user->modificationTo()->delete(); 
+            $user->delete();
+            $user->modificationTo()->delete();
         }
     }
 }

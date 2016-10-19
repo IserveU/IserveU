@@ -15,26 +15,25 @@ class ShowMotionRequest extends Request
      */
     public function authorize()
     {
+        $motion = $this->route()->parameter('motion'); //TO GET RESOURCE ROUTING WORKING
 
-        $motion =  $this->route()->parameter('motion'); //TO GET RESOURCE ROUTING WORKING
 
-
-        if($motion->status == 'draft' || $motion->status == 'review'){
-            if(!Auth::check()){
+        if ($motion->status == 'draft' || $motion->status == 'review') {
+            if (!Auth::check()) {
                 return false;
             }
 
-            if(Auth::user()->id == $motion->user_id){
+            if (Auth::user()->id == $motion->user_id) {
                 return true;
             }
 
-            if(!Auth::user()->can('administrate-motion')){
+            if (!Auth::user()->can('administrate-motion')) {
                 return false;
             }
         }
 
-        if(Auth::check()){
-            Vote::where('motion_id',$motion->id)->where('user_id',Auth::user()->id)->update(['visited'=>true]);
+        if (Auth::check()) {
+            Vote::where('motion_id', $motion->id)->where('user_id', Auth::user()->id)->update(['visited' => true]);
         }
 
         return true;

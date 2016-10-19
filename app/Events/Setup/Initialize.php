@@ -3,9 +3,8 @@
 namespace App\Events\Setup;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\User;
+use Illuminate\Queue\SerializesModels;
 
 class Initialize extends Event
 {

@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-
 use App\Delegation;
-use App\User;
 use App\Department;
+use App\User;
+use Illuminate\Console\Command;
 
 class ShuffleDefaultDelegations extends Command
 {
@@ -41,17 +40,15 @@ class ShuffleDefaultDelegations extends Command
      */
     public function handle()
     {
-        
-        Delegation::where('user_set',0)->delete();
+        Delegation::where('user_set', 0)->delete();
 
         $users = User::with('delegatedFrom')->validVoter()->get();
 
         $departments = Department::all();
         $representatives = User::representative()->get();
 
-        foreach($users as $user){
-            $user->createDefaultDelegations($departments,$representatives);
-    
+        foreach ($users as $user) {
+            $user->createDefaultDelegations($departments, $representatives);
         }
     }
 }

@@ -1,14 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\User;
-use App\Http\Controllers\ApiController;
 
-use Illuminate\Http\Request;
-use Auth;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\User;
 use App\CommentVote;
+use App\Http\Controllers\ApiController;
+use App\User;
+use Illuminate\Http\Request;
 
 class UserCommentVoteController extends ApiController
 {
@@ -18,14 +15,13 @@ class UserCommentVoteController extends ApiController
      * @return Response
      */
     public function index(User $user, Request $request)
-    {   
+    {
         $query = CommentVote::byUser($user->id);
 
-        if($request->has('motion_id')){
+        if ($request->has('motion_id')) {
             $query->onMotion($request->motion_id);
         }
 
         return $query->get();
     }
-
 }

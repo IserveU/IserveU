@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-
-use App\User;
-use App\Department;
 use App\Delegation;
+use App\Department;
+use App\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateDelegationsTable extends Migration
 {
@@ -16,7 +15,7 @@ class CreateDelegationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('delegations', function(Blueprint $table) {
+        Schema::create('delegations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('delegate_to_id')->unsigned();
             $table->integer('delegate_from_id')->unsigned();
@@ -27,9 +26,9 @@ class CreateDelegationsTable extends Migration
         });
 
 
-        Schema::table('delegations', function($table){
-            $table->unique(array('department_id','delegate_from_id')); //A user can only vote once on a motion
-            $table->foreign('delegate_to_id')->references('id')->on('users');            
+        Schema::table('delegations', function ($table) {
+            $table->unique(['department_id', 'delegate_from_id']); //A user can only vote once on a motion
+            $table->foreign('delegate_to_id')->references('id')->on('users');
             $table->foreign('delegate_from_id')->references('id')->on('users');
             $table->foreign('department_id')->references('id')->on('departments');
         });
@@ -39,15 +38,15 @@ class CreateDelegationsTable extends Migration
         $departments = Department::all();
         $numberOfRepresentatives = User::representative()->count();
 
-        if(isset($numberOfRepresentative)){
-            foreach($validUsers as $user){
-                foreach($departments as $department){
+        if (isset($numberOfRepresentative)) {
+            foreach ($validUsers as $user) {
+                foreach ($departments as $department) {
                     $representatives = User::representative()->get();
                     $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
-                    $newDelegation = new Delegation;
-                    $newDelegation->department_id       =   $department->id;
-                    $newDelegation->delegate_from_id    =   $user->id;
-                    $newDelegation->delegate_to_id      =   $leastDelegatedToRepresentative->id;
+                    $newDelegation = new Delegation();
+                    $newDelegation->department_id = $department->id;
+                    $newDelegation->delegate_from_id = $user->id;
+                    $newDelegation->delegate_to_id = $leastDelegatedToRepresentative->id;
                     $newDelegation->save();
                 }
             }

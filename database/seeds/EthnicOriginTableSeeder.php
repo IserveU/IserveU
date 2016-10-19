@@ -1,9 +1,8 @@
 <?php
 
+use App\EthnicOrigin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
-
-use App\EthnicOrigin;
 
 class EthnicOriginTableSeeder extends Seeder
 {
@@ -14,19 +13,17 @@ class EthnicOriginTableSeeder extends Seeder
      */
     public function run()
     {
-    	$csv = Storage::disk('csv')->get('ethnic_origins.csv');
+        $csv = Storage::disk('csv')->get('ethnic_origins.csv');
 
-    	$array = array_slice( explode("\n", $csv), 1 ) ;
+        $array = array_slice(explode("\n", $csv), 1);
 
-     	foreach($array as $data) {
+        foreach ($array as $data) {
+            $row = explode(',', $data, 2);
 
-    		$row = explode(",", $data, 2);
-
-			$ethnic_origin = new EthnicOrigin;
-			$ethnic_origin->description = str_replace('"', '', $row[1]);
-			$ethnic_origin->region = $row[0];
-			$ethnic_origin->save();
-    	}
-
+            $ethnic_origin = new EthnicOrigin();
+            $ethnic_origin->description = str_replace('"', '', $row[1]);
+            $ethnic_origin->region = $row[0];
+            $ethnic_origin->save();
+        }
     }
 }

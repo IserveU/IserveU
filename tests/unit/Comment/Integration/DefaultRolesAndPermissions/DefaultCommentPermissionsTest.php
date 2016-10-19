@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DefaultCommentPermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -20,12 +18,10 @@ class DefaultCommentPermissionTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
-    
 
     /** @test */
     public function comment_index_permissions_working()
     {
-
         $comment = factory(App\Comment::class)->create();
 
         $this->get('/api/comment');
@@ -34,7 +30,6 @@ class DefaultCommentPermissionTest extends TestCase
 
         $this->see($comment->text);
     }
-
 
     /** @test */
     public function it_can_see_comments_made_on_the_motion()
@@ -46,7 +41,7 @@ class DefaultCommentPermissionTest extends TestCase
         $this->assertResponseOk();
     }
 
-    /** @test */ 
+    /** @test */
     public function it_can_create_a_comment()
     {
         $this->signInAsPermissionedUser('create-comment');
@@ -54,11 +49,10 @@ class DefaultCommentPermissionTest extends TestCase
         $comment = postComment($this);
 
 
-        $this->seeInDatabase('comments',[
-            'text'  => $comment->text
+        $this->seeInDatabase('comments', [
+            'text'  => $comment->text,
         ]);
     }
-
 
     /** @test */
     public function it_cannot_create_a_comment()
@@ -67,13 +61,12 @@ class DefaultCommentPermissionTest extends TestCase
 
         $vote = factory(App\Vote::class)->create();
 
-        $comment    = ['text' => "text for the motion"];
+        $comment = ['text' => 'text for the motion'];
 
-        $response   = $this->call('POST', '/api/vote/'.$vote->id.'/comment', $comment);
+        $response = $this->call('POST', '/api/vote/'.$vote->id.'/comment', $comment);
 
         $this->assertEquals(403, $response->status());
     }
-
 
     /** @test */
     public function it_can_update_comment()
@@ -86,16 +79,15 @@ class DefaultCommentPermissionTest extends TestCase
 
         // Update comment
         $updatedComment = [
-            'text' => "updated text for the comment"
+            'text' => 'updated text for the comment',
         ];
 
         $this->patch('/api/comment/'.$comment->id, $updatedComment);
         $this->assertResponseOk();
-        $this->seeInDatabase('comments', [ 'id' => $comment->id, 'text' => $updatedComment['text'] ]);
+        $this->seeInDatabase('comments', ['id' => $comment->id, 'text' => $updatedComment['text']]);
     }
 
-
-      /** @test */
+    /** @test */
     public function it_cannot_update_others_comment()
     {
         $this->signInAsPermissionedUser('create-comment');
@@ -104,14 +96,13 @@ class DefaultCommentPermissionTest extends TestCase
 
         // Update comment
         $updatedComment = [
-            'text' => "updated text for the comment"
+            'text' => 'updated text for the comment',
         ];
 
         $this->patch('/api/comment/'.$comment->id, $updatedComment);
         $this->assertResponseStatus(403);
-        $this->dontSeeInDatabase('comments', [ 'id' => $comment->id, 'text' => $updatedComment['text'] ]);
+        $this->dontSeeInDatabase('comments', ['id' => $comment->id, 'text' => $updatedComment['text']]);
     }
-
 
     /** @test */
     public function it_can_delete_comment()
@@ -123,13 +114,12 @@ class DefaultCommentPermissionTest extends TestCase
 
         // Delete comment
         $this->delete('/api/comment/'.$comment->id);
-        
+
         $this->assertResponseOk();
-        $this->dontSeeInDatabase('comments', ['id'=>$comment->id]);
+        $this->dontSeeInDatabase('comments', ['id' => $comment->id]);
     }
 
-
-        /** @test */
+    /** @test */
     public function it_can_delete_others_comment()
     {
         $this->signInAsPermissionedUser('delete-comment');
@@ -138,9 +128,9 @@ class DefaultCommentPermissionTest extends TestCase
 
         // Delete comment
         $this->delete('/api/comment/'.$comment->id);
-        
+
         $this->assertResponseOk();
-        $this->dontSeeInDatabase('comments', ['id'=>$comment->id]);
+        $this->dontSeeInDatabase('comments', ['id' => $comment->id]);
     }
 
     /** @test */
@@ -152,12 +142,10 @@ class DefaultCommentPermissionTest extends TestCase
 
         // Delete comment
         $this->delete('/api/comment/'.$comment->id);
-        
+
         $this->assertResponseStatus(403);
-        $this->seeInDatabase('comments', ['id'=>$comment->id]);
+        $this->seeInDatabase('comments', ['id' => $comment->id]);
     }
-
-
 
     /** @test */
     public function it_can_see_another_users_comment()
@@ -168,8 +156,6 @@ class DefaultCommentPermissionTest extends TestCase
 
         $this->assertResponseStatus(200);
 
-        $this->seeJson([ 'id' => $comment->id, 'text' => $comment->text ]);
+        $this->seeJson(['id' => $comment->id, 'text' => $comment->text]);
     }
-
-
 }

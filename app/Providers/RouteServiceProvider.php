@@ -1,38 +1,40 @@
-<?php namespace App\Providers;
+<?php
 
-use Illuminate\Routing\Router;
+namespace App\Providers;
+
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 use Route;
 
-class RouteServiceProvider extends ServiceProvider {
+class RouteServiceProvider extends ServiceProvider
+{
+    /**
+     * This namespace is applied to the controller routes in your routes file.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'App\Http\Controllers';
 
-	/**
-	 * This namespace is applied to the controller routes in your routes file.
-	 *
-	 * In addition, it is set as the URL generator's root namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'App\Http\Controllers';
-
-	/**
-	 * Define your route model bindings, pattern filters, etc.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function boot()
-	{
-
-		Route::model('user','App\User');
-		Route::model('motion','\App\Motion');
-		Route::model('motionfile','App\MotionFile');
-		Route::model('file','App\File');
-		Route::model('vote','App\Vote');
-		Route::model('comment','App\Comment');
-		Route::model('comment_vote','App\CommentVote');
-		Route::model('background_image','App\BackgroundImage');
-		Route::model('department', 'App\Department');
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @param \Illuminate\Routing\Router $router
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Route::model('user', 'App\User');
+        Route::model('motion', '\App\Motion');
+        Route::model('motionfile', 'App\MotionFile');
+        Route::model('file', 'App\File');
+        Route::model('vote', 'App\Vote');
+        Route::model('comment', 'App\Comment');
+        Route::model('comment_vote', 'App\CommentVote');
+        Route::model('background_image', 'App\BackgroundImage');
+        Route::model('department', 'App\Department');
 
         app('router')->bind('motion', function ($motion) {
             return \App\Motion::findBySlugOrId($motion);
@@ -57,9 +59,7 @@ class RouteServiceProvider extends ServiceProvider {
         });
 
         parent::boot();
-
-	}
-
+    }
 
     /**
      * Define the routes for the application.
@@ -73,8 +73,6 @@ class RouteServiceProvider extends ServiceProvider {
         //
     }
 
-
-
     /**
      * Define the "web" routes for the application.
      *
@@ -86,15 +84,13 @@ class RouteServiceProvider extends ServiceProvider {
     {
         Route::group([
             'middleware' => 'web',
-            'namespace' => $this->namespace,
+            'namespace'  => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');
         });
     }
 
-
-
-   /**
+    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
@@ -105,11 +101,10 @@ class RouteServiceProvider extends ServiceProvider {
     {
         Route::group([
             'middleware' => 'api',
-            'namespace' => $this->namespace,
-            'prefix' => 'api',
+            'namespace'  => $this->namespace,
+            'prefix'     => 'api',
         ], function ($router) {
             require base_path('routes/api.php');
         });
     }
-
 }
