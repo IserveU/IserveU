@@ -1,33 +1,26 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionPermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
-
-
+    use DatabaseTransactions;
 
     /** @test */
     public function it_can_see_a_motion()
     {
-
-        $motion =  factory(App\Motion::class, 'published')->create();
+        $motion = factory(App\Motion::class, 'published')->create();
 
         $this->get('/api/motion/'.$motion->id)
             ->assertResponseStatus(200);
 
-        $this->seeJson([ 'id' => $motion->id, 'text' => $motion->text ]);
+        $this->seeJson(['id' => $motion->id, 'text' => $motion->text]);
     }
-
 
     /** @test */
     public function it_cannot_see_an_unpublished_motion()
-    {   
+    {
         $this->signIn();
         $motion = factory(App\Motion::class, 'draft')->create();
 
@@ -37,26 +30,24 @@ class MotionPermissionTest extends TestCase
         $this->assertEquals(403, $response->status());
     }
 
-   
-
     /** @test */
     public function it_cannot_create_a_motion()
     {
-        $this->setSettings(['security.verify_citizens'=>1]);
+        $this->setSettings(['security.verify_citizens' => 1]);
 
-        $draft = factory(App\Motion::class, 'draft')->make()->setVisible(['title','summary'])->toArray();
-        $review = factory(App\Motion::class, 'review')->make()->setVisible(['title','summary'])->toArray();
+        $draft = factory(App\Motion::class, 'draft')->make()->setVisible(['title', 'summary'])->toArray();
+        $review = factory(App\Motion::class, 'review')->make()->setVisible(['title', 'summary'])->toArray();
 
-       $this->json('post','/api/motion', $draft)
+        $this->json('post', '/api/motion', $draft)
             ->assertResponseStatus(401);
 
-       $this->post('/api/motion', $draft) //If hitting this route, redirect to login
+        $this->post('/api/motion', $draft) //If hitting this route, redirect to login
             ->assertResponseStatus(302);
 
-       $this->json('post','/api/motion', $review)
+        $this->json('post', '/api/motion', $review)
             ->assertResponseStatus(401);
 
-       $this->post('/api/motion', $review) //If hitting this route, redirect to login
+        $this->post('/api/motion', $review) //If hitting this route, redirect to login
             ->assertResponseStatus(302);
 
         $this->signIn(); //No Role
@@ -71,31 +62,27 @@ class MotionPermissionTest extends TestCase
     /** @test */
     public function it_can_see_a_closed_motion()
     {
-
-        $motion = factory(App\Motion::class,'closed')->create();
+        $motion = factory(App\Motion::class, 'closed')->create();
 
         $response = $this->get('/api/motion/'.$motion->id);
 
         $this->assertResponseOk();
 
-        $this->seeJson( [ 'id' => $motion->id, 'text' => $motion->text ] );
+        $this->seeJson(['id' => $motion->id, 'text' => $motion->text]);
     }
-
 
     /** @test */
     public function it_cannot_create_a_draft_motion_for_another_user()
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $user = factory(App\Motion::class,'draft')->create();
+        $user = factory(App\Motion::class, 'draft')->create();
 
-        $this->post('/api/motion/',['status'=>'draft','title'=>"The title","user_id"=>$user->id])
+        $this->post('/api/motion/', ['status' => 'draft', 'title' => 'The title', 'user_id' => $user->id])
             ->assertResponseStatus(403);
 
-        $this->dontSeeInDatabase('motions',array('title'=>'The title','user_id'=>$user->id));
-
+        $this->dontSeeInDatabase('motions', ['title' => 'The title', 'user_id' => $user->id]);
     }
-
 
     /** @test */
     public function it_can_create_a_draft_motion()
@@ -106,25 +93,24 @@ class MotionPermissionTest extends TestCase
         $motion['title'] = 'Who cares about these old tests?';
         $motion['user_id'] = $this->user->id;
 
-        $this->post('/api/motion/',$motion);
+        $this->post('/api/motion/', $motion);
 
         $this->assertResponseStatus(200);
 
-        $this->seeInDatabase('motions',array('title'=>$motion['title']));
+        $this->seeInDatabase('motions', ['title' => $motion['title']]);
     }
-
 
     /** @test */
     public function it_cannot_create_a_published_motion()
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion['status']   = 'published';
-        $motion['title']    = 'These old test suck!';
+        $motion['status'] = 'published';
+        $motion['title'] = 'These old test suck!';
 
-        $this->post('/api/motion/',$motion);
+        $this->post('/api/motion/', $motion);
 
-        $this->assertResponseStatus(403);        
+        $this->assertResponseStatus(403);
     }
 
     /** @test */
@@ -132,32 +118,31 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'draft')->create([
-            'user_id'   => $this->user->id
-        ])->skipVisibility()->setVisible(['title','id'])->toArray();
+        $motion = factory(App\Motion::class, 'draft')->create([
+            'user_id'   => $this->user->id,
+        ])->skipVisibility()->setVisible(['title', 'id'])->toArray();
 
-        $motion['status'] = "published"; //Publish it
-        
-        $this->patch('/api/motion/'.$motion['id'],$motion);
+        $motion['status'] = 'published'; //Publish it
 
-        $this->assertResponseStatus(403);        
+        $this->patch('/api/motion/'.$motion['id'], $motion);
+
+        $this->assertResponseStatus(403);
     }
-
 
     /** @test */
     public function it_cannot_publish_a_review_motion()
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'review')->create([
-            'user_id'   => $this->user->id
-        ])->skipVisibility()->setVisible(['title','id'])->toArray();
+        $motion = factory(App\Motion::class, 'review')->create([
+            'user_id'   => $this->user->id,
+        ])->skipVisibility()->setVisible(['title', 'id'])->toArray();
 
-        $motion['status'] = "published";
+        $motion['status'] = 'published';
 
-        $this->patch('/api/motion/'.$motion['id'],$motion);
+        $this->patch('/api/motion/'.$motion['id'], $motion);
 
-        $this->assertResponseStatus(403);        
+        $this->assertResponseStatus(403);
     }
 
     /** @test */
@@ -165,25 +150,24 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion = factory(App\Motion::class,'draft')->create([
-            'user_id'   => $this->user->id
+        $motion = factory(App\Motion::class, 'draft')->create([
+            'user_id'   => $this->user->id,
         ]);
 
         $motionPatch['status'] = 'review';
 
-        $this->patch('/api/motion/'.$motion->id,$motionPatch);
+        $this->patch('/api/motion/'.$motion->id, $motionPatch);
 
-        $this->assertResponseStatus(200);        
+        $this->assertResponseStatus(200);
     }
-
 
     /** @test */
     public function it_can_see_own_draft_motion()
     {
         $this->signIn();
 
-        $motion = factory(App\Motion::class,'draft')->create([
-            'user_id'   =>  $this->user->id
+        $motion = factory(App\Motion::class, 'draft')->create([
+            'user_id'   => $this->user->id,
         ]);
 
         $this->get('/api/motion/'.$motion->id);
@@ -193,24 +177,22 @@ class MotionPermissionTest extends TestCase
 
     /** @test */
     public function it_can_update_a_closing_date_motion()
-    {   
-
+    {
         $this->signInAsPermissionedUser('administrate-motion');
-    
+
         $toUpdate = factory(App\Motion::class)->create();
 
 
-        $this->patch('/api/motion/'.$toUpdate->id, ['closing_at'=>Carbon::tomorrow()])
+        $this->patch('/api/motion/'.$toUpdate->id, ['closing_at' => Carbon::tomorrow()])
             ->assertResponseStatus(200);
-
     }
 
     /** @test */
     public function it_cannot_delete_another_persons_motion()
     {
         $this->signInAsPermissionedUser('create-motion');
-        $motion  = factory(App\Motion::class)->create();
-        
+        $motion = factory(App\Motion::class)->create();
+
         // Delete Motion
         $response = $this->call('DELETE', '/api/motion/'.$motion->id);
         $this->assertResponseStatus(403);
@@ -222,13 +204,13 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $motion  = factory(App\Motion::class)->create();
+        $motion = factory(App\Motion::class)->create();
         $motion->delete();
 
         // Restore motion
         $this->call('GET', '/api/motion/'.$motion->id.'/restore');
         $this->assertResponseStatus(401);
-        $this->dontSeeInDatabase('motions', ['id'=>$motion->id,'deleted_at' => null]);
+        $this->dontSeeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
 
     /** @test */
@@ -236,48 +218,45 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('delete-motion');
 
-        $motion  = factory(App\Motion::class,'published')->create();
-        
+        $motion = factory(App\Motion::class, 'published')->create();
+
         // Delete Motion
         $response = $this->call('DELETE', '/api/motion/'.$motion->id);
         $this->assertResponseOk();
- 
-        $this->notSeeInDatabase('motions', ['id'=>$motion->id, 'deleted_at' => null ]);
+
+        $this->notSeeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
 
-    /** @test */ 
+    /** @test */
     public function it_can_restore_a_motion()
     {
-        $vote  = factory(App\Vote::class)->create(); //Or it will do a perma delete
+        $vote = factory(App\Vote::class)->create(); //Or it will do a perma delete
 
         $this->signInAsPermissionedUser('delete-motion');
-        
+
         // Delete Motion
         $this->call('DELETE', '/api/motion/'.$vote->motion->id);
         $this->assertResponseStatus(200);
-        $this->notSeeInDatabase('motions', ['id'=>$vote->motion->id, 'deleted_at' => null ]);
+        $this->notSeeInDatabase('motions', ['id' => $vote->motion->id, 'deleted_at' => null]);
 
         // Restore motion
         $this->call('GET', '/api/motion/'.$vote->motion->id.'/restore');
         $this->assertResponseOk();
-        $this->seeInDatabase('motions', ['id'=>$vote->motion->id, 'deleted_at' => null]);
+        $this->seeInDatabase('motions', ['id' => $vote->motion->id, 'deleted_at' => null]);
     }
 
-
-        /** @test */
+    /** @test */
     public function update_a_voted_on_motion_title()
-    {       
+    {
         $this->signInAsPermissionedUser('administrate-motion');
         $faker = \Faker\Factory::create();
         $motion = $vote = factory(App\Vote::class)->create()->motion;
 
-        $newTitle = $faker->word." ".$faker->word." ".$faker->word;
+        $newTitle = $faker->word.' '.$faker->word.' '.$faker->word;
 
-        $this->patch('/api/motion/'.$motion->id,['title'=>$newTitle]);
+        $this->patch('/api/motion/'.$motion->id, ['title' => $newTitle]);
         $this->assertResponseStatus(200);
-
     }
-
 
     /*****************************************************************
     *
@@ -329,7 +308,7 @@ class MotionPermissionTest extends TestCase
 
     // }
 
-    // * @test 
+    // * @test
     // public function it_can_see_a_public_users_details()
     // {
 
@@ -431,5 +410,4 @@ class MotionPermissionTest extends TestCase
     // {
 
     // }
-
 }

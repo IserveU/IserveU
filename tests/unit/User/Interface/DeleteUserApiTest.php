@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteUserApiTest extends TestCase
 {
@@ -14,17 +12,15 @@ class DeleteUserApiTest extends TestCase
     }
 
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
+
     /** @test  ******************/
-    public function delete_user_correct_response(){
+    public function delete_user_correct_response()
+    {
         $this->signIn();
 
-        $this->delete("/api/user/".$this->user->id)
+        $this->delete('/api/user/'.$this->user->id)
             ->assertResponseStatus(200);
-
-        
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

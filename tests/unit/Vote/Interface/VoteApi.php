@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class VoteApi extends TestCase
@@ -9,11 +7,10 @@ abstract class VoteApi extends TestCase
     use DatabaseTransactions;
 
 
-    protected $route                =   "/api/vote/";
-    protected $class                =   App\Vote::class;
-    protected $table                =   "votes";
-    protected $alwaysHidden         =   [];
-    protected $defaultFields        =   ['title','department_id'];
+    protected $route = '/api/vote/';
+    protected $class = App\Vote::class;
+    protected $table = 'votes';
+    protected $alwaysHidden = [];
+    protected $defaultFields = ['title', 'department_id'];
     protected $modelToUpdate;
-
 }

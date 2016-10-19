@@ -2,9 +2,6 @@
 
 namespace App\Listeners\User;
 
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 class SetRandomPassword
 {
     /**
@@ -31,6 +28,5 @@ class SetRandomPassword
         $user->password = $randomPassword;
 
         $user->save(); //Yeah... this seems stupid
-
     }
 }

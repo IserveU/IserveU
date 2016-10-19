@@ -1,180 +1,168 @@
 <?php
+
 namespace App\Http\Controllers\Motion;
+
 use App\Http\Controllers\ApiController;
-
-use Auth;
-use DB;
-use Setting;
-
-use Illuminate\Http\Request;
-
 use App\Http\Requests\Motion\DestroyMotionRequest;
+use App\Http\Requests\Motion\IndexMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreUpdateMotionRequest;
-use App\Http\Requests\Motion\IndexMotionRequest;
-
-
-use App\MotionRank;
 use App\Motion;
-use App\Comment;
-use App\CommentVote;
-use App\Vote;
+use Auth;
+
+class MotionController extends ApiController
+{
+    public function __construct()
+    {
+        //Because this controller is partially visible
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
+
+    /**
+     * Display a listing of the resource. If the user is logged in they will see the position they took on votes.
+     *
+     * @return Response
+     */
+    public function index(IndexMotionRequest $request)
+    {
+        $limit = $request->get('limit') ?: 10;
 
 
-class MotionController extends ApiController {
+        if (Auth::check()) { //Logged in user will want to see if they voted on these things
+
+            $motions = Motion::with(['votes' => function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            }]);
+        } else {
+            $motions = (new Motion())->newQuery();
+        }
+
+        if ($request->has('status')) {
+            $motions->status($request->input('status'));
+        }
+
+        if ($request->has('rank_greater_than')) {
+            $motions->rankGreaterThan($request->input('rank_greater_than'));
+        }
+
+        if ($request->has('user_id')) {
+            $motions->writer($request->input('user_id'));
+        }
+
+        if ($request->has('rank_less_than')) {
+            $motions->rankLessThan($request->input('rank_less_than'));
+        }
+
+        if ($request->has('department_id')) {
+            $motions->department($request->input('department_id'));
+        }
+
+        if ($request->has('closing_before')) {
+            $motions->closingBefore($request->input('closing_before'));
+        }
+
+        if ($request->has('closing_after')) {
+            $motions->closingAfter($request->input('closing_after'));
+        }
+
+        if ($request->has('by_closing_at')) {
+            $motions->orderByClosingAt($request->input('by_closing_at'));
+        }
+
+        if ($request->has('by_created_at')) {
+            $motions->orderByCreatedAt($request->input('by_created_at'));
+        }
 
 
-	function __construct()
-	{
-		//Because this controller is partially visible
-		$this->middleware('auth:api',['except'=>['index','show']]);
-	}
+        if ($request->has('take')) {
+            $motions->take($request->input('take'));
+        } else {
+            $motions->take(1);
+        }
 
-	/**
-	 * Display a listing of the resource. If the user is logged in they will see the position they took on votes
-	 *
-	 * @return Response
-	 */
-	public function index(IndexMotionRequest $request)
-	{	
-		$limit = $request->get('limit') ?: 10;
+        $motions = $motions->paginate($limit);
 
+        return $motions;
+    }
 
-		if( Auth::check() ){ //Logged in user will want to see if they voted on these things
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(StoreUpdateMotionRequest $request)
+    {
+        $motion = Motion::create($request->all());
 
-			$motions = Motion::with(['votes' => function($query){
-				$query->where('user_id',Auth::user()->id);
-			}]);
-		
-		} else {
-			$motions = (new Motion)->newQuery();
-		}
+        return $motion;
+    }
 
-		if($request->has('status')){
-			$motions->status($request->input('status'));
-		}
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function show(Motion $motion, ShowMotionRequest $request)
+    {
+        return $motion;
+    }
 
-		if($request->has('rank_greater_than')){
-			$motions->rankGreaterThan($request->input('rank_greater_than'));
-		}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function update(StoreUpdateMotionRequest $request, Motion $motion)
+    {
+        $motion->update($request->all());
 
-		if($request->has('user_id')){
-			$motions->writer($request->input('user_id'));
-		}
+        return $motion;
+    }
 
-		if($request->has('rank_less_than')){
-			$motions->rankLessThan($request->input('rank_less_than'));
-		}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function destroy(DestroyMotionRequest $request, Motion $motion)
+    {
+        $votes = $motion->votes;
 
-		if($request->has('department_id')){
-			$motions->department($request->input('department_id'));
-		}
+        if ($votes->isEmpty()) { //Has not recieved votes
+            $motion->forceDelete();
 
-		if($request->has('closing_before')){
-			$motions->closingBefore($request->input('closing_before'));
-		}
-	
-		if($request->has('closing_after')){
-			$motions->closingAfter($request->input('closing_after'));
-		}
+            return $motion;
+        }
 
-		if($request->has('by_closing_at')){
-			$motions->orderByClosingAt($request->input('by_closing_at'));
-		}
+        $motion->status = 'deleted';
+        $motion->save();
 
-		if($request->has('by_created_at')){
-			$motions->orderByCreatedAt($request->input('by_created_at'));
-		}
+        $motion->delete(); //Motion kept in the database
+        return $motion;
+    }
 
+    public function restore($id)
+    {
+        $motion = Motion::withTrashed()->with('user')->find($id);
 
-		if($request->has('take')){
-			$motions->take($request->input('take'));
-		} else {
-			$motions->take(1);
-		}
+        if (!$motion) {
+            abort(404, 'Motion does not exist');
+        }
 
-		$motions = $motions->paginate($limit);
+        if ($motion->user->id != Auth::user()->id && !Auth::user()->can('delete-motion')) {
+            abort(401, 'User does not have permission to restore and delete motions');
+        }
 
-		return $motions;
-	}
+        $motion->deleted_at = null; //restore() isn't working either
+        $motion->status = 'closed'; //restore() isn't working either
+        $motion->save();
 
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(StoreUpdateMotionRequest $request)
-	{
-		$motion = Motion::create( $request->all() );
-		
-     	return $motion;
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show(Motion $motion,ShowMotionRequest $request)
-	{
-		return $motion;
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update(StoreUpdateMotionRequest $request, Motion $motion)
-	{
-		$motion->update($request->all());	
-		return $motion;
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy(DestroyMotionRequest $request, Motion $motion)
-	{
-		$votes = $motion->votes;
-
-		if($votes->isEmpty()){ //Has not recieved votes
-			$motion->forceDelete();
-			return $motion;
-		} 
-
-		$motion->status = 'deleted';
-		$motion->save();
-
-		$motion->delete(); //Motion kept in the database	
-		return $motion;
-	}
-
-	public function restore($id){
-
-		$motion = Motion::withTrashed()->with('user')->find($id);
-
-		if(!$motion){
-			abort(404,'Motion does not exist');
-		}
-
-		if($motion->user->id != Auth::user()->id && !Auth::user()->can('delete-motion')){
-			abort(401,'User does not have permission to restore and delete motions');
-		}
-
-		$motion->deleted_at = null; //restore() isn't working either
-		$motion->status = 'closed'; //restore() isn't working either
-		$motion->save();
-		
-		return $motion;
-	}
-
+        return $motion;
+    }
 }

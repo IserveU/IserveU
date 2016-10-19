@@ -3,9 +3,6 @@
 namespace App\Listeners\User;
 
 use App\Events\User\UserUpdated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 use App\File;
 
 class DeleteUnattachedFiles
@@ -23,26 +20,26 @@ class DeleteUnattachedFiles
     /**
      * Handle the event.
      *
-     * @param  UserUpdated  $event
+     * @param UserUpdated $event
+     *
      * @return void
      */
     public function handle(UserUpdated $event)
     {
-        $user       = $event->user;
-        $dirty      = $user->getDirty();
-        $original   = $user->getOriginal();
+        $user = $event->user;
+        $dirty = $user->getDirty();
+        $original = $user->getOriginal();
 
-        if(array_key_exists('government_identification_id',$dirty)){
+        if (array_key_exists('government_identification_id', $dirty)) {
             $file = File::find($original['government_identification_id']);
-            if($file){
+            if ($file) {
                 $file->delete();
             }
-            
         }
 
-        if(array_key_exists('avatar_id',$dirty)){
+        if (array_key_exists('avatar_id', $dirty)) {
             $file = File::find($original['avatar_id']);
-            if($file){
+            if ($file) {
                 $file->delete();
             }
         }

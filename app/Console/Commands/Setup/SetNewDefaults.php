@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands\Setup;
 
-use Illuminate\Console\Command;
-
-use App\BackgroundImage;
-use Setting;
 use App\Events\Setup\Defaults;
+use Illuminate\Console\Command;
 
 class SetNewDefaults extends Command
 {
@@ -35,13 +32,12 @@ class SetNewDefaults extends Command
     }
 
     /**
-     * Put new things and settings in here
+     * Put new things and settings in here.
      *
      * @return mixed
      */
     public function handle()
     {
-        event(new Defaults());       
+        event(new Defaults());
     }
-
 }

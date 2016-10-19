@@ -2,17 +2,16 @@
 
 namespace App\Events\User;
 
-use App\User;
-
 use App\Events\Event;
+use App\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UserDeleted extends Event
 {
     use SerializesModels;
 
     public $user;
+
     /**
      * Create a new event instance.
      *

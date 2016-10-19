@@ -1,27 +1,25 @@
 <?php
-include_once('CommunityApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'CommunityApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexCommunityApiTest extends CommunityApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
     }
 
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function default_community_filter(){
+    public function default_community_filter()
+    {
         $this->get($this->route);
-        
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

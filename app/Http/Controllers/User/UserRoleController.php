@@ -1,16 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\User;
+
 use App\Http\Controllers\ApiController;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Auth;
-use Request;
-
-use Zizaco\Entrust\Entrust;
 use App\Role;
 use App\User;
+use Auth;
+use Request;
 
 class UserRoleController extends ApiController
 {
@@ -24,28 +20,28 @@ class UserRoleController extends ApiController
         return $user->roles;
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(User $user)
     {
-       if(!Auth::user()->can('administrate-permission')){
-            abort(401,"You can not edit user permissions");
+        if (!Auth::user()->can('administrate-permission')) {
+            abort(401, 'You can not edit user permissions');
         }
 
         $role_name = Request::get('role_name');
 
         $user = User::find($user->id);
-        if(!$user){
-            abort(403,"User with the id of ($user->id) not found");
+        if (!$user) {
+            abort(403, "User with the id of ($user->id) not found");
         }
 
-        if($user->hasRole($role_name)){
-            abort(403,"User already has the role ($role_name)");
+        if ($user->hasRole($role_name)) {
+            abort(403, "User already has the role ($role_name)");
         }
 
         $user->addUserRoleByName($role_name);
@@ -56,31 +52,33 @@ class UserRoleController extends ApiController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        abort(200,'incomplete');
+        abort(200, 'incomplete');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user, $role_id)
     {
-        if(!Auth::user()->can('administrate-permission')){
-            abort(401,"You can not edit user permissions");
+        if (!Auth::user()->can('administrate-permission')) {
+            abort(401, 'You can not edit user permissions');
         }
 
         $role = Role::where('id', '=', $role_id)->firstOrFail();
 
-        if(!$user->hasRole($role->name)){
-            abort(403,"User doesn't have the role id of ($role_id)");
+        if (!$user->hasRole($role->name)) {
+            abort(403, "User doesn't have the role id of ($role_id)");
         }
 
         $user->removeUserRole($role_id);

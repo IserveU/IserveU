@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateFilesTable extends Migration
 {
@@ -12,8 +12,7 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('files', function(Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
             $table->string('filename');
             $table->string('folder')->nullable();
@@ -33,12 +32,12 @@ class CreateFilesTable extends Migration
         });
 
 
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->foreign('replacement_id')->references('id')->on('files');
         });
 
 
-        Schema::table('users', function($table){
+        Schema::table('users', function ($table) {
             $table->integer('government_identification_id')->nullable()->unsigned();
             $table->integer('avatar_id')->nullable()->unsigned();
 
@@ -54,9 +53,7 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-
-
-        Schema::table('users', function($table){
+        Schema::table('users', function ($table) {
             $table->dropForeign('users_avatar_id_foreign');
             $table->dropForeign('users_government_identification_id_foreign');
             $table->dropColumn('government_identification_id');

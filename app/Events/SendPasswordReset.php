@@ -2,10 +2,8 @@
 
 namespace App\Events;
 
-use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\User;
+use Illuminate\Queue\SerializesModels;
 
 class SendPasswordReset extends Event
 {
@@ -22,8 +20,8 @@ class SendPasswordReset extends Event
     {
         $this->user = User::withEmail($credentials['email'])->first();
 
-        if(!$this->user){
-            abort(403,"Email address not in database");
+        if (!$this->user) {
+            abort(403, 'Email address not in database');
         }
     }
 

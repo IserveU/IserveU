@@ -5,10 +5,8 @@ namespace App\Http\Requests\Page;
 use App\Http\Requests\Request;
 use Auth;
 
-
 class StoreUpdatePageRequest extends Request
-{  
-    
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,16 +14,15 @@ class StoreUpdatePageRequest extends Request
      */
     public function authorize()
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return false;
         }
 
-        if(!Auth::user()->hasRole('administrator')){
+        if (!Auth::user()->hasRole('administrator')) {
             return false;
         }
 
         return true;
-
     }
 
     /**
@@ -35,12 +32,10 @@ class StoreUpdatePageRequest extends Request
      */
     public function rules()
     {
-
         return [
-            'title'             =>  'filled|string',
-            'content'           =>  'string|filled',
-            'slug'              =>  'reject'
+            'title'             => 'filled|string',
+            'content'           => 'string|filled',
+            'slug'              => 'reject',
         ];
     }
-
 }

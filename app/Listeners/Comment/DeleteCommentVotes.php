@@ -3,8 +3,6 @@
 namespace App\Listeners\Comment;
 
 use App\Events\CommentDeleted;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DeleteCommentVotes
 {
@@ -21,7 +19,8 @@ class DeleteCommentVotes
     /**
      * Handle the event.
      *
-     * @param  CommentDeleted  $event
+     * @param CommentDeleted $event
+     *
      * @return void
      */
     public function handle(CommentDeleted $event)

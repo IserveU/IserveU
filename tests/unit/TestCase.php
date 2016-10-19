@@ -1,11 +1,11 @@
 <?php
-include_once('PolishedTest.php');
+
+include_once 'PolishedTest.php';
 
 
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    
     use PolishedTest;
 
 
@@ -21,7 +21,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public static $aNormalMotion;
 
-
     /**
      * Creates the application.
      *
@@ -29,7 +28,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
-        ini_set('memory_limit','1028M');
+        ini_set('memory_limit', '1028M');
 
         $app = require __DIR__.'/../../bootstrap/app.php';
 
@@ -38,24 +37,19 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-
     /**
      * To speed up tests so there is one motion that can be used to check
-     * things on
+     * things on.
+     *
      * @return App\Motion One fully stocked motion
      */
-    public function getStaticMotion(){
-
-        if(!static::$aNormalMotion){
+    public function getStaticMotion()
+    {
+        if (!static::$aNormalMotion) {
             static::$aNormalMotion = aNormalMotion();
             \DB::commit(); //If triggered from a loction that uses database transactions
         }
 
         return static::$aNormalMotion;
     }
-
-
-
-
-
 }

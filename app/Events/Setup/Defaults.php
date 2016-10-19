@@ -4,14 +4,12 @@ namespace App\Events\Setup;
 
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class Defaults extends Event
 {
     use SerializesModels;
 
     public $adminUser;
-
 
     /**
      * Create a new event instance.
@@ -20,7 +18,6 @@ class Defaults extends Event
      */
     public function __construct()
     {
-
     }
 
     /**

@@ -16,11 +16,11 @@ class DestroyCommentRequest extends Request
     {
         $comment = $this->route()->parameter('comment');
 
-        if(Auth::user()->can('delete-comment')){
+        if (Auth::user()->can('delete-comment')) {
             return true;
         }
 
-        if($comment->vote->user_id == Auth::user()->id){
+        if ($comment->vote->user_id == Auth::user()->id) {
             return true;
         }
 

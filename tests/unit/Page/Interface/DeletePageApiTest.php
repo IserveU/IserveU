@@ -1,13 +1,12 @@
 <?php
-include_once('PageApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'PageApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeletePageApiTest extends PageApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -15,19 +14,18 @@ class DeletePageApiTest extends PageApi
     }
 
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
+
     /** @test  ******************/
-    public function delete_page_correct_response(){
+    public function delete_page_correct_response()
+    {
         $this->signInAsRole('administrator');
 
         $page = factory(App\Page::class)->create();
 
-        $this->delete("/api/page/".$page->slug)
+        $this->delete('/api/page/'.$page->slug)
             ->assertResponseStatus(200)
-            ->dontSeeInDatabase('pages',['id'=>$page->id]);
-        
+            ->dontSeeInDatabase('pages', ['id' => $page->id]);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

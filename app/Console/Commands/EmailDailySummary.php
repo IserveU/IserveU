@@ -2,14 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Events\SendDailyEmails;
 use Illuminate\Console\Command;
 
-use App\User;
-use App\Motion;
-use App\Events\SendDailyEmails;
-
-use Mail;
-use Carbon\Carbon;
 
 class EmailDailySummary extends Command
 {
@@ -44,9 +39,6 @@ class EmailDailySummary extends Command
      */
     public function handle()
     {
-       
         event(new SendDailyEmails());
-
-
     }
 }

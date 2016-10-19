@@ -1,38 +1,30 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ShowVoteApiTest extends TestCase
 {
-    use DatabaseTransactions;    
-
-
+    use DatabaseTransactions;
 
     public function setUp()
     {
-
         parent::setUp();
     }
 
-    
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
-    /** @test */
-    public function show_vote_test(){
 
+    /** @test */
+    public function show_vote_test()
+    {
         $vote = factory(App\Vote::class)->create();
 
         $this->signIn($vote->user);
 
-        $this->visit("/api/vote/".$vote->id)
+        $this->visit('/api/vote/'.$vote->id)
             ->seeJsonStructure([
-                'id','position','motion_id','deferred_to_id'
+                'id', 'position', 'motion_id', 'deferred_to_id',
             ])->dontSeeJson([
 
             ]);
-
     }
-
 }

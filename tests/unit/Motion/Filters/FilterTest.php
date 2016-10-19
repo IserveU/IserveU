@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FilterTest extends TestCase
@@ -25,19 +23,16 @@ class FilterTest extends TestCase
                 $this,
                 [],
                 [],
-                ['status'=>1]
+                ['status' => 1]
         );
         $this->assertResponseStatus(400);
-
     }
-    
+
     /** @test */
     public function get_motion_index_of_only_published()
     {
-        $index = $this->call('GET', 'api/motion',['status'=>[2]]);
+        $index = $this->call('GET', 'api/motion', ['status' => [2]]);
 
         $this->assertResponseOk();
-
     }
-
 }

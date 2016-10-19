@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use anlutro\LaravelSettings\Facade;
 
 class Setting extends Facade
@@ -40,9 +39,10 @@ class Setting extends Facade
     // for the API
     public static function update($key, $value)
     {
-        if(!is_null(Setting::get($key))){
+        if (!is_null(self::get($key))) {
             parent::set($key, $value);
             parent::save();
+
             return true;
         } else {
             return false;
@@ -50,33 +50,35 @@ class Setting extends Facade
     }
 
     /**
-    * Checks if a setting exists and if not create it.
-    *
-    *
-    * @param string    $key     Key of the setting
-    * @param string    $value   Value of the setting to set
-    *
-    * @return void
-    */
-    public static function ifNotSetThenSet($key,$value){
-        if(is_null(Setting::get($key))){
-            Parent::set($key,$value);
+     * Checks if a setting exists and if not create it.
+     *
+     *
+     * @param string $key   Key of the setting
+     * @param string $value Value of the setting to set
+     *
+     * @return void
+     */
+    public static function ifNotSetThenSet($key, $value)
+    {
+        if (is_null(self::get($key))) {
+            Parent::set($key, $value);
             Parent::save();
         }
     }
 
     /**
-    * Rename the key of an existing setting
-    *
-    *
-    * @param string    $oldName   The setting you want to rename
-    * @param string    $newName   The name you want to give it
-    *
-    * @return void
-    */
-    public static function renameSetting($oldName,$newName){
-        if(!is_null(Setting::get($oldName))){
-            Parent::set($newName,Setting::get($oldName));
+     * Rename the key of an existing setting.
+     *
+     *
+     * @param string $oldName The setting you want to rename
+     * @param string $newName The name you want to give it
+     *
+     * @return void
+     */
+    public static function renameSetting($oldName, $newName)
+    {
+        if (!is_null(self::get($oldName))) {
+            Parent::set($newName, self::get($oldName));
             Parent::forget($oldName);
             Parent::save();
         }

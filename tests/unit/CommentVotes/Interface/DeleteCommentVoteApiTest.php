@@ -1,8 +1,7 @@
 <?php
-include_once('CommentVoteApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'CommentVoteApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeleteCommentVoteApiTest extends TestCase
@@ -15,20 +14,21 @@ class DeleteCommentVoteApiTest extends TestCase
     }
 
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
+
     /** @test  ******************/
-    public function administrator_delete_commentvote_correct_response(){
+    public function administrator_delete_commentvote_correct_response()
+    {
         $this->signInAsRole('administrator');
 
         $commentvote = factory(App\CommentVote::class)->create();
 
-        $this->delete("/api/comment_vote/".$commentvote->id)
-            ->assertResponseStatus(403);   
+        $this->delete('/api/comment_vote/'.$commentvote->id)
+            ->assertResponseStatus(403);
     }
 
-
     /** @test  ******************/
-    public function delete_commentvote_correct_response(){
+    public function delete_commentvote_correct_response()
+    {
         $this->signIn();
 
         //3rd party comment
@@ -36,20 +36,18 @@ class DeleteCommentVoteApiTest extends TestCase
 
         // User has also voted on this motion
         $vote = factory(App\Vote::class)->create([
-            'user_id'       =>  $this->user->id,
-            'motion_id'     =>  $comment->vote->motion_id
+            'user_id'       => $this->user->id,
+            'motion_id'     => $comment->vote->motion_id,
         ]);
 
         //And voted on a comment
         $commentvote = factory(App\CommentVote::class)->create([
-            'vote_id'   =>  $vote->id
+            'vote_id'   => $vote->id,
         ]);
 
-        $this->delete("/api/comment_vote/".$commentvote->id)
-            ->assertResponseStatus(200);   
+        $this->delete('/api/comment_vote/'.$commentvote->id)
+            ->assertResponseStatus(200);
     }
 
-
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

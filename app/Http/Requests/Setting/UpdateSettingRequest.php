@@ -4,13 +4,11 @@ namespace App\Http\Requests\Setting;
 
 use App\Http\Requests\Request;
 
-
 class UpdateSettingRequest extends Request
 {
-
     protected $rules = [
         'key'   => 'string',
-        'value' => 'required'
+        'value' => 'required',
     ];
 
     /**

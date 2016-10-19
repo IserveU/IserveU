@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexUserCommentApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
 
     protected static $commentingUser;
@@ -16,13 +14,13 @@ class IndexUserCommentApiTest extends TestCase
         parent::setUp();
 
 
-        if(is_null(static::$commentingUser)){
-            static::$commentingUser =   factory(App\User::class)->create();
+        if (is_null(static::$commentingUser)) {
+            static::$commentingUser = factory(App\User::class)->create();
 
-            $comments   =   factory(App\Comment::class,10)->create();
+            $comments = factory(App\Comment::class, 10)->create();
 
-            foreach($comments as $comment){
-                $comment->vote->user_id     = static::$commentingUser->id;
+            foreach ($comments as $comment) {
+                $comment->vote->user_id = static::$commentingUser->id;
                 $comment->vote->save();
             }
         }
@@ -30,22 +28,17 @@ class IndexUserCommentApiTest extends TestCase
         $this->signIn(static::$commentingUser);
     }
 
-
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function default_user_comment_filter(){
-       
-        $this->get("/api/user/".static::$commentingUser->id."/comment")
+    public function default_user_comment_filter()
+    {
+        $this->get('/api/user/'.static::$commentingUser->id.'/comment')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
-                   "*" => ['id','text','commentRank']
+                   '*' => ['id', 'text', 'commentRank'],
                 ]);
-
     }
 
-  
-
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

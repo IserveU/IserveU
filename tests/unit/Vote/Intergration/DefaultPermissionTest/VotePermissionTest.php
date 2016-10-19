@@ -1,21 +1,17 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VotePermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->class         =   App\Vote::class;
-        $this->route        =   "/api/vote/";
-
-
+        $this->class = App\Vote::class;
+        $this->route = '/api/vote/';
     }
 
     /*****************************************************************
@@ -23,34 +19,30 @@ class VotePermissionTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
-    
+
     /** @test */
     public function it_can_create_a_vote()
     {
-
         $this->signInAsPermissionedUser('create-vote');
-        
-        $this->motion       =   factory(App\Motion::class,'published')->create();
-        $this->route        =   "/api/motion/".$this->motion->id."/vote/";
 
-        $this->storeFieldsGetSee(['position'],200);   
+        $this->motion = factory(App\Motion::class, 'published')->create();
+        $this->route = '/api/motion/'.$this->motion->id.'/vote/';
 
+        $this->storeFieldsGetSee(['position'], 200);
     }
 
     /** @test */
     public function it_can_update_own_vote()
     {
-
         $this->signInAsPermissionedUser('create-vote');
 
 
         $this->modelToUpdate = factory(App\Vote::class)->create([
-            'user_id'   =>      $this->user->id
+            'user_id'   => $this->user->id,
         ]);
 
-        $this->updateFieldsGetSee(['position'],200);
+        $this->updateFieldsGetSee(['position'], 200);
     }
-
 
     /** @test */
     public function it_can_abstain_vote()
@@ -59,18 +51,16 @@ class VotePermissionTest extends TestCase
         $this->signInAsPermissionedUser('create-vote');
 
         $vote = factory(App\Vote::class)->create([
-            'user_id'   =>  \Auth::user()->id,
-            'position'  =>  1
+            'user_id'   => \Auth::user()->id,
+            'position'  => 1,
         ]);
-        
+
         // Delete Vote
         $this->delete('/api/vote/'.$vote->id)
               ->assertResponseStatus(200);
 
         $this->seeInDatabase('votes', ['id' => $vote->id, 'position' => 0, 'user_id' => $this->user->id]);
-
     }
-
 
     /** @test */
     public function it_can_see_the_total_votes_of_a_motion()
@@ -81,18 +71,12 @@ class VotePermissionTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-
-
     /** @test */
     public function it_cannot_create_a_vote()
     {
-        
-        $this->motion       =   factory(App\Motion::class,'published')->create();
-        $this->route        =   "/api/motion/".$this->motion->id."/vote/";
+        $this->motion = factory(App\Motion::class, 'published')->create();
+        $this->route = '/api/motion/'.$this->motion->id.'/vote/';
 
-        $this->storeFieldsGetSee(['position'],302);   
-
-
+        $this->storeFieldsGetSee(['position'], 302);
     }
-
 }

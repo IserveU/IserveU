@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\Request;
-use App\Vote;
-use Auth;
 
 class ShowCommentRequest extends Request
 {
@@ -15,7 +13,6 @@ class ShowCommentRequest extends Request
      */
     public function authorize()
     {
-
         return true;
     }
 
