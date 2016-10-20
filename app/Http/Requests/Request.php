@@ -44,7 +44,7 @@ abstract class Request extends FormRequest
     //Courtesy of @Kiniamaro
     public function validate()
     {
-        if (getenv('APP_DEBUG') == 'true') {
+        if (config('app.debug') == 'true') {
             $validator = parent::getValidatorInstance();
             // Add universal rules
             $validator->setRules(array_merge(

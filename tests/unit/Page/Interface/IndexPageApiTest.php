@@ -4,7 +4,6 @@ include_once 'PageApi.php';
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class IndexPageApiTest extends PageApi
 {
     use DatabaseTransactions;

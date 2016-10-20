@@ -11,8 +11,6 @@ use App\Department;
 use Auth;
 use Illuminate\Support\Facades\Request;
 
-
-
 class DepartmentController extends ApiController
 {
     protected $departmentTransformer;

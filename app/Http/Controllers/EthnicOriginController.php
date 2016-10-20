@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\EthnicOrigin;
 
-
-
 class EthnicOriginController extends ApiController
 {
     /**

@@ -3,7 +3,6 @@
 use App\File;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class FileVersioningTest extends TestCase
 {
     use DatabaseTransactions;

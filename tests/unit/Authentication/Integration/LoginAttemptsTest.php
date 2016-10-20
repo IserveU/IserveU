@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class LoginAttemptsTest extends TestCase
 {
     use DatabaseTransactions;

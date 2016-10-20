@@ -4,7 +4,6 @@ include_once 'FileApi.php';
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class IndexFileApiTest extends FileApi
 {
     use DatabaseTransactions;

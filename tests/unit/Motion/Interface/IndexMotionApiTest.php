@@ -4,7 +4,6 @@ include_once 'MotionApi.php';
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class IndexMotionApiTest extends MotionApi
 {
     use DatabaseTransactions;

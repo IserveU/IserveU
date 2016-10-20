@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (env('APP_DEBUG')) {
+        if (config('app.debug')) {
             \DB::listen(function ($sql) {
                 foreach ($sql->bindings as $i => $binding) {
                     if ($binding instanceof \DateTime) {
@@ -88,6 +88,8 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('reject', function ($attribute, $value, $parameters, $validator) {
             return false;
         });
+
+        Validator::extend('notRequired', 'CustomValidation@notRequired');
     }
 
     /**

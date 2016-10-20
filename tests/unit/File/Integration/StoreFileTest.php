@@ -3,7 +3,6 @@
 use App\File;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class UploadFileTest extends TestCase
 {
     //  use DatabaseTransactions;

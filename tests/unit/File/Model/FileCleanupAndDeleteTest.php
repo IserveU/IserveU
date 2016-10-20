@@ -3,7 +3,6 @@
 use App\Article;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class FileCleanupAndDeleteTest extends TestCase
 {
     use DatabaseTransactions;

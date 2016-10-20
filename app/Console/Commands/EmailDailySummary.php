@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Events\SendDailyEmails;
 use Illuminate\Console\Command;
 
-
 class EmailDailySummary extends Command
 {
     /**

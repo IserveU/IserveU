@@ -13,7 +13,6 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
 class UserController extends ApiController
 {
     protected $userTransformer;

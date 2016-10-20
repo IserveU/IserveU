@@ -12,11 +12,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
 
-Validator::extend('notRequired', 'CustomValidation@notRequired');
+Route::get('/', 'HomeController@index')->name('home');
+
+
 
 Route::post('authenticate', 'AuthenticateController@authenticate')->name('login');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword')->name('reset.trigger');
