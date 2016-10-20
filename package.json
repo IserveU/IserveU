@@ -1,6 +1,7 @@
 {
   "private": true,
   "devDependencies": {
+    "eslint": "^3.8.1",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-webpack-official": "^1.0.2",
@@ -9,6 +10,10 @@
   "scripts": {
     "prod": "gulp --production",
     "dev": "gulp watch",
-    "test": "webdriver-manager start && protractor conf"
+    "test": "webdriver-manager start && protractor conf",
+    "lint": "eslint public/app"
+  },
+  "eslintConfig": {
+    "extends": "google"
   }
 }
