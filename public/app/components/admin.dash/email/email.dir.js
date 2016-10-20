@@ -1,29 +1,27 @@
-(function() {
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
-	
-	angular
-		.module('iserveu')
-		.directive('emailManager', 
-			['settings',
-		emailManager]);
+  angular
+    .module('iserveu')
+    .directive('emailManager', [
+      'settings',
+      emailManager]);
 
-	function emailManager(settings) {
+  function emailManager(settings) {
 
-		function emailManagerController() {
-			this.service = settings;
-			this.settings = settings.getData();
-			console.log(settings);
-		}
+    function emailManagerController() {
+      this.service = settings;
+      this.settings = settings.getData();
+    }
 
 
-		return {
-			restrict: 'EA',
-			controller: emailManagerController,
-			controllerAs: 'email',
-			templateUrl: 'app/components/admin.dash/email/email.tpl.html'
-		}
+    return {
+      restrict: 'EA',
+      controller: emailManagerController,
+      controllerAs: 'email',
+      templateUrl: 'app/components/admin.dash/email/email.tpl.html'
+    };
 
-	}
+  }
 
-})();
+})(window, window.angular);
