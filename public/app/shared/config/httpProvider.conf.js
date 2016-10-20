@@ -106,4 +106,4 @@
       return _fd;
     }
   }]);
-})();
+})(window, window.angular);
