@@ -1,27 +1,28 @@
-(function() {
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
+  angular
+    .module('iserveu')
+    .directive('focusInput', ['$timeout', focusInput]);
 
-	angular
-		.module('iserveu')
-		.directive('focusInput', ['$timeout', focusInput]);
+  function focusInput($timeout) {
 
-  	 /** @ngInject */
-	function focusInput($timeout) {
-
-	    return {
-	        restrict : 'A',
-	        link : function($scope,$element,$attr) {
-	            $scope.$watch ($attr.focusInput,function(_focusVal) {
-	                $timeout(function() {
-	                    _focusVal ? $element.focus() :
-	                        $element.blur();
-	                });
-	            });
-	        }
-	    }
+    return {
+      restrict: 'A',
+      link: function($scope, $element, $attr) {
+        $scope.$watch($attr.focusInput, function(_focusVal) {
+          $timeout(function() {
+            if (_focusVal) {
+              $element.focus();
+            } else {
+              $element.blur();
+            }
+          });
+        });
+      }
+    };
 
 
-	}
+  }
 
-})();
+})(window, window.angular);

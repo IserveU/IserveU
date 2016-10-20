@@ -1,25 +1,27 @@
-(function() {
-	
-	angular
-		.module('iserveu')
-		.directive('formatBirthday', ['$filter', formatBirthday]);
+// @deprecated
+// (function() {
 
-	function formatBirthday($filter) {
+//  angular
+//    .module('iserveu')
+//    .directive('formatBirthday', ['$filter', formatBirthday]);
 
-		return {
-		    require: 'ngModel',
-		    link: function(scope, element, attrs, ngModelController) {
+//  function formatBirthday($filter) {
 
-				// ngModelController.$parsers.push(function(data) {
-				// 	return new Date(data);
-				// });
+//    return {
+//        require: 'ngModel',
+//        link: function(scope, element, attrs, ngModelController) {
 
-      			ngModelController.$formatters.push(function(data) {
-					var d = new Date(data);
-					return new Date(d.setTime( d.getTime() + d.getTimezoneOffset()*60000 ));
-			    });
-		    }
-		};
-	}
+//        // ngModelController.$parsers.push(function(data) {
+//        //  return new Date(data);
+//        // });
 
-})();
+//            ngModelController.$formatters.push(function(data) {
+//          var d = new Date(data);
+//          return new Date(d.setTime( d.getTime() +
+//          d.getTimezoneOffset()*60000 ));
+//          });
+//        }
+//    };
+//  }
+
+// })();

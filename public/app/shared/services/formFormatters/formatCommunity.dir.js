@@ -1,43 +1,44 @@
-(function() {
-	
-	angular
-		.module('iserveu')
-		.directive('formatCommunity', formatCommunity);
+// @deprecated
+// (function() {
 
-	function formatCommunity() {
+//  angular
+//    .module('iserveu')
+//    .directive('formatCommunity', formatCommunity);
 
-		return {
-			require: 'ngModel',
-			link: function(scope, el, attrs, ngModelCtrl) {
+//  function formatCommunity() {
 
-				var communityId;
+//    return {
+//      require: 'ngModel',
+//      link: function(scope, el, attrs, ngModelCtrl) {
 
-				var unbindScope = scope.$watch('communities.index', function(value) {
-					if(value && value.length > 0) {
-						for(var i in value) {
-							if(communityId == value[i].id) {
-								ngModelCtrl.$setViewValue(value[i].name); 
-								ngModelCtrl.$commitViewValue();
-								ngModelCtrl.$render();
-								unbindScope();
-							}
-						}
-					}
-				});
+//        var communityId;
 
-
-				ngModelCtrl.$formatters.push(function(data) {
-
-					if (!data)
-						return "What community do you reside in?";
-					else 
-						communityId = data;
-					
-				});
-			}
-		}
+//        var unbindScope = scope.$watch('communities.index', function(value) {
+//          if(value && value.length > 0) {
+//            for(var i in value) {
+//              if(communityId == value[i].id) {
+//                ngModelCtrl.$setViewValue(value[i].name);
+//                ngModelCtrl.$commitViewValue();
+//                ngModelCtrl.$render();
+//                unbindScope();
+//              }
+//            }
+//          }
+//        });
 
 
-	}
+//        ngModelCtrl.$formatters.push(function(data) {
 
-})();
+//          if (!data)
+//            return "What community do you reside in?";
+//          else
+//            communityId = data;
+
+//        });
+//      }
+//    }
+
+
+//  }
+
+// })();

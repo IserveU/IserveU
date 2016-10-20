@@ -1,26 +1,27 @@
-(function() {
-	
-	angular
-		.module('iserveu')
-		.directive('formatPublic', formatPublic);
+// @deprecated
+// (function() {
 
-	function formatPublic() {
+//  angular
+//    .module('iserveu')
+//    .directive('formatPublic', formatPublic);
 
-		return {
-			require: 'ngModel',
-			link: function(scope, el, attrs, ngModelCtrl) {
+//  function formatPublic() {
 
-				ngModelCtrl.$formatters.push(function(data) {
+//    return {
+//      require: 'ngModel',
+//      link: function(scope, el, attrs, ngModelCtrl) {
 
-					if (data === 1)
-						return "Public";
-					else
-						return "Private";
-				});
-			}
-		}
+//        ngModelCtrl.$formatters.push(function(data) {
+
+//          if (data === 1)
+//            return "Public";
+//          else
+//            return "Private";
+//        });
+//      }
+//    }
 
 
-	}
+//  }
 
-})();
+// })();

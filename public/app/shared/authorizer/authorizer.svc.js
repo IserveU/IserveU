@@ -1,31 +1,31 @@
-(function() {
-	
-	'use strict';
+'use strict';
+(function(window, angular, undefined) {
 
-	angular
-		.module('iserveu')
-		.service('Authorizer', [
-			'$rootScope', 
-		Authorizer]);
+  angular
+    .module('iserveu')
+    .service('Authorizer', [
+      '$rootScope',
+      Authorizer]);
 /**
-*	http://adamalbrecht.com/2014/09/22/authorization-with-angular-and-ui-router/
+* http://adamalbrecht.com/2014/09/22/authorization-with-angular-and-ui-router/
 */
-	function Authorizer($rootScope) {
+  function Authorizer($rootScope) {
 
-		this.canAccess = function(requirePermissions) {
+    this.canAccess = function(requirePermissions) {
 
-			var user = $rootScope.authenticatedUser;
+      var user = $rootScope.authenticatedUser;
 
-			if(!user || angular.isUndefined(requirePermissions))
-				return false;
+      if (!user || angular.isUndefined(requirePermissions))
+        return false;
 
-			requirePermissions = !angular.isArray(requirePermissions) ? [requirePermissions] : requirePermissions;
+      if (!angular.isArray(requirePermissions)) {
+        requirePermissions = [requirePermissions];
+      }
 
-			return requirePermissions.every(function(el){
-				return user.permissions.includes(el.trim());
-			});
-		}
+      return requirePermissions.every(function(el) {
+        return user.permissions.includes(el.trim());
+      });
+    };
 
-	}
-
-})();
+  }
+})(window, window.angular);

@@ -1,0 +1,31 @@
+<!-- <div class="accordian" flex ng-click="isOpen = !isOpen" ng-class="isOpen?'opened':'closed'">
+   <md-icon class="mdi {{icon}} title-icon"></md-icon>
+   <h3 class="md-body-2" >{{title}}</h3>
+   <md-icon ng-class="isOpen?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+</div>
+
+ -->
+<md-list ng-cloak>
+    <md-list-item class="accordian md-2-line" ng-repeat="item in items" ng-class="item.open?'opened':'closed'">
+        <!-- <div ng-transclude></div> -->
+
+        <div class="md-list-item-text">
+            <h3 class="accordian-title">{{item.title}}</h3>
+            <p ng-show="item.open">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+
+        <md-button class="md-icon-button md-secondary" ng-click="expand(item)">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+
+        <md-divider ng-hide="$last"></md-divider>
+
+    </md-list-item>
+</md-list>
