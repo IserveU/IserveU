@@ -1,118 +1,119 @@
-(function() {
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
+  var iserveu = angular.module('iserveu', [
+    'ngCookies',
+    'ngResource',
+    'ngMaterial',
+    'ngMessages',
+    'ngSanitize',
+    'satellizer',
+    'ui.router',
+    'flow',
+    'infinite-scroll',
+    'pascalprecht.translate',
+    'mdColorPicker',
+    'isu-form-sections',
+    'angular-loading-bar',
+    'alloyeditor'
+  ])
+  .run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
+    '$state', '$mdDialog', 'motionResource',
+    function($rootScope, $window, $timeout, $globalProvider, $stateParams,
+      $state, $mdDialog, motionResource) {
 
-	var iserveu = angular.module('iserveu', [
-			'ngCookies',
-			'ngResource',
-			'ngMaterial',
-			'ngMessages',
-			'ngSanitize',
-			'satellizer',
-			'ui.router',
-			'flow',
-            'infinite-scroll',
-			'pascalprecht.translate',
-			'mdColorPicker',
-			'isu-form-sections',
-			'angular-loading-bar',
-	        'alloyeditor'
-		])
-		.run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams', '$state', '$mdDialog', 'motionResource',
-			function($rootScope, $window, $timeout, $globalProvider, $stateParams, $state, $mdDialog, motionResource) {
+      $rootScope.preventStateChange = false;
 
-        $rootScope.preventStateChange = false;
+      $rootScope.$on('$stateChangeStart', function(event, toState,
+        toParams, fromState, fromParams) {
 
-				$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        if (!$rootScope.preventStateChange &&
+          fromState.name === 'create-motion'
+          && $stateParams.id) {
 
-                    console.log($rootScope.preventStateChange);
-                    console.log(toState);
+          event.preventDefault();
 
-                    if(!$rootScope.preventStateChange && fromState.name === 'create-motion' && $stateParams.id) {
-                        event.preventDefault();
+          var confirm = $mdDialog.confirm()
+                .parent(angular.element(document.body))
+                .title('Would you like to discard this draft?')
+                .textContent('Your changes and draft will not be saved.')
+                .ariaLabel('Navigate away from create-motion')
+                .ok('Please do it!')
+                .cancel('No thanks.');
 
-                        var confirm = $mdDialog.confirm()
-                              .parent(angular.element(document.body))
-                              .title('Would you like to discard this draft?')
-                              .textContent('Your changes and draft will not be saved.')
-                              .ariaLabel('Navigate away from create-motion')
-                              .ok('Please do it!')
-                              .cancel('No thanks.');
+          $mdDialog.show(confirm).then(function() {
+            motionResource.deleteMotion($stateParams.id);
+            $stateParams.id = null;
+            $state.go(toState.name || 'home');
+          }, function() {});
 
-                        $mdDialog.show(confirm).then(function() {
-                            motionResource.deleteMotion($stateParams.id);
-                            $stateParams.id = null;
-                            $state.go(toState.name || 'home');
-                        }, function() {
-                        });
+        } else if (fromState.name === 'create-page' && $stateParams.id) {
+          event.preventDefault();
 
-                    } else if(fromState.name === 'create-page' && $stateParams.id) {
-                        event.preventDefault();
+          var confirm2 = $mdDialog.confirm()
+            .parent(angular.element(document.body))
+            .title('Would you like to discard this draft?')
+            .textContent('Your changes and draft will not be saved.')
+            .ariaLabel('Navigate away from create-motion')
+            .ok('Please do it!')
+            .cancel('No thanks.');
 
-                        var confirm = $mdDialog.confirm()
-                              .parent(angular.element(document.body))
-                              .title('Would you like to discard this draft?')
-                              .textContent('Your changes and draft will not be saved.')
-                              .ariaLabel('Navigate away from create-motion')
-                              .ok('Please do it!')
-                              .cancel('No thanks.');
+          $mdDialog.show(confirm2).then(function() {
+            // pageService.destroy($stateParams.id);
+            $stateParams.id = null;
+            $state.go(toState.name || 'home');
+          }, function() {
+          });
+        } else {
+          $globalProvider.checkUser();
+          $globalProvider.checkPermissions(event,
+            toState.data.requirePermissions);
+          $globalProvider.setState(toState);
+        }
+      });
 
-                        $mdDialog.show(confirm).then(function() {
-                            pageService.destroy($stateParams.id);
-                            $stateParams.id = null;
-                            $state.go(toState.name || 'home');
-                        }, function() {
-                        });
-                    } else {
+      $rootScope.$on('cfpLoadingBar:loading', function() {
+        $rootScope.pageLoading = true;
+      });
 
-    					$globalProvider.checkUser();
-    					$globalProvider.checkPermissions( event, toState.data.requirePermissions );
-    					$globalProvider.setState( toState );
-                    }
+      $rootScope.$on('cfpLoadingBar:completed', function() {
+        $rootScope.pageLoading = false;
+      });
 
-				});
+      $globalProvider.init();
 
-			    $rootScope.$on('cfpLoadingBar:loading',function(){
-		    		$rootScope.pageLoading = true;
-    		    });
+      $window.onbeforeunload = function(e) {
+        var publicComputer = localStorage.getItem('public_computer');
+        if (JSON.parse(publicComputer) == true)
+          return localStorage.clear();
+      };
+    }]);
 
-			    $rootScope.$on('cfpLoadingBar:completed',function(){
-		    		$rootScope.pageLoading = false;
-			    });
+  fetchData().then(bootstrapApplication);
 
-		        $globalProvider.init();
+  function fetchData() {
+    var initInjector = angular.injector(['ng']);
+    var $http = initInjector.get('$http');
 
-				$window.onbeforeunload = function(e) {
-					var publicComputer = localStorage.getItem('public_computer');
-					if(JSON.parse(publicComputer) == true)
-						return localStorage.clear();
-				};
+    return $http.get('/api/setting').then(function(response) {
 
-		}]);
+      var settings = response.data;
 
-	fetchData().then(bootstrapApplication);
+      localStorage.setItem('settings', JSON.stringify(settings));
+      iserveu.constant('SETTINGS_JSON', settings);
+      document.body.style.backgroundImage = ('url(' + (settings.background_image
+        || '/themes/default/photos/background.png') + ')');
 
-	function fetchData() {
-        var initInjector = angular.injector(['ng']);
-        var $http = initInjector.get('$http');
+    }, function(errorResponse) {
+      console.log('error');
+    });
 
-        return $http.get('/api/setting').then(function(response) {
+  }
 
-        	var settings = response.data;
+  function bootstrapApplication() {
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, ['iserveu'], {strictDi: true});
+    });
+  }
 
-			localStorage.setItem('settings', JSON.stringify(settings));
-            iserveu.constant('SETTINGS_JSON', settings);
-            document.body.style.backgroundImage = ('url('+ (settings.background_image || '/themes/default/photos/background.png') + ')');
-        }, function(errorResponse) {
-            console.log('error');
-        });
-
-    }
-
-    function bootstrapApplication() {
-        angular.element(document).ready(function() {
-            angular.bootstrap(document, ['iserveu'], {strictDi: true});
-        });
-    }
-
-}());
+}(window, window.angular));
