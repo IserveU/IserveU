@@ -1,31 +1,26 @@
-(function() {
-	
-	'use strict';
+'use strict';
+(function(window, angular, undefined) {
 
-	angular
-		.module('iserveu')
-		.directive('formatDate', ['$filter', formatDate]);
 
-  	 /** @ngInject */
-	function formatDate($filter) {
+  angular
+    .module('iserveu')
+    .directive('formatDate', ['$filter', formatDate]);
 
-		return {
-			require: "ngModel",
-			link: function(scope, element, attrs, ngModelController) {
+  function formatDate($filter) {
 
-				ngModelController.$parsers.push(function(data) {
-					return $filter('date')(data, "yyyy-MM-dd HH:mm:ss Z");
-				});
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModelController) {
 
-      			ngModelController.$formatters.push(function(data) {
+        ngModelController.$parsers.push(function(data) {
+          return $filter('date')(data, 'yyyy-MM-dd HH:mm:ss Z');
+        });
 
-					if ( data ) return new Date(data);
-					else 
-						return data;
-			    });
-			}
-		}
-	}
+        ngModelController.$formatters.push(function(data) {
+          return data ? new Date(data) : data;
+        });
+      }
+    };
+  }
 
-}());
-
+}(window, window.angular));

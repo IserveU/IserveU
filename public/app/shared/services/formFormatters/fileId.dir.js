@@ -1,28 +1,27 @@
-(function() {
-	
-	angular
-		.module('iserveu')
-		.directive('fileId', ['fileService', fileId]);
+'use strict';
+(function(window, angular, undefined) {
 
-	function fileId(fileService) {
+  angular
+    .module('iserveu')
+    .directive('fileId', ['fileService', fileId]);
 
-		return {
-			link: function(scope, el, attrs) {
-				attrs.$observe('fileId', function(file_id) {
+  function fileId(fileService) {
 
-					if(file_id && !angular.isUndefined(file_id)) {
+    return {
+      link: function(scope, el, attrs) {
+        attrs.$observe('fileId', function(file_id) {
 
-						fileService.get(file_id).then(function(value){
-							attrs.$set('src', '/uploads/'+value.data.filename);
-						})
+          if (file_id && !angular.isUndefined(file_id)) {
 
-					}
+            fileService.get(file_id).then(function(value) {
+              attrs.$set('src', '/uploads/' + value.data.filename);
+            });
 
-				})
-			}
-		}
+          }
 
+        });
+      }
+    };
 
-	}
-
-})();
+  }
+})(window, window.angular);

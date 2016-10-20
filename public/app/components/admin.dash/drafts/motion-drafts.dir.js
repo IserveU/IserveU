@@ -1,35 +1,28 @@
-(function(){
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
+  angular
+    .module('iserveu')
+    .directive('motionDrafts', ['motionResource', motionDrafts]);
 
+  function motionDrafts(motionResource) {
 
-	angular
-		.module('iserveu')
-		.directive('motionDrafts', ['motionResource', 'errorHandler', motionDrafts]);
+    function motionDraftController() {
 
-	 /** @ngInject */
-	function motionDrafts(motionResource, errorHandler){
+      var self = this; // global context for 'this'
 
-		function motionDraftController() {
+      motionResource.getDrafts(['draft', 'review']).then(function(r) {
+        self.motions = r.data.data;
+      });
 
-			var self = this; // global context for 'this'
+    }
 
-			motionResource.getDrafts(['draft', 'review']).then(function(r){
-				self.motions = r.data.data;
-			}, function(e){
-				errorHandler(e);
-			});
+    return {
+      controller: motionDraftController,
+      controllerAs: 'draft',
+      templateUrl: 'app/components/admin.dash/drafts/motion-drafts.tpl.html'
+    };
 
-		};
+  }
 
-		return {
-
-			controller: motionDraftController,
-			controllerAs: 'draft',
-			templateUrl: 'app/components/admin.dash/drafts/motion-drafts.tpl.html'
-
-		}
-
-	}
-
-})();
+})(window, window.angular);

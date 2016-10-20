@@ -1,39 +1,37 @@
-(function() {
-
 'use strict';
+(function(window, angular, undefined) {
 
-angular
-.module('iserveu')
-.factory('MotionComments', ['$http', '$translate', function($http, $translate) {
+  angular
+    .module('iserveu')
+    .factory('MotionComments', [
+      '$http',
+      '$translate',
+      MotionCommentsFactory]);
 
-	function MotionComments(motionVoteData) {
+  function MotionCommentsFactory($http, $translate) {
 
-		if(motionVoteData) {
-			this.setData(motionVoteData);
-		} 
-		
-	}
+    function MotionComments(motionVoteData) {
+      if (motionVoteData) {
+        this.setData(motionVoteData);
+      }
+    }
 
-	MotionComments.prototype = {
+    MotionComments.prototype = {
+      setData: function(motionVoteData) {
+        angular.extend(this, motionVoteData);
+      },
 
-		setData: function(motionVoteData) {
-			angular.extend(this, motionVoteData);
-		},
+      setAgreeComments: function() {
 
-		setAgreeComments: function() {
+      },
 
-		},
+      setDisagreeComments: function() {
 
-		setDisagreeComments: function() {
-
-		}
-	}
-
-
-	return MotionComments;
+      }
+    };
 
 
-}])
+    return MotionComments;
+  }
 
-})();
-
+})(window, window.angular);

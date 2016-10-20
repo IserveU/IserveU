@@ -1,39 +1,41 @@
-(function() {
-	
-	'use strict';
+// @Deprecated
+// (function() {
 
-	angular
-		.module('iserveu')
-		.directive('formatAddress', ['utils', formatAddress]);
+//  'use strict';
 
-  	 /** @ngInject */
-	function formatAddress(utils) {
+//  angular
+//    .module('iserveu')
+//    .directive('formatAddress', ['utils', formatAddress]);
 
-		return {
-			require: "ngModel",
-			link: function(scope, element, attrs, ngModelController) {
+//  function formatAddress(utils) {
 
-      			ngModelController.$formatters.push(function(data) {
+//    return {
+//      require: "ngModel",
+//      link: function(scope, element, attrs, ngModelController) {
 
-      				var address = '';
+//            ngModelController.$formatters.push(function(data) {
 
-      				if( !data.street_name )
-      					return "Enter your address";
-      				else if ( !data.unit_number && !data.street_number)
-      					address = utils.toTitleCase(data.street_name);
-      				else if( !data.unit_number )
-      					address = data.street_number + ' ' + utils.toTitleCase(data.street_name);
-      				else if ( !data.street_number )
-      					address = "Unit #" + data.unit_number + ' ' + utils.toTitleCase(data.street_name);
-      				else
-						address = data.unit_number + '-' + data.street_number + ' ' + utils.toTitleCase(data.street_name);
+//              var address = '';
 
-					return address;
+//              if( !data.street_name )
+//                return "Enter your address";
+//              else if ( !data.unit_number && !data.street_number)
+//                address = utils.toTitleCase(data.street_name);
+//              else if( !data.unit_number )
+//                address = data.street_number + ' '
+//                + utils.toTitleCase(data.street_name);
+//              else if ( !data.street_number )
+//                address = "Unit #" + data.unit_number
+//                + ' ' + utils.toTitleCase(data.street_name);
+//              else
+//            address = data.unit_number + '-'
+//            + data.street_number + ' ' + utils.toTitleCase(data.street_name);
 
-			    });
-			}
-		}
-	}
+//          return address;
 
-}());
+//          });
+//      }
+//    }
+//  }
 
+// }());

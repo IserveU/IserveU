@@ -1,107 +1,97 @@
-(function() {
-	
 'use strict';
+(function(window, angular, undefined) {
 
-angular
-.module('iserveu')
-.factory('Comment', 
-	['$http',
-	 'commentResource',
-	 'ToastMessage',
+  angular
+    .module('iserveu')
+    .factory('Comment', [
+      '$http',
+      'commentResource',
+      'ToastMessage',
+      CommentFactory]);
 
-function($http, commentResource, ToastMessage) {
+  function CommentFactory($http, commentResource, ToastMessage) {
 
-	function Comment(commentData) {
+    function Comment(commentData) {
+      if (commentData) {
+        this.setData(commentData);
+      }
 
-		if(commentData) {
-			this.setData(commentData);
-		}
+      this.id = commentData ? commentData.id : null;
+      this.posting = false;
+      this.exists = false;
+    }
 
+    Comment.prototype = {
 
-		this.id = commentData ? commentData.id : null;
-		this.posting = false;
-		this.exists  = false;
+      setData: function(commentData) {
+        angular.extend(this, commentData);
+      },
 
-	}
+      reloadComment: function(commentData) {
+        // this = angular.copy(commentData);
+      },
 
-	Comment.prototype = {
+      submit: function(motion) {
+        submit(this, motion);
+      },
 
-		setData: function(commentData) {
-			angular.extend(this, commentData);
-		},
+      update: function(motion) {
+        update(this, motion);
+      },
 
-		reloadComment: function(commentData) {
-			// this = angular.copy(commentData);
-		},
+      delete: function(motion) {
+        deleteComment(this, motion);
+      }
 
-		submit: function(motion) {
-			submit(this, motion)
-		},
+    };
 
-		update: function(motion) {
-			update(this, motion);
-		},
+    /**
+    * Private functions
+    */
+    function submit(comment, motion) {
 
-		delete: function(motion) {
-			deleteComment(this, motion);
-		}
+      var self = comment;
+      self.posting = true;
 
-	}
+      commentResource.saveComment({
+        vote_id: motion.userVote.id,
+        text: self.text
+      }).then(function(success) {
+        self.posting = false;
+        self.exists = true;
+        self.id = success.id;
+        motion.getMotionComments(motion.id);
+      }, function(error) {
+        self.posting = false;
+      });
+    }
 
-	/**
-	*	Private functions
-	*
-	*/
+    function update(comment, motion) {
 
-	function submit(comment, motion) {
+      var self = comment;
+      commentResource.updateComment({
+        id: self.id,
+        text: self.text
+      }).then(function(success) {
+        self.posting = false;
+        self.exists = true;
+        motion.getMotionComments(motion.id);
+      }, function(error) {
+        self.posting = false;
+      });
+    }
 
-		var self = comment;
-		self.posting = true;
+    function deleteComment(comment, motion) {
+      var self = comment;
+      ToastMessage.destroyThis('comment', function() {
+        commentResource.deleteComment(self.id).then(function(results) {
+          self.exists = false;
+          self.setData({id: null, text: null, posting: null, exists: null});
+          motion.getMotionComments(motion.id);
+        });
+      });
+    }
 
-		commentResource.saveComment({
-			vote_id: motion.userVote.id,
-			text: self.text
-		}).then(function(success){
-			self.posting = false;
-			self.exists  = true;
-			self.id = success.id;
-			motion.getMotionComments(motion.id);
-		}, function(error){
-			self.posting = false;
-		});
-	}
-
-	function update(comment, motion) {	
-
-		var self = comment;
-		commentResource.updateComment({
-			id: self.id,
-			text: self.text
-		}).then(function(success){
-			self.posting = false;
-			self.exists  = true;
-			motion.getMotionComments(motion.id);
-		}, function(error){
-			self.posting = false;
-		});
-	}
-
-	function deleteComment(comment, motion) {			
-		
-		var self = comment;
-		ToastMessage.destroyThis("comment", function() {
-            commentResource.deleteComment(self.id).then(function(results) {
-				self.exists = false;
-				self.setData({id: null, text: null, posting: null, exists: null});
-				motion.getMotionComments(motion.id);
-            });
-		});
-	}
-
-	return Comment;
-
-}]);
-
-
-})();
-
+    return Comment;
+  }
+})(window, window.angular);

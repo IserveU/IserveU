@@ -1,228 +1,233 @@
-(function() {
-
 'use strict';
+(function(window, angular, undefined) {
 
-angular
-.module('iserveu')
-.factory('Motion', [
-	'motionIndex',
-	'motionResource',
-	'fileResource',
-	'MotionComments',
-	'MotionFile',
-	'MotionVotes',
-	'$state',
-	'ToastMessage',
-	'SETTINGS_JSON',
-	'utils',
-function(motionIndex, motionResource, fileResource, MotionComments, MotionFile, MotionVotes, $state, ToastMessage, SETTINGS_JSON, utils){
+  angular
+    .module('iserveu')
+    .factory('Motion', [
+      'motionIndex',
+      'motionResource',
+      'fileResource',
+      'MotionComments',
+      'MotionFile',
+      'MotionVotes',
+      '$state',
+      'ToastMessage',
+      'SETTINGS_JSON',
+      'utils',
+      MotionFactory]);
 
-	function Motion(motionData) {
-		if(motionData) {
-			this.setData(motionData);
-		}
-	}
+  function MotionFactory(motionIndex, motionResource, fileResource,
+    MotionComments, MotionFile, MotionVotes, $state, ToastMessage,
+    SETTINGS_JSON, utils) {
 
-	Motion.prototype = {
+    function Motion(motionData) {
+      if (motionData) {
+        this.setData(motionData);
+      }
+    }
 
-		_sanitize: function() {
-			return angular.extend({}, {
-				title: this.title || "New Draft",
-				summary: this.summary,
-				text: this.text,
-				status: this.status,
-				department_id: this.department_id,
-				closing_at: this.getClosing(),
-				user_id: this.user_id,
-				id: this.id
-			})
-		},
+    Motion.prototype = {
 
-		refreshExtensions: function() {
-			this.getMotionFiles();
-			this.getMotionComments();
-			this.getMotionVotes();
-			this.reloadMotionIndex();
-		},
+      _sanitize: function() {
+        return angular.extend({}, {
+          title: this.title || 'New Draft',
+          summary: this.summary,
+          text: this.text,
+          status: this.status,
+          department_id: this.department_id,
+          closing_at: this.getClosing(),
+          user_id: this.user_id,
+          id: this.id
+        });
+      },
 
-		setData: function(motionData) {
-			angular.extend(this, motionData);
-			return this;
-		},
+      refreshExtensions: function() {
+        this.getMotionFiles();
+        this.getMotionComments();
+        this.getMotionVotes();
+        this.reloadMotionIndex();
+      },
 
-		load: function(id) {
-			var self = this;
-			motionResource.getMotion(id).then(function(result) {
-				self.setData(result).refreshExtensions();
-			});
-		},
+      setData: function(motionData) {
+        angular.extend(this, motionData);
+        return this;
+      },
 
-		delete: function() {
-			var self = this;
-			motionResource.deleteMotion(id).then(function(result){
-				self.setData(result).refreshExtensions();
-				// redirect and toast
-			});
-		},
+      load: function(id) {
+        var self = this;
+        motionResource.getMotion(id).then(function(result) {
+          self.setData(result).refreshExtensions();
+        });
+      },
 
-		update: function(data) {
-			var self = this;
-			motionResource.updateMotion(data).then(function(result){
-				self.setData(result);
-				// redirect and toast
-			});
-		},
+      delete: function(id) {
+        var self = this;
+        motionResource.deleteMotion(id).then(function(result) {
+          self.setData(result).refreshExtensions();
+          // redirect and toast
+        });
+      },
 
-		getClosing: function() {
-			if(this.status === 'published') {
-				return undefined;
-			} else {
-				return SETTINGS_JSON.allow_closing ? utils.date.stringify(this.closing_at) : new Date(NaN);
-			}
-		},
+      update: function(data) {
+        var self = this;
+        motionResource.updateMotion(data).then(function(result) {
+          self.setData(result);
+          // redirect and toast
+        });
+      },
 
-		/**
-		*	Get the comments associated with this Motion.
-		*/
-		getMotionComments: function(id) {
-			var self = this;
-			id = id || self.id;
-			motionResource.getMotionComments(id).then(function(result){
-				var motionComments = new MotionComments(result);
-				self.setData({motionComments: motionComments});
+      getClosing: function() {
+        if (this.status === 'published') {
+          return undefined;
+        } else if (SETTINGS_JSON.allow_closing) {
+          return utils.date.stringify(this.closing_at);
+        } else {
+          return new Date(NaN);
+        }
 
-			}, function(error){
-				// temporary fix for php error
-				self.setData({motionComments: null });
-			});
-		},
+      },
 
-		/**
-		*	Get the motion files associated with this Motion.
-		*/
-		getMotionFiles: function(id) {
-			console.log('getMotionFiles');
-			var self = this;
-			id = id || self.id;
+      /**
+      * Get the comments associated with this Motion.
+      */
+      getMotionComments: function(id) {
+        var self = this;
+        id = id || self.id;
+        motionResource.getMotionComments(id).then(function(result) {
+          var motionComments = new MotionComments(result);
+          self.setData({motionComments: motionComments});
 
-			fileResource.getFiles(id).then(function(result){
-				console.log(result);
-				var motionFiles = [];
+        }, function(error) {
+          // temporary fix for php error
+          self.setData({motionComments: null });
+        });
+      },
 
-				for(var i in result) {
-					// $$promise being created in the array
-					// anyway to strip this out from the return?
-					// ninstead of filter? also probably enhance this contract ..
-					if(result[i].id) {
-						var motionFile = new MotionFile(result[i]);
-						motionFiles.push(motionFile);
-					}
-				}
+      /**
+      * Get the motion files associated with this Motion.
+      */
+      getMotionFiles: function(id) {
+        var self = this;
+        id = id || self.id;
 
-				if(motionFiles.length > 0){
-					self.setData({motionFiles: motionFiles});
-				}
-			})
+        fileResource.getFiles(id).then(function(result) {
+          var motionFiles = [];
+          for (var i in result) {
+            // $$promise being created in the array
+            // anyway to strip this out from the return?
+            // ninstead of filter? also probably enhance this contract ..
+            if (result[i].id) {
+              var motionFile = new MotionFile(result[i]);
+              motionFiles.push(motionFile);
+            }
+          }
 
-			// motionResource.getMotionFiles(id).then(function(result){
-			// 	var motionFiles = [];
+          if (motionFiles.length > 0) {
+            self.setData({motionFiles: motionFiles});
+          }
+        });
 
-			// 	for(var i in result) {
-			// 		// $$promise being created in the array
-			// 		// anyway to strip this out from the return?
-			// 		// ninstead of filter? also probably enhance this contract ..
-			// 		if(result[i].id) {
-			// 			var motionFile = new MotionFile(result[i]);
-			// 			motionFiles.push(motionFile);
-			// 		}
-			// 	}
+        // motionResource.getMotionFiles(id).then(function(result){
+        //  var motionFiles = [];
 
-			// 	if(motionFiles.length > 0){
-			// 		self.setData({motionFiles: motionFiles});
-			// 	}
+        //  for(var i in result) {
+        //    // $$promise being created in the array
+        //    // anyway to strip this out from the return?
+        //    // ninstead of filter? also probably enhance this contract ..
+        //    if(result[i].id) {
+        //      var motionFile = new MotionFile(result[i]);
+        //      motionFiles.push(motionFile);
+        //    }
+        //  }
 
-			// });
-		},
+        //  if(motionFiles.length > 0){
+        //    self.setData({motionFiles: motionFiles});
+        //  }
 
-		/**
-		*	Get the votes associated with this Motion.
-		*/
-		getMotionVotes: function(id) {
-			var self = this;
-			id = id || self.id;
+        // });
+      },
 
-			motionResource.getMotionVotes(id).then(function(result){
+      /**
+      * Get the votes associated with this Motion.
+      */
+      getMotionVotes: function(id) {
+        var self = this;
+        id = id || self.id;
 
-				var data = result.data || data;
+        motionResource.getMotionVotes(id).then(function(result) {
 
-				if(!('motionVotes' in self)) {
-					self.setData({motionVotes: new MotionVotes(data)});
-					self.motionVotes.getOverallPosition();
-				} else {
-					self.motionVotes.reload(data).getOverallPosition();
-				}
-			});
-		},
+          var data = result.data || data;
 
-		reloadMotionIndex: function() {
-			return motionIndex.reloadOne(this);
-		},
+          if (!('motionVotes' in self)) {
+            self.setData({motionVotes: new MotionVotes(data)});
+            self.motionVotes.getOverallPosition();
+          } else {
+            self.motionVotes.reload(data).getOverallPosition();
+          }
+        });
+      },
 
-		/**
-		*	Update the user's votes attached to this Motion.
-		*/
-		reloadUserVote: function(vote) {
-			this.userVote = {};
-			this.userVote = {motion_id: vote.motion_id, id: vote.id, position: +vote.position};
-		},
+      reloadMotionIndex: function() {
+        return motionIndex.reloadOne(this);
+      },
 
-		reloadOnVoteSuccess: function(vote) {
-			this.getMotionComments();
-			this.getMotionVotes();
-			this.reloadUserVote(vote);
-			this.reloadMotionIndex();
-		}
-	}
+      /**
+      * Update the user's votes attached to this Motion.
+      */
+      reloadUserVote: function(vote) {
+        this.userVote = {};
+        this.userVote = {
+          motion_id: vote.motion_id,
+          id: vote.id,
+          position: +vote.position
+        };
+      },
 
-	Motion.build = function(motionData) {
+      reloadOnVoteSuccess: function(vote) {
+        this.getMotionComments();
+        this.getMotionVotes();
+        this.reloadUserVote(vote);
+        this.reloadMotionIndex();
+      }
+    };
 
-		var motion = new Motion(motionData);
+    Motion.build = function(motionData) {
 
-		motion.getMotionComments();
-		motion.getMotionFiles();
-		motion.getMotionVotes();
-		motion.reloadMotionIndex();
+      var motion = new Motion(motionData);
 
-		return motion;
-	}
+      motion.getMotionComments();
+      motion.getMotionFiles();
+      motion.getMotionVotes();
+      motion.reloadMotionIndex();
 
-	Motion.get = function(id) {
-		var motion = motionIndex.retrieveById( id );
+      return motion;
+    };
 
-		if(!motion) {
-			var newMotion = new Motion();
-			newMotion.load(id);
-			return newMotion;
-		}
-		else {
-			if(motion instanceof Motion) {
-				return motion;
-			}
-			var newMotion = Motion.build(motion);
-			return newMotion;
-		}
-	}
+    Motion.get = function(id) {
+      var motion = motionIndex.retrieveById(id), newMotion;
 
-	function errorHandler(error) {
-		if(error.status === 404) {
-			ToastMessage.simple('The requested page does not exist.')
-			$state.go('home');
-		}
-	}
+      if (!motion) {
+        newMotion = new Motion();
+        newMotion.load(id);
+        return newMotion;
+      } else {
+        if (motion instanceof Motion) {
+          return motion;
+        }
+        newMotion = Motion.build(motion);
+        return newMotion;
+      }
+    };
 
+    // How to use this?
+    // function errorHandler(error) {
+    //   if (error.status === 404) {
+    //     ToastMessage.simple('The requested page does not exist.');
+    //     $state.go('home');
+    //   }
+    // }
 
-	return Motion;
-}])
+    return Motion;
+  }
 
-})();
-
+})(window, window.angular);

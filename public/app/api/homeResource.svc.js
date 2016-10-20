@@ -1,93 +1,90 @@
-(function() {
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
+  angular
+    .module('iserveu')
+    .factory('homeResource', [
+      '$http',
+      '$rootScope',
+      '$q',
+      'utils',
+      homeResource]);
 
-	angular
-		.module('iserveu')
-		.factory('homeResource', [
-			'$http',
-			'$rootScope',
-			'$q',
-			'utils',
-		homeResource]);
+  function homeResource($http, $rootScope, $q, utils) {
 
-	function homeResource($http, $rootScope, $q, utils) {
+    /****************************************************************
+    *
+    * Resource setters @deprecated Angular's internal ngResource.
+    *
+    *****************************************************************/
 
-		/****************************************************************
-		*
-		*	Resource setters @deprecated Angular's internal ngResource.
-		*
-		*****************************************************************/
+    var _api = {
+      myComments:  '/api/user/:id/comment',
+      myVotes:     '/api/user/:id/vote',
+      topComments: '/api/comment',
+      topMotion:   '/api/motion'
+    };
 
-		var _api = {
-			myComments:  '/api/user/:id/comment',
-			myVotes:     '/api/user/:id/vote',
-			topComments: '/api/comment',
-			topMotion:   '/api/motion'
-		};
+    var cacheData = {
+      myComments: {},
+      myVotes: {},
+      topComments: {},
+      topMotion: {}
+    };
 
-		var cacheData = {
-			myComments: {},
-			myVotes: {},
-			topComments: {},
-			topMotion: {}
-		}
+    var getMyComments = function() {
+      return query(regexReplace(_api.myComments), 'myComments');
+    };
 
-		var getMyComments = function() {
-			return query( regexReplace(_api.myComments), 'myComments' );
-		}
+    var getMyVotes = function() {
+      return query(regexReplace(_api.myVotes), 'myVotes');
+    };
 
-	    var getMyVotes = function() {
-			return query( regexReplace(_api.myVotes), 'myVotes' );
-		}
+    var getTopComments = function() {
+      return query(_api.topComments, 'topComments');
+    };
 
-		var getTopComments = function() {
-			return query( _api.topComments, 'topComments' );
-		}
+    var getTopMotion = function() {
+      return query(_api.topMotion, 'topMotion', {rank_greater_than: 0});
+    };
 
-		var getTopMotion = function() {
-			console.log(cacheData['topMotion']);
-			return query( _api.topMotion, 'topMotion', { rank_greater_than: 0 } );
-		}
+      /*****************************************************************
+      *
+      * Private Functions
+      *
+      ******************************************************************/
 
-	    /*****************************************************************
-	    *
-	    *	Private Functions
-	    *
-	    ******************************************************************/
-		
-		// TODO: make this more functional, but at the moment just hardcoded.
-		function regexReplace(string, regex) {
-			var id = $rootScope.authenticatedUser.id;
-			return string.replace( ':id', id );
-		}
+    // TODO: make this more functional, but at the moment just hardcoded.
+    function regexReplace(string, regex) {
+      var id = $rootScope.authenticatedUser.id;
+      return string.replace(':id', id);
+    }
 
-		function query(_endpoint, key, data) {
+    function query(_endpoint, key, data) {
 
-			if(!utils.objectIsEmpty( cacheData[key] )) {
-				return $q.when({data: cacheData[key]});
-			}
+      if (!utils.objectIsEmpty(cacheData[key])) {
+        return $q.when({data: cacheData[key]});
+      }
 
-			return $http({
-				method: 'GET',
-				isArray: true,
-				url: _endpoint,
-				data: data || {},
-				ignoreLoadingBar: true
-			}).success(function(results){
-				cacheData[key] = results;
-				return results;
-			}).error(function(error){
-				return error;
-			});
-		}
+      return $http({
+        method: 'GET',
+        isArray: true,
+        url: _endpoint,
+        data: data || {},
+        ignoreLoadingBar: true
+      }).success(function(results) {
+        cacheData[key] = results;
+        return results;
+      }).error(function(error) {
+        return error;
+      });
+    }
 
-		return {
-			getMyComments: getMyComments,
-			getMyVotes: getMyVotes,
-			getTopComments: getTopComments,
-			getTopMotion: getTopMotion,
-		}
-	}
-
-}());
+    return {
+      getMyComments: getMyComments,
+      getMyVotes: getMyVotes,
+      getTopComments: getTopComments,
+      getTopMotion: getTopMotion,
+    };
+  }
+}(window, window.angular));

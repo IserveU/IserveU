@@ -1,50 +1,49 @@
-(function() {
+'use strict';
+(function(window, angular, undefined) {
 
-	'use strict';
+  angular
+    .module('iserveu')
+    .service('floatingButtonService', [
+      '$window',
+      'utils',
+      floatingButtonService]);
 
-	angular
-		.module('iserveu')
-		.service('floatingButtonService', ['$window', 'utils', floatingButtonService]);
+  function floatingButtonService($window, utils) {
 
-  	 /** @ngInject */
-	function floatingButtonService($window, utils) {
+    return function(el) {
 
-		return function(el) {
+      var container = document.getElementById('maincontent'),
+        element = el.children().eq(0).children().eq(0);
 
-			var container = document.getElementById('maincontent'),
-				element   = el.children().eq(0).children().eq(0);
+      angular
+        .element(container)
+        .bind('scroll', function() {
 
-			angular
-				.element(container)
-				.bind('scroll', function() {
+          if (!utils.isElementInViewport(document.getElementById('userbar'))
+            && container.clientHeight == (container.scrollTop + 130))
+            element.css({ 'top': '10px' });
+          else
+            element.css({ 'top': '81px' });
 
-					if( !utils.isElementInViewport(document.getElementById('userbar')) 
-						&& container.clientHeight == (container.scrollTop + 130)) 
-						element.css({ 'top': '10px' });
-					else
-						element.css({ 'top': '81px' });
+          if (container.scrollTop == 55)
+            element.css({ 'top': '81px' });
+        });
 
-					if( container.scrollTop == 55)
-						element.css({ 'top': '81px' });
-			});
+      angular
+        .element($window)
+        .bind('scroll', function() {
 
-			angular
-				.element($window)
-				.bind('scroll', function() {
+          if (!utils.isElementInViewport(document.getElementById('userbar'))
+            || $window.clientHeight == ($window.scrollTop + 130))
+            element.css({ 'top': '10px' });
+          else
+            element.css({ 'top': '81px' });
 
-					if( !utils.isElementInViewport(document.getElementById('userbar')) 
-						|| $window.clientHeight == ($window.scrollTop + 130))
-						element.css({ 'top': '10px' });
-					else
-						element.css({ 'top': '81px' });
+          if ($window.scrollTop == 55)
+            element.css({ 'top': '81px' });
 
-					if( $window.scrollTop == 55)
-						element.css({ 'top': '81px' });
+        });
+    };
 
-			});
-		};
-
-
-
-	}
-})();
+  }
+})(window, window.angular);
