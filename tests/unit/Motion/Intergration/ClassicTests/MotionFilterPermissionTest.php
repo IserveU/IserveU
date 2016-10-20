@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionFilterPermissionTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
 
     /*****************************************************************
@@ -14,8 +12,6 @@ class MotionFilterPermissionTest extends TestCase
     *                   Basic CRUD functions:
     *
     ******************************************************************/
-    
-
 
     /** @test */
     public function motion_index_permissions_working()
@@ -33,8 +29,8 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionDraft'],
                     $motions['motionMyDraft'],
                     $motions['motionReview'],
-                    $motions['motionMyReview']
-                ],[]
+                    $motions['motionMyReview'],
+                ], []
         );
         $this->assertResponseStatus(200);
 
@@ -43,34 +39,34 @@ class MotionFilterPermissionTest extends TestCase
                 $this,
                 [
                     $motions['motionDraft'],
-                    $motions['motionMyDraft']
-                ],[
+                    $motions['motionMyDraft'],
+                ], [
                     $motions['motionClosed'],
                     $motions['motionMyClosed'],
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionReview'],
-                    $motions['motionMyReview']
+                    $motions['motionMyReview'],
                 ],
-                ['status'=>['draft']]
+                ['status' => ['draft']]
         );
         $this->assertResponseStatus(200);
-   
+
         //Filter to see all reviews
         filterCheck(
                 $this,
                 [
                     $motions['motionMyReview'],
-                    $motions['motionReview']
-                ],[
+                    $motions['motionReview'],
+                ], [
                     $motions['motionMyDraft'],
                     $motions['motionDraft'],
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
-                    $motions['motionMyClosed']
+                    $motions['motionMyClosed'],
                 ],
-                ['status'=>['review']]
+                ['status' => ['review']]
         );
         $this->assertResponseStatus(200);
 
@@ -81,23 +77,21 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionMyDraft'],
                     $motions['motionMyReview'],
                     $motions['motionDraft'],
-                    $motions['motionReview']
-                ],[
+                    $motions['motionReview'],
+                ], [
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
-                    $motions['motionMyClosed']
+                    $motions['motionMyClosed'],
                 ],
-                ['status'=>['draft','review']]
+                ['status' => ['draft', 'review']]
         );
         $this->assertResponseStatus(200);
     }
 
-
     /** @test */
     public function motion_index_without_permission()
     {
-
         $this->signIn();
         $motions = generateMotions($this);
         //Default with no filters
@@ -107,12 +101,12 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
-                    $motions['motionMyClosed']
-                ],[
+                    $motions['motionMyClosed'],
+                ], [
                     $motions['motionDraft'],
                     $motions['motionMyDraft'],
                     $motions['motionReview'],
-                    $motions['motionMyReview']
+                    $motions['motionMyReview'],
                 ]
         );
         $this->assertResponseStatus(200);
@@ -123,56 +117,53 @@ class MotionFilterPermissionTest extends TestCase
                 [
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
-                ],[
+                ], [
                     $motions['motionClosed'],
                     $motions['motionMyClosed'],
                     $motions['motionDraft'],
                     $motions['motionMyDraft'],
                     $motions['motionReview'],
-                    $motions['motionMyReview']
+                    $motions['motionMyReview'],
                 ],
-                ['status'=>['published']]
+                ['status' => ['published']]
         );
         $this->assertResponseStatus(200);
-   
+
        //Filter to see my drafts
         filterCheck(
                 $this,
                 [
                     $motions['motionMyDraft'],
-                    $motions['motionMyReview']
-                ],[
+                    $motions['motionMyReview'],
+                ], [
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
                     $motions['motionMyClosed'],
                     $motions['motionDraft'],
-                    $motions['motionReview']
+                    $motions['motionReview'],
                 ],
-                ['status'=>['draft','review']]
+                ['status' => ['draft', 'review']]
         );
         $this->assertResponseStatus(200);
 
-      
+
         //Filter to see published
         filterCheck(
                 $this,
                 [
                     $motions['motionMyDraft'],
-                ],[
+                ], [
                     $motions['motionMyReview'],
                     $motions['motionPublished'],
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
                     $motions['motionMyClosed'],
                     $motions['motionDraft'],
-                    $motions['motionReview']
+                    $motions['motionReview'],
                 ],
-                ['status'=>['draft']]
+                ['status' => ['draft']]
         );
-        $this->assertResponseStatus(200);    
+        $this->assertResponseStatus(200);
     }
-
-
-
 }

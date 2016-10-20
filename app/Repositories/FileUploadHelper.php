@@ -1,90 +1,94 @@
 <?php
 
 namespace App\Repositories;
-use Flow\Config as FlowConfig;
-use Flow\Request as FlowRequest;
-use Flow\Basic as FlowBasic;
-use Flow\File as FlowFile;
-use Illuminate\Support\Facades\Input;
 
-use Illuminate\Http\Request;
-
-use Storage;
 use Carbon\Carbon;
-
+use Flow\Config as FlowConfig;
+use Flow\File as FlowFile;
+use Flow\Request as FlowRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use SplFileInfo;
+use Storage;
 
 /* This Class helps you use Flow and regular file uploads */
-class FileUploadHelper{
-
-
+class FileUploadHelper
+{
     /**
-     * The name of the file in storage
-     * @var String
+     * The name of the file in storage.
+     *
+     * @var string
      */
     protected $fileName;
 
 
     /**
-     * The route to place the file in storage
-     * @var String
+     * The route to place the file in storage.
+     *
+     * @var string
      */
-    protected $folder = "";
+    protected $folder = '';
 
 
     /**
-     * The field in the request which holds the file
-     * @var String
+     * The field in the request which holds the file.
+     *
+     * @var string
      */
     protected $fileField;
 
 
     /**
-     * If the file is ready and in storage
-     * @var boolean
+     * If the file is ready and in storage.
+     *
+     * @var bool
      */
     protected $fileReady = false;
 
 
     /**
-     * If this is a flow file request
-     * @var boolean
+     * If this is a flow file request.
+     *
+     * @var bool
      */
     protected $flowFileRequest = false;
 
     /**
-     * Chunk information for responses
+     * Chunk information for responses.
+     *
      * @var string
      */
     protected $chunk;
 
-
     /**
      * Create a new instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
-        foreach($attributes as $key => $value){
-            $this->$key = $value;    
+        foreach ($attributes as $key => $value) {
+            $this->$key = $value;
         }
     }
 
-
     /**
-     * Creates a new instance of the file upload helper with a request
-     * @param  Request $request    The request containing the file data
-     * @param  array   $attributes An array of attributes to set
+     * Creates a new instance of the file upload helper with a request.
+     *
+     * @param Request $request    The request containing the file data
+     * @param array   $attributes An array of attributes to set
+     *
      * @return $this
      */
-    public static function create(Request $request,array $attributes){
+    public static function create(Request $request, array $attributes)
+    {
         $instance = new static($attributes);
 
         $instance->flowFileRequest = $request->has('flowFilename');
 
-        if($instance->flowFileRequest){
+        if ($instance->flowFileRequest) {
             $instance->handleFlowRequest($request);
         } else {
             $instance->handleRegularRequest($request);
@@ -94,16 +98,17 @@ class FileUploadHelper{
     }
 
     /**
-     * If a file is ready and sitting in storage
+     * If a file is ready and sitting in storage.
+     *
      * @return [type] [description]
      */
-    public function fileReady(){
-        if(!$this->fileReady){
-
+    public function fileReady()
+    {
+        if (!$this->fileReady) {
             return false;
         }
 
-        if(!$this->fileName){
+        if (!$this->fileName) {
             return false;
         }
 
@@ -111,128 +116,142 @@ class FileUploadHelper{
     }
 
     /**
-     * Returns the name of the file saved
+     * Returns the name of the file saved.
+     *
      * @return [type] [description]
      */
-    public function getFileName(){
+    public function getFileName()
+    {
         return $this->fileName;
     }
 
-
     /**
-     * Returns the status of the upload or chunk
+     * Returns the status of the upload or chunk.
+     *
      * @return Json string with status that can be piped to front end
      */
-    public function getStatus(){
-        if($this->fileReady()){
-            return ['status' => 'File uploaded to storage/'.$this->folder." as ".$this->fileName];
+    public function getStatus()
+    {
+        if ($this->fileReady()) {
+            return ['status' => 'File uploaded to storage/'.$this->folder.' as '.$this->fileName];
         }
 
-        if($this->flowFileRequest){
+        if ($this->flowFileRequest) {
             //$fileChunk->checkChunk();
-            return ['status' => 'Chunk '.$this->chunk->getIdentifier()." uploaded"];
+            return ['status' => 'Chunk '.$this->chunk->getIdentifier().' uploaded'];
         }
 
         return ['status' => 'Failed to upload regular request'];
     }
 
-
-
     /**
-     * Handles a regular file upload, moves the file into storage
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * Handles a regular file upload, moves the file into storage.
+     *
+     * @param Request $request [description]
+     *
+     * @return [type] [description]
      */
-    public function handleRegularRequest(Request $request){
-        if(!$file =  $request->file){
+    public function handleRegularRequest(Request $request)
+    {
+        if (!$file = $request->file) {
             return false;
         }
-        
+
 
         $this->fileName = static::nameFile($file->getClientOriginalName());
 
-        Storage::put($this->folder."/".$this->fileName ,\File::get($file));
-       
+        Storage::put($this->folder.'/'.$this->fileName, \File::get($file));
+
         $this->fileReady = true;
     }
 
-  
     /**
-     * Takes a flow file request
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * Takes a flow file request.
+     *
+     * @param Request $request [description]
+     *
+     * @return [type] [description]
      */
-    public function handleFlowRequest(Request $request){
+    public function handleFlowRequest(Request $request)
+    {
         $this->createFlowFile();
 
-        if(!$this->fileName) return null;
+        if (!$this->fileName) {
+            return;
+        }
 
         $this->fileReady = true;
     }
-    
+
     /**
      * Save a File and create File Attribute for File Model.
      *
      * @return null
      */
-    public function createFlowFile(){
-    	$this->chunk = $this->createChunk();
-      
-    	$this->saveAndMergeChunks($this->chunk);
+    public function createFlowFile()
+    {
+        $this->chunk = $this->createChunk();
+
+        $this->saveAndMergeChunks($this->chunk);
     }
 
     /**
      * Create file chunks.
      *
      * @return \Flow\File $fileChunk
-     */  
+     */
     public function createChunk()
     {
-    	//create tmp directory to store file chunks. 
-        if(!file_exists(storage_path('app/flowtmp'))) {
+        //create tmp directory to store file chunks.
+        if (!file_exists(storage_path('app/flowtmp'))) {
             \File::makeDirectory(storage_path('app/flowtmp'));
         }
 
-        //create configurations and request for file chunks.  
-        $config = new FlowConfig(array(
-            'tempDir' => storage_path('app/flowtmp')
-        ));
+        //create configurations and request for file chunks.
+        $config = new FlowConfig([
+            'tempDir'               => storage_path('app/flowtmp'),
+            'deleteChunksOnSave'    => false, //Occasional race condition to delete files
+        ]);
 
         $flowRequest = new FlowRequest();
+
         return $fileChunk = new FlowFile($config, $flowRequest);
     }
 
     /**
      * Save and merge all chunks.
      *
-     * @param  \Flow\File $fileChunk, StoreFileRequest $request
+     * @param \Flow\File $fileChunk, StoreFileRequest $request
      */
-    public function saveAndMergeChunks($fileChunk){
-        
+    public function saveAndMergeChunks($fileChunk)
+    {
+
         // If POST is called, VALIDATE and SAVE the posted chunk
-        if(!$fileChunk->validateChunk()) abort(400,"Invalid chunk upload request");
+        if (!$fileChunk->validateChunk()) {
+            abort(400, 'Invalid chunk upload request');
+        }
 
         $fileChunk->saveChunk();
 
-        //verify if all the file chunks has been uploaded, then save the file to Storage. 
-        if(!$fileChunk->validateFile()){
-            return "Waiting on more chunks";
+        //verify if all the file chunks has been uploaded, then save the file to Storage.
+        if (!$fileChunk->validateFile()) {
+            return 'Waiting on more chunks';
         }
 
-    	$fileName              =   static::nameFile(Input::get('flowFilename'));
-    	$totalFileSize         =   Input::get('flowTotalSize');
+        $fileName = static::nameFile(Input::get('flowFilename'));
+        $totalFileSize = Input::get('flowTotalSize');
 
-        $destinationPath = ($this->folder)? storage_path('app/'.$this->folder.'/') : storage_path('app/');
+        $destinationPath = ($this->folder) ? storage_path('app/'.$this->folder.'/') : storage_path('app/');
 
-    	$fileChunk->save($destinationPath.$fileName);
-        $this->fileName        =   $fileName;
-      
+        $fileChunk->save($destinationPath.$fileName);
+        $this->fileName = $fileName;
     }
 
-    public static function nameFile(string $fileName){
-        $timestamp      = Carbon::now()->timestamp;
-        $fileName       = new SplFileInfo($fileName);
-        return $timestamp."_".md5($fileName)."_".str_random(10).".".$fileName->getExtension();
-    }
+    public static function nameFile(string $fileName)
+    {
+        $timestamp = Carbon::now()->timestamp;
+        $fileName = new SplFileInfo($fileName);
 
+        return $timestamp.'_'.md5($fileName).'_'.str_random(10).'.'.$fileName->getExtension();
+    }
 }

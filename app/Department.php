@@ -1,46 +1,43 @@
-<?php namespace App;
+<?php
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+namespace App;
 
-use Illuminate\Support\Facades\Validator;
-use Request;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Model;
+
+class Department extends NewApiModel
+{
+    use Sluggable;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'departments';
+
+    /**
+     * The attributes that are fillable by a creator of the model.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'active'];
+
+    /**
+     * The relations commonly used.
+     *
+     * @var array
+     */
+    protected $with = [];
 
 
 
-class Department extends NewApiModel {
-
-
-	use Sluggable;
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'departments';
-
-	/**
-	 * The attributes that are fillable by a creator of the model
-	 * @var array
-	 */
-	protected $fillable = ['name', 'active'];
-
-	/**
-	 * The relations commonly used
-	 * @var array
-	 */
-	protected $with = [];
-
-
-	
-	/**
-	 * The attributes included in the JSON/Array
-	 * @var array
-	 */
-	protected $visible = ['name','active','id','slug'];
-
+    /**
+     * The attributes included in the JSON/Array.
+     *
+     * @var array
+     */
+    protected $visible = ['name', 'active', 'id', 'slug'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -51,42 +48,40 @@ class Department extends NewApiModel {
     {
         return [
             'slug' => [
-                'source' => ['name'],
-            	'onUpdate'	=> true
-            ]
+                'source'      => ['name'],
+                'onUpdate'    => true,
+            ],
         ];
     }
 
+    /**************************************** Standard Methods **************************************** */
 
-	/**************************************** Standard Methods **************************************** */
+    public static function boot()
+    {
+        parent::boot();
+    }
 
-	public static function boot(){
-		parent::boot();
-
-	}
-
-
-	/**************************************** Custom Methods **************************************** */
-  
- 
-
-	/****************************************** Getters & Setters ************************************/
-
-	
-	/************************************* Casts & Accesors *****************************************/
-
-	/************************************* Scopes *****************************************/
+    /**************************************** Custom Methods **************************************** */
 
 
-	/**********************************  Relationships *****************************************/
+
+    /****************************************** Getters & Setters ************************************/
 
 
-	public function motions(){
-		return $this->hasMany('App\Motion');
-	}
+    /************************************* Casts & Accesors *****************************************/
 
-	public function delegations(){
-		return $this->hasMany('App\Delegations');
-	}
+    /************************************* Scopes *****************************************/
 
+
+    /**********************************  Relationships *****************************************/
+
+    public function motions()
+    {
+        return $this->hasMany('App\Motion');
+    }
+
+    public function delegations()
+    {
+        return $this->hasMany('App\Delegations');
+    }
 }

@@ -1,16 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\User;
+
 use App\Http\Controllers\ApiController;
-
-use Illuminate\Support\Facades\Request;
-
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Auth;
+use App\User;
 use App\Vote;
-use DB;
+use Auth;
+use Illuminate\Support\Facades\Request;
 
 class UserVoteController extends ApiController
 {
@@ -19,17 +15,16 @@ class UserVoteController extends ApiController
      *
      * @return Response
      */
-    public function index($user)
+    public function index(User $user)
     {
         $limit = Request::get('limit') ?: 100;
 
         if (Auth::user()->id != $user->id && !$user->public && !Auth::user()->can('show-vote')) { //Not the current user, or public and not an admin
-             abort(401,"You do not have permission to view this non-public user's votes");
+             abort(401, "You do not have permission to view this non-public user's votes");
         }
 
-        $votes = Vote::where('user_id',$user->id)->active()->with('motion')->paginate($limit);
-        
+        $votes = Vote::where('user_id', $user->id)->paginate($limit);
+
         return $votes;
     }
-
 }

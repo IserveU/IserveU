@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Events\User;
+
 use App\Events\Event;
 use App\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UserLoginSucceeded extends Event
 {
     use SerializesModels;
 
     public $user;
+
     /**
      * Create a new event instance.
      *

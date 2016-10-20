@@ -5,8 +5,6 @@ namespace App\Http\Requests\CommentVote;
 use App\Http\Requests\Request;
 use Auth;
 
-use App\Policies\CommentVotePolicy;
-
 class UpdateCommentVoteRequest extends Request
 {
     /**
@@ -15,27 +13,26 @@ class UpdateCommentVoteRequest extends Request
      * @return bool
      */
     public function authorize()
-    {   
+    {
         $commentVote = $this->route()->parameter('comment_vote');
-        
-        if(Auth::user()->can('administrate-commentVote')){
+
+        if (Auth::user()->can('administrate-commentVote')) {
             return true;
         }
 
-         if(!Auth::user()->can('create-comment_vote')){
+        if (!Auth::user()->can('create-comment_vote')) {
             return false; //abort(401,'You do not have permission to vote on a comment');
         }
 
-        if(!$commentVote->vote->motion->motionOpenForVoting){
+        if (!$commentVote->vote->motion->motionOpenForVoting) {
             return false; //Cant change your commentVotes after the fact
         }
 
-        if($commentVote->vote->user_id == Auth::user()->id){
+        if ($commentVote->vote->user_id == Auth::user()->id) {
             return true; //This users commentVote
         }
 
         return false;
-
     }
 
     /**
@@ -44,12 +41,11 @@ class UpdateCommentVoteRequest extends Request
      * @return array
      */
     public function rules()
-    {        
+    {
         return [
-            'comment_id'    =>  'reject',
-            'position'      =>  'integer|min:-1|max:1|required|filled',
-            'vote_id'       =>  'reject'
+            'comment_id'    => 'reject',
+            'position'      => 'integer|min:-1|max:1|required|filled',
+            'vote_id'       => 'reject',
         ];
-
     }
 }

@@ -1,13 +1,12 @@
 <?php
-include_once('PageApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'PageApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdatePageApiTest extends PageApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -18,31 +17,25 @@ class UpdatePageApiTest extends PageApi
         $this->signInAsRole('administrator');
     }
 
-    
     /** @test  ******************/
-    public function update_page_with_title(){
-        $this->updateFieldsGetSee(['title'],200);
+    public function update_page_with_title()
+    {
+        $this->updateFieldsGetSee(['title'], 200);
     }
 
-
-     /** @test  ******************/
-    public function update_page_with_content(){
-        $this->updateFieldsGetSee(['title','content'],200);        
+    /** @test  ******************/
+    public function update_page_with_content()
+    {
+        $this->updateFieldsGetSee(['title', 'content'], 200);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
-    
     /** @test  ******************/
-    public function update_page_with_empty_title_fails(){
+    public function update_page_with_empty_title_fails()
+    {
         $this->updateContentGetSee([
-            'title'     => ''
-        ],400);
-
+            'title'     => '',
+        ], 400);
     }
-
-
-
-
-
 }

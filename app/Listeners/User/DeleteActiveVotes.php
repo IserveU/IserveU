@@ -3,8 +3,6 @@
 namespace App\Listeners\User;
 
 use App\Events\User\UserDeleted;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DeleteActiveVotes
 {
@@ -21,16 +19,17 @@ class DeleteActiveVotes
     /**
      * Handle the event.
      *
-     * @param  UserDeleted  $event
+     * @param UserDeleted $event
+     *
      * @return void
      */
     public function handle(UserDeleted $event)
     {
         $user = $event->user;
-        
-        $activeMotionVotes = Vote::onActiveMotion()->where('user_id',$user->id)->get();
 
-        foreach($activeMotionVotes as $activeMotionVote){
+        $activeMotionVotes = Vote::onActiveMotion()->where('user_id', $user->id)->get();
+
+        foreach ($activeMotionVotes as $activeMotionVote) {
             $activeMotionVote->delete();
         }
     }

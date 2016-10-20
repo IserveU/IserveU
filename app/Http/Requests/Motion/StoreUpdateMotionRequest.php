@@ -3,13 +3,10 @@
 namespace App\Http\Requests\Motion;
 
 use App\Http\Requests\Request;
-use Auth;
-
 use App\Policies\MotionPolicy;
 
 class StoreUpdateMotionRequest extends Request
-{  
-    
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,7 +18,6 @@ class StoreUpdateMotionRequest extends Request
                     $this->all(),
                     $this->route()->parameter('motion')
                 );
-
     }
 
     /**
@@ -31,17 +27,15 @@ class StoreUpdateMotionRequest extends Request
      */
     public function rules()
     {
-
         return [
-            'title'             =>  'filled|min:1,title|string',
-            'summary'           =>  'string',
-            'text'              =>  'nullable',
-            'status'            =>  'string|valid_status',
-            'department_id'     =>  'integer|exists:departments,id',
-            'closing_at'        =>  'date|after:today',
-            'user_id'           =>  'integer|exists:users,id',
-            'id'                =>  'integer'
+            'title'             => 'filled|min:1,title|string',
+            'summary'           => 'string',
+            'text'              => 'nullable',
+            'status'            => 'string|valid_status',
+            'department_id'     => 'integer|exists:departments,id',
+            'closing_at'        => 'date|after:today',
+            'user_id'           => 'integer|exists:users,id',
+            'id'                => 'integer',
         ];
     }
-
 }

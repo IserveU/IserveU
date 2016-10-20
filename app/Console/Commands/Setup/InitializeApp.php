@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands\Setup;
 
-use Illuminate\Console\Command;
-
 use App\Events\Setup\Initialize;
 use App\User;
+use Illuminate\Console\Command;
 use Setting;
 
 class InitializeApp extends Command
@@ -35,47 +34,47 @@ class InitializeApp extends Command
     }
 
     /**
-     * Put all the things that would only run one time in here
+     * Put all the things that would only run one time in here.
      *
      * @return mixed
      */
     public function handle()
     {
-        \Artisan::call("migrate:refresh");
+        \Artisan::call('migrate:refresh');
 
 
-        if(\File::exists("storage/settings.json")){
-            if(filter_var($this->argument('wipesettings'),FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to wipe your existing /storage/settings.json file?')){
+        if (\File::exists('storage/settings.json')) {
+            if (filter_var($this->argument('wipesettings'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to wipe your existing /storage/settings.json file?')) {
                 Setting::forgetAll();
                 Setting::save();
             } else {
-               $this->info('Using settings in storage/setting.json');
+                $this->info('Using settings in storage/setting.json');
             }
         }
 
         $email = $this->argument('email');
 
-        if(!$email){
-            $email = $this->anticipate('What is your email?', ['admin@iserve.ca'],'admin@iserveu.ca');
+        if (!$email) {
+            $email = $this->anticipate('What is your email?', ['admin@iserve.ca'], 'admin@iserveu.ca');
         }
- 
+
         $password = $this->argument('password');
-        if(!$password){
-              $password = $this->anticipate('What is your password?',[],'abcd1234');
+        if (!$password) {
+            $password = $this->anticipate('What is your password?', [], 'abcd1234');
         }
-        
+
         $user = User::updateOrCreate([
-            'email'         =>  $email
-            ],[
-            'email'         =>  $email,
-            'password'      =>  $password,
+            'email'         => $email,
+            ], [
+            'email'         => $email,
+            'password'      => $password,
             'first_name'    => 'Default',
             'last_name'     => 'User',
-            'status'        => 'public'
+            'status'        => 'public',
         ]);
 
         $this->info("Creating Admin: $email / $password");
 
-        event(new Initialize($user));   
+        event(new Initialize($user));
     }
 }

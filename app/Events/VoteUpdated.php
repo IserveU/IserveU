@@ -2,10 +2,8 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Vote;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class VoteUpdated extends Event
 {
@@ -14,7 +12,6 @@ class VoteUpdated extends Event
     public $vote;
     public $motion;
 
-
     /**
      * Create a new event instance.
      *
@@ -22,8 +19,8 @@ class VoteUpdated extends Event
      */
     public function __construct(Vote $vote)
     {
-        $this->vote     = $vote;
-        $this->motion   = $vote->motion;
+        $this->vote = $vote;
+        $this->motion = $vote->motion;
     }
 
     /**

@@ -1,17 +1,15 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CitizenUserTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
-        $this->setSettings(['security.verify_citizens'=>1]);
+        $this->setSettings(['security.verify_citizens' => 1]);
 
         $this->signInAsRole('citizen');
     }
@@ -23,8 +21,9 @@ class CitizenUserTest extends TestCase
     ******************************************************************/
 
     /** @test **/
-    public function show_public_user(){
-        $user = factory(App\User::class,'public')->create();
+    public function show_public_user()
+    {
+        $user = factory(App\User::class, 'public')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -36,9 +35,9 @@ class CitizenUserTest extends TestCase
     }
 
     /** @test **/
-    public function show_private_user(){
-
-        $user = factory(App\User::class,'private')->create();
+    public function show_private_user()
+    {
+        $user = factory(App\User::class, 'private')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -46,5 +45,4 @@ class CitizenUserTest extends TestCase
         $this->dontSee($user->first_name);
         $this->dontSee($user->last_name);
     }
-
 }

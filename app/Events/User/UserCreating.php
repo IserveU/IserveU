@@ -3,14 +3,13 @@
 namespace App\Events\User;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\User;
+use Illuminate\Queue\SerializesModels;
 
 class UserCreating extends Event
 {
     use SerializesModels;
-  
+
     public $user;
 
     /**
@@ -22,7 +21,6 @@ class UserCreating extends Event
     {
         $this->user = $user;
     }
-
 
     /**
      * Get the channels the event should be broadcast on.

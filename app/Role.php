@@ -1,13 +1,13 @@
-<?php namespace App;
+<?php
 
-use Zizaco\Entrust\EntrustRole;
+namespace App;
 
 use Cache;
+use Zizaco\Entrust\EntrustRole;
 
-class Role extends EntrustRole {
-
-
-	 /**
+class Role extends EntrustRole
+{
+    /**
      * The database table used by the model.
      *
      * @var string
@@ -20,37 +20,33 @@ class Role extends EntrustRole {
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name', 'description'
+        'name', 'display_name', 'description',
     ];
 
-
-    public static function called($name){
-
-        return Cache::tags('role')->remember('role.'.$name,120, function() use ($name) {
-
-            return Role::where('name','=',$name)->first();
-
-        });          
+    public static function called($name)
+    {
+        return Cache::tags('role')->remember('role.'.$name, 120, function () use ($name) {
+            return Role::where('name', '=', $name)->first();
+        });
     }
 
-
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
 
 
-        static::created(function($model){
+        static::created(function ($model) {
             Cache::tags('role')->flush();
+
             return true;
         });
 
-        static::updated(function($model){
+        static::updated(function ($model) {
             Cache::tags('role')->flush();
+
             return true;
-        });      
-
+        });
     }
-
-
 
     /**************************************** Defined Relationships ****************************************/
     public function users()
@@ -58,11 +54,5 @@ class Role extends EntrustRole {
         return $this->belongsToMany('App\User'); //,'users'
     }
 
-
-  
-
-	/*********************************** Other methods *******************************************/
-	
-
-
+    /*********************************** Other methods *******************************************/
 }

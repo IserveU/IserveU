@@ -20,8 +20,11 @@ before_script:
   - composer install --no-interaction
   - npm install
   - npm install -g bower
-#  - bower install
+  - bower install
   - gulp
+  - php artisan route:cache
+  - php artisan config:cache
+  - php artisan optimize --force
   - php artisan setup:initialize admin@iserveu.ca abcd1234 yes
 
 script:

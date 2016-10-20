@@ -3,12 +3,8 @@
 namespace App\Listeners\User;
 
 use App\Events\User\UserCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 use Mail;
 use Setting;
-use App\Notifications\BetaNotification;
 
 class SendWelcomeEmail
 {
@@ -25,27 +21,27 @@ class SendWelcomeEmail
     /**
      * Handle the event.
      *
-     * @param  UserRegistered  $event
+     * @param UserRegistered $event
+     *
      * @return void
      */
-    public function handle(UserCreated $event) 
-    { 
+    public function handle(UserCreated $event)
+    {
         $user = $event->user;
 
         $data = [
-            'user'                  =>  $user,
-            'created_by_other'      =>  true
+            'user'                  => $user,
+            'created_by_other'      => true,
         ];
 
         //If this created user created themselves
-        if($user->modificationTo->first()->modification_by_id == $user->id){ 
-            $data['created_by_other']   = false;
+        if ($user->modificationTo->first()->modification_by_id == $user->id) {
+            $data['created_by_other'] = false;
         }
 
-        Mail::send('emails.welcome',['data'=>$data], function ($m) use ($user) {
-             $m->to($user->email,$user->first_name)
-             ->subject("Welcome To ".Setting::get('site.name',"IserveU"));
-        });   
-
+        Mail::send('emails.welcome', ['data' => $data], function ($m) use ($user) {
+            $m->to($user->email, $user->first_name)
+             ->subject('Welcome To '.Setting::get('site.name', 'IserveU'));
+        });
     }
 }

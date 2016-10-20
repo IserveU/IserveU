@@ -1,30 +1,29 @@
 <?php
-include_once('PageApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'PageApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ShowPageApiTest extends PageApi
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
     }
 
-    
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
+
     /** @test */
-    public function show_page_by_slug(){
+    public function show_page_by_slug()
+    {
         $this->signInAsRole('administrator');
 
         $page = factory(App\Page::class)->create();
 
 
-        $this->visit("/api/page/".$page->slug)
+        $this->visit('/api/page/'.$page->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'id',
@@ -32,23 +31,22 @@ class ShowPageApiTest extends PageApi
                 'slug',
                 'content',
                 'created_at',
-                'updated_at'
+                'updated_at',
             ])
             ->dontSeeJson([
-                'user'
+                'user',
             ]);
-
     }
 
-
     /** @test */
-    public function show_page_by_id(){
+    public function show_page_by_id()
+    {
         $this->signInAsRole('administrator');
 
         $page = factory(App\Page::class)->create();
 
 
-        $this->visit("/api/page/".$page->id)
+        $this->visit('/api/page/'.$page->id)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'id',
@@ -56,12 +54,10 @@ class ShowPageApiTest extends PageApi
                 'slug',
                 'content',
                 'created_at',
-                'updated_at'
+                'updated_at',
             ])
             ->dontSeeJson([
-                'user'
+                'user',
             ]);
-
     }
-
 }

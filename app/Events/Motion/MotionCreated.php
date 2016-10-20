@@ -3,10 +3,8 @@
 namespace App\Events\Motion;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
 use App\Motion;
+use Illuminate\Queue\SerializesModels;
 
 class MotionCreated extends Event
 {

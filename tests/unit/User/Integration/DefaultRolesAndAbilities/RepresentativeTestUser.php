@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RepresentativeUserTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -23,8 +21,9 @@ class RepresentativeUserTest extends TestCase
     ******************************************************************/
 
     /** @test **/
-    public function show_public_user(){
-        $user = factory(App\User::class,'public')->create();
+    public function show_public_user()
+    {
+        $user = factory(App\User::class, 'public')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -36,8 +35,9 @@ class RepresentativeUserTest extends TestCase
     }
 
     /** @test **/
-    public function show_private_user(){
-        $user = factory(App\User::class,'private')->create();
+    public function show_private_user()
+    {
+        $user = factory(App\User::class, 'private')->create();
 
         $this->get('/api/user/'.$user->id);
 
@@ -45,5 +45,4 @@ class RepresentativeUserTest extends TestCase
         $this->dontSee($user->first_name);
         $this->dontSee($user->last_name);
     }
-
 }

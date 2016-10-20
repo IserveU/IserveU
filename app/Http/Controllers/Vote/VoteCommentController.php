@@ -1,34 +1,27 @@
 <?php
+
 namespace App\Http\Controllers\Vote;
-use App\Http\Controllers\ApiController;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Auth;
-
-use App\Vote;
 use App\Comment;
+use App\Http\Controllers\ApiController;
 use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Vote;
 
-
-class VoteCommentController  extends ApiController{
- 
-
-
+class VoteCommentController extends ApiController
+{
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
     public function store(Vote $vote, StoreCommentRequest $request)
-    {   
-        $comment  = Comment::updateOrCreate([
-            'vote_id'   =>  $vote->id
-        ],  
+    {
+        $comment = Comment::updateOrCreate([
+            'vote_id'   => $vote->id,
+        ],
               $request->all()
         );
+
         return $comment;
     }
 }

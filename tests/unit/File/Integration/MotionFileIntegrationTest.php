@@ -1,49 +1,42 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use App\File;
-
-use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionFileIntegrationTest extends TestCase
 {
-
     use DatabaseTransactions;
 
-    public function setUp(){
-
+    public function setUp()
+    {
         parent::setUp();
         $this->signIn();
         $this->user->addUserRoleByName('administrator');
     }
 
-
     /**
      * @test
      */
-    public function file_store_integrated_with_motion(){
-        $filePost = ['file'=> $this->getAnUploadedFile()];
+    public function file_store_integrated_with_motion()
+    {
+        $filePost = ['file' => $this->getAnUploadedFile()];
 
         $motion = factory(App\Motion::class)->create();
 
         //Can store
-        $this->post('/api/motion/'.$motion->slug."/file",$filePost)
+        $this->post('/api/motion/'.$motion->slug.'/file', $filePost)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'slug','type','mime','fileable_id','fileable_type'
+                'slug', 'type', 'mime', 'fileable_id', 'fileable_type',
             ])
-            ->seeInDatabase('files',['fileable_id'=>$motion->id,"fileable_type"=>"App\\Motion","replacement_id"=>null]);
-
+            ->seeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion', 'replacement_id' => null]);
     }
 
     /**
      * @test
      */
-    public function file_download_integrated_with_motion(){
-
+    public function file_download_integrated_with_motion()
+    {
         $motion = factory(App\Motion::class)->create();
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
@@ -51,14 +44,13 @@ class MotionFileIntegrationTest extends TestCase
           //Can download
         $this->get('/api/motion/'.$motion->slug.'/file/'.$file->slug.'/download')
             ->assertResponseStatus(200);
-
     }
 
     /**
      * @test
      */
-    public function file_show_integrated_with_motion(){
-
+    public function file_show_integrated_with_motion()
+    {
         $motion = factory(App\Motion::class)->create();
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
@@ -67,53 +59,47 @@ class MotionFileIntegrationTest extends TestCase
         $this->get('/api/motion/'.$motion->slug.'/file/'.$file->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'slug','title','description','replacement_id','type','mime','fileable_id','fileable_type'
+                'slug', 'title', 'description', 'replacement_id', 'type', 'mime', 'fileable_id', 'fileable_type',
         ]);
-
     }
-
 
     /**
      * @test
      */
-    public function file_patch_integrated_with_motion(){
-        $filePost = ['file'=> $this->getAnUploadedFile()];
+    public function file_patch_integrated_with_motion()
+    {
+        $filePost = ['file' => $this->getAnUploadedFile()];
 
         $motion = factory(App\Motion::class)->create();
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
          //Can patch
-        $this->patch('/api/motion/'.$motion->slug."/file/".$file->slug,$filePost)
+        $this->patch('/api/motion/'.$motion->slug.'/file/'.$file->slug, $filePost)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'slug','title','description','replacement_id','type','mime','fileable_id','fileable_type'
+                'slug', 'title', 'description', 'replacement_id', 'type', 'mime', 'fileable_id', 'fileable_type',
             ])
-            ->seeInDatabase('files',['fileable_id'=>$motion->id,"fileable_type"=>"App\\Motion",'replacement_id'=>$file->id]);
-
+            ->seeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion', 'replacement_id' => $file->id]);
     }
-      
 
     /**
      * @test
      */
-    public function file_delete_integrated_with_motion(){
-
+    public function file_delete_integrated_with_motion()
+    {
         $motion = factory(App\Motion::class)->create();
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
         //Can cascade delete
-        $this->delete('/api/motion/'.$motion->slug."/file/".$file->slug)
+        $this->delete('/api/motion/'.$motion->slug.'/file/'.$file->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
-                'slug','title','description','replacement_id','type','mime','fileable_id','fileable_type'
+                'slug', 'title', 'description', 'replacement_id', 'type', 'mime', 'fileable_id', 'fileable_type',
             ])
             // The previous file
-            ->dontSeeInDatabase('files',['slug'=>$file->slug])
-            ->dontSeeInDatabase('files',['fileable_id'=>$motion->id,"fileable_type"=>"App\\Motion",'replacement_id'=>$file->id]);
-
+            ->dontSeeInDatabase('files', ['slug' => $file->slug])
+            ->dontSeeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion', 'replacement_id' => $file->id]);
     }
-   
-
 }

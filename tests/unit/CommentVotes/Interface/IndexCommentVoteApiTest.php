@@ -1,26 +1,24 @@
 <?php
-include_once('CommentVoteApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'CommentVoteApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IndexCommentVoteApiTest extends TestCase
 {
-    use DatabaseTransactions;    
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
     }
 
-    ///////////////////////////////////////////////////////////CORRECT RESPONSES 
+    ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function filter_commentvote_by(){
-        
+    public function filter_commentvote_by()
+    {
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-    
 }

@@ -2,10 +2,9 @@
 
 namespace App\Events\User;
 
-use App\User;
 use App\Events\Event;
+use App\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class UserUpdated extends Event
 {

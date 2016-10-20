@@ -3,8 +3,6 @@
 namespace App\Listeners\User;
 
 use App\Events\User\UserLoginFailed;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ClearLockFields
 {
@@ -21,19 +19,18 @@ class ClearLockFields
     /**
      * Handle the event.
      *
-     * @param  UserLoginFailed  $event
+     * @param UserLoginFailed $event
+     *
      * @return void
      */
     public function handle($event)
     {
         $user = $event->user;
 
-        $user->remember_token   = null;
-        $user->login_attempts   = 0;
-        $user->locked_until     = null;
+        $user->remember_token = null;
+        $user->login_attempts = 0;
+        $user->locked_until = null;
 
         $user->save();
-
-        
     }
 }

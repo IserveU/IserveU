@@ -1,39 +1,33 @@
 <?php
-include_once('CommentVoteApi.php');
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+include_once 'CommentVoteApi.php';
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ShowCommentVoteApiTest extends TestCase
 {
-    use DatabaseTransactions;    
-
-
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
     }
 
-    
     /////////////////////////////////////////////////////////// CORRECT RESPONSES
-   
-    /** @test */
-    public function show_commentvote_test(){
 
+    /** @test */
+    public function show_commentvote_test()
+    {
         $commentvote = factory(App\CommentVote::class)->create();
 
         $this->signIn($commentvote->vote->user);
 
 
-        $this->visit("/api/comment_vote/".$commentvote->id)
+        $this->visit('/api/comment_vote/'.$commentvote->id)
             ->seeJsonStructure([
-                'id'
+                'id',
             ])->dontSeeJson([
 
             ]);
-
     }
-
 }

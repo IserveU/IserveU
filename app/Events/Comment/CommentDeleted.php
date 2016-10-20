@@ -5,7 +5,6 @@ namespace App\Events\Comment;
 use App\Comment;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CommentDeleted extends Event
 {
@@ -21,7 +20,7 @@ class CommentDeleted extends Event
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
-        $this->vote    = $comment->vote;
+        $this->vote = $comment->vote;
     }
 
     /**

@@ -3,13 +3,9 @@
 namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\Request;
-use App\Vote;
-use Auth;
 
 class IndexCommentRequest extends Request
 {
-
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,7 +13,6 @@ class IndexCommentRequest extends Request
      */
     public function authorize()
     {
-
         return true;
     }
 
@@ -28,6 +23,6 @@ class IndexCommentRequest extends Request
      */
     public function rules()
     {
-       return [];
+        return [];
     }
 }
