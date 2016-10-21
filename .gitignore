@@ -9,6 +9,7 @@
 /bower/*
 /storage/logs/*
 .idea
+/build
 
 _ide_helper.php
 npm-debug.log

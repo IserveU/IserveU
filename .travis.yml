@@ -29,3 +29,10 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+
+after_script:
+  - vendor/bin/test-reporter
+
+addons:
+  code_climate:
+    repo_token: 29f76f2c6bad2f7df69753e00afbaf3122bda681

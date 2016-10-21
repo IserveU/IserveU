@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends ApiController
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+use Illuminate\Routing\Controller;
 
+class HomeController extends Controller
+{
     /**
      * Show the application dashboard to the user.
      *
