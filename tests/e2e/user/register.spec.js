@@ -1,17 +1,17 @@
-var UserLoginPage = require('../user/user-login.page');
-var UserRegisterPage = require('../user/user-register.page');
-var Menu = require('../nav/menu.page');
+var UserLoginPage = require('../helpers/user-login.page');
+var UserRegisterPage = require('../helpers/user-register.page');
+var Menu = require('../helpers/menu.page');
 var testEmailAddress = Math.random().toString(36).substring(7).concat('@iserveu.ca');
 
 describe('iserveu first landing on login page as new user', function() {
 
   it('should see correct logo and login and register elements and colours defined in current them', function() {
 
-    browser.get('http://iserveu.local/#/login');
+    browser.get('#/login');
 
     var logo = element(by.className('logo'));
     expect(logo.isPresent());
-    expect(logo.getAttribute('src')).toEqual('http://iserveu.local/themes/default/logo/logo.png');
+    expect(logo.getAttribute('src')).toContain('themes/default/logo/logo.png');
 
   });
 

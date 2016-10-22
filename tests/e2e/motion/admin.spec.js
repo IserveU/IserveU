@@ -11,7 +11,7 @@ describe('administrators interaction with creating/editing/voting on a motion', 
 
   it('should be able to login and see adminstration user nav stuff', function() {
 
-  	browser.get('http://iserveu.local/#/login');
+  	browser.get('#/login');
 
     var login = new UserLoginPage();
     var helper = new Helper();
