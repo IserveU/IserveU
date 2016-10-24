@@ -9,9 +9,10 @@ php:
   - 7.0
 
 before_install:
-  - chmod +x ./scripts/*
+  - chmod -R +x ./scripts/*
   - ./scripts/travis_mysql_5.7.sh
   - ./scripts/mysql-reset-root-password.sh
+  - ./scripts/nginx/travis_nginx.sh
 
 before_script:
   - cp ./scripts/.env.travis ./.env
