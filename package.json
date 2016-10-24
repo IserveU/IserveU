@@ -20,7 +20,6 @@
     "karma-jasmine": "^0.3.8",
     "karma-safari-launcher": "^1.0.0",
     "lite-server": "^2.2.0",
-    "phantomjs": "^2.1.7",
     "protractor": "^3.3.0",
     "protractor-jasmine2-screenshot-reporter": "^0.3.2"
   },
