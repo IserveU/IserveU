@@ -24,7 +24,7 @@ class UserVerificationTest extends TestCase
 
 
         $user = factory(App\User::class, 'verified')->create();
-        $user->addUserRoleByName('citizen');
+        $user->addRole('citizen');
 
         $this->assertEquals($user->identity_verified, 1);
         $this->assertEquals($user->hasRole('citizen'), true);
@@ -48,7 +48,7 @@ class UserVerificationTest extends TestCase
 
 
         $user = factory(App\User::class, 'verified')->create();
-        $user->addUserRoleByName('citizen');
+        $user->addRole('citizen');
 
         $this->assertEquals($user->identity_verified, 1);
         $this->assertEquals($user->hasRole('citizen'), true);
@@ -72,7 +72,7 @@ class UserVerificationTest extends TestCase
 
 
         $user = factory(App\User::class, 'verified')->create();
-        $user->addUserRoleByName('citizen');
+        $user->addRole('citizen');
 
         $this->assertEquals($user->identity_verified, 1);
         $this->assertEquals($user->hasRole('citizen'), true);

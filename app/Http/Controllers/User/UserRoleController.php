@@ -44,7 +44,7 @@ class UserRoleController extends ApiController
             abort(403, "User already has the role ($role_name)");
         }
 
-        $user->addUserRoleByName($role_name);
+        $user->addRole($role_name);
 
         return $user;
     }
@@ -81,7 +81,7 @@ class UserRoleController extends ApiController
             abort(403, "User doesn't have the role id of ($role_id)");
         }
 
-        $user->removeUserRole($role_id);
+        $user->removeRole($role_id);
 
         return $user;
     }

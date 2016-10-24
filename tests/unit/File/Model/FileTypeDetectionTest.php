@@ -12,7 +12,7 @@ class FileTypeDetectionTest extends TestCase
         parent::setUp();
 
         $this->signIn();
-        $this->user->addUserRoleByName('administrator');
+        $this->user->addRole('administrator');
         $this->setSettings(['paywall.on' => 0]);
     }
 

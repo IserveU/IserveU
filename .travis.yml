@@ -25,7 +25,7 @@ before_script:
   - php artisan route:cache
   - php artisan config:cache
   - php artisan optimize --force
-  - php artisan setup:initialize admin@iserveu.ca abcd1234 yes
+  - php artisan setup:initialize admin@iserveu.ca abcd1234 yes yes
 
 script:
   - vendor/bin/phpunit

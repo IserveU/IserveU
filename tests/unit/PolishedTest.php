@@ -109,7 +109,7 @@ trait PolishedTest
     {
         $this->signIn($user);
 
-        $this->user->addUserRoleByName('administrator');
+        $this->user->addRole('administrator');
 
         return $this;
     }
@@ -155,7 +155,7 @@ trait PolishedTest
             $this->signIn();
         }
 
-        $this->user->addUserRoleByName($role);
+        $this->user->addRole($role);
 
         return $this;
     }

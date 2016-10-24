@@ -11,7 +11,7 @@ class AdministratorUserTest extends TestCase
         parent::setUp();
 
         $this->signIn();
-        $this->user->addUserRoleByName('administrator');
+        $this->user->addRole('administrator');
     }
 
     /*****************************************************************

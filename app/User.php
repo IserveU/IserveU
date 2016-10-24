@@ -146,7 +146,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
             event(new UserCreated($model));
 
             if (!Setting::get('security.verify_citizens')) {
-                $model->addUserRoleByName('citizen');
+                $model->addRole('citizen');
             }
 
             return true;
@@ -248,7 +248,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     /**
      * @param Adds the named role to a user
      */
-    public function addUserRoleByName($name)
+    public function addRole($name)
     {
         if ($this->hasRole($name)) {
             return true;
@@ -267,15 +267,14 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         $this->addressVerifiedUntil = Carbon::now()->addYears(4);
     }
 
-    public function removeUserRoleByName($name)
+    public function removeRole($name)
     {
-        $userRole = Role::where('name', '=', $name)->firstOrFail();
-        $this->roles()->detach($userRole->id);
-    }
+        if (is_numeric($name)) {
+            $userRole = Role::where('id', '=', $id)->firstOrFail();
+        } else {
+            $userRole = Role::where('name', '=', $name)->firstOrFail();
+        }
 
-    public function removeUserRole($id)
-    {
-        $userRole = Role::where('id', '=', $id)->firstOrFail();
         $this->roles()->detach($userRole->id);
     }
 

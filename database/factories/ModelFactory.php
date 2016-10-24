@@ -149,7 +149,7 @@ $factory->define(App\Comment::class, function ($faker) use ($factory) {
 
 $factory->define(App\Vote::class, function ($faker) use ($factory) {
     $citizenUser = factory(App\User::class, 'verified')->create();
-    $citizenUser->addUserRoleByName('citizen');
+    $citizenUser->addRole('citizen');
 
     return [
         'position'      => $faker->numberBetween($min = -1, $max = 1),
