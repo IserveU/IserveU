@@ -8,7 +8,7 @@ exports.config = {
         'browserName': 'chrome',
     },
 
-    baseUrl: 'http://iserveu.local/', // change this to your local
+    baseUrl: 'http://localhost/', // change this to your locals
 
     // anything you'd need to be user specific in tests
     params: {
