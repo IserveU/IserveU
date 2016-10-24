@@ -2,7 +2,7 @@ dist: trusty
 sudo: required
 services:
   - redis-server
-  
+
 language: php
 
 php:
@@ -15,6 +15,7 @@ before_install:
 
 before_script:
   - cp ./scripts/.env.travis ./.env
+  - cp ./scripts/protractor.conf.js.travis ./protractor.conf.js
   - mysql -u root -e 'create database forge;'
   - composer self-update
   - composer install --no-interaction
@@ -26,9 +27,15 @@ before_script:
   - php artisan config:cache
   - php artisan optimize --force
   - php artisan setup:initialize admin@iserveu.ca abcd1234 yes
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - ./node_modules/protractor/bin/webdriver-manager update --standalone --chrome
+  - ./node_modules/protractor/bin/webdriver-manager start 2>&1 &
+  - sleep 3
 
 script:
   - vendor/bin/phpunit
+  - ./node_modules/protractor/bin/protractor protractor.conf.js
 
 after_script:
   - vendor/bin/test-reporter

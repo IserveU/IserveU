@@ -17,8 +17,8 @@ describe('administrators interaction with creating/editing/voting on a motion', 
     var helper = new Helper();
 
     login.login({
-      email: 'admin@iserveu.ca',
-      password: 'abcd1234'
+      email: browser.params.login.username,
+      password: browser.params.login.password
     });
 
 
