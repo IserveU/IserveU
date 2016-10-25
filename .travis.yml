@@ -35,7 +35,7 @@ before_script:
   - php artisan serve &
 
 script:
- # - vendor/bin/phpunit
+  - vendor/bin/phpunit
   - protractor protractor.conf.js
 
 after_script:
