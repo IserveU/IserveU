@@ -8,7 +8,7 @@
     <md-content class="md-whiteframe-z5 login__form-container" layout="row" layout-padding layout-wrap flex>
 
         <form name="loginForm" ng-if="!login.registerform" layout="column" flex novalidate>
-          
+
           <md-input-container flex>
             <label>Email</label>
             <input type="email" label="email" name="email" ng-model="login.service.credentials.email" autofocus required>
@@ -17,14 +17,14 @@
                 <div ng-if="login.service.errors.invalidEmail" class="md-caption">This email is not registered to the site.</div>
               </div>
           </md-input-container>
-          
+
           <md-input-container flex>
             <label>Password</label>
             <input type="password" name="password" ng-model="login.service.credentials.password" required>
-              <div ng-messages="loginForm.password.$error || login.service.errors.invalidCredentials">  
+              <div ng-messages="loginForm.password.$error || login.service.errors.invalidCredentials">
                 <div ng-if="loginForm.password.$dirty" ng-message="required">Password is required.</div>
                 <div ng-if="login.service.errors.invalidCredentials" class="md-caption">Password and email combination do not match.</div>
-                <p class="md-body-1"><a layout layout-align="end end" href="" ng-click="login.sendResetPassword()">Forgot password?</a></p>
+                <p ng-if="login.service.errors.invalidCredentials" class="md-body-1"><a layout layout-align="end end" href="" ng-click="login.sendResetPassword()">Forgot password? Click here to Reset.</a></p>
               </div>
           </md-input-container>
 
@@ -53,12 +53,12 @@
           </div>
 
         </form>
-        
+
         <!-- extends when Create is pressed -->
         <register-form ng-if="login.registerform" flex></register-form>
-    
+
     </md-content>
   </div>
 </div>
-<!-- used to push the footer down --> 
+<!-- used to push the footer down -->
 <div flex-order="2" style="height:20vh;"></div>

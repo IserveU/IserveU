@@ -1,13 +1,13 @@
 (function() {
 
 	'use strict';
-	
+
 	angular
 		.module('iserveu')
 		.directive('loginPortal', [
-			'authResource', 
-			'loginService', 
-			'resetPasswordService', 
+			'authResource',
+			'loginService',
+			'resetPasswordService',
 			'ToastMessage',
 		loginPortal]);
 
@@ -40,11 +40,15 @@
 			}
 
 			function sendResetPassword(){
-				authResource.resetPassword( loginService.credentials ).then(function(results) {
-					ToastMessage.simple('Your email has been sent!');
-				});
+				authResource.resetPassword( loginService.credentials ).then(
+                    function(results) {
+				        ToastMessage.simple(results.data.message);
+				    },
+                    function(error) {
+                        ToastMessage.simple(error.data.message);
+                    });
 			}
-	    
+
 		    /*****************************************************************
 		    *
 		    *	Initialization
