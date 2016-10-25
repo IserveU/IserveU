@@ -36,16 +36,22 @@
 
             var ERROR_CODES = [400, 405, 500];
             var toast = $injector.get('ToastMessage');
+            var auth = $injector.get('Authorizer');
 
-            if (ERROR_CODES.includes(config.status)) {
+            if (ERROR_CODES.indexOf(config.status) >= 0 &&
+                auth.canAccess('administrate-permission')) {
               // TODO: only show for admins
-              // toast.report_error(config.data);
+              toast.report_error(config.data);
             } else if (config.status === 401 &&
               config.statusText === 'Unauthorized') {
               var loginService = $injector.get('loginService');
               loginService.clearCredentials();
             } else if (config.status === 401) {
               toast.mustBeLoggedIn('to perform this action.');
+            } else if (config.status === 404) {
+              var state = $injector.get('$state');
+              toast.customFunction('Page not found', 'Go home',
+                function() {state.go('home');}, false);
             }
             // else if(config.status === 403) { // currently too many 403s..
             //  toast.simple('You do not have permission
