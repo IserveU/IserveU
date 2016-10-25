@@ -34,7 +34,7 @@
           summary: this.summary,
           text: this.text,
           status: this.status,
-          department_id: this.department_id,
+          department_id: this.department.id,
           closing_at: this.getClosing(),
           user_id: this.user_id,
           id: this.id

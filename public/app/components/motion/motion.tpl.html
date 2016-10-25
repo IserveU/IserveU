@@ -38,7 +38,7 @@
 					</header>
 
 					<div flex ng-repeat="file in motion.motionFiles" layout-padding>
-						<a ng-hide="file.type == 'image'" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" ng-bind="(file.title ? file.title : file.slug)" donwload></a>
+						<a ng-hide="file.type == 'image'" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" ng-bind="(file.title ? file.title : file.slug)" download></a>
 					</div>
 				</section>
 
