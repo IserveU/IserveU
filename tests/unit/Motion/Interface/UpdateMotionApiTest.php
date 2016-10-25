@@ -71,6 +71,12 @@ class UpdateMotionApiTest extends MotionApi
         $this->updateFieldsGetSee(['budget'], 200);
     }
 
+    /** @test  ******************/
+    public function update_motion_with_implementation()
+    {
+        $this->updateFieldsGetSee(['implementation'], 200);
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
     /** @test  ******************/
@@ -126,6 +132,14 @@ class UpdateMotionApiTest extends MotionApi
 
         $this->updateContentGetSee([
             'status'     => 'Open',
+        ], 400);
+    }
+
+    /** @test  ******************/
+    public function update_motion_with_empty_implementation_fails()
+    {
+        $this->updateContentGetSee([
+            'implementation'     => '',
         ], 400);
     }
 }

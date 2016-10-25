@@ -24,10 +24,10 @@
               <div ng-messages="loginForm.password.$error || login.service.errors.invalidCredentials">  
                 <div ng-if="loginForm.password.$dirty" ng-message="required">Password is required.</div>
                 <div ng-if="login.service.errors.invalidCredentials" class="md-caption">Password and email combination do not match.</div>
+                <p class="md-body-1"><a layout layout-align="end end" href="" ng-click="login.sendResetPassword()">Forgot password?</a></p>
               </div>
-
-            <a layout layout-align="end end" href="" ng-click="login.sendResetPassword()">Forgot password?</a>
           </md-input-container>
+
 
           <md-input-container ng-if="login.service.errors.accountLocked" style="margin:0" flex>
             <div ng-messages="true">

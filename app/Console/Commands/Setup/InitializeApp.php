@@ -14,14 +14,14 @@ class InitializeApp extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:initialize {email?} {password?} {wipesettings?}';
+    protected $signature = 'setup:initialize {email?} {password?} {wipesettings?} {seed?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Overwrites with default settings and admin account -email -password -wipesettings';
+    protected $description = 'Overwrites with default settings and admin account -email -password -wipesettings -seed';
 
     /**
      * Create a new command instance.
@@ -75,6 +75,12 @@ class InitializeApp extends Command
 
         $this->info("Creating Admin: $email / $password");
 
+
         event(new Initialize($user));
+
+
+        if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
+            \Artisan::call('db:seed', ['--class' => 'FakerDataSeeder']);
+        }
     }
 }

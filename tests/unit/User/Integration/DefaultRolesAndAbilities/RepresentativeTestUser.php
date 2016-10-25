@@ -11,7 +11,7 @@ class RepresentativeUserTest extends TestCase
         parent::setUp();
 
         $this->signIn();
-        $this->user->addUserRoleByName('representative');
+        $this->user->addRole('representative');
     }
 
     /*****************************************************************

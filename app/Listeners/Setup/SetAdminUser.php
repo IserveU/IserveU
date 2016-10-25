@@ -25,6 +25,6 @@ class SetAdminUser
      */
     public function handle(Initialize $event)
     {
-        $event->adminUser->addUserRoleByName('administrator');
+        $event->adminUser->addRole('administrator');
     }
 }

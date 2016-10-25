@@ -42,6 +42,7 @@ class IndexMotionApiTest extends MotionApi
                         'summary',
                         'slug',
                         'text',
+                        'implementation',
                         'closing_at',
                         'status',
                         'motionOpenForVoting',
@@ -249,6 +250,42 @@ class IndexMotionApiTest extends MotionApi
 
         foreach ($motions->data as $motion) {
             $this->assertEquals($department->id, $motion->department->id);
+        }
+    }
+
+    /** @test */
+    public function motion_filter_by_nonbinding_implementation()
+    {
+        $this->signInAsRole('administrator');
+
+        $motion = factory(App\Motion::class, 3)->create();
+
+        $this->json('GET', $this->route, ['implementation' => ['non-binding']])
+                ->assertResponseStatus(200);
+        $motions = json_decode($this->response->getContent());
+
+        $this->assertTrue(($motions->total > 0));
+
+        foreach ($motions->data as $motion) {
+            $this->assertEquals($motion->implementation, 'non-binding');
+        }
+    }
+
+    /** @test */
+    public function motion_filter_by_binding_implementation()
+    {
+        $this->signInAsRole('administrator');
+
+        $motion = factory(App\Motion::class, 3)->create();
+
+        $this->json('GET', $this->route, ['implementation' => ['binding']])
+                ->assertResponseStatus(200);
+        $motions = json_decode($this->response->getContent());
+
+        $this->assertTrue(($motions->total > 0));
+
+        foreach ($motions->data as $motion) {
+            $this->assertEquals($motion->implementation, 'binding');
         }
     }
 
