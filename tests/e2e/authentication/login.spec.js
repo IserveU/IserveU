@@ -6,7 +6,7 @@ describe('iserveu first landing on login page as new user', function() {
 
     var logo = element(by.className('logo'));
     expect(logo.isPresent());
-    expect(logo.getAttribute('src')).toEqual('http://yk.iserveu.local/themes/default/logo/logo.png');
+    expect(logo.getAttribute('src')).toEqual( browser.baseUrl + 'themes/default/logo/logo.png');
 
   });
 

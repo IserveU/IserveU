@@ -3,7 +3,7 @@ var UserRegisterPage = require('../helpers/user-register.page');
 var Menu = require('../helpers/menu.page');
 var testEmailAddress = Math.random().toString(36).substring(7).concat('@iserveu.ca');
 
-describe('iserveu first landing on login page as new user', function() {
+xdescribe('iserveu first landing on login page as new user', function() {
 
   it('should see correct logo and login and register elements and colours defined in current them', function() {
 

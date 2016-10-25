@@ -7,7 +7,7 @@ var VoteButtons = require('../helpers/vote-buttons.page');
 var Helper = require('../helpers/helpers');
 
 
-describe('administrators interaction with creating/editing/voting on a motion', function() {
+xdescribe('administrators interaction with creating/editing/voting on a motion', function() {
 
   it('should be able to login and see adminstration user nav stuff', function() {
 
