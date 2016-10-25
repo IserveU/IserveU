@@ -7,7 +7,7 @@
 		.factory('loginService', [
 			'$rootScope',
 			'$timeout',
-			'authResource', 
+			'authResource',
 			'ToastMessage',
 			'utils',
 			'redirectService',
@@ -18,30 +18,35 @@
 	function loginServiceFactory($rootScope, $timeout, authResource, ToastMessage, utils, redirectService, motionIndex) {
 
 		var Login = {
-			creating:       false,
-			loggingIn:      false,
+			creating: false,
+			loggingIn: false,
 			publicComputer: false,
-			authError:      false,
-			credentials:  { email: '', 
-					   	    password: '' 
-						  },
-			newUser:      { first_name: '',
-					        last_name: '',
-				            email: '',
-				            community_id: '',
-					        password: '',
-					        agreement_accepted: true
-					      },
-			errors:       { emailNotValid: false,
-					        invalidCredentials: false,
-					        invalidEmail: false,
-					        accountLocked: false,
-					        default: {}
-					      },
+			authError: false,
+			credentials: {
+				email: '',
+   	    password: ''
+		  },
+			newUser: {
+				first_name: '',
+				last_name: '',
+			  email: '',
+			  community_id: '',
+				password: '',
+				agreement_accepted: true
+      },
+			errors: {
+				emailNotValid: false,
+        invalidCredentials: false,
+        invalidEmail: false,
+        accountLocked: false,
+        default: {}
+      },
 			clearCredentials: clearCredentials,
 			clearErrorMessages: clearErrorMessages,
-			createUser:   register,
-			login:        login
+			createUser: register,
+			login: login,
+			// made public for resetPassword
+			successHandler: successHandler
 		};
 
 		function clearCredentials(redirect) {
@@ -66,16 +71,16 @@
 
 			Login.loggingIn = true;
 
-			authResource.login( credentials ).then(successHandler, function(error) {
+			authResource.login(credentials).then(successHandler, function(error) {
 				Login.loggingIn = false;
 				errorHandler( error.data );
-			});		
+			});
 		};
 
 		function register() {
 
 			Login.creating = true;
-			
+
 			authResource.register( Login.newUser ).then(successHandler, function(error) {
 				Login.creating  = false;
 				Login.authError = true;
@@ -92,7 +97,8 @@
 
 			$rootScope.userIsLoggedIn    = true;
 			$rootScope.authenticatedUser = user;
-			$rootScope.authenticatedUser.permissions = utils.transformObjectToArray($rootScope.authenticatedUser.permissions);
+			$rootScope.authenticatedUser.permissions = utils
+				.transformObjectToArray($rootScope.authenticatedUser.permissions);
 
 			localStorage.setItem( 'api_token', user.api_token );
 			localStorage.setItem( 'user', JSON.stringify(user) );
@@ -125,7 +131,7 @@
 						show: true,
 						message: responseError.message || "Something went wrong!"
 					}
-					console.log(responseError);
+					console.error(responseError);
 					break;
 			}
 		};

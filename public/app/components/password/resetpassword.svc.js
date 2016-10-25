@@ -7,13 +7,12 @@
 		.factory('resetPasswordService', [
 			'$rootScope',
 			'$state',
-			'$stateParams', 
+			'$stateParams',
 			'authResource',
 			'loginService',
 			'ToastMessage',
 		resetPasswordService]);
 
-  	 /** @ngInject */
 	function resetPasswordService($rootScope, $state, $stateParams, authResource, loginService, ToastMessage) {
 
 		var checkToken = function(){
@@ -23,7 +22,6 @@
 					authResource.logout();
 					localStorage.clear();
 					$rootScope.userIsLoggedIn = false;
-					
 				}
 
 				postToken($stateParams.token);
@@ -31,10 +29,8 @@
 		};
 
 		function postToken(token){
-
-			console.log(token);
-			authResource.rememberToken( token ).then(function(results) {
-					loginService.successHandler( results.data );
+			authResource.rememberToken(token).then(function(results) {
+					loginService.successHandler(results.data);
 				}, function(error) {
 					if(error.status === 404){
 						loginService.clearCredentials(true);
