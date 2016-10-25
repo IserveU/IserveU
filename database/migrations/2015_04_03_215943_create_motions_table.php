@@ -24,6 +24,9 @@ class CreateMotionsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('status')->default('draft');
 
+            // If a motion is binding, non-binding, other things that come up
+            $table->string('implementation')->default('non-binding');
+
             $table->softDeletes();
             $table->timestamps();
         });

@@ -9,12 +9,12 @@ php:
   - 7.0
 
 before_install:
-  - chmod +x ./scripts/*
-  - ./scripts/travis_mysql_5.7.sh
-  - ./scripts/mysql-reset-root-password.sh
+  - chmod +x ./tests/scripts/*
+  - ./tests/scripts/travis_mysql_5.7.sh
+  - ./tests/scripts/mysql-reset-root-password.sh
 
 before_script:
-  - cp ./scripts/.env.travis ./.env
+  - cp ./tests/scripts/.env.travis ./.env
   - mysql -u root -e 'create database forge;'
   - composer self-update
   - composer install --no-interaction
@@ -31,8 +31,4 @@ script:
   - vendor/bin/phpunit
 
 after_script:
-  - vendor/bin/test-reporter
-
-addons:
-  code_climate:
-    repo_token: 29f76f2c6bad2f7df69753e00afbaf3122bda681
+  - ./tests/scripts/codeclimate.sh

@@ -62,6 +62,12 @@ class StoreMotionApiTest extends MotionApi
         $this->storeFieldsGetSee(['title', 'department_id', 'budget'], 200);
     }
 
+    /** @test  ******************/
+    public function store_motion_with_implementation()
+    {
+        $this->storeFieldsGetSee(['title', 'department_id', 'implementation'], 200);
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
     /** @test  ******************/
@@ -133,6 +139,14 @@ class StoreMotionApiTest extends MotionApi
 
         $this->storeContentGetSee([
             'status'     => 'Open',
+        ], 400);
+    }
+
+    /** @test  ******************/
+    public function store_motion_with_empty_implementation_fails()
+    {
+        $this->storeContentGetSee([
+            'implementation'     => '',
         ], 400);
     }
 }

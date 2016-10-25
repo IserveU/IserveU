@@ -33,6 +33,7 @@ class StoreUpdateMotionRequest extends Request
             'text'              => 'nullable',
             'status'            => 'string|valid_status',
             'department_id'     => 'integer|exists:departments,id',
+            'implementation'    => 'string|filled|in:binding,non-binding',
             'closing_at'        => 'date|after:today',
             'user_id'           => 'integer|exists:users,id',
             'id'                => 'integer',

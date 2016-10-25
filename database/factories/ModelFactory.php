@@ -78,6 +78,9 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
     $statuses = ['draft', 'review', 'published'];
     $status = $statuses[array_rand($statuses)];
 
+    $implementations = ['binding', 'non-binding'];
+    $implementation = $implementations[array_rand($implementations)];
+
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
@@ -88,6 +91,7 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'closing_at'       => Carbon\Carbon::now()->addDays(rand(1, 5)),
         'text'             => $faker->paragraph($nbSentences = 10),
         'created_at'       => Carbon\Carbon::now()->subDays(rand(5, 30)),
+        'implementation'   => $implementation,
         'status'           => $status,
     ];
 });

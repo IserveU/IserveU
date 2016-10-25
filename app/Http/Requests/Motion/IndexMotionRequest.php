@@ -55,6 +55,7 @@ class IndexMotionRequest extends Request
             'by_closing_at'     => ['regex:(desc|asc)'],
             'by_created_at'     => ['regex:(desc|asc)'],
             'status'            => 'array',
+            'implementation'    => 'array',
             'user_id'           => 'exists:users,id',
             'limit'             => 'integer',
             'page'              => 'integer',

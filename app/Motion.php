@@ -31,7 +31,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $fillable = ['title', 'text', 'summary', 'department_id', 'closing_at', 'status', 'user_id'];
+    protected $fillable = ['title', 'text', 'summary', 'department_id', 'closing_at', 'status', 'user_id', 'implementation'];
 
 
     /**
@@ -170,7 +170,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
         //If self or show-other-private-user
         if (Auth::check() && (Auth::user()->id == $this->user_id || Auth::user()->can('show-motion'))) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'implementation']);
         }
 
         if (Auth::check()) {
@@ -178,7 +178,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'rank']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'rank', 'implementation']);
         }
 
         return $this;
@@ -294,8 +294,14 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     /************************************* Scopes ***************************************************/
 
-    //Maybe just depreciate this for the global scope below?
-
+    /**
+     * Checks that the given record has the status.
+     *
+     * @param Builder      $query          Query builder instance
+     * @param Array/String $implementation the implementation value or values being sought
+     *
+     * @return Buidler
+     */
     public function scopeStatus($query, $status = 'published')
     {
         if (is_array($status)) {
@@ -303,6 +309,23 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         return $query->where('status', $status);
+    }
+
+    /**
+     * Checks that the given record has the implementation field.
+     *
+     * @param Builder      $query          Query builder instance
+     * @param Array/String $implementation the implementation value or values being sought
+     *
+     * @return Buidler
+     */
+    public function scopeImplementation($query, $implementation)
+    {
+        if (is_array($implementation)) {
+            return $query->whereIn('implementation', $implementation);
+        }
+
+        return $query->where('implementation', $implementation);
     }
 
     public function scopeWriter($query, $user_id)
