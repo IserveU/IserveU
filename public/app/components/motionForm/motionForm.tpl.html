@@ -50,7 +50,6 @@
 				</div>
 
 				<div layout="column" flex>
-					{{form.motion}}
 					<md-input-container flex>
 						<md-select name="department" ng-model="form.motion.department.id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" required>
 							<md-option ng-repeat="d in form.departments.index" ng-value="d.id">{{d.name}}</md-option>
