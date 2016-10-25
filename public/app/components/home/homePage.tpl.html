@@ -5,10 +5,9 @@
     on-edit="homePage.edit()">
   </floating-button>
 
+  <div flex layout-gt-md="row" layout="column">
 
-  <div flex layout="row" layout-sm="column" layout-xs="column">
-
-    <div flex flex-lg="50" flex-order="0">
+    <div flex="100"  flex-gt-md="50" flex-order="0">
       <home-introduction></home-introduction>
       <span ng-if="userIsLoggedIn && authenticatedUser" flex>
         <!-- <my-comments></my-comments> -->
@@ -17,7 +16,7 @@
     </div>
 
 
-    <div flex flex-lg="50" flex-order="1">
+    <div flex="1--" flex-gt-md="50" flex-order="1">
       <top-motions></top-motions>
       <top-comments></top-comments>
     </div>
