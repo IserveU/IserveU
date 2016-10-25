@@ -1,7 +1,7 @@
 (function() {
 
 	'use strict';
-	
+
 	angular
 		.module('iserveu')
 		.directive('editNameField', editNameField)
@@ -16,7 +16,7 @@
 	function editNameField() {
 		return {
 			template: ['<form name="editName" layout="row" flex>',
-					   '<md-input-container>',
+					   	'<md-input-container>',
 		               '<label>First name</label>',
 		               '<input type="text" ng-model="profile.first_name">',
 			           '</md-input-container>',

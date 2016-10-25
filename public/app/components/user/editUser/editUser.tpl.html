@@ -2,7 +2,7 @@
 <!-- <profile-toolbar></profile-toolbar> -->
   <md-card>
     <md-card-content ng-hide="roles.showEdit">
-  
+
 
     <md-list ng-cloak style="padding: 0" flex>
 
@@ -36,9 +36,9 @@
       <md-divider></md-divider>
       <md-subheader class="md-no-sticky">Contact Information</md-subheader>
 <!-- END SECTION DIVIDER -->
-      
+
       <md-list-item ng-repeat="item in form.contactInformation" class="md-2-line">
-        <md-icon class="mdi {{ item.icon }}"></md-icon>  
+        <md-icon class="mdi {{ item.icon }}"></md-icon>
           <div class="md-list-item-text" ng-hide="item.edit">
             <h3>{{ item.label }}</h3>
             <p>{{ item.data }}</p>
@@ -66,11 +66,11 @@
       <md-divider></md-divider>
       <md-subheader class="md-no-sticky">Security Settings</md-subheader>
 <!-- END SECTION DIVIDER -->
-      
+
       <md-list-item ng-repeat="item in form.securitySettings" class="md-2-line">
-        <md-icon class="mdi {{ item.icon }}"></md-icon>  
+        <md-icon class="mdi {{ item.icon }}"></md-icon>
           <div class="md-list-item-text" ng-hide="item.edit">
-            <h3>{{ item.label }}</h3> 
+            <h3>{{ item.label }}</h3>
             <p>{{ item.data | capitalize }}</p>
           </div>
 
