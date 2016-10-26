@@ -15,21 +15,21 @@
 
 		function loginPortalController($scope) {
 
-		    /*****************************************************************
-		    *
-		    *	Public Functions
-		    *
-		    ******************************************************************/
+	    /*****************************************************************
+	    *
+	    *	Public Functions
+	    *
+	    ******************************************************************/
 
-		    /** Global context for this */
-		    var self = this;
+	    /** Global context for this */
+	    var self = this;
 
 			self.extendRegisterForm = extendRegisterForm,
 			self.forgotPassword = showForgotPassword,
 			self.passwordreminder = false,
 			self.registerform = false,
 			self.sendResetPassword = sendResetPassword,
-			self.service = loginService
+			self.service = loginService;
 
 			function extendRegisterForm() {
 				self.registerform = !self.registerform;
@@ -40,13 +40,12 @@
 			}
 
 			function sendResetPassword(){
-				authResource.resetPassword( loginService.credentials ).then(
-                    function(results) {
-				        ToastMessage.simple(results.data.message);
-				    },
-                    function(error) {
-                        ToastMessage.simple(error.data.message);
-                    });
+				authResource.resetPassword(loginService.credentials).then(function(results) {
+	        ToastMessage.simple(results.data.message);
+		    },
+        function(error) {
+          ToastMessage.simple(error.data.message);
+        });
 			}
 
 		    /*****************************************************************
