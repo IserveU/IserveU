@@ -11,7 +11,7 @@
 		function appearanceController($scope) {
 
 			this.service  = settings;
-			this.palette  = new Palette(settings.data.theme);
+			this.palette  = new Palette(settings.data.theme.colors);
 
 			$scope.$watch(
 				'appearance.service.data.saving',

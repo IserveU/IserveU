@@ -34,7 +34,7 @@
           summary: this.summary,
           text: this.text,
           status: this.status,
-          department_id: this.department_id,
+          department_id: this.department.id || 1,
           closing_at: this.getClosing(),
           user_id: this.user_id,
           id: this.id
@@ -79,7 +79,7 @@
       getClosing: function() {
         if (this.status === 'published') {
           return undefined;
-        } else if (SETTINGS_JSON.allow_closing) {
+        } else if (SETTINGS_JSON.motion.allow_closing) {
           return utils.date.stringify(this.closing_at);
         } else {
           return new Date(NaN);

@@ -5,7 +5,7 @@
         <md-tab label="agree ({{ commentList.count(motion.motionComments.agreeComments) }})">
 			<comment-list-agree flex></comment-list-agree>
         </md-tab>
-        <md-tab ng-if="settingsGlobal.abstain" label="abstain ({{ commentList.count(motion.motionComments.abstainComments)}})">
+        <md-tab ng-if="settingsGlobal.voting.abstain" label="abstain ({{ commentList.count(motion.motionComments.abstainComments)}})">
 			<comment-list-abstain flex></comment-list-abstain>
         </md-tab>
         <md-tab label="disagree ({{ commentList.count(motion.motionComments.disagreeComments) }})">

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\Emails\AdminSummary;
+use App\Jobs\Emails\MotionSummary;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Setting;
@@ -14,10 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\EmailDailySummary',
-        'App\Console\Commands\ShuffleDefaultDelegations',
         '\App\Console\Commands\Setup\InitializeApp',
-        '\App\Console\Commands\Setup\SetNewDefaults',
+        '\App\Console\Commands\Setup\Defaults',
     ];
 
     /**
@@ -29,15 +29,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('emails:daily')
-                 ->daily();
+        if (Setting::get('motion.email.admin')) {
+            $schedule->call(function () {
+                dispatch(new AdminSummary());
+            })->daily();
+        }
 
-        $schedule->command('motions:rankgeneration')
-                 ->hourly();
-
-        $schedule->command('settings:default')
-                 ->hourly();
-
-        //            if(!$motion->lastestRank || $motion->lastestRank->created_at['carbon']->diffInMinutes($now) >= Setting::get('motion.minutes_between_rank_calculations',60)){
+        if (Setting::get('motion.email.user')) {
+            $schedule->call(function () {
+                dispatch(new MotionSummary());
+            })->daily();
+        }
     }
 }

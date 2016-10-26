@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="initial-scale=1.0">    <!-- So that mobile webkit will display zoomed in -->
   <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
-  <title><?php echo Setting::get('site.name');?></title>
+  <title>{{ Setting::get('site.name') }}</title>
   <style type="text/css">
 
   /* Resets:see reset.css for details */
@@ -49,8 +49,8 @@
         <!-- ### 600PX CONTAINER ### -->
         <table class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color:#f3f3f3;" bgcolor="#f3f3f3;">
           <tr>
-            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#<?php echo Setting::get('theme.primary.400');?>;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="<?php echo Setting::get('email.footer.website');?>"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
-              <img width="200" src="<?=asset('/themes/'.Setting::get('themename','default').'/logo/logo_allwhite.png')?>">
+            <td width="200" style="font-family:Helvetica,Arial,sans-serif;text-align:left;background-color:#{{Setting::get('theme.primary.400')}} border-top:15px solid #{{Setting::get('theme.primary.400')}}" valign="middle" height="100" ><a style="color:#ffffff;font-weight:bold;text-decoration:none;" href="{{Setting::get('site.address')}}"><h1 class="site-title" style="margin:0;font-size:30px;padding:60px 30px 30px 30px;color:#ffffff;">
+              <img width="200" src="<?=asset('/themes/'.Setting::get('theme.name','default').'/logo/logo_allwhite.png')?>">
             </h1></a></td>
             <td width="50" align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #<?php echo Setting::get('theme.primary.400');?>;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"></td>
             <td align="left" valign="top" style="background-color:#f3f3f3;border-top:15px solid #323232;" bgcolor="#<?php echo Setting::get('theme.primary.400');?>"><h1>{{isset($title)?$title:""}}</h1></td>
@@ -73,10 +73,10 @@
         <tr>
             <td colspan="3" style="font-family:Helvetica,Arial,sans-serif;padding:20px;line-height:1.5;font-size: 13px;background-color:#323232;color:#ffffff;">
              <p>
-               <?php echo Setting::get('site.name');?> &middot; <?php echo Setting::get('email.footer.slogan');?>
+               {{ Setting::get('site.name') }} &middot; {{ Setting::get('site.slogan') }}
                <br/>
 
-               <a style="color:#ffffff;" href="<?php echo Setting::get('email.footer.twitter'); ?>">Twitter</a> or <a style="color:#ffffff;" href="<?php echo Setting::get('email.footer.facebook');?>">Facebook</a>.
+               <a style="color:#ffffff;" href="{{ Setting::get('site.twitter') }}">Twitter</a> or <a style="color:#ffffff;" href="{{ Setting::get('site.facebook') }}">Facebook</a>.
             
              </p>
            </td>

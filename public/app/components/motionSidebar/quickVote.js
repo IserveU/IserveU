@@ -32,14 +32,14 @@
 			}
 			else { 
 				if( !motion.userVote || motion.userVote && !motion.userVote.id ){
-					var position = SETTINGS_JSON.abstain ? 0 : 1;
+					var position = SETTINGS_JSON.voting.abstain ? 0 : 1;
 					castVote(motion, position);
 				}
 				else {
 
 		            var position, data;
 					
-		            if(SETTINGS_JSON.abstain) {
+		            if(SETTINGS_JSON.voting.abstain) {
 		            	// increment without including abstain value == 0
 						position = motion.userVote.position != 1 ? (motion.userVote.position + 1) : -1;
 					}

@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands\Setup;
 
-use App\Events\Setup\Initialize;
+use App\Jobs\Setup\CreateAdminUser;
+use App\Jobs\Setup\SeedDatabaseDefaults;
+use App\Jobs\Setup\SeedDatabaseFaker;
+use App\Jobs\Setup\SetDefaultPermissions;
+use App\Jobs\Setup\SetDefaultSettings;
 use App\User;
 use Illuminate\Console\Command;
 use Setting;
@@ -42,7 +46,7 @@ class InitializeApp extends Command
     {
         \Artisan::call('migrate:refresh');
 
-
+        // Settings
         if (\File::exists('storage/settings.json')) {
             if (filter_var($this->argument('wipesettings'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to wipe your existing /storage/settings.json file?')) {
                 Setting::forgetAll();
@@ -51,9 +55,18 @@ class InitializeApp extends Command
                 $this->info('Using settings in storage/setting.json');
             }
         }
+        dispatch(new SetDefaultSettings());
+
+        // Defaults
+        dispatch(new SetDefaultPermissions());
+        dispatch(new SeedDatabaseDefaults());
+
+
+        if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
+            dispatch(new SeedDatabaseFaker());
+        }
 
         $email = $this->argument('email');
-
         if (!$email) {
             $email = $this->anticipate('What is your email?', ['admin@iserve.ca'], 'admin@iserveu.ca');
         }
@@ -72,15 +85,8 @@ class InitializeApp extends Command
             'last_name'     => 'User',
             'status'        => 'public',
         ]);
-
         $this->info("Creating Admin: $email / $password");
 
-
-        event(new Initialize($user));
-
-
-        if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
-            \Artisan::call('db:seed', ['--class' => 'FakerDataSeeder']);
-        }
+        dispatch(new CreateAdminUser($user));
     }
 }
