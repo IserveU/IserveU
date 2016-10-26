@@ -28,7 +28,6 @@
 			$scope.fileUploading = [];
 
 			$scope.changeProp = function(file, prop) {
-				console.log(file);
 				if(typeof file !== 'number')
 					file = file.slug || JSON.parse(file).slug;
 				fileApiMethod(file, 'PATCH', prop);
@@ -45,13 +44,14 @@
 						delete $scope.fileArrayIds[i];
 				}
 
-				if($scope.existingFiles)
-				$scope.existingFiles = $scope.existingFiles.map(function(o){
-					if(id === o.file_id) return;
-					return o;
-				}).filter(function(o){
-					return !angular.isUndefined(o);
-				});
+				if ($scope.existingFiles)
+					$scope.existingFiles = $scope.existingFiles.map(function(o) {
+						if (id === o.id)
+							return;
+						return o;
+					}).filter(function(o){
+						return !angular.isUndefined(o);
+					});
 			};
 
 			$scope.isImage = function(file) {

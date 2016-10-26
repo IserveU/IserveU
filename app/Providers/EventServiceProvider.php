@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -13,26 +14,16 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\User\UserUpdating'    => [    //Things that might trigger a save on the user model
-            'App\Listeners\User\IdentityReverification',
+            'App\Listeners\User\Updating\IdentityReverification',
         ],
         'App\Events\User\UserUpdated'    => [
-            'App\Listeners\User\AddUserModificationEntry',
-            'App\Listeners\User\DeleteUnattachedFiles',
-            'App\Listeners\User\CheckUserRoles', //for some reason this is being fired on create and conflicting with processes
-        ],
-        'App\Events\User\UserCreating' => [//Things that "Save" the user model should go in here
+            'App\Listeners\User\Updated\BroadcastToRedis',
+            'App\Listeners\User\Updated\AddUserModificationEntry',
+            'App\Listeners\User\Updated\DeleteUnattachedFiles',
+            'App\Listeners\User\Updated\CheckUserRoles',
         ],
         'App\Events\User\UserCreated' => [ //Things that save other records should go here
-            'App\Listeners\User\AddUserModificationEntry',
-            'App\Listeners\User\SendWelcomeEmail',
-        //	'App\Listeners\User\CreateDefaultDelegations'
-        ],
-        'App\Events\User\UserLoginFailed' => [
-            'App\Listeners\User\LogAttempt', // Also locks accounts
-            'App\Listeners\User\SendAccountLockEmail',
-        ],
-        'App\Events\User\UserLoginSucceeded' => [
-            'App\Listeners\User\ClearLockFields',
+            'App\Listeners\User\Created\PrepareWelcomeEmail',
         ],
         'App\Events\User\UserDeleted' => [
             'App\Listeners\User\DeleteUser',
@@ -42,46 +33,23 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Motion\SendNotificationEmail',
             'App\Listeners\Motion\AlertVoters',
         ],
-        'App\Events\VoteUpdated' => [
-            'App\Listeners\Vote\CheckCommentVotes',
-        ],
         'App\Events\Motion\MotionCreated' => [//Added notes on what this does to model
 
         ],
-        'App\Events\CommentDeleted' => [
+        'App\Events\Vote\VoteUpdated' => [
+            'App\Listeners\Vote\CheckCommentVotes',
+        ],
+        'App\Events\Comment\CommentDeleted' => [
             'App\Listeners\Comment\DeleteCommentVotes',
         ],
-        'App\Events\CommentCreated' => [
 
+        //Move Out
+        'App\Events\User\UserLoginFailed' => [
+            'App\Listeners\User\LogAttempt', // Also locks accounts
+            'App\Listeners\User\SendAccountLockEmail',
         ],
-        'App\Events\CommentUpdated' => [
-
-        ],
-        'App\Events\CommentVoteCreated' => [
-
-        ],
-        'App\Events\CommentVoteUpdated' => [
-
-        ],
-        'App\Events\CommentVoteDeleted' => [
-
-        ],
-        'App\Events\SendPasswordReset' => [
-            'App\Listeners\User\SendResetEmail',
-        ],
-        'App\Events\SendDailyEmails' => [
-            'App\Listeners\Motion\SendDailyPublicMotionSummary',
-            'App\Listeners\User\SendDailyAdminUserSummary',
-        ],
-        'App\Events\Setup\Initialize' => [
-            'App\Listeners\Setup\SetDefaultSettings',
-            'App\Listeners\Setup\SetDefaultPermissions',
-            'App\Listeners\Setup\SetAdminUser',
-            'App\Listeners\Setup\RunDBSeeder',
-        ],
-        'App\Events\Setup\Defaults' => [
-            'App\Listeners\Setup\SetDefaultSettings',
-            'App\Listeners\Setup\SetDefaultPermissions',
+        'App\Events\User\UserLoginSucceeded' => [
+            'App\Listeners\User\ClearLockFields',
         ],
     ];
 
@@ -95,5 +63,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+        User::observe(UserObserver::class);
     }
 }

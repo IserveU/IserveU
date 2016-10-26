@@ -39,6 +39,12 @@ class Setting extends Facade
     // for the API
     public static function update($key, $value)
     {
+        if (is_array($value)) {
+            foreach ($value as $nestedKey => $value) {
+                static::update($key.'.'.$nestedKey, $value);
+            }
+        }
+
         if (!is_null(self::get($key))) {
             parent::set($key, $value);
             parent::save();
@@ -60,6 +66,12 @@ class Setting extends Facade
      */
     public static function ifNotSetThenSet($key, $value)
     {
+        if (is_array($value)) {
+            foreach ($value as $nestedKey => $value) {
+                static::ifNotSetThenSet($key.'.'.$nestedKey, $value);
+            }
+        }
+
         if (is_null(self::get($key))) {
             Parent::set($key, $value);
             Parent::save();

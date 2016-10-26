@@ -43,7 +43,7 @@
 				ariaLabel: 'Vote button to abstain',
 				type: 'abstain',
 				value: 0,
-				hidden: !SETTINGS_JSON.abstain || false,
+				hidden: !SETTINGS_JSON.voting.abstain || false,
 				disabled: false,
 				tooltip: '',
 

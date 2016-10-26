@@ -4,7 +4,7 @@
 
 		  <md-icon ng-switch-when="1" class="md-primary" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"  aria-label="cycle vote" ></md-icon>
 
-		  <md-icon ng-if="settingsGlobal.abstain" ng-switch-when="0" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" aria-label="cycle vote" ng-disabled="!motion.motionOpenForVoting"></md-icon>
+		  <md-icon ng-if="settingsGlobal.voting.abstain" ng-switch-when="0" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg" aria-label="cycle vote" ng-disabled="!motion.motionOpenForVoting"></md-icon>
 
 		  <md-icon ng-switch-when="-1" class="md-accent" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"  aria-label="cycle vote" ng-disabled="!motion.motionOpenForVoting"></md-icon>
 

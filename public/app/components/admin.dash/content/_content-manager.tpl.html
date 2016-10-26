@@ -39,11 +39,11 @@
 		</div>
 
 		<div ng-if="showSiteModules" layout="column" style="margin-top: 15px">
-		    <md-checkbox ng-model="content.settings.module.motions">{{ 'MOTIONS' | translate }}</md-checkbox>
-		    <md-checkbox ng-model="content.settings.module.voting">Voting</md-checkbox>
-		    <md-checkbox ng-model="content.settings.module.comments">Comments</md-checkbox>
+		    <md-checkbox ng-model="content.settings.motion.on">{{ 'MOTIONS' | translate }}</md-checkbox>
+		    <md-checkbox ng-model="content.settings.voting.on">Voting</md-checkbox>
+		    <md-checkbox ng-model="content.settings.comment.on">Comments</md-checkbox>
 	   
-			<spinner ng-click="content.service.saveTypeOf('module', content.settings.module)" name="'Save'" on-hide="content.settings.saving"></spinner>
+			<spinner ng-click="content.service.saveTypeOf('', content.settings)" name="'Save'" on-hide="content.settings.saving"></spinner>
 	    
 	    </div>
 

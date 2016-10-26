@@ -8,11 +8,11 @@
       <md-tooltip>{{ motion.motionVotes['1'].passive.number }} {{ 'AGREE_DEFERRALS' | translate}}</md-tooltip>
     </md-button>
 
-    <md-button ng-if="settingsGlobal.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].active" style="width:{{ motion.motionVotes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey motion__votes--statusbar-abstain" aria-label="Number abstaining">
+    <md-button ng-if="settingsGlobal.voting.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].active" style="width:{{ motion.motionVotes['0'].active.percent }}%; margin:0"  class="abstain md-raised md-grey motion__votes--statusbar-abstain" aria-label="Number abstaining">
       <md-tooltip>{{ motion.motionVotes['0'].active.number }} {{ motion.motionOpenForVoting? ('ABSTAIN' | translate) : ('ABSTAINED' | translate) }}</md-tooltip>
     </md-button>
 
-    <md-button ng-if="settingsGlobal.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].passive"  style="width:{{  motion.motionVotes['0'].passive.percent }}%; background-color: #c3c3c3; margin:0" class="deferred_abstain md-raised md-primary motion__votes--statusbar-deferred_abstain" aria-label="Number in deferred abstained">
+    <md-button ng-if="settingsGlobal.voting.abstain && motion.motionVotes['0'] && motion.motionVotes['0'].passive"  style="width:{{  motion.motionVotes['0'].passive.percent }}%; background-color: #c3c3c3; margin:0" class="deferred_abstain md-raised md-primary motion__votes--statusbar-deferred_abstain" aria-label="Number in deferred abstained">
       <md-tooltip>{{ motion.motionVotes['0'].passive.number }} {{ 'ABSTAIN_DEFERRALS' | translate }} </md-tooltip>
     </md-button>
 

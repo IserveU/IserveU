@@ -1,7 +1,6 @@
 'use strict';
 (function(window, angular, undefined) {
 
-
   angular
     .module('iserveu')
     .factory('editUserFormService',
@@ -97,9 +96,9 @@
       switch (label) {
         case 'name':
           data = {
-            first_name:    user.first_name,
-            middle_name:   user.middle_name,
-            last_name:     user.last_name
+            first_name: user.first_name,
+            middle_name: user.middle_name,
+            last_name: user.last_name
           };
           break;
         case 'community':
@@ -137,8 +136,8 @@
       personalInformation.forEach(function(el, index) {
         switch (el.label) {
           case 'Name':
-            el.data = user.first_name + ' ' + user.middle_name +
-            ' ' + user.last_name;
+            el.data = user.first_name + ' ' + (user.middle_name || '')
+            + ' ' + user.last_name;
             break;
           case 'Community':
             communityResource.retrieveNameById(user.community_id)

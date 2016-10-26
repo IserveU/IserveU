@@ -2,9 +2,6 @@
 
 namespace App;
 
-use App\Events\CommentVoteCreated;
-use App\Events\CommentVoteDeleted;
-use App\Events\CommentVoteUpdated;
 use App\Repositories\Contracts\CachedModel;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -50,20 +47,14 @@ class CommentVote extends NewApiModel implements CachedModel
         parent::boot();
         /* validation required on new */
         static::creating(function ($model) {
-            event(new CommentVoteCreated($model));
-
             return true;
         });
 
         static::updating(function ($model) {
-            event(new CommentVoteUpdated($model));
-
             return true;
         });
 
         static::deleted(function ($model) {
-            event(new CommentVoteDeleted($model));
-
             return true;
         });
     }

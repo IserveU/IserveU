@@ -7,7 +7,7 @@
     .config(['$mdThemingProvider', 'SETTINGS_JSON',
   function($mdThemingProvider, SETTINGS_JSON) {
 
-    var theme = SETTINGS_JSON.theme;
+    var theme = SETTINGS_JSON.theme.colors;
 
     $mdThemingProvider.definePalette('primary', {
       '50': theme.primary['50'],

@@ -45,6 +45,6 @@ class ResetPasswordApiTest extends AuthenticateApi
         $this->doesntExpectEvents(SendPasswordReset::class);
 
         $this->post('authenticate/resetpassword', ['email' => $faker->email])
-            ->assertResponseStatus(403);
+            ->assertResponseStatus(404);
     }
 }

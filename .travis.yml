@@ -32,12 +32,12 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm install -g protractor
   - webdriver-manager update
-  - sleep 3
+  - sleep 5
   - php artisan serve &
 
 script:
-  - vendor/bin/phpunit
   - protractor protractor.conf.js
+  - vendor/bin/phpunit
 
 after_script:
   - ./tests/scripts/codeclimate.sh

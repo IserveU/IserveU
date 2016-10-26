@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('editUser', 
+		.directive('editUser',
 			['$stateParams',
 			 'communityResource',
 			 'editUserFormService',
@@ -22,7 +22,7 @@
 
 			function fetchCommunities() {
 				communityResource.getCommunities().then(function(results) {
-					$scope.communities = results.data; 
+					$scope.communities = results.data;
 				});
 			}
 

@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Comment;
 
-use App\Events\CommentDeleted;
+use App\Events\Comment\CommentDeleted;
 
 class DeleteCommentVotes
 {

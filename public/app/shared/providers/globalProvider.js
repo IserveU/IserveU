@@ -21,7 +21,7 @@
               $rootScope.userIsLoggedIn = false;
               $rootScope.authenticatedUser = null;
               $rootScope.settingsGlobal = SETTINGS_JSON;
-              $rootScope.themename = SETTINGS_JSON.themename;
+              $rootScope.themename = SETTINGS_JSON.theme.name;
               $rootScope.taDropHandler = this.dropHandler;
             },
 
