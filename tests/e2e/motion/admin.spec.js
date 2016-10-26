@@ -7,18 +7,18 @@ var VoteButtons = require('../helpers/vote-buttons.page');
 var Helper = require('../helpers/helpers');
 
 
-describe('administrators interaction with creating/editing/voting on a motion', function() {
+xdescribe('administrators interaction with creating/editing/voting on a motion', function() {
 
   it('should be able to login and see adminstration user nav stuff', function() {
 
-  	browser.get('http://iserveu.local/#/login');
+  	browser.get('#/login');
 
     var login = new UserLoginPage();
     var helper = new Helper();
 
     login.login({
-      email: 'admin@iserveu.ca',
-      password: 'abcd1234'
+      email: browser.params.login.username,
+      password: browser.params.login.password
     });
 
 

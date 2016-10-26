@@ -7,10 +7,12 @@
 /public/icons/*
 /public/fonts/*
 /bower/*
+/tests/build/*
 /storage/logs/*
 .idea
 /build
 
+protractor.conf.js
 _ide_helper.php
 npm-debug.log
 .env

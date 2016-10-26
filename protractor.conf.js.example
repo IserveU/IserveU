@@ -1,0 +1,43 @@
+var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
+var JasmineReporters = require('jasmine-reporters');
+
+exports.config = {
+    specs: ['tests/e2e/**/*spec.js'],
+
+    capabilities: {
+        'browserName': 'chrome'
+    },
+
+    baseUrl: 'http://iserveu.local/', // change this to your local
+
+    // anything you'd need to be user specific in tests
+    params: {
+        login: {
+            username: 'YOUR_USERNAME',
+            password: 'YOUR_PASSWORD'
+        }
+    },
+
+
+    framework: 'jasmine2',
+
+    jasmineNodeOpts: {
+        showColors: true,
+        defaultTimeoutInterval: 30000
+    },
+
+    onPrepare: function() {
+        browser.driver.manage().window().setSize(1920, 1080);
+        jasmine.getEnv().addReporter(new JasmineReporters.JUnitXmlReporter({
+            savePath: 'tests/build/reports/e2e',
+            consolidateAll: false
+        }));
+        jasmine.getEnv().addReporter(new HtmlScreenshotReporter({
+            dest: "tests/build/reports/e2e/screenshots",
+            filename: 'report.html',
+            ignoreSkippedSpecs: true,
+            captureOnlyFailedSpecs: false,
+            showSummary: true
+        }));
+    }
+};

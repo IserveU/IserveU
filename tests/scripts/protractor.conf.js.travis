@@ -1,0 +1,32 @@
+var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
+var JasmineReporters = require('jasmine-reporters');
+
+exports.config = {
+    specs: ['tests/e2e/**/*spec.js'],
+
+    capabilities: {
+        'browserName': 'chrome',
+    },
+
+    baseUrl: 'http://localhost:8000/', // change this to your locals
+
+    // anything you'd need to be user specific in tests
+    params: {
+        login: {
+            username: 'admin@iserveu.ca',
+            password: 'abcd1234'
+        }
+    },
+
+
+    framework: 'jasmine2',
+
+    jasmineNodeOpts: {
+        showColors: true,
+        defaultTimeoutInterval: 30000
+    },
+
+    onPrepare: function() {
+        browser.driver.manage().window().setSize(1920, 1080);
+    }
+};
