@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Events\VoteUpdated;
+use App\Events\Vote\VoteUpdated;
 use App\Repositories\Contracts\CachedModel;
 use Auth;
 use Cache;

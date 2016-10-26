@@ -4,16 +4,11 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Theme
-    |--------------------------------------------------------------------------
-    |
-    | How long to store items in cache by default
-    |
-    */
 
-    'sitename' => env('SET_SITENAME', ''),
+    /*
+     * Used for the site title and masthead in emails
+     */
+    'name' => env('APP_NAME', 'IserveU'),
 
     /*
     |--------------------------------------------------------------------------
@@ -147,6 +142,7 @@ return [
         'Illuminate\Translation\TranslationServiceProvider',
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
+         Illuminate\Notifications\NotificationServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
         'Sofa\Eloquence\ServiceProvider',
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
@@ -213,6 +209,7 @@ return [
         'Entrust'      => 'Zizaco\Entrust\EntrustFacade',
         'Image'        => 'Intervention\Image\Facades\Image',
         'Setting'      => 'anlutro\LaravelSettings\Facade',
+        'Notification' => Illuminate\Support\Facades\Notification::class,
     ],
 
 ];

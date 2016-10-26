@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SendPasswordReset;
 use App\Events\User\UserLoginFailed;
 use App\Events\User\UserLoginSucceeded;
+use App\Notifications\PasswordReset;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -67,9 +67,8 @@ class AuthenticateController extends ApiController
 
     public function resetPassword(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        event(new SendPasswordReset($credentials));
+        $user = User::where('email', $request->email)->firstOrFail();
+        $user->notify(new PasswordReset($user));
 
         return response()->json(['message' => 'password reset sent']);
     }

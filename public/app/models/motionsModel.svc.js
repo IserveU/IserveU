@@ -79,7 +79,7 @@
       getClosing: function() {
         if (this.status === 'published') {
           return undefined;
-        } else if (SETTINGS_JSON.allow_closing) {
+        } else if (SETTINGS_JSON.motion.allow_closing) {
           return utils.date.stringify(this.closing_at);
         } else {
           return new Date(NaN);

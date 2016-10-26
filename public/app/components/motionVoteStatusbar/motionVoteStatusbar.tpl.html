@@ -4,7 +4,7 @@
       <md-tooltip>{{ $ctrl.statusbar.agree.number }} agreed</md-tooltip>
     </md-button>
 
-    <md-button ng-if="settingsGlobal.abstain && $ctrl.statusbar.abstain" style="width:{{ $ctrl.statusbar.abstain.percent }}%;" class="md-raised md-grey motion__votes-statusbar_abstain" aria-label="Number abstaining">
+    <md-button ng-if="settingsGlobal.voting.abstain && $ctrl.statusbar.abstain" style="width:{{ $ctrl.statusbar.abstain.percent }}%;" class="md-raised md-grey motion__votes-statusbar_abstain" aria-label="Number abstaining">
       <md-tooltip>{{ $ctrl.statusbar.abstain.number  }} abstained</md-tooltip>
     </md-button>
 

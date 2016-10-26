@@ -4,7 +4,7 @@ namespace App\Listeners\Vote;
 
 use App\Comment;
 use App\CommentVote;
-use App\Events\VoteUpdated;
+use App\Events\Vote\VoteUpdated;
 
 class CheckCommentVotes
 {

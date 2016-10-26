@@ -9,10 +9,10 @@
     </div>
     <div ng-if="showWelcome" layout="column">
   
-      <textarea alloy-editor id="welcome-email-editor" ng-model="email.settings.email.welcome"></textarea>
+      <textarea alloy-editor id="welcome-email-editor" ng-model="email.settings.email.welcome.text"></textarea>
 
       <div layout="row" layout-align="center center">
-        <spinner ng-click="email.service.saveTypeOf('email.welcome', email.settings.email.welcome);" name="'Save'" on-hide="email.settings.saving"></spinner>
+        <spinner ng-click="email.service.saveTypeOf('email.welcome.text', email.settings.email.welcome.text);" name="'Save'" on-hide="email.settings.saving"></spinner>
         <md-button ng-click="showWelcome = !showWelcome">Cancel</md-button>
       </div>
       

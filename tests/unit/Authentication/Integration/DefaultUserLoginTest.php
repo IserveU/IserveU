@@ -13,7 +13,7 @@ class DefaultUserLoginTest extends TestCase
         $this->post('authenticate', ['password' => 'abcd1234', 'email' => 'admin@iserveu.ca'])
             ->assertResponseStatus(200)
             ->seeJson([
-                'api_token' => User::first()->api_token,
+                'api_token' => User::where('email', 'admin@iserveu.ca')->first()->api_token,
             ]);
     }
 }

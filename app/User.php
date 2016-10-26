@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Events\User\UserCreated;
-use App\Events\User\UserCreating;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
@@ -25,7 +24,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Redis;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel, VisibilityModel
@@ -136,18 +134,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            event(new UserCreating($model));
-
-            return true;
-        });
-
         static::created(function ($model) {
-            event(new UserCreated($model));
-
+            //working on replacing this event.
             if (!Setting::get('security.verify_citizens')) {
                 $model->addRole('citizen');
             }
+            event(new UserCreated($model));
 
             return true;
         });
@@ -160,21 +152,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         static::updated(function ($model) {
             event(new UserUpdated($model));
-
-            $model->load('roles');
-
-            $data = [
-
-            'event' => 'UserWithId'.$model->id.'IsVerified',
-            'data'  => [
-
-                    'permissions'       => $model->permissions,
-                    'identity_verified' => $model->identity_verified,
-
-                ],
-            ];
-
-            Redis::publish('connection', json_encode($data));
 
             return true;
         });
