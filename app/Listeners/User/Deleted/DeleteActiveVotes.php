@@ -3,8 +3,9 @@
 namespace App\Listeners\User\Deleted;
 
 use App\Events\User\UserDeleted;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DeleteActiveVotes
+class DeleteActiveVotes implements ShouldQueue
 {
     /**
      * Create the event listener.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Comment;
+namespace App\Listeners\Comment\Deleted;
 
 use App\Events\Comment\CommentDeleted;
 

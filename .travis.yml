@@ -12,6 +12,7 @@ before_install:
   - chmod +x ./tests/scripts/*
   - ./tests/scripts/travis_mysql_5.7.sh
   - ./tests/scripts/mysql-reset-root-password.sh
+  - ./tests/scripts/install-chrome.sh
 
 before_script:
   - cp ./tests/scripts/.env.travis ./.env
@@ -32,7 +33,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm install -g protractor
   - webdriver-manager update
-  - sleep 5
+  - sleep 10
   - php artisan serve &
 
 script:

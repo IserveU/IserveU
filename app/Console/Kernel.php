@@ -2,8 +2,8 @@
 
 namespace App\Console;
 
-use App\Jobs\Emails\AdminSummary;
-use App\Jobs\Emails\MotionSummary;
+use App\Jobs\Emails\PrepareAdminSummary;
+use App\Jobs\Emails\PrepareMotionSummary;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Setting;
@@ -31,13 +31,13 @@ class Kernel extends ConsoleKernel
     {
         if (Setting::get('motion.email.admin')) {
             $schedule->call(function () {
-                dispatch(new AdminSummary());
+                dispatch(new PrepareAdminSummary());
             })->daily();
         }
 
         if (Setting::get('motion.email.user')) {
             $schedule->call(function () {
-                dispatch(new MotionSummary());
+                dispatch(new PrepareMotionSummary());
             })->daily();
         }
     }

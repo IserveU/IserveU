@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Listeners\User;
+namespace App\Listeners\User\Creating;
 
-use App\Events\User\UserLoginFailed;
+use App\Events\User\UserCreating;
 
-class SendResetEmail
+class SetRememberToken
 {
     /**
      * Create the event listener.
@@ -13,18 +13,18 @@ class SendResetEmail
      */
     public function __construct()
     {
-
         //
     }
 
     /**
      * Handle the event.
      *
-     * @param UserLoginFailed $event
+     * @param UserCreating $event
      *
      * @return void
      */
-    public function handle($event)
+    public function handle(UserCreating $event)
     {
+        $event->user->remember_token = str_random(99);
     }
 }

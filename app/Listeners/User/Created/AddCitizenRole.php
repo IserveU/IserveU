@@ -3,11 +3,9 @@
 namespace App\Listeners\User\Created;
 
 use App\Events\User\UserCreated;
-use App\Notifications\Welcome;
-use Auth;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Setting;
 
-class PrepareWelcomeEmail implements ShouldQueue
+class AddCitizenRole
 {
     /**
      * Create the event listener.
@@ -16,6 +14,7 @@ class PrepareWelcomeEmail implements ShouldQueue
      */
     public function __construct()
     {
+        //
     }
 
     /**
@@ -27,12 +26,8 @@ class PrepareWelcomeEmail implements ShouldQueue
      */
     public function handle(UserCreated $event)
     {
-        $welcomeNotification = new Welcome();
-
-        if (Auth::check()) {
-            $welcomeNotification->createdByOther = true;
+        if (!Setting::get('security.verify_citizens')) {
+            $event->user->addRole('citizen');
         }
-
-        $event->user->notify($welcomeNotification);
     }
 }

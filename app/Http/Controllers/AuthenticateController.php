@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\User\UserLoginFailed;
-use App\Events\User\UserLoginSucceeded;
+use App\Notifications\AccountLocked;
 use App\Notifications\PasswordReset;
 use App\User;
 use Auth;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
+use Setting;
 
 class AuthenticateController extends ApiController
 {
@@ -29,14 +29,26 @@ class AuthenticateController extends ApiController
         }
 
         if (!Hash::check($request->password, $user->password)) {
-            event(new UserLoginFailed($user));
+            $user->login_attempts = $user->login_attempts + 1;
+            if ($user->login_attempts > Setting::get('security.login_attempts_lock')) {
+                $user->locked_until = Carbon::now()->addHours(3);
+            }
+
+            $user->save();
+
+            if ($user->login_attempts >= Setting::get('security.login_attempts_lock')) {
+                $user->notify(new AccountLocked($user));
+            }
 
             return  response(['error' => 'Invalid credentials', 'message' => 'Either your username or password are incorrect'], 403);
         }
 
-        event(new UserLoginSucceeded($user));
+        //TODO: Setup the password resets table, or just use API token $user->login_token
+        $user->login_attempts = 0;
+        $user->locked_until = null;
 
-        $user = $user->fresh();
+        $user->save();
+
 
         Auth::setUser($user);
 
@@ -55,7 +67,10 @@ class AuthenticateController extends ApiController
             return  response(['error' => 'Reset Token Invalid', 'message' => 'Reset token invalid or not found'], 404);
         }
 
-        event(new UserLoginSucceeded($user));
+        //TODO: Setup some "User login" function tied to a job on the User model (code duplication above)
+        $user->login_attempts = 0;
+        $user->locked_until = null;
+
 
         $user = $user->fresh();
 

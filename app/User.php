@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\User\UserCreated;
+use App\Events\User\UserCreating;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
@@ -134,11 +135,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     {
         parent::boot();
 
+        static::creating(function ($model) {
+            event(new UserCreating($model));
+
+            return true;
+        });
+
         static::created(function ($model) {
-            //working on replacing this event.
-            if (!Setting::get('security.verify_citizens')) {
-                $model->addRole('citizen');
-            }
             event(new UserCreated($model));
 
             return true;
@@ -152,18 +155,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         static::updated(function ($model) {
             event(new UserUpdated($model));
-
-            return true;
-        });
-
-        static::saving(function ($model) {
-            if (!$model->remember_token) {
-                $model->remember_token = str_random(99);
-            }
-
-            if (!$model->api_token) {
-                $model->api_token = str_random(60);
-            }
 
             return true;
         });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Vote;
+namespace App\Listeners\Vote\Updated;
 
 use App\Comment;
 use App\CommentVote;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Motion;
+namespace App\Listeners\Motion\Updated;
 
 use App\Events\Motion\MotionUpdated;
 use App\Motion;

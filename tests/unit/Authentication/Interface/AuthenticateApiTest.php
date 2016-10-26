@@ -42,6 +42,7 @@ class AuthenticateApiTest extends AuthenticateApi
             'password'  => 'abcd1234',
         ]);
 
+
         $this->post('authenticate', array_merge($user->skipVisibility()->setVisible(['email'])->toArray(), ['password' => 'abcd1234']))
             ->assertResponseStatus(200)
             ->seeJson([
