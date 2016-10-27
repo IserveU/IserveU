@@ -34,12 +34,15 @@
 
 				userResource.updateUser(id, data).then(function(results) {
 					setUserProfile();
-					item.saving = false;
-					item.edit   = !item.edit;
+					toggleItem(item);
 				}, function(error) {
-					item.saving = false;
-					item.edit   = !item.edit;
+					toggleItem(item);
 				});
+			}
+
+			function toggleItem(item) {
+				item.saving = false;
+				item.edit   = !item.edit;
 			}
 
 			function setUserProfile() {

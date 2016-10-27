@@ -8,11 +8,9 @@
       '$q',
       '$rootScope',
       'authResource',
-      'refreshLocalStorage',
       userResource]);
 
-  function userResource($resource, $q, $rootScope, authResource,
-    refreshLocalStorage) {
+  function userResource($resource, $q, $rootScope, authResource) {
 
     /****************************************************************
     *

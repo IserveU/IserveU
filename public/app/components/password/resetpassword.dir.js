@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -8,27 +8,29 @@
 
   	 /** @ngInject */
 	function resetPassword($compile) {
-		
+
 		function controllerMethod() {
-	
-			var vm = this;
 
-			vm.notification = 'false';
+			// @deprecated logic but will have to remake.
 
-			if($state.current.name == 'login.resetpassword')
-				vm.notification = true;
+			// var vm = this;
 
-			vm.savePassword = function(){
-				var data = {
-					id: JSON.parse(localStorage.getItem('user')).id,
-					password: vm.password
-				}
+			// vm.notification = 'false';
 
-				user.updateUser(data).then(function(){
-					vm.notification = false;
-					ToastMessage.simple("Thank you for reseting your password.")
-				});
-			}
+			// if($state.current.name == 'login.resetpassword')
+			// 	vm.notification = true;
+
+			// vm.savePassword = function(){
+			// 	var data = {
+			// 		id: JSON.parse(localStorage.getItem('user')).id,
+			// 		password: vm.password
+			// 	}
+
+			// 	user.updateUser(data).then(function(){
+			// 		vm.notification = false;
+			// 		ToastMessage.simple("Thank you for reseting your password.")
+			// 	});
+			// }
 		}
 
 
