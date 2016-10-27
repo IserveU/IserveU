@@ -279,7 +279,9 @@ trait PolishedTest
 
         $this->contentToPost = $this->getPostArray($this->class, $fieldsToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $this->contentToPost)
+        $id = $this->modelToUpdate->slug ?: $this->modelToUpdate->id;
+
+        $this->patch($this->route.$id, $this->contentToPost)
                 ->assertResponseStatus($expectedCode);
 
 
