@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

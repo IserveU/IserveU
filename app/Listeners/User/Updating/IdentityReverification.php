@@ -2,9 +2,9 @@
 
 namespace App\Listeners\User\Updating;
 
+use App\Notifications\IdentityReverification as IdentityReverificationNotification;
 use App\User;
 use Auth;
-use Mail;
 
 class IdentityReverification
 {
@@ -37,9 +37,7 @@ class IdentityReverification
 
 
         if ($event->user->identity_verified) {
-            Mail::send('emails.reverification', ['user' => $event->user], function ($m) use ($event) {
-                $m->to($event->user->email, $event->user->first_name)->subject('Reverification Required');
-            });
+            $event->user->notify(new IdentityReverificationNotification());
 
             $event->user->identity_verified = 0;
         }

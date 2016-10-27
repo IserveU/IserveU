@@ -74,10 +74,7 @@ abstract class Request extends FormRequest
     {
         $formatedRulesArray = [];
         foreach ($rules as $key => $ruleArray) {
-            $formatedRulesArray[$key] = $key.' : ';
-            foreach ($ruleArray as $rule) {
-                $formatedRulesArray[$key] .= $rule.', ';
-            }
+            $formatedRulesArray[$key] = $key.' : '.implode(',', $ruleArray);
         }
 
         return $formatedRulesArray;

@@ -37,15 +37,8 @@ class SettingController extends ApiController
      * @return \Illuminate\Http\Response Returns a Json telling you if the
      *                                   changes were successful or not
      */
-    public function update(UpdateSettingRequest $request, $id)
+    public function update(UpdateSettingRequest $request, $key)
     {
-        // big hack
-        if (is_null($request->input('key'))) {
-            $key = $id;
-        } else {
-            $key = $id.'.'.$request->input('key');
-        }
-
         $value = $request->input('value');
 
         return Setting::update($key, $value) ?
@@ -55,20 +48,5 @@ class SettingController extends ApiController
             response()->json([
                 'message' => 'key missing.',
             ], 400);
-    }
-
-    public function spa()
-    {
-        return \Theme::view('setting.directive');
-    }
-
-    /**
-     * Manually flushes the site's cache.
-     *
-     * @return null
-     */
-    public function flushCache()
-    {
-        \Cache::flush();
     }
 }

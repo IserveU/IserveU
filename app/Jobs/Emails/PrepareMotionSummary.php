@@ -3,15 +3,15 @@
 namespace App\Jobs\Emails;
 
 use App\Motion;
+use App\Notifications\Summary\MotionSummary;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Mail;
 
-class MotionSummary implements ShouldQueue
+class PrepareMotionSummary implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
@@ -32,7 +32,7 @@ class MotionSummary implements ShouldQueue
      */
     public function handle()
     {
-        $users = User::validVoter()->get();
+        $users = User::all()->get();
 
         //Get users who want a daily summary
         $dailySummaryEmailUsers = $users->filter(function ($user) {
@@ -46,21 +46,13 @@ class MotionSummary implements ShouldQueue
         // echo print_r(\DB::getQueryLog());
         $closingSoonMotions = Motion::active()->closingAfter(Carbon::now())->closingBefore(Carbon::now()->addHours(24))->get();
 
-        $data = [
-            'latestLaunchedMotions'     => $latestLaunchedMotions,
-            'recentlyClosedMotions'     => $recentlyClosedMotions,
-            'closingSoonMotions'        => $closingSoonMotions,
-            'title'                     => 'Daily Summary',
-        ];
 
         if ($latestLaunchedMotions->isEmpty() && $recentlyClosedMotions->isEmpty() && $closingSoonMotions->isEmpty()) { //No updates today
             return true;
         }
 
-        foreach ($users as $user) {
-            Mail::send('emails.summary', $data, function ($m) use ($user) {
-                $m->to($user->email, $user->first_name.' '.$user->last_name)->subject('Daily IserveU Summary');
-            });
+        foreach ($dailySummaryEmailUsers as $user) {
+            $user->notify(new MotionSummary($latestLaunchedMotions, $recentlyClosedMotions, $closingSoonMotions));
         }
     }
 }

@@ -89,7 +89,7 @@ class UpdateUserApiTest extends UserApi
     /** @test  ******************/
     public function update_user_user_with_agreement_accepted()
     {
-        $this->skipDatabaseCheck = ['agreement_accepted'];
+        $this->skipDatabaseCheck = ['agreement_accepted', 'password'];
         $this->updateContentGetSee([
             'agreement_accepted' => 1,
         ], 200);

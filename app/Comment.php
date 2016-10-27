@@ -5,7 +5,7 @@ namespace App;
 use App\Events\Comment\CommentCreated;
 use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
 use Auth;

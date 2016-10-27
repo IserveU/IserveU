@@ -5,9 +5,10 @@ namespace App\Listeners\User\Updated;
 use App\Events\User\UserUpdated;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Setting;
 
-class CheckUserRoles
+class CheckUserRoles implements ShouldQueue
 {
     /**
      * Create the event listener.

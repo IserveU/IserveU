@@ -7,8 +7,8 @@ use App\Http\Requests\Request;
 class UpdateSettingRequest extends Request
 {
     protected $rules = [
-        'key'   => 'string',
         'value' => 'required',
+        'key'   => 'string',
     ];
 
     /**
@@ -25,11 +25,5 @@ class UpdateSettingRequest extends Request
     public function rules()
     {
         return $this->rules;
-    }
-
-    public function validate()
-    {
-        parent::validate();
-        //If wanted to do any special valudation
     }
 }
