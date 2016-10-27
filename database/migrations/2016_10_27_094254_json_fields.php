@@ -30,6 +30,22 @@ class JsonFields extends Migration
             $page->save();
         }
 
+        $motionsStore = \App\Page::all()->pluck('text','id');
+
+        Schema::table('motions', function ($table) {
+            $table->dropColumn('text');
+        });
+
+        Schema::table('motions', function ($table) {
+            $table->json('content')->nullable();
+        });
+
+        $motions = \App\motion::all();
+
+        foreach($motions as $motion){
+            $motion->text = $motionsStore[$motion->id];
+            $motion->save();
+        }
 
     }
 

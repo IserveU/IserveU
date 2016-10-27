@@ -92,7 +92,7 @@ class Page extends NewApiModel
 
     /**
      * Sets the JSON field
-     * @param [type] $input [description]
+     * @param String $input content of the text field
      */
     public function setTextAttribute($input)
     {
@@ -101,7 +101,7 @@ class Page extends NewApiModel
 
     /**
      * Sets the JSON field
-     * @param [type] $input [description]
+     * @param String $input content of the text field
      */
     public function getTextAttribute()
     {

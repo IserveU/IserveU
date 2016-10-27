@@ -47,6 +47,14 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
+    protected $hidden = ['content'];
+
+
+    /**
+     * The attributes included in the JSON/Array.
+     *
+     * @var array
+     */
     protected $with = ['department', 'user', 'files'];
 
 
@@ -87,6 +95,16 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     protected $attributes = [
         'status'    => 'draft',
+        'content'   =>  "[]"
+    ];
+
+
+    /**
+     * Casts fields to database columns
+     * @var Array
+     */
+    protected $casts = [
+        'content'   =>  'array'
     ];
 
     /**
@@ -290,7 +308,24 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $this->votes()->sum('position');
     }
 
-    /************************************* Casts & Accesors *****************************************/
+
+    /**
+     * Sets the JSON field
+     * @param String $input content of the text field
+     */
+    public function setTextAttribute($input)
+    {
+        $this->content = array_merge($this->content,["text"=> $input]);
+    }
+
+    /**
+     * Sets the JSON field
+     * @param String $input content of the text field
+     */
+    public function getTextAttribute()
+    {
+        return $this->content['text'];
+    }
 
 
 
