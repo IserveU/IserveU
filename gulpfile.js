@@ -57,6 +57,9 @@ elixir(function(mix) {
     //Copy the standard icons (set in the department table)
     mix.copy('resources/assets/icons', 'public/icons');
     
+    //Copy the glyph fonts and symbols for the UI
+    mix.copy('resources/assets/symbols', 'public/symbols');
+
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
 });
 
