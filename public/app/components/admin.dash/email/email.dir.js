@@ -12,13 +12,19 @@
     function emailManagerController() {
       this.service = settings;
       this.settings = settings.getData();
+      this.showWelcome = false;
+
+      this.toggleWelcome = function() {
+        this.showWelcome = !this.showWelcome;
+      }
+
     }
 
 
     return {
       restrict: 'EA',
       controller: emailManagerController,
-      controllerAs: 'email',
+      controllerAs: 'emailManager',
       templateUrl: 'app/components/admin.dash/email/email.tpl.html'
     };
 

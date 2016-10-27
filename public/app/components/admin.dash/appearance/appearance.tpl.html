@@ -6,7 +6,7 @@
     <div flow-init="{target: '/file', testChunks:false, query: {type: 'logo'} }"
          flow-files-submitted="$flow.upload()"
          flow-file-success="logo = $message">
-      
+
       <md-button flow-btn>Upload logo</md-button>
 
       <div layout="row">
@@ -22,7 +22,7 @@
 
   <md-card>
     <md-card-content layout-padding>
-    
+
     <div class="title" ng-click="showCustomPages = !showCustomPages">
     <md-icon class="mdi mdi-file-multiple title-icon"></md-icon>
       <h3 class="title-header">Site</h3>
@@ -31,7 +31,7 @@
       <div ng-if="showCustomPages" layout="column">
 
         <md-input-container>
-          <label>Sitename</label> 
+          <label>Sitename</label>
           <input type='text' ng-model='site.name'/>
         </md-input-container>
 
@@ -46,7 +46,7 @@
 <!--     <md-input-container>
       <label>Theme</label>
       <md-select placeholder="Default" ng-model="appearance.themeSelect">
-        <md-option value="default">Default</md-option> 
+        <md-option value="default">Default</md-option>
         <md-option value="custom">{{ appearance.theme.name === 'default' && 'Custom' || appearance.theme.name }}</md-option>
       </md-select>
     </md-input-container> -->
@@ -69,7 +69,7 @@
       <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_one" open-on-input="true"></div>
       <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_two" open-on-input="true"></div>
       <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="appearance.palette.primary.hue_three" open-on-input="true"></div>
-      
+
 
       <md-input-container flex>
         <label>Contrast</label>

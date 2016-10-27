@@ -1,4 +1,4 @@
- <md-list ng-cloak flex>
+ <md-list ng-cloak flex style="padding-top: 0;">
       <md-subheader class="md-no-sticky">Content</md-subheader>
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
@@ -16,10 +16,10 @@
           <div class="md-list-item-text">
             <h3>Social Media Links</h3>
             <div>
-              <ul style="list-style-type: none;">
-                <li><md-icon class="mdi mdi-twitter"></md-icon>Twitter</li>
-                <li><md-icon class="mdi mdi-facebook"></md-icon>Facebook</li>
-                <li><md-icon class="mdi mdi-home"></md-icon>Homepage</li>
+              <ul style="list-style-type: none; padding: 0;">
+                <li><md-icon class="mdi mdi-twitter" style="margin: 0 5px 5px 0;"></md-icon>Twitter</li>
+                <li><md-icon class="mdi mdi-facebook" style="margin: 0 5px 5px 0;"></md-icon>Facebook</li>
+                <li><md-icon class="mdi mdi-home" style="margin: 0 5px 5px 0;"></md-icon>Homepage</li>
               </ul>
             </div>
           </div>
@@ -27,6 +27,8 @@
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
+
+        <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
@@ -38,14 +40,13 @@
           </md-button>
         </md-list-item>
 
-        <md-divider></md-divider>
 
         <md-subheader class="md-no-sticky">Appearance</md-subheader>
 
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
             <h3>Logo & favicon</h3>
-            <h4><md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg"></md-icon></h4>
+            <h4><md-icon md-svg-src="/themes/{{::theme.name}}/logo/symbol_mono.svg"></md-icon></h4>
             <p>* Your organization's logo. Displays in the corner.</p>
           </div>
 
@@ -53,6 +54,8 @@
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
+
+        <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
@@ -65,6 +68,8 @@
           </md-button>
         </md-list-item>
 
+        <md-divider></md-divider>
+
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
             <h3>Background Image</h3>
@@ -75,6 +80,8 @@
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
+
+        <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
@@ -87,7 +94,75 @@
           </md-button>
         </md-list-item>
 
-        <md-divider></md-divider>
+    <md-list-item class="md-3-line" flex layout-padding>
+
+      <div class="item-1" flex>
+
+        <div class="title" ng-click="showColorPalette = !showColorPalette">
+          <md-icon class="mdi mdi-palette title-icon"></md-icon>
+          <h3 class="title-header">Customize</h3>
+        </div>
+
+        <div ng-if="showColorPalette" layout="column" layout-wrap layout-align="center center" flex>
+          <div class="palette-warning">
+            <label>Warning Color</label>
+            <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.warning" open-on-input="true"></div>
+          </div>
+          <div class="palette-colour-picker" layout="row">
+            <div class="palette-primary" flex="30">
+              <label>Primary Color</label>
+              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_one" open-on-input="true"></div>
+              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_two" open-on-input="true"></div>
+              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_three" open-on-input="true"></div>
+
+              <md-input-container flex>
+                <label>Contrast</label>
+                  <md-select ng-model="content.palette.primary.contrast" aria-label="Theme Primary Contrast">
+                    <md-option value="light">Light</md-option>
+                    <md-option value="dark">Dark</md-option>
+                  </md-select>
+              </md-input-container>
+            </div>
+
+            <div flex="30"></div>
+
+            <div class="palette-accent" flex="30">
+              <label>Accent Color</label>
+              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_one" open-on-input="true"></div>
+              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_two" open-on-input="true"></div>
+              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_three" open-on-input="true"></div>
+
+              <md-input-container flex>
+                <label>Contrast</label>
+                  <md-select ng-model="content.palette.accent.contrast" aria-label="Theme Accent Contrast">
+                    <md-option value="light">Light</md-option>
+                    <md-option value="dark">Dark</md-option>
+                  </md-select>
+              </md-input-container>
+            </div>
+          </div>
+
+        <spinner ng-click="content.service.saveTypeOf('palette', content.palette)" name="'Save'" on-hide="content.service.data.saving"></spinner>
+        </div>
+      </div>
+    </md-list-item>
+
+      <div layout="column" ng-cloak ng-controller="ThemeDemoCtrl" class="md-padding">
+        <!-- Theme Options -->
+        <div layout="row" layout-wrap layout-align="center center">
+          <md-button ng-repeat="color in colors" flex-gt-md="15" flex="30"
+                     md-colors="{background: '{{color}}'}" md-colors-watch="false"
+                     ng-disabled="primary === color && !isPrimary" ng-click="selectTheme(color)">
+            {{color}}
+          </md-button>
+        </div>
+        <!-- Theme Preview -->
+        <div layout="row" class="section" layout-align="center center">
+          <div layout="column" flex="50">
+            <theme-preview primary="primary" accent="accent"></theme-preview>
+          </div>
+        </div>
+      </div>
 
       <md-subheader class="md-no-sticky">Language</md-subheader>
       <md-list-item class="md-2-line" flex></md-list-item>

@@ -6,10 +6,9 @@
     .factory('settings', [
       '$http',
       'SETTINGS_JSON',
-      'refreshLocalStorage',
       settingsServiceFactory]);
 
-  function settingsServiceFactory($http, SETTINGS_JSON, refreshLocalStorage) {
+  function settingsServiceFactory($http, SETTINGS_JSON) {
 
     var Settings = {
       /**
@@ -26,12 +25,10 @@
       },
       /** Post function */
       save: function(data) {
-        $http.patch('/api/setting/' + data.name, {value: data.value})
+        $http.patch('/api/setting/' + data.name , {value: data.value})
         .success(function(r) {
-
-          refreshLocalStorage.setItem('settings', r);
           Settings.data.saving = false;
-
+          SETTINGS_JSON[data.name] = data.value;
         }).error(function(e) { });
       },
       /**
@@ -39,15 +36,19 @@
       * a null/empty/undefined value to the settings array.
       */
       saveArray: function(name, value) {
-        if (angular.isUndefined(value) || value == null || value.length == 0)
+
+        if (angular.isUndefined(value) || value == null || Object.keys(value).length == 0)
           return 0;
 
         this.data.saving = true;
 
-        this.save({
-          'name': name,
-          'value': value
-        });
+        angular.forEach(value, function(val, key) {
+          this.save({
+            'name': name + '.' + key,
+            'value': val
+          });
+        }, this);
+
       },
       /**
       * Organizes the data array into names that correspond
@@ -58,10 +59,14 @@
           angular.toJson(data).hasOwnProperty('filename'))
           data = angular.toJson(data).filename;
 
-        if (type === 'palette')
-          this.saveArray('theme', data.assignThemePalette(data));
-        else
+        if (type === 'palette'){
+          var palette = data.assignThemePalette(data);
+          this.saveArray('theme.colors.primary', palette.primary);
+          this.saveArray('theme.colors.accent', palette.accent);
+        }
+        else {
           this.saveArray(type, data);
+        }
       }
     };
 

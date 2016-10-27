@@ -1,0 +1,150 @@
+<md-content>
+  <md-card>
+    <md-card-content>
+
+    <md-list ng-cloak flex>
+      <md-list-item ng-click="noop();">
+        <p translate="{{'MOTIONS'}}"></p>
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleMotion()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+        <md-switch class="md-secondary" ng-model="settingsGlobal.motion.on" ng-change="systemManager.service.saveTypeOf('motion.on', settingsGlobal.motion.on)"></md-switch>
+      </md-list-item>
+
+      <div ng-if="systemManager.showMotion" layout="column" layout-padding>
+
+        <div class="md-subheader">Preferred name</div>
+          <md-input-container>
+            <label>Singular</label>
+            <input type="text" ng-model="settingsGlobal.jargon.en.motion">
+          </md-input-container>
+
+          <md-input-container>
+            <label>Plural</label>
+            <input type="text" ng-model="settingsGlobal.jargon.en.motions">
+          </md-input-container>
+
+        <div class="md-subheader">Email Notifications when a motion changes</div>
+          <md-checkbox ng-model="settingsGlobal.motion.email.admin">
+            Email admins
+          </md-checkbox>
+          <md-checkbox ng-model="settingsGlobal.motion.email.user">
+            Email users
+          </md-checkbox>
+        <div class="md-subheader">Closing Date Behaviour</div>
+          <md-checkbox ng-model="settingsGlobal.motion.allow_closing">
+            Allow Closing
+          </md-checkbox>
+
+          <md-input-container>
+            <label>Hours before closing autoextend</label>
+              <input type="number" ng-model="settingsGlobal.motion.hours_before_closing_autoextend"/>
+          </md-input-container>
+
+          <md-input-container>
+            <label>Hours to autoextend by</label>
+              <input type="number" ng-model="settingsGlobal.motion.hours_to_autoextend_by"/>
+          </md-input-container>
+
+        <div layout="row" layout-align="front center">
+          <spinner ng-click="systemManager.service.saveTypeOf('motion', settingsGlobal.motion); systemManager.service.saveTypeOf('jargon.en', settingsGlobal.jargon.en)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleMotion();"></spinner>
+          <md-button ng-show="systemManager.showMotion" ng-click="systemManager.toggleMotion();">Cancel</md-button>
+        </div>
+      </div>
+
+
+
+      <md-list-item ng-click="noop();">
+        <p>Voting</p>
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleVoting()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+        <md-switch class="md-secondary" ng-model="settingsGlobal.voting.on" ng-change="systemManager.service.saveTypeOf('voting.on', settingsGlobal.voting.on)"></md-switch>
+      </md-list-item>
+
+      <div ng-if="systemManager.showVoting" layout="column" layout-padding>
+        <md-checkbox ng-model="settingsGlobal.abstain.on">
+          Enable abstain voting
+        </md-checkbox>
+        <div layout="row" layout-align="front center">
+          <spinner ng-click="systemManager.service.saveTypeOf('voting', settingsGlobal.voting)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleVoting();"></spinner>
+          <md-button ng-show="systemManager.showVoting" ng-click="systemManager.toggleVoting();">Cancel</md-button>
+        </div>
+      </div>
+
+      <md-list-item ng-click="noop();">
+        <p>Comments</p>
+        <md-switch class="md-secondary" ng-model="settingsGlobal.comment.on" ng-change="systemManager.service.saveTypeOf('comment.on', settingsGlobal.comment.on)"></md-switch>
+      </md-list-item>
+
+      <md-list-item ng-click="noop();">
+        <p translate="{{'DEPARTMENTS'}}"></p>
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleDepartment()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+      </md-list-item>
+
+      <div ng-if="systemManager.showDepartment" layout="column" layout-padding>
+        <div class="md-subheader">Preferred name</div>
+          <md-input-container>
+            <label>Singular</label>
+            <input type="text" ng-model="settingsGlobal.jargon.en.department">
+          </md-input-container>
+
+          <md-input-container>
+            <label>Plural</label>
+            <input type="text" ng-model="settingsGlobal.jargon.en.departments">
+          </md-input-container>
+
+          <md-list>
+            <md-list-item ng-repeat="dpt in systemManager.department.list.index" ng-if="dpt.id && dpt.name" flex>
+              <md-input-container flex>
+                <input type="text" ng-model="dpt.name" />
+            </md-input-container>
+
+            <spinner ng-click="systemManager.department.save(dpt.name, dpt.id)"  name="'Save'" on-hide="systemManager.department.success[dpt.id]"></spinner>
+            <md-icon class="mdi mdi-delete md-secondary" ng-click="systemManager.department.destroy(dpt.name, dpt.id)"></md-icon>
+
+            </md-list-item>
+          </md-list>
+
+        <div layout="row" layout-align="front center">
+          <spinner ng-click="systemManager.service.saveTypeOf('jargon.en', settingsGlobal.jargon.en); systemManager.department.saveAll();"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleDepartment();"></spinner>
+          <md-button ng-show="systemManager.showDepartment" ng-click="systemManager.toggleDepartment();">Cancel</md-button>
+        </div>
+      </div>
+
+      <md-list-item ng-click="noop();">
+        <p>Security</p>
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleSecurity()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+      </md-list-item>
+
+      <div ng-if="systemManager.showSecurity" layout="column" layout-padding>
+        <md-input-container>
+          <label>Number of attempts allowed before locking an account</label>
+          <input type="number" ng-model="settingsGlobal.security.login_attempts.lock"/>
+        </md-input-container>
+
+        <md-checkbox ng-model="settingsGlobal.security.verify_citizens">
+          Automatically verify the user when they register
+        </md-checkbox>
+
+        <md-checkbox ng-model="settingsGlobal.security.ask_for_birthday_on_create">
+          Requires the user birthday on register
+        </md-checkbox>
+
+        <div layout="row" layout-align="front center">
+          <spinner ng-click="systemManager.service.saveTypeOf('security', settingsGlobal.security)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleSecurity();"></spinner>
+          <md-button ng-show="systemManager.showSecurity" ng-click="systemManager.toggleSecurity();">Cancel</md-button>
+        </div>
+      </div>
+
+    </md-list>
+
+
+
+    </md-card-content>
+  </md-card>
+</md-content>
