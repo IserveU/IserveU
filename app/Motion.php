@@ -64,7 +64,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank'];
+    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank','text'];
 
 
 
