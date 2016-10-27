@@ -40,7 +40,7 @@ class JsonFields extends Migration
             $table->json('content')->nullable();
         });
 
-        $motions = \App\motion::all();
+        $motions = \App\Motion::all();
 
         foreach($motions as $motion){
             $motion->text = $motionsStore[$motion->id];
