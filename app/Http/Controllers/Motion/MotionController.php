@@ -25,7 +25,7 @@ class MotionController extends ApiController
      */
     public function index(IndexMotionRequest $request)
     {
-        $limit = $request->get('limit') ?: 10;
+        $limit = $request->get('limit') ?: 20;
 
 
         if (Auth::check()) { //Logged in user will want to see if they voted on these things
