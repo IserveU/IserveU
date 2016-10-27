@@ -67,7 +67,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::resource('community', 'CommunityController', ['only' => ['index']]);
 
     //Department
-    Route::resource('department', 'DepartmentController', ['only' => ['index', 'store', 'update', 'destroy']]);
+    Route::resource('department', 'DepartmentController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 
     //Administrator only
     Route::group(['middleware' => ['role:administrator']], function () {

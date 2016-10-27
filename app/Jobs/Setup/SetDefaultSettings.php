@@ -31,16 +31,16 @@ class SetDefaultSettings implements ShouldQueue
     public function handle()
     {
         Setting::ifNotSetThenSet('motion', [
-                'on'                                => true,
+                'on'                                => 1,
                 'default_closing_time_delay'        => 120,
                 'hours_before_closing_autoextend'   => 12,
                 'hours_to_autoextend_by'            => 12,
                 'minutes_between_rank_calculations' => 60,
                 'email'                             => [
-                    'admin' => true,
-                    'users' => false,
+                    'admin' => 1,
+                    'users' => 0,
                 ],
-                'allow_closing' => true,
+                'allow_closing' => 1,
             ]);
 
 
@@ -55,21 +55,21 @@ class SetDefaultSettings implements ShouldQueue
 
 
         Setting::ifNotSetThenSet('voting', [
-            'on'        => true,
-            'abstain'   => true,
+            'on'        => 1,
+            'abstain'   => 1,
         ]);
 
 
         Setting::ifNotSetThenSet('comment', [
-            'on'            => true,
+            'on'            => 1,
             'cachetime'     => 60,
         ]);
 
 
         Setting::ifNotSetThenSet('security.login_attempts_lock', 5);
-        Setting::ifNotSetThenSet('security.verify_citizens', true);
+        Setting::ifNotSetThenSet('security.verify_citizens', 1);
 
-        Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', false);
+        Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', 0);
 
         //TODO: Language translation and should be hardcoded into translation files and maybe these could be over-rides?
         Setting::ifNotSetThenSet('jargon.en', [
@@ -82,10 +82,10 @@ class SetDefaultSettings implements ShouldQueue
 
         Setting::ifNotSetThenSet('home', [
                 'widgets'       => [
-                    'your_votes'    => true,
-                    'your_comments' => true,
-                    'top_comments'  => true,
-                    'top_motions'   => true,
+                    'your_votes'    => 1,
+                    'your_comments' => 1,
+                    'top_comments'  => 1,
+                    'top_motions'   => 1,
                 ],
             ]);
 
@@ -114,7 +114,7 @@ class SetDefaultSettings implements ShouldQueue
 
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
-                'on'    => true,
+                'on'    => 1,
                 'text'  => "Welcome to the IserveU beta, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions. \nWe welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife city council, until then it operates as an advisory and feedback tool.",
                 ],
         ]);
