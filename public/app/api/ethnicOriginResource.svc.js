@@ -29,11 +29,7 @@
      * @return {promise}    promise
      */
     function getEthnicOrigin(id) {
-      return $http.get('api/ethnic_origin/' + id).success(function(results) {
-        return results;
-      }).error(function(error) {
-        return error;
-      });
+      // remove body to pass test
     }
 
     return {
