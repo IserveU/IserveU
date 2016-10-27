@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Page;
 
 use App\Http\Requests\Request;
-use Auth;
 
 class DeletePageRequest extends Request
 {
@@ -17,7 +16,7 @@ class DeletePageRequest extends Request
         $page = $this->route()->parameter('page'); //TO GET RESOURCE ROUTING WORKING
 
         //Can not remove home page, as site files are tied to it
-        if($page->id == 1){
+        if ($page->id == 1) {
             return false;
         }
 
@@ -32,7 +31,7 @@ class DeletePageRequest extends Request
     public function rules()
     {
         return [
-        
+
         ];
     }
 }

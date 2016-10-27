@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class DepartmentIconFile extends Migration
 {
@@ -16,7 +15,6 @@ class DepartmentIconFile extends Migration
         Schema::table('departments', function ($table) {
             $table->string('icon')->default('/icons/unknown.svg');
         });
-
     }
 
     /**

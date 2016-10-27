@@ -64,7 +64,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank','text'];
+    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank', 'text'];
 
 
 
@@ -95,16 +95,17 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     protected $attributes = [
         'status'    => 'draft',
-        'content'   =>  "[]"
+        'content'   => '[]',
     ];
 
 
     /**
-     * Casts fields to database columns
-     * @var Array
+     * Casts fields to database columns.
+     *
+     * @var array
      */
     protected $casts = [
-        'content'   =>  'array'
+        'content'   => 'array',
     ];
 
     /**
@@ -308,26 +309,25 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $this->votes()->sum('position');
     }
 
-
     /**
-     * Sets the JSON field
-     * @param String $input content of the text field
+     * Sets the JSON field.
+     *
+     * @param string $input content of the text field
      */
     public function setTextAttribute($input)
     {
-        $this->content = array_merge($this->content,["text"=> $input]);
+        $this->content = array_merge($this->content, ['text' => $input]);
     }
 
     /**
-     * Sets the JSON field
-     * @param String $input content of the text field
+     * Sets the JSON field.
+     *
+     * @param string $input content of the text field
      */
     public function getTextAttribute()
     {
         return $this->content['text'];
     }
-
-
 
     /************************************* Scopes ***************************************************/
 

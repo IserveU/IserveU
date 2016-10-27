@@ -12,7 +12,7 @@ class CommunitiesTableSeeder extends Seeder
      */
     public function run()
     {
-        $communities = [     
+        $communities = [
             'Yellowknife',
         ];
 

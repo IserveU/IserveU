@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class JsonFields extends Migration
 {
@@ -13,7 +12,7 @@ class JsonFields extends Migration
      */
     public function up()
     {
-        $pagesStore = \App\Page::all()->pluck('content','id');
+        $pagesStore = \App\Page::all()->pluck('content', 'id');
 
         Schema::table('pages', function ($table) {
             $table->dropColumn('content');
@@ -25,12 +24,12 @@ class JsonFields extends Migration
 
         $pages = \App\Page::all();
 
-        foreach($pages as $page){
+        foreach ($pages as $page) {
             $page->text = $pagesStore[$page->id];
             $page->save();
         }
 
-        $motionsStore = \App\Page::all()->pluck('text','id');
+        $motionsStore = \App\Page::all()->pluck('text', 'id');
 
         Schema::table('motions', function ($table) {
             $table->dropColumn('text');
@@ -42,11 +41,10 @@ class JsonFields extends Migration
 
         $motions = \App\Motion::all();
 
-        foreach($motions as $motion){
+        foreach ($motions as $motion) {
             $motion->text = $motionsStore[$motion->id];
             $motion->save();
         }
-
     }
 
     /**

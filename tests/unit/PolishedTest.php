@@ -467,8 +467,6 @@ trait PolishedTest
         return $this;
     }
 
-
-
     /**
      * Guessing the things that people should be setting.
      */

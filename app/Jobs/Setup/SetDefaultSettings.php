@@ -102,12 +102,12 @@ class SetDefaultSettings implements ShouldQueue
                         'A200'                     => 'ffb473', 'A400' => 'ffb473', 'A700' => 'a64d00', 'contrastDefaultColor' => 'light',
                     ],
                 ],
-                'name'  => 'default',
+                'name'          => 'default',
                 'logo'          => '',
                 'logo_mono'     => '',
                 'symbol'        => '',
                 'symbol_mono'   => '',
-                'background'    => ''
+                'background'    => '',
             ]);
 
 

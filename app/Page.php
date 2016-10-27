@@ -32,8 +32,8 @@ class Page extends NewApiModel
      *
      * @var array
      */
-    protected $appends = [ 
-        'text'
+    protected $appends = [
+        'text',
     ];
 
     /**
@@ -42,7 +42,7 @@ class Page extends NewApiModel
      * @var array
      */
     protected $hidden = [
-        'content'
+        'content',
     ];
 
     /**
@@ -76,32 +76,35 @@ class Page extends NewApiModel
      */
     protected $attributes = [
         'title'     => 'New Page',
-        'content'   =>  "[]",
+        'content'   => '[]',
     ];
 
 
     /**
-     * Casts fields to database columns
-     * @var Array
+     * Casts fields to database columns.
+     *
+     * @var array
      */
     protected $casts = [
-        'content'   =>  'array'
+        'content'   => 'array',
     ];
 
     /**************************************** Data Mutators ****************************************/
 
     /**
-     * Sets the JSON field
-     * @param String $input content of the text field
+     * Sets the JSON field.
+     *
+     * @param string $input content of the text field
      */
     public function setTextAttribute($input)
     {
-        $this->content = array_merge($this->content,["text"=> $input]);
+        $this->content = array_merge($this->content, ['text' => $input]);
     }
 
     /**
-     * Sets the JSON field
-     * @param String $input content of the text field
+     * Sets the JSON field.
+     *
+     * @param string $input content of the text field
      */
     public function getTextAttribute()
     {

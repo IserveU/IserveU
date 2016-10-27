@@ -34,7 +34,7 @@ class ShowPageApiTest extends PageApi
                 'updated_at',
             ])
             ->dontSeeInResponse([
-                'content'
+                'content',
             ]);
     }
 

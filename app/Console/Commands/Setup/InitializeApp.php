@@ -85,7 +85,7 @@ class InitializeApp extends Command
             'status'        => 'public',
         ]);
         $this->info("Creating Admin: $email / $password");
-       
+
         dispatch(new SeedDatabaseDefaults());
 
         dispatch(new CreateAdminUser($user));

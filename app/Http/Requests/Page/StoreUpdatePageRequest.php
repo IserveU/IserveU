@@ -36,7 +36,7 @@ class StoreUpdatePageRequest extends Request
             'title'             => 'filled|string',
             'text'              => 'string|filled',
             'slug'              => 'reject',
-            'content'           => 'reject' 
+            'content'           => 'reject',
         ];
     }
 }

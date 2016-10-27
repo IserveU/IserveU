@@ -28,7 +28,6 @@ class DeletePageApiTest extends PageApi
             ->dontSeeInDatabase('pages', ['id' => $page->id]);
     }
 
-
     /** @test  ******************/
     public function delete_home_page_correct_response()
     {
@@ -40,8 +39,6 @@ class DeletePageApiTest extends PageApi
             ->assertResponseStatus(403)
             ->seeInDatabase('pages', ['id' => 1]);
     }
-
-
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }
