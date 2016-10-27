@@ -66,7 +66,7 @@ class PageController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeletePageRequest $page)
+    public function destroy(DeletePageRequest $request, Page $page)
     {
         $page->delete();
 
