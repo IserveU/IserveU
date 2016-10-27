@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Page\DeletePageRequest;
 use App\Http\Requests\Page\StoreUpdatePageRequest;
 use App\Page;
 
@@ -65,7 +66,7 @@ class PageController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Page $page)
+    public function destroy(DeletePageRequest $page)
     {
         $page->delete();
 
