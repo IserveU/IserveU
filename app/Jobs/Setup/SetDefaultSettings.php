@@ -71,21 +71,12 @@ class SetDefaultSettings implements ShouldQueue
 
         Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', false);
 
-        //TODO: Language translation isn't jargon and should be hardcoded into translation files
+        //TODO: Language translation and should be hardcoded into translation files and maybe these could be over-rides?
         Setting::ifNotSetThenSet('jargon.en', [
                     'motion'      => 'Motion',
                     'motions'     => 'Motions',
                     'department'  => 'Department',
                     'departments' => 'Departments',
-                ]);
-
-
-        //TODO: Language translation isn't jargon and should be hardcoded into translation files
-        Setting::ifNotSetThenSet('jargon.fr', [
-                    'motion'      => 'Motion',
-                    'motions'     => 'Motions',
-                    'department'  => 'Département',
-                    'departments' => 'Départements',
                 ]);
 
 
@@ -116,11 +107,11 @@ class SetDefaultSettings implements ShouldQueue
                 'logo_mono'     => '',
                 'symbol'        => '',
                 'symbol_mono'   => '',
+                'background'    => ''
             ]);
 
 
 
-        //TODO: Some of this might belong in email templates, which will work with multi tenancy although this seems like a good spot for now
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
                 'on'    => true,
