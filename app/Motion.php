@@ -213,6 +213,20 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return true;
     }
 
+    /**
+     * Refreshes the eager loaded relationship.
+     *
+     * @param [type] $value [description]
+     */
+    public function setDepartmentIdAttribute($value)
+    {
+        $this->attributes['department_id'] = $value;
+
+        if ($this->exists()) {
+            $this->load('department');
+        }
+    }
+
     public function getMotionOpenForVotingAttribute()
     {
 
