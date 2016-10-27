@@ -32,9 +32,7 @@
     };
 
     var rememberToken = function(rememberToken) {
-      return $http
-      .get('authenticate/' + rememberToken)
-      .success(function(result) {
+      return $http.get('authenticate/' + rememberToken).success(function(result) {
         return result;
       }).error(function(error) {
         return error;
