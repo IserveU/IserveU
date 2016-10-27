@@ -2,44 +2,26 @@
 @import 'vendor/vendor';
 @import 'common/common';
 @import 'components/components';
-
-
-// Element Overrides
-html,body{
-	min-height: 100% !important;
-}
-
-body{
-	height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
-	overflow: hidden;
-
-	background-position: center center;
-	background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-img {max-width:100%;}
+@import 'global/global';
 
 header {
-
 	.inline-icon {
-		display:inline-block; 
-		position: relative; 
+		display:inline-block;
+		position: relative;
 		cursor: pointer;
-		font-size: 17px !important; 
-		left: -1px !important; 
+		font-size: 17px !important;
+		left: -1px !important;
 		bottom: 1px !important;
-	}	
+	}
 	md-icon {
 		@extend .inline-icon;
 		cursor: default;
-		font-size: 19px !important; 
-		left: 3px !important; 
+		font-size: 19px !important;
+		left: 3px !important;
 		vertical-align:inherit;
 	}
 	&md-icon[md-svg-src] {
-		display:inline-block; 
+		display:inline-block;
 		width: 18px;
 	}
 	h1, h2, h3 {
@@ -54,16 +36,9 @@ header {
 
 /*Prevents duplicate issue SVG issue */
 button md-icon svg:nth-child(2) {
-	display: none !important; 
+	display: none !important;
 }
 
-form{
-  	margin-bottom: 0em;
-}
-
-*:focus {
-    outline: none;
-}
 
 .main-nav-button {
 	line-height: 64px;
@@ -85,11 +60,6 @@ form{
 	background-color: rgba(255,255,255, $backgroundTransparency) !important;
 }
 
-// deprecated
-// .loginbox{
-// 	background-color: rgba(255,255,255, .8) !important;
-// }
-
 #footer{
 	bottom:0px;
 	background-color:$primaryDark;
@@ -106,11 +76,6 @@ form{
 		filter: blur(5px) grayscale(0.5);
 		transition-delay: 3s;
 	}
-}
-
-a{
-	text-decoration:none;
-	color:#111;
 }
 
 #maincontent{
@@ -135,10 +100,10 @@ a{
 		md-icon{
 			width: 80%;
 			height: 80%;
-			text-align: center;		
+			text-align: center;
 		}
 	}
-	
+
 	.voting-disabled {
 		md-icon {
 			color: $midGrey !important;
@@ -157,7 +122,7 @@ a{
 
 	.md-title{
 		padding: 0px;
-		margin: $padding/2;	
+		margin: $padding/2;
 	}
 
 	p.md-body-1{
@@ -309,7 +274,7 @@ input.sidebar-search-input {
 		.md-button, md-icon{
 			text-align: right;
 			margin-right:0px;
-		} 
+		}
 	}
 }
 
@@ -344,7 +309,6 @@ md-menu-item{
 /** End toolbar Styles **/
 
 
-
 //animation for accordian
 .accordian{
 	margin-left:15px;
@@ -363,7 +327,7 @@ md-menu-item{
 		display:inline-block;
 	}
 }
-// end accordian 
+// end accordian
 
 // start comment
 #display-comments {
@@ -373,7 +337,7 @@ md-menu-item{
 		text-align:center;
 		h1 {
 			letter-spacing: 0.3px;
-		    position: relative; 
+		    position: relative;
 			bottom: 12px;
 		}
 		md-icon {
@@ -443,10 +407,10 @@ md-menu-item{
 }
 
 
-// user stuff 
+// user stuff
 .edit-user-profile {
 	.mdi-pencil, .mdi-content-save {
-  		cursor: pointer;	
+  		cursor: pointer;
 		font-size: 18px;
 		margin-top: 29px;
 		display: inline-block;
@@ -463,7 +427,7 @@ md-menu-item{
 .profile-toolbar {
 	background-color: $lightGrey !important;
 	h2 {
-		color:black; 
+		color:black;
 	}
 	.toolbar-avatar{
 		font-size: 120px;
@@ -486,9 +450,6 @@ md-menu-item{
 // end user stuff
 
 
-
-
-
 //temp
 .home {
 	md-card {margin: 10px;}
@@ -503,12 +464,12 @@ md-menu-item{
 
 .inline-save-icons {
 	md-icon {
-		display:inline-block; 
-		position: relative; 
+		display:inline-block;
+		position: relative;
 		cursor: pointer;
-		font-size: 17px !important; 
-		left: -1px !important; 
-		bottom: 1px !important;		
+		font-size: 17px !important;
+		left: -1px !important;
+		bottom: 1px !important;
 	}
 }
 
@@ -544,17 +505,17 @@ md-menu-item{
 
 // style preset for md-card style that emulates angular.io's material style.
 .inline-icon {
-	display:inline-block; 
-	position: relative; 
+	display:inline-block;
+	position: relative;
 	cursor: pointer;
-	font-size: 17px !important; 
-	left: -1px !important; 
+	font-size: 17px !important;
+	left: -1px !important;
 	bottom: 1px !important;
-}	
+}
 .title-icon {
 	@extend .inline-icon;
-	font-size: 19px !important; 
-	left: 3px !important; 
+	font-size: 19px !important;
+	left: 3px !important;
 	vertical-align:inherit;
 }
 .title-header{
@@ -567,16 +528,6 @@ md-menu-item{
 	color: $darkGrey;
 }
 .title-svg-icon {
-	display:inline-block; 
+	display:inline-block;
 	width: 18px;
 }
-
-
-@media screen and (min-width: 320px) and (max-width: 750px) {
-	iframe {
-		width: 250px;
-		max-width: 250px !important;
-		height: auto;
-	}
-}
-
