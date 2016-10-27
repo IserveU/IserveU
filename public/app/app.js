@@ -100,9 +100,8 @@
 
       iserveu.constant('SETTINGS_JSON', settings);
 
-      document.body.style.backgroundImage = ('url(' +
-        (settings.background_image ||
-        '/themes/default/photos/background.png') + ')');
+      document.body.style.backgroundImage = (('url(' + settings.theme.background + ')')
+        || '#FBFBFB');
 
     }, function(errorResponse) {
       console.log('error');
