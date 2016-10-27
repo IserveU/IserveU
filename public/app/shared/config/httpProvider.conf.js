@@ -45,7 +45,7 @@
             } else if (config.status === 401 &&
               config.statusText === 'Unauthorized') {
               var loginService = $injector.get('loginService');
-              loginService.clearCredentials();
+              loginService.clearCredentials(true);
             } else if (config.status === 401) {
               toast.mustBeLoggedIn('to perform this action.');
             } else if (config.status === 404) {
@@ -82,6 +82,7 @@
         } else if (key.charAt(0) !== '$' &&
           typeof val === 'string' ||
           typeof val === 'number' ||
+          typeof val === 'boolean' ||
           val instanceof File) {
 
           _fd.append(key, val);
@@ -102,6 +103,7 @@
             } else if (Array.isArray(e) ||
               typeof e === 'object' ||
               typeof e === 'number' ||
+              typeof e === 'boolean' ||
               (typeof e === 'string' && e.charAt(0) !== '$'))
               transformObjectToFormData(fd, i, t);
 
