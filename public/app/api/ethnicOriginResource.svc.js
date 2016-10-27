@@ -38,7 +38,7 @@
 
     return {
       getEthnicOrigins: getEthnicOrigins,
-      getEthnicOrigin: getEthnicOrigin,
+      getEthnicOrigin: getEthnicOrigin
     };
   }
 }(window, window.angular));

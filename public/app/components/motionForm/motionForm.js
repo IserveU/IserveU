@@ -27,7 +27,7 @@
 		function motionFormController($scope) {
 			var self = this;
 
-			self.createMotion = $state.current.name == 'create-motion' ? true : false;
+			self.createMotion = $state.current.name === 'create-motion' ? true : false;
 			self.departments = motionDepartments;
 			self.existingMotionFiles = [];
 	    self.motion = new Motion({ closing_at: new Date(+new Date + 12096e5), status: 'draft' });
@@ -40,7 +40,11 @@
 
       function cancel() {
       	ToastMessage.cancelChanges(function() {
-      		self.createMotion ? navigateAway() : $state.go('motion', {id: self.motion.id});
+          if (self.createMotion) {
+            navigateAway();
+          } else {
+            $state.go('motion', {id: self.motion.id});
+          }
     		});
   		  var navigateAway = function() {
           motionResource.deleteMotion($stateParams.id);
@@ -64,7 +68,7 @@
         $timeout(function() {
          	$state.go( 'motion', ( {id: r.id} ), {reload: true} );
         }, 600);
-      };
+      }
 
 			function triggerSpinner(val) {
 				self.processing = val || !self.processing;

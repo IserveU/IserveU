@@ -64,7 +64,7 @@
       getDepartments: getDepartments,
       addDepartment: addDepartment,
       deleteDepartment: deleteDepartment,
-      updateDepartment: updateDepartment,
+      updateDepartment: updateDepartment
     };
   }
 })(window, window.angular);

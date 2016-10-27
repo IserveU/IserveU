@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('displayProfile', 
+		.directive('displayProfile',
 			['$state',
 			 '$stateParams',
 			 'userToolbarService',
@@ -30,7 +30,7 @@
 
 	        function isAdmin() {
 	        	for( var i in user.self.user_role )
-	        		if( user.self.user_role[i] == "Full Administrator")
+	        		if( user.self.user_role[i] === "Full Administrator")
 	        			return true;
 	        	return false;
 	        }
@@ -49,11 +49,11 @@
 				});
 	        }
 
-	        function fetchUserVotes() {        	
+	        function fetchUserVotes() {
 	            voteResource.getMyVotes($stateParams.id, {limit:5})
 	            	.then(function(results){
 						self.retrieving = false;
-		                if( results.total !== 0 ) 
+		                if( results.total !== 0 )
 		                	self.votes = results.data;
 	            }, function(e) { self.retrieving = false; });
 	        }

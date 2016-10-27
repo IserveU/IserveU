@@ -80,7 +80,7 @@
       if (!angular.isString(pos) || pos.length <= 2) {
         return +pos;
       }
-      return pos == 'agree' ? 1 : -1;
+      return pos === 'agree' ? 1 : -1;
     }
 
     function stringifyPosition(pos) {

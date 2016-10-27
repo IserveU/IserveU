@@ -55,7 +55,7 @@
 			localStorage.clear();
 			motionIndex.clear();
 
-			if(redirect) {
+			if (redirect) {
 				redirectService.onLogout();
 			}
 		}
@@ -63,7 +63,8 @@
 		function clearErrorMessages() {
 			Login.authError = false;
 			for (var i in Login.errors) {
-				Login.errors[i] = false;
+				if (Login.errors[i])
+					Login.errors[i] = false;
 			}
 		}
 
@@ -75,7 +76,7 @@
 				Login.loggingIn = false;
 				errorHandler( error.data );
 			});
-		};
+		}
 
 		function register() {
 
@@ -87,7 +88,7 @@
 
 				errorHandler( error.data );
 			});
-		};
+		}
 
 		function successHandler(res) {
 			var user = res.user || res.data || res;
@@ -131,7 +132,7 @@
 					console.error(responseError);
 					break;
 			}
-		};
+		}
 
 		return Login;
 	}

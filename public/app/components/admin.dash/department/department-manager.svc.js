@@ -16,9 +16,11 @@
 			success: {},
 			disabled: {},
 			edit: function(id) {
-				for(var i in this.disabled)
-	           		this.disabled[i] = true;
-	            this.disabled[id] = !this.disabled[id];
+				for (var i in this.disabled) {
+					if (this.disabled[i])
+	       		this.disabled[i] = true;
+				}
+        this.disabled[id] = !this.disabled[id];
 			},
 			save: function(name, id) {
 				this.success[id] = true;
@@ -36,11 +38,8 @@
 					function(){
 						department.deleteDepartment(id);
 						for (var i in factory.list.index) {
-							if (id == factory.list.index[i].id) {
+							if (id === factory.list.index[i].id) {
 								delete factory.list.index[i];
-								factory.list.index = factory.list.index.filter(function(el) {
-									return !angular.isUndefined(el);
-								});
 							}
 						}
 				});

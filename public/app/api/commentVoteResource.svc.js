@@ -13,7 +13,7 @@
   function commentVoteResource($resource, $http, $q, utils) {
     var _userCommentVoteIndex = {};
     var CommentVote = $resource('api/comment_vote/:id', {}, {
-      'update': {method: 'PUT'},
+      'update': {method: 'PUT'}
     });
     var SaveCommentVote = $resource('api/comment/:id/comment_vote',
       {ignoreLoadingBar: '@true'});
@@ -32,8 +32,8 @@
         method: 'GET',
         url: 'api/user/' + data.user_id + '/comment_vote',
         params: {
-          ignoreLoadingBar: true,
-        },
+          ignoreLoadingBar: true
+        }
       }).success(function(results) {
         _userCommentVoteIndex = results.data || results;
         return results;
@@ -116,7 +116,7 @@
       getUserCommentVotes: getUserCommentVotes,
       saveCommentVote: saveCommentVote,
       updateCommentVote: updateCommentVote,
-      deleteCommentVote: deleteCommentVote,
+      deleteCommentVote: deleteCommentVote
     };
   }
 }(window, window.angular));

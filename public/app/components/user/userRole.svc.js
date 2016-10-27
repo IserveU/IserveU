@@ -18,10 +18,13 @@
 				this.showEdit = !this.showEdit;
 			},
 			check: function(d) {
-				for(var i in d) 
-				for(var j in this.user)
-					if(d[i].display_name == this.user[j])
-						this.list[i]['hasRole'] = true;
+				for(var i in d) {
+					if (d[i]) {
+						for(var j in this.user)
+							if(d[i].display_name === this.user[j])
+								this.list[i]['hasRole'] = true;
+					}
+				}
 			},
 			set: function(role) {
 				this.setRole(role,$stateParams.id);

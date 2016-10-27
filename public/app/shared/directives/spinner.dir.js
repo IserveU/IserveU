@@ -22,7 +22,7 @@
         }
 
         scope.$watch('onHide', function(oldValue, newValue) {
-          if (oldValue == false && newValue == true) {
+          if (!oldValue && newValue) {
             flipOnFinish();
             $timeout(function() {
               flipOnFinish();
@@ -37,7 +37,7 @@
         'primaryAction': '&',
         'onHide': '=',
         'formName': '=',
-        'secondaryBtn': '=',
+        'secondaryBtn': '='
       },
       template: [
         '<md-button ng-disabled="formName.$invalid" type="submit" ng-click="primaryAction()">',

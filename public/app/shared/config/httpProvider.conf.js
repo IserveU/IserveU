@@ -68,7 +68,7 @@
     */
     function transformToFormData(data, getHeaders) {
       var _fd = new FormData();
-      angular.forEach(data, function(val, key) {
+      angular.forEach(data, function checkArrayFirstLevel(val, key) {
         if (val === null ||
            val === '' ||
            angular.isUndefined(val) ||
@@ -90,7 +90,7 @@
       });
 
       function transformObjectToFormData(fd, obj, key) {
-        angular.forEach(obj, function(i, e) {
+        angular.forEach(obj, function checkDeepArray(i, e) {
           if (typeof i === 'object') {
             if (typeof e === 'string' && e.charAt(0) === '$')
               return;

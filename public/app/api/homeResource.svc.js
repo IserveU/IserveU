@@ -84,7 +84,7 @@
       getMyComments: getMyComments,
       getMyVotes: getMyVotes,
       getTopComments: getTopComments,
-      getTopMotion: getTopMotion,
+      getTopMotion: getTopMotion
     };
   }
 }(window, window.angular));

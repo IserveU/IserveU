@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -28,7 +28,7 @@
 				 	comment_id    = $scope.$eval($attrs.commentId);
 
 				for(var i in comment_votes) {
-					if( comment_votes[i].comment_id == comment_id){
+					if( comment_votes[i].comment_id === comment_id){
 						self.button.setData( comment_votes[i] );
 						self.button.setActive( comment_votes[i].position );
 					}
@@ -41,15 +41,15 @@
 					fetchUserCommentVotes();
 				}
 			}, true);
-	
+
 
 			(function init() {
 				if(!$rootScope.authenticatedUser) {
 					return false;
 				}
 
-				utils.waitUntil(function scopeDependenciesAreInstantiated(){ 
-					return !utils.objectIsEmpty($scope.motion) && ( $scope.$parent && $scope.$parent.$parent && !utils.objectIsEmpty( $scope.$parent.$parent.commentVoteList )); 
+				utils.waitUntil(function scopeDependenciesAreInstantiated(){
+					return !utils.objectIsEmpty($scope.motion) && ( $scope.$parent && $scope.$parent.$parent && !utils.objectIsEmpty( $scope.$parent.$parent.commentVoteList ));
 				}, fetchUserCommentVotes);
 
 			})();

@@ -57,11 +57,14 @@
 
 			var newPalette = angular.copy(palette);
 
-			for(var i in array) {
+			for (var i in array) {
 
-				var hex = array[i];
+				if (!array[i])
+					return;
 
-				if (hex == 'light' || hex == 'dark') {
+				var hex = array[i], keys = [];
+
+				if (hex === 'light' || hex === 'dark') {
 					setHue('contrastDefaultColor', hex, palette);
 				} else if (hex.charAt(0) !== '#') {
 					hex = $mdColorUtil.rgbaToHex(hex);
@@ -72,25 +75,25 @@
 
 				switch (i) {
 					case 'hue_one':
-					  var keys = ['50', '100', '200', '300'];
+					  keys = ['50', '100', '200', '300'];
 						setHue(keys, hex, palette);
 						break;
 					case 'hue_two':
-						var keys = ['400', '500', '600'];
+						keys = ['400', '500', '600'];
 						setHue(keys, hex, palette);
 						break;
 					case 'hue_three':
-						var keys = ['700', '800', '900'];
+						keys = ['700', '800', '900'];
 						setHue(keys, hex, palette);
 						break;
 					case 'warning':
-						var keys = ['A100', 'A200', 'A400', 'A700'];
+						keys = ['A100', 'A200', 'A400', 'A700'];
 						setHue(keys, hex, palette);
 						break;
 					default:
 						break;
-				};
-			};
+				}
+			}
 
 			return palette;
 		}
@@ -102,7 +105,7 @@
 		function setHue(key, hue, palette) {
 
 			var set = function(_key) {
-				if (palette[_key] != hue) {
+				if (palette[_key] !== hue) {
 					palette[_key] = hue;
 				}
 				else {
@@ -110,11 +113,12 @@
 				}
 			};
 
-			if (typeof key == 'string')
+			if (typeof key === 'string')
 				set(key);
 			else if (angular.isArray(key)) {
 				for (var i in key) {
-					set(key[i]);
+					if (key[i])
+						set(key[i]);
 				}
 			}
 		}

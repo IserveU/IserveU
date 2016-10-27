@@ -29,7 +29,7 @@
       return function(input) {
         var out = [];
         for (var i = 0; i < input.length; i++) {
-          if (input[i].position == '1') {
+          if (input[i].position === '1') {
             out.push(input[i]);
           }
         }
@@ -40,7 +40,7 @@
       return function(input) {
         var out = [];
         for (var i = 0; i < input.length; i++) {
-          if (input[i].position == '0' || input[i].position == '-1') {
+          if (input[i].position === '0' || input[i].position === '-1') {
             out.push(input[i]);
           }
         }
@@ -80,7 +80,7 @@
         return function(value) {
           var out = [];
           for (var i in value) {
-            if (value[i].status == 'published' ||
+            if (value[i].status === 'published' ||
               Authorizer.canAccess('administrate-motion'))
               out.push(value[i]);
           }
@@ -91,7 +91,7 @@
       return function(value) {
         var out = [];
         for (var i in value) {
-          if (value[i].status == 1)
+          if (value[i].status === 1)
             out.push(value[i]);
         }
         return out;
@@ -106,7 +106,9 @@
           o[arr[i][field]] = arr[i];
         }
         for (i in o) {
-          r.push(o[i]);
+          if (o[i]) {
+            r.push(o[i]);
+          }
         }
         return r;
       };

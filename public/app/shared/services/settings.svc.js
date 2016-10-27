@@ -37,7 +37,8 @@
       */
       saveArray: function(name, value) {
 
-        if (angular.isUndefined(value) || value == null || Object.keys(value).length == 0)
+        if (angular.isUndefined(value) || value === null 
+          || Object.keys(value).length === 0)
           return 0;
 
         this.data.saving = true;

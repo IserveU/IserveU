@@ -37,7 +37,7 @@
 		function linkMethod(scope, element, attrs, controller){
 
 			attrs.$observe('hasBeen', function(value){
-				if(value == 'false'){
+				if (!value) {
 					element.remove('resetPassword');
 				}
 			})

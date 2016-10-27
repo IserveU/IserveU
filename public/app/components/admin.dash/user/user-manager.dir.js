@@ -19,13 +19,13 @@
 				self.users = r.data;
 			}, function(e) { console.log(e); });
 
-		};
+		}
 
 
 		return {
 			controller: userController,
 			controllerAs: 'user',
-			templateUrl: 'app/components/admin.dash/user/user-manager.tpl.html',
+			templateUrl: 'app/components/admin.dash/user/user-manager.tpl.html'
 		}
 
 

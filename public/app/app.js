@@ -84,7 +84,7 @@
 
       $window.onbeforeunload = function(e) {
         var publicComputer = localStorage.getItem('public_computer');
-        if (JSON.parse(publicComputer) == true)
+        if (JSON.parse(publicComputer) === true)
           return localStorage.clear();
       };
     }]);

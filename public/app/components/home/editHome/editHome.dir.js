@@ -18,7 +18,7 @@
 
 				settings.saveArray('home', this.settings.home);
 				for(var i in pageService.index) {
-					if(pageService.index[i].slug == 'home'){
+					if(pageService.index[i].slug === 'home'){
 						return pageService.update('home', this.settings.home.text );
 					}
 				}
@@ -38,12 +38,10 @@
 
 			$scope.$watch('edit.settings.saving',
 				function redirect(newValue, oldValue) {
-					console.log(newValue);
-
-					if(newValue == false && oldValue == true){
+					if(newValue === false && oldValue === true){
 						$state.go('home', {}, {reload: true});
-					};
-				}, true);
+					}
+				}, true)
 		}
 
 		return {

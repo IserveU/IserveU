@@ -43,7 +43,7 @@
                         motionIndex._load();
                     });
 	        	});
-	        };
+	        }
 
 		    function isThisUsers(user) {
 	        	if(Authorizer.canAccess('administrate-motion'))

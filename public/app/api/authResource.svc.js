@@ -58,7 +58,7 @@
     function sanitizeCredentials(credentials) {
       return {
         email: $sanitize(credentials.email),
-        password: $sanitize(credentials.password),
+        password: $sanitize(credentials.password)
       };
     }
 
@@ -67,7 +67,7 @@
       logout: logout,
       register: register,
       rememberToken: rememberToken,
-      resetPassword: resetPassword,
+      resetPassword: resetPassword
     };
   }
 })(window, window.angular);

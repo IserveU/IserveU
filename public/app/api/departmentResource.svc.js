@@ -32,7 +32,7 @@
       return $http({
         method: 'GET',
         url: '/api/department',
-        ignoreLoadingBar: true,
+        ignoreLoadingBar: true
       }).success(function(results) {
         index = results;
         return results;
@@ -43,7 +43,7 @@
 
     return {
       getDepartments: getDepartments,
-      index: index,
+      index: index
     };
   }
 })(window, window.angular);
