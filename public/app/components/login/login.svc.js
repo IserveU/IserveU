@@ -90,10 +90,7 @@
 		};
 
 		function successHandler(res) {
-			var user = res.data || res;
-
-			console.log(user);
-
+			var user = res.user || res.data || res;
 
 			$rootScope.userIsLoggedIn    = true;
 			$rootScope.authenticatedUser = user;
