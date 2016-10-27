@@ -31,8 +31,8 @@ class ShowMotionApiTest extends MotionApi
                     'name', 'id', 'slug',
                 ],
             ])
-            ->dontSeeJson([
-                'votes', 'users',
+            ->dontSeeInResponse([
+                'votes', 'users', 'content',
             ]);
     }
 }
