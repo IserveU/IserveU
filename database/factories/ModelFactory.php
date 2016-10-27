@@ -81,10 +81,12 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
     $implementations = ['binding', 'non-binding'];
     $implementation = $implementations[array_rand($implementations)];
 
+    $department = factory(App\Department::class)->create();
+
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
-        'department_id' => 1, //factory(App\Department::class)->create()->id,
+        'department_id' => $department->id,
         'user_id'       => function () {
             return factory(App\User::class, 'verified')->create()->id;
         },
@@ -189,5 +191,15 @@ $factory->define(App\Page::class, function ($faker) use ($factory) {
     return [
         'title'         => $faker->sentence($nbWords = 6),
         'content'       => $faker->sentences(4, true),
+    ];
+});
+
+
+
+
+$factory->define(App\Department::class, function ($faker) use ($factory) {
+    return [
+        'name'          => $faker->word.rand(0, 9).' '.$faker->word.rand(0, 9),
+        'active'        => 1,
     ];
 });

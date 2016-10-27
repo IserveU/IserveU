@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Events\Vote\VoteUpdated;
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use Auth;
 use Cache;
 use Illuminate\Database\Eloquent\Model;

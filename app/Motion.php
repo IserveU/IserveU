@@ -4,7 +4,7 @@ namespace App;
 
 use App\Events\Motion\MotionCreated;
 use App\Events\Motion\MotionUpdated;
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
 use Auth;
@@ -56,7 +56,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $appends = ['motionOpenForVoting', 'userVote', 'department', 'userComment', 'rank'];
+    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank'];
 
 
 
@@ -146,9 +146,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushCache($fromModel = null)
     {
-        Cache::tags('motion.'.$this->id)->flush();
-        Cache::forget('motion'.$this->id.'_comments');
-        \Cache::flush(); //Just for now
+        Cache::tags('motion.'.$this->slug)->flush();
+        Cache::forget('motion'.$this->slug.'_comments');
     }
 
     /**
@@ -160,7 +159,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        \Cache::flush(); //Just for now
     }
 
     //////////////////////// Visibility Implementation
@@ -271,16 +269,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         }]);
 
         return $comments;
-    }
-
-    /**
-     * Why.
-     *
-     * @return [type] [description]
-     */
-    public function getDepartmentAttribute()
-    {
-        return $this->department()->first();
     }
 
     public function getRankAttribute()

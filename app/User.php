@@ -7,7 +7,7 @@ use App\Events\User\UserCreating;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
 use Auth;

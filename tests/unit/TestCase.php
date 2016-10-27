@@ -8,6 +8,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     use PolishedTest;
 
+    protected $contentToPost;
 
     public $user;   // (public) Depreciated
 
