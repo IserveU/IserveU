@@ -446,6 +446,30 @@ trait PolishedTest
     }
 
     /**
+     * Handling ocassionally flakey JSON response analysis.
+     *
+     * @param String/Array $responseToSee A string or array anticipated
+     *
+     * @return $this
+     */
+    public function dontSeeInResponse($responseToSee)
+    {
+        if (!is_array($responseToSee)) {
+            $this->dontSee($responseToSee);
+
+            return $this;
+        }
+
+        foreach ($responseToSee as $string) {
+            $this->dontSee($string);
+        }
+
+        return $this;
+    }
+
+
+
+    /**
      * Guessing the things that people should be setting.
      */
     public function setUnsetDefaults()

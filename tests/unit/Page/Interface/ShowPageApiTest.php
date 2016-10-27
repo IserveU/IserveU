@@ -29,12 +29,12 @@ class ShowPageApiTest extends PageApi
                 'id',
                 'title',
                 'slug',
-                'content',
+                'text',
                 'created_at',
                 'updated_at',
             ])
-            ->dontSeeJson([
-                'user',
+            ->dontSeeInResponse([
+                'content'
             ]);
     }
 

@@ -190,7 +190,7 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
 $factory->define(App\Page::class, function ($faker) use ($factory) {
     return [
         'title'         => $faker->sentence($nbWords = 6),
-        'content'       => $faker->sentences(4, true),
+        'text'          => $faker->sentences(4, true),
     ];
 });
 

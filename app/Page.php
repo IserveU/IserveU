@@ -24,7 +24,7 @@ class Page extends NewApiModel
      * @var array
      */
     protected $fillable = [
-        'title', 'content',
+        'title', 'text',
     ];
 
     /**
@@ -32,8 +32,8 @@ class Page extends NewApiModel
      *
      * @var array
      */
-    protected $appends = [
-
+    protected $appends = [ 
+        'text'
     ];
 
     /**
@@ -42,7 +42,7 @@ class Page extends NewApiModel
      * @var array
      */
     protected $hidden = [
-
+        'content'
     ];
 
     /**
@@ -75,20 +75,37 @@ class Page extends NewApiModel
      * @var array
      */
     protected $attributes = [
-        'title' => 'New Page',
+        'title'     => 'New Page',
+        'content'   =>  "[]",
+    ];
+
+
+    /**
+     * Casts fields to database columns
+     * @var Array
+     */
+    protected $casts = [
+        'content'   =>  'array'
     ];
 
     /**************************************** Data Mutators ****************************************/
 
-    public function setTitleAttribute($input)
+    /**
+     * Sets the JSON field
+     * @param [type] $input [description]
+     */
+    public function setTextAttribute($input)
     {
-        $this->attributes['title'] = $input;
-        $this->attributes['slug'] = str_slug($input);
+        $this->content = array_merge($this->content,["text"=> $input]);
     }
 
-    public function setContentAttribute($input)
+    /**
+     * Sets the JSON field
+     * @param [type] $input [description]
+     */
+    public function getTextAttribute()
     {
-        $this->attributes['content'] = $input;
+        return $this->content['text'];
     }
 
     /********************************** Defined Relationships ***************************************/

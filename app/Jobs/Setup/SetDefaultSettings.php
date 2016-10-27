@@ -43,15 +43,6 @@ class SetDefaultSettings implements ShouldQueue
                 'allow_closing' => true,
             ]);
 
-        //TODO: The logo should be copied during account creation to a storage route and that reference kept under theme.logo
-        Setting::ifNotSetThenSet('login', [
-                'logo' => '/themes/default/logo/logo.png',
-            ]);
-
-        //TODO: The logo should be copied during account creation to a storage route and that reference kept under theme.icon
-        Setting::ifNotSetThenSet('favicon', '/themes/default/logo/symbol.png');
-
-
 
         Setting::ifNotSetThenSet('site', [
             'name'      => 'IserveU - eDemocracy',
@@ -88,8 +79,6 @@ class SetDefaultSettings implements ShouldQueue
                     'departments' => 'Departments',
                 ]);
 
-        //TODO: Seems like duplication, what one is real?
-        Setting::ifNotSetThenSet('logo', 'default');
 
         //TODO: Language translation isn't jargon and should be hardcoded into translation files
         Setting::ifNotSetThenSet('jargon.fr', [
@@ -99,13 +88,8 @@ class SetDefaultSettings implements ShouldQueue
                     'departments' => 'Départements',
                 ]);
 
-        //TODO: If this is seed data it needs to go into pages or the DB seeder for pages
+
         Setting::ifNotSetThenSet('home', [
-                'introduction'  => [
-                    'icon'  => '/themes/default/logo/symbol_onlight.svg',
-                    'title' => 'Introduction to IserveU',
-                    'text'  => '<p><b id="docs-internal-guid-c9f5e80b-5721-1451-1648-7ed3572866d5"></b></p><p dir="ltr"><b id="docs-internal-guid-6f029f4d-5e0f-0284-f889-d9344bed5ab4"></b></p><p dir="ltr"><span style="color: rgb(0, 0, 0);background-color: transparent;">Welcome to IserveU, the world-leading E-Democracy and public engagement tool for your city council.</span><br></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re excited to provide this open-source software to let you vote on, engage with, and influence decisions about issues you find important. &nbsp;</span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re proud to be made by and for Yellowknifers with a mission to give our friends and neighbours the easiest, most cost-effective way to engage with government decision-making in a tangible, quantifiable way between elections. </span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">Vote on issues, start conversations, and engage with elected representatives using the tool in real-time; all without attending a council meeting. </span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000">Because it’s time to leverage technology for a stronger, more transparent democracy. Because your opinion matters.<br></font></span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000"><br></font></span></p><h4><span style="background-color: transparent;"><font color="#000000">How Does IserveU Work?</font></span></h4><hr><p dir="ltr"><iframe width="560" height="315" src="https://www.youtube.com/embed/8sq7ydOCyJs" style="text-align: center;"></iframe><br></p>',
-                ],
                 'widgets'       => [
                     'your_votes'    => true,
                     'your_comments' => true,
@@ -128,6 +112,8 @@ class SetDefaultSettings implements ShouldQueue
                     ],
                 ],
                 'name'  => 'default',
+                'logo'  => '',
+                'icon'  => ''
             ]);
 
 
