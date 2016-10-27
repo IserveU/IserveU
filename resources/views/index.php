@@ -25,7 +25,7 @@
 
         <div layout="row">
             <!-- Sidebar -->
-            <md-sidenav ng-if="!isLoginState && settingsGlobal.module.motions"
+            <md-sidenav ng-if="!isLoginState && settingsGlobal.motion.on"
                 class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed md-locked-open"
                 role="navigation"
                 md-component-id="left"
