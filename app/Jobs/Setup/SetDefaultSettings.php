@@ -31,16 +31,16 @@ class SetDefaultSettings implements ShouldQueue
     public function handle()
     {
         Setting::ifNotSetThenSet('motion', [
-                'on'                                => true,
+                'on'                                => 1,
                 'default_closing_time_delay'        => 120,
                 'hours_before_closing_autoextend'   => 12,
                 'hours_to_autoextend_by'            => 12,
                 'minutes_between_rank_calculations' => 60,
                 'email'                             => [
-                    'admin' => true,
-                    'users' => false,
+                    'admin' => 1,
+                    'users' => 0,
                 ],
-                'allow_closing' => true,
+                'allow_closing' => 1,
             ]);
 
         //TODO: The logo should be copied during account creation to a storage route and that reference kept under theme.logo
@@ -64,21 +64,21 @@ class SetDefaultSettings implements ShouldQueue
 
 
         Setting::ifNotSetThenSet('voting', [
-            'on'        => true,
-            'abstain'   => true,
+            'on'        => 1,
+            'abstain'   => 1,
         ]);
 
 
         Setting::ifNotSetThenSet('comment', [
-            'on'            => true,
+            'on'            => 1,
             'cachetime'     => 60,
         ]);
 
 
         Setting::ifNotSetThenSet('security.login_attempts_lock', 5);
-        Setting::ifNotSetThenSet('security.verify_citizens', true);
+        Setting::ifNotSetThenSet('security.verify_citizens', 1);
 
-        Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', false);
+        Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', 0);
 
         //TODO: Language translation isn't jargon and should be hardcoded into translation files
         Setting::ifNotSetThenSet('jargon.en', [
@@ -107,10 +107,10 @@ class SetDefaultSettings implements ShouldQueue
                     'text'  => '<p><b id="docs-internal-guid-c9f5e80b-5721-1451-1648-7ed3572866d5"></b></p><p dir="ltr"><b id="docs-internal-guid-6f029f4d-5e0f-0284-f889-d9344bed5ab4"></b></p><p dir="ltr"><span style="color: rgb(0, 0, 0);background-color: transparent;">Welcome to IserveU, the world-leading E-Democracy and public engagement tool for your city council.</span><br></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re excited to provide this open-source software to let you vote on, engage with, and influence decisions about issues you find important. &nbsp;</span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">We’re proud to be made by and for Yellowknifers with a mission to give our friends and neighbours the easiest, most cost-effective way to engage with government decision-making in a tangible, quantifiable way between elections. </span></p><p dir="ltr"><span style="color: #000000;background-color: transparent;">Vote on issues, start conversations, and engage with elected representatives using the tool in real-time; all without attending a council meeting. </span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000">Because it’s time to leverage technology for a stronger, more transparent democracy. Because your opinion matters.<br></font></span></p><p dir="ltr"><span style="background-color: transparent;"><font color="#000000"><br></font></span></p><h4><span style="background-color: transparent;"><font color="#000000">How Does IserveU Work?</font></span></h4><hr><p dir="ltr"><iframe width="560" height="315" src="https://www.youtube.com/embed/8sq7ydOCyJs" style="text-align: center;"></iframe><br></p>',
                 ],
                 'widgets'       => [
-                    'your_votes'    => true,
-                    'your_comments' => true,
-                    'top_comments'  => true,
-                    'top_motions'   => true,
+                    'your_votes'    => 1,
+                    'your_comments' => 1,
+                    'top_comments'  => 1,
+                    'top_motions'   => 1,
                 ],
             ]);
 
@@ -135,7 +135,7 @@ class SetDefaultSettings implements ShouldQueue
         //TODO: Some of this might belong in email templates, which will work with multi tenancy although this seems like a good spot for now
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
-                'on'    => true,
+                'on'    => 1,
                 'text'  => "Welcome to the IserveU beta, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions. \nWe welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife city council, until then it operates as an advisory and feedback tool.",
                 ],
         ]);

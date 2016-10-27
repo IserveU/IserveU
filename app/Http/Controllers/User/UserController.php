@@ -32,7 +32,7 @@ class UserController extends ApiController
     public function index(Request $request)
     {
         $filters = $request->all();
-        $limit = $request->get('limit') ?: 50;
+        $limit = $request->input('limit') ?: 50;
 
         if (Auth::user()->can('show-user')) { //An admin able to see all users
             $users = User::whereExists(function ($query) {

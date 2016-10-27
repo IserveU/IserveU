@@ -46,16 +46,16 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Vote::find($vote);
         });
 
-        app('router')->bind('comment', function ($vote) {
-            return \App\Comment::find($vote);
+        app('router')->bind('comment', function ($comment) {
+            return \App\Comment::find($comment);
         });
 
-        app('router')->bind('comment_vote', function ($vote) {
-            return \App\CommentVote::find($vote);
+        app('router')->bind('comment_vote', function ($comment_vote) {
+            return \App\CommentVote::find($comment_vote);
         });
 
-        app('router')->bind('department', function ($vote) {
-            return \App\Department::find($vote);
+        app('router')->bind('department', function ($department) {
+            return \App\Department::findBySlugOrId($department);
         });
 
 
