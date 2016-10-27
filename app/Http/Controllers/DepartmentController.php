@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-// use App\Http\Requests;
-// use App\Http\Controllers\Controller;
-
-// use Illuminate\Http\Request;
-
 use App\Department;
+use App\Http\Requests\Department\StoreDepartmentRequest;
+use App\Http\Requests\Department\UpdateDepartmentRequest;
 use Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class DepartmentController extends ApiController
 {
@@ -25,9 +22,11 @@ class DepartmentController extends ApiController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Department::all();
+        $limit = $request->input('limit') ?: 50;
+
+        return Department::paginate($limit);
     }
 
     /**
@@ -35,19 +34,22 @@ class DepartmentController extends ApiController
      *
      * @return Response
      */
-    public function store()
+    public function store(StoreDepartmentRequest $request)
     {
-        if (!Auth::user()->can('create-department')) {
-            abort(401, 'You do not have permission to create a department');
-        }
+        $department = Department::create($request->all());
 
-        $department = (new Department())->secureFill(Request::all()); //Does the fields specified as fillable in the model
+        return $department;
+    }
 
-
-        if (!$department->save()) {
-            abort(403, $department->errors);
-        }
-
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function show(Department $department)
+    {
         return $department;
     }
 
@@ -58,20 +60,9 @@ class DepartmentController extends ApiController
      *
      * @return Response
      */
-    public function update(Department $department)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        if (!Auth::user()->can('create-department')) {
-            abort(403, 'You do not have permission to update a department');
-        }
-
-        if (!$department->user_id != Auth::user()->id && !Auth::user()->can('administrate-department')) { //Is not the user who made it, or the site admin
-            abort(401, "This user can not edit department ($id)");
-        }
-        $department->secureFill(Request::all());
-
-        if (!$department->save()) {
-            abort(403, $department->errors);
-        }
+        $department->update($request->all());
 
         return $department;
     }
