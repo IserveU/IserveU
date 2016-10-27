@@ -76,7 +76,7 @@ class Page extends NewApiModel
      */
     protected $attributes = [
         'title'     => 'New Page',
-        'content'   => '[]',
+        'content'   => '{"text": ""}',
     ];
 
 
