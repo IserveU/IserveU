@@ -38,8 +38,10 @@ class ShowPageApiTest extends PageApi
             ]);
     }
 
+    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
+
     /** @test */
-    public function show_page_by_id()
+    public function show_page_by_id_fails()
     {
         $this->signInAsRole('administrator');
 
@@ -47,17 +49,6 @@ class ShowPageApiTest extends PageApi
 
 
         $this->visit('/api/page/'.$page->id)
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
-                'id',
-                'title',
-                'slug',
-                'content',
-                'created_at',
-                'updated_at',
-            ])
-            ->dontSeeJson([
-                'user',
-            ]);
+            ->assertResponseStatus(404);
     }
 }
