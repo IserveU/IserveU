@@ -62,6 +62,10 @@ class MotionDatabaseTest extends TestCase
         ];
 
         $motionDraft->update($newDetails);
+
+        //JSON Field
+        unset($newDetails['text']);
+
         $this->seeInDatabase('motions', $newDetails);
     }
 
@@ -80,6 +84,10 @@ class MotionDatabaseTest extends TestCase
         ];
 
         $motion->update($newDetails);
+
+        //JSON Field
+        unset($newDetails['text']);
+
         $this->seeInDatabase('motions', $newDetails);
     }
 }

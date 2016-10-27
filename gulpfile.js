@@ -52,7 +52,6 @@ elixir(function(mix) {
 
     mix.copy('bower/mdi/fonts', 'public/build/fonts'); //The default icon set
     mix.copy('bower/alloyeditor/dist/alloy-editor/assets/fonts', 'public/build/css/fonts');
-    mix.copy('bower/themes', 'public/themes');
 
     //Copy the standard icons (set in the department table)
     mix.copy('resources/assets/icons', 'public/icons');
