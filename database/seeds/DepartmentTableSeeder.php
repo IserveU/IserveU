@@ -24,10 +24,11 @@ class DepartmentTableSeeder extends Seeder
         ];
 
         foreach ($departments as $name) {
-            $department = new Department();
-            $department->active = true;
-            $department->name = $name;
-            $department->save();
+            Department::create([
+                'active'    =>  true,
+                'name'      =>  $name,
+                'icon'      =>  "/icons/".str_slug($name).".svg"
+            ]);
         }
     }
 }

@@ -100,6 +100,8 @@ class File extends NewApiModel implements CachedModel
         parent::boot();
 
         static::creating(function ($model) {
+
+
             return true;
         });
 
@@ -108,7 +110,9 @@ class File extends NewApiModel implements CachedModel
                 $model->user_id = \Auth::user()->id;
             }
 
-            $destinationPath = storage_path().'/app/'.$model->folder;
+            $destinationPath = storage_path('app/');
+
+            if($model->folder) $destinationPath.=$model->folder."/";
 
             if (!file_exists($destinationPath)) {
                 \File::makeDirectory($destinationPath);
@@ -118,10 +122,9 @@ class File extends NewApiModel implements CachedModel
                 return true;
             }
 
-            if ($model->folder) {
-                \File::move(storage_path().'/app/'.$model->filename, $destinationPath.'/'.$model->filename);
+            if (!\File::exists($destinationPath.$model->filename)){
+                \File::move(storage_path().'/app/'.$model->filename, $destinationPath.$model->filename);
             }
-
 
             if (\File::exists($destinationPath.$model->filename)) {
                 $mimeType = \File::mimeType($destinationPath.$model->filename);

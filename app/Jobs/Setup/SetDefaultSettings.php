@@ -112,8 +112,10 @@ class SetDefaultSettings implements ShouldQueue
                     ],
                 ],
                 'name'  => 'default',
-                'logo'  => '',
-                'icon'  => ''
+                'logo'          => '',
+                'logo_mono'     => '',
+                'symbol'        => '',
+                'symbol_mono'   => '',
             ]);
 
 
