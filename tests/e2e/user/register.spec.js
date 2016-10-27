@@ -5,17 +5,6 @@ var testEmailAddress = Math.random().toString(36).substring(7).concat('@iserveu.
 
 xdescribe('iserveu first landing on login page as new user', function() {
 
-  it('should see correct logo and login and register elements and colours defined in current them', function() {
-
-    browser.get('#/login');
-
-    // Remove to pass test
-    // var logo = element(by.className('logo'));
-    // expect(logo.isPresent());
-    // expect(logo.getAttribute('src')).toContain('themes/default/logo/logo.png');
-
-  });
-
 
   it('it should not see the register form on login', function() {
     var login = new UserLoginPage();
