@@ -22,34 +22,30 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\User\Updated\DeleteUnattachedFiles',
             'App\Listeners\User\Updated\CheckUserRoles',
         ],
+        'App\Events\User\UserCreating' => [ //Things that save other records should go here
+            'App\Listeners\User\Creating\SetRememberToken',
+            'App\Listeners\User\Creating\SetApiToken',
+        ],
         'App\Events\User\UserCreated' => [ //Things that save other records should go here
             'App\Listeners\User\Created\PrepareWelcomeEmail',
+            'App\Listeners\User\Created\AddCitizenRole',
         ],
         'App\Events\User\UserDeleted' => [
-            'App\Listeners\User\DeleteUser',
-            'App\Listeners\User\DeleteActiveVotes',
+            'App\Listeners\User\Deleted\DeleteEmptyUserRecords',
+            'App\Listeners\User\Deleted\DeleteActiveVotes',
         ],
         'App\Events\Motion\MotionUpdated' => [ //Added notes on what this does to model
-            'App\Listeners\Motion\SendNotificationEmail',
-            'App\Listeners\Motion\AlertVoters',
+            'App\Listeners\Motion\Updated\SendNotificationEmail',
+            'App\Listeners\Motion\Updated\AlertVoters',
         ],
         'App\Events\Motion\MotionCreated' => [//Added notes on what this does to model
 
         ],
         'App\Events\Vote\VoteUpdated' => [
-            'App\Listeners\Vote\CheckCommentVotes',
+            'App\Listeners\Vote\Updated\CheckCommentVotes',
         ],
         'App\Events\Comment\CommentDeleted' => [
-            'App\Listeners\Comment\DeleteCommentVotes',
-        ],
-
-        //Move Out
-        'App\Events\User\UserLoginFailed' => [
-            'App\Listeners\User\LogAttempt', // Also locks accounts
-            'App\Listeners\User\SendAccountLockEmail',
-        ],
-        'App\Events\User\UserLoginSucceeded' => [
-            'App\Listeners\User\ClearLockFields',
+            'App\Listeners\Comment\Deleted\DeleteCommentVotes',
         ],
     ];
 

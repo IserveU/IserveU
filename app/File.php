@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Repositories\Contracts\CachedModel;
+use App\Repositories\Caching\CachedModel;
 use App\Repositories\FileUploadHelper;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;

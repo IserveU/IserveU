@@ -26,16 +26,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::model('user', 'App\User');
-        Route::model('motion', '\App\Motion');
-        Route::model('motionfile', 'App\MotionFile');
-        Route::model('file', 'App\File');
-        Route::model('vote', 'App\Vote');
-        Route::model('comment', 'App\Comment');
-        Route::model('comment_vote', 'App\CommentVote');
-        Route::model('background_image', 'App\BackgroundImage');
-        Route::model('department', 'App\Department');
-
         app('router')->bind('motion', function ($motion) {
             return \App\Motion::findBySlugOrId($motion);
         });
@@ -48,15 +38,26 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Page::findBySlugOrId($page);
         });
 
-
         app('router')->bind('user', function ($user) {
             return \App\User::findBySlugOrId($user);
         });
 
-
         app('router')->bind('vote', function ($vote) {
             return \App\Vote::find($vote);
         });
+
+        app('router')->bind('comment', function ($vote) {
+            return \App\Comment::find($vote);
+        });
+
+        app('router')->bind('comment_vote', function ($vote) {
+            return \App\CommentVote::find($vote);
+        });
+
+        app('router')->bind('department', function ($vote) {
+            return \App\Department::find($vote);
+        });
+
 
         parent::boot();
     }

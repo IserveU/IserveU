@@ -4,8 +4,9 @@ namespace App\Listeners\User\Deleted;
 
 use App\Events\User\UserDeleted;
 use DB;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DeleteEmptyUserRecords
+class DeleteEmptyUserRecords implements ShouldQueue
 {
     /**
      * Create the event listener.

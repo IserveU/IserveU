@@ -215,21 +215,21 @@ trait PolishedTest
      * @param int    $code          The code expected
      * @param string $responseToSee An optional string to look for
      */
-    public function storeFieldsGetSee($fieldsToPost, $expectedCode = 200, $responseToSee = '', $jsonFields = [])
+    public function storeFieldsGetSee($fieldsToPost, $expectedCode = 200, $responseToSee = null, $jsonFields = [])
     {
         $this->setUnsetDefaults();
 
-        $contentToPost = $this->getPostArray($this->class, $fieldsToPost);
+        $this->contentToPost = $this->getPostArray($this->class, $fieldsToPost);
 
-        $this->post($this->route, $contentToPost)
+        $this->post($this->route, $this->contentToPost)
              ->assertResponseStatus($expectedCode);
 
-        if ($responseToSee) {
-            $this->see($responseToSee);
+        if ($expectedCode == 200) {
+            $this->checkDatabaseFor($this->contentToPost, $jsonFields);
         }
 
-        if ($expectedCode == 200) {
-            $this->checkDatabaseFor($contentToPost, $jsonFields);
+        if ($responseToSee) {
+            $this->seeInResponse($responseToSee);
         }
 
         return $this;
@@ -241,20 +241,26 @@ trait PolishedTest
      * @param array $content An array of content to merge into a post
      * @param int   $code    The code expected
      */
-    public function storeContentGetSee($contentToPost, $expectedCode = 200, $reponseToSee = '', $jsonFields = [])
+    public function storeContentGetSee($contentToPost, $expectedCode = 200, $responseToSee = null, $jsonFields = [])
     {
         $this->setUnsetDefaults();
 
         $defaultPost = $this->getPostArray($this->class, $this->defaultFields);
 
-        $mergedContentToPost = array_merge($defaultPost, $contentToPost);
+        $this->contentToPost = array_merge($defaultPost, $contentToPost);
 
-        $this->post($this->route, $this->removeNullValues($mergedContentToPost))
+        $this->post($this->route, $this->removeNullValues($this->contentToPost))
                 ->assertResponseStatus($expectedCode);
 
         if ($expectedCode == 200) {
             $this->checkDatabaseFor($contentToPost, $jsonFields);
         }
+
+        if ($responseToSee) {
+            $this->seeInResponse($responseToSee);
+        }
+
+        return $this;
     }
 
     /**
@@ -263,7 +269,7 @@ trait PolishedTest
      * @param array $fields An array of fields to post
      * @param int   $code   The code expected
      */
-    public function updateFieldsGetSee($fieldsToPost, $expectedCode = 200, $reponseToSee = '', $jsonFields = [])
+    public function updateFieldsGetSee($fieldsToPost, $expectedCode = 200, $responseToSee = null, $jsonFields = [])
     {
         $this->setUnsetDefaults();
 
@@ -271,16 +277,27 @@ trait PolishedTest
             $this->modelToUpdate = factory($this->class)->create();
         }
 
-        $contentToPost = $this->getPostArray($this->class, $fieldsToPost);
+        $this->contentToPost = $this->getPostArray($this->class, $fieldsToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $contentToPost)
+        $this->patch($this->route.$this->modelToUpdate->id, $this->contentToPost)
                 ->assertResponseStatus($expectedCode);
 
-        $contentToPost['id'] = $this->modelToUpdate->id;
 
         if ($expectedCode == 200) {
-            $this->checkDatabaseFor($contentToPost, $jsonFields);
+            $this->checkDatabaseFor(
+                array_merge(
+                    ['id'    =>  $this->modelToUpdate->id],
+                    $this->contentToPost
+                ),
+                $jsonFields
+            );
         }
+
+        if ($responseToSee) {
+            $this->seeInResponse($responseToSee);
+        }
+
+        return $this;
     }
 
     /**
@@ -289,7 +306,7 @@ trait PolishedTest
      * @param array $content An array of content to merge into a post
      * @param int   $code    The code expected
      */
-    public function updateContentGetSee($contentToPost, $expectedCode = 200, $reponseToSee = null, $jsonFields = [])
+    public function updateContentGetSee($contentToPost, $expectedCode = 200, $responseToSee = null, $jsonFields = [])
     {
         $this->setUnsetDefaults();
 
@@ -299,15 +316,19 @@ trait PolishedTest
 
         $defaultPost = $this->getPostArray($this->class, $this->defaultFields);
 
-        $mergedContentToPost = array_merge($defaultPost, $contentToPost);
+        $this->contentToPost = array_merge($defaultPost, $contentToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $this->removeNullValues($mergedContentToPost))
+        $this->patch($this->route.$this->modelToUpdate->id, $this->removeNullValues($this->contentToPost))
                 ->assertResponseStatus($expectedCode);
 
-        $contentToPost['id'] = $this->modelToUpdate->id;
+        $this->contentToPostcontentToPost['id'] = $this->modelToUpdate->id;
 
         if ($expectedCode == 200) {
-            $this->checkDatabaseFor($contentToPost, $jsonFields);
+            $this->checkDatabaseFor($this->contentToPost, $jsonFields);
+        }
+
+        if ($responseToSee) {
+            $this->seeInResponse($responseToSee);
         }
     }
 
@@ -397,6 +418,28 @@ trait PolishedTest
 
             $this->assertNotEquals($record, null, "Unable to find JSON record for '$jsonField' in the database equal to '$contentPosted[$jsonField]'");
             $this->assertNotEquals($record->$jsonField, null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Handling ocassionally flakey JSON response analysis.
+     *
+     * @param String/Array $responseToSee A string or array anticipated
+     *
+     * @return $this
+     */
+    public function seeInResponse($responseToSee)
+    {
+        if (!is_array($responseToSee)) {
+            $this->see($responseToSee);
+
+            return $this;
+        }
+
+        foreach ($responseToSee as $string) {
+            $this->see($string);
         }
 
         return $this;

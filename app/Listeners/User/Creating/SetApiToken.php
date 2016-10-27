@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Listeners\Motion;
+namespace App\Listeners\User\Creating;
 
-use App\Events\Motion\MotionUpdated;
+use App\Events\User\UserCreating;
 
-class SendNotificationEmail
+class SetApiToken
 {
     /**
      * Create the event listener.
@@ -19,12 +19,12 @@ class SendNotificationEmail
     /**
      * Handle the event.
      *
-     * @param MotionUpdated $event
+     * @param UserCreating $event
      *
      * @return void
      */
-    public function handle(MotionUpdated $event)
+    public function handle(UserCreating $event)
     {
-        $motion = $event->motion;
+        $event->user->api_token = str_random(99);
     }
 }

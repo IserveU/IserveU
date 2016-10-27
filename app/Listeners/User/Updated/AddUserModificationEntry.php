@@ -5,8 +5,9 @@ namespace App\Listeners\User\Updated;
 use App\Events\User\UserUpdated;
 use App\UserModification;
 use Auth;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AddUserModificationEntry
+class AddUserModificationEntry implements ShouldQueue
 {
     /**
      * Create the event listener.

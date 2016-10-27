@@ -4,8 +4,9 @@ namespace App\Listeners\User\Updated;
 
 use App\Events\User\UserUpdated;
 use App\File;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DeleteUnattachedFiles
+class DeleteUnattachedFiles implements ShouldQueue
 {
     /**
      * Create the event listener.
