@@ -4,10 +4,10 @@
 
 angular
 	.module('iserveu')
-	.factory('motionDepartments', 
+	.factory('motionDepartments',
 		['$http',
-		 'motionDepartmentResource', 
-	
+		 'motionDepartmentResource',
+
 	function($http, motionDepartmentResource) {
 
 	var motionDepartment = {
@@ -15,14 +15,14 @@ angular
 		filter: '',
 		loadAll: function() {
 			var self = this;
-			
+
 			if(self.index.length > 0) {
 				return false;
 			}
 
 			// TODO: make a get sanitizer that strips promise and such with method below
 			motionDepartmentResource.getDepartments().then(function(success){
-				self.index = JSON.parse(angular.toJson(success));
+				self.index = success.data;
 			});
 		}
 	}

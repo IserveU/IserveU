@@ -37,7 +37,7 @@
           </md-subheader>
 
           <md-list-item ng-if="itemsInReview.length" layout="row" ng-repeat="review in itemsInReview = (motionSidebar.motionObj.data | isInReview | filter:motionSidebar.search.text)" ui-sref-active="active" ui-sref="motion({id:review.id})" ng-click="motionSidebar.closeSidenav('left')">
-            <md-icon class="department" md-svg-src="{{ ::review.depaartment.icon }}">
+            <md-icon class="department" md-svg-src="{{ ::review.department.icon }}">
               <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
             </md-icon>
             <p>{{ ::review.title }}</p>

@@ -37,7 +37,7 @@ class Department extends NewApiModel
      *
      * @var array
      */
-    protected $visible = ['name', 'active', 'id', 'slug'];
+    protected $visible = ['name', 'active', 'id', 'slug', 'icon'];
 
     /**
      * Return the sluggable configuration array for this model.
