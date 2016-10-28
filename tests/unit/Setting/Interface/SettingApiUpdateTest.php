@@ -35,6 +35,29 @@ class SettingApiUpdateTest extends TestCase
             ->assertResponseStatus(200);
     }
 
+    /** @test */
+    public function update_series_of_keys_suceeds()
+    {
+        $faker = \Faker\Factory::create();
+
+        $slogan = $faker->sentence;
+        $twitter = $faker->url;
+        $facebook = $faker->url;
+
+        $this->patch('/api/setting/site.slogan', ['value' => $slogan])
+                    ->assertResponseStatus(200);
+        $this->patch('/api/setting/site.twitter', ['value' => $twitter])
+                    ->assertResponseStatus(200);
+
+        $this->patch('/api/setting/site.facebook', ['value' => $facebook])
+            ->assertResponseStatus(200);
+
+
+        $this->assertEquals(Setting::get('site.slogan'), $slogan);
+        $this->assertEquals(Setting::get('site.twitter'), $twitter);
+        $this->assertEquals(Setting::get('site.facebook'), $facebook);
+    }
+
     /// Fail Tests
 
     /** @test */
