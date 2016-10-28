@@ -48,22 +48,12 @@
 				this.service.saveTypeOf('site', socialMedia);
 			};
 
-			this.toggleMaterialPalette = function() {
-				this.materialPalette = !this.materialPalette;
-				this.customPalette = false;
-			};
-
 			this.togglePalette = function(type) {
 				this.palettes[type] = !this.palettes[type];
 				if (type === 'custom') {
 					this.palettes.material = false;
 				} else
 					this.palettes.custom = false;
-			};
-
-			this.toggleCustomPalette = function() {
-				this.customPalette = !this.customPalette;
-				this.materialPalette = false;
 			};
 
 			this.toggleSitename = function() {
