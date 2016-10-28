@@ -16,10 +16,23 @@
 			this.palette = new Palette($rootScope.theme.colors);
 			this.service = settings;
 
+			this.materialPalette = false;
+			this.customPalette = false;
+
 			this.showSitename = false;
 			this.showSocialmedia = false;
 			this.showTerms = false;
 			this.showTheme = false;
+
+			this.saveMaterialPalette = function(primary, accent) {
+				console.log(primary);
+				console.log(accent);
+				var palette = {
+					primary: primary,
+					accent: accent
+				};
+				this.service.saveTypeOf('theme.colors', palette);
+			};
 
 			this.saveSocialMedia = function() {
 
@@ -30,6 +43,16 @@
 				};
 
 				this.service.saveTypeOf('site', socialMedia);
+			};
+
+			this.toggleMaterialPalette = function() {
+				this.materialPalette = !this.materialPalette;
+				this.customPalette = false;
+			};
+
+			this.toggleCustomPalette = function() {
+				this.customPalette = !this.customPalette;
+				this.materialPalette = false;
 			};
 
 			this.toggleSitename = function() {
@@ -45,7 +68,8 @@
 			};
 
 			this.toggleTheme = function() {
-				this.showTheme = this.showTheme;
+				console.log('toggleTheme');
+				this.showTheme = !this.showTheme;
 			};
 
 		}

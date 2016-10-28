@@ -132,88 +132,97 @@
         <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
-          <div class="md-list-item-text">
+          <div class="md-list-item-text" ng-hide="contentManager.showTheme">
             <h3>Theme</h3>
-            <h4>IserveU</h4>  <!-- help -->
-            <p>*Name of your site. Displays at the top of the browser name.</p>
+            <h4>{{ settingsGlobal.theme.name | capitalize }}</h4>  <!-- help -->
+            <p>*Name of your theme, choose a preconfigured one or make your own.</p>
           </div>
-          <md-button class="md-icon-button md-secondary">
+
+          <div layout="column" ng-cloak class="md-padding" ng-if="contentManager.showTheme">
+
+            <div layout-align="center center" layout="row">
+              <md-button ng-click="contentManager.toggleMaterialPalette();">
+                Preset Palette
+              </md-button>
+              <md-button ng-click="contentManager.toggleCustomPalette();">
+                Customize your own
+              </md-button>
+            </div>
+
+            <md-input-container>
+              <label>Theme Name</label>
+              <input type="text" ng-model="settingsGlobal.theme.name">
+            </md-input-container>
+
+            <div class="content-manager_theme--material-palette" ng-controller="ThemeDemoCtrl" ng-if="contentManager.materialPalette">
+              <!-- Theme Options -->
+              <div layout="row" layout-wrap layout-align="center center">
+                <md-button ng-repeat="color in colors" flex-gt-md="15" flex="30"
+                           md-colors="{background: '{{color}}'}" md-colors-watch="false"
+                           ng-disabled="primary === color && !isPrimary" ng-click="selectTheme(color)">
+                  {{color}}
+                </md-button>
+              </div>
+              <!-- Theme Preview -->
+              <div layout="row" class="section" layout-align="center center">
+                <div layout="column" flex="50">
+                  <theme-preview primary="primary" accent="accent"></theme-preview>
+                </div>
+              </div>
+              <spinner ng-click="contentManager.saveMaterialPalette(primary, accent)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleMaterialPalette();"></spinner>
+            </div>
+
+            <div class="content-manager_theme--custom-palette" ng-if="contentManager.customPalette">
+              <div class="palette-warning">
+                <label>Warning Color</label>
+                <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.warning" open-on-input="true"></div>
+              </div>
+              <div class="palette-colour-picker" layout="row">
+                <div class="palette-primary" flex="30">
+                  <label>Primary Color</label>
+                  <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_one" open-on-input="true"></div>
+                  <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_two" open-on-input="true"></div>
+                  <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_three" open-on-input="true"></div>
+
+                  <md-input-container flex>
+                    <label>Contrast</label>
+                      <md-select ng-model="contentManager.palette.primary.contrast" aria-label="Theme Primary Contrast">
+                        <md-option value="light">Light</md-option>
+                        <md-option value="dark">Dark</md-option>
+                      </md-select>
+                  </md-input-container>
+                  <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving"></spinner>
+
+                </div>
+
+                <div flex="30"></div>
+
+                <div class="palette-accent" flex="30">
+                  <label>Accent Color</label>
+                  <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_one" open-on-input="true"></div>
+                  <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_two" open-on-input="true"></div>
+                  <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_three" open-on-input="true"></div>
+
+                  <md-input-container flex>
+                    <label>Contrast</label>
+                      <md-select ng-model="contentManager.palette.accent.contrast" aria-label="Theme Accent Contrast">
+                        <md-option value="light">Light</md-option>
+                        <md-option value="dark">Dark</md-option>
+                      </md-select>
+                  </md-input-container>
+                </div>
+              </div>
+              <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleCustomPalette();"></spinner>
+            </div>
+
+          <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleTheme();">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
-
-    <md-list-item class="md-3-line" flex layout-padding>
-
-      <div class="item-1" flex>
-
-        <div class="title" ng-click="showColorPalette = !showColorPalette">
-          <md-icon class="mdi mdi-palette title-icon"></md-icon>
-          <h3 class="title-header">Customize</h3>
-        </div>
-
-        <div ng-if="showColorPalette" layout="column" layout-wrap layout-align="center center" flex>
-          <div class="palette-warning">
-            <label>Warning Color</label>
-            <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.warning" open-on-input="true"></div>
-          </div>
-          <div class="palette-colour-picker" layout="row">
-            <div class="palette-primary" flex="30">
-              <label>Primary Color</label>
-              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_one" open-on-input="true"></div>
-              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_two" open-on-input="true"></div>
-              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_three" open-on-input="true"></div>
-
-              <md-input-container flex>
-                <label>Contrast</label>
-                  <md-select ng-model="contentManager.palette.primary.contrast" aria-label="Theme Primary Contrast">
-                    <md-option value="light">Light</md-option>
-                    <md-option value="dark">Dark</md-option>
-                  </md-select>
-              </md-input-container>
-            </div>
-
-            <div flex="30"></div>
-
-            <div class="palette-accent" flex="30">
-              <label>Accent Color</label>
-              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_one" open-on-input="true"></div>
-              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_two" open-on-input="true"></div>
-              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_three" open-on-input="true"></div>
-
-              <md-input-container flex>
-                <label>Contrast</label>
-                  <md-select ng-model="contentManager.palette.accent.contrast" aria-label="Theme Accent Contrast">
-                    <md-option value="light">Light</md-option>
-                    <md-option value="dark">Dark</md-option>
-                  </md-select>
-              </md-input-container>
-            </div>
-          </div>
-
-        <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving"></spinner>
-        </div>
-      </div>
-    </md-list-item>
-
-      <div layout="column" ng-cloak ng-controller="ThemeDemoCtrl" class="md-padding">
-        <!-- Theme Options -->
-        <div layout="row" layout-wrap layout-align="center center">
-          <md-button ng-repeat="color in colors" flex-gt-md="15" flex="30"
-                     md-colors="{background: '{{color}}'}" md-colors-watch="false"
-                     ng-disabled="primary === color && !isPrimary" ng-click="selectTheme(color)">
-            {{color}}
-          </md-button>
-        </div>
-        <!-- Theme Preview -->
-        <div layout="row" class="section" layout-align="center center">
-          <div layout="column" flex="50">
-            <theme-preview primary="primary" accent="accent"></theme-preview>
-          </div>
-        </div>
-      </div>
+<!--
 
       <md-subheader class="md-no-sticky">Language</md-subheader>
-      <md-list-item class="md-2-line" flex></md-list-item>
+      <md-list-item class="md-2-line" flex></md-list-item> -->
   </md-list>
   </md-card-content>
 </md-card>
