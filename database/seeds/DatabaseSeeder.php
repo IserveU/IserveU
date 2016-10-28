@@ -20,7 +20,13 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartmentTableSeeder::class);
         $this->command->info('Departments seeded');
 
-        $this->call(NWTCommunitiesTableSeeder::class);
-        $this->command->info('NWT Communitites seeded');
+        $this->call(CommunitiesTableSeeder::class);
+        $this->command->info('Communitites seeded');
+
+        $this->call(HomePageSeeder::class);
+        $this->command->info('Home Page Seeded');
+
+        $this->call(ThemeSeeder::class);
+        $this->command->info('Theme files seeded');
     }
 }

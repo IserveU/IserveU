@@ -59,7 +59,6 @@ class InitializeApp extends Command
 
         // Defaults
         dispatch(new SetDefaultPermissions());
-        dispatch(new SeedDatabaseDefaults());
 
 
         if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
@@ -86,6 +85,8 @@ class InitializeApp extends Command
             'status'        => 'public',
         ]);
         $this->info("Creating Admin: $email / $password");
+
+        dispatch(new SeedDatabaseDefaults());
 
         dispatch(new CreateAdminUser($user));
     }

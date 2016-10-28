@@ -279,7 +279,9 @@ trait PolishedTest
 
         $this->contentToPost = $this->getPostArray($this->class, $fieldsToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $this->contentToPost)
+        $id = $this->modelToUpdate->slug ?: $this->modelToUpdate->id;
+
+        $this->patch($this->route.$id, $this->contentToPost)
                 ->assertResponseStatus($expectedCode);
 
 
@@ -318,7 +320,9 @@ trait PolishedTest
 
         $this->contentToPost = array_merge($defaultPost, $contentToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $this->removeNullValues($this->contentToPost))
+        $id = $this->modelToUpdate->slug ?: $this->modelToUpdate->id;
+
+        $this->patch($this->route.$id, $this->removeNullValues($this->contentToPost))
                 ->assertResponseStatus($expectedCode);
 
         $this->contentToPostcontentToPost['id'] = $this->modelToUpdate->id;
@@ -440,6 +444,28 @@ trait PolishedTest
 
         foreach ($responseToSee as $string) {
             $this->see($string);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Handling ocassionally flakey JSON response analysis.
+     *
+     * @param String/Array $responseToSee A string or array anticipated
+     *
+     * @return $this
+     */
+    public function dontSeeInResponse($responseToSee)
+    {
+        if (!is_array($responseToSee)) {
+            $this->dontSee($responseToSee);
+
+            return $this;
+        }
+
+        foreach ($responseToSee as $string) {
+            $this->dontSee($string);
         }
 
         return $this;

@@ -29,7 +29,7 @@ class StoreMotionApiTest extends MotionApi
     /** @test  ******************/
     public function store_motion_with_text()
     {
-        $this->storeFieldsGetSee(['title', 'department_id', 'text'], 200);
+        $this->storeFieldsGetSee(['title', 'department_id', 'text'], 200,'text',['text']);
     }
 
     /** @test  ******************/
@@ -85,6 +85,21 @@ class StoreMotionApiTest extends MotionApi
             'title'     => ['titles'],
         ], 400);
     }
+
+
+
+    /** @test  ******************/
+    public function store_content_directly_fails()
+    {
+        $this->storeContentGetSee([
+            'content'     => "text texty",
+        ], 400);
+
+        $this->storeContentGetSee([
+            'content'     => ["text"=>"What is a progressofascist? I assume it will fail?"],
+        ], 400);
+    }
+
 
     /** @test  ******************/
     public function store_motion_summary_with_an_array_fails()
