@@ -21,8 +21,12 @@
               $rootScope.userIsLoggedIn = false;
               $rootScope.authenticatedUser = null;
               $rootScope.settingsGlobal = SETTINGS_JSON;
+
+              // how to do this properly
               $rootScope.theme = SETTINGS_JSON.theme;
               $rootScope.theme.name = SETTINGS_JSON.theme.name;
+              $rootScope.theme.primary = 'primary';
+              $rootScope.theme.accent = 'accent';
             },
 
             /**

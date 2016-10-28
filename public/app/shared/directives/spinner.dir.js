@@ -46,7 +46,7 @@
 
           '<span ng-hide="onHide">{{name}}</span>',
 
-          '<md-icon md-svg-src="/themes/default/loading.svg" ng-show="onHide"></md-icon>',
+          '<md-icon md-svg-src="loading" ng-show="onHide"></md-icon>',
         '</md-button>',
         '<md-button ng-if="secondaryBtn" ng-click="secondaryBtn.control()">',
         '{{secondaryBtn.name}}',

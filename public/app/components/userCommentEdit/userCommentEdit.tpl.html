@@ -1,6 +1,6 @@
 <section flex layout-padding>
 
-	<header> 
+	<header>
 		<md-icon class="mdi mdi-comment-text-outline"></md-icon>
 		<h1>Your comment</h1>
 	</header>
@@ -9,7 +9,7 @@
 	<p class="md-body-1" ng-hide="userCommentEdit.editing">{{ userComment.text }}</p>
 
 	<div ng-show="userCommentEdit.editing" layout="column">
-	
+
 
 		<md-input-container>
 			<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
@@ -22,11 +22,11 @@
 	</div>
 
 	<div ng-hide="userCommentEdit.editing" class="inline-action-buttons" layout layout-align="end end">
-	
+
 		<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="edit comment button">
 			<md-icon class="md-primary mdi mdi-pencil"></md-icon>
 		</md-button>
-	
+
 		<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button">
 			<md-icon class="md-warn mdi mdi-delete"></md-icon>
 		</md-button>
@@ -40,9 +40,9 @@
 <!-- TODO: php return the number of comment votes in the thisUsersComment array; perhaps in a normalized way in comment table
 
 <div class="comment-votes">
-	<md-icon md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg" class="md-primary"></md-icon>
+	<md-icon md-svg-src="thumb-up" class="md-primary"></md-icon>
 	<h4 class="title-subhead">16</h4>
-	<md-icon md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg" class="md-accent"></md-icon>
-	<h4 class="title-subhead">3</h4>		
+	<md-icon md-svg-src="thumb-down" class="md-accent"></md-icon>
+	<h4 class="title-subhead">3</h4>
 </div>
  -->

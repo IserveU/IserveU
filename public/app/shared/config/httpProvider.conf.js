@@ -49,9 +49,9 @@
             } else if (config.status === 401) {
               toast.mustBeLoggedIn('to perform this action.');
             } else if (config.status === 404) {
-              var state = $injector.get('$state');
-              toast.customFunction('Page not found', 'Go home',
-                function() {state.go('home');}, false);
+              // var state = $injector.get('$state');
+              // toast.customFunction('Page not found', 'Go home',
+              //   function() {state.go('home');}, false);
             }
             // else if(config.status === 403) { // currently too many 403s..
             //  toast.simple('You do not have permission

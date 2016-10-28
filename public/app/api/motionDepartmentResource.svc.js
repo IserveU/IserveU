@@ -27,7 +27,7 @@
     ******************************************************************/
 
     function getDepartments() {
-      return Department.query().$promise.then(function(success) {
+      return Department.get().$promise.then(function(success) {
         return success;
       }, function(error) {
         return $q.reject(error);
