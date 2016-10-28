@@ -134,11 +134,9 @@
               <spinner ng-click="contentManager.service.saveSingle('theme.background', settingsGlobal.theme.background)"  name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleBackground();"></spinner>
               <md-button ng-show="contentManager.showBackground" ng-click="contentManager.showBackground();">Cancel</md-button>
             </div>
-            <!-- <isu-file-upload
-                isu-bind-endpoint="/api/page/0/"
-                isu-bind-files="form.pageFiles"
-                isu-existing-files="{{form.existingPageFiles}}">
-            </isu-file-upload> -->
+            <isu-file-upload
+                isu-bind-endpoint="/api/page/home/file">
+            </isu-file-upload>
         </div>
 
         <md-divider></md-divider>
