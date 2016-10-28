@@ -47,7 +47,7 @@
 		return {
 			controller: ['$scope', editHomeController],
 			controllerAs: 'edit',
-			templateUrl: 'app/components/admin.dash/home/edit-home.tpl.html'
+			templateUrl: 'app/components/home/editHome/editHome.tpl.html'
 		}
 
 	}
