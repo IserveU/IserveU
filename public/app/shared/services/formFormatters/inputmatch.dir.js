@@ -11,7 +11,7 @@
     function linkMethod(scope, element, attrs, ngModel) {
 
       ngModel.$validators.compareTo = function(modelValue) {
-        return modelValue == scope.otherModelValue;
+        return modelValue === scope.otherModelValue;
       };
 
       scope.$watch('otherModelValue', function() {

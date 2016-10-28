@@ -17,25 +17,25 @@
             <md-divider md-inset ng-show="pageManager.showWidgetOptions"></md-divider>
                 <div layout="column" ng-show="pageManager.showWidgetOptions" flex>
                     <h4 class="md-subhead">Display Widgets</h4>
-                    <md-checkbox ng-model="settingsGlobal.home.widgets.your_votes"  ng-disabled="!settingsGlobal.voting.on">
+                    <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.home.widgets.your_votes"  ng-disabled="!settingsGlobal.voting.on">
                         Your Votes
                         <span ng-hide="settingsGlobal.voting.on">
                             Turn on the voting module to toggle this setting.
                         </span>
                     </md-checkbox>
-                    <md-checkbox ng-model="settingsGlobal.home.widgets.your_comments"  ng-disabled="!settingsGlobal.comment.on">
+                    <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.home.widgets.your_comments"  ng-disabled="!settingsGlobal.comment.on">
                         Your Comments
                         <span ng-hide="settingsGlobal.comment.on">
                             Turn on the comments module to toggle this setting.
                         </span>
                     </md-checkbox>
-                    <md-checkbox ng-model="settingsGlobal.home.widgets.top_comments"  ng-disabled="!settingsGlobal.comment.on">
+                    <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.home.widgets.top_comments"  ng-disabled="!settingsGlobal.comment.on">
                         Top Comments
                         <span ng-hide="settingsGlobal.comment.on">
                             Turn on the comments module to toggle this setting.
                         </span>
                     </md-checkbox>
-                    <md-checkbox ng-model="settingsGlobal.home.widgets.top_motions"  ng-disabled="!settingsGlobal.motion.on">
+                    <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.home.widgets.top_motions"  ng-disabled="!settingsGlobal.motion.on">
                         Top Motions
                         <span ng-hide="settingsGlobal.motion.on">
                             Turn on the motions module to toggle this setting.
