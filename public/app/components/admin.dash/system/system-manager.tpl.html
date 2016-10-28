@@ -8,7 +8,7 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleMotion()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-model="settingsGlobal.motion.on" ng-change="systemManager.service.saveTypeOf('motion.on', settingsGlobal.motion.on)"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.on" ng-change="systemManager.service.saveTypeOf('motion.on', settingsGlobal.motion.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showMotion" layout="column" layout-padding>
@@ -25,14 +25,14 @@
           </md-input-container>
 
         <div class="md-subheader">Email Notifications when a motion changes</div>
-          <md-checkbox ng-model="settingsGlobal.motion.email.admin">
+          <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.email.admin">
             Email admins
           </md-checkbox>
-          <md-checkbox ng-model="settingsGlobal.motion.email.user">
+          <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.email.user">
             Email users
           </md-checkbox>
         <div class="md-subheader">Closing Date Behaviour</div>
-          <md-checkbox ng-model="settingsGlobal.motion.allow_closing">
+          <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.allow_closing">
             Allow Closing
           </md-checkbox>
 
@@ -59,11 +59,11 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleVoting()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-model="settingsGlobal.voting.on" ng-change="systemManager.service.saveTypeOf('voting.on', settingsGlobal.voting.on)"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.on" ng-change="systemManager.service.saveTypeOf('voting.on', settingsGlobal.voting.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showVoting" layout="column" layout-padding>
-        <md-checkbox ng-model="settingsGlobal.abstain.on">
+        <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.abstain.on">
           Enable abstain voting
         </md-checkbox>
         <div layout="row" layout-align="front center">
@@ -74,7 +74,7 @@
 
       <md-list-item ng-click="noop();">
         <p>Comments</p>
-        <md-switch class="md-secondary" ng-model="settingsGlobal.comment.on" ng-change="systemManager.service.saveTypeOf('comment.on', settingsGlobal.comment.on)"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.comment.on" ng-change="systemManager.service.saveTypeOf('comment.on', settingsGlobal.comment.on)"></md-switch>
       </md-list-item>
 
       <md-list-item ng-click="noop();">
@@ -127,11 +127,11 @@
           <input type="number" ng-model="settingsGlobal.security.login_attempts.lock"/>
         </md-input-container>
 
-        <md-checkbox ng-model="settingsGlobal.security.verify_citizens">
+        <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.security.verify_citizens">
           Automatically verify the user when they register
         </md-checkbox>
 
-        <md-checkbox ng-model="settingsGlobal.security.ask_for_birthday_on_create">
+        <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.security.ask_for_birthday_on_create">
           Requires the user birthday on register
         </md-checkbox>
 

@@ -7,65 +7,60 @@
     .config(['$mdThemingProvider', 'SETTINGS_JSON',
   function($mdThemingProvider, SETTINGS_JSON) {
 
+    var name = SETTINGS_JSON.theme.name || 'default';
     var theme = SETTINGS_JSON.theme.colors;
+    var palettes = ['primary', 'accent'];
 
-    $mdThemingProvider.definePalette('primary', {
-      '50': theme.primary['50'],
-      '100': theme.primary['100'],
-      '200': theme.primary['200'],
-      '300': theme.primary['300'],
-      '400': theme.primary['400'],
-      '500': theme.primary['500'],
-      '600': theme.primary['600'],
-      '700': theme.primary['700'],
-      '800': theme.primary['800'],
-      '900': theme.primary['900'],
-      'A100': theme.primary['A100'],
-      'A200': theme.primary['A200'],
-      'A400': theme.primary['A400'],
-      'A700': theme.primary['A700'],
-      // whether, by default, text (contrast)
-      'contrastDefaultColor': theme.primary['contrastDefaultColor'],
-      'contrastDarkColors': theme.primary['A700'],
-      // could also specify this if default was 'dark'
-      'contrastLightColors': 'dark'
-    });
+    definePalettes();
 
-    $mdThemingProvider.definePalette('accent', {
-      '50': theme.accent['50'],
-      '100': theme.accent['100'],
-      '200': theme.accent['200'],
-      '300': theme.accent['300'],
-      '400': theme.accent['400'],
-      '500': theme.accent['500'],
-      '600': theme.accent['600'],
-      '700': theme.accent['700'],
-      '800': theme.accent['800'],
-      '900': theme.accent['900'],
-      'A100': theme.accent['A100'],
-      'A200': theme.accent['A200'],
-      'A400': theme.accent['A400'],
-      'A700': theme.accent['A700'],
-      // whether, by default, text (contrast)
-      'contrastDefaultColor': theme.accent['contrastDefaultColor'],
-      'contrastDarkColors': theme.accent['A700'],
-      // could also specify this if default was 'dark'
-      'contrastLightColors': 'dark'
-    });
+    function definePalettes() {
 
-    $mdThemingProvider.theme('default')
-      .primaryPalette('primary', {
-        'default': '400',
-        'hue-1': '50',
-        'hue-2': '400',
-        'hue-3': '700'
-      })
-      .accentPalette('accent', {
-        'default': '400',
-        'hue-1': '50',
-        'hue-2': '400',
-        'hue-3': '700'
-      });
+      for(var i in palettes) {
+        if(angular.isObject(theme[palettes[i]])) {
+          $mdThemingProvider.definePalette(palettes[i], {
+            '50': theme[palettes[i]]['50'],
+            '100': theme[palettes[i]]['100'],
+            '200': theme[palettes[i]]['200'],
+            '300': theme[palettes[i]]['300'],
+            '400': theme[palettes[i]]['400'],
+            '500': theme[palettes[i]]['500'],
+            '600': theme[palettes[i]]['600'],
+            '700': theme[palettes[i]]['700'],
+            '800': theme[palettes[i]]['800'],
+            '900': theme[palettes[i]]['900'],
+            'A100': theme[palettes[i]]['A100'],
+            'A200': theme[palettes[i]]['A200'],
+            'A400': theme[palettes[i]]['A400'],
+            'A700': theme[palettes[i]]['A700'],
+            // whether, by default, text (contrast)
+            'contrastDefaultColor': theme[palettes[i]]['contrastDefaultColor'],
+            'contrastDarkColors': theme[palettes[i]]['A700'],
+            // could also specify this if default was 'dark'
+            'contrastLightColors': 'dark'
+          });
+        } else {
+          palettes[i] = theme[palettes[i]];
+        }
+      }
+      setPalette(palettes[0], palettes[1]);
+    }
+
+
+    function setPalette(primary, accent) {
+      $mdThemingProvider.theme(name)
+        .primaryPalette(primary, {
+          'default': '400',
+          'hue-1': '50',
+          'hue-2': '400',
+          'hue-3': '700'
+        })
+        .accentPalette(accent, {
+          'default': '400',
+          'hue-1': '50',
+          'hue-2': '400',
+          'hue-3': '700'
+        });
+    }
 
   }]);
 
