@@ -9,9 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SetDefaultSettings implements ShouldQueue
+class SetDefaultSettings
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
