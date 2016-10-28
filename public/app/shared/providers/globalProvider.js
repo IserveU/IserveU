@@ -25,9 +25,8 @@
               // how to do this properly
               $rootScope.theme = SETTINGS_JSON.theme;
               $rootScope.theme.name = SETTINGS_JSON.theme.name;
-              $rootScope.theme.primary = angular.isObject(SETTINGS_JSON.theme.colors.primary) ? 'primary' : SETTINGS_JSON.theme.colors.primary;
-              $rootScope.theme.accent = angular.isObject(SETTINGS_JSON.theme.colors.accent) ? 'accent' : SETTINGS_JSON.theme.colors.accent;
-
+              $rootScope.theme.primary = 'primary';
+              $rootScope.theme.accent = 'accent';
             },
 
             /**
