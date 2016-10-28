@@ -2,8 +2,8 @@
   <md-toolbar>
     <div class="md-toolbar-tools"  style="padding-right:0px">
       <md-button class="md-icon-button conference_logo" hide-lt-md aria-label="Toggle Menu">
-        <md-icon md-svg-src="/themes/default/logo/symbol_mono.svg"  ui-sref="home"  ng-hide="sidebar.hideSearch"></md-icon>
-        <md-icon class="mdi mdi-arrow-left" ng-show="sidebar.hideSearch" ng-click="sidebar.hideSearch = !sidebar.hideSearch"></md-icon>
+          <symbol-all-white-png ui-sref="home"  ng-hide="sidebar.hideSearch"></symbol-all-white-png>
+          <md-icon class="mdi mdi-arrow-left" ng-show="sidebar.hideSearch" ng-click="sidebar.hideSearch = !sidebar.hideSearch"></md-icon>
       </md-button>
 
       <h2  ng-hide="sidebar.hideSearch" translate="{{'USER_LIST'}}"></h2>
@@ -16,8 +16,8 @@
   <md-progress-circular class="loading-circle" md-mode="indeterminate" ng-show="sidebar.listLoading"></md-progress-circular>
 
   <md-list>
-    <md-list-item class="sidebar-list" ng-repeat="thisuser in sidebar.users | filter:sidebar.text">  
-      <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>      
+    <md-list-item class="sidebar-list" ng-repeat="thisuser in sidebar.users | filter:sidebar.text">
+      <p layout-padding md-ink-ripple ui-sref="user({id:thisuser.id})">{{thisuser.first_name}} {{thisuser.last_name}}</p>
       <md-switch  style="margin:0px" class="md-secondary"ng-model="thisuser.identity_verified" ng-click="sidebar.verifyUser(thisuser)" aria-label="Switch" ng-true-value="1" ng-false-value="0"></md-switch>
     </md-list-item>
     <md-list-item>

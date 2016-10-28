@@ -1,7 +1,7 @@
 <div class="md-toolbar-tools sidebar-toolbar" ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
 
   <md-button class="md-icon-button" aria-label="Home Button">
-    <md-icon md-svg-src="/themes/{{::themename}}/logo/symbol_mono.svg" ui-sref="home" ng-if="!search.isOpen"></md-icon>
+    <symbol-all-white-png ui-sref="home" ng-if="!search.isOpen"></symbol-all-white-png>
     <md-icon class="mdi mdi-arrow-left" ng-show="search.isOpen" ng-click="search.show()"></md-icon>
   </md-button>
 
@@ -30,7 +30,7 @@
             <md-menu-button class="action-buttons" layout="row" layout-align="end end">
               <md-button class="md-accent md-raised" ng-click="search.all()">Clear filters</md-button>
             </md-menu-button>
-          
+
           </md-menu-content>
         </md-menu>
       </div>
