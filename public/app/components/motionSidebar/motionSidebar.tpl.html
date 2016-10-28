@@ -1,8 +1,8 @@
 <md-content class="flex md-default-theme motion-sidebar">
   <motion-search hide-gt-lg hide-lg hide-gt-md hide-md flex>></motion-search>
-    <div infinite-scroll="motionSidebar.loadMotions()" 
+    <div infinite-scroll="motionSidebar.loadMotions()"
          infinite-scroll-container="'.site-sidenav'"
-         infinite-scroll-distance="0" 
+         infinite-scroll-distance="0"
          infinite-scroll-disabled="( motionSidebar.motionIndex._paginating || motionSidebar.motionIndex._stopPaginating)">
 
       <md-list>
@@ -12,16 +12,16 @@
 
           <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in motionSidebar.motionIndex._index | isPublished | filter:motionSidebar.search.text" ui-sref-active="active" ui-sref="motion({id:motion.id})" ng-click="motionSidebar.closeSidenav('left')">
 
-            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{ ::motion.department.name | slugify }}.svg">
+            <md-icon class="department" md-svg-src="{{ ::motion.department.icon }}">
               <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
             </md-icon>
 
             <p class="md-body-1 ellipsis">{{ ::motion.title }}</p>
-            
+
             <quick-vote ng-if="userIsLoggedIn"></quick-vote>
           </md-list-item>
 
-          <md-list-item has-permission="create-motion" layout="row" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">  
+          <md-list-item has-permission="create-motion" layout="row" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">
               <p>{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
               <md-icon class="mdi mdi-plus" aria-label="create motion"  layout-margin></md-icon>
           </md-list-item>
@@ -37,7 +37,7 @@
           </md-subheader>
 
           <md-list-item ng-if="itemsInReview.length" layout="row" ng-repeat="review in itemsInReview = (motionSidebar.motionObj.data | isInReview | filter:motionSidebar.search.text)" ui-sref-active="active" ui-sref="motion({id:review.id})" ng-click="motionSidebar.closeSidenav('left')">
-            <md-icon class="department" md-svg-src="themes/{{::themename}}/department_icons/{{ ::review.depaartment.name | slugify }}.svg">
+            <md-icon class="department" md-svg-src="{{ ::review.depaartment.icon }}">
               <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
             </md-icon>
             <p>{{ ::review.title }}</p>
