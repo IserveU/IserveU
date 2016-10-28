@@ -27,6 +27,7 @@
 			this.showSitename = false;
 			this.showSocialmedia = false;
 			this.showTerms = false;
+            this.showBackground = false;
 			this.showTheme = false;
 
 			this.saveMaterialPalette = function(primary, accent) {
@@ -67,6 +68,10 @@
 			this.toggleTerms = function() {
 				this.showTerms = !this.showTerms;
 			};
+
+            this.toggleBackground = function() {
+                this.showBackground = !this.showBackground;
+            };
 
 			this.toggleTheme = function() {
 				this.showTheme = !this.showTheme;

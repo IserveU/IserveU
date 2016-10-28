@@ -119,13 +119,27 @@
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
             <h3>Background Image</h3>
-            <h4>IserveU</h4>  <!-- help -->
-            <p>*Name of your site. Displays at the top of the browser name.</p>
+            <p>*Background image for the site. Defaults to white.</p>
           </div>
-          <md-button class="md-icon-button md-secondary">
+          <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleBackground()">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
+        <div ng-if="contentManager.showBackground" layout="column" layout-padding>
+            <md-input-container>
+                <label>Image URL</label>
+                <input ng-model="settingsGlobal.theme.background">
+            </md-input-container>
+            <div layout="row" layout-align="front center">
+              <spinner ng-click="contentManager.service.saveSingle('theme.background', settingsGlobal.theme.background)"  name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleBackground();"></spinner>
+              <md-button ng-show="contentManager.showBackground" ng-click="contentManager.showBackground();">Cancel</md-button>
+            </div>
+            <!-- <isu-file-upload
+                isu-bind-endpoint="/api/page/0/"
+                isu-bind-files="form.pageFiles"
+                isu-existing-files="{{form.existingPageFiles}}">
+            </isu-file-upload> -->
+        </div>
 
         <md-divider></md-divider>
 
@@ -217,11 +231,9 @@
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
-<!--
 
-      <md-subheader class="md-no-sticky">Language</md-subheader>
-      <md-list-item class="md-2-line" flex></md-list-item> -->
   </md-list>
   </md-card-content>
 </md-card>
 </md-content>
+
