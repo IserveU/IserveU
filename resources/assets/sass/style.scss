@@ -224,7 +224,7 @@ input.sidebar-search-input {
 	font-size: inherit;
     border-style: solid;
     line-height: 120%;
-    border-bottom: thin solid $accentLight;
+    border-bottom: thin solid;
 	&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 		font-size: 16px;
 	    color:    $white;
