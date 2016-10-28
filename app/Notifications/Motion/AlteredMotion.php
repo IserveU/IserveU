@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Notifications\Summary;
+namespace App\Notifications\Motion;
 
-use App\User;
+use App\Motion;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Collection;
 
-class AdminSummary extends Notification
+class AlteredMotion extends Notification
 {
     use Queueable;
 
-    protected $newUsers;
+    protected $motion;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Collection $newUsers, User $user)
+    public function __construct(Motion $motion)
     {
-        $this->newUsers = $newUsers;
-        $this->user = $user;
+        $this->motion = $motion;
     }
 
     /**
@@ -46,19 +44,10 @@ class AdminSummary extends Notification
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage())
-                    ->subject('Admin Summary Email');
-
-        if ($this->user->getPreference('authentication.notify.admin.summary')) {
-            $mailMessage = $mailMessage->greeting('There are new users');
-
-            foreach ($this->newUsers as $newUser) {
-                $mailHasContent = true;
-                $mailMessage = $mailMessage->line($newUser->first_name.' '.$newUser->last_name.' ('.$newUser->email.')');
-            }
-        }
-
-        return $mailMessage;
+        return (new MailMessage())
+                ->subject('Motion Updated')
+                ->line('A motion that you voted on has been updated. You might want to check that you still agree')
+                ->action($this->motion->title, url('/').'#/motion/'.$this->motion->slug);
     }
 
     /**

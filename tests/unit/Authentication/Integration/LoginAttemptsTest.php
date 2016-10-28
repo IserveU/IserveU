@@ -17,7 +17,8 @@ class LoginAttemptsTest extends TestCase
              ->assertResponseStatus(403)
              ->seeInDatabase('users', ['id' => $user->id, 'login_attempts' => 1]);
 
-        $this->post('/authenticate', ['email' => $user->email, 'password' => 'wrongpassword2']);
+        $this->post('/authenticate', ['email' => $user->email, 'password' => 'wrongpassword2'])
+             ->assertResponseStatus(403);
         $this->seeInDatabase('users', ['id' => $user->id, 'login_attempts' => 2]);
     }
 }

@@ -1,26 +1,23 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Authentication;
 
-use App\Motion;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AlteredMotion extends Notification
+class IdentityReverification extends Notification
 {
     use Queueable;
-
-    protected $motion;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Motion $motion)
+    public function __construct()
     {
-        $this->motion = $motion;
+        //
     }
 
     /**
@@ -45,9 +42,8 @@ class AlteredMotion extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                ->subject('Motion Updated')
-                ->line('A motion that you voted on has been updated. You might want to check that you still agree')
-                ->action($this->motion->title, url('/').'#/motion/'.$this->motion->slug);
+                    ->line('Due to you recent changes to your profile we now require you to reverify your details. Please login to the site and submit id to confirm this.')
+                    ->action('Login', url('/'));
     }
 
     /**

@@ -8,6 +8,9 @@ language: php
 php:
   - 7.0
 
+notifications:
+  email: false
+  
 before_install:
   - chmod +x ./tests/scripts/*
   - ./tests/scripts/travis_mysql_5.7.sh

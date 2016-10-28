@@ -32,7 +32,9 @@ class PrepareMotionSummary implements ShouldQueue
      */
     public function handle()
     {
-        $users = User::all()->get();
+        $users = User::preference('motion.notify.user.summary', 1)->get();
+
+
 
         //Get users who want a daily summary
         $dailySummaryEmailUsers = $users->filter(function ($user) {

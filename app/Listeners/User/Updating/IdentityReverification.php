@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User\Updating;
 
-use App\Notifications\IdentityReverification as IdentityReverificationNotification;
+use App\Notifications\Authentication\IdentityReverification as IdentityReverificationNotification;
 use App\User;
 use Auth;
 

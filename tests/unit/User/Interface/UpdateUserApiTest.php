@@ -17,73 +17,79 @@ class UpdateUserApiTest extends UserApi
     /** @test  ******************/
     public function update_user_with_email_and_password()
     {
-        $this->updateFieldsGetSee(['email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['email', 'password'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_first_name()
     {
-        $this->updateFieldsGetSee(['first_name', 'email', 'password', 'last_name'], 200);
+        $this->updateFieldsGetSee(['first_name'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_middle_name()
     {
-        $this->updateFieldsGetSee(['middle_name', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['middle_name'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_last_name()
     {
-        $this->updateFieldsGetSee(['last_name', 'email', 'password', 'first_name'], 200);
+        $this->updateFieldsGetSee(['last_name'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_postal_code()
     {
-        $this->updateFieldsGetSee(['postal_code', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['postal_code'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_street_name()
     {
-        $this->updateFieldsGetSee(['street_name', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['street_name'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_unit_number()
     {
-        $this->updateFieldsGetSee(['unit_number', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['unit_number'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_community_id()
     {
-        $this->updateFieldsGetSee(['community_id', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['community_id'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_status()
     { // Need to change this to text
-        $this->updateFieldsGetSee(['status', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['status'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_ethnic_origin_id()
     { // May need to change this to text
-        $this->updateFieldsGetSee(['ethnic_origin_id', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['ethnic_origin_id'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_date_of_birth()
     {
-        $this->updateFieldsGetSee(['date_of_birth', 'ethnic_origin_id', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['date_of_birth'], 200);
     }
 
     /** @test  ******************/
     public function update_user_with_address_verified_until()
     {
-        $this->updateFieldsGetSee(['address_verified_until', 'email', 'password', 'first_name', 'last_name'], 200);
+        $this->updateFieldsGetSee(['address_verified_until'], 200);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_phone_number()
+    {
+        $this->updateFieldsGetSee(['phone'], 200);
     }
 
     /** @test  ******************/
@@ -93,6 +99,27 @@ class UpdateUserApiTest extends UserApi
         $this->updateContentGetSee([
             'agreement_accepted' => 1,
         ], 200);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_string_preference()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 'avalue'])
+            ->assertResponseStatus(200);
+    }
+
+    /** @test  ******************/
+    public function update_user_user_with_numeric_true_preference()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 1])
+            ->assertResponseStatus(200);
+    }
+
+    /** @test  ******************/
+    public function update_user_user_with_numeric_false_preference()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 0])
+            ->assertResponseStatus(200);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
@@ -114,6 +141,18 @@ class UpdateUserApiTest extends UserApi
 
         $this->updateContentGetSee([
             'password'     => '12345AA',
+        ], 400);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_invalid_phone_fails()
+    {
+        $this->updateContentGetSee([
+            'phone'     => '867-445-9436',
+        ], 400);
+
+        $this->updateContentGetSee([
+            'phone'     => 'landline',
         ], 400);
     }
 
@@ -231,5 +270,33 @@ class UpdateUserApiTest extends UserApi
         $this->updateContentGetSee([
             'agreement_accepted'     => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_non_existant_preference_fails()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authedcation.notfsdify.usfdser.onrolechangeo', ['value' => 'avalue'])
+            ->assertResponseStatus(400);
+    }
+
+    /** @test  ******************/
+    public function update_user_preference_with_array_fails()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify', ['value' => ['user' => 1]])
+            ->assertResponseStatus(400);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_boolean_preference_fails()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => true])
+            ->assertResponseStatus(400);
+    }
+
+    /** @test  ******************/
+    public function update_user_with_empty_preference_fails()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => ''])
+            ->assertResponseStatus(400);
     }
 }

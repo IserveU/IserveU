@@ -4,9 +4,7 @@ namespace App\Listeners\User\Updated;
 
 use App\Events\User\UserUpdated;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Setting;
 
 class CheckUserRoles implements ShouldQueue
 {
@@ -28,38 +26,62 @@ class CheckUserRoles implements ShouldQueue
      *
      * @return void
      */
-    public function handle($event)
+    public function handle(UserUpdated $event)
     {
+        $event->user;
+        $event->user->load('roles');
 
-        //Don't check this if the system doesn't care about manual verification
-        if (!Setting::get('security.verify_citizens')) {
-            return true;
-        }
+        if ($event->user->hasRole('citizen')) {
+            if (!$event->user->identity_verified) {
+                $this->stripCitizenRole($event);
+            }
 
-       // DB::enableQueryLog();
-        $user = $event->user;
-        $user->load('roles');
-        if ($user->hasRole('citizen')) {
-            if (!$user->identity_verified //User is not verified
-                 || $user->address_verified_until // Has verified until set
-                 || $user->address_verified_until['carbon']->lt(Carbon::now())) { //Address is verified prior to this date
-                $user->removeRole('citizen');
-
-                if (count($user->delegatedTo)) {
-                    $user->delegatedTo->delete();
-                }
-
-                if (count($user->delegatedFrom)) {
-                    $user->delegatedFrom->delete();
-                }
+            if ($this->addressExpired($event)) {
+                $this->stripCitizenRole($event);
             }
 
             return true;
-        } elseif ($user->identity_verified && $user->address_verified_until && $user->address_verified_until['carbon']->gt(Carbon::now())) {
-            $user->addRole('citizen');
-            $user->createDefaultDelegations();
-
-            return true;
         }
+
+
+        if ($event->user->identity_verified && !$this->addressExpired($event)) {
+            $event->user->addRole('citizen');
+        }
+
+        return true;
+    }
+
+    /**
+     * Removes the citizen role and delegations.
+     */
+    public function stripCitizenRole(UserUpdated $event)
+    {
+        $event->user->removeRole('citizen');
+
+        if (count($event->user->delegatedTo)) {
+            $event->user->delegatedTo->delete();
+        }
+
+        if (count($event->user->delegatedFrom)) {
+            $event->user->delegatedFrom->delete();
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns if the address is expired.
+     */
+    public function addressExpired(UserUpdated $event)
+    {
+        if (!$event->user->address_verified_until['carbon']) {
+            return false; //Not set
+        }
+
+        if ($event->user->address_verified_until['carbon']->lt(Carbon::now())) { //Address is past
+            return false;
+        }
+
+        return true;
     }
 }

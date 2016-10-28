@@ -97,6 +97,12 @@ class StoreUserApiTest extends UserApi
         ], 200);
     }
 
+    /** @test  ******************/
+    public function store_user_with_phone()
+    {
+        $this->storeFieldsGetSee(['email', 'password', 'first_name', 'last_name', 'phone'], 200);
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
     /** @test  ******************/
@@ -112,6 +118,18 @@ class StoreUserApiTest extends UserApi
     {
         $this->storeContentGetSee([
             'email'     => 'notareal.com',
+        ], 400);
+    }
+
+    /** @test  ******************/
+    public function store_user_with_non_numeric_phone_number_fails()
+    {
+        $this->storeContentGetSee([
+            'phone'     => 'bellcanada',
+        ], 400);
+
+        $this->storeContentGetSee([
+            'phone'     => '867-775-1234',
         ], 400);
     }
 

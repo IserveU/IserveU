@@ -1,31 +1,26 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Authentication;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Setting;
 
-class Welcome extends Notification
+class UserCreated extends Notification
 {
     use Queueable;
 
-    public $createdByOther = false;
-
-    public $text;
-
-    public $footer;
+    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        $this->text = Setting::get('emails.welcome.text');
-        $this->footer = Setting::get('emails.footer');
+        $this->user = $user;
     }
 
     /**
@@ -49,20 +44,10 @@ class Welcome extends Notification
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage());
-
-        if ($this->createdByOther) {
-            $mailMessage = $mailMessage->greeting('An account has been created for you');
-        } else {
-            $mailMessage = $mailMessage->greeting('Welcome,');
-        }
-
-        $lines = explode("\n", $this->text);
-        foreach ($lines as $line) {
-            $mailMessage = $mailMessage->line($line);
-        }
-
-        return $mailMessage;
+        return (new MailMessage())
+                    ->greeting('A new user has been created')
+                    ->line('Name: '.$this->user->first_name.' '.$this->user->last_name)
+                    ->action('View User', url('#/user'));
     }
 
     /**
