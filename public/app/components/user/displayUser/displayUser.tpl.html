@@ -43,9 +43,9 @@
           <md-list style="margin: 0" ng-repeat="vote in display.votes">
             <md-list-item style="margin: 0"  ui-sref-active="active" ui-sref="motion({id:vote.motion_id})">
                <span ng-switch="{{ vote.position }}">
-                  <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::theme.name}}/icons/thumb-up.svg"></md-icon>
-                  <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::theme.name}}/icons/thumb-down.svg"></md-icon>
-                  <md-icon ng-switch-when="0" md-svg-src="/themes/{{::theme.name}}/icons/thumbs-up-down.svg"></md-icon>
+                  <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
+                  <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
+                  <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
                 </span>
               <p class="md-body-1" ui-sref="motion({id:vote.motion_id})">{{vote.motion.title}}</p>
             </md-list-item>

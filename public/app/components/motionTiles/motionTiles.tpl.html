@@ -6,17 +6,17 @@
     </md-grid-tile>
 
     <md-grid-tile ng-if="settingsGlobal.allow_closing" class="md-whiteframe-z1">
-	    <md-icon ng-show="!motion.motionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-remove.svg">
+	    <md-icon ng-show="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">
 	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
 	    </md-icon>
 
-	    <md-icon ng-show="motion.motionOpenForVoting" md-svg-icon="/themes/{{::themename}}/icons/calendar-clock.svg">
+	    <md-icon ng-show="motion.motionOpenForVoting" md-svg-icon="calendar-clock">
 	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing | customLongDate }}</md-tooltip>
-	    </md-icon>		 
+	    </md-icon>
     </md-grid-tile>
- 
+
     <md-grid-tile class="md-whiteframe-z1">
-	  	<md-icon md-svg-src="/themes/{{::themename}}/icons/{{ motion.motionVotes.overallPosition.icon || 'loading' }}.svg"></md-icon>
+	  	<md-icon md-svg-src="{{ motion.motionVotes.overallPosition.icon || 'loading' }}"></md-icon>
 	    <md-tooltip md-direction="{{::direction}}">{{ motion.motionVotes.overallPosition.message }}</md-tooltip>
     </md-grid-tile>
 

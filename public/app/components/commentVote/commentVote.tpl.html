@@ -2,12 +2,12 @@
 
     <md-button ng-click="commentVote.button.castVote(comment.id, 1, motion)"
     	class="md-icon-button comment-vote__button {{ commentVote.button.agree.class }}" aria-label="Agree comment vote">
-		<md-icon class="comment-vote__button-icon" md-svg-src="/themes/{{::theme.name}}/icons/{{ commentVote.button.agree.selectedIcon }}.svg"></md-icon>
+		<md-icon class="comment-vote__button-icon" md-svg-src="{{ commentVote.button.agree.selectedIcon }}"></md-icon>
 	</md-button>
 
     <md-button ng-click="commentVote.button.castVote(comment.id, -1, motion)"
     	class="md-icon-button comment-vote__button {{ commentVote.button.disagree.class }}" aria-label="Disagree comment vote">
-		<md-icon class="comment-vote__button-icon" md-svg-src="/themes/{{::theme.name}}/icons/{{ commentVote.button.disagree.selectedIcon }}.svg"></md-icon>
+		<md-icon class="comment-vote__button-icon" md-svg-src="{{ commentVote.button.disagree.selectedIcon }}"></md-icon>
 	</md-button>
 
 </div>

@@ -1,7 +1,7 @@
 <div flex>
 <md-card ng-if="settingsGlobal.home.widgets.your_votes || settingsGlobal.voting.on" layout-margin layout flex>
   <md-card-content layout-padding flex>
-    
+
     <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
     <h3 class="title-header">Your votes</h3>
 
@@ -12,9 +12,9 @@
       <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList | limitTo: 5">
       <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
        <span ng-switch="{{ vote.position }}">
-          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
-          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
-          <md-icon ng-switch-when="0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
+          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
+          <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
         </span>
 
 
