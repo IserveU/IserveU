@@ -25,8 +25,6 @@
 			this.showTheme = false;
 
 			this.saveMaterialPalette = function(primary, accent) {
-				console.log(primary);
-				console.log(accent);
 				var palette = {
 					primary: primary,
 					accent: accent
@@ -68,7 +66,6 @@
 			};
 
 			this.toggleTheme = function() {
-				console.log('toggleTheme');
 				this.showTheme = !this.showTheme;
 			};
 
