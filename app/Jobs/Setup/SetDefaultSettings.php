@@ -4,15 +4,9 @@ namespace App\Jobs\Setup;
 
 use App\Setting;
 use App\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class SetDefaultSettings implements ShouldQueue
+class SetDefaultSettings
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * Create a new job instance.
      *
@@ -31,16 +25,12 @@ class SetDefaultSettings implements ShouldQueue
     public function handle()
     {
         Setting::ifNotSetThenSet('motion', [
-                'on'                                => 1,
-                'default_closing_time_delay'        => 120,
-                'hours_before_closing_autoextend'   => 12,
-                'hours_to_autoextend_by'            => 12,
-                'minutes_between_rank_calculations' => 60,
-                'email'                             => [
-                    'admin' => 1,
-                    'users' => 0,
-                ],
-                'allow_closing' => 1,
+                'on'                                 => 1,
+                'default_closing_time_delay'         => 120,
+                'hours_before_closing_autoextend'    => 12,
+                'hours_to_autoextend_by'             => 12,
+                'minutes_between_rank_calculations'  => 60,
+                'allow_closing'                      => 1,
             ]);
 
         //TODO: The logo should be copied during account creation to a storage route and that reference kept under theme.logo
@@ -75,10 +65,11 @@ class SetDefaultSettings implements ShouldQueue
         ]);
 
 
-        Setting::ifNotSetThenSet('security.login_attempts_lock', 5);
-        Setting::ifNotSetThenSet('security.verify_citizens', 1);
+        Setting::ifNotSetThenSet('authentication', [
+            'login_attempts_lock'           => 5,
+            'ask_for_birthday_on_create'    => 1,
+        ]);
 
-        Setting::ifNotSetThenSet('security.ask_for_birthday_on_create', 0);
 
         //TODO: Language translation isn't jargon and should be hardcoded into translation files
         Setting::ifNotSetThenSet('jargon.en', [

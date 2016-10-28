@@ -25,6 +25,7 @@ Route::get('authenticate/{remember_token}', 'AuthenticateController@noPassword')
 Route::group(['prefix' => 'api'], function () {
 
     //User
+    Route::post('user/{user}/setpreference/{key}', 'User\UserController@setPreference');
     Route::resource('user', 'User\UserController', ['except' => ['create', 'edit']]);
     Route::resource('user/{user}/file', 'FileController', ['except' => ['create', 'edit', 'index']]);
 

@@ -26,6 +26,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'email'                => $faker->email,
         'password'             => $faker->password,
         'postal_code'          => 'X1A1A4',
+        'phone'                => rand(18670000000, 18680000000),
         'ethnic_origin_id'     => $ethnicOrigin->id,
         'date_of_birth'        => $faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now')->format('Y-m-d'),
         'login_attempts'       => 0,

@@ -25,6 +25,6 @@ class SetApiToken
      */
     public function handle(UserCreating $event)
     {
-        $event->user->api_token = str_random(99);
+        $event->user->generateApiToken();
     }
 }

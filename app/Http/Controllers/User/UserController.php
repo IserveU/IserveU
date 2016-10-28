@@ -20,7 +20,7 @@ class UserController extends ApiController
     public function __construct(UserTransformer $userTransformer)
     {
         $this->userTransformer = $userTransformer;
-        $this->middleware('auth:api', ['except' => ['create', 'store', 'authenticatedUser', 'resetPassword']]);
+        $this->middleware('auth:api', ['except' => ['create', 'store']]);
     }
 
     /**
@@ -138,5 +138,22 @@ class UserController extends ApiController
     {
         $user->delete(); //We want to leave the voting/comment record in tact as an anonomous vote
         return $user;
+    }
+
+    /**
+     * Alter record in setting JSON preferences field.
+     *
+     * @param User   $user User in question
+     * @param string $key  Key value
+     */
+    public function setPreference(UpdateUserRequest $request, User $user, $key)
+    {
+        try {
+            $user->setPreference($key, $request->input('value'));
+        } catch (\Exception $e) {
+            return response(['validation' => 'That preference does not exist. New preferences can not be set through the API'], 400);
+        }
+
+        $user->save();
     }
 }

@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Notifications\Summary;
+namespace App\Notifications\Authentication;
 
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Collection;
+use Setting;
 
-class AdminSummary extends Notification
+class AccountLocked extends Notification
 {
     use Queueable;
 
-    protected $newUsers;
+    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Collection $newUsers, User $user)
+    public function __construct(User $user)
     {
-        $this->newUsers = $newUsers;
         $this->user = $user;
     }
 
@@ -46,19 +45,10 @@ class AdminSummary extends Notification
      */
     public function toMail($notifiable)
     {
-        $mailMessage = (new MailMessage())
-                    ->subject('Admin Summary Email');
-
-        if ($this->user->getPreference('authentication.notify.admin.summary')) {
-            $mailMessage = $mailMessage->greeting('There are new users');
-
-            foreach ($this->newUsers as $newUser) {
-                $mailHasContent = true;
-                $mailMessage = $mailMessage->line($newUser->first_name.' '.$newUser->last_name.' ('.$newUser->email.')');
-            }
-        }
-
-        return $mailMessage;
+        return (new MailMessage())
+                    ->subject('Your Account Has Been Locked')
+                    ->line('Someone has attempted to login to your account with the wrong password more than '.Setting::get('security.login_attempts_lock')." times so we've locked it to discourage them.")
+                    ->line('Your account will be unlocked in '.$this->user->locked_until->diffForHumans());
     }
 
     /**

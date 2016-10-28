@@ -4,7 +4,7 @@ namespace App\Listeners\Motion\Updated;
 
 use App\Events\Motion\MotionUpdated;
 use App\Motion;
-use App\Notifications\AlteredMotion;
+use App\Notifications\Motion\AlteredMotion;
 use App\Vote;
 
 class AlertVoters
