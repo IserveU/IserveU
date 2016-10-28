@@ -1,10 +1,10 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
-		.directive('motionVoteButtons', 
+		.directive('motionVoteButtons',
 			['$interval',
-			 'voteResource', 
+			 'voteResource',
 			 'ToastMessage',
 			 'motionVoteButtonService',
 		motionVoteButtons]);
@@ -19,16 +19,16 @@
 			self.buttons = motionVoteButtonService.buttons;
 
 			/****************************************************
-			*	
-			*	Function exports for controllerAs DOM access. 
+			*
+			*	Function exports for controllerAs DOM access.
 			*
 			****************************************************/
 			self.commonFunctions = {
 
 				cast: function(motion) {
 
-					if( ToastMessage.mustBeLoggedIn('to vote.') ||  
-						motion.userVote && motion.userVote.position == this.value || 
+					if( ToastMessage.mustBeLoggedIn('to vote.') ||
+						motion.userVote && motion.userVote.position === this.value ||
 						motionVoteButtonService.isVotingEnabled(motion) )
 					return false;
 
@@ -60,8 +60,8 @@
 			};
 
 			/****************************************************
-			*	
-			*	Private functions. 
+			*
+			*	Private functions.
 			*
 			****************************************************/
 
@@ -105,12 +105,12 @@
 					self.buttons.agree.setDefault();
 					self.buttons.abstain.setDefault();
 					self.buttons.disagree.setDefault();
-				
-					if(+vote.position == 0) {
+
+					if(+vote.position === 0) {
 						self.buttons.abstain.setActive();
-					} else if (+vote.position == 1) {
+					} else if (+vote.position === 1) {
 						self.buttons.agree.setActive();
-					} else if (+vote.position == -1) {
+					} else if (+vote.position === -1) {
 						self.buttons.disagree.setActive();
 					}
 				}
@@ -121,11 +121,13 @@
 				var untilMotion = $interval(function(){
 					if($scope.motion && $scope.motion.hasOwnProperty('motionOpenForVoting')) {
 						var motion = $scope.motion;
-						for(var i in self.buttons) {
-							var button = self.buttons[i];
-							button.setMessage(motion);
-							button.setDisabled(motion);
-							$interval.cancel(untilMotion);
+						for (var i in self.buttons) {
+							if (self.buttons[i]) {
+								var button = self.buttons[i];
+								button.setMessage(motion);
+								button.setDisabled(motion);
+								$interval.cancel(untilMotion);
+							}
 						}
 					}
 				}, 500);

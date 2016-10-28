@@ -72,7 +72,7 @@
 
           parent_name = parent_name.split('-')[1];
 
-          if (parent_name == 'home')
+          if (parent_name === 'home')
             parent_name = 'page';
 
           var endpoint = '/api/' + parent_name + '/' + item_id + '/file/';

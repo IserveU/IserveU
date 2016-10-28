@@ -1,5 +1,5 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
 		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'user', 'incompleteProfileService', notificationService]);
@@ -18,7 +18,7 @@
 							].join(''),
 
 			pendingReview: ['<p>Your profile is pending review. Please be patient with us while we process your information.</p>'
-							
+
 							].join(''),
 
 			softLaunch: ['<h4>IserveU is in the process of a soft launch!&nbsp;</h4><p>Don\'t worry.',
@@ -63,7 +63,7 @@
 
 			}
 
-			
+
 			else if( hasSoftLaunchPreference() ) {
 
 				self.primaryButton.text = 'Got it!';
@@ -89,7 +89,7 @@
 
 			function hasSoftLaunchPreference() {
 				for(var i in preferences) {
-					if(preferences[i] == 'softLaunch')
+					if(preferences[i] === 'softLaunch')
 						return false;
 				}
 				return true;

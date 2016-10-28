@@ -68,7 +68,7 @@
       getMotionFiles: getMotionFiles,
       getMotionFile: getMotionFile,
       updateMotionFile: updateMotionFile,
-      deleteMotionFile: deleteMotionFile,
+      deleteMotionFile: deleteMotionFile
     };
   }
 })(window, window.angular);

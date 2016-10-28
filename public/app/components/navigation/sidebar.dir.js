@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -44,10 +44,10 @@
 			});
 		}
 
-		
+
 		return {
 			restrict: 'E',
-			link: linkMethod,
+			link: linkMethod
 		}
 
 	}

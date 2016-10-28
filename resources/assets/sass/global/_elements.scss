@@ -1,0 +1,31 @@
+html,body{
+  min-height: 100% !important;
+}
+
+body{
+  height: auto; /* If the height is auto the background image moves and scrollbars show up on things */
+  overflow: hidden;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+img{
+  max-width:100%;
+}
+
+
+form{
+  margin-bottom: 0em;
+}
+
+a{
+  text-decoration:none;
+  color:#111;
+}
+
+
+*:focus{
+  outline: none;
+}

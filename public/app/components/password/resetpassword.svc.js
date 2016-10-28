@@ -16,9 +16,9 @@
 	function resetPasswordService($rootScope, $state, $stateParams, authResource, loginService, ToastMessage) {
 
 		var checkToken = function(){
-			if($state.current.name == 'login.resetpassword') {
+			if ($state.current.name === 'login.resetpassword') {
 
-				if($rootScope.userIsLoggedIn === true){
+				if ($rootScope.userIsLoggedIn === true){
 					authResource.logout();
 					localStorage.clear();
 					$rootScope.userIsLoggedIn = false;
@@ -32,7 +32,7 @@
 			authResource.rememberToken(token).then(function(results) {
 					loginService.successHandler(results.data);
 				}, function(error) {
-					if(error.status === 404){
+					if (error.status === 404) {
 						loginService.clearCredentials(true);
 						ToastMessage.simple("Sorry! Your lost password token has expired.");
 					}

@@ -14,14 +14,14 @@
     var Comment = $resource('api/comment/:id', {}, {
       'update': {
         method: 'PUT',
-        ignoreLoadingBar: true,
+        ignoreLoadingBar: true
       },
       'query': {
         method: 'GET',
         params: {},
         isArray: true,
-        ignoreLoadingBar: true,
-      },
+        ignoreLoadingBar: true
+      }
     });
     var Restore = $resource('api/comment/:id/restore');
     var CreateComment = $resource('api/vote/:voteId/comment',
@@ -62,8 +62,8 @@
         method: 'GET',
         url: 'api/user/' + data.user_id + '/comment',
         params: {
-          ignoreLoadingBar: true,
-        },
+          ignoreLoadingBar: true
+        }
       }).success(function(results) {
         return results.data || results;
       }).error(function(error) {
@@ -134,7 +134,7 @@
       deleteComment: deleteComment,
       restoreComment: restoreComment,
       saveComment: saveComment,
-      updateComment: updateComment,
+      updateComment: updateComment
     };
   }
 })(window, window.angular);

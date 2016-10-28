@@ -4,17 +4,56 @@
         <md-card-content layout-padding>
 
         <md-list ng-cloak flex>
-            <md-list-item class="md-2-line" ui-sref="edit-home" flex>
-                <md-icon class="mdi mdi-home" style="margin-bottom: 28px"></md-icon>
+            <md-list-item flex>
+                <md-icon class="mdi mdi-home" style="margin-bottom: 18px" ></md-icon>
                 <p>Home</p>
+                <md-button class="md-icon-button" ui-sref="edit-home" >
+                    <md-icon class="mdi mdi-pencil"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-secondary" ng-click="pageManager.toggleWidgetOptions()">
+                    <md-icon class="mdi mdi-cube"><!-- spacer --></md-icon>
+                </md-button>
             </md-list-item>
-
-
-            <md-list-item ng-repeat="page in pageManager.pages.index" ui-sref="edit-page({id:page.slug})" class="md-2-line" flex>
-                <div class="md-list-item-text md-offset">
-                    <h3>{{ ::page.title }}</h3>
-                    <p>
+            <md-divider md-inset ng-show="pageManager.showWidgetOptions"></md-divider>
+                <div layout="column" ng-show="pageManager.showWidgetOptions" flex>
+                    <h4 class="md-subhead">Display Widgets</h4>
+                    <md-checkbox ng-model="settingsGlobal.home.widgets.your_votes"  ng-disabled="!settingsGlobal.voting.on">
+                        Your Votes
+                        <span ng-hide="settingsGlobal.voting.on">
+                            Turn on the voting module to toggle this setting.
+                        </span>
+                    </md-checkbox>
+                    <md-checkbox ng-model="settingsGlobal.home.widgets.your_comments"  ng-disabled="!settingsGlobal.comment.on">
+                        Your Comments
+                        <span ng-hide="settingsGlobal.comment.on">
+                            Turn on the comments module to toggle this setting.
+                        </span>
+                    </md-checkbox>
+                    <md-checkbox ng-model="settingsGlobal.home.widgets.top_comments"  ng-disabled="!settingsGlobal.comment.on">
+                        Top Comments
+                        <span ng-hide="settingsGlobal.comment.on">
+                            Turn on the comments module to toggle this setting.
+                        </span>
+                    </md-checkbox>
+                    <md-checkbox ng-model="settingsGlobal.home.widgets.top_motions"  ng-disabled="!settingsGlobal.motion.on">
+                        Top Motions
+                        <span ng-hide="settingsGlobal.motion.on">
+                            Turn on the motions module to toggle this setting.
+                        </span>
+                    </md-checkbox>
+                   <spinner ng-click="pageManager.service.saveTypeOf('home.widgets', settingsGlobal.home.widgets)" name="'Save'" on-hide="pageManager.service.data.saving" on-loaded="pageManager.toggleWidgetOptions()"></spinner>
                 </div>
+
+            <md-divider md-inset></md-divider>
+
+            <md-list-item ng-repeat="page in pageManager.pages.index" flex ng-hide="page.slug =='home'">
+
+                <md-icon class="mdi mdi-assignment"></md-icon>
+                <p class="md-offset">{{ ::page.title }}</p>
+
+                <md-button class="md-icon-button" ui-sref="edit-page({id:page.slug})">
+                    <md-icon class="mdi mdi-pencil"></md-icon>
+                </md-button>
                 <md-button class="md-icon-button md-secondary" ng-click="pageManager.deletePage(page.slug)">
                     <md-icon class="mdi mdi-delete"></md-icon>
                 </md-button>
@@ -36,7 +75,7 @@
                     </md-input-container>
                     <p class="md-caption">*Name your page</p>
                     <div layout="row" layout-align="center center">
-                        <spinner ng-click="pageManager.createPage()" name="'Save'" on-hide="pageManager.saving"></spinner>
+                        <spinner ng-click="pageManager.createPage()" name="'Create'" on-hide="pageManager.saving"></spinner>
                         <md-button ng-click="createPage = !createPage">Cancel</md-button>
                     </div>
                 </div>

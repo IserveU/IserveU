@@ -8,11 +8,9 @@
       '$q',
       '$rootScope',
       'authResource',
-      'refreshLocalStorage',
       userResource]);
 
-  function userResource($resource, $q, $rootScope, authResource,
-    refreshLocalStorage) {
+  function userResource($resource, $q, $rootScope, authResource) {
 
     /****************************************************************
     *
@@ -85,7 +83,7 @@
       if ($rootScope.authenticatedUser) {
         return $rootScope.authenticatedUser;
       } else if (localStorage.getItem('user')) {
-        if (localStorage.getItem('user') == undefined)
+        if (localStorage.getItem('user') === undefined)
           authResource.logout();
         else
           return JSON.parse(localStorage.getItem('user'));

@@ -4,17 +4,17 @@
 
 	angular
 		.module('iserveu')
-		.service('Palette', Palette);
+		.service('Palette', ['$mdColorUtil', Palette]);
 
 	/** @ngInject */
-	function Palette() {
+	function Palette($mdColorUtil) {
 
 
 		function Palette(theme){
-			// 'Original' is required for the parsing. It reuses the object array given 
+			// 'Original' is required for the parsing. It reuses the object array given
 			// from settings. If you were to create an object array, it creates
-			// a 901 length array because of the key identifiers. 
-			this.original = theme || null; 
+			// a 901 length array because of the key identifiers.
+			this.original = theme || null;
 			this.primary = {
 				hue_one: '#'+theme.primary['50'] || null,
 				hue_two: '#'+theme.primary['400'] || null,
@@ -39,62 +39,87 @@
 
 			palette.accent.warning = palette.accent.hue_one;
 
-			for(var i in palette) 
-				if( i !== 'original')
-				result[i] = assignHueColors( palette[i], palette.original[i] );
-				
+			for (var i in palette)
+				if (i !== 'original')
+					result[i] = assignHueColors(palette[i], palette.original[i]);
+
 			return result;
 		};
 
 		/**
 		*	Because mdThemingProvider accepts a large palette of colors,
-		*	but realistically we only want 3 colors for our palette 
+		*	but realistically we only want 3 colors for our palette
 		*	on the site's content and as part of the UI configuration
 		* 	for the user. This function parses and pushes these values
 		* 	to settings API.
 		*/
 		function assignHueColors(array, palette) {
 
+			var newPalette = angular.copy(palette);
 
-			for(var i in array) {
+			for (var i in array) {
 
-				var val = array[i];
+				if (!array[i])
+					return;
+
+				var hex = array[i], keys = [];
+
+				if (hex === 'light' || hex === 'dark') {
+					setHue('contrastDefaultColor', hex, palette);
+				} else if (hex.charAt(0) !== '#') {
+					hex = $mdColorUtil.rgbaToHex(hex);
+				}
+
+				// remove the octothorpe
+				hex = hex.substr(1);
 
 				switch (i) {
-					case 'hue_one': 
-						palette[ '50' ] = val.substr(1);
-						setHue(100, 300, val.substr(1), palette);
+					case 'hue_one':
+					  keys = ['50', '100', '200', '300'];
+						setHue(keys, hex, palette);
 						break;
 					case 'hue_two':
-						setHue(400, 600, val.substr(1), palette);
+						keys = ['400', '500', '600'];
+						setHue(keys, hex, palette);
 						break;
 					case 'hue_three':
-						setHue(700, 900, val.substr(1), palette);
+						keys = ['700', '800', '900'];
+						setHue(keys, hex, palette);
 						break;
 					case 'warning':
-						setHue(100, 700, val.substr(1), palette, true);
+						keys = ['A100', 'A200', 'A400', 'A700'];
+						setHue(keys, hex, palette);
 						break;
 					default:
-						palette['contrastDefaultColor'] = val;
 						break;
-				};
-			};
+				}
+			}
 
 			return palette;
-		};
+		}
 
-		/*	
+		/*
 		*	Sets the hues to fill the palette given by mdThemingProvider.
 		*
 		*/
-		function setHue(min, max, val, palette, prefix) {
-			for(var hue = min; hue <= max; hue = hue + 100) {
-				
-				if(prefix) {
-					hue = hue == 200 ? 400 : ( hue == 400 ? 700 : hue);
-					palette['A' + hue ] = val;
-				} 
-				else palette[ hue ] = val;
+		function setHue(key, hue, palette) {
+
+			var set = function(_key) {
+				if (palette[_key] !== hue) {
+					palette[_key] = hue;
+				}
+				else {
+					delete palette[_key];
+				}
+			};
+
+			if (typeof key === 'string')
+				set(key);
+			else if (angular.isArray(key)) {
+				for (var i in key) {
+					if (key[i])
+						set(key[i]);
+				}
 			}
 		}
 

@@ -4,7 +4,7 @@
     init-buttons="['create', 'edit', 'delete']"
     on-create="display.create()"
     on-edit="display.edit()"
-    on-delete="display.destroy()">  
+    on-delete="display.destroy()">
   </floating-button>
 
   <md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
@@ -39,13 +39,13 @@
         <md-progress-circular md-mode="indeterminate" ng-if="display.retrieving"></md-progress-circular>
 
         <div ng-if="!display.retrieving">
-          
+
           <md-list style="margin: 0" ng-repeat="vote in display.votes">
             <md-list-item style="margin: 0"  ui-sref-active="active" ui-sref="motion({id:vote.motion_id})">
                <span ng-switch="{{ vote.position }}">
-                  <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::themename}}/icons/thumb-up.svg"></md-icon>
-                  <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::themename}}/icons/thumb-down.svg"></md-icon>
-                  <md-icon ng-switch-when="0" md-svg-src="/themes/{{::themename}}/icons/thumbs-up-down.svg"></md-icon>
+                  <md-icon ng-switch-when="1" class="md-primary" md-svg-src="/themes/{{::theme.name}}/icons/thumb-up.svg"></md-icon>
+                  <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="/themes/{{::theme.name}}/icons/thumb-down.svg"></md-icon>
+                  <md-icon ng-switch-when="0" md-svg-src="/themes/{{::theme.name}}/icons/thumbs-up-down.svg"></md-icon>
                 </span>
               <p class="md-body-1" ui-sref="motion({id:vote.motion_id})">{{vote.motion.title}}</p>
             </md-list-item>
@@ -53,7 +53,7 @@
           </md-list>
 
           <p ng-show="!display.votes" class="md-body-1">This user has not voted on anything.</p>
-        
+
         </div>
 
 

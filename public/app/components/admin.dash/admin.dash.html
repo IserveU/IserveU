@@ -38,23 +38,33 @@
   </md-card-content>
 </md-card> -->
 
-<div id="dashboard" flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
-<!-- <profile-toolbar></profile-toolbar> -->
-  <md-content>
-  <md-card>
+<md-card id="dashboard" flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
   <md-card-content>
-  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tabs md-dynamic-height md-border-bottom>
 
-    <md-tab ng-disabled="true">
-      <md-tab-label><md-icon class="mdi mdi-view-dashboard material-icons"></md-icon></md-tab-label>
-    </md-tab>
+      <md-tab ng-disabled="true">
+        <md-tab-label><md-icon class="mdi mdi-view-dashboard material-icons"></md-icon></md-tab-label>
+      </md-tab>
+
+      <md-tab label="Content">
+        <md-tab-body>
+          <content-manager></content-manager>
+        </md-tab-body>
+      </md-tab>
+
+      <md-tab label="System">
+        <md-tab-body>
+          <system-manager></system-manager>
+        </md-tab-body>
+      </md-tab>
 
 
-    <md-tab label="Content">
-      <md-tab-body>
-        <content-manager></content-manager>
-      </md-tab-body>
-    </md-tab>
+      <md-tab label="Users">
+        <md-tab-body>
+          <user-manager></user-manager>
+        </md-tab-body>
+      </md-tab>
+
 
       <md-tab label="Pages">
         <md-tab-body>
@@ -74,16 +84,9 @@
         </md-tab-body>
       </md-tab>
 
-      <md-tab label="Users">
-        <md-tab-body>
-          <user-manager></user-manager>
-        <md-tab-body>
-      </md-tab>
 
 
-  </md-tabs>
+    </md-tabs>
   </md-card-content>
-  </md-card>
-  </md-content>
-</div>
+</md-card>
 

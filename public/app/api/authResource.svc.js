@@ -32,10 +32,8 @@
     };
 
     var rememberToken = function(rememberToken) {
-      return $http
-      .get('authenticate/' + rememberToken)
-      .success(function(result) {
-        return result;
+      return $http.get('authenticate/' + rememberToken).success(function(user) {
+        return user;
       }).error(function(error) {
         return error;
       });
@@ -58,7 +56,7 @@
     function sanitizeCredentials(credentials) {
       return {
         email: $sanitize(credentials.email),
-        password: $sanitize(credentials.password),
+        password: $sanitize(credentials.password)
       };
     }
 
@@ -67,7 +65,7 @@
       logout: logout,
       register: register,
       rememberToken: rememberToken,
-      resetPassword: resetPassword,
+      resetPassword: resetPassword
     };
   }
 })(window, window.angular);

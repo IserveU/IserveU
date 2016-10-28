@@ -24,7 +24,7 @@
       return $http({
         method: 'GET',
         url: '/api/community',
-        ignoreLoadingBar: true,
+        ignoreLoadingBar: true
       }).success(function(results) {
         index = results;
         return results;
@@ -46,7 +46,7 @@
       } else {
         var name;
         index.forEach(function(el) {
-          if (el.id == id) {
+          if (el.id === id) {
             name = el.name;
           }
         });
@@ -58,7 +58,7 @@
     return {
       getCommunities: getCommunities,
       retrieveNameById: retrieveNameById,
-      index: index,
+      index: index
     };
   }
 })(window, window.angular);

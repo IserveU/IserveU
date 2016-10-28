@@ -6,19 +6,19 @@
 angular
 	.module('iserveu')
 	.directive('userBar', [
-		'$translate', 
-		'$mdSidenav', 
-		'$mdMedia', 
+		'$translate',
+		'$mdSidenav',
+		'$mdMedia',
 		'$state',
-		'authResource', 
-		'loginService', 
-		'UserbarService', 
+		'authResource',
+		'loginService',
+		'UserbarService',
 		'pageService',
 		'motionIndex',
 	userBar]);
 
 	function userBar($translate, $mdSidenav, $mdMedia, $state, authResource, loginService, UserbarService, pageService, motionIndex){
-		
+
 	  	 /** @ngInject */
 		function UserbarController($scope) {
 
@@ -36,7 +36,7 @@ angular
 			}
 
 			this.logout = function() {
-				authResource.logout().then( loginService.clearCredentials(true) );				
+				authResource.logout().then( loginService.clearCredentials(true) );
 			}
 
 			this.switchMenuButton = function(){
@@ -46,7 +46,7 @@ angular
 			this.toggleSidebar = function(id) {
 				$mdSidenav(id).toggle().then( motionIndex._load() );
 			}
-		};
+		}
 
 		return {
 			controller: ['$scope', UserbarController],

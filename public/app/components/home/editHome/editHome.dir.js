@@ -4,17 +4,26 @@
 
 	angular
 		.module('iserveu')
-		.directive('editHome', ['$state', 'settings', 'ToastMessage', editHome]);
+		.directive('editHome', ['$state', '$stateParams', 'settings', 'pageService', 'ToastMessage', editHome]);
 
 	/** @ngInject */
-	function editHome($state, settings, ToastMessage) {
+	function editHome($state, $stateParams, settings, pageService, ToastMessage) {
 
 		function editHomeController($scope) {
 
+			$stateParams.id = 'home';
 			this.settings = settings.data;
 
 			this.save = function() {
+
 				settings.saveArray('home', this.settings.home);
+				for(var i in pageService.index) {
+					if(pageService.index[i].slug === 'home'){
+						return pageService.update('home', this.settings.home.text );
+					}
+				}
+				return pageService.create({title: 'Home', content: this.settings.home.introduction.text })
+
 			};
 
 			this.cancel = function() {
@@ -29,12 +38,10 @@
 
 			$scope.$watch('edit.settings.saving',
 				function redirect(newValue, oldValue) {
-					console.log(newValue);
-
-					if(newValue == false && oldValue == true){
+					if(newValue === false && oldValue === true){
 						$state.go('home', {}, {reload: true});
-					};
-				}, true);
+					}
+				}, true)
 		}
 
 		return {

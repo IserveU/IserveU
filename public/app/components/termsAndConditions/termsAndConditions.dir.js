@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -9,7 +9,7 @@
 	function termsAndConditions($rootScope, loginService) {
 
 		function controllerMethod($mdDialog, $scope) {
-        	
+
         	var self = this;  //global context for this
 
         	self.showContract = showContract;
@@ -27,12 +27,12 @@
 				      templateUrl: 'app/components/termsAndConditions/termsAndConditions.tpl.html',
 				      parent: angular.element(document.body),
 				      targetEvent: ev,
-				      clickOutsideToClose: false,
+				      clickOutsideToClose: false
 				    }).then(function(answer){
 				    	handleAnswer(answer, ev);
 				    });
 
-				} else if ( ev.target.nodeName == 'FORM' ) {
+				} else if ( ev.target.nodeName === 'FORM' ) {
 		    		loginService.createUser();
 				}
         	}
@@ -43,7 +43,7 @@
 		        	self.agreed = true;
     		 	}
 
-		    	if( answer === 'agree' && ev.target.nodeName == 'FORM') {
+		    	if( answer === 'agree' && ev.target.nodeName === 'FORM') {
 		    		loginService.createUser();
 		    		self.hasRead = true;
 		    	} else {
@@ -67,7 +67,7 @@
 			  $scope.settingsGlobal = $rootScope.settingsGlobal;
         	}
 
-  		}	
+  		}
 
 		return {
 		    controller: ['$mdDialog', '$scope', controllerMethod],

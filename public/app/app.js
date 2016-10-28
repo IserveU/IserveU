@@ -84,7 +84,7 @@
 
       $window.onbeforeunload = function(e) {
         var publicComputer = localStorage.getItem('public_computer');
-        if (JSON.parse(publicComputer) == true)
+        if (JSON.parse(publicComputer) === true)
           return localStorage.clear();
       };
     }]);
@@ -99,10 +99,11 @@
 
       var settings = response.data;
 
-      localStorage.setItem('settings', JSON.stringify(settings));
       iserveu.constant('SETTINGS_JSON', settings);
-      document.body.style.backgroundImage = ('url(' + (settings.background_image
-        || '/themes/default/photos/background.png') + ')');
+
+      document.body.style.backgroundImage = ('url(' +
+        (settings.background_image ||
+        '/themes/default/photos/background.png') + ')');
 
     }, function(errorResponse) {
       console.log('error');

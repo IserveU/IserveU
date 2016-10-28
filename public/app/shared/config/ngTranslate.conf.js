@@ -5,7 +5,7 @@
     .module('iserveu')
     .config(['$translateProvider', 'SETTINGS_JSON',
 
-  function($translateProvider, SETTINGS_JSON) {
+  function translateProvider($translateProvider, SETTINGS_JSON) {
 
     var j = SETTINGS_JSON.jargon;
 
