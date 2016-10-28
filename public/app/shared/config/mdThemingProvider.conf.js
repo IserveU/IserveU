@@ -1,9 +1,12 @@
 'use strict';
 (function(window, angular, undefined) {
 
-
   angular
     .module('iserveu')
+    .config(['$mdAriaProvider', function($mdAriaProvider) {
+      // Globally disables all ARIA warnings.
+      $mdAriaProvider.disableWarnings();
+    }])
     .config(['$mdThemingProvider', 'SETTINGS_JSON',
   function($mdThemingProvider, SETTINGS_JSON) {
 
@@ -13,8 +16,11 @@
 
     definePalettes();
 
-    function definePalettes() {
 
+
+
+
+    function definePalettes() {
       for(var i in palettes) {
         if(angular.isObject(theme[palettes[i]])) {
           $mdThemingProvider.definePalette(palettes[i], {
