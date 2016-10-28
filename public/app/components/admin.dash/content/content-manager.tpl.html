@@ -139,10 +139,10 @@
           <div layout="column" ng-cloak class="md-padding" ng-if="contentManager.showTheme">
 
             <div layout-align="center center" layout="row">
-              <md-button ng-click="contentManager.toggleMaterialPalette();">
+              <md-button ng-click="contentManager.togglePalette('material');">
                 Preset Palette
               </md-button>
-              <md-button ng-click="contentManager.toggleCustomPalette();">
+              <md-button ng-click="contentManager.togglePalette('custom');">
                 Customize your own
               </md-button>
             </div>
@@ -152,7 +152,7 @@
               <input type="text" ng-model="settingsGlobal.theme.name">
             </md-input-container>
 
-            <div class="content-manager_theme--material-palette" ng-controller="ThemeDemoCtrl" ng-if="contentManager.materialPalette">
+            <div class="content-manager_theme--material-palette" ng-controller="ThemeDemoCtrl" ng-if="contentManager.palettes.material">
               <!-- Theme Options -->
               <div layout="row" layout-wrap layout-align="center center">
                 <md-button ng-repeat="color in colors" flex-gt-md="15" flex="30"
@@ -167,10 +167,10 @@
                   <theme-preview primary="primary" accent="accent"></theme-preview>
                 </div>
               </div>
-              <spinner ng-click="contentManager.saveMaterialPalette(primary, accent)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleMaterialPalette();"></spinner>
+              <spinner ng-click="contentManager.saveMaterialPalette(primary, accent)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.togglePalette('material');"></spinner>
             </div>
 
-            <div class="content-manager_theme--custom-palette" ng-if="contentManager.customPalette">
+            <div class="content-manager_theme--custom-palette" ng-if="contentManager.palettes.custom">
               <div class="palette-warning">
                 <label>Warning Color</label>
                 <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.warning" open-on-input="true"></div>
@@ -210,7 +210,7 @@
                   </md-input-container>
                 </div>
               </div>
-              <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleCustomPalette();"></spinner>
+              <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.togglePalette('custom');"></spinner>
             </div>
 
           <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleTheme();">

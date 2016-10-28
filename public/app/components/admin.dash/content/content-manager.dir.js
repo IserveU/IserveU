@@ -19,6 +19,11 @@
 			this.materialPalette = false;
 			this.customPalette = false;
 
+			this.palettes = {
+				custom: false,
+				material: false
+			};
+
 			this.showSitename = false;
 			this.showSocialmedia = false;
 			this.showTerms = false;
@@ -46,6 +51,14 @@
 			this.toggleMaterialPalette = function() {
 				this.materialPalette = !this.materialPalette;
 				this.customPalette = false;
+			};
+
+			this.togglePalette = function(type) {
+				this.palettes[type] = !this.palettes[type];
+				if (type === 'custom') {
+					this.palettes.material = false;
+				} else
+					this.palettes.custom = false;
 			};
 
 			this.toggleCustomPalette = function() {
