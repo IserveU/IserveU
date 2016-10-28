@@ -21,8 +21,19 @@
 			this.showTerms = false;
 			this.showTheme = false;
 
+			this.saveSocialMedia = function() {
+
+				var socialMedia = {
+					address: $rootScope.settingsGlobal.site.address,
+					twitter: $rootScope.settingsGlobal.site.twitter,
+					facebook: $rootScope.settingsGlobal.site.facebook
+				};
+
+				this.service.saveTypeOf('site', socialMedia);
+			};
+
 			this.toggleSitename = function() {
-				this.toggleSitename = !this.toggleSitename;
+				this.showSitename = !this.showSitename;
 			};
 
 			this.toggleSocialmedia = function() {

@@ -1,41 +1,89 @@
+<md-content>
+  <md-card>
+    <md-card-content>
+
  <md-list ng-cloak flex style="padding-top: 0;">
       <md-subheader class="md-no-sticky">Content</md-subheader>
         <md-list-item class="md-3-line" flex layout-padding>
-          <div class="md-list-item-text">
+
+          <div class="md-list-item-text" ng-hide="contentManager.showSitename">
             <h3>Site Name</h3>
             <h4>{{ settingsGlobal.site.name }}</h4>  <!-- help -->
             <p>*Name of your site. Displays at the top of the browser name.</p>
           </div>
-          <md-button class="md-icon-button md-secondary">
+
+          <div ng-if="contentManager.showSitename">
+            <md-input-container>
+            <label>Site name</label>
+              <input type="text" ng-model="settingsGlobal.site.name">
+            </md-input-container>
+
+            <spinner ng-click="contentManager.service.saveTypeOf('site.name', settingsGlobal.site.name)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleSitename();"></spinner>
+          </div>
+
+          <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleSitename();">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
+
         </md-list-item>
+
+
+
+
         <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
           <div class="md-list-item-text">
             <h3>Social Media Links</h3>
-            <div>
+            <div class="md-list-item-text md-inset" ng-hide="contentManager.showSocialmedia">
               <ul style="list-style-type: none; padding: 0;">
-                <li><md-icon class="mdi mdi-twitter" style="margin: 0 5px 5px 0;"></md-icon>Twitter</li>
-                <li><md-icon class="mdi mdi-facebook" style="margin: 0 5px 5px 0;"></md-icon>Facebook</li>
                 <li><md-icon class="mdi mdi-home" style="margin: 0 5px 5px 0;"></md-icon>Homepage</li>
+                <li><p class="md-caption">{{ settingsGlobal.site.address}}</p></li>
+                <li><md-icon class="mdi mdi-twitter" style="margin: 0 5px 5px 0;"></md-icon>Twitter</li>
+                <li><p class="md-caption">{{ settingsGlobal.site.twitter}}</p></li>
+                <li><md-icon class="mdi mdi-facebook" style="margin: 0 5px 5px 0;"></md-icon>Facebook</li>
+                <li><p class="md-caption">{{ settingsGlobal.site.facebook}}</p></li>
               </ul>
             </div>
+            <div layout="column" ng-if="contentManager.showSocialmedia">
+              <md-input-container>
+                <label>Homepage</label>
+                <input type="url" ng-model="settingsGlobal.site.address" format-http>
+              </md-input-container>
+              <md-input-container>
+                <label>Twitter</label>
+                <input type="url" ng-model="settingsGlobal.site.twitter" format-http>
+              </md-input-container>
+              <md-input-container>
+                <label>Facebook</label>
+                <input type="url" ng-model="settingsGlobal.site.facebook" format-http>
+              </md-input-container>
+
+              <spinner ng-click="contentManager.saveSocialMedia();" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleSocialmedia();"></spinner>
+              <md-button ng-click="contentManager.toggleSocialmedia();">
+                Cancel
+              </md-button>
+            </div>
           </div>
-          <md-button class="md-icon-button md-secondary">
+          <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleSocialmedia();">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
 
+
+
         <md-divider></md-divider>
 
         <md-list-item class="md-3-line" flex layout-padding>
-          <div class="md-list-item-text">
+          <div class="md-list-item-text" ng-hide="contentManager.showTerms">
             <h3>Terms & Conditions</h3>
-            <h4>{{ settingsGlobal.site.terms | limitTo: 255 }} ...</h4>  <!-- ellispises off at a certain ## -->
+            <h4 ng-bind-html="settingsGlobal.site.terms | limitTo: 255">...</h4>  <!-- ellispises off at a certain ## -->
           </div>
-          <md-button class="md-icon-button md-secondary">
+          <div ng-if="contentManager.showTerms" layout="column" flex>
+            <textarea alloy-editor id="terms-conditions-editor" ng-model="settingsGlobal.site.terms"></textarea>
+            <spinner ng-click="contentManager.service.saveTypeOf('site.terms', settingsGlobal.site.terms);" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.toggleTerms();"></spinner>
+          </div>
+          <md-button class="md-icon-button md-secondary"  ng-click="contentManager.toggleTerms();">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
         </md-list-item>
@@ -106,18 +154,18 @@
         <div ng-if="showColorPalette" layout="column" layout-wrap layout-align="center center" flex>
           <div class="palette-warning">
             <label>Warning Color</label>
-            <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.warning" open-on-input="true"></div>
+            <div flex label="Warning Color" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.warning" open-on-input="true"></div>
           </div>
           <div class="palette-colour-picker" layout="row">
             <div class="palette-primary" flex="30">
               <label>Primary Color</label>
-              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_one" open-on-input="true"></div>
-              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_two" open-on-input="true"></div>
-              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.primary.hue_three" open-on-input="true"></div>
+              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_one" open-on-input="true"></div>
+              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_two" open-on-input="true"></div>
+              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.primary.hue_three" open-on-input="true"></div>
 
               <md-input-container flex>
                 <label>Contrast</label>
-                  <md-select ng-model="content.palette.primary.contrast" aria-label="Theme Primary Contrast">
+                  <md-select ng-model="contentManager.palette.primary.contrast" aria-label="Theme Primary Contrast">
                     <md-option value="light">Light</md-option>
                     <md-option value="dark">Dark</md-option>
                   </md-select>
@@ -128,13 +176,13 @@
 
             <div class="palette-accent" flex="30">
               <label>Accent Color</label>
-              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_one" open-on-input="true"></div>
-              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_two" open-on-input="true"></div>
-              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="content.palette.accent.hue_three" open-on-input="true"></div>
+              <div flex label="Hue 1" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_one" open-on-input="true"></div>
+              <div flex label="Hue 2" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_two" open-on-input="true"></div>
+              <div flex label="Hue 3" md-color-picker has-backdrop="true" click-outside-to-close="true" ng-model="contentManager.palette.accent.hue_three" open-on-input="true"></div>
 
               <md-input-container flex>
                 <label>Contrast</label>
-                  <md-select ng-model="content.palette.accent.contrast" aria-label="Theme Accent Contrast">
+                  <md-select ng-model="contentManager.palette.accent.contrast" aria-label="Theme Accent Contrast">
                     <md-option value="light">Light</md-option>
                     <md-option value="dark">Dark</md-option>
                   </md-select>
@@ -142,7 +190,7 @@
             </div>
           </div>
 
-        <spinner ng-click="content.service.saveTypeOf('palette', content.palette)" name="'Save'" on-hide="content.service.data.saving"></spinner>
+        <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving"></spinner>
         </div>
       </div>
     </md-list-item>
@@ -167,3 +215,6 @@
       <md-subheader class="md-no-sticky">Language</md-subheader>
       <md-list-item class="md-2-line" flex></md-list-item>
   </md-list>
+  </md-card-content>
+</md-card>
+</md-content>
