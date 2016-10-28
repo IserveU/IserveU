@@ -11,11 +11,10 @@
 			'$state',
 			'$http',
 			'user',
-			'refreshLocalStorage',
 			'ToastMessage',
 			editUserFactory]);
 
-	function editUserFactory($rootScope, $stateParams, $state, $http, user, refreshLocalStorage, ToastMessage) {
+	function editUserFactory($rootScope, $stateParams, $state, $http, user,  ToastMessage) {
 
 		var factory = {
 			/** Function to map form input variables to the variable. */
@@ -71,7 +70,9 @@
 				this.switch('promise');
 
 				if (factory.isSelf()) {
-					refreshLocalStorage.setItem('user', r);
+					console.log('test me please: ');
+					console.log(r);
+					$rootScope.authenticatedUser = r;
 				}
 
 				$state.reload();

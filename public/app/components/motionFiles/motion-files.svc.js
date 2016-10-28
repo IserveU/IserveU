@@ -1,5 +1,5 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
 		.factory('motionFilesFactory', ['$http', 'motionFileResource',
@@ -15,6 +15,7 @@
 
 				// TODO: put this into the service
 				for (var i in files)
+					if (files[i])
 					$http.post('api/motionfile/flowUpload', {
 						motion_id: id,
 						file_id: files[i]
@@ -31,7 +32,7 @@
 				});
 			},
 			validate: function(file) {
-	            if(!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[file.getExtension()]) {
+	            if({png:1,gif:1,jpg:1,jpeg:1,pdf:1}[file.getExtension()]) {
 	                this.viewFiles.push(file);
 	                this.upload(file);
 	            } else {

@@ -15,8 +15,8 @@
 
 			$scope.$watch(
 				'appearance.service.data.saving',
-				function redirect(newValue, oldValue){
-					if(newValue == false && oldValue == true)
+				function redirect(newValue, oldValue) {
+					if(!newValue && oldValue)
 						ToastMessage.reload(800);
 			});
 		}

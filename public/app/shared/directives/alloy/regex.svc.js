@@ -67,7 +67,7 @@
       var transformedHtml = transformedObj.html.replace(regex,
         function(nextHtml) {
           transformedObj.transformed = true;
-          if (typeof replaceWith == 'function') {
+          if (typeof replaceWith === 'function') {
             return replaceWith(nextHtml);
           } else {
             return replaceWith;

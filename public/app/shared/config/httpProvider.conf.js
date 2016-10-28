@@ -45,7 +45,7 @@
             } else if (config.status === 401 &&
               config.statusText === 'Unauthorized') {
               var loginService = $injector.get('loginService');
-              loginService.clearCredentials();
+              loginService.clearCredentials(true);
             } else if (config.status === 401) {
               toast.mustBeLoggedIn('to perform this action.');
             } else if (config.status === 404) {
@@ -68,7 +68,7 @@
     */
     function transformToFormData(data, getHeaders) {
       var _fd = new FormData();
-      angular.forEach(data, function(val, key) {
+      angular.forEach(data, function checkArrayFirstLevel(val, key) {
         if (val === null ||
            val === '' ||
            angular.isUndefined(val) ||
@@ -82,6 +82,7 @@
         } else if (key.charAt(0) !== '$' &&
           typeof val === 'string' ||
           typeof val === 'number' ||
+          typeof val === 'boolean' ||
           val instanceof File) {
 
           _fd.append(key, val);
@@ -89,7 +90,7 @@
       });
 
       function transformObjectToFormData(fd, obj, key) {
-        angular.forEach(obj, function(i, e) {
+        angular.forEach(obj, function checkDeepArray(i, e) {
           if (typeof i === 'object') {
             if (typeof e === 'string' && e.charAt(0) === '$')
               return;
@@ -102,6 +103,7 @@
             } else if (Array.isArray(e) ||
               typeof e === 'object' ||
               typeof e === 'number' ||
+              typeof e === 'boolean' ||
               (typeof e === 'string' && e.charAt(0) !== '$'))
               transformObjectToFormData(fd, i, t);
 

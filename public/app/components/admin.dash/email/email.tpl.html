@@ -1,24 +1,34 @@
  <md-content class="content-manager">
 
-
-
   <md-card>
     <md-card-content layout-padding>
-    <div class="title" ng-click="showWelcome = !showWelcome">
-      <h3 class="title-header">Welcome Email</h3>
-    </div>
-    <div ng-if="showWelcome" layout="column">
-  
-      <textarea alloy-editor id="welcome-email-editor" ng-model="email.settings.email.welcome.text"></textarea>
 
-      <div layout="row" layout-align="center center">
-        <spinner ng-click="email.service.saveTypeOf('email.welcome.text', email.settings.email.welcome.text);" name="'Save'" on-hide="email.settings.saving"></spinner>
-        <md-button ng-click="showWelcome = !showWelcome">Cancel</md-button>
-      </div>
-      
+
+    <md-list ng-cloak flex>
+      <md-list-item ng-click="noop();">
+        <p>Welcome Email</p>
+
+        <md-button class="md-icon-button md-secondary" ng-click="emailManager.toggleWelcome()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+
+        <md-switch class="md-secondary" ng-model="settingsGlobal.emails.welcome.on"></md-switch>
+      </md-list-item>
+    </md-list>
+
+    <div ng-if="emailManager.showWelcome" layout="column">
+      <textarea alloy-editor id="welcome-email-editor" ng-model="settingsGlobal.emails.welcome.text"></textarea>
     </div>
+
+
+    <div layout="row" layout-align="front center">
+      <spinner ng-click="emailManager.service.saveTypeOf('emails.welcome', settingsGlobal.emails.welcome);" name="'Save'" on-hide="emailManager.service.data.saving" on-loaded="emailManager.toggleWelcome();"></spinner>
+
+      <md-button ng-show="emailManager.showWelcome" ng-click="emailManager.toggleWelcome();">Cancel</md-button>
+    </div>
+
+
     </md-card-content>
   </md-card>
-  
 
 </md-content>

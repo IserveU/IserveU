@@ -201,7 +201,7 @@
       // POST
       createMotion: createMotion,
       deleteMotion: deleteMotion,
-      updateMotion: updateMotion,
+      updateMotion: updateMotion
     };
   }
 })(window, window.angular);

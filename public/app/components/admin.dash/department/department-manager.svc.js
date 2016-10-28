@@ -1,8 +1,8 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
-		.factory('departmentManagerService', 
+		.factory('departmentManagerService',
 			['$state', '$timeout', 'motionDepartments','motionDepartmentResource', 'ToastMessage',
 			departmentManagerService]);
 
@@ -16,9 +16,11 @@
 			success: {},
 			disabled: {},
 			edit: function(id) {
-				for(var i in this.disabled)
-	           		this.disabled[i] = true;
-	            this.disabled[id] = !this.disabled[id];
+				for (var i in this.disabled) {
+					if (this.disabled[i])
+	       		this.disabled[i] = true;
+				}
+        this.disabled[id] = !this.disabled[id];
 			},
 			save: function(name, id) {
 				this.success[id] = true;
@@ -26,15 +28,20 @@
             		id: id,
             		name: name
             	}).then(function(r) {
-            		factory.successHandler(r, id); 
+            		factory.successHandler(r, id);
             	}, function(e){
             		factory.errorHandler(e);
             	});
 			},
 			destroy: function(name, id) {
-				ToastMessage.destroyThis(name, 
+				ToastMessage.destroyThis(name,
 					function(){
 						department.deleteDepartment(id);
+						for (var i in factory.list.index) {
+							if (id === factory.list.index[i].id) {
+								delete factory.list.index[i];
+							}
+						}
 				});
 			},
 			create: function(name) {

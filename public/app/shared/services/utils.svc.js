@@ -65,7 +65,7 @@
     function parseStringToObject() {
       return function(json_string, obj, path) {
         var pars_str = JSON.parse(json_string);
-        return obj = path ? pars_str[path] : pars_str;
+        return obj === path ? pars_str[path] : pars_str;
       };
     }
 

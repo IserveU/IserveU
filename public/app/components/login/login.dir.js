@@ -24,11 +24,11 @@
 	    /** Global context for this */
 	    var self = this;
 
-			self.extendRegisterForm = extendRegisterForm,
-			self.forgotPassword = showForgotPassword,
-			self.passwordreminder = false,
-			self.registerform = false,
-			self.sendResetPassword = sendResetPassword,
+			self.extendRegisterForm = extendRegisterForm;
+			self.forgotPassword = showForgotPassword;
+			self.passwordreminder = false;
+			self.registerform = false;
+			self.sendResetPassword = sendResetPassword;
 			self.service = loginService;
 
 			function extendRegisterForm() {

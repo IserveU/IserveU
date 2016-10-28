@@ -15,7 +15,7 @@
                 caption: '*Name of your site. Displays at the top of the browser name.'
             },
             social: {
-                header: 'Social Media Links',
+                header: 'Social Media Links'
             }
         };
 

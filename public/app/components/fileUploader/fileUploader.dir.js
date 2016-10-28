@@ -92,7 +92,7 @@
 				multipleFiles: function($files, $flow) {
 					$flow.opts.target = $attrs.isuBindEndpoint;
 					$flow.opts.query  = {
-						title: $files[0].name,
+						title: $files[0].name
 					};
 				 	oIndex = angular.copy(index);
 				},

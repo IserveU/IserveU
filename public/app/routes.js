@@ -27,7 +27,7 @@
           templateUrl: 'app/components/admin.dash/admin.dash.html',
           data: {
             requireLogin: true,
-            requirePermissions: ['create-motion', 'delete-user']
+            requirePermissions: ['administrate-permission', 'create-motion', 'delete-user']
           }
         })
         .state('motion', {
@@ -121,7 +121,7 @@
           url: '/edit-user/:id',
           template: '<edit-user></edit-user>',
           data: {
-            requireLogin: true,
+            requireLogin: true
             // this won't work because of shared state with my profile
             // requirePermissions: ['administrate-user']
           },

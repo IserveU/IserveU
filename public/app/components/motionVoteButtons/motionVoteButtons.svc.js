@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	angular
@@ -21,7 +21,7 @@
 	    ******************************************************************/
 	    var availableButtonClasses = { active: 'raised' , disabled: 'disabled'};
 
-		var MotionVoteButtons = {		
+		var MotionVoteButtons = {
 			agree: {
 				ariaLabel: 'Vote button to agree',
 				type: 'agree',
@@ -36,7 +36,7 @@
 				selectedClass: '', // default
 				selectedIcon: 'thumb-up-outline', // default
 
-				selectedColour: 'md-primary',
+				selectedColour: 'md-primary'
 			},
 
 			abstain: {
@@ -53,14 +53,14 @@
 				selectedClass: '', // default
 				selectedIcon: 'thumbs-up-down-outline', // default
 
-				selectedColour: '',
+				selectedColour: ''
 			},
 
 			disagree: {
 				ariaLabel: 'Vote button to disagree',
 				type: 'disagree',
 				value: -1,
-				hidden: false, 
+				hidden: false,
 				disabled: false,
 				tooltip: '',
 
@@ -70,13 +70,13 @@
 				selectedClass: '', // default
 				selectedIcon: 'thumb-down-outline', // default
 
-				selectedColour: 'md-accent',
+				selectedColour: 'md-accent'
 			}
 		}
 
 		/****************************************************
-		*	
-		*	Private functions. 
+		*
+		*	Private functions.
 		*
 		****************************************************/
 		var item = $translate.instant('MOTION').toLowerCase();

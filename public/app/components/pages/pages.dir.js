@@ -40,7 +40,7 @@
 				ToastMessage.destroyThis("page", function() {
 					pageService.delete($stateParams.id);
 				});
-			};
+			}
 
 	/***=== Initialization ============================================ */
 			(function init() {

@@ -1,0 +1,13 @@
+<md-card>
+	<md-card-content layout-padding>
+	<form name="editHome" ng-submit="edit.save()">
+
+		<textarea alloy-editor flow-init id="homepage-editor" ng-model="edit.settings.home.introduction.text"></textarea>
+
+		<spinner layout layout-align="center end"
+				 form-name="editHome" name="'Save'" on-hide="edit.settings.saving"
+			 	 secondary-btn="{control: edit.cancel, name: 'Cancel'}">
+		</spinner>
+	</form>
+	</md-card-content>
+</md-card>

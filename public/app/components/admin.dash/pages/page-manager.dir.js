@@ -14,12 +14,15 @@
             this.pages = pageService;
             this.service = settings;
             this.settings = settings.getData();
+            this.showWidgetOptions = false;
+
+            this.toggleWidgetOptions = function() {
+                this.showWidgetOptions = !this.showWidgetOptions;
+            }
 
             this.createPage = function() {
-                var data = this.newPage;
-                console.log(data);
                 this.saving = true;
-                pageService.create(data).then(function(res){
+                pageService.create(this.newPage).then(function(res){
                     var body = res.data || res;
                     $state.go('edit-page', {id: body.slug});
                 });

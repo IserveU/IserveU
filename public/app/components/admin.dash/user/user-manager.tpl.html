@@ -1,44 +1,24 @@
 <div>
-
   <md-card>
     <md-card-content>
 
-      <table layout-padding style="width: 100%">
-        <thead layout-padding>
-          <tr>
+    <div layout="row" flex layout-padding layout-margin>
+      <p class="md-body-2" translate="{{'NAME'}}" flex="25"></p>
+      <p class="md-body-2" translate="{{'IDENTITY'}}" flex="25"></p>
+      <p class="md-body-2" translate="{{'ROLES'}}" flex="25"></p>
+      <p class="md-body-2" flex="25">Pending verification</p>
+    </div>
 
-            <td>
-                <p class="md-body-2" translate="{{'NAME'}}"></p>
-            </td>
-            <td>
-                <p class="md-body-2" translate="{{'IDENTITY'}}"></p>
-            </td>
-            <td>
-                <p class="md-body-2" style="padding-left:10px" translate="{{'ROLES'}}"></p>
-            </td>
-            <td>
-                <p class="md-body-2" style="padding-left:10px">ID submitted</p>
-            </td>
-          </tr>
-        </thead>
-        <tbody layout-padding>
-          <tr class="md-ink-ripple" ng-repeat="name in user.users" ui-sref="edit-user({id:name.id})" ui-sref-active="active" style="cursor: pointer;">
-            <td>
-              <p class="md-caption" style="margin:0px; margin-right: 5px">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
-            </td>
-            <td>
-               <p class="md-caption" style="margin:0px;">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
-            </td>
-            <td style="padding-left:10px;">
-              <span ng-repeat="role in ::name.user_role">
-               <p class="md-caption" style="margin:0px; padding-bottom:5px; display:inline-block">{{role}}{{$last ? '' : ','}}</p>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <md-list style="padding:0;">
+      <md-list-item class="md-2-line" ng-repeat="name in user.users" ui-sref="edit-user({id:name.id})" ui-sref-active="active">
+        <p class="md-body-1" flex="25">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
+        <p class="md-body-1" flex="25">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
+        <p class="md-body-1" flex="25">{{role}}{{$last ? '' : ','}}</p>
+        <p class="md-body-1" flex="25">False<!-- spacer --></p>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
 
     </md-card-content>
   </md-card>
-
 </div

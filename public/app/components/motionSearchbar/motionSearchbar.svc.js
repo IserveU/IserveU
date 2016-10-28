@@ -1,5 +1,5 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
 		.factory('motionSearchFactory', ['motionResource', 'motionIndex', 'motionDepartments', motionSearchFactory]);
@@ -30,10 +30,10 @@
 
 				filters: [
 				   {name: "Newest", query: {oldest: true}},
-				   {name: "Oldest", query: {newest: true}},
+				   {name: "Oldest", query: {newest: true}}
 				   // {name: "Closed", query: {is_expired:true}}
 				],
-				
+
 				filter: ''
 			},
 
@@ -74,7 +74,8 @@
 				return motion.getMotions(filter).then(function(r){
 					factory.newFilter = filter;
 					factory.searching = false;
-					return motionIndex.data = r.data;
+					motionIndex.data = r.data;
+					return r.data;
 				});
 			},
 
@@ -89,8 +90,9 @@
 				return motion.getMotions(this._newFilter).then(function(r){
 					factory._newFilter = factory._newFilter;
 					factory.searching = false;
-					return motionIndex._index = r.data;
-				});	
+					motionIndex._index = r.data
+					return r.data;
+				});
 			},
 
 			clearFilters: function() {

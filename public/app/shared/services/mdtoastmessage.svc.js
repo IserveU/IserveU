@@ -50,14 +50,14 @@
     function customFunction(message, affirmative, fn, warning) {
       var toast = action(message, affirmative, warning || true);
       return $mdToast.show(toast).then(function(r) {
-        if (r == 'ok') fn();
+        if (r === 'ok') fn();
       });
     }
 
     function destroyThis(type, fn) {
       var toast = action('Destroy this ' + type + '?', 'Yes', true);
       $mdToast.show(toast).then(function(r) {
-        if (r == 'ok') {
+        if (r === 'ok') {
           fn();
           simple(utils.capitalize(type) + ' destroyed', 1000);
         }
@@ -68,7 +68,7 @@
       fn();
       var toast = action('You deleted your ' + type, 'Undo', true);
       $mdToast.show(toast).then(function(r) {
-        if (r == 'ok') {
+        if (r === 'ok') {
           fn2();
           simple(utils.capitalize(type) + ' restored', 1000);
         }
@@ -95,7 +95,7 @@
     function cancelChanges(fn) {
       var toast = action('Discard changes?', 'Yes');
       $mdToast.show(toast).then(function(r) {
-        if (r == 'ok') fn();
+        if (r === 'ok') fn();
       });
     }
 
@@ -105,7 +105,7 @@
       var toast = action('Sorry, something went wrong.', 'Report', true);
 
       $mdToast.show(toast).then(function(r) {
-        if (r == 'ok') {
+        if (r === 'ok') {
           simple('Thanks for your assistance!', 800);
         }
       });
