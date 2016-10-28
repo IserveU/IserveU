@@ -320,7 +320,9 @@ trait PolishedTest
 
         $this->contentToPost = array_merge($defaultPost, $contentToPost);
 
-        $this->patch($this->route.$this->modelToUpdate->id, $this->removeNullValues($this->contentToPost))
+        $id = $this->modelToUpdate->slug ?: $this->modelToUpdate->id;
+
+        $this->patch($this->route.$id, $this->removeNullValues($this->contentToPost))
                 ->assertResponseStatus($expectedCode);
 
         $this->contentToPostcontentToPost['id'] = $this->modelToUpdate->id;
