@@ -3,7 +3,7 @@
 namespace App\Listeners\User\Created;
 
 use App\Events\User\UserCreated;
-use App\Notifications\Welcome;
+use App\Notifications\Authentication\Welcome;
 use Auth;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

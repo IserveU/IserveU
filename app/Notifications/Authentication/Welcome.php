@@ -1,25 +1,31 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Authentication;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Setting;
 
-class AccountLocked extends Notification
+class Welcome extends Notification
 {
     use Queueable;
 
-    protected $user;
+    public $createdByOther = false;
+
+    public $text;
+
+    public $footer;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        $this->text = Setting::get('emails.welcome.text');
+        $this->footer = Setting::get('emails.footer');
     }
 
     /**
@@ -43,10 +49,20 @@ class AccountLocked extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
-                    ->subject('Your Account Has Been Locked')
-                    ->line('Someone has attempted to login to your account with the wrong password more than '.Setting::get('security.login_attempts_lock')." times so we've locked it to discourage them.")
-                    ->line('Your account will be unlocked in '.$user->locked_until->diffForHumans());
+        $mailMessage = (new MailMessage());
+
+        if ($this->createdByOther) {
+            $mailMessage = $mailMessage->greeting('An account has been created for you');
+        } else {
+            $mailMessage = $mailMessage->greeting('Welcome,');
+        }
+
+        $lines = explode("\n", $this->text);
+        foreach ($lines as $line) {
+            $mailMessage = $mailMessage->line($line);
+        }
+
+        return $mailMessage;
     }
 
     /**

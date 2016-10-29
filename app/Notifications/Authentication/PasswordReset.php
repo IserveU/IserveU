@@ -1,23 +1,26 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Authentication;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class IdentityReverification extends Notification
+class PasswordReset extends Notification
 {
     use Queueable;
+
+    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -42,8 +45,10 @@ class IdentityReverification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-                    ->line('Due to you recent changes to your profile we now require you to reverify your details. Please login to the site and submit id to confirm this.')
-                    ->action('Login', url('/'));
+            ->subject('Trouble logging in?')
+            ->line('We recieved a request to reset your password. Just hit the button below')
+            ->action('Reset Password', url('/').'#/login/'.$this->user->remember_token)
+            ->line("If you didn't request this reset someone is trying to use your email address on the site. If this happens regularly it's a good idea to make sure your password is very secure");
     }
 
     /**

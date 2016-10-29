@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\AccountLocked;
-use App\Notifications\PasswordReset;
+use App\Notifications\Authentication\AccountLocked;
+use App\Notifications\Authentication\PasswordReset;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -30,13 +30,11 @@ class AuthenticateController extends ApiController
 
         if (!Hash::check($request->password, $user->password)) {
             $user->login_attempts = $user->login_attempts + 1;
-            if ($user->login_attempts > Setting::get('security.login_attempts_lock')) {
-                $user->locked_until = Carbon::now()->addHours(3);
-            }
-
             $user->save();
 
-            if ($user->login_attempts >= Setting::get('security.login_attempts_lock')) {
+            if ($user->login_attempts > Setting::get('authentication.login_attempts_lock')) {
+                $user->locked_until = Carbon::now()->addHours(3);
+
                 $user->notify(new AccountLocked($user));
             }
 

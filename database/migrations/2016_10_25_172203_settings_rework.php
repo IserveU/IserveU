@@ -20,7 +20,7 @@ class SettingsRework extends Migration
         Setting::renameSetting('abstain', 'voting.abstain');
         Setting::renameSetting('allow_closing', 'motion.allow_closing');
         Setting::renameSetting('themename', 'theme.name');
-
+        Setting::forget('security.verify_citizens');
 
         Setting::forget('email');
         Setting::forget('module');

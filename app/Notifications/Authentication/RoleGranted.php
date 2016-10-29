@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Authentication;
 
-use App\User;
+use App\Role;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PasswordReset extends Notification
+class RoleGranted extends Notification
 {
     use Queueable;
 
-    protected $user;
+    protected $role;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Role $role)
     {
-        $this->user = $user;
+        $this->role = $role;
     }
 
     /**
@@ -45,10 +45,10 @@ class PasswordReset extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Trouble logging in?')
-            ->line('We recieved a request to reset your password. Just hit the button below')
-            ->action('Reset Password', url('/').'#/login/'.$this->user->remember_token)
-            ->line("If you didn't request this reset someone is trying to use your email address on the site. If this happens regularly it's a good idea to make sure your password is very secure");
+                    ->subject('Account Approved & Upgraded')
+                    ->greeting('Your account has been upgraded')
+                    ->line('You now have the role of '.$this->role->name.'. You will need to login to the system again')
+                    ->action('Login', url('/'));
     }
 
     /**

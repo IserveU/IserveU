@@ -38,6 +38,7 @@ class PrepareAdminSummary implements ShouldQueue
 
         $admins = User::hasRoles(['administrator'])->get();
 
+
         foreach ($admins as $admin) {
             $admin->notify(new AdminSummary($newUsers));
         }

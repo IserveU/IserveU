@@ -25,12 +25,13 @@ class UpdateUserRequest extends Request
         'identity_verified'         => 'boolean',
         'remember_token'            => 'unique:users,remember_token',
         'postal_code'               => 'string|max:10',
+        'phone'                     => 'numeric|digits_between:8,15|unique:users,phone',
         'street_name'               => 'string',
         'street_number'             => 'integer',
         'unit_number'               => 'string',
         'address_verified_until'    => 'date|after:today|before:+2000 days',
         'agreement_accepted'        => 'boolean',
-        'preferences'               => 'json',
+        'value'                     => 'filled|between:1,256|regex:/^.{1,256}$/', //Any string/numbers up to 256
         'community_id'              => 'exists:communities,id',
     ];
 
@@ -73,6 +74,7 @@ class UpdateUserRequest extends Request
 
         $this->rules['email'] = $this->rules['email'].','.$user->id;
         $this->rules['remember_token'] = $this->rules['email'].','.$user->id;
+        $this->rules['phone'] = $this->rules['phone'].','.$user->id;
 
         return $this->rules;
     }

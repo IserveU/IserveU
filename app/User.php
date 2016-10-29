@@ -7,6 +7,7 @@ use App\Events\User\UserCreating;
 use App\Events\User\UserDeleted;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
+use App\Notifications\Authentication\RoleGranted;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
@@ -51,7 +52,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      *
      * @var array
      */
-    protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status'];
+    protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone'];
 
 
     protected $visible = [''];
@@ -116,7 +117,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      * @var array
      */
     protected $attributes = [
-        'status'    => 'private',
+        'status'        => 'private',
+        'preferences'   => '',
     ];
 
     /**
@@ -199,7 +201,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         //If self or show-other-private-user
         if (Auth::check() && (Auth::user()->id == $this->id || Auth::user()->hasRole('administrator'))) {
-            $this->addVisible(['id', 'email', 'slug', 'first_name', 'middle_name', 'last_name', 'postal_code', 'street_name', 'street_number', 'unit_number', 'community_id', 'status', 'ethnic_origin_id', 'date_of_birth', 'address_verified_until', 'agreement_accepted', 'identity_verified', 'preferences', 'login_attempts', 'locked_until', 'agreement_accepted_date', 'deleted_at', 'remember_token', 'created_at', 'updated_at', 'government_identification_id', 'avatar_id', 'api_token', 'permissions']);
+            $this->addVisible(['id', 'email', 'slug', 'first_name', 'middle_name', 'last_name', 'postal_code', 'street_name', 'street_number', 'unit_number', 'community_id', 'status', 'ethnic_origin_id', 'date_of_birth', 'address_verified_until', 'agreement_accepted', 'identity_verified', 'preferences', 'login_attempts', 'locked_until', 'agreement_accepted_date', 'deleted_at', 'remember_token', 'created_at', 'updated_at', 'government_identification_id', 'avatar_id', 'api_token', 'permissions', 'phone']);
         }
 
 
@@ -224,15 +226,15 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         $userRole = Role::where('name', '=', $name)->first();
 
-
         if ($userRole && !$this->roles->contains($userRole->id)) {
             $this->roles()->attach($userRole->id);
         }
 
-        // Default users are not assigned a role. Once any role is
-        // assigned (Admin, Representative, Citizen), it means their identity
-        // has been verified and you will update this field for 4 years in time.
-        $this->addressVerifiedUntil = Carbon::now()->addYears(4);
+        if ($this->getPreference('authentication.notify.user.onrolechange')) {
+            $this->notify(new RoleGranted($userRole));
+        }
+
+        $this->generateApiToken()->save();
     }
 
     public function removeRole($name)
@@ -244,6 +246,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         }
 
         $this->roles()->detach($userRole->id);
+    }
+
+    public function generateApiToken()
+    {
+        $this->api_token = str_random(99);
+
+        return $this;
     }
 
     /****************************************** Getters & Setters ************************************/
@@ -407,6 +416,44 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         $this->attributes['public'] = $value; //This was setting everyone to public
     }
 
+    /**
+     * Sets a preference in the preferences array.
+     *
+     * @param string         $key   Key in the dot notation
+     * @param String/Integer $value The value to set the key to be
+     * @param bool           $force If you wish to set a value
+     */
+    public function setPreference($key, $value, $force = false)
+    {
+        $preferences = $this->preferences;
+
+        if (!$force && !array_has($preferences, $key)) {
+            throw new \Exception('Preference key does not exist');
+        }
+
+        array_set($preferences, $key, $value);
+
+        $this->preferences = $preferences;
+    }
+
+    /**
+     * Gets a preference in the preferences array.
+     *
+     * @param string $key Key in the dot notation
+     *
+     * @return Value of the preference
+     */
+    public function getPreference($key)
+    {
+        $preferences = $this->preferences;
+
+        if (!array_has($preferences, $key)) {
+            throw new \Exception('Preference key does not exist');
+        }
+
+        return array_get($preferences, $key);
+    }
+
     /************************************* Casts & Accesors *****************************************/
 
     /**
@@ -513,6 +560,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $query->whereHas('roles', function ($query) use ($roles) {
             $query->whereIn('name', $roles);
         });
+    }
+
+    public function scopePreference($query, $key, $value)
+    {
+        $key = str_replace('.', '->', $key);
+
+        return $query->where('preferences->'.$key, $value);
     }
 
     /**********************************  Relationships *****************************************/
