@@ -161,7 +161,6 @@ class NewApiModel extends Model
         return static::where('slug', $id)->first();
     }
 
-
     /**
      * Takes the slug and finds the record.
      *
@@ -174,9 +173,9 @@ class NewApiModel extends Model
         return static::where('slug', $slug)->first();
     }
 
-
     /**
-     * File relationship
+     * File relationship.
+     *
      * @return Builder
      */
     public function files()
