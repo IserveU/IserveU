@@ -326,7 +326,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getTextAttribute()
     {
-
         return $this->content['text'];
     }
 

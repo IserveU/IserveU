@@ -38,7 +38,7 @@ class UpdateMotionApiTest extends MotionApi
     /** @test  ******************/
     public function update_motion_with_text()
     {
-        $this->updateFieldsGetSee(['text'], 200,'text',['text']);
+        $this->updateFieldsGetSee(['text'], 200, 'text', ['text']);
     }
 
     /** @test  ******************/
@@ -95,10 +95,9 @@ class UpdateMotionApiTest extends MotionApi
         ], 400);
 
         $this->updateContentGetSee([
-            'content'     => ["text"=>"Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat"],
+            'content'     => ['text' => "Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat"],
         ], 400);
     }
-
 
     /** @test  ******************/
     public function update_motion_with_invalid_department_fails()
