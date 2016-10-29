@@ -213,39 +213,46 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $this;
     }
 
-    /**************************************** Custom Methods **************************************** */
+    /**************************************** Role Enhancement **************************************** */
 
     /**
      * @param Adds the named role to a user
      */
-    public function addRole($name)
+    public function addRole($role)
     {
-        if ($this->hasRole($name)) {
-            return true;
-        }
+        $role = $this->resolveRole($role);
 
-        $userRole = Role::where('name', '=', $name)->first();
-
-        if ($userRole && !$this->roles->contains($userRole->id)) {
-            $this->roles()->attach($userRole->id);
+        if ($role && !$this->roles->contains($role->id)) {
+            $this->roles()->attach($role->id);
         }
 
         if ($this->getPreference('authentication.notify.user.onrolechange')) {
-            $this->notify(new RoleGranted($userRole));
+            $this->notify(new RoleGranted($role));
         }
 
         $this->generateApiToken()->save();
     }
 
-    public function removeRole($name)
+    public function removeRole($role)
     {
-        if (is_numeric($name)) {
-            $userRole = Role::where('id', '=', $id)->firstOrFail();
-        } else {
-            $userRole = Role::where('name', '=', $name)->firstOrFail();
+        $role = $this->resolveRole($role);
+
+        $this->roles()->detach($role->id);
+
+        $this->generateApiToken()->save();
+    }
+
+    public function resolveRole($role)
+    {
+        if ($role instanceof Role) {
+            return $role;
         }
 
-        $this->roles()->detach($userRole->id);
+        if (is_numeric($role)) {
+            return Role::find($role);
+        }
+
+        return Role::where('name', $role)->first();
     }
 
     public function generateApiToken()

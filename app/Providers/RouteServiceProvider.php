@@ -58,6 +58,9 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Department::findBySlugOrId($department);
         });
 
+        app('router')->bind('role', function ($role) {
+            return \App\Role::where('name', $role)->first();
+        });
 
         parent::boot();
     }

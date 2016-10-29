@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\User\UserRole\DestroyUserRoleRequest;
+use App\Http\Requests\User\UserRole\UpdateUserRoleRequest;
 use App\Role;
 use App\User;
-use Auth;
-use Request;
 
 class UserRoleController extends ApiController
 {
@@ -27,39 +27,11 @@ class UserRoleController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user)
+    public function update(UpdateUserRoleRequest $request, User $user, Role $role)
     {
-        if (!Auth::user()->can('administrate-permission')) {
-            abort(401, 'You can not edit user permissions');
-        }
-
-        $role_name = Request::get('role_name');
-
-        $user = User::find($user->id);
-        if (!$user) {
-            abort(403, "User with the id of ($user->id) not found");
-        }
-
-        if ($user->hasRole($role_name)) {
-            abort(403, "User already has the role ($role_name)");
-        }
-
-        $user->addRole($role_name);
+        $user->addRole($role);
 
         return $user;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        abort(200, 'incomplete');
     }
 
     /**
@@ -69,19 +41,9 @@ class UserRoleController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user, $role_id)
+    public function destroy(DestroyUserRoleRequest $request, User $user, Role $role)
     {
-        if (!Auth::user()->can('administrate-permission')) {
-            abort(401, 'You can not edit user permissions');
-        }
-
-        $role = Role::where('id', '=', $role_id)->firstOrFail();
-
-        if (!$user->hasRole($role->name)) {
-            abort(403, "User doesn't have the role id of ($role_id)");
-        }
-
-        $user->removeRole($role_id);
+        $user->removeRole($role);
 
         return $user;
     }

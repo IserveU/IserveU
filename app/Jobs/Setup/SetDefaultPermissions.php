@@ -39,7 +39,13 @@ class SetDefaultPermissions implements ShouldQueue
         $citizen = Role::updateOrCreate([
             'name'          => 'citizen',
             'display_name'  => 'Citizen',
-            'description'   => 'A verified citizen',
+            'description'   => 'A verified citizen. This is policed by the application as a person with a verified identiy and address',
+        ]);
+
+        $participant = Role::updateOrCreate([
+            'name'          => 'participant',
+            'display_name'  => 'Participant',
+            'description'   => 'A user who can vote and comment by default',
         ]);
 
         $representative = Role::updateOrCreate([
@@ -162,6 +168,12 @@ class SetDefaultPermissions implements ShouldQueue
                                           $createCommentVote->id,
                                           $createMotion->id,
                                           $createVote->id, ]);
+
+        $participant->perms()->sync([$createComment->id,
+                                          $createCommentVote->id,
+                                          $createMotion->id,
+                                          $createVote->id, ]);
+
 
         $admin->perms()->sync([$editUser->id,
                                         $showUser->id,
