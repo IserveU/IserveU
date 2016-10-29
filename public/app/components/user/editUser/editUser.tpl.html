@@ -123,7 +123,7 @@
         </md-button>
       </md-list-item>
 
-      <md-list-item class="md-2-line" ng-click="noop();">
+      <md-list-item class="md-2-line" ng-click="noop();" ng-if="settingsGlobal.security.verify_citizens">
         <md-icon class="mdi mdi-home"></md-icon>
         <div class="md-list-item-text">
           <h3>Verify user</h3>

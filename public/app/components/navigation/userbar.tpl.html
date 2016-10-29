@@ -56,7 +56,7 @@
                     </md-button>
                 </md-menu-item>
 
-                <md-menu-item class="menu__button-create-motion" has-permission="create-motion" ui-sref="create-motion">
+                <md-menu-item class="menu__button-create-motion" has-permission="create-motion" ng-if="settingsGlobal.motion.on" ui-sref="create-motion">
                     <md-button aria-label="go to create-motion form">
                         <div layout="row">
                             <p flex>Submit a {{'MOTION' | translate}}</p>
@@ -65,7 +65,7 @@
                     </md-button>
                 </md-menu-item>
 
-                <md-menu-item class="menu__button-my-motions" has-permission="create-motion" ui-sref="my-motions">
+                <md-menu-item class="menu__button-my-motions" has-permission="create-motion" ng-if="settingsGlobal.motion.on" ui-sref="my-motions">
                     <md-button aria-label="go to create-motion form">
                         <div layout="row">
                             <p flex>My {{'MOTIONS' | translate}}</p>

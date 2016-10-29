@@ -24,31 +24,27 @@
 
               // how to do this properly
               $rootScope.theme = SETTINGS_JSON.theme;
-              $rootScope.theme.name = SETTINGS_JSON.theme.name;
               $rootScope.theme.primary = 'primary';
               $rootScope.theme.accent = 'accent';
             },
 
-            /**
-            * Global file drop uploader to textAngular.
-            *
-            */
-            dropHandler: function(file, insertAction) {
-              var fileService = $injector.get('fileService');
-              var reader = new FileReader();
-              if (file.type.substring(0, 5) === 'image') {
-                reader.onload = function() {
-                  if (reader.result !== '')
-                    fileService.upload(file).then(function(r) {
-                      insertAction('insertImage',
-                        '/uploads/' + r.data.filename, true);
-                    }, function(e) { console.log(e); });
-                };
 
-                reader.readAsDataURL(file);
+            /**
+             * Checks that the state is not a part of the motion module
+             * and that the settings has it enabled. If the site has
+             * the motion core disabled, it should not be able to
+             * access this state.
+             */
+            checkMotion: function(ev, moduleMotion) {
+
+              if (!moduleMotion) {
                 return true;
               }
-              return false;
+
+              if (!SETTINGS_JSON.motion.on && moduleMotion) {
+                ev.preventDefault();
+              }
+
             },
 
             /**

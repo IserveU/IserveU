@@ -18,7 +18,8 @@
 
             <p class="md-body-1 ellipsis">{{ ::motion.title }}</p>
 
-            <quick-vote ng-if="userIsLoggedIn"></quick-vote>
+            <quick-vote ng-if="userIsLoggedIn && settingsGlobal.voting.on"></quick-vote>
+
           </md-list-item>
 
           <md-list-item has-permission="create-motion" layout="row" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">

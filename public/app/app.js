@@ -62,12 +62,11 @@
             // pageService.destroy($stateParams.id);
             $stateParams.id = null;
             $state.go(toState.name || 'home');
-          }, function() {
-          });
+          }, function() {});
         } else {
           $globalProvider.checkUser();
-          $globalProvider.checkPermissions(event,
-            toState.data.requirePermissions);
+          $globalProvider.checkMotion(event, toState.data.moduleMotion);
+          $globalProvider.checkPermissions(event, toState.data.requirePermissions);
           $globalProvider.setState(toState);
         }
       });
