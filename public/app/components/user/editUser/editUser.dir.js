@@ -27,6 +27,7 @@
 			}
 
 			function saveField(ev, item) {
+				console.log(item);
 				item.saving = true;
 
 				var data = editUserFormService.delegateProfileData(item.label.toLowerCase(), $scope.profile);
@@ -46,6 +47,7 @@
 			}
 
 			function setUserProfile() {
+				console.log($scope.profile);
 				editUserFormService.setUserProfileFields($scope.profile);
 			}
 

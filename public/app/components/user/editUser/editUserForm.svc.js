@@ -86,10 +86,50 @@
       }
     ];
 
-    // var rolesAndPermissions = [
+    var rolesAndPermissions = [
+      {
+        label:  'Role',
+        icon:   'mdi-odnoklassniki',
+        data:   'Role',
+        description: 'Role description',
+        edit:   false,
+        saving: false,
+        form:   'editRole'
+      }
+    ];
 
-    // ];
+    var verifyUser = {
+        label:  'Verify',
+        icon:   'mdi-account-key',
+        data:   'User is verified to vote and post comments.',
+        edit:   false,
+        saving: false,
+        form:   'editVerify'
+    };
 
+    var roleList = [
+      {
+        id: 1,
+        display: 'Full Administrator',
+        name: 'administrator',
+        description: 'User is able to perform all database functions',
+        permissionLength: 16
+      },
+      {
+        id: 2,
+        display: 'Citizen',
+        name: 'citizen',
+        description: 'A verified citizen',
+        permissionLength: 4
+      },
+      {
+        id: 3,
+        display: 'Representative',
+        name: 'representative',
+        description: 'A representative who by default is deffered votes',
+        permissionLength: 7
+      }
+    ];
 
     function delegateProfileData(label, user) {
       var data;
@@ -127,6 +167,9 @@
         case 'password':
           data = { password: user.password };
           break;
+        case 'verify':
+          data = { identity_verified: user.identity_verified };
+          break;
       }
 
       return data;
@@ -155,6 +198,7 @@
             break;
         }
       });
+
       contactInformation.forEach(function(el, index) {
         switch (el.label) {
           case 'Email':
@@ -188,12 +232,25 @@
             break;
         }
       });
+
+      for (var i in roleList) {
+        if (roleList[i].permissionLength === user.permissions.length) {
+          rolesAndPermissions.data = roleList[i].display;
+          rolesAndPermissions.description = roleList[i].description;
+        }
+      }
+
+      verifyUser.data = user.identity_verified;
+
     }
 
     return {
       personalInformation: personalInformation,
       contactInformation: contactInformation,
       securitySettings: securitySettings,
+      rolesAndPermissions: rolesAndPermissions,
+      verifyUser: verifyUser,
+      roleList: roleList,
       delegateProfileData: delegateProfileData,
       setUserProfileFields: setUserProfileFields
     };
