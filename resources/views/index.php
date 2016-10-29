@@ -2,12 +2,12 @@
 
 <html>
     <head>
-        <title><?=Setting::get('site.name', 'IserveU')?></title>
+        <title><?=Setting::get('site.name')?></title>
         <meta name="viewport" content="initial-scale=1" />
 
         <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
         <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
-        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('favicon', 'default')?>">
+        <link rel="icon shortcut" type="image/png" href="<?=Setting::get('theme.symbol')?>">
 
         <!-- Alloy Editor Dependencies -->
         <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>

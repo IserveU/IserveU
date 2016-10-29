@@ -23,7 +23,6 @@
     "satellizer": "latest",
     "svg-morpheus": "latest",
     "textAngular": "1.4.2",
-    "themes": "https://github.com/IserveU/themes.git",
     "md-color-picker": "*",
     "isu-form-sections": "*",
     "angular-alloyeditor": "^0.0.4",

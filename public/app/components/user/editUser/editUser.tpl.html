@@ -1,7 +1,7 @@
 <div flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
 <!-- <profile-toolbar></profile-toolbar> -->
   <md-card>
-    <md-card-content ng-hide="roles.showEdit">
+    <md-card-content>
 
 
     <md-list ng-cloak style="padding: 0" flex>
@@ -92,12 +92,46 @@
 
 <!-- START SECTION DIVIDER -->
       <md-divider></md-divider>
-      <md-subheader class="md-no-sticky" has-permission="administrate-permission">Roles & Permissions</md-subheader>
+      <span has-permission="administrate-permission">
+      <md-subheader class="md-no-sticky">Roles & Permissions</md-subheader>
 <!-- END SECTION DIVIDER -->
-<!--       TODO:
-      <md-list-item ng-repeat="item in form.rolesAndPermissions" class="md-2-line">
-      </md-list-item> -->
 
+      <md-list-item class="md-2-line">
+        <md-icon class="mdi mdi-home"></md-icon>
+        <div class="md-list-item-text" ng-hide="form.rolesAndPermissions.edit">
+          <h3>User role</h3>
+          <p>{{form.rolesAndPermissions.data}}</p>
+          <p class="md-caption">{{form.rolesAndPermissions.description}}</p>
+        </div>
+
+        <div class="md-list-item-text" layout="column" ng-show="form.rolesAndPermissions.edit">
+          <div ng-repeat="roles in form.roleList">
+            <md-checkbox ng-model="form.rolesAndPermissions.data">{{ roles.display }}</md-checkbox>
+            <p class="md-caption">{{ roles.description }}</p>
+          </div>
+          <div layout="row">
+            <md-button class="md-secondary" ng-show="form.rolesAndPermissions.edit" ng-disabled="form.rolesAndPermissions.form.$invalid" type="submit" ng-click="saveField($event, form.rolesAndPermissions)">
+              <span ng-hide="form.rolesAndPermissions.saving">Save</span>
+              <md-icon md-svg-src="loading" ng-show="form.rolesAndPermissions.saving"></md-icon>
+            </md-button>
+            <md-button class="md-secondary" ng-show="form.rolesAndPermissions.edit" ng-click="form.rolesAndPermissions.edit = !form.rolesAndPermissions.edit">Cancel</md-button>
+          </div>
+        </div>
+
+         <md-button class="md-icon-button md-secondary" name="{{ item.label | slugify }}" ng-click="editField($event); form.rolesAndPermissions.edit = !form.rolesAndPermissions.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+      </md-list-item>
+
+      <md-list-item class="md-2-line" ng-click="noop();">
+        <md-icon class="mdi mdi-home"></md-icon>
+        <div class="md-list-item-text">
+          <h3>Verify user</h3>
+          <p>Verified to vote and post comments.</p>
+        </div>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="form.verifyUser.data" ng-click="saveField($event, form.verifyUser)"></md-switch>
+      </md-list-item>
+      </span>
     </md-list>
     </md-card-content>
   </md-card>

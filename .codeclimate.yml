@@ -12,6 +12,9 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    checks:
+      CleanCode/StaticAccess:
+        enabled: false
 ratings:
   paths:
   - "**.inc"
@@ -28,4 +31,4 @@ exclude_paths:
 - bower/
 - bootstrap/
 - node_modules/
-
+- database/migrations/

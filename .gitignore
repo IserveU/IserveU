@@ -5,6 +5,7 @@
 /public/themes/*
 /public/build/*
 /public/icons/*
+/public/symbols/*
 /public/fonts/*
 /bower/*
 /tests/build/*

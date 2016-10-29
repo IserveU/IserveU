@@ -161,6 +161,23 @@ class NewApiModel extends Model
         return static::where('slug', $id)->first();
     }
 
+    /**
+     * Takes the slug and finds the record.
+     *
+     * @param int||string $id
+     *
+     * @return Model
+     */
+    public static function findBySlug($slug)
+    {
+        return static::where('slug', $slug)->first();
+    }
+
+    /**
+     * File relationship.
+     *
+     * @return Builder
+     */
     public function files()
     {
         return $this->morphMany('App\File', 'fileable');

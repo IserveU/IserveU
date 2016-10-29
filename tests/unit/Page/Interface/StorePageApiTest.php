@@ -21,9 +21,9 @@ class StorePageApiTest extends PageApi
     }
 
     /** @test  ******************/
-    public function store_page_with_content()
+    public function store_page_with_text()
     {
-        $this->storeFieldsGetSee(['title', 'content'], 200);
+        $this->storeFieldsGetSee(['title', 'text'], 200, null, ['text']);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

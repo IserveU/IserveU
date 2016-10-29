@@ -29,35 +29,26 @@ class ShowPageApiTest extends PageApi
                 'id',
                 'title',
                 'slug',
-                'content',
+                'text',
                 'created_at',
                 'updated_at',
             ])
-            ->dontSeeJson([
-                'user',
+            ->dontSeeInResponse([
+                'content',
             ]);
     }
 
+    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
+
     /** @test */
-    public function show_page_by_id()
+    public function show_page_by_id_fails()
     {
         $this->signInAsRole('administrator');
 
         $page = factory(App\Page::class)->create();
 
 
-        $this->visit('/api/page/'.$page->id)
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
-                'id',
-                'title',
-                'slug',
-                'content',
-                'created_at',
-                'updated_at',
-            ])
-            ->dontSeeJson([
-                'user',
-            ]);
+        $this->get('/api/page/'.$page->id)
+            ->assertResponseStatus(404);
     }
 }

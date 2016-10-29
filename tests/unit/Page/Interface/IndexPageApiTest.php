@@ -30,7 +30,7 @@ class IndexPageApiTest extends PageApi
                     'id',
                     'title',
                     'slug',
-                    'content',
+                    'text',
                     'created_at',
                     'updated_at',
                 ],

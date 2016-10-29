@@ -34,8 +34,9 @@ class StoreUpdatePageRequest extends Request
     {
         return [
             'title'             => 'filled|string',
-            'content'           => 'string|filled',
+            'text'              => 'string|filled',
             'slug'              => 'reject',
+            'content'           => 'reject',
         ];
     }
 }

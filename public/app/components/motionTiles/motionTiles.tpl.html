@@ -1,7 +1,7 @@
 <md-grid-list md-cols="1" md-cols-sm="3" md-cols-xs="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding flex ng-cloak>
 
     <md-grid-tile class="md-whiteframe-z1">
-	    <md-icon md-svg-icon="/themes/{{::themename}}/department_icons/{{ motion.department.name | slugify }}.svg"></md-icon>
+	    <md-icon md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
 	    <md-tooltip md-direction="{{::direction}}">{{ motion.department.name }}</md-tooltip>
     </md-grid-tile>
 
