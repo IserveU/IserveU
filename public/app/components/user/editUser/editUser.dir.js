@@ -5,18 +5,17 @@
 	angular
 		.module('iserveu')
 		.directive('editUser',
-			['$stateParams',
-			 'communityResource',
+			['communityResource',
 			 'editUserFormService',
-			 'editUserFactory',
 			 'userResource',
-			 'userToolbarService',
-			 'roleFactory',
+			 'userRoleResource',
+			 'userRoleFactory',
+			 'Authorizer',
 			 'utils',
 		editUser]);
 
 	/** @ngInject */
-	function editUser($stateParams, communityResource, editUserFormService, editUserFactory, userResource, userToolbarService, roleFactory, utils) {
+	function editUser(communityResource, editUserFormService, userResource, userRoleResource, userRoleFactory, Authorizer, utils) {
 
 		function editUserController($scope) {
 
@@ -26,14 +25,35 @@
 				});
 			}
 
+			function fetchUserRoles() {
+
+				if (!Authorizer.canAccess('administrate-permission')) {
+					return false;
+				}
+
+				var slug = $scope.profile.slug;
+				$scope.profile.roles = [];
+
+				userRoleResource.getUserRole(slug).then(transformRoles, function(error) {
+					throw new Error('Unable to get this user\'s roles.');
+				});
+
+				function transformRoles(results) {
+					$scope.roles = results.data || results;
+					for (var i in $scope.roles)
+						if ($scope.roles[i].id)
+							$scope.profile.roles.push($scope.roles[i].name);
+				}
+			}
+
 			function saveField(ev, item) {
-				console.log(item);
 				item.saving = true;
 
 				var data = editUserFormService.delegateProfileData(item.label.toLowerCase(), $scope.profile);
 				var id   = $scope.profile.id;
+				var slug = $scope.profile.slug;
 
-				userResource.updateUser(id, data).then(function(results) {
+				userResource.updateUser(slug, data).then(function(results) {
 					setUserProfile();
 					toggleItem(item);
 				}, function(error) {
@@ -47,23 +67,22 @@
 			}
 
 			function setUserProfile() {
-				console.log($scope.profile);
 				editUserFormService.setUserProfileFields($scope.profile);
 			}
 
 			(function init() {
 				fetchCommunities();
+				fetchUserRoles();
 				setUserProfile();
-				// not sure what this is doing
-				// userToolbarService.state = '';
 			})();
 
 			(function exposeScopeMethods() {
 				$scope.communities = {};
-				$scope.edit        = editUserFactory;
-				$scope.roles       = roleFactory;
+				$scope.roles       = {};
 				$scope.form        = editUserFormService;
+				$scope.roleFactory = userRoleFactory;
 				$scope.saveField   = saveField;
+				$scope.fetchUserRoles = fetchUserRoles;
 			})();
 		}
 

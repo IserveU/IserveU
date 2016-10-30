@@ -10,10 +10,10 @@
     </div>
 
     <md-list style="padding:0;">
-      <md-list-item class="md-2-line" ng-repeat="name in user.users" ui-sref="edit-user({id:name.id})" ui-sref-active="active">
+      <md-list-item class="md-2-line" ng-repeat="name in user.users" ui-sref="edit-user({id:name.id})" ui-sref-active="active" ng-init="user.getUserRole(name)">
         <p class="md-body-1" flex="25">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
         <p class="md-body-1" flex="25">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
-        <p class="md-body-1" flex="25">{{role}}{{$last ? '' : ','}}</p>
+        <p class="md-body-1" flex="25">{{ name.roles }}</p>
         <p class="md-body-1" flex="25">False<!-- spacer --></p>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>

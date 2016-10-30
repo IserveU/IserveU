@@ -38,7 +38,7 @@
 					</header>
 
 					<div flex ng-repeat="file in motion.motionFiles" layout-padding>
-						<a ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" ng-bind="(file.title ? file.title : file.slug)" donwload></a>
+						<a ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" ng-bind="(file.title ? file.title : file.slug)" download></a>
 					</div>
 				</section>
 
@@ -53,8 +53,11 @@
 	</md-card>
 </div>
 
-	<motion-votes class="motionVotes" ng-show="motion.motionVotes"></motion-votes>
-	<user-comment id="comment"></user-comment>
-	<comment-list id="display-comments"></comment-list>
+	<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on"></motion-votes>
+
+	<span ng-if="settingsGlobal.comment.on">
+		<user-comment id="comment"></user-comment>
+		<comment-list id="display-comments"></comment-list>
+	</span>
 
 </section>

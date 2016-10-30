@@ -4,10 +4,9 @@
 
 	angular
 		.module('iserveu')
-		.directive('userManager', ['user', userManager]);
-		// TODO: refactor the CSS of the template.
-	/** @ngInject */
-	function userManager(user) {
+		.directive('userManager', ['userResource', 'userRoleResource', userManager]);
+
+	function userManager(userResource, userRoleResource) {
 
 		function userController() {
 
@@ -15,7 +14,18 @@
 
 			self.users = {};
 
-			user.getIndex().then(function(r) {
+			self.getUserRole = function(user) {
+				userRoleResource.getUserRole(user.slug).then(function(results) {
+					var roles = results.data || results;
+					user.roles = '';
+					if (roles.length > 0)
+						for (var i in roles)
+							if(roles[i])
+								user.roles += roles[i].display_name+' ';
+				});
+			};
+
+			userResource.getIndex().then(function(r) {
 				self.users = r.data;
 			}, function(e) { console.log(e); });
 

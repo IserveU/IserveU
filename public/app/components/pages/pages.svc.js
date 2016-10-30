@@ -13,7 +13,7 @@
 		var Page = {
 
 			title: '',
-			content: '',
+			text: '',
 			slug: '',
 			index: {},
 			pageLoading: true,
@@ -23,12 +23,13 @@
 
 				$http.get('/api/page/'+slug).then(function(r){
 
+					console.log(r);
 					var body = r.data || r;
 
 					if(body){
 						Page.id = body.id;
 						Page.title = body.title;
-						Page.content = body.content;
+						Page.text = body.text;
 						Page.slug = body.slug;
 						$stateParams.slug = body.slug;
 					}
@@ -37,8 +38,9 @@
 				});
 			},
 			getIndex: function() {
-				$http.get('/api/page').then(function(r){
+				return $http.get('/api/page').then(function(r){
 					Page.index = r.data;
+					return r;
 				});
 			},
 			create: function(data) {

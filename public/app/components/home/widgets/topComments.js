@@ -1,5 +1,5 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
 		.directive('topComments', ['homeResource', topComments]);
@@ -7,7 +7,7 @@
 	function topComments(homeResource) {
 
 		function topCommentsController() {
-			
+
 			var self = this;
 
 			self.loading = true;

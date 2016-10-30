@@ -22,14 +22,14 @@
 				pageService.processing = true;
 				pageService.update($stateParams.id, {
 					'title': this.pageService.title,
-					'content': this.pageService.content
+					'text': this.pageService.text
 				});
 			};
 
 			this.cancel = function() {
-	            ToastMessage.cancelChanges(function(){
-	            	$state.go('pages', {id: $stateParams.id});
-	            });
+        ToastMessage.cancelChanges(function(){
+        	$state.go('pages', {id: $stateParams.id});
+        });
 			};
 
 			pageService.initLoad($stateParams.id);

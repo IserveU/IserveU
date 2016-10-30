@@ -2,7 +2,7 @@
 
   <floating-button has-permission="administrate-motion"
     init-buttons="['edit']"
-    on-edit="homePage.edit()">
+    on-edit="homePage.edit(home)">
   </floating-button>
 
   <div flex layout-gt-md="row" layout="column">
@@ -10,15 +10,15 @@
     <div flex="100"  flex-gt-md="50" flex-order="0">
       <home-introduction></home-introduction>
       <span ng-if="userIsLoggedIn && authenticatedUser" flex>
-        <!-- <my-comments></my-comments> -->
-        <!-- <my-votes></my-votes> -->
+        <my-comments ng-if="settingsGlobal.comment.on"></my-comments>
+        <my-votes ng-if="settingsGlobal.voting.on"></my-votes>
       </span>
     </div>
 
 
     <div flex="1--" flex-gt-md="50" flex-order="1">
       <top-motions></top-motions>
-      <top-comments></top-comments>
+      <top-comments ng-if="settingsGlobal.comment.on"></top-comments>
     </div>
 
   </div>

@@ -37,7 +37,7 @@
       */
       saveArray: function(name, value) {
 
-        if (angular.isUndefined(value) || value === null 
+        if (angular.isUndefined(value) || value === null
           || Object.keys(value).length === 0)
           return 0;
 
@@ -51,6 +51,23 @@
         }, this);
 
       },
+
+
+      /**
+      * save a single settings entry.
+      */
+      saveSingle: function(name, value) {
+          if (angular.isUndefined(value) || value === null
+            || Object.keys(value).length === 0)
+            return 0;
+          this.data.saving = true;
+
+          this.save({
+            'name': name,
+            'value': value
+          })
+      },
+
       /**
       * Organizes the data array into names that correspond
       * to the key value of Laravel's Settings library.
@@ -65,8 +82,10 @@
           this.saveArray('theme.colors.primary', palette.primary);
           this.saveArray('theme.colors.accent', palette.accent);
         }
-        else {
+        else if (angular.isArray(data) || angular.isObject(data)) {
           this.saveArray(type, data);
+        } else {
+          this.saveSingle(type, data);
         }
       }
     };

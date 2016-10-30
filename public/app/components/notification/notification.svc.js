@@ -2,9 +2,9 @@
 
 	angular
 		.module('iserveu')
-		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'user', 'incompleteProfileService', notificationService]);
+		.service('notificationService', ['$rootScope', '$state', 'Authorizer', 'userResource', 'incompleteProfileService', notificationService]);
 
-	function notificationService($rootScope, $state, Authorizer, user, incompleteProfileService) {
+	function notificationService($rootScope, $state, Authorizer, userResource, incompleteProfileService) {
 
 		// global context for 'this'
 		var self = this;
@@ -69,7 +69,7 @@
 				self.primaryButton.text = 'Got it!';
 				self.primaryButton.action = function() {
 					removeNotification();
-					user.updateUser({
+					userResource.updateUser({
 						id: thisUser.id,
 						preferences: ['softLaunch']
 					});

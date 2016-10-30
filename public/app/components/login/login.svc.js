@@ -30,6 +30,7 @@
 				first_name: '',
 				last_name: '',
 			  email: '',
+			  date_of_birth: '',
 			  community_id: '',
 				password: '',
 				agreement_accepted: true
@@ -81,6 +82,10 @@
 		function register() {
 
 			Login.creating = true;
+
+			if (Login.newUser.date_of_birth.length > 1) {
+				Login.newUser.date_of_birth = utils.date.stringify(Login.newUser.date_of_birth);
+			}
 
 			authResource.register( Login.newUser ).then(successHandler, function(error) {
 				Login.creating  = false;

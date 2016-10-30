@@ -7,9 +7,11 @@
 			'$rootScope',
 			'settings',
 			'Palette',
+			'pageService',
+			'$timeout',
 			contentManager]);
 
-	function contentManager($rootScope, settings, Palette) {
+	function contentManager($rootScope, settings, Palette, pageService, $timeout) {
 
 		function contentController() {
 
@@ -27,7 +29,41 @@
 			this.showSitename = false;
 			this.showSocialmedia = false;
 			this.showTerms = false;
+			this.showFavicon = false;
+			this.showLoginImage = false;
+      this.showBackground = false;
 			this.showTheme = false;
+
+			this.backgroundFiles = [];
+			this.pageService = pageService;
+
+			var self = this;
+			this.saveBackground = function(url) {
+				if (!url) {
+					var file = '/api/page/' + pageService.index[0].slug + '/file/' + this.backgroundFiles.pop() + '/resize/1920';
+
+					self.service.saveTypeOf('theme.background', file);
+					$rootScope.settingsGlobal.theme.background = file;
+				}
+
+				$timeout(function() {
+					self.toggleBackground();
+		      document.body.style.backgroundImage = (('url(' +
+		      $rootScope.settingsGlobal.theme.background + ')') || '#FBFBFB');
+				}, 500);
+			};
+
+			this.saveFavicon = function() {
+				$timeout(function() {
+					self.toggleFavicon();
+				}, 2000);
+			};
+
+			this.saveLoginImage = function() {
+				$timeout(function() {
+					self.toggleLoginImage();
+				}, 2000);
+			};
 
 			this.saveMaterialPalette = function(primary, accent) {
 				var palette = {
@@ -67,6 +103,18 @@
 			this.toggleTerms = function() {
 				this.showTerms = !this.showTerms;
 			};
+
+			this.toggleFavicon = function() {
+				this.showFavicon = !this.showFavicon;
+			};
+
+			this.toggleLoginImage = function() {
+				this.showLoginImage = !this.showLoginImage;
+			};
+
+	    this.toggleBackground = function() {
+	        this.showBackground = !this.showBackground;
+	    };
 
 			this.toggleTheme = function() {
 				this.showTheme = !this.showTheme;

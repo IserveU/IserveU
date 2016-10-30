@@ -12,6 +12,9 @@
   function logoPng(pageService, utils) {
     return {
       restrict: 'EA',
+      scope: {
+        resizeWidth: '='
+      },
       link: function (scope, el, attrs) {
         scope.home = pageService.index;
         utils.waitUntil(function() {
@@ -20,13 +23,16 @@
           scope.home = pageService.index[0];
         });
       },
-      template: '<img class="logo" ng-src="/api/page/{{ home.slug }}/file/logo-png/resize/1920"/>'
+      template: '<img class="logo" ng-src="/api/page/1/file/logo-png/resize/{{ resizeWidth || \'1920\' }}"/>'
     };
   }
 
   function logoAllWhitePng(pageService, utils) {
     return {
       restrict: 'EA',
+      scope: {
+        resizeWidth: '='
+      },
       link: function (scope, el, attrs) {
         scope.home = pageService.index;
         utils.waitUntil(function() {
@@ -35,13 +41,16 @@
           scope.home = pageService.index[0];
         });
       },
-      template: '<img class="logo" ng-src="/api/page/{{ home.slug }}/file/logo-allwhite-png/resize/1920"/>'
+      template: '<img class="logo" ng-src="/api/page/1/file/logo-allwhite-png/resize/{{ resizeWidth || \'1920\' }}"/>'
     };
   }
 
   function symbolPng(pageService, utils) {
     return {
       restrict: 'EA',
+      scope: {
+        resizeWidth: '='
+      },
       link: function(scope, el, attrs) {
         scope.home = pageService.index;
         utils.waitUntil(function() {
@@ -50,7 +59,7 @@
           scope.home = pageService.index[0];
         });
       },
-      template: '<img class="logo" ng-src="/api/page/{{ home.slug }}/file/symbol-png/resize/1920"/>'
+      template: '<img ng-src="/api/page/1/file/symbol-png/resize/{{ resizeWidth || \'1920\' }}"/>'
     };
   }
 
@@ -58,6 +67,9 @@
 
     return {
       restrict: 'EA',
+      scope: {
+        resizeWidth: '='
+      },
       link: function(scope, el, attrs) {
         scope.home = pageService.index;
         utils.waitUntil(function() {
@@ -66,7 +78,7 @@
           scope.home = pageService.index[0];
         });
       },
-      template: '<img class="logo" ng-src="/api/page/{{ home.slug }}/file/symbol-allwhite-png/resize/1920"/>'
+      template: '<img ng-src="/api/page/1/file/symbol-allwhite-png/resize/{{ resizeWidth || \'1920\' }}"/>'
     };
   }
 

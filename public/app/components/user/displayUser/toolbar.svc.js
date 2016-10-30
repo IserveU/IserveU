@@ -5,13 +5,15 @@
 	angular
 		.module('iserveu')
 		.service('userToolbarService', [
-			'$state', '$timeout', 'editUserFactory',
+			'$state',
+			'$timeout',
 			userToolbarService]);
 
-	function userToolbarService($state, $timeout, editUserFactory) {
+	function userToolbarService($state, $timeout) {
 
 		this.state = '';
-		this.edit = editUserFactory;
+		// @deprecated
+		// this.edit = editUserFactory;
 		this.save = save;
 		this.editField = editField;
 		this.pressEnter = pressEnter;

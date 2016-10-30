@@ -62,12 +62,11 @@
             // pageService.destroy($stateParams.id);
             $stateParams.id = null;
             $state.go(toState.name || 'home');
-          }, function() {
-          });
+          }, function() {});
         } else {
           $globalProvider.checkUser();
-          $globalProvider.checkPermissions(event,
-            toState.data.requirePermissions);
+          $globalProvider.checkMotion(event, toState.data.moduleMotion);
+          $globalProvider.checkPermissions(event, toState.data.requirePermissions);
           $globalProvider.setState(toState);
         }
       });
@@ -101,9 +100,8 @@
 
       iserveu.constant('SETTINGS_JSON', settings);
 
-      document.body.style.backgroundImage = ('url(' +
-        (settings.background_image ||
-        '/themes/default/photos/background.png') + ')');
+      document.body.style.backgroundImage = (('url(' + settings.theme.background + ')')
+        || '#FBFBFB');
 
     }, function(errorResponse) {
       console.log('error');

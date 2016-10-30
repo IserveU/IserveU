@@ -1,5 +1,5 @@
 <form name="registerform" terms-and-conditions ng-submit="registerform.$valid && terms.showContract($event)" layout="column" novalidate>
-  
+
   <md-input-container flex>
     <label>First Name</label>
     <input type="name" name="firstname" ng-model="login.service.newUser.first_name" required>
@@ -9,7 +9,7 @@
     <label>Last Name</label>
     <input type="name" name="lastname" ng-model="login.service.newUser.last_name" required>
   </md-input-container>
-  
+
   <md-input-container flex>
     <label>Which community do you reside in?</label>
     <md-select class="select_input__communities" ng-model="login.service.newUser.community_id" required>
@@ -17,6 +17,14 @@
     </md-select>
     <div ng-messages="registerform.community.$error">
       <div ng-message="required">Community name is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container flex ng-if="settingsGlobal.security.ask_for_birthday_on_create">
+    <label>Which community do you reside in?</label>
+    <md-datepicker ng-model="login.service.newUser.date_of_birth" name="birthday" required></md-datepicker>
+    <div ng-messages="registerform.birthday.$error">
+      <div ng-message="required">Your birthdate is required.</div>
     </div>
   </md-input-container>
 
@@ -31,7 +39,7 @@
       <div ng-message="required">An email is required to register.</div>
     </div>
   </md-input-container>
-  
+
   <md-input-container flex>
     <label>Confirm Email</label>
     <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.service.newUser.email" required>
@@ -40,22 +48,22 @@
       <div ng-message="compareTo">Your email does not match.</div>
     </div>
   </md-input-container>
-  
+
   <md-input-container flex>
     <label>Password</label>
     <input ng-minlength="8" type="password" name="newpassword" ng-model="login.service.newUser.password" required>
-    <div ng-messages="registerform.newpassword.$error"> 
+    <div ng-messages="registerform.newpassword.$error">
       <div ng-message="minlength">Password must be more than 8 characters long.</div>
     </div>
   </md-input-container>
-  
+
   <div layout="row" layout-align="center center" layout-padding>
 
     <spinner form-name="registerform" name="'Create'" on-hide="login.service.creating"></spinner>
     <md-button ng-click="login.extendRegisterForm();">Cancel</md-button>
 
   </div>
- 
+
   <div layout-padding>
     <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.service.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>
   </div>
