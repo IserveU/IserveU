@@ -2,16 +2,16 @@
 
 namespace App\Events\User;
 
-use App\Events\Event;
-use App\Repositories\SerialisesDeletedModels;
 use App\User;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 
-class UserDeleted extends Event
+class UserDeleting
 {
-    use SerializesModels, SerialisesDeletedModels {
-        SerialisesDeletedModels::getRestoredPropertyValue insteadof SerializesModels;
-    }
+    use InteractsWithSockets, SerializesModels;
+
     public $user;
 
     /**
@@ -25,12 +25,12 @@ class UserDeleted extends Event
     }
 
     /**
-     * Get the channels the event should be broadcast on.
+     * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return [];
+        return new PrivateChannel('channel-name');
     }
 }

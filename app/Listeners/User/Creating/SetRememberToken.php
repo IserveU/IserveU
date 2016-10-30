@@ -26,5 +26,7 @@ class SetRememberToken
     public function handle(UserCreating $event)
     {
         $event->user->remember_token = str_random(99);
+
+        return true;
     }
 }

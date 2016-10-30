@@ -114,7 +114,7 @@ trait PolishedTest
         return $this;
     }
 
-    public function signInAsPermissionedUser($permissionName)
+    public static function createPermissionedRole($permissionName)
     {
         if (!is_array($permissionName)) {
             $permissionName = [$permissionName];
@@ -125,19 +125,34 @@ trait PolishedTest
         ]);
 
         foreach ($permissionName as $value) {
-            $permission = Permission::where(['name' => $value])->first();
+            $permission = Permission::firstOrCreate(['name' => $value],
+                [ //If migrations haven't run still works
+                    'name'         => $value,
+                    'display_name' => $value,
+                    'description'  => $value,
+                ]);
             $role->attachPermission($permission);
         }
+
+        return $role;
+    }
+
+    public static function getPermissionedUser($permissionName)
+    {
+        $role = static::createPermissionedRole($permissionName);
+        $user = factory(App\User::class)->create();
+        $user->attachRole($role);
+
+        return $user;
+    }
+
+    public function signInAsPermissionedUser($permissionName)
+    {
+        $role = static::createPermissionedRole($permissionName);
 
         $this->signIn();
 
         $this->user->attachRole($role);
-
-        $free = \App\Role::called('free');
-
-        if ($free) {
-            $this->user->detachRole($free);
-        }
 
         return $this;
     }
@@ -154,7 +169,6 @@ trait PolishedTest
         if (!$this->user) {
             $this->signIn();
         }
-
         $this->user->addRole($role);
 
         return $this;
@@ -541,5 +555,45 @@ trait PolishedTest
 
             $previousClosingAt = $thisClosingAt;
         }
+    }
+
+    //Email Trapping & Testing
+
+    public $mailerInstance;
+
+    /**
+     * @param array $emails
+     *
+     * @return MailThiefCollection
+     */
+    public function getMessagesFor(array $emails)
+    {
+        return $this->getMessages()->filter(function ($message) use ($emails) {
+            foreach ($emails as $email) {
+                if ($message->hasRecipient($email)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return Message
+     */
+    public function getLastMessageFor(string $email)
+    {
+        return $this->getMessagesFor([$email])->last();
+    }
+
+    /**
+     * @return MailThiefCollection
+     */
+    public function getMessages()
+    {
+        return $this->mailerInstance->messages;
     }
 }

@@ -17,7 +17,6 @@ class IdentityReverification extends Notification
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -42,6 +41,7 @@ class IdentityReverification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
+                    ->subject('Identification Required')
                     ->line('Due to you recent changes to your profile we now require you to reverify your details. Please login to the site and submit id to confirm this.')
                     ->action('Login', url('/'));
     }

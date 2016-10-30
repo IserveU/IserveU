@@ -52,7 +52,7 @@ $factory->defineAs(App\User::class, 'verified', function (Faker\Generator $faker
     $user = $factory->raw(App\User::class);
     \Log::info('going to add verified to user');
 
-    return array_merge($user, ['identity_verified' => 1]);
+    return array_merge($user, ['identity_verified' => 1, 'address_verified_until' => \Carbon\Carbon::now()->addYears(1)]);
 });
 
 $factory->defineAs(App\User::class, 'public', function (Faker\Generator $faker) use ($factory) {

@@ -35,7 +35,6 @@ class IdentityReverification
             return true;
         }
 
-
         if ($event->user->identity_verified) {
             $event->user->notify(new IdentityReverificationNotification());
 

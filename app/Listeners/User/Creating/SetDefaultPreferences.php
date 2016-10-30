@@ -34,5 +34,7 @@ class SetDefaultPreferences
         $event->user->setPreference('motion.notify.user.onchange', 0, true);
         $event->user->setPreference('motion.notify.user.summary', 0, true); // Used in Jobs
         $event->user->setPreference('motion.notify.admin.summary', 0, true); // TODO: not used
+
+        return true;
     }
 }

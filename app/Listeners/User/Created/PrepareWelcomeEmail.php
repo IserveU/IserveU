@@ -34,5 +34,7 @@ class PrepareWelcomeEmail implements ShouldQueue
         }
 
         $event->user->notify($welcomeNotification);
+
+        return true;
     }
 }

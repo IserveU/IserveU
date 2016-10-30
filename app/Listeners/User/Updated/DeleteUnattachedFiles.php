@@ -44,5 +44,7 @@ class DeleteUnattachedFiles implements ShouldQueue
                 $file->delete();
             }
         }
+
+        return true;
     }
 }

@@ -29,7 +29,6 @@ class SeedDatabaseFaker implements ShouldQueue
      */
     public function handle()
     {
-        \Config::set('mail.driver', 'log');
         Artisan::call('db:seed', ['--class' => 'FakerDataSeeder']);
     }
 }

@@ -46,6 +46,8 @@ class InitializeApp extends Command
     {
         \Artisan::call('migrate:refresh');
 
+        \Config::set('mail.driver', 'log'); //The mail singleton will initialize with this and then can't be changed easily once the singleton exists
+
         // Settings
         if (\File::exists('storage/settings.json')) {
             if (filter_var($this->argument('wipesettings'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to wipe your existing /storage/settings.json file?')) {
@@ -61,9 +63,6 @@ class InitializeApp extends Command
         dispatch(new SetDefaultPermissions());
 
 
-        if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
-            dispatch(new SeedDatabaseFaker());
-        }
 
         $email = $this->argument('email');
         if (!$email) {
@@ -89,5 +88,10 @@ class InitializeApp extends Command
         dispatch(new SeedDatabaseDefaults());
 
         dispatch(new CreateAdminUser($user));
+
+
+        if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
+            dispatch(new SeedDatabaseFaker());
+        }
     }
 }

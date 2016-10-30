@@ -41,6 +41,8 @@ class AlertVoters
         foreach ($motionVotes as $motionVote) {
             $motionVote->user->notify(new AlteredMotion($motion));
         }
+
+        return true;
     }
 
     public function hasAlteredLockedFields(Motion $motion)

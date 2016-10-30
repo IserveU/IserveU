@@ -75,13 +75,13 @@ class CheckUserRoles implements ShouldQueue
     public function addressExpired(UserUpdated $event)
     {
         if (!$event->user->address_verified_until['carbon']) {
-            return false; //Not set
+            return true;
         }
 
         if ($event->user->address_verified_until['carbon']->lt(Carbon::now())) { //Address is past
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

@@ -5,6 +5,7 @@ namespace App;
 use App\Events\User\UserCreated;
 use App\Events\User\UserCreating;
 use App\Events\User\UserDeleted;
+use App\Events\User\UserDeleting;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
 use App\Notifications\Authentication\RoleGranted;
@@ -24,17 +25,18 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract,Authenticatable, CachedModel, VisibilityModel
+class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract, Authenticatable, CachedModel, VisibilityModel
 {
-    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers; //, StatusTrait;
+    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers, SoftDeletes;
 
     use EntrustUserTrait{
-        // EntrustUserTrait::can as may; //There is an entrust collision here
-        // Authorizable::can insteadof EntrustUserTrait;
+        SoftDeletes::restore insteadof EntrustUserTrait;
+        EntrustUserTrait::restore insteadof SoftDeletes;
 
         Authorizable::can as may; //There is an entrust collision here
         EntrustUserTrait::can insteadof Authorizable;
@@ -52,7 +54,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      *
      * @var array
      */
-    protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone'];
+    protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone', 'government_identification_id'];
 
 
     protected $visible = [''];
@@ -82,7 +84,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      *
      * @var array
      */
-    protected $dates = ['address_verified_until', 'created_at', 'updated_at', 'locked_until', 'date_of_birth'];
+    protected $dates = ['address_verified_until', 'created_at', 'updated_at', 'deleted_at', 'locked_until', 'date_of_birth'];
 
     /**
      * The fields that are locked. When they are changed they cause events to be fired (like resetting people's accounts/votes).
@@ -118,7 +120,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     protected $attributes = [
         'status'        => 'private',
-        'preferences'   => '',
+        'preferences'   => '[]',
     ];
 
     /**
@@ -161,7 +163,14 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
             return true;
         });
 
+        static::deleting(function ($model) {
+            event(new UserDeleting($model));
+
+            return true;
+        });
+
         static::deleted(function ($model) {
+            //Soft deleted models canot be serialized
             event(new UserDeleted($model));
 
             return true;
@@ -267,6 +276,18 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     /**
      * @param string takes a string and hashes it into a password
      */
+    public function setGovernmentIdentificationIdAttribute($value)
+    {
+        if ($this->governmentIdentification) {
+            $this->governmentIdentification->delete();
+        }
+
+        $this->attributes['government_identification_id'] = $value;
+    }
+
+    /**
+     * @param string takes a string and hashes it into a password
+     */
     public function setAgreementAcceptedAttribute($value)
     {
         if ($value) {
@@ -300,11 +321,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     public function setAddressVerifiedUntilAttribute($input)
     {
-        if ($this->getAttributes('identity_verified') === 0) {
-            return false;
+        if (!$input) {
+            $this->attributes['address_verified_until'] = null;
+
+            return true;
         }
 
-        $this->attributes['address_verified_until'] = Carbon::now()->addYears(4);
+        $this->attributes['address_verified_until'] = Carbon::parse($input);
     }
 
     public function getAddressVerifiedUntilAttribute($attr)
@@ -441,6 +464,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         array_set($preferences, $key, $value);
 
         $this->preferences = $preferences;
+
+        return $this;
     }
 
     /**
@@ -523,6 +548,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         });
     }
 
+    public function scopeNotRoles($query, $role)
+    {
+        return $query->whereDoesntHave('roles', function ($q) use ($role) {
+            $q->whereIn('name', $role);
+        });
+    }
+
     public function scopeNotRepresentative($query)
     {
         return $query->whereDoesntHave('roles', function ($q) {
@@ -566,6 +598,13 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     {
         return $query->whereHas('roles', function ($query) use ($roles) {
             $query->whereIn('name', $roles);
+        });
+    }
+
+    public function scopeHasPermissions($query, $permissions)
+    {
+        return $query->whereHas('roles.perms', function ($query) use ($permissions) {
+            $query->whereIn('name', $permissions);
         });
     }
 
