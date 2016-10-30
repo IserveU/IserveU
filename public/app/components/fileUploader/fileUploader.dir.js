@@ -18,7 +18,7 @@
 			var unbindWatch = $scope.$watch(function(){
 				return $scope.$eval($attrs.isuExistingFiles);
 			}, function(a){
-				if(a.length > 0) {
+				if (a && a.length > 0) {
 					$scope.existingFiles = a;
 					unbindWatch();
 				}
@@ -73,18 +73,28 @@
 				isuSectionProvider.callMethodToApi(data);
 			}
 
+			function getMethod() {
+				if ($attrs.isuPatchFiles) {
+					return 'PATCH';
+				} else {
+					return 'POST';
+				}
+			}
+
 			// ngflow methods
 			var index = 0, oIndex,
 			ngFlowFunctions = {
 				flowInit: {
 					target: isuSectionProvider.defaults.fileEndpoint,
+					uploadMethod: getMethod(),
 					headers: {
-                        "Authorization": "Bearer " + localStorage.getItem('api_token')
+            "Authorization": "Bearer " + localStorage.getItem('api_token')
 					},
 					testChunks: false
 				},
 				successHandler: function(msg) {
 					$scope.fileArrayIds.push( JSON.parse(msg).slug );
+					$scope.onSuccess();
 				},
 				errorHandler: function($file, $message, $flow) {
 					console.warn($file + ' could not be uploaded');
@@ -115,7 +125,8 @@
 		return {
 			transclude: true,
 			scope: {
-				fileArrayIds: '=isuBindFiles'
+				fileArrayIds: '=isuBindFiles',
+				onSuccess: '&isuOnSuccess'
 			},
 			controller: ['$scope', '$attrs', isuFileUploaderController],
 			controllerAs: 'isuUploader',

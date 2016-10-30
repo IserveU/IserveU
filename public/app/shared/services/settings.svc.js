@@ -64,7 +64,7 @@
 
           this.save({
             'name': name,
-              'value': value
+            'value': value
           })
       },
 
@@ -82,8 +82,10 @@
           this.saveArray('theme.colors.primary', palette.primary);
           this.saveArray('theme.colors.accent', palette.accent);
         }
-        else {
+        else if (angular.isArray(data) || angular.isObject(data)) {
           this.saveArray(type, data);
+        } else {
+          this.saveSingle(type, data);
         }
       }
     };
