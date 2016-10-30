@@ -4,21 +4,12 @@
 
   angular
     .module('iserveu')
-    .factory('userRoleResource', ['$resource', '$q', userRoleResource]);
+    .factory('userRoleResource', ['$http', '$q', userRoleResource]);
 
-  function userRoleResource($resource, $q) {
-
-    var Role = $resource('api/role');
-
-    var UserRole = $resource('api/user/:id/role/:role_id',
-      {id: '@id', role_id: '@role_id'},
-      {
-        'update': { method: 'PUT' }
-      }
-    );
+  function userRoleResource($http, $q) {
 
     function getRoles() {
-      return Role.query().$promise.then(function(results) {
+      return $http.get('api/role/').then(function(results) {
         return results;
       }, function(error) {
         return $q.reject(error);
@@ -26,16 +17,16 @@
     }
 
     function grantRole(data) {
-      return UserRole.save({id: data.id}, data)
-        .$promise.then(function(results) {
-          return results;
-        }, function(error) {
-          return $q.reject(error);
-        });
+      return $http.patch('api/user/' + data.slug + '/role/' + data.name)
+      .then(function(results) {
+        return results;
+      }, function(error) {
+        return $q.reject(error);
+      });
     }
 
-    function getUserRole(id) {
-      return UserRole.query(id).$promise.then(function(results) {
+    function getUserRole(slug) {
+      return $http.get('api/user/' + slug + '/role').then(function(results) {
         return results;
       }, function(error) {
         return $q.reject(error);
@@ -43,7 +34,8 @@
     }
 
     function deleteUserRole(data) {
-      return UserRole.delete(data).$promise.then(function(results) {
+      return $http.delete('api/user/' + data.slug + '/role/' + data.name)
+      .then(function(results) {
         return results;
       }, function(error) {
         return $q.reject(error);

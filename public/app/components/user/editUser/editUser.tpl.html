@@ -98,27 +98,31 @@
 
       <md-list-item class="md-2-line">
         <md-icon class="mdi mdi-home"></md-icon>
-        <div class="md-list-item-text" ng-hide="form.rolesAndPermissions.edit">
+        <div class="md-list-item-text" ng-if="!roleFactory.edit" ng-init="fetchUserRoles();">
           <h3>User role</h3>
-          <p>{{form.rolesAndPermissions.data}}</p>
-          <p class="md-caption">{{form.rolesAndPermissions.description}}</p>
+          <div ng-repeat="role in roles">
+            <p>{{role.display_name}}</p>
+            <p class="md-caption">{{role.description}}</p>
+          </div>
         </div>
 
-        <div class="md-list-item-text" layout="column" ng-show="form.rolesAndPermissions.edit">
-          <div ng-repeat="roles in form.roleList">
-            <md-checkbox ng-model="form.rolesAndPermissions.data">{{ roles.display }}</md-checkbox>
-            <p class="md-caption">{{ roles.description }}</p>
-          </div>
+        <div class="md-list-item-text" layout="column" ng-show="roleFactory.edit">
+          <md-select ng-model="profile.roles" multiple placeholder="Select user roles">
+            <md-option ng-value="role.name" ng-repeat="role in roleFactory.list">
+              {{ role.display_name }}
+            </md-option>
+          </md-select>
+
           <div layout="row">
-            <md-button class="md-secondary" ng-show="form.rolesAndPermissions.edit" ng-disabled="form.rolesAndPermissions.form.$invalid" type="submit" ng-click="saveField($event, form.rolesAndPermissions)">
-              <span ng-hide="form.rolesAndPermissions.saving">Save</span>
-              <md-icon md-svg-src="loading" ng-show="form.rolesAndPermissions.saving"></md-icon>
+            <md-button class="md-secondary" ng-show="roleFactory.edit" type="submit" ng-click="roleFactory.update(profile, roles)">
+              <span ng-hide="roleFactory.saving">Save</span>
+              <md-icon md-svg-src="loading" ng-show="roleFactory.saving"></md-icon>
             </md-button>
-            <md-button class="md-secondary" ng-show="form.rolesAndPermissions.edit" ng-click="form.rolesAndPermissions.edit = !form.rolesAndPermissions.edit">Cancel</md-button>
+            <md-button class="md-secondary" ng-show="roleFactory.edit" ng-click="roleFactory.edit = !roleFactory.edit">Cancel</md-button>
           </div>
         </div>
 
-         <md-button class="md-icon-button md-secondary" name="{{ item.label | slugify }}" ng-click="editField($event); form.rolesAndPermissions.edit = !form.rolesAndPermissions.edit" ng-hide="item.edit">
+         <md-button class="md-icon-button md-secondary" ng-click="roleFactory.edit = !roleFactory.edit" ng-hide="roleFactory.edit">
             <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
       </md-list-item>

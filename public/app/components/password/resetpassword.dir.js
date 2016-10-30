@@ -4,7 +4,7 @@
 
 	angular
 		.module('iserveu')
-		.directive('resetPassword', ['$compile', '$state', 'user', 'ToastMessage', resetPassword]);
+		.directive('resetPassword', ['$compile', resetPassword]);
 
   	 /** @ngInject */
 	function resetPassword($compile) {

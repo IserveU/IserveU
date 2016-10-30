@@ -94,15 +94,15 @@
         //requirePermissions: ['create-motion']
         //      }
         //  })
-        .state('user', {
+        .state('userResource', {
           url: '/user/:id',
           template: '<display-profile></display-profile>',
           data: {
             requireLogin: true
           },
           resolve: {
-            profile: ['user', '$stateParams', function(user, $stateParams) {
-              return user.getUser($stateParams.id).then(function(r) {
+            profile: ['userResource', '$stateParams', function(userResource, $stateParams) {
+              return userResource.getUser($stateParams.id).then(function(r) {
                 return r;
               });
             }]
@@ -126,8 +126,8 @@
             // requirePermissions: ['administrate-user']
           },
           resolve: {
-            profile: ['user', '$stateParams', function(user, $stateParams) {
-              return user.getUser($stateParams.id).then(function(r) {
+            profile: ['userResource', '$stateParams', function(userResource, $stateParams) {
+              return userResource.getUser($stateParams.id).then(function(r) {
                 return r;
               });
             }]
