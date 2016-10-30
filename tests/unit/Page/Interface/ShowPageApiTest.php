@@ -38,10 +38,8 @@ class ShowPageApiTest extends PageApi
             ]);
     }
 
-    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
-
     /** @test */
-    public function show_page_by_id_fails()
+    public function show_page_by_id()
     {
         $this->signInAsRole('administrator');
 
@@ -49,6 +47,8 @@ class ShowPageApiTest extends PageApi
 
 
         $this->get('/api/page/'.$page->id)
-            ->assertResponseStatus(404);
+            ->assertResponseStatus(200);
     }
+
+    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }

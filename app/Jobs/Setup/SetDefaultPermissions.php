@@ -69,7 +69,7 @@ class SetDefaultPermissions implements ShouldQueue
         $showUser = Permission::updateOrCreate([
             'name'          => 'show-user',
             'display_name'  => 'Show Users',
-            'description'   => 'See full existing (non-public) user profiles and their full details',
+            'description'   => 'See full existing (non-public) user profiles, their full details and recieve user summary emails',
         ]);
 
         $deleteUser = Permission::updateOrCreate([

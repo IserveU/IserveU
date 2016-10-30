@@ -26,5 +26,7 @@ class SetApiToken
     public function handle(UserCreating $event)
     {
         $event->user->generateApiToken();
+
+        return true;
     }
 }

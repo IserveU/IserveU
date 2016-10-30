@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Listeners\User\Updated;
+namespace App\Listeners\User\Updating;
 
-use App\Events\User\UserUpdated;
+use App\Events\User\UserUpdating;
 use App\UserModification;
 use Auth;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AddUserModificationEntry implements ShouldQueue
+class AddUserModificationEntry
 {
     /**
      * Create the event listener.
@@ -26,7 +25,7 @@ class AddUserModificationEntry implements ShouldQueue
      *
      * @return void
      */
-    public function handle($event)
+    public function handle(UserUpdating $event)
     {
         $user = $event->user;
         $modifiedRecord = new UserModification();
@@ -38,7 +37,10 @@ class AddUserModificationEntry implements ShouldQueue
         }
 
         $modifiedRecord->modification_to_id = $user->id;
+     //   dd($user->getDirty());
         $modifiedRecord->fields = json_encode($user->getDirty());
         $modifiedRecord->save();
+
+        return true;
     }
 }

@@ -13,26 +13,27 @@ class UpdateUserRequest extends Request
      * @var array
      */
     protected $rules = [
-        'email'                     => 'email|unique:users,email|min:0',
-        'password'                  => 'min:8',
-        'first_name'                => 'string|filled',
-        'last_name'                 => 'string|filled',
-        'middle_name'               => 'string|filled',
-        'ethnic_origin_id'          => 'integer|exists:ethnic_origins,id',
-        'date_of_birth'             => 'date|before:today',
-        'status'                    => 'string|valid_status',
-        'login_attempts'            => 'integer',
-        'identity_verified'         => 'boolean',
-        'remember_token'            => 'unique:users,remember_token',
-        'postal_code'               => 'string|max:10',
-        'phone'                     => 'numeric|digits_between:8,15|unique:users,phone',
-        'street_name'               => 'string',
-        'street_number'             => 'integer',
-        'unit_number'               => 'string',
-        'address_verified_until'    => 'date|after:today|before:+2000 days',
-        'agreement_accepted'        => 'boolean',
-        'value'                     => 'filled|between:1,256|regex:/^.{1,256}$/', //Any string/numbers up to 256
-        'community_id'              => 'exists:communities,id',
+        'email'                         => 'email|unique:users,email|min:0',
+        'password'                      => 'min:8',
+        'first_name'                    => 'string|filled',
+        'last_name'                     => 'string|filled',
+        'middle_name'                   => 'string|filled',
+        'ethnic_origin_id'              => 'integer|exists:ethnic_origins,id',
+        'date_of_birth'                 => 'date|before:today',
+        'status'                        => 'string|valid_status',
+        'login_attempts'                => 'integer',
+        'identity_verified'             => 'boolean',
+        'remember_token'                => 'unique:users,remember_token',
+        'postal_code'                   => 'string|max:10',
+        'phone'                         => 'numeric|digits_between:8,15|unique:users,phone',
+        'street_name'                   => 'string',
+        'street_number'                 => 'integer',
+        'unit_number'                   => 'string',
+        'address_verified_until'        => 'date|after:today|before:+2000 days',
+        'government_identification_id'  => 'exists:files,id',
+        'agreement_accepted'            => 'boolean',
+        'value'                         => 'filled|between:1,256|regex:/^.{1,256}$/', //Any string/numbers up to 256
+        'community_id'                  => 'exists:communities,id',
     ];
 
     /**

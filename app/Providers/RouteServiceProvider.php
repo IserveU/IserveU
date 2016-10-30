@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         app('router')->bind('page', function ($page) {
-            return \App\Page::findBySlug($page);
+            return \App\Page::findBySlugOrId($page);
         });
 
         app('router')->bind('user', function ($user) {

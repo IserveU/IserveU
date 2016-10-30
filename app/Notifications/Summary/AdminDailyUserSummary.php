@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class AdminSummary extends Notification
+class AdminDailyUserSummary extends Notification
 {
     use Queueable;
 
@@ -47,15 +47,12 @@ class AdminSummary extends Notification
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage())
-                    ->subject('Admin Summary Email');
+                    ->subject('Daily User Summary')
+                    ->greeting('There are new users');
 
-        if ($this->user->getPreference('authentication.notify.admin.summary')) {
-            $mailMessage = $mailMessage->greeting('There are new users');
-
-            foreach ($this->newUsers as $newUser) {
-                $mailHasContent = true;
-                $mailMessage = $mailMessage->line($newUser->first_name.' '.$newUser->last_name.' ('.$newUser->email.')');
-            }
+        foreach ($this->newUsers as $newUser) {
+            $mailHasContent = true;
+            $mailMessage = $mailMessage->line($newUser->first_name.' '.$newUser->last_name.' ('.$newUser->email.')');
         }
 
         return $mailMessage;

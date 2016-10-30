@@ -7,12 +7,9 @@ use App\Repositories\Caching\CachedModel;
 use Auth;
 use Cache;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vote extends NewApiModel implements CachedModel
 {
-    use SoftDeletes;
-
     /**
      * The name of the table for this model, also for the permissions set for this model.
      *
@@ -72,8 +69,8 @@ class Vote extends NewApiModel implements CachedModel
         });
 
         static::deleting(function ($model) {
-            if ($this->comment) {
-                $this->comment->delete();
+            if ($model->comment) {
+                $model->comment->delete();
             }
 
             return true;
@@ -181,10 +178,18 @@ class Vote extends NewApiModel implements CachedModel
         return $query->whereNotNull('position');
     }
 
-    public function scopeOnActiveMotion($query)
+    /**
+     * Motions that have a.
+     *
+     * @param Builder $query
+     * @param array   $status An array of the statuses
+     *
+     * @return Builder
+     */
+    public function scopeMotionStatus($query, array $status)
     {
-        return $query->whereHas('motion', function ($query) {
-            $query->where('active', 1);
+        return $query->whereHas('motion', function ($query) use ($status) {
+            $query->whereIn('status', ['published']);
         });
     }
 

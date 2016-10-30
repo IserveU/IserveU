@@ -13,11 +13,11 @@ use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes; // Disabled currently
 
 class Motion extends NewApiModel implements CachedModel, VisibilityModel
 {
-    use SoftDeletes, Sluggable, SluggableScopeHelpers, StatusTrait;
+    use Sluggable, SluggableScopeHelpers, StatusTrait, SoftDeletes;
 
     /**
      * The name of the table for this model, also for the permissions set for this model.
@@ -118,7 +118,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         'review'       => 'hidden',
         'published'    => 'visible',
         'closed'       => 'visible',
-        'deleted'      => 'hidden',
     ];
 
     /**************************************** Standard Methods **************************************** */
@@ -365,9 +364,13 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $query->where('implementation', $implementation);
     }
 
-    public function scopeWriter($query, $user_id)
+    public function scopeWriter($query, $user)
     {
-        return $query->where('user_id', $user_id);
+        if (is_numeric($user)) {
+            return $query->where('user_id', $user);
+        }
+
+        return $query->where('user_id', $user->id);
     }
 
     /** Depreciated in favor of Closing Before/After */

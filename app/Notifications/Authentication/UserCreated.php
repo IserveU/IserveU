@@ -45,9 +45,11 @@ class UserCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
+                    ->subject('User Created: '.$this->user->first_name.' '.$this->user->last_name)
                     ->greeting('A new user has been created')
                     ->line('Name: '.$this->user->first_name.' '.$this->user->last_name)
-                    ->action('View User', url('#/user'));
+                    ->line('Email: '.$this->user->email)
+                    ->action('View User', url('#/user/'.$this->user->slug));
     }
 
     /**

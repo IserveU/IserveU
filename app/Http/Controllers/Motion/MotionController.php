@@ -144,10 +144,7 @@ class MotionController extends ApiController
             return $motion;
         }
 
-        $motion->status = 'deleted';
-        $motion->save();
-
-        $motion->delete(); //Motion kept in the database
+        $motion->delete(); //Partically voted motion kept in the database
         return $motion;
     }
 

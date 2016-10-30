@@ -13,30 +13,31 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\User\UserUpdating'    => [
-            'App\Listeners\User\Updating\IdentityReverification',
-        ],
-        'App\Events\User\UserUpdated'    => [
-            'App\Listeners\User\Updated\BroadcastToRedis',
-            'App\Listeners\User\Updated\AddUserModificationEntry',
-            'App\Listeners\User\Updated\DeleteUnattachedFiles',
-            'App\Listeners\User\Updated\CheckUserRoles',
+        'App\Events\User\UserCreated' => [
+            'App\Listeners\User\Created\PrepareWelcomeEmail', // Tested
+            'App\Listeners\User\Created\PrepareUserCreatedEmail',  //Tested
         ],
         'App\Events\User\UserCreating' => [
-            'App\Listeners\User\Creating\SetRememberToken',
-            'App\Listeners\User\Creating\SetApiToken',
-            'App\Listeners\User\Creating\SetDefaultPreferences',
-        ],
-        'App\Events\User\UserCreated' => [
-            'App\Listeners\User\Created\PrepareWelcomeEmail',
-            'App\Listeners\User\Created\PrepareUserCreatedEmail',
+            'App\Listeners\User\Creating\SetRememberToken', //Tested
+            'App\Listeners\User\Creating\SetApiToken', //Tested
+            'App\Listeners\User\Creating\SetDefaultPreferences', //Tested
         ],
         'App\Events\User\UserDeleted' => [
-            'App\Listeners\User\Deleted\DeleteEmptyUserRecords',
-            'App\Listeners\User\Deleted\DeleteActiveVotes',
+            'App\Listeners\User\Deleted\HardDeleteEmptyUser', // Tested
+        ],
+        'App\Events\User\UserDeleting' => [
+            'App\Listeners\User\Deleting\DeleteVotesOnNonclosedMotions', //Tested
+            'App\Listeners\User\Deleting\DeleteNonclosedMotions', //Tested
+        ],
+        'App\Events\User\UserUpdated'    => [
+            'App\Listeners\User\Updated\DeleteUnattachedFiles', //Tested
+            'App\Listeners\User\Updated\CheckUserRoles', //Tested
+        ],
+        'App\Events\User\UserUpdating'    => [
+            'App\Listeners\User\Updating\AddUserModificationEntry', //Tested
+            'App\Listeners\User\Updating\IdentityReverification',  //Tested
         ],
         'App\Events\Motion\MotionUpdated' => [
-            'App\Listeners\Motion\Updated\SendNotificationEmail',
             'App\Listeners\Motion\Updated\AlertVoters',
         ],
         'App\Events\Motion\MotionCreated' => [

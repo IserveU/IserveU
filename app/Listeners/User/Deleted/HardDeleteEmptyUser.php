@@ -3,9 +3,10 @@
 namespace App\Listeners\User\Deleted;
 
 use App\Events\User\UserDeleted;
+use DB;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DeleteActiveVotes implements ShouldQueue
+class HardDeleteEmptyUser implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -28,10 +29,13 @@ class DeleteActiveVotes implements ShouldQueue
     {
         $user = $event->user;
 
-        $activeMotionVotes = Vote::onActiveMotion()->where('user_id', $user->id)->get();
+        $votes = $user->votes;
+        $motions = $user->motions;
 
-        foreach ($activeMotionVotes as $activeMotionVote) {
-            $activeMotionVote->delete();
+        //dd($user->modificationTo);
+        if ($votes->isEmpty() && $motions->isEmpty()) {
+            DB::table('user_modifications')->where('modification_to_id', $user->id)->delete();
+            DB::table('users')->where('id', $user->id)->delete(); //Force delete
         }
     }
 }

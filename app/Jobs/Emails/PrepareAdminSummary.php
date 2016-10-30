@@ -2,8 +2,9 @@
 
 namespace App\Jobs\Emails;
 
-use App\Notifications\Summary\AdminSummary;
+use App\Notifications\Summary\AdminDailyUserSummary;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,17 +31,24 @@ class PrepareAdminSummary implements ShouldQueue
      */
     public function handle()
     {
-        $newUsers = User::where('created_at', '>=', Carbon::now()->subHours(24))->get();
+        $this->prepareNewUserSummary();
+    }
 
-        if ($newUsers->empty()) {
+    public function prepareNewUserSummary()
+    {
+        $newUsers = User::with('roles')->where('created_at', '>=', Carbon::now()->subHours(24))
+                    ->notRoles(['administrator'])->get();
+
+        if ($newUsers->isEmpty()) {
             return true;
         }
 
-        $admins = User::hasRoles(['administrator'])->get();
 
+
+        $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.summary', 1)->get();
 
         foreach ($admins as $admin) {
-            $admin->notify(new AdminSummary($newUsers));
+            $admin->notify(new AdminDailyUserSummary($newUsers, $admin));
         }
     }
 }
