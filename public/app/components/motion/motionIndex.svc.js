@@ -4,10 +4,10 @@
 
 angular
 	.module('iserveu')
-	.factory('motionIndex', 
+	.factory('motionIndex',
 		['$http',
-		 'motionResource', 
-	
+		 'motionResource',
+
 	function($http, motionResource) {
 
 	var motionIndex = {

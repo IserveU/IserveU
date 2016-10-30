@@ -1,17 +1,18 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
-		.directive('myVotes', ['$rootScope', 'homeResource', myVotes]);
+		.directive('myVotes', ['$rootScope', 'homeResource', 'motionIndex', myVotes]);
 
-	function myVotes($rootScope, homeResource) {
+	function myVotes($rootScope, homeResource, motionIndex) {
 
 		function myVotesController() {
-			
+
 			var self = this;
 
 			self.loading  = true;
 			self.voteList = {};
+			self.motionIndex = motionIndex;
 
 			(function init() {
 

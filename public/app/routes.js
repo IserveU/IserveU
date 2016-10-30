@@ -12,15 +12,17 @@
           template: '<home-page></home-page>',
           data: {
             requireLogin: true
-          }
-        })
-        .state('edit-home', {
-          url: '/edit-home',
-          template: '<edit-home></edit-home>',
-          data: {
-            requireLogin: true,
-            requirePermissions: ['create-motion', 'delete-user']
-          }
+          },
+          resolve: {
+            homePage: ['pageService', 'utils', function(pageService, utils) {
+              return pageService.getIndex().then(function(r){
+                return r;
+              });
+            }]
+          },
+          controller: ['$scope', 'homePage', function($scope, homePage) {
+            $scope.home = homePage.data[0];
+          }]
         })
         .state('dashboard', {
           url: '/dashboard',
