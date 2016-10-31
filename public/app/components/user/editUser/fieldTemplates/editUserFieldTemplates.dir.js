@@ -45,7 +45,7 @@
 			template: ['<form>',
 			      	   '<md-input-container>',
           			   '<label>Birthday</label>',
-					   '<md-datepicker ng-model="profile.date_of_birth" md-placeholder="Birthday" format-birthday flex></md-datepicker>',
+					   '<md-datepicker ng-model="profile.date_of_birth" md-placeholder="MM/DD/YYYY" format-birthday flex></md-datepicker>',
 					   '</md-input-container>',
 					   '</form>'].join('')
 		}
@@ -72,7 +72,7 @@
 	}
 	function editAddressField() {
 		return {
-			template: ['<form layout="row" flex>',
+			template: ['<form layout="column" flex>',
 					   '<md-input-container>',
 		               '<label>Street No.</label>',
 		               '<input type="text" ng-model="profile.street_number">',
