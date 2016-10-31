@@ -115,7 +115,7 @@
           data = { email: user.email };
           break;
         case 'telephone':
-          data = { phone_number: user.phone_number };
+          data = { phone: user.phone_number };
           break;
         case 'address':
           data = {
