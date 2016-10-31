@@ -72,7 +72,7 @@
 	}
 	function editAddressField() {
 		return {
-			template: ['<form layout="row" flex>',
+			template: ['<form layout="column" flex>',
 					   '<md-input-container>',
 		               '<label>Street No.</label>',
 		               '<input type="text" ng-model="profile.street_number">',
