@@ -8,6 +8,8 @@
 			['communityResource',
 			 'editUserFormService',
 			 'userResource',
+       'userPreferenceResource',
+       'userPreferenceFactory',
 			 'userRoleResource',
 			 'userRoleFactory',
 			 'Authorizer',
@@ -15,7 +17,7 @@
 		editUser]);
 
 	/** @ngInject */
-	function editUser(communityResource, editUserFormService, userResource, userRoleResource, userRoleFactory, Authorizer, utils) {
+	function editUser(communityResource, editUserFormService, userResource, userPreferenceResource, userPreferenceFactory, userRoleResource, userRoleFactory, Authorizer, utils) {
 
 		function editUserController($scope) {
 
@@ -46,6 +48,15 @@
 				}
 			}
 
+      function fetchUserPreferences() {
+        var slug = $scope.profile.slug;
+        $scope.profile.preferences = [];
+        $scope.preferencesFactory = userPreferenceFactory;
+        userPreferenceResource.getUserPreferences(slug).then(function(results) {
+          $scope.preferencesFactory.initPreferences(results);
+        });
+      }
+
 			function saveField(ev, item) {
 				item.saving = true;
 
@@ -73,16 +84,17 @@
 			(function init() {
 				fetchCommunities();
 				fetchUserRoles();
+        fetchUserPreferences();
 				setUserProfile();
 			})();
 
 			(function exposeScopeMethods() {
-				$scope.communities = {};
-				$scope.roles       = {};
-				$scope.form        = editUserFormService;
-				$scope.roleFactory = userRoleFactory;
-				$scope.saveField   = saveField;
-				$scope.fetchUserRoles = fetchUserRoles;
+				$scope.communities        = {};
+				$scope.roles              = {};
+				$scope.form               = editUserFormService;
+				$scope.roleFactory        = userRoleFactory;
+				$scope.saveField          = saveField;
+				$scope.fetchUserRoles     = fetchUserRoles;
 			})();
 		}
 
