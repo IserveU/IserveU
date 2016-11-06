@@ -23,7 +23,7 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
         'first_name'           => $faker->firstName,
         'middle_name'          => $faker->name,
         'last_name'            => $faker->lastName,
-        'email'                => $faker->email,
+        'email'                => $faker->email.rand(1940, 2020),
         'password'             => $faker->password,
         'postal_code'          => 'X1A1A4',
         'ethnic_origin_id'     => $ethnicOrigin ? $ethnicOrigin->id : null,

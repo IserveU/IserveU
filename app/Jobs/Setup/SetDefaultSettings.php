@@ -59,6 +59,7 @@ class SetDefaultSettings
         Setting::ifNotSetThenSet('authentication', [
             'login_attempts_lock'           => 5,
             'ask_for_birthday_on_create'    => 1,
+            'required'                      => 1,
         ]);
 
 

@@ -4,11 +4,8 @@
     "eslint": "^3.8.1",
     "eslint-config-angular": "^0.5.0",
     "eslint-plugin-angular": "^1.4.1",
+    "faker": "^3.1.0",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^6.0.0-10",
-    "lodash": "^4.14.0",
-    "protractor": "^3.3.0",
-    "protractor-jasmine2-screenshot-reporter": "^0.3.2",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
     "jasmine-reporters": "^2.2.0",
@@ -19,14 +16,17 @@
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^0.3.8",
     "karma-safari-launcher": "^1.0.0",
+    "laravel-elixir": "^6.0.0-10",
     "lite-server": "^2.2.0",
-    "protractor": "^3.3.0",
-    "protractor-jasmine2-screenshot-reporter": "^0.3.2"
+    "lodash": "^4.14.0",
+    "protractor-jasmine2-screenshot-reporter": "^0.3.2",
+    "randomstring": "^1.1.5"
   },
   "scripts": {
     "prod": "gulp --production",
     "dev": "gulp watch",
     "test": "webdriver-manager start && protractor conf",
     "lint": "eslint public/app"
-  }
+  },
+  "dependencies": {}
 }
