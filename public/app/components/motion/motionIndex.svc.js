@@ -27,9 +27,6 @@ angular
 		_load: function() {
 			var self = this;
 
-			if(self._index.length > 0)
-				return false;
-
 			self._paginating = true;
 
 			motionResource.getMotionsIndex(this._current_page).then(function(results) {
@@ -76,7 +73,7 @@ angular
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = angular.isArray(self._index) ? self._index.concat(results.data) : results.data;
 				self._last_page = results.last_page;
-				self._paginating = false;;
+				self._paginating = false;
 				self._stopPaginating = results.next_page_url ? false : true;
 
 			}, function(error) {
@@ -90,7 +87,7 @@ angular
 
 		retrieveById: function(id) {
 			for(var i in this._index) {
-				if( id == this._index[i].id )
+				if( id === this._index[i].id )
 					return this._index[i];
 			}
 
@@ -101,7 +98,7 @@ angular
 			var i = 0;
 
 			for(i in this._index) {
-				if( motion.id == this._index[i].id ) {
+				if( motion.id === this._index[i].id ) {
 					this._index[i] = motion;
 					return true;
 				}
