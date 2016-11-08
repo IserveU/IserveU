@@ -77,7 +77,7 @@
       },
 
       getClosing: function() {
-        if (this.status === 'published') {
+        if (this.status !== 'published') {
           return undefined;
         } else if (SETTINGS_JSON.motion.allow_closing) {
           return utils.date.stringify(this.closing_at);
