@@ -5,13 +5,13 @@
 	    <md-tooltip md-direction="{{::direction}}">{{ motion.department.name }}</md-tooltip>
     </md-grid-tile>
 
-    <md-grid-tile ng-if="settingsGlobal.allow_closing" class="md-whiteframe-z1">
+    <md-grid-tile ng-if="settingsGlobal.motion.allow_closing" class="md-whiteframe-z1">
 	    <md-icon ng-show="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">
 	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
 	    </md-icon>
 
 	    <md-icon ng-show="motion.motionOpenForVoting" md-svg-icon="calendar-clock">
-	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing | customLongDate }}</md-tooltip>
+	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing_at.alpha_date | customLongDate }}</md-tooltip>
 	    </md-icon>
     </md-grid-tile>
 
