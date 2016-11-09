@@ -33,7 +33,14 @@ var LoginPage = function LoginPage(){
 	this.getLogo = function(attr){
 		
 		if(attr){
-			return this.logo.getAttribute('src');
+			return this.logo.getAttribute(attr);
+		}
+		return this.logo;
+	}
+
+	this.getFavicon = function(attr){
+		if(attr){
+			return this.logo.getAttribute(attr);
 		}
 		return this.logo;
 	}
