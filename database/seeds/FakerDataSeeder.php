@@ -38,6 +38,7 @@ class FakerDataSeeder extends Seeder
             'password'  => 'abcd1234',
         ]);
 
+
         $citizen = factory(App\User::class, 'verified')->create([
             'email'     => 'citizen@iserveu.ca',
             'password'  => 'abcd1234',
