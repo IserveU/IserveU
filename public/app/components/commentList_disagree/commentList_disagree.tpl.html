@@ -10,12 +10,13 @@
 
 		<md-divider></md-divider>
 
-		<section class="comment-list__list-item-container" ng-repeat="comment in motion.motionComments.disagreeComments" layout-padding>
+		<section class="comment-list__list-item-container" ng-repeat="comment in motion.motionComments.disagreeComments | orderBy:'-commentRank'" layout-padding>
 
 			<header layout layout-align="front" class="comment-list__list-item-header">
 				<md-icon class="mdi mdi-account-circle"></md-icon>
 				<h3 class="title-header" ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
-			</header>
+        <h3 class="title-header" ng-bind="comment.commentRank === 1 ? comment.commentRank + ' ' + 'Point' : comment.commentRank + ' ' + 'Points'" layout-padding></h3>
+      </header>
 
 			<div class="comment-list__list-item">
 				<p class="md-caption comment-list__list-item-date" ng-bind="show.formatDate(comment)"></p>
