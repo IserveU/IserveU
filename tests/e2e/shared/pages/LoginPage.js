@@ -8,6 +8,8 @@ var LoginPage = function LoginPage(){
 	this.emailInput 			= element(by.name('email'));
 	this.passwordInput 			= element(by.name('password'));
 	this.logo 					= element(by.css('img.logo'));
+	this.favicon 				= element(by.css('link[type="image/png"]'));
+
 	this.message				= element(by.css('div.md-input-messages-animation .md-caption'));	
 	this.forgotPassword 		= element(by.css('[ng-click="login.sendResetPassword()"]'));
 	this.termsAndConditions 	= element(by.css('md-dialog.terms-and-conditions'));
@@ -40,9 +42,9 @@ var LoginPage = function LoginPage(){
 
 	this.getFavicon = function(attr){
 		if(attr){
-			return this.logo.getAttribute(attr);
+			return this.favicon.getAttribute(attr);
 		}
-		return this.logo;
+		return this.favicon;
 	}
 
 	this.get = function(){

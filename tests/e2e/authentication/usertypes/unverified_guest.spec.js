@@ -7,6 +7,7 @@ var randomstring = require("randomstring");
 describe('authenication.guest page interactions for a guest users (no account)', function() {
 
 	var page = new LoginPage();
+  var EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
 		page.get();
@@ -67,7 +68,6 @@ describe('authenication.guest page interactions for a guest users (no account)',
 
    		page.clickIAgreeButton();
 
-  		var EC = protractor.ExpectedConditions;
    		browser.wait(EC.urlContains('home'), 5000,"url did not match");
 
   	});

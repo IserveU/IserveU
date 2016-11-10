@@ -4,9 +4,10 @@ var NavigationHelper = require('../../shared/helpers/NavigationHelper');
 var faker = require('faker');
 var randomstring = require("randomstring");
 
-describe('authenication.guest page interactions for a guest users (no account)', function() {
+describe('authenication.representative page interactions for a verified user with the representative role', function() {
 
 	var page = new LoginPage();
+	var EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
 		page.get();
@@ -18,13 +19,10 @@ describe('authenication.guest page interactions for a guest users (no account)',
 		expect(browser.isElementPresent(page.getMessage())).toBe(false);
 
  
-  		page.loginWithEmailPassword("representative@iserveu.ca","abcd1234 ");
+  		page.loginWithEmailPassword("representative@iserveu.ca","abcd1234");
   	
-		var EC = protractor.ExpectedConditions;
 
       	browser.wait(EC.urlContains('home'), 5000,"url did not match");
-
-
 
   	});
 
