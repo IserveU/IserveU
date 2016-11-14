@@ -20,7 +20,7 @@
 
     <body ng-cloak="">
         <!-- Headers -->
-        <beta-message ng-if="settingsGlobal.theme.name === 'default'"></beta-message>
+        <beta-message></beta-message>
         <user-bar ng-if="!isLoginState"></user-bar>
 
         <div layout="row">

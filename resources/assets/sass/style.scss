@@ -39,6 +39,11 @@ button md-icon svg:nth-child(2) {
 	display: none !important;
 }
 
+.ios-flex-fix, * .ios-flex-fix, * > .ios-flex-fix{
+	-webkit-flex: 1 0 auto !important;
+	flex: 1 0 auto !important;
+}
+
 
 .main-nav-button {
 	line-height: 64px;

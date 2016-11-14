@@ -17,7 +17,7 @@
 			saving: false,
 
       initPreferences: function(data) {
-        console.log(data);
+        
         this.data = data;
         this.list = [
           {
@@ -77,22 +77,15 @@
 			},
 
       // only save admin preferences if the user is admin
-			update: function(slug, role={}) {
+			update: function(slug) {
         this.saving = true;
 
-        if (!role)
-          role.id = -1;
 
         this.list.forEach(function(el){
-          var canSendPref = true;
 
-          if (el.admin && role.id !== 1)
-            canSendPref = false;
-
-          if (canSendPref){
             userPreferenceResource.setUserPreference({slug: slug, key: el.key,
               value: el.value ? 1 : 0}).then(successHandler);
-          }
+     
         });
 			}
 		}
