@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
-    elixir = require('laravel-elixir');
+elixir = require('laravel-elixir');
 
+require('laravel-elixir-livereload');
 
 /*
  |--------------------------------------------------------------------------
@@ -60,6 +61,8 @@ elixir(function(mix) {
     mix.copy('resources/assets/symbols', 'public/symbols');
 
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
+
+    mix.livereload();
 });
 
 

@@ -63,7 +63,7 @@ class SetDefaultSettings
         ]);
 
 
-        //TODO: Language translation and should be hardcoded into translation files and maybe these could be over-rides?
+        //TODO: Language/term translation and should be hardcoded into translation files and maybe these could be over-rides?
         Setting::ifNotSetThenSet('jargon.en', [
                     'motion'      => 'Motion',
                     'motions'     => 'Motions',

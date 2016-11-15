@@ -86,6 +86,8 @@
       }
     ];
 
+
+
     var verifyUser = {
         label:  'Verify',
         icon:   'mdi-account-key',

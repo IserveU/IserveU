@@ -17,6 +17,7 @@
     "karma-jasmine": "^0.3.8",
     "karma-safari-launcher": "^1.0.0",
     "laravel-elixir": "^6.0.0-10",
+    "laravel-elixir-livereload": "^1.1.6",
     "lite-server": "^2.2.0",
     "lodash": "^4.14.0",
     "protractor-jasmine2-screenshot-reporter": "^0.3.2",

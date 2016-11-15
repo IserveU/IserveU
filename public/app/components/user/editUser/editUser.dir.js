@@ -81,6 +81,11 @@
 				editUserFormService.setUserProfileFields($scope.profile);
 			}
 
+      // Checks if the user has the requested permission
+      function hasPermission(perm) {
+        return $scope.profile.permissions.indexOf(perm) > -1 ? true : false;
+      }
+
 			(function init() {
 				fetchCommunities();
 				fetchUserRoles();
@@ -95,6 +100,7 @@
 				$scope.roleFactory        = userRoleFactory;
 				$scope.saveField          = saveField;
 				$scope.fetchUserRoles     = fetchUserRoles;
+        $scope.hasPermission      = hasPermission;
 			})();
 		}
 

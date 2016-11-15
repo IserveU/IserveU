@@ -92,40 +92,38 @@
 
 <!-- START SECTION DIVIDER -->
     <md-divider></md-divider>
-    <md-subheader class="md-no-sticky">Notification Settings</md-subheader>
+    <md-subheader class="md-no-sticky">Communication Settings</md-subheader>
 <!-- END SECTION DIVIDER -->
 
-    <md-list-item class="md-2-line">
-      <md-icon class="mdi mdi-alert-circle"></md-icon>
-        <div class="md-list-item-text" ng-hide="preferencesFactory.edit">
-          <h3>Email Notifications</h3>
-          <p>Change what you get notified for.</p>
-        </div>
-        <div class="md-list-item-text" ng-show="preferencesFactory.edit" flex>
-          <form layout="column">
-            <div ng-repeat="obj in preferencesFactory.list">
-              <md-switch ng-model="obj.value" ariaLabel="{{obj.label}}" ng-if="!obj.admin">
-                {{obj.label}}
-              </md-switch>
-            </div>
-            <div ng-repeat="obj in preferencesFactory.list">
-              <md-switch ng-model="obj.value" ariaLabel="{{obj.label}}" ng-if="obj.admin && roles[0]['id'] == 1">
-                {{obj.label}}
-              </md-switch>
-            </div>
-          </form>
-        </div>
+      <md-list-item ng-repeat="item in preferencesFactory.sections" class="md-2-line">
+        <md-icon class="mdi {{ item.icon }}"></md-icon>
+          <div class="md-list-item-text" ng-hide="item.edit">
+            <h3>{{ item.label }}</h3>
+            <p>{{ item.data | capitalize }}</p>
+          </div>
 
-        <md-button class="md-icon-button md-secondary" name="" ng-click="preferencesFactory.edit = !preferencesFactory.edit" ng-hide="preferencesFactory.edit">
-          <md-icon class="mdi mdi-pencil"></md-icon>
-        </md-button>
-        <md-button class="md-secondary" ng-show="preferencesFactory.edit" type="submit" ng-click="preferencesFactory.update(profile.slug, roles[0])">
-          <span ng-hide="preferencesFactory.saving">Save</span>
-          <md-icon md-svg-src="loading" ng-show="preferencesFactory.saving"></md-icon>
-        </md-button>
-        <md-button class="md-secondary" ng-show="preferencesFactory.edit" ng-click="preferencesFactory.edit = !preferencesFactory.edit">Cancel</md-button>
+          <div class="md-list-item-text" ng-show="item.edit" ng-switch="item.label" flex>
+            <form layout="column">
+              <div ng-repeat="obj in item.list" ng-if="hasPermission(obj.permission) || !obj.permission">
+                <md-switch ng-model="obj.value" ariaLabel="{{obj.tooltip}}"
+                  ng-change="preferencesFactory.update(profile.slug, obj)">
+                  {{obj.label}}
+                  <md-tooltip md-direction="right">
+                    {{obj.tooltip}}
+                  </md-tooltip>
+                </md-switch>
+              </div>
+            </form>
+          </div>
 
-    </md-list-item>
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Close</md-button>
+
+      </md-list-item>
+
 
 <!-- START SECTION DIVIDER -->
       <md-divider></md-divider>
