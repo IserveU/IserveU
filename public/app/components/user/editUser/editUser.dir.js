@@ -8,25 +8,31 @@
 			['communityResource',
 			 'editUserFormService',
 			 'userResource',
-       'userPreferenceResource',
-       'userPreferenceFactory',
+       		'userPreferenceResource',
+       		'userPreferenceFactory',
 			 'userRoleResource',
 			 'userRoleFactory',
 			 'Authorizer',
+			 'ToastMessage',
 			 'utils',
 		editUser]);
 
 	/** @ngInject */
-	function editUser(communityResource, editUserFormService, userResource, userPreferenceResource, userPreferenceFactory, userRoleResource, userRoleFactory, Authorizer, utils) {
+	function editUser(communityResource, editUserFormService, userResource, userPreferenceResource, userPreferenceFactory, userRoleResource, userRoleFactory, Authorizer, ToastMessage,utils) {
 
 		function editUserController($scope) {
 
+			function destroy() {	
+				ToastMessage.destroyThis("user", function(){
+				// we will change to slug later, so this need to be changed as well. 
+				userResource.deleteUser($scope.profile.id);
+				});
+	        }
 			function fetchCommunities() {
 				communityResource.getCommunities().then(function(results) {
 					$scope.communities = results.data;
 				});
 			}
-
 			function fetchUserRoles() {
 
 				if (!Authorizer.canAccess('administrate-permission')) {
@@ -92,16 +98,17 @@
         fetchUserPreferences();
 				setUserProfile();
 			})();
-
+		
 			(function exposeScopeMethods() {
-				$scope.communities        = {};
-				$scope.roles              = {};
-				$scope.form               = editUserFormService;
-				$scope.roleFactory        = userRoleFactory;
-				$scope.saveField          = saveField;
-				$scope.fetchUserRoles     = fetchUserRoles;
-        $scope.hasPermission      = hasPermission;
-			})();
+				$scope.communities = {};
+				$scope.roles       = {};
+				$scope.form        = editUserFormService;
+				$scope.roleFactory = userRoleFactory;
+				$scope.saveField   = saveField;
+				$scope.fetchUserRoles = fetchUserRoles;
+				$scope.destroy 	   = destroy;
+				$scope.hasPermission      = hasPermission;
+							})();
 		}
 
 		return {

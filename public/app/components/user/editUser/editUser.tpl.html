@@ -1,4 +1,8 @@
 <div flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
+  <floating-button has-permission="administrate-user"
+    init-buttons="['delete']"
+    on-delete="destroy()">
+  </floating-button>
 <!-- <profile-toolbar></profile-toolbar> -->
   <md-card>
     <md-card-content>
