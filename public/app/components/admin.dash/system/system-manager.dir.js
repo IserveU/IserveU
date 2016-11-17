@@ -17,6 +17,10 @@
       this.showSecurity = false;
       this.showVoting = false;
 
+      this.save = function(dataType) {
+        settings.saveTypeOf(dataType);
+      };
+
       this.toggleDepartment = function() {
         this.showDepartment = !this.showDepartment;
       };
@@ -35,13 +39,8 @@
 
     }
 
-    function systemManagerLinkMethod(scope, el, attrs) {
-
-    }
-
     return {
       restrict: 'EA',
-      link: systemManagerLinkMethod,
       controller: systemManagerController,
       controllerAs: 'systemManager',
       templateUrl: 'app/components/admin.dash/system/system-manager.tpl.html'

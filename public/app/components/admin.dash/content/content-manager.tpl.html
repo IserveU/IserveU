@@ -148,7 +148,7 @@
                 <input ng-model="settingsGlobal.theme.background">
             </md-input-container>
             <div layout="row" layout-align="front center">
-              <spinner ng-click="contentManager.service.saveSingle('theme.background', settingsGlobal.theme.background)"  name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.saveBackground(true);"></spinner>
+              <spinner ng-click="contentManager.service.saveTypeOf('theme.background', settingsGlobal.theme.background)"  name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.saveBackground(true);"></spinner>
               <md-button ng-show="contentManager.showBackground" ng-click="contentManager.showBackground();">Cancel</md-button>
             </div>
             <isu-file-upload

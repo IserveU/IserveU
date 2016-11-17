@@ -65,6 +65,7 @@
           }, function() {});
         } else {
           $globalProvider.checkUser();
+          $globalProvider.checkLogin(event, toState.data.requireLogin);
           $globalProvider.checkMotion(event, toState.data.moduleMotion);
           $globalProvider.checkPermissions(event, toState.data.requirePermissions);
           $globalProvider.setState(toState);

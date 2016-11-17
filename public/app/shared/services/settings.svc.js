@@ -4,11 +4,12 @@
   angular
     .module('iserveu')
     .factory('settings', [
+      '$rootScope',
       '$http',
       'SETTINGS_JSON',
       settingsServiceFactory]);
 
-  function settingsServiceFactory($http, SETTINGS_JSON) {
+  function settingsServiceFactory($rootScope, $http, SETTINGS_JSON) {
 
     var Settings = {
       /**
@@ -23,70 +24,65 @@
       getData: function() {
         return this.data;
       },
+
+      /**
+      * Robust check with guard so that you are not submitting
+      * a null/empty/undefined value to the settings array.
+      */
+      isUnsafe: function(value) {
+        return (angular.isUndefined(value) ||
+                value === null ||
+                Object.keys(value).length === 0);
+      },
+
       /** Post function */
       save: function(data) {
+        this.data.saving = true;
+
         $http.patch('/api/setting/' + data.name , {value: data.value})
         .success(function(r) {
           Settings.data.saving = false;
           SETTINGS_JSON[data.name] = data.value;
         }).error(function(e) { });
       },
+
       /**
-      * Robust check with guard so that you are not submitting
-      * a null/empty/undefined value to the settings array.
+      * Organizes the data array into names that correspond
+      * to the key value of Laravel's Settings library.
       */
       saveArray: function(name, value) {
-
-        if (angular.isUndefined(value) || value === null
-          || Object.keys(value).length === 0)
-          return 0;
-
-        this.data.saving = true;
-
         angular.forEach(value, function(val, key) {
           this.save({
             'name': name + '.' + key,
             'value': val
           });
         }, this);
-
-      },
-
-
-      /**
-      * save a single settings entry.
-      */
-      saveSingle: function(name, value) {
-          if (angular.isUndefined(value) || value === null
-            || Object.keys(value).length === 0)
-            return 0;
-          this.data.saving = true;
-
-          this.save({
-            'name': name,
-            'value': value
-          })
       },
 
       /**
-      * Organizes the data array into names that correspond
-      * to the key value of Laravel's Settings library.
+      * Delegate data from rootScope settingsGlobal to save API.
+      * Detects whether it is an array or a single data string.
       */
       saveTypeOf: function(type, data) {
-        if (angular.isString(data) &&
-          angular.toJson(data).hasOwnProperty('filename'))
-          data = angular.toJson(data).filename;
+        var data = data || $rootScope.settingsGlobal[type];
 
-        if (type === 'palette'){
+        if (this.isUnsafe(data))
+          return false;
+
+        // deprecated
+        if (type === 'palette') {
           var palette = data.assignThemePalette(data);
           this.saveArray('theme.colors.primary', palette.primary);
           this.saveArray('theme.colors.accent', palette.accent);
         }
-        else if (angular.isArray(data) || angular.isObject(data)) {
+
+        if (angular.isArray(data) || angular.isObject(data))
           this.saveArray(type, data);
-        } else {
-          this.saveSingle(type, data);
-        }
+        else
+          this.save({
+            'name': type,
+            'value': data
+          });
       }
     };
 

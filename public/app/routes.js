@@ -153,7 +153,13 @@
           template: '<login-portal></login-portal>',
           data: {
             requireLogin: false
-          }
+          },
+          onEnter: ['$rootScope', function($rootScope) {
+            $rootScope.isLoginState = true;
+          }],
+          onExit: ['$rootScope', function($rootScope) {
+            $rootScope.isLoginState = false;
+          }]
         })
         .state('login.resetpassword', {
           url: '/:token',

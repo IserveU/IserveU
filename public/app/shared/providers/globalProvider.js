@@ -29,6 +29,19 @@
             },
 
 
+            checkLogin: function(ev, requireLogin) {
+              var $rootScope = $injector.get('$rootScope');
+              if (!$rootScope.settingsGlobal.authentication.required)
+                return true;
+
+              else if (!$rootScope.userIsLoggedIn && requireLogin) {
+                ev.preventDefault();
+                var $state = $injector.get('$state');
+                $state.go('login');
+              }
+
+            },
+
             /**
              * Checks that the state is not a part of the motion module
              * and that the settings has it enabled. If the site has
@@ -100,9 +113,7 @@
             */
             setState: function(state) {
               var $rootScope = $injector.get('$rootScope');
-
               $rootScope.currentState = state.name;
-              $rootScope.isLoginState = state.name.substr(0, 5) === 'login';
             }
           };
         }];
