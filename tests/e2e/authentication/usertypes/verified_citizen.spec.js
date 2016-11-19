@@ -1,13 +1,12 @@
-var LoginPage = require('../../shared/pages/LoginPage');
-var FormHelper = require('../../shared/helpers/FormHelper');
-var NavigationHelper = require('../../shared/helpers/NavigationHelper');
-var faker = require('faker');
-var randomstring = require("randomstring");
+let LoginPage = require('../../shared/pages/LoginPage');
+let FormHelper = require('../../shared/helpers/FormHelper');
+let faker = require('faker');
+let randomstring = require("randomstring");
 
 describe('authenication.verified_citizen page interactions for verified users with the citizen role', function() {
 
-	var page = new LoginPage();
-  var EC = protractor.ExpectedConditions;
+	let page = new LoginPage();
+  let EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
 		page.get();

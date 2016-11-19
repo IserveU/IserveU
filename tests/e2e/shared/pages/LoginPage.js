@@ -1,67 +1,73 @@
-var LoginPage = function LoginPage(){
+let DomHelper = require('../helpers/DomHelper');
+
+class LoginPage{
+
+	constructor() {
+		this.loginButton 			= element(by.buttonText('Login'));
+		this.createButton 			= element(by.buttonText('Create'));
+		this.agreeButton 			= element(by.buttonText('I Agree'));
+
+		this.emailInput 			= element(by.name('email'));
+		this.passwordInput 			= element(by.name('password'));
+		this.logo 					= element(by.css('img.logo'));
+		this.favicon 				= element(by.css('link[type="image/png"]'));
+
+		this.message				= element(by.css('div.md-input-messages-animation .md-caption'));	
+		this.forgotPassword 		= element(by.css('[ng-click="login.sendResetPassword()"]'));
+		this.termsAndConditions 	= element(by.css('md-dialog.terms-and-conditions'));
+
+	}
+
 
 	/* Element lookups */
-	this.loginButton 			= element(by.buttonText('Login'));
-	this.createButton 			= element(by.buttonText('Create'));
-	this.agreeButton 			= element(by.buttonText('I Agree'));
 
-	this.emailInput 			= element(by.name('email'));
-	this.passwordInput 			= element(by.name('password'));
-	this.logo 					= element(by.css('img.logo'));
-	this.favicon 				= element(by.css('link[type="image/png"]'));
+	getLoginButton(){
+		return this.loginButton;
+	}
 
-	this.message				= element(by.css('div.md-input-messages-animation .md-caption'));	
-	this.forgotPassword 		= element(by.css('[ng-click="login.sendResetPassword()"]'));
-	this.termsAndConditions 	= element(by.css('md-dialog.terms-and-conditions'));
-
-
-
-	this.clickLoginButton = function(){
+	clickLoginButton(){
 		this.loginButton.click();
 	}
 
-	this.clickCreateButton = function(){
+	getCreateButton(){
+		return this.createButton;
+	}
+
+	clickCreateButton(){
 		this.createButton.click();
 	}
 
-	this.clickIAgreeButton = function(){
+	clickIAgreeButton(){
 		this.agreeButton.click();
 	}
 
-	this.getTitle = function(){
+	getTitle(){
 		return browser.getTitle();
 	}
 
-	this.getLogo = function(attr){
-		
-		if(attr){
-			return this.logo.getAttribute(attr);
-		}
-		return this.logo;
+	getLogo(attr){
+		return DomHelper.extractAttribute(this.logo,attr);
 	}
 
-	this.getFavicon = function(attr){
-		if(attr){
-			return this.favicon.getAttribute(attr);
-		}
-		return this.favicon;
+	getFavicon(attr){
+		return DomHelper.extractAttribute(this.favicon,attr);
 	}
 
-	this.get = function(){
+	get(){
 		browser.get('#/login');
 	}
 
-	this.loginWithEmailPassword = function(email,password){
+	loginWithEmailPassword(email,password){
 		this.emailInput.sendKeys(email);
 	    this.passwordInput.sendKeys(password);
 	    this.clickLoginButton();
 	}
 
-	this.getMessage = function(){
+	getMessage(){
 		return this.message;
 	}
 
-	this.getForgotPassword = function(){
+	getForgotPassword(){
 		return this.message;
 	}
 

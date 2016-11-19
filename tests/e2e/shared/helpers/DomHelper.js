@@ -1,11 +1,20 @@
-var DomHelper = function() {
+class DomHelper {
 
-	this.hasClass = function hasClass(element, cls) {
-	    return element.getAttribute('class').then(function (classes) {
-	        return classes.split(' ').indexOf(cls) !== -1;
-	    });
-	};
+	constructor() {
 
+	}
+
+	static extractAttribute(element, attr){
+		if(attr=="text"){
+			return element.getText();
+		}
+
+		if(attr){
+			return element.getAttribute(attr);
+		}
+		
+		return element;
+	}
 
 }
 

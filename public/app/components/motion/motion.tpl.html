@@ -22,11 +22,11 @@
 				<section flex="100">
 					<header ng-if="motion.text">
 						<md-icon class="mdi mdi-file-document"></md-icon>
-							<h3>Details</h3>
+						<h3>Details</h3>
 					</header>
 
 					<div flex="55" flex-sm="100" flex-xs="100" flex-md="90" flex-lg="75">
-						<p class="md-body-1" ng-bind-html="::motion.text | trustAsHtml"></p>
+						<div class="md-body-1" ng-bind-html="::motion.text | trustAsHtml"></div>
 					</div>
 
 				</section>

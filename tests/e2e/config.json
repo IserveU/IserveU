@@ -1,0 +1,7 @@
+{
+	"suites": {
+	    "motion"   			:   "tests/e2e/motion/*spec.js",
+	    "authenication"    	:   "tests/e2e/authenication/*spec.js",
+	    "full"     			:   "tests/e2e/**/*spec.js"
+	}
+}

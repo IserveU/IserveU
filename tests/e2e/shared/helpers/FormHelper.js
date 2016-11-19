@@ -1,8 +1,14 @@
-var FormHelper = function() {
+
+class FormHelper {
+
+	constructor(submitButton,fillFields) {
+		this.submitButton = submitButton;
+		this.fillFields(fillFields);
+	}
 
 
-	this.fillFields = function(content){
-		for (var [key, value] of content) {
+	fillFields(content){
+		for (let [key, value] of content) {
 			element(by.name(key)).sendKeys(value);
 		}
 	}
@@ -13,12 +19,16 @@ var FormHelper = function() {
 	 * @param  {String} text [description]
 	 * @return {[type]}      [description]
 	 */
-	this.selectBox = function (model,text){
+	selectBox(model,text){
 		//Open the element
  		element(by.model(model)).click();
 
  		//Click the text
  		element(by.cssContainingText('md-option', text)).click();
+	}
+
+	submit(){
+		this.submitButton.click();
 	}
 
 }

@@ -4,7 +4,7 @@
     <md-card-content>
 
       <md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)"
-                 ng-class="button.selectedClass" layout-fill>
+                 ng-class="button.selectedClass" layout-fill id="{{ ::button.type }}_button">
 
           <md-icon ng-class="button.selectedColour" md-svg-src="{{ button.selectedIcon }}"></md-icon>
 

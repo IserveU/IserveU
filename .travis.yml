@@ -39,7 +39,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - protractor protractor.conf.js
+  - protractor protractor.conf.js --suite=full
   - vendor/bin/phpunit
 
 after_script:

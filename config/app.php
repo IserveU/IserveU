@@ -158,6 +158,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'anlutro\LaravelSettings\ServiceProvider',
          Cviebrock\EloquentSluggable\ServiceProvider::class,
+         Vinkla\Backup\BackupServiceProvider::class,
     ],
 
     /*

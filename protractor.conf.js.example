@@ -1,8 +1,14 @@
 var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
 var JasmineReporters = require('jasmine-reporters');
+var defaultConfig = require('./tests/e2e/config.json');
 
 exports.config = {
-    specs: ['tests/e2e/**/*spec.js'],
+
+    suites: defaultConfig.suites,
+
+    capabilities: {
+        'browserName': 'chrome'
+    },
 
     capabilities: {
         'browserName': 'chrome'

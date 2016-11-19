@@ -30,6 +30,7 @@ class AdminSummaryTest extends TestCase
 
         $message = $this->getLastMessageFor($adminUser->email);
 
+        // This failed once
         $this->assertTrue($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
         $this->assertEquals($message->subject, 'Daily User Summary');
     }

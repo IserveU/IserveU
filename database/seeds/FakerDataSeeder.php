@@ -19,6 +19,18 @@ class FakerDataSeeder extends Seeder
             $this->giveMotionComments($motion);
         }
 
+        //Create a published motion
+        $publishedMotion = factory(App\Motion::class, 'published')->create([
+            'title'     => 'A Published Motion',
+            'text'      => '<p>Content of the published motion</p>',
+        ]);
+        //With attached files
+        $file = factory(App\File::class, 'pdf')->create([
+            'title' => 'An Attached PDF',
+        ]);
+        $publishedMotion->files()->save($file);
+
+
         $draftMotion = factory(App\Motion::class, 'draft')->create([
             'title' => $faker->title.' (Draft)',
         ]);
