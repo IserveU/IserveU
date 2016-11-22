@@ -19,6 +19,7 @@
       this.id = commentData ? commentData.id : null;
       this.posting = false;
       this.exists = false;
+      this.status = 'public';
     }
 
     Comment.prototype = {
@@ -55,7 +56,8 @@
 
       commentResource.saveComment({
         vote_id: motion.userVote.id,
-        text: self.text
+        text: self.text,
+        status: self.status
       }).then(function(success) {
         self.posting = false;
         self.exists = true;
@@ -71,7 +73,8 @@
       var self = comment;
       commentResource.updateComment({
         id: self.id,
-        text: self.text
+        text: self.text,
+        status: self.status
       }).then(function(success) {
         self.posting = false;
         self.exists = true;
@@ -86,7 +89,7 @@
       ToastMessage.destroyThis('comment', function() {
         commentResource.deleteComment(self.id).then(function(results) {
           self.exists = false;
-          self.setData({id: null, text: null, posting: null, exists: null});
+          self.setData({id: null, text: null, status: null, posting: null, exists: null});
           motion.getMotionComments(motion.id);
         });
       });
