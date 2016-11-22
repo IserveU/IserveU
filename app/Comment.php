@@ -169,6 +169,8 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
         $related = $this->getRelation('commentRankRelation');
 
+
+
       // then return the count directly
       return ($related) ? (int) $related->rank : 0;
     }
