@@ -15,6 +15,12 @@
 			<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
 		</md-input-container>
 
+    <md-checkbox ng-model="userComment.status"
+     ng-true-value="'private'" ng-false-value="'public'"
+     aria-label="anonymous">
+      Make comment Anonymous.
+    </md-checkbox>
+
 		<spinner layout="row" primary-action="userComment.update(motion); userCommentEdit.editComment()"
 				 name="'Save Comment'"
 				 secondary-btn="{control: userCommentEdit.editComment, name: 'Close'}">

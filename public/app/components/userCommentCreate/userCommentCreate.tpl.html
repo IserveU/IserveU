@@ -8,15 +8,20 @@
 
 	<div ng-if="userCommentCreate.writing" layout="column" layout-padding flex>
 
-		<form layout="column" name="commentForm" flex="100"  style="flex: 1 0 auto !important;"> 
+		<form layout="column" name="commentForm" flex="100"  style="flex: 1 0 auto !important;">
 			<md-input-container flex>
 				<textarea columns="4" ng-model="userComment.text" required></textarea>
 			</md-input-container>
 
+      <md-checkbox ng-model="userComment.status"
+       ng-true-value="'private'" ng-false-value="'public'"
+       aria-label="anonymous">
+        Make comment Anonymous.
+      </md-checkbox>
 
-			<spinner layout="row" layout-align="front end" 
+			<spinner layout="row" layout-align="front end"
 					 primary-action="userComment.submit(motion)"
-					 form-name="commentForm" name="'Submit'" on-hide="userComment.posting" 
+					 form-name="commentForm" name="'Submit'" on-hide="userComment.posting"
 					 secondary-btn="{control: userCommentCreate.writeComment, name: 'Close'}">
 			</spinner>
 

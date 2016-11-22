@@ -79,7 +79,7 @@
     function saveComment(data) {
       return CreateComment.save(
         {voteId: data.vote_id},
-        {text: data.text}).$promise.then(function(success) {
+        {text: data.text, status: data.status}).$promise.then(function(success) {
           return success;
         }, function(error) {
           return $q.reject(error);
@@ -94,7 +94,7 @@
     function updateComment(data) {
       return Comment.update(
         {id: data.id},
-        {text: data.text}).$promise.then(function(success) {
+        {text: data.text, status: data.status}).$promise.then(function(success) {
           return success;
         }, function(error) {
           return $q.reject(error);
