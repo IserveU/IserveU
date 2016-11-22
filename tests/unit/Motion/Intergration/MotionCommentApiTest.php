@@ -43,10 +43,9 @@ class MotionCommentApiTest extends TestCase
         $this->get('/api/motion/'.$comment->motion->slug.'/comment');
 
         $this->assertResponseStatus(200);
-
         $this->seeJsonStructure([
             'agreeComments' => [
-                $comment->id => ['id', 'text'], //Keyed by ID
+                ['id', 'text'],
             ],
             'abstainComments'  => [],
             'disagreeComments' => [],
@@ -69,7 +68,7 @@ class MotionCommentApiTest extends TestCase
             'agreeComments'    => [],
             'abstainComments'  => [],
             'disagreeComments' => [
-                $comment->id => ['id', 'text'], //Keyed by ID
+                ['id', 'text'],
             ],
         ]);
     }
@@ -89,7 +88,7 @@ class MotionCommentApiTest extends TestCase
         $this->seeJsonStructure([
             'agreeComments'   => [],
             'abstainComments' => [
-                $comment->id => ['id', 'text'], //Keyed by ID
+                ['id', 'text'],
             ],
             'disagreeComments' => [],
         ]);

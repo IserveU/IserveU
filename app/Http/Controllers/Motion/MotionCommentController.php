@@ -23,16 +23,16 @@ class MotionCommentController extends ApiController
         $comments = Cache::tags(['motion.'.$motion->id])->remember('motion'.$motion->id.'_comments', 60, function () use ($motion) {
             $comments['agreeComments'] = Comment::whereHas('vote', function ($q) use ($motion) {
                 $q->where('motion_id', $motion->id);
-            })->position(1)->get()->keyBy('id')->sortByDesc('commentRank'); //->toArray();
+            })->position(1)->get()->toArray();
 
 
             $comments['abstainComments'] = Comment::whereHas('vote', function ($q) use ($motion) {
                 $q->where('motion_id', $motion->id);
-            })->position(0)->get()->keyBy('id')->sortByDesc('commentRank')->toArray();
+            })->position(0)->get()->toArray();
 
             $comments['disagreeComments'] = Comment::whereHas('vote', function ($q) use ($motion) {
                 $q->where('motion_id', $motion->id);
-            })->position(-1)->get()->keyBy('id')->sortByDesc('commentRank')->toArray();
+            })->position(-1)->get()->toArray();
 
 
             return $comments;
