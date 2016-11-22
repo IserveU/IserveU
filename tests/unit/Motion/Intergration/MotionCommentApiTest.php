@@ -33,7 +33,70 @@ class MotionCommentApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_motion_comments()
+    public function it_shows_agree_comments_correctly()
+    {
+        $comment = factory(App\Comment::class)->create();
+
+        $comment->vote->position = 1;
+        $comment->push();
+
+        $this->get('/api/motion/'.$comment->motion->slug.'/comment');
+
+        $this->assertResponseStatus(200);
+
+        $this->seeJsonStructure([
+            'agreeComments' => [
+                $comment->id => ['id', 'text'], //Keyed by ID
+            ],
+            'abstainComments'  => [],
+            'disagreeComments' => [],
+        ]);
+    }
+
+    /** @test */
+    public function it_shows_disagree_comments()
+    {
+        $comment = factory(App\Comment::class)->create();
+
+        $comment->vote->position = -1;
+        $comment->push();
+
+        $this->get('/api/motion/'.$comment->motion->slug.'/comment');
+
+        $this->assertResponseStatus(200);
+
+        $this->seeJsonStructure([
+            'agreeComments'    => [],
+            'abstainComments'  => [],
+            'disagreeComments' => [
+                $comment->id => ['id', 'text'], //Keyed by ID
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function it_shows_abstain_comments()
+    {
+        $comment = factory(App\Comment::class)->create();
+
+        $comment->vote->position = 0;
+        $comment->push();
+
+        $this->get('/api/motion/'.$comment->motion->slug.'/comment');
+
+        $this->assertResponseStatus(200);
+
+        $this->seeJsonStructure([
+            'agreeComments'   => [],
+            'abstainComments' => [
+                $comment->id => ['id', 'text'], //Keyed by ID
+            ],
+            'disagreeComments' => [],
+        ]);
+    }
+
+    /** @test */
+    public function it_can_get_all_motion_comments()
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
@@ -73,6 +136,9 @@ class MotionCommentApiTest extends TestCase
             'agreeComments' => [
                 '*' => ['id', 'text'],
             ],
+            'abstainComments' => [
+                '*' => ['id', 'text'],
+            ],
             'disagreeComments' => [
                 '*' => ['id', 'text'],
             ],
@@ -82,7 +148,6 @@ class MotionCommentApiTest extends TestCase
     /** @test */
     public function changing_vote_shows_changed_comments()
     {
-        \Cache::flush();
         $vote = factory(App\Vote::class)->create([
             'user_id'   => $this->user->id,
             'position'  => 1,
