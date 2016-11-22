@@ -12,7 +12,7 @@
 
 			<header layout layout-align="front" class="comment-list__list-item-header">
 				<md-icon class="mdi mdi-account-circle title-icon"></md-icon>
-				<h3 ng-bind="comment.user.public ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
+				<h3 ng-bind="comment.user? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
         <h3 class="title-header" ng-bind="comment.commentRank === 1 ? comment.commentRank + ' ' + 'Point' : comment.commentRank + ' ' + 'Points'" layout-padding></h3>
       </header>
 
