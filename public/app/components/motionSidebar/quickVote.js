@@ -18,6 +18,7 @@
   	function quickVoteController() {
 
         this.cycleVote = cycleVote;
+        this.isMotionDraft = isMotionDraft;
 
 		function cycleVote (motion){
 
@@ -51,6 +52,10 @@
 				}
 			}
 		}
+
+    function isMotionDraft(status) {
+      return ['draft', 'review'].includes(status);
+    }
 
 		/******************************************************************
 		*
