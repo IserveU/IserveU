@@ -24,23 +24,23 @@ class FakerDataSeeder extends Seeder
             'title'     => 'A Published Motion',
             'text'      => '<p>Content of the published motion</p>',
         ]);
+
         //With attached files
         $file = factory(App\File::class, 'pdf')->create([
             'title' => 'An Attached PDF',
         ]);
         $publishedMotion->files()->save($file);
 
-
         $draftMotion = factory(App\Motion::class, 'draft')->create([
-            'title' => $faker->title.' (Draft)',
+            'title' => 'A Draft Motion',
         ]);
 
         $scheduledMotion = factory(App\Motion::class, 'draft')->create([
-            'title' => $faker->title.' (Scheduled)',
+            'title' => 'A Scheduled Motion',
         ]);
 
         $closedMotion = factory(App\Motion::class, 'closed')->create([
-            'title' => $faker->title.' (Closed)',
+            'title' => 'A Closed Motion',
         ]);
 
         $this->giveMotionComments($closedMotion);

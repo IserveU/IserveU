@@ -64,7 +64,7 @@ describe('authenication.guest page interactions for a guest users (no account)',
 
      		page.clickIAgreeButton();
 
-     		browser.wait(EC.urlContains('home'), 5000,"url did not match");
+     		browser.wait(EC.urlContains('home'), 10000,"url did not match");
 
   	});
 

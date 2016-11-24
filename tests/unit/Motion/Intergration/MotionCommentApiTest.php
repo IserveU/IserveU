@@ -43,9 +43,10 @@ class MotionCommentApiTest extends TestCase
         $this->get('/api/motion/'.$comment->motion->slug.'/comment');
 
         $this->assertResponseStatus(200);
+
         $this->seeJsonStructure([
             'agreeComments' => [
-                ['id', 'text'],
+                ['id', 'text'], //No keyed by ID
             ],
             'abstainComments'  => [],
             'disagreeComments' => [],
@@ -53,7 +54,7 @@ class MotionCommentApiTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_disagree_comments()
+    public function it_shows_disagree_comments_correctly()
     {
         $comment = factory(App\Comment::class)->create();
 
@@ -68,13 +69,13 @@ class MotionCommentApiTest extends TestCase
             'agreeComments'    => [],
             'abstainComments'  => [],
             'disagreeComments' => [
-                ['id', 'text'],
+                ['id', 'text'], //No keyed by ID
             ],
         ]);
     }
 
     /** @test */
-    public function it_shows_abstain_comments()
+    public function it_shows_abstain_comments_correctly()
     {
         $comment = factory(App\Comment::class)->create();
 
@@ -88,7 +89,7 @@ class MotionCommentApiTest extends TestCase
         $this->seeJsonStructure([
             'agreeComments'   => [],
             'abstainComments' => [
-                ['id', 'text'],
+                ['id', 'text'], //No keyed by ID
             ],
             'disagreeComments' => [],
         ]);
