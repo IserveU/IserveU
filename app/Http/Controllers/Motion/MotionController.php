@@ -136,14 +136,6 @@ class MotionController extends ApiController
      */
     public function destroy(DestroyMotionRequest $request, Motion $motion)
     {
-        $votes = $motion->votes;
-
-        if ($votes->isEmpty()) { //Has not recieved votes
-            $motion->forceDelete();
-
-            return $motion;
-        }
-
         $motion->delete(); //Partically voted motion kept in the database
         return $motion;
     }

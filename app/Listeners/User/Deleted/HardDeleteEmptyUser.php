@@ -32,7 +32,6 @@ class HardDeleteEmptyUser implements ShouldQueue
         $votes = $user->votes;
         $motions = $user->motions;
 
-        //dd($user->modificationTo);
         if ($votes->isEmpty() && $motions->isEmpty()) {
             DB::table('user_modifications')->where('modification_to_id', $user->id)->delete();
             DB::table('users')->where('id', $user->id)->delete(); //Force delete

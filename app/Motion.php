@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\Motion\MotionCreated;
+use App\Events\Motion\MotionDeleted;
 use App\Events\Motion\MotionUpdated;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -149,7 +150,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             return true;
         });
 
-        static::deleting(function ($model) { // before delete() method call this
+        static::deleted(function ($model) {
+            event(new MotionDeleted($model));
         });
     }
 

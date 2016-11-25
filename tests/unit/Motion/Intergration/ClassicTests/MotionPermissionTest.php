@@ -209,7 +209,7 @@ class MotionPermissionTest extends TestCase
 
         // Restore motion
         $this->call('GET', '/api/motion/'.$motion->id.'/restore');
-        $this->assertResponseStatus(401);
+        $this->assertResponseStatus(404);
         $this->dontSeeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
 

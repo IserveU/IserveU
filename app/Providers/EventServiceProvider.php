@@ -40,8 +40,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Motion\MotionUpdated' => [
             'App\Listeners\Motion\Updated\AlertVoters',
         ],
-        'App\Events\Motion\MotionCreated' => [
-
+        'App\Events\Motion\MotionDeleted' => [
+            'App\Listeners\Motion\Deleted\HardDeleteUnvotedMotion', //Tested
         ],
         'App\Events\Vote\VoteUpdated' => [
             'App\Listeners\Vote\Updated\CheckCommentVotes',
