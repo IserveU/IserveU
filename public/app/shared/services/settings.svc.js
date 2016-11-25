@@ -47,16 +47,35 @@
       },
 
       /**
+      * save values given by saveArray function recursively waiting for the
+      * response before trying to save the next setting.
+      */
+      saveRecursive: function(name, keys, value, index) {
+        var self = this;
+        this.data.saving = true;
+
+        if (keys.length === index){
+          this.data.saving = false;
+          return;
+        }
+
+        $http.patch('/api/setting/' + name + '.' + keys[index] , {value: value[keys[index]]})
+        .success(function(r) {
+          self.saveRecursive(name, keys, value, index+1);
+          SETTINGS_JSON[name + '.' + keys[index]] = value[keys[index]];
+
+        }).error(function(e) {
+          self.saveRecursive(name, keys, value, index+1);
+        });
+      },
+
+      /**
       * Organizes the data array into names that correspond
       * to the key value of Laravel's Settings library.
       */
       saveArray: function(name, value) {
-        angular.forEach(value, function(val, key) {
-          this.save({
-            'name': name + '.' + key,
-            'value': val
-          });
-        }, this);
+          var keys = Object.keys(value);
+          this.saveRecursive(name, keys, value, 0);
       },
 
       /**
