@@ -5,9 +5,9 @@ var defaultConfig = require('./tests/e2e/config.json');
 exports.config = {
     suites: defaultConfig.suites,
 
-    capabilities: {
-        'browserName': 'chrome',
-    },
+    multiCapabilities: [{
+      'browserName': 'chrome'
+    }],
 
     baseUrl: 'http://localhost:8000/', // change this to your locals
 
