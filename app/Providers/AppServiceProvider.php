@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
                 // Save the query to file
                 $logFile = fopen(
-                    storage_path('logs'.DIRECTORY_SEPARATOR.date('Y-m-d').'_query.log'),
+                    storage_path('logs'.DIRECTORY_SEPARATOR.date('Y-m-d').'_query'.php_sapi_name().'.log'),
                     'a+'
                 );
                 fwrite($logFile, date('Y-m-d H:i:s').': '.$query.PHP_EOL);
