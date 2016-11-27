@@ -75,7 +75,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'closing_at','published_at'];
+    protected $dates = ['created_at', 'updated_at', 'closing_at', 'published_at'];
 
     /**
 

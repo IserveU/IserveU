@@ -99,7 +99,6 @@ trait StatusTrait
         return $query->whereDate('published_at', '>', $time);
     }
 
-
     /*
     * Handles the trailing data error
     */
