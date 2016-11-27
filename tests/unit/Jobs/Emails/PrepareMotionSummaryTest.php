@@ -43,8 +43,8 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $motion = factory(App\Motion::class,'closed')->create([
-            'closing_at'    => Carbon::now()->subHours(12)
+        $motion = factory(App\Motion::class, 'closed')->create([
+            'closing_at'    => Carbon::now()->subHours(12),
         ]);
 
         dispatch(new PrepareMotionSummary());
@@ -97,7 +97,7 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $reviewMotion = factory(App\Motion::class,'review')->create();
+        $reviewMotion = factory(App\Motion::class, 'review')->create();
 
         dispatch(new PrepareMotionSummary());
 
