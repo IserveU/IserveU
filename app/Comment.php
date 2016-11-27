@@ -9,6 +9,7 @@ use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
 use Auth;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends NewApiModel implements CachedModel, VisibilityModel
@@ -78,12 +79,14 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
         static::creating(function ($model) {
             event(new CommentCreated($model));
+            $model->flushRelatedCache();
 
             return true;
         });
 
         static::updating(function ($model) {
             event(new CommentUpdated($model));
+            $model->flushRelatedCache();
 
             return true;
         });
@@ -126,7 +129,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        \Cache::flush(); //Just for now
+        Cache::tags(['motion.'.$this->motion->id])->flush('motion'.$this->motion->id.'_comments'); // MotionComment Index
     }
 
     //////////////////////// Visibility Implementation
