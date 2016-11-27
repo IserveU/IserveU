@@ -25,9 +25,9 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $motion = factory(App\Motion::class,'published')->create();
+        $motion = factory(App\Motion::class, 'published')->create();
 
-        DB::table('motions')->where(['id'=>$motion->id])->update(['created_at'=>Carbon::now()->subYears(1)->format('Y-m-d H:i:s'),'updated_at'=>Carbon::now()->subYears(1)->format('Y-m-d H:i:s')]);
+        DB::table('motions')->where(['id' => $motion->id])->update(['created_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s')]);
 
         dispatch(new PrepareMotionSummary());
 
@@ -36,7 +36,6 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertTrue($message->contains($motion->title));
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }
-
 
     /** @test */
     public function motion_summary_email_contains_motions_that_recently_closed()
@@ -44,9 +43,13 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
+<<<<<<< HEAD
         $motion = factory(App\Motion::class,'closed')->create([
             'closing_at'    => Carbon::now()->subHours(12)
         ]);
+=======
+        $motion = factory(App\Motion::class, 'closed')->create();
+>>>>>>> 699a4d8b0f06848c67554a19a9aabb4eddd45c2e
 
         dispatch(new PrepareMotionSummary());
 
@@ -55,7 +58,6 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertTrue($message->contains($motion->title));
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }
-
 
     /** @test */
     public function motion_summary_email_contains_motions_that_will_close_soon()
@@ -63,9 +65,9 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $motion = factory(App\Motion::class,'published')->create();
+        $motion = factory(App\Motion::class, 'published')->create();
 
-        DB::table('motions')->where(['id'=>$motion->id])->update(['closing_at'=>Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+        DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
 
         dispatch(new PrepareMotionSummary());
 
@@ -75,10 +77,7 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }
 
-
-
     /// Negative Tests
-
 
     /** @test */
     public function motion_summary_email_does_not_contain_draft_motions()
@@ -86,7 +85,7 @@ class PrepareMotionSummaryTest extends TestCase
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $draftMotion = factory(App\Motion::class,'draft')->create();
+        $draftMotion = factory(App\Motion::class, 'draft')->create();
 
         dispatch(new PrepareMotionSummary());
 
@@ -96,15 +95,17 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertFalse($message->contains($reviewMotion->title));
     }
 
-
-
     /** @test */
     public function motion_summary_email_does_not_contain_review_motions()
     {
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
+<<<<<<< HEAD
         $reviewMotion = factory(App\Motion::class,'review')->create();
+=======
+        $reviewMotion = factory(App\Motion::class, 'published')->create();
+>>>>>>> 699a4d8b0f06848c67554a19a9aabb4eddd45c2e
 
         dispatch(new PrepareMotionSummary());
 
@@ -113,15 +114,14 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertFalse($message->contains($reviewMotion->title));
     }
 
-
     /** @test */
     public function motion_summary_email_does_not_contain_long_closed_motions()
     {
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $closedMotion = factory(App\Motion::class,'closed')->create([
-            'closing_at'    => Carbon::now()->subDays(8)
+        $closedMotion = factory(App\Motion::class, 'closed')->create([
+            'closing_at'    => Carbon::now()->subDays(8),
         ]);
 
         dispatch(new PrepareMotionSummary());
@@ -131,15 +131,14 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertFalse($message->contains($closedMotion->title));
     }
 
-
     /** @test */
     public function motion_summary_email_does_not_contain_long_published_motions()
     {
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $motion = factory(App\Motion::class,'published')->create([
-            'closing_at'    => Carbon::now()->addDays(8)
+        $motion = factory(App\Motion::class, 'published')->create([
+            'closing_at'    => Carbon::now()->addDays(8),
         ]);
 
         $motion->published_at = Carbon::now()->subDays(8); //Not mass assignable
@@ -150,5 +149,5 @@ class PrepareMotionSummaryTest extends TestCase
         $message = $this->getLastMessageFor($user->email);
 
         $this->assertFalse($message->contains($motion->title));
-    }    
+    }
 }

@@ -39,7 +39,7 @@ class PrepareMotionSummary implements ShouldQueue
 
         // Get latest or new motion
         $latestLaunchedMotions = Motion::status('published')->publishedAfter(Carbon::now()->subHours(24))->get();
-        
+
         $recentlyClosedMotions = Motion::status('closed')->closingAfter(Carbon::now()->subHours(24))->closingBefore(Carbon::now())->get();
         // echo print_r(\DB::getQueryLog());
         $closingSoonMotions = Motion::expired('published')->closingAfter(Carbon::now())->closingBefore(Carbon::now()->addHours(24))->get();

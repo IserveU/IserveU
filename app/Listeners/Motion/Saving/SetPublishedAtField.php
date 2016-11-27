@@ -4,8 +4,6 @@ namespace App\Listeners\Motion\Saving;
 
 use App\Events\Motion\MotionSaving;
 use Carbon\Carbon;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SetPublishedAtField
 {
@@ -22,26 +20,30 @@ class SetPublishedAtField
     /**
      * Handle the event.
      *
-     * @param  MotionSaving  $event
+     * @param MotionSaving $event
+     *
      * @return void
      */
     public function handle(MotionSaving $event)
     {
-       
-
-        if($event->motion->status!="published") return true;
+        if ($event->motion->status != 'published') {
+            return true;
+        }
 
         $changed = $event->motion->getOriginal();
 
         //If no status, published now
-        if(!array_key_exists('status',$changed)){
-             $event->motion->published_at = Carbon::now();
-             return true;
+        if (!array_key_exists('status', $changed)) {
+            $event->motion->published_at = Carbon::now();
+
+            return true;
         }
-         
+
         //If old status is not published, published now
-        if($changed['status']!="published") $event->motion->published_at = Carbon::now();
-        
+        if ($changed['status'] != 'published') {
+            $event->motion->published_at = Carbon::now();
+        }
+
         return true;
     }
 }
