@@ -410,6 +410,16 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $query->where('updated_at', '>=', $time);
     }
 
+    public function scopePublishedAfter($query, Carbon $time)
+    {
+        return $query->where('published_at', '>=', $time);
+    }
+
+    public function scopePublishedBefore($query, Carbon $time)
+    {
+        return $query->where('published_at', '<=', $time);
+    }
+
     public function scopeClosingBefore($query, Carbon $time)
     {
         return $query->where('closing_at', '<=', $time);

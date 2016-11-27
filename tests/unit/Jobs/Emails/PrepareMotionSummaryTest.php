@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\Emails\PrepareMotionSummary;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
@@ -19,12 +20,14 @@ class PrepareMotionSummaryTest extends TestCase
     // Positive Tests
 
     /** @test */
-    public function motion_summary_email_contains_new_motions()
+    public function motion_summary_email_contains_new_motions_based_on_published_at_field()
     {
         $user = factory(App\User::class)->create();
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
         $motion = factory(App\Motion::class,'published')->create();
+
+        DB::table('motions')->where(['id'=>$motion->id])->update(['created_at'=>Carbon::now()->subYears(1)->format('Y-m-d H:i:s'),'updated_at'=>Carbon::now()->subYears(1)->format('Y-m-d H:i:s')]);
 
         dispatch(new PrepareMotionSummary());
 
@@ -34,41 +37,116 @@ class PrepareMotionSummaryTest extends TestCase
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }
 
+
+    /** @test */
+    public function motion_summary_email_contains_motions_that_recently_closed()
+    {
+        $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
+
+        $motion = factory(App\Motion::class,'closed')->create();
+
+        dispatch(new PrepareMotionSummary());
+
+        $message = $this->getLastMessageFor($user->email);
+
+        $this->assertTrue($message->contains($motion->title));
+        $this->assertEquals($message->subject, 'Summary of Latest Motions');
+    }
+
+
+    /** @test */
+    public function motion_summary_email_contains_motions_that_will_close_soon()
+    {
+        $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
+
+        $motion = factory(App\Motion::class,'published')->create();
+
+        DB::table('motions')->where(['id'=>$motion->id])->update(['closing_at'=>Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+
+        dispatch(new PrepareMotionSummary());
+
+        $message = $this->getLastMessageFor($user->email);
+
+        $this->assertTrue($message->contains($motion->title));
+        $this->assertEquals($message->subject, 'Summary of Latest Motions');
+    }
+
+
+
     /// Negative Tests
 
-    /** @test */
-    public function user_summary_email_does_not_send_when_preference_off()
-    {
-        $adminUser = static::getPermissionedUser('show-user');
-        $adminUser->setPreference('authentication.notify.admin.summary', 0)->save();
 
+    /** @test */
+    public function motion_summary_email_does_not_contain_draft_motions()
+    {
         $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        dispatch(new PrepareAdminSummary());
+        $draftMotion = factory(App\Motion::class,'draft')->create();
 
-        $message = $this->getLastMessageFor($adminUser->email);
+        dispatch(new PrepareMotionSummary());
 
-        $this->assertFalse($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
-        $this->assertNotEquals($message->subject, 'Daily Admin Summary');
+        $message = $this->getLastMessageFor($user->email);
+
+        $this->assertFalse($message->contains($draftMotion->title));
+        $this->assertFalse($message->contains($reviewMotion->title));
     }
+
+
 
     /** @test */
-    public function user_summary_email_does_not_contain_an_administrator_user()
+    public function motion_summary_email_does_not_contain_review_motions()
     {
-        $adminUser = static::getPermissionedUser('show-user');
-        $adminUser->setPreference('authentication.notify.admin.summary', 1)->save();
+        $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
 
-        $siteAdministrator = factory(App\User::class)->create();
-        $siteAdministrator->addRole('administrator');
+        $reviewMotion = factory(App\Motion::class,'published')->create();
 
-        $regularUser = factory(App\User::class)->create();
+        dispatch(new PrepareMotionSummary());
 
-        dispatch(new PrepareAdminSummary());
+        $message = $this->getLastMessageFor($user->email);
 
-        $message = $this->getLastMessageFor($adminUser->email);
-
-        $this->assertEquals($message->subject, 'Daily User Summary');
-        $this->assertFalse($message->contains($siteAdministrator->first_name.' '.$siteAdministrator->last_name.' ('.$siteAdministrator->email.')'));
-        $this->assertTrue($message->contains($regularUser->first_name.' '.$regularUser->last_name.' ('.$regularUser->email.')'));
+        $this->assertFalse($message->contains($reviewMotion->title));
     }
+
+
+    /** @test */
+    public function motion_summary_email_does_not_contain_long_closed_motions()
+    {
+        $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
+
+        $closedMotion = factory(App\Motion::class,'closed')->create([
+            'closing_at'    => Carbon::now()->subDays(8)
+        ]);
+
+        dispatch(new PrepareMotionSummary());
+
+        $message = $this->getLastMessageFor($user->email);
+
+        $this->assertFalse($message->contains($closedMotion->title));
+    }
+
+
+    /** @test */
+    public function motion_summary_email_does_not_contain_long_published_motions()
+    {
+        $user = factory(App\User::class)->create();
+        $user->setPreference('motion.notify.user.summary', 1)->save();
+
+        $motion = factory(App\Motion::class,'published')->create([
+            'closing_at'    => Carbon::now()->addDays(8)
+        ]);
+
+        $motion->published_at = Carbon::now()->subDays(8); //Not mass assignable
+        $motion->save();
+
+        dispatch(new PrepareMotionSummary());
+
+        $message = $this->getLastMessageFor($user->email);
+
+        $this->assertFalse($message->contains($motion->title));
+    }    
 }
