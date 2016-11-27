@@ -48,9 +48,9 @@ class MotionSummary extends Notification
     public function toMail($notifiable)
     {
         $mailMessage = (new MailMessage())
-                    ->subject('Latest Democracy Action');
+                    ->subject('Summary of Latest Motions');
 
-        if (!$this->latestLaunchedMotions->empty()) {
+        if (!$this->latestLaunchedMotions->isEmpty()) {
             $mailMessage = $mailMessage->greeting('Latest Motions');
             foreach ($this->latestLaunchedMotions as $motion) {
                 $mailMessage
@@ -59,7 +59,7 @@ class MotionSummary extends Notification
             }
         }
 
-        if (!$this->recentlyClosedMotions->empty()) {
+        if (!$this->recentlyClosedMotions->isEmpty()) {
             $mailMessage = $mailMessage->greeting('Recently Closed Motions');
             foreach ($this->recentlyClosedMotions as $motion) {
                 $mailMessage
@@ -68,7 +68,7 @@ class MotionSummary extends Notification
             }
         }
 
-        if (!$this->closingSoonMotions->empty()) {
+        if (!$this->closingSoonMotions->isEmpty()) {
             $mailMessage = $mailMessage->greeting('Motions Closing Soon');
             foreach ($this->closingSoonMotions as $motion) {
                 $mailMessage

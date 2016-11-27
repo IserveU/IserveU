@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\Motion\MotionCreated;
 use App\Events\Motion\MotionDeleted;
+use App\Events\Motion\MotionSaving;
 use App\Events\Motion\MotionUpdated;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -74,7 +75,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'closing_at'];
+    protected $dates = ['created_at', 'updated_at', 'closing_at','published_at'];
 
     /**
 
@@ -134,13 +135,20 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             return true;
         });
 
+        static::saving(function ($model) {
+            // Does  Nothing
+            event(new MotionSaving($model));
+
+            return true;
+        });
+
+
         static::created(function ($model) {
             // Does  Nothing
             event(new MotionCreated($model));
 
             return true;
         });
-
 
         static::updating(function ($model) {
             // SendNotificationEmail
