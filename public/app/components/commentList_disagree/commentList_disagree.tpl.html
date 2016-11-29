@@ -21,7 +21,7 @@
 			<div class="comment-list__list-item">
 				<p class="md-caption comment-list__list-item-date" ng-bind="show.formatDate(comment)"></p>
 				<p class="md-body-1 comment-list__list-item-text">{{ comment.text }}</p>
-				<comment-vote ng-if="motion.userVote.position == -1" comment-id="comment.id"></comment-vote>
+				<comment-vote position="-1" comment-id="comment.id"></comment-vote>
 			</div>
 
 			<md-divider ng-show="!$last" class="md-default-theme"></md-divider>
