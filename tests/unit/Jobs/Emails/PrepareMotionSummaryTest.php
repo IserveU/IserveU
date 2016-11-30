@@ -88,7 +88,6 @@ class PrepareMotionSummaryTest extends TestCase
         $message = $this->getLastMessageFor($user->email);
 
         $this->assertFalse($message->contains($draftMotion->title));
-        $this->assertFalse($message->contains($reviewMotion->title));
     }
 
     /** @test */
