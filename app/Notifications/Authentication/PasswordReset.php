@@ -47,7 +47,7 @@ class PasswordReset extends Notification
         return (new MailMessage())
             ->subject('Trouble logging in?')
             ->line('We recieved a request to reset your password. Just hit the button below')
-            ->action('Reset Password', url('/').'#/login/'.$this->user->remember_token)
+            ->action('Reset Password', url('/').'/#/login/'.$this->user->remember_token)
             ->line("If you didn't request this reset someone is trying to use your email address on the site. If this happens regularly it's a good idea to make sure your password is very secure");
     }
 

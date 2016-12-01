@@ -55,7 +55,7 @@ class MotionSummary extends Notification
             foreach ($this->latestLaunchedMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)
-                    ->action($motion->title, url('#/motion/'.$motion->slug));
+                    ->action($motion->title, url('/#/motion/'.$motion->slug));
             }
         }
 
@@ -64,7 +64,7 @@ class MotionSummary extends Notification
             foreach ($this->recentlyClosedMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)
-                    ->action($motion->title, url('#/motion/'.$motion->slug));
+                    ->action($motion->title, url('/#/motion/'.$motion->slug));
             }
         }
 
@@ -73,7 +73,7 @@ class MotionSummary extends Notification
             foreach ($this->closingSoonMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)
-                    ->action($motion->title, url('#/motion/'.$motion->slug));
+                    ->action($motion->title, url('/#/motion/'.$motion->slug));
             }
         }
 

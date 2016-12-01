@@ -49,7 +49,7 @@ class UserCreated extends Notification
                     ->greeting('A new user has been created')
                     ->line('Name: '.$this->user->first_name.' '.$this->user->last_name)
                     ->line('Email: '.$this->user->email)
-                    ->action('View User', url('#/user/'.$this->user->slug));
+                    ->action('View User', url('/#/user/'.$this->user->slug));
     }
 
     /**

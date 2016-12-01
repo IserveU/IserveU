@@ -34,6 +34,8 @@ class PrepareMotionSummaryTest extends TestCase
         $message = $this->getLastMessageFor($user->email);
 
         $this->assertTrue($message->contains($motion->title));
+
+        $this->assertTrue($message->contains(url("/#/motion/$motion->slug")));
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }
 

@@ -47,7 +47,7 @@ class AlteredMotion extends Notification
         return (new MailMessage())
                 ->subject('Motion Updated')
                 ->line('A motion that you voted on has been updated. You might want to check that you still agree')
-                ->action($this->motion->title, url('/').'#/motion/'.$this->motion->slug);
+                ->action($this->motion->title, url('/#/motion/'.$this->motion->slug));
     }
 
     /**
