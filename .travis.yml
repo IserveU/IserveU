@@ -1,5 +1,6 @@
 dist: trusty
 sudo: required
+group: deprecated
 services:
   - redis-server
 
@@ -10,7 +11,7 @@ php:
 
 notifications:
   email: false
-  
+
 before_install:
   - chmod +x ./tests/scripts/*
   - ./tests/scripts/install-node.sh
