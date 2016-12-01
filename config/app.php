@@ -23,6 +23,8 @@ return [
 
     'debug' => env('APP_DEBUG'),
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -159,6 +161,7 @@ return [
         'anlutro\LaravelSettings\ServiceProvider',
          Cviebrock\EloquentSluggable\ServiceProvider::class,
          Vinkla\Backup\BackupServiceProvider::class,
+         Hyn\Framework\FrameworkServiceProvider::class,
     ],
 
     /*
@@ -184,7 +187,7 @@ return [
         'Cookie'       => 'Illuminate\Support\Facades\Cookie',
         'Crypt'        => 'Illuminate\Support\Facades\Crypt',
         'DB'           => 'Illuminate\Support\Facades\DB',
-        'Eloquent'     => 'Illuminate\Database\Eloquent\Model',
+        'Eloquent'     => Hyn\Tenancy\Abstracts\Models\TenantModel::class,
         'Event'        => 'Illuminate\Support\Facades\Event',
         'File'         => 'Illuminate\Support\Facades\File',
         'Hash'         => 'Illuminate\Support\Facades\Hash',
