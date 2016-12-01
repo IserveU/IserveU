@@ -18,6 +18,7 @@ class IndexMotionVoteApiTest extends TestCase
     {
         $motion = $this->getStaticMotion();
 
+        //This failed once to find the key "Abstain"
         $this->get('/api/motion/'.$motion->id.'/vote')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([

@@ -18,6 +18,7 @@
 			var self = this;
 
 			self.button = new CommentVote();
+      self.position = $attrs.position;
 
 			function fetchUserCommentVotes() {
 				commentVoteResource.getUserCommentVotes({user_id: $rootScope.authenticatedUser.id}).then(renderActiveCommentVotes);
@@ -25,7 +26,7 @@
 
 			function renderActiveCommentVotes(res) {
 				var comment_votes = res.data || res,
-				 	comment_id    = $scope.$eval($attrs.commentId);
+            comment_id    = $scope.$eval($attrs.commentId);
 
 				for(var i in comment_votes) {
 					if( comment_votes[i].comment_id === comment_id){

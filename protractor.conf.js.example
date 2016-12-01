@@ -10,9 +10,6 @@ exports.config = {
         'browserName': 'chrome'
     },
 
-    capabilities: {
-        'browserName': 'chrome'
-    },
 
     baseUrl: 'http://iserveu.local/', // change this to your local
 

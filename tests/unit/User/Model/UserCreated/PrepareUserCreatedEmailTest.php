@@ -27,7 +27,7 @@ class PrepareUserCreatedEmailTest extends TestCase
         $this->assertEquals($message->subject, 'User Created: '.$user->first_name.' '.$user->last_name);
         $this->assertTrue($message->contains($user->email));
         $this->assertTrue($message->contains($user->first_name.' '.$user->last_name));
-        $this->assertTrue($message->contains('/user/'.$user->slug));
+        $this->assertTrue($message->contains(url("/#/user/$user->slug")));
     }
 
     /** @test **/

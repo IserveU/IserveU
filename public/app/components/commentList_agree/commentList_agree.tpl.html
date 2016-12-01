@@ -20,7 +20,7 @@
 				<p class="md-caption comment-list__list-item-date">{{ comment.created_at.diff }}</p>
 				<p class="md-body-1 comment-list__list-item-text">{{ comment.text }}</p>
 
-				<comment-vote ng-if="(userIsLoggedIn && motion.userVote.position == 1)" comment-id="comment.id"></comment-vote>
+				<comment-vote position="1" comment-id="comment.id"></comment-vote>
 			</div>
 
 			<md-divider ng-if="!$last" class="md-default-theme"></md-divider>
