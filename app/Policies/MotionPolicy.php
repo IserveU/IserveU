@@ -37,7 +37,6 @@ class MotionPolicy
             }
         }
 
-
         //Cant set another user as the creator of a motion if you're just a regular citizen
         if (array_key_exists('user_id', $inputs)) {
             if (!Auth::user()->can('administrate-motion') && Auth::user()->id != $inputs['user_id']) {
@@ -45,11 +44,9 @@ class MotionPolicy
             }
         }
 
-
         //         if($value && !$this->motionRanks->isEmpty()){
         //             abort(403,"This motion has already been voted on, it cannot be reactivated after closing");
         //         }
-
 
         //
        return true;

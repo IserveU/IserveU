@@ -174,7 +174,6 @@ class SetDefaultPermissions implements ShouldQueue
                                           $createMotion->id,
                                           $createVote->id, ]);
 
-
         $admin->perms()->sync([$editUser->id,
                                         $showUser->id,
                                         $deleteUser->id,

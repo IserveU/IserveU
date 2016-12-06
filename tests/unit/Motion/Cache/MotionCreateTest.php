@@ -24,7 +24,6 @@ class MotionCreateTest extends TestCase
     {
         $this->markTestSkipped('Feature not implemented');
 
-
         //See the cache key exists for a vanilla index pull on users, etc
         $motion = factory(App\Motion::class)->create();
         //See the cache key has not been been cleared

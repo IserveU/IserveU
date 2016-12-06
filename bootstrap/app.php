@@ -41,7 +41,6 @@ $app->singleton(
     'App\Exceptions\Handler'
 );
 
-
 /*
  * Configure Monolog.
  */

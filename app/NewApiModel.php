@@ -128,7 +128,6 @@ class NewApiModel extends Model
             return parent::toJson($options);
         }
 
-
         $this->setVisibility();
 
         return parent::toJson($options);

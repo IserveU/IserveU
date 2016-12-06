@@ -25,7 +25,6 @@ class IndexMotionRequest extends Request
             return true;
         }
 
-
         if (array_intersect(['draft', 'review'], $this->input('status'))) {
             if (!Auth::check()) {
                 return false;
@@ -35,7 +34,6 @@ class IndexMotionRequest extends Request
             //$this->request->add(['user_id'=>Auth::user()->id]);
             $this['user_id'] = Auth::user()->id;
         }
-
 
         //Not trying to see an unpublished motion
         return true;

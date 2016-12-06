@@ -14,7 +14,6 @@ class MotionDatabaseTest extends TestCase
         $motionPublished = factory(App\Motion::class, 'published')->create();
         $motionClosed = factory(App\Motion::class, 'closed')->create();
 
-
         $motion = \App\Motion::status('draft')->first();
         $this->assertEquals($motion->status, 'draft');
 

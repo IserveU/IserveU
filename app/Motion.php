@@ -35,14 +35,12 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $fillable = ['title', 'text', 'summary', 'department_id', 'closing_at', 'status', 'user_id', 'implementation'];
 
-
     /**
      * The attributes included in the JSON/Array.
      *
      * @var array
      */
     protected $visible = [''];
-
 
     /**
      * The attributes included in the JSON/Array.
@@ -51,7 +49,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $hidden = ['content'];
 
-
     /**
      * The attributes included in the JSON/Array.
      *
@@ -59,16 +56,12 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $with = ['department', 'user', 'files'];
 
-
-
     /**
      * The attributes appended and returned (if visible) to the user.
      *
      * @var array
      */
     protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank', 'text'];
-
-
 
     /**
      * The fields that are dates/times.
@@ -99,7 +92,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         'status'    => 'draft',
         'content'   => '{"text": ""}',
     ];
-
 
     /**
      * Casts fields to database columns.
@@ -141,7 +133,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
             return true;
         });
-
 
         static::created(function ($model) {
             // Does  Nothing
@@ -269,12 +260,10 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             return false;
         }
 
-
         //This motion is not published and cannot be voted on
         if ($this->attributes['status'] != 'published') {
             return false;
         }
-
 
         if ($this->closing_at['carbon']->lt(Carbon::now())) {
             $this->attributes['status'] = 'closed';

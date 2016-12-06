@@ -24,7 +24,6 @@ class MotionCommentApiTest extends TestCase
     {
         $comment = factory(App\Comment::class)->create();
 
-
         $this->get('/api/motion/'.$comment->vote->motion_id.'/comment')
              ->assertResponseStatus(200)
              ->dontSeeJson([
@@ -100,7 +99,6 @@ class MotionCommentApiTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-
         $positiveVote = factory(App\Vote::class)->create([
             'motion_id' => $motion->id,
             'position'  => 1,
@@ -168,10 +166,8 @@ class MotionCommentApiTest extends TestCase
         $vote->position = -1;
         $vote->save();
 
-
         $this->get('/api/motion/'.$vote->motion_id.'/comment')
             ->assertResponseStatus(200);
-
 
         $response = json_decode($this->response->getContent(), true);
         $this->assertEquals(count($response['agreeComments']), 0);

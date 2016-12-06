@@ -24,16 +24,12 @@ class Vote extends NewApiModel implements CachedModel
      */
     protected $fillable = ['motion_id', 'position', 'user_id'];
 
-
-
     /**
      * The default attributes included in the JSON/Array.
      *
      * @var array
      */
     protected $visible = [];
-
-
 
     /**
      * The attributes appended and returned (if visible) to the user.
@@ -110,15 +106,10 @@ class Vote extends NewApiModel implements CachedModel
             $this->addVisible(['id', 'position', 'motion_id', 'user_id', 'deferred_to_id', 'visited', 'updated_at']);
         }
 
-
-
-
         return $this;
     }
 
     /************************************* Custom Methods *******************************************/
-
-
 
     /************************************* Getters & Setters ****************************************/
 
@@ -143,8 +134,6 @@ class Vote extends NewApiModel implements CachedModel
     }
 
     /************************************* Casts & Accesors *****************************************/
-
-
 
     /************************************* Scopes ***************************************************/
 

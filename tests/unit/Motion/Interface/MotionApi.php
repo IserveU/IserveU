@@ -6,7 +6,6 @@ abstract class MotionApi extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected $route = '/api/motion/';
     protected $class = App\Motion::class;
     protected $table = 'motions';

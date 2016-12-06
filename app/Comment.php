@@ -30,7 +30,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $fillable = ['text', 'vote_id', 'status'];
 
-
     /**
      * The default attributes included in the JSON/Array.
      *
@@ -38,9 +37,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $visible = [''];
 
-
     protected $with = ['vote.user', 'commentRankRelation'];
-
 
     /**
      * The attributes appended and returned (if visible) to the user.
@@ -49,14 +46,12 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $appends = ['motion', 'commentRank', 'user', 'motionTitle', 'motionId'];
 
-
     /**
      * The fields that are dates/times.
      *
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
-
 
     protected $attributes = [
         'status'    => 'private',
@@ -146,17 +141,12 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
             $this->addVisible(['vote.user', 'user', 'userName']);
         }
 
-
         $this->addVisible(['text', 'created_at', 'id', 'commentRank', 'motionTitle', 'motionId']);
-
 
         return $this;
     }
 
     /**************************************** Custom Methods **************************************** */
-
-
-
 
     /****************************************** Getters & Setters ************************************/
 
@@ -171,8 +161,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
       }
 
         $related = $this->getRelation('commentRankRelation');
-
-
 
       // then return the count directly
       return ($related) ? (int) $related->rank : 0;

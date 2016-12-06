@@ -26,7 +26,6 @@ class CommentVotesPermissionsTest extends TestCase
         $this->get('/api/motion/'.$motion->id)
             ->assertResponseStatus(200);
 
-
         $this->signInAsPermissionedUser('create-comment_vote');
 
         $comment = factory(App\Comment::class)->create(); //Someone's comment
@@ -36,13 +35,11 @@ class CommentVotesPermissionsTest extends TestCase
             'user_id'   => $this->user->id,
         ]);
 
-
         // Make a comment vote
         $commentVote = factory(App\CommentVote::class)
             ->make(['comment_id' => $comment->id])
             ->setVisible(['position'])
             ->toArray();
-
 
         $this->post('/api/comment/'.$comment->id.'/comment_vote', $commentVote)
             ->assertResponseStatus(200);

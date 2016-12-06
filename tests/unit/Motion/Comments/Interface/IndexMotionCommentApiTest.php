@@ -6,13 +6,11 @@ class IndexMotionCommentApiTest extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected static $motion;
 
     public function setUp()
     {
         parent::setUp();
-
 
         if (is_null(static::$motion)) {
             static::$motion = factory(App\Motion::class, 'published')->create();

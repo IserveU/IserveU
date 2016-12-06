@@ -12,15 +12,11 @@
 |
 */
 
-
 Route::get('/', 'HomeController@index');
-
-
 
 Route::post('authenticate', 'AuthenticateController@authenticate')->name('login');
 Route::post('authenticate/resetpassword', 'AuthenticateController@resetPassword')->name('reset.trigger');
 Route::get('authenticate/{remember_token}', 'AuthenticateController@noPassword')->name('reset.return');
-
 
 Route::group(['prefix' => 'api'], function () {
 
@@ -50,7 +46,6 @@ Route::group(['prefix' => 'api'], function () {
     Route::resource('motion/{motion}/comment', 'Motion\MotionCommentController', ['only' => ['index']]);
     Route::get('motion/{id}/restore', 'Motion\MotionController@restore');
 
-
     \App\File::routes('motion');
     Route::resource('motion', 'Motion\MotionController', ['except' => ['create', 'edit']]);
 
@@ -72,7 +67,6 @@ Route::group(['prefix' => 'api'], function () {
 
     //Administrator only
     Route::group(['middleware' => ['role:administrator']], function () {
-
 
         //Ethnic Origin
         Route::resource('ethnic_origin', 'EthnicOriginController', ['only' => ['index']]);

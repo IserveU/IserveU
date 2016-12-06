@@ -9,7 +9,6 @@ class UserModification extends ApiModel
 {
     use SoftDeletes;
 
-
     /**
      * The name of the table for this model, also for the permissions set for this model.
      *
@@ -106,7 +105,6 @@ class UserModification extends ApiModel
      */
     protected $fields = []; //This is an automatic model, not updated by admin or anything
 
-
     /**
      * The fields that are dates/times.
      *
@@ -120,7 +118,6 @@ class UserModification extends ApiModel
      * @var array
      */
     protected $locked = [];
-
 
     /**************************************** Standard Methods **************************************** */
 
@@ -152,21 +149,13 @@ class UserModification extends ApiModel
 
     /**************************************** Custom Methods **************************************** */
 
-
     /****************************************** Getters & Setters ************************************/
-
-
-
 
     /************************************* Casts & Accesors *****************************************/
 
-
     /************************************* Scopes *****************************************/
 
-
     /**********************************  Relationships *****************************************/
-
-
 
  //    public function modifiedcationTo(){
     // 	return $this->hasMany('App\User','modification_to_id');

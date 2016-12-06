@@ -20,7 +20,6 @@ class File extends NewApiModel implements CachedModel
      */
     protected $table = 'files';
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -29,7 +28,6 @@ class File extends NewApiModel implements CachedModel
     protected $fillable = [
         'title', 'description', 'user_id', 'folder', 'replacement_id', 'filename',
     ];
-
 
     /**
      * So that the motion page can see the index.
@@ -73,7 +71,6 @@ class File extends NewApiModel implements CachedModel
     protected $attributes = [
 
     ];
-
 
     protected $flowFilename = '';
 
@@ -283,7 +280,6 @@ class File extends NewApiModel implements CachedModel
     }
 
 /***************************SCOPE FUNCTIONS ***********************************************************************/
-
 
     /**************************************** Defined Relationships ****************************************/
 
