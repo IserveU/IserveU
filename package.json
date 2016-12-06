@@ -30,7 +30,5 @@
     "test": "webdriver-manager start && protractor conf",
     "lint": "eslint public/app"
   },
-  "dependencies": {
-    "angular-marked": "^1.2.2"
-  }
+  "dependencies": {}
 }
