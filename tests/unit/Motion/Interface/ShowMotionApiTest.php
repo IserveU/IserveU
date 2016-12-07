@@ -22,7 +22,6 @@ class ShowMotionApiTest extends MotionApi
 
         $motion = factory(App\Motion::class)->create();
 
-
         $this->visit('/api/motion/'.$motion->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([

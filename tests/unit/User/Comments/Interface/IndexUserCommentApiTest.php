@@ -6,13 +6,11 @@ class IndexUserCommentApiTest extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected static $commentingUser;
 
     public function setUp()
     {
         parent::setUp();
-
 
         if (is_null(static::$commentingUser)) {
             static::$commentingUser = factory(App\User::class)->create();

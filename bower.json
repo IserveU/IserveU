@@ -26,7 +26,9 @@
     "ngInfiniteScroll": "~1.2.1",
     "satellizer": "latest",
     "svg-morpheus": "latest",
-    "textAngular": "1.4.2"
+    "textAngular": "1.4.2",
+    "angular-marked": "^1.2.2",
+    "marked": "^0.3.6"
   },
   "private": true,
   "resolutions": {

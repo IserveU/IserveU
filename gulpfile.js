@@ -15,13 +15,13 @@ require('laravel-elixir-livereload');
  */
 
 elixir(function(mix) {
-    
+
     mix.scripts([
         '/angular/angular.js',
         '/jquery/dist/jquery.min.js',
         '/angular-animate/angular-animate.min.js',
         '/angular-aria/angular-aria.min.js',
-        '/angular-material/angular-material.min.js',        
+        '/angular-material/angular-material.min.js',
         '/angular-resource/angular-resource.min.js',
         '/angular-messages/angular-messages.min.js',
         '/angular-ui-router/release/angular-ui-router.min.js',
@@ -37,9 +37,11 @@ elixir(function(mix) {
         '/md-color-picker/dist/mdColorPicker.min.js',
         '/isu-form-sections/dist/isu-form-sections.min.js',
         '/angular-loading-bar/build/loading-bar.min.js',
-        '/angular-alloyeditor/dist/angular-alloyeditor.min.js'
+        '/angular-alloyeditor/dist/angular-alloyeditor.min.js',
+        '/marked/marked.min.js',
+        '/angular-marked/dist/angular-marked.min.js'
         ],'public/js/dependencies.js', 'bower'); // added resources as third argument to point directly to the resources directory and not have /js in there
- 	
+
     mix.scriptsIn('public/app','public/js/app.js');
 
     mix.styles([
@@ -47,8 +49,8 @@ elixir(function(mix) {
         '/mdi/css/materialdesignicons.min.css',
         '/md-color-picker/dist/mdColorPicker.min.css',
         '/angular-loading-bar/build/loading-bar.css'
-    ],'public/css/dependencies.css', 'bower'); 
-    
+    ],'public/css/dependencies.css', 'bower');
+
     mix.sass(['style.scss'],'public/css');
 
     mix.copy('bower/mdi/fonts', 'public/build/fonts'); //The default icon set
@@ -56,7 +58,7 @@ elixir(function(mix) {
 
     //Copy the standard icons (set in the department table)
     mix.copy('resources/assets/icons', 'public/icons');
-    
+
     //Copy the glyph fonts and symbols for the UI
     mix.copy('resources/assets/symbols', 'public/symbols');
 
@@ -64,6 +66,3 @@ elixir(function(mix) {
 
     mix.livereload();
 });
-
-
-

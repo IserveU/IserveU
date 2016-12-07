@@ -34,7 +34,6 @@ class Role extends EntrustRole
     {
         parent::boot();
 
-
         static::created(function ($model) {
             Cache::tags('role')->flush();
 

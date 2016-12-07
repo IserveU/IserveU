@@ -15,7 +15,7 @@
 }
 
 .comment-list__list-item-text {
-  //white-space: pre;
+  word-wrap: break-word;
 }
 
 .comment-list__list-item-container .zero-comments > div{

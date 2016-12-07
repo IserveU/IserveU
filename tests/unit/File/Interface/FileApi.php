@@ -6,7 +6,6 @@ abstract class FileApi extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected $route = '/api/file/';
     protected $class = App\File::class;
     protected $table = 'files';
@@ -17,7 +16,6 @@ abstract class FileApi extends TestCase
     public function setUp()
     {
         parent::setUp();
-
 
         $this->parent = factory(App\Motion::class)->create();
 

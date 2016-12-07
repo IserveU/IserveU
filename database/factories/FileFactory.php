@@ -16,7 +16,6 @@ $factory->defineAs(App\File::class, 'image', function (Faker\Generator $faker) u
     $fileName = str_random(64).'.jpg';
     \File::copy(base_path().'/tests/unit/File/test_a.jpg', storage_path('app/'.$fileName));
 
-
     return array_merge($factory->raw(App\File::class), [
             'filename'      => $fileName,
     ]);

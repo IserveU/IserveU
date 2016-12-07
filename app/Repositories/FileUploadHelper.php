@@ -21,14 +21,12 @@ class FileUploadHelper
      */
     protected $fileName;
 
-
     /**
      * The route to place the file in storage.
      *
      * @var string
      */
     protected $folder = '';
-
 
     /**
      * The field in the request which holds the file.
@@ -37,14 +35,12 @@ class FileUploadHelper
      */
     protected $fileField;
 
-
     /**
      * If the file is ready and in storage.
      *
      * @var bool
      */
     protected $fileReady = false;
-
 
     /**
      * If this is a flow file request.
@@ -156,7 +152,6 @@ class FileUploadHelper
         if (!$file = $request->file) {
             return false;
         }
-
 
         $this->fileName = static::nameFile($file->getClientOriginalName());
 

@@ -62,8 +62,6 @@ class InitializeApp extends Command
         // Defaults
         dispatch(new SetDefaultPermissions());
 
-
-
         $email = $this->argument('email');
         if (!$email) {
             $email = $this->anticipate('What is your email?', ['admin@iserve.ca'], 'admin@iserveu.ca');
@@ -88,7 +86,6 @@ class InitializeApp extends Command
         dispatch(new SeedDatabaseDefaults());
 
         dispatch(new CreateAdminUser($user));
-
 
         if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
             dispatch(new SeedDatabaseFaker());

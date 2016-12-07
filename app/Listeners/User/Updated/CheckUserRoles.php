@@ -43,7 +43,6 @@ class CheckUserRoles implements ShouldQueue
             return true;
         }
 
-
         if ($event->user->identity_verified && !$this->addressExpired($event)) {
             $event->user->addRole('citizen');
         }

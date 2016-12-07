@@ -6,7 +6,6 @@ class MotionFilterPermissionTest extends TestCase
 {
     use DatabaseTransactions;
 
-
     /*****************************************************************
     *
     *                   Basic CRUD functions:
@@ -146,7 +145,6 @@ class MotionFilterPermissionTest extends TestCase
                 ['status' => ['draft', 'review']]
         );
         $this->assertResponseStatus(200);
-
 
         //Filter to see published
         filterCheck(

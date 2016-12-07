@@ -42,7 +42,6 @@ class AuthenticateApiTest extends AuthenticateApi
             'password'  => 'abcd1234',
         ]);
 
-
         $this->post('authenticate', array_merge($user->skipVisibility()->setVisible(['email'])->toArray(), ['password' => 'abcd1234']))
             ->assertResponseStatus(200)
             ->seeJson([
@@ -81,7 +80,6 @@ class AuthenticateApiTest extends AuthenticateApi
     public function login_fails_with_incorrect_password()
     {
         $user = factory(App\User::class)->create();
-
 
         $this->post('/authenticate', ['email' => $user->email, 'password' => 'wrongpassword'])
              ->assertResponseStatus(403)

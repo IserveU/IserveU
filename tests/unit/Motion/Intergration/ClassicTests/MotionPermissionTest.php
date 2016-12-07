@@ -26,7 +26,6 @@ class MotionPermissionTest extends TestCase
 
         $response = $this->call('GET', '/api/motion/'.$motion->id);
 
-
         $this->assertEquals(403, $response->status());
     }
 
@@ -182,7 +181,6 @@ class MotionPermissionTest extends TestCase
 
         $toUpdate = factory(App\Motion::class)->create();
 
-
         $this->patch('/api/motion/'.$toUpdate->id, ['closing_at' => Carbon::tomorrow()])
             ->assertResponseStatus(200);
     }
@@ -265,7 +263,6 @@ class MotionPermissionTest extends TestCase
     *    else that comes up.
     *
     ******************************************************************/
-
 
     // /** @test */
     // public function it_cannot_create_or_update_a_comment_without_having_voted()
@@ -367,9 +364,6 @@ class MotionPermissionTest extends TestCase
     // {
 
     // }
-
-
-
 
     /*****************************************************************
     *

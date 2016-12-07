@@ -8,9 +8,6 @@ class StoreFileApiTest extends FileApi
 {
     use DatabaseTransactions;
 
-
-
-
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 
     /** @test  ******************/

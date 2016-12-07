@@ -79,10 +79,7 @@ class AdministratorUserTest extends TestCase
 
         $this->patch('/api/user/'.$user->id, ['address_verified_until' => $verifyUntilDate]);
 
-
         $this->assertResponseStatus(200);
-
-
 
         $this->notSeeInDatabase('users', ['id' => $user->id, 'address_verified_until' => null]);
     }

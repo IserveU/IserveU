@@ -27,7 +27,6 @@ class MotionController extends ApiController
     {
         $limit = $request->get('limit') ?: 20;
 
-
         if (Auth::check()) { //Logged in user will want to see if they voted on these things
 
             $motions = Motion::with(['votes' => function ($query) {
@@ -76,7 +75,6 @@ class MotionController extends ApiController
         if ($request->has('by_created_at')) {
             $motions->orderByCreatedAt($request->input('by_created_at'));
         }
-
 
         if ($request->has('take')) {
             $motions->take($request->input('take'));

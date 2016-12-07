@@ -6,7 +6,6 @@ abstract class VoteApi extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected $route = '/api/vote/';
     protected $class = App\Vote::class;
     protected $table = 'votes';

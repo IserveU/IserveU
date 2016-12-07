@@ -6,7 +6,6 @@ abstract class PageApi extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected $route = '/api/page/';
     protected $class = App\Page::class;
     protected $table = 'pages';

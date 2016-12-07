@@ -52,7 +52,6 @@ class SettingApiUpdateTest extends TestCase
         $this->patch('/api/setting/site.facebook', ['value' => $facebook])
             ->assertResponseStatus(200);
 
-
         $this->assertEquals(Setting::get('site.slogan'), $slogan);
         $this->assertEquals(Setting::get('site.twitter'), $twitter);
         $this->assertEquals(Setting::get('site.facebook'), $facebook);

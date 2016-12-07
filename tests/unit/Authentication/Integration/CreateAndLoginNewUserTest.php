@@ -13,7 +13,6 @@ class CreateAndLoginNewUserTest extends TestCase
 
         $user['password'] = 'abcd1234';
 
-
         $this->post('/api/user', $user)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
@@ -39,7 +38,6 @@ class CreateAndLoginNewUserTest extends TestCase
         $apiToken = json_decode($this->response->getContent())->api_token;
 
         $user = getUserWithToken($apiToken);
-
 
         $citizenRole = \App\Role::where('name', 'citizen')->first();
 

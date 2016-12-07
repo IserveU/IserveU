@@ -2,8 +2,6 @@
 
 include_once 'PolishedTest.php';
 
-
-
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     use PolishedTest;
@@ -18,7 +16,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
-
 
     public static $aNormalMotion;
 

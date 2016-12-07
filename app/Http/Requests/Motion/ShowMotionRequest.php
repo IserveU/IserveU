@@ -17,7 +17,6 @@ class ShowMotionRequest extends Request
     {
         $motion = $this->route()->parameter('motion'); //TO GET RESOURCE ROUTING WORKING
 
-
         if ($motion->status == 'draft' || $motion->status == 'review') {
             if (!Auth::check()) {
                 return false;

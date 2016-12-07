@@ -2,7 +2,6 @@
 
 include_once 'DepartmentApi.php';
 
-
 class IndexDepartmentApiTest extends DepartmentApi
 {
     protected static $departments;

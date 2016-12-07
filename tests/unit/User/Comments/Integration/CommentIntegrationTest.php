@@ -6,7 +6,6 @@ class CommentIntegrationTest extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected static $commentingUser;
 
     public function setUp()

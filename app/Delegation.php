@@ -105,7 +105,6 @@ class Delegation extends ApiModel
         'department_id'                       => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
     ];
 
-
     /**
      * The fields that are dates/times.
      *
@@ -119,7 +118,6 @@ class Delegation extends ApiModel
      * @var array
      */
     protected $locked = ['first_name', 'middle_name', 'last_name', 'date_of_birth'];
-
 
     /**************************************** Standard Methods **************************************** */
 
@@ -147,8 +145,6 @@ class Delegation extends ApiModel
 
     /**************************************** Custom Methods **************************************** */
 
-
-
     /****************************************** Getters & Setters ************************************/
 
     public function totals($query)
@@ -158,11 +154,7 @@ class Delegation extends ApiModel
 
     /************************************* Casts & Accesors *****************************************/
 
-
-
     /************************************* Scopes *****************************************/
-
-
 
     /**********************************  Relationships *****************************************/
 

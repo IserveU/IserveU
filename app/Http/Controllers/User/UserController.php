@@ -105,7 +105,6 @@ class UserController extends ApiController
         //If the user has the authentication level, they can change some things
         $user->update($request->except('token'));
 
-
         if ($request->file('government_identification')) {
             $file = new File();
             $file->uploadFile('government_identification', 'government_identification', $request);

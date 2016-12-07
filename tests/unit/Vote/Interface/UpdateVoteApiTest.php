@@ -13,7 +13,6 @@ class UpdateVoteApiTest extends VoteApi
         parent::setUp();
         $this->signInAsRole('administrator');
 
-
         $this->modelToUpdate = factory(App\Vote::class)->create([
             'user_id'   => $this->user->id,
         ]);

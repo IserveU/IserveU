@@ -22,7 +22,6 @@ class ShowCommentVoteApiTest extends TestCase
 
         $this->signIn($commentvote->vote->user);
 
-
         $this->visit('/api/comment_vote/'.$commentvote->id)
             ->seeJsonStructure([
                 'id',

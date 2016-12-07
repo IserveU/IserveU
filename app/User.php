@@ -33,7 +33,6 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract, Authenticatable, CachedModel, VisibilityModel
 {
     use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers, SoftDeletes;
-
     use EntrustUserTrait{
         SoftDeletes::restore insteadof EntrustUserTrait;
         EntrustUserTrait::restore insteadof SoftDeletes;
@@ -56,10 +55,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone', 'government_identification_id'];
 
-
     protected $visible = [''];
     protected $hidden = ['password'];
-
 
     /**
      * The attributes appended and returned (if visible) to the user.
@@ -70,14 +67,12 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     protected $with = ['roles', 'community'];
 
-
     /**
      * Fields that are unique so that the ID of this field can be appended to them in update validation.
      *
      * @var array
      */
     protected $unique = ['email', 'remember_token'];
-
 
     /**
      * The fields that are dates/times.
@@ -92,7 +87,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      * @var array
      */
     protected $locked = ['first_name', 'middle_name', 'last_name', 'date_of_birth'];
-
 
     protected $casts = [
         'preferences' => 'array',
@@ -213,11 +207,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
             $this->addVisible(['id', 'email', 'slug', 'first_name', 'middle_name', 'last_name', 'postal_code', 'street_name', 'street_number', 'unit_number', 'community_id', 'status', 'ethnic_origin_id', 'date_of_birth', 'address_verified_until', 'agreement_accepted', 'identity_verified', 'preferences', 'login_attempts', 'locked_until', 'agreement_accepted_date', 'deleted_at', 'remember_token', 'created_at', 'updated_at', 'government_identification_id', 'avatar_id', 'api_token', 'permissions', 'phone']);
         }
 
-
         if ($this->publiclyVisible) {
             $this->addVisible(['first_name', 'last_name', 'id', 'community_id']);
         }
-
 
         return $this;
     }

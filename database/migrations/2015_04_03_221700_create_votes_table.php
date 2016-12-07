@@ -24,8 +24,6 @@ class CreateVotesTable extends Migration
             $table->timestamps();
         });
 
-
-
         Schema::table('votes', function ($table) {
             $table->foreign('motion_id')->references('id')->on('motions');
             $table->foreign('user_id')->references('id')->on('users');
