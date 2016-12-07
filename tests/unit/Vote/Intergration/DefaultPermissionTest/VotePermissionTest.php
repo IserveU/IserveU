@@ -36,7 +36,6 @@ class VotePermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-vote');
 
-
         $this->modelToUpdate = factory(App\Vote::class)->create([
             'user_id'   => $this->user->id,
         ]);

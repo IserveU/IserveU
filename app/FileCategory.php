@@ -95,7 +95,6 @@ class FileCategory extends ApiModel
         'name'        => ['tag' => 'md-switch', 'type' => 'X', 'label' => 'Attribute Name', 'placeholder' => ''],
     ];
 
-
     /**
      * The fields that are locked. When they are changed they cause events like resetting people's accounts.
      *
@@ -122,7 +121,6 @@ class FileCategory extends ApiModel
             return $result;
         });
 
-
         static::updating(function ($model) {
             if (!$model->validate()) {
                 return false;
@@ -134,15 +132,11 @@ class FileCategory extends ApiModel
 
     /************************************* Custom Methods *******************************************/
 
-
     /************************************* Getters & Setters ****************************************/
-
 
     /************************************* Casts & Accesors *****************************************/
 
-
     /************************************* Scopes ***************************************************/
-
 
     /************************************* Relationships ********************************************/
 

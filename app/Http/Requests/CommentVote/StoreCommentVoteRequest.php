@@ -17,7 +17,6 @@ class StoreCommentVoteRequest extends Request
     {
         return true;
 
-
         if (!Auth::user()->can('create-comment_vote')) {
             return false; //You do not have permission to vote on a comment');
         }

@@ -4,7 +4,6 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-
     /*
      * Used for the site title and masthead in emails
      */

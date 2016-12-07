@@ -12,7 +12,6 @@ class UpdateFileApiTest extends FileApi
     {
         parent::setUp();
 
-
         $this->signInAsRole('administrator');
     }
 

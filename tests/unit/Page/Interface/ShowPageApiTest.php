@@ -22,7 +22,6 @@ class ShowPageApiTest extends PageApi
 
         $page = factory(App\Page::class)->create();
 
-
         $this->visit('/api/page/'.$page->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([
@@ -44,7 +43,6 @@ class ShowPageApiTest extends PageApi
         $this->signInAsRole('administrator');
 
         $page = factory(App\Page::class)->create();
-
 
         $this->get('/api/page/'.$page->id)
             ->assertResponseStatus(200);

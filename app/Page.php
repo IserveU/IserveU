@@ -17,7 +17,6 @@ class Page extends NewApiModel
      */
     protected $table = 'pages';
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -78,7 +77,6 @@ class Page extends NewApiModel
         'title'     => 'New Page',
         'content'   => '{"text": ""}',
     ];
-
 
     /**
      * Casts fields to database columns.

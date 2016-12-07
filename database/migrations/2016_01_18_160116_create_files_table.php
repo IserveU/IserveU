@@ -31,11 +31,9 @@ class CreateFilesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
         });
 
-
         Schema::table('files', function (Blueprint $table) {
             $table->foreign('replacement_id')->references('id')->on('files');
         });
-
 
         Schema::table('users', function ($table) {
             $table->integer('government_identification_id')->nullable()->unsigned();

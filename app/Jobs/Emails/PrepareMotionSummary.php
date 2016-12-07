@@ -36,7 +36,6 @@ class PrepareMotionSummary implements ShouldQueue
         //Get users who want a daily summary
         $users = User::preference('motion.notify.user.summary', 1)->get();
 
-
         // Get latest or new motion
         $latestLaunchedMotions = Motion::status('published')->publishedAfter(Carbon::now()->subHours(24))->get();
 

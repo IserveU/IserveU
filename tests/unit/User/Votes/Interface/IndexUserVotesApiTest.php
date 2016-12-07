@@ -12,7 +12,6 @@ class IndexUserVotesApiTest extends TestCase
     {
         parent::setUp();
 
-
         if (is_null(static::$votingUser)) {
             static::$votingUser = factory(App\User::class)->create();
 

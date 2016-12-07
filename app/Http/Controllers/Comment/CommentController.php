@@ -42,7 +42,6 @@ class CommentController extends ApiController
             'number'          => 'integer',
         ]);
 
-
         if ($validator->fails()) {
             return $validator->errors();
         }

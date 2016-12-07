@@ -25,14 +25,12 @@ class CreateDelegationsTable extends Migration
             $table->timestamps();
         });
 
-
         Schema::table('delegations', function ($table) {
             $table->unique(['department_id', 'delegate_from_id']); //A user can only vote once on a motion
             $table->foreign('delegate_to_id')->references('id')->on('users');
             $table->foreign('delegate_from_id')->references('id')->on('users');
             $table->foreign('department_id')->references('id')->on('departments');
         });
-
 
         $validUsers = User::notRepresentative()->get();
         $departments = Department::all();

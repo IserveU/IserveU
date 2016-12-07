@@ -10,7 +10,6 @@
 |
 */
 
-
 $factory->define(App\User::class, function ($faker) use ($factory) {
     $ethnicOrigin = \App\EthnicOrigin::orderBy(\DB::raw('RAND()'))->first();
     $community = \App\Community::orderBy(\DB::raw('RAND()'))->first();
@@ -40,13 +39,11 @@ $factory->define(App\User::class, function ($faker) use ($factory) {
     ];
 });
 
-
 $factory->defineAs(App\User::class, 'unverified', function (Faker\Generator $faker) use ($factory) {
     $user = $factory->raw(App\User::class);
 
     return array_merge($user, ['identity_verified' => 0]);
 });
-
 
 $factory->defineAs(App\User::class, 'verified', function (Faker\Generator $faker) use ($factory) {
     $user = $factory->raw(App\User::class);
@@ -66,10 +63,6 @@ $factory->defineAs(App\User::class, 'private', function (Faker\Generator $faker)
 
     return array_merge($user, ['status' => 'private']);
 });
-
-
-
-
 
 /************************* Different Motion Status Factories ***********************************/
 
@@ -99,7 +92,6 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
     ];
 });
 
-
 $factory->defineAs(App\Motion::class, 'draft', function (Faker\Generator $faker) use ($factory) {
     $motion = $factory->raw(App\Motion::class);
 
@@ -119,7 +111,6 @@ $factory->defineAs(App\Motion::class, 'review', function (Faker\Generator $faker
 $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $faker) use ($factory) {
     $motion = $factory->raw(App\Motion::class);
 
-
     return array_merge($motion, array_merge(createClosingDate(), ['status' => 'published',
                 'title'                                                    => $faker->sentence($nbWords = 4).' Published', ]));
 });
@@ -135,9 +126,7 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
                     );
 });
 
-
 /************************* Comment Factories ***********************************/
-
 
 $factory->define(App\Comment::class, function ($faker) use ($factory) {
     return [
@@ -149,10 +138,7 @@ $factory->define(App\Comment::class, function ($faker) use ($factory) {
     ];
 });
 
-
-
 /************************* Vote Factories ***********************************/
-
 
 $factory->define(App\Vote::class, function ($faker) use ($factory) {
     $citizenUser = factory(App\User::class, 'verified')->create();
@@ -166,7 +152,6 @@ $factory->define(App\Vote::class, function ($faker) use ($factory) {
         'user_id'        => $citizenUser->id,
     ];
 });
-
 
 /************************* Comment Vote Factories ***********************************/
 
@@ -185,7 +170,6 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
     ];
 });
 
-
 /************************* Page Factories ***********************************/
 
 $factory->define(App\Page::class, function ($faker) use ($factory) {
@@ -194,9 +178,6 @@ $factory->define(App\Page::class, function ($faker) use ($factory) {
         'text'          => $faker->sentences(4, true),
     ];
 });
-
-
-
 
 $factory->define(App\Department::class, function ($faker) use ($factory) {
     return [

@@ -198,7 +198,6 @@ trait PolishedTest
             return $this;
         }
 
-
         if ($actual != 200) {
             $message = "A request failed to get expected status code [$code]. Received status code [{$actual}].";
 
@@ -210,10 +209,8 @@ trait PolishedTest
             }
 
             throw new \Illuminate\Foundation\Testing\HttpException($message, null, $responseException);
-
             return $this;
         }
-
 
         PHPUnit_Framework_TestCase::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \nResponseContent:    ".$this->response->getContent());
 
@@ -298,7 +295,6 @@ trait PolishedTest
         $this->patch($this->route.$id, $this->contentToPost)
                 ->assertResponseStatus($expectedCode);
 
-
         if ($expectedCode == 200) {
             $this->checkDatabaseFor(
                 array_merge(
@@ -367,7 +363,6 @@ trait PolishedTest
                 $post[$hiddenField] = 'abcd1234!'; //Usually (if not always) password
             }
         }
-
 
         foreach ($post as $postField => $postValue) {
             if (!in_array($postField, $fields)) {

@@ -47,7 +47,6 @@ class AuthenticateController extends ApiController
 
         $user->save();
 
-
         Auth::setUser($user);
 
         return $user;
@@ -69,11 +68,9 @@ class AuthenticateController extends ApiController
         $user->login_attempts = 0;
         $user->locked_until = null;
 
-
         $user = $user->fresh();
 
         Auth::setUser($user);
-
 
         return response(['api_token' => $user->api_token, 'user' => $user], 200);
     }

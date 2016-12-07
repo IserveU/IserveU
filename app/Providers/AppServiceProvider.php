@@ -41,7 +41,6 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
-
         Validator::replacer('valid_status', function ($message, $attribute, $rule, $parameters) {
             return $message.' Invalid status. The current time on the server is '.\Carbon\Carbon::now();
         });
@@ -54,7 +53,6 @@ class AppServiceProvider extends ServiceProvider
             if (!in_array($status, ['draft', 'submitted', 'review', 'closed', 'published', 'public', 'private'], true)) {
                 return false; //Not a valid status
             }
-
 
             if (!array_key_exists('published_at', $data)) {
                 return true; //don't case a problem if it doesn't exist
@@ -79,7 +77,6 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
-
 
         Validator::replacer('reject', function ($message, $attribute, $rule, $parameters) {
             return 'Field not allowed';
