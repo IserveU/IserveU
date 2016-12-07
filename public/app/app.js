@@ -17,8 +17,7 @@
     'angular-loading-bar',
     'alloyeditor',
     'hc.marked'
-  ])
-  .run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
+  ]).run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
     '$state', '$mdDialog', 'motionResource',
     function($rootScope, $window, $timeout, $globalProvider, $stateParams,
       $state, $mdDialog, motionResource) {
