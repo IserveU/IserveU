@@ -16,6 +16,8 @@ class VoteSection extends ShowMotionPage{
 		this.disagreeBar 			=	element(by.css('button.motion__votes-statusbar_disagree'));
 		this.abstainBar 			=	element(by.css('button.motion__votes-statusbar_abstain'));
 
+
+		this.passingStatusIcon 			=	element(by.id('passing_status_icon'));
 	}
 
 	clickAgreeButton(){
@@ -30,10 +32,27 @@ class VoteSection extends ShowMotionPage{
 		this.disagreeButton.click();
 	}
 
+	voteRandomWay(){
+		var rand = Math.floor(Math.random() * 3);
+
+		switch(rand){
+			case 0:
+				this.clickAgreeButton();
+				break;
+			case 1:
+				this.clickAbstainButton();
+				break;
+			case 2:
+				this.clickDisagreeButton();
+				break;
+
+		}
+
+	}
+
 	getAgreeCount(){
 		return VoteSection.getCountFromBar(this.agreeBar);
 	}
-
 
 	getAbstainCount(){
 		return VoteSection.getCountFromBar(this.abstainBar);
@@ -43,19 +62,52 @@ class VoteSection extends ShowMotionPage{
 		return VoteSection.getCountFromBar(this.disagreeBar);
 	}
 
+	getPassingStatusIcon(){
+		return this.passingStatusIcon;
+	}
+
+	getCounts(){
+		let self = this;
+		let deferred = protractor.promise.defer();
+
+		var counts = {
+			agree:0,
+			disagree:0,
+			abstain:0
+		};
+
+		self.getAgreeCount().then(function(value){
+			counts.agree = value;
+
+			self.getDisagreeCount().then(function(value){
+				counts.disagree = value;
+
+				self.getAbstainCount().then(function(value){
+					counts.abstain = value;
+
+					deferred.fulfill(counts);
+				});
+			});
+		});
+
+		return deferred.promise;
+	}
 
 	static getCountFromBar(bar){
+		let deferred = protractor.promise.defer()
 
-		return bar.isPresent().then(function(isPresent){
+		bar.isPresent().then(function(isPresent){
    			if(!isPresent){
-   				return 0;
+   				deferred.fulfill(0);
+   			} else {
+				bar.getAttribute('aria-label').then(function(attr){
+					let count = VoteSection.getCountFromLabelString(attr);
+					deferred.fulfill(count);
+				});
    			}
-
-			return bar.getAttribute('aria-label').then(function(attr){
-				return VoteSection.getCountFromLabelString(attr);			
-			});
-
    		});
+
+   		return deferred.promise;
 
 	}
 

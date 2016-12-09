@@ -1,35 +1,64 @@
-var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
-var JasmineReporters = require('jasmine-reporters');
+var browserstack = require('browserstack-local');
 var defaultConfig = require('./tests/e2e/config.json');
 
+
 exports.config = {
-    suites: defaultConfig.suites,
+   suites: defaultConfig.suites,
 
-    multiCapabilities: [
-        {
-            'browserName': 'chrome'
-        }
-    ],
+  'seleniumAddress': 'http://hub-cloud.browserstack.com/wd/hub',
 
-    baseUrl: 'http://localhost:8000/', // change this to your locals
-
-    // anything you'd need to be user specific in tests
-    params: {
-        login: {
-            username: 'admin@iserveu.ca',
-            password: 'abcd1234'
-        }
-    },
+  'baseUrl': process.env.BASE_URL || 'http://iserveu.local/', // change this to your local
 
 
-    framework: 'jasmine2',
+  'commonCapabilities': {
+    'browserstack.user':    process.env.BROWSERSTACK_USERNAME,
+    'browserstack.key':     process.env.BROWSERSTACK_ACCESS_KEY,
+    'build':                process.env.BROWSERSTACK_AUTOMATE_BUILD     || 'protractor-browserstack',
+    'name':                 process.env.BROWSERSTACK_AUTOMATE_PROJECT   || 'parallel_local_test',
+    'browserstack.local':   process.env.BROWSERSTACK_LOCAL        || true,
+    'browserstack.debug':   process.env.BROWSERSTACK_DEBUG        || 'false'
+  },
 
-    jasmineNodeOpts: {
-        showColors: true,
-        defaultTimeoutInterval: 30000
-    },
+  'multiCapabilities': [{
+    'browserName': 'Chrome'
+  }],
 
-    onPrepare: function() {
-        browser.driver.manage().window().setSize(1920, 1080);
-    }
+
+  framework: 'jasmine2',
+
+  jasmineNodeOpts: {
+      showColors: true,
+      defaultTimeoutInterval: 60000,
+      realtimeFailure: true
+  },
+
+  'maxSessions': 1, //Because front end tests interact with the database
+
+  // Code to start browserstack local before start of test
+  beforeLaunch: function(){
+    console.log("Connecting local");
+    return new Promise(function(resolve, reject){
+      exports.bs_local = new browserstack.Local();
+      exports.bs_local.start({'key': exports.config.commonCapabilities['browserstack.key'] }, function(error) {
+        if (error) return reject(error);
+        console.log('Connected. Now testing...');
+
+        resolve();
+      });
+    });
+  },
+
+  // Code to stop browserstack local after end of test
+  afterLaunch: function(){
+    return new Promise(function(resolve, reject){
+      exports.bs_local.stop(resolve);
+    });
+  }
+
 };
+
+
+// Code to support common capabilities
+exports.config.multiCapabilities.forEach(function(caps){
+  for(var i in exports.config.commonCapabilities) caps[i] = caps[i] || exports.config.commonCapabilities[i];
+});

@@ -539,10 +539,20 @@ trait PolishedTest
             $thisClosingAt = Carbon::parse($record[$fieldName]['carbon']['date']);
 
             if ($order == 'desc') {
+                if (!$thisClosingAt->lte($previousClosingAt)) {
+                    var_dump($thisClosingAt);
+                    var_dump($previousClosingAt);
+                }
+
                 $this->assertTrue(
                     $thisClosingAt->lte($previousClosingAt)
                 );
             } else {
+                if (!$thisClosingAt->gte($previousClosingAt)) {
+                    var_dump($thisClosingAt);
+                    var_dump($previousClosingAt);
+                }
+
                 $this->assertTrue(
                     $thisClosingAt->gte($previousClosingAt)
                 );
@@ -550,45 +560,5 @@ trait PolishedTest
 
             $previousClosingAt = $thisClosingAt;
         }
-    }
-
-    //Email Trapping & Testing
-
-    public $mailerInstance;
-
-    /**
-     * @param array $emails
-     *
-     * @return MailThiefCollection
-     */
-    public function getMessagesFor(array $emails)
-    {
-        return $this->getMessages()->filter(function ($message) use ($emails) {
-            foreach ($emails as $email) {
-                if ($message->hasRecipient($email)) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
-    }
-
-    /**
-     * @param string $email
-     *
-     * @return Message
-     */
-    public function getLastMessageFor(string $email)
-    {
-        return $this->getMessagesFor([$email])->last();
-    }
-
-    /**
-     * @return MailThiefCollection
-     */
-    public function getMessages()
-    {
-        return $this->mailerInstance->messages;
     }
 }

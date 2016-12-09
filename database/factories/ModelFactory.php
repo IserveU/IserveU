@@ -75,7 +75,7 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
     $implementations = ['binding', 'non-binding'];
     $implementation = $implementations[array_rand($implementations)];
 
-    $department = factory(App\Department::class)->create();
+    $department = \App\Department::inRandomOrder()->take(1)->first();
 
     return [
         'title'         => $faker->sentence($nbWords = 6),
@@ -181,7 +181,7 @@ $factory->define(App\Page::class, function ($faker) use ($factory) {
 
 $factory->define(App\Department::class, function ($faker) use ($factory) {
     return [
-        'name'          => $faker->word.rand(0, 9).' '.$faker->word.rand(0, 9),
+        'name'          => $faker->word.rand(0, 100).' '.$faker->word.rand(0, 9),
         'active'        => 1,
     ];
 });

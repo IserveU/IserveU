@@ -21,8 +21,9 @@ class FakerDataSeeder extends Seeder
 
         //Create a published motion
         $publishedMotion = factory(App\Motion::class, 'published')->create([
-            'title'     => 'A Published Motion',
-            'text'      => '<p>Content of the published motion</p>',
+            'title'         => 'A Published Motion',
+            'text'          => '<p>Content of the published motion</p>',
+            'department_id' => 1,
         ]);
 
         //With attached files

@@ -19,12 +19,29 @@ class FormHelper {
 	 * @param  {String} text [description]
 	 * @return {[type]}      [description]
 	 */
-	selectBox(model,text){
-		//Open the element
+	selectBox(model, text){
+		
  		element(by.model(model)).click();
+	    browser.waitForAngular(); 
 
- 		//Click the text
- 		element(by.cssContainingText('md-option', text)).click();
+	    let el = element(by.cssContainingText('.md-select-menu-container.md-active md-option > div.md-text', text));
+	    if (!(el.isPresent())) {
+	        throw Error('Not clickable');
+	    }
+	    el.click();
+	    browser.waitForAngular(); 
+
+	}
+
+	alloyEditor(name,text){
+		var EC = protractor.ExpectedConditions;
+
+		var editor = element(by.css("textarea[name="+name+"] + div.cke_textarea_inline"));
+
+		browser.wait(EC.presenceOf(editor), 5000,"Unable to find the cke editor instance");
+
+		editor.sendKeys(text);
+
 	}
 
 	submit(){

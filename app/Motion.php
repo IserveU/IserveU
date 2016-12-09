@@ -216,9 +216,9 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
-            'carbon'        => $carbon,
+            'diff'          => ($attr) ? $carbon->diffForHumans() : null,
+            'alpha_date'    => ($attr) ? $carbon->format('j F Y') : null,
+            'carbon'        => ($attr) ? $carbon : null,
         ];
     }
 

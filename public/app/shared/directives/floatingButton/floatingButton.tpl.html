@@ -8,13 +8,13 @@
         </md-fab-trigger>
 
         <md-fab-actions>
-          <md-button aria-label="Create item" class="md-fab md-raised md-mini" ng-if="(floatingButton.show.create && floatingButton.isOpen)" ng-click="floatingButton.onCreate()">
+          <md-button id="create_new_motion" aria-label="Create New Motion" class="md-fab md-raised md-mini" ng-if="(floatingButton.show.create && floatingButton.isOpen)" ng-click="floatingButton.onCreate()">
             <md-icon class="mdi mdi-plus" aria-label="Create"></md-icon>
           </md-button>
-          <md-button aria-label="Edit item" class="md-fab md-raised md-mini" ng-if="(floatingButton.show.edit && floatingButton.isOpen)" ng-click="floatingButton.onEdit()">
+          <md-button id="edit_this_motion" aria-label="Edit This Motion" class="md-fab md-raised md-mini" ng-if="(floatingButton.show.edit && floatingButton.isOpen)" ng-click="floatingButton.onEdit()">
             <md-icon class="mdi mdi-pencil" aria-label="Edit"></md-icon>
           </md-button>
-          <md-button aria-label="Delete item" class="md-fab md-raised md-warn md-mini" ng-if="floatingButton.show.delete"  ng-click="floatingButton.onDelete()">
+          <md-button id="delete_this_motion" aria-label="Delete This Motion" class="md-fab md-raised md-warn md-mini" ng-if="floatingButton.show.delete" ng-click="floatingButton.onDelete()">
             <md-icon class="mdi mdi-delete" aria-label="Delete"></md-icon>
           </md-button>
         </md-fab-actions>

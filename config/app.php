@@ -10,6 +10,11 @@ return [
     'name' => env('APP_NAME', 'IserveU'),
 
     /*
+     * If you want to enable the live reload option during development
+     */
+    'livereload' => env('APP_LIVERELOAD', false),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
     |--------------------------------------------------------------------------

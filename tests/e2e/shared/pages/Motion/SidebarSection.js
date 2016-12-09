@@ -9,23 +9,24 @@ class SidebarSection extends ShowMotionPage{
 		
 		/* Button lookups */
 		this.sidebar 				= 	element(by.css('motion-sidebar'));
-		this.sidebarMotions 		= 	element.all(by.css('motion-sidebar md-list-item'));
-
+		this.sidebarItems 			= 	element.all(by.css('motion-sidebar md-list-item'));
+		this.sidebarLinks 			= 	element.all(by.css('motion-sidebar md-list-item a'));
 
 	}
-
 
 	clickRandomMotion(){
 		this.getRandomMotion().then(function(val){
 			val.click();
 		});
-
 	}
 
 	getRandomMotion(){
+		let deferred = protractor.promise.defer();
+
+
 
 		//Motions that aren't already open and slightly greyed
-		let nonActiveMotions = this.sidebarMotions.filter(function (option) {
+		let nonActiveMotions = this.getSidebarItems().filter(function (option) {
 		    return option.getAttribute('class').then(function (attribute) {
 		       	return !(attribute.includes("active"));
 		    });
@@ -36,16 +37,27 @@ class SidebarSection extends ShowMotionPage{
 		    return index;
 		});
 
-		return indexes.then(function (indexes) {
-		    var randomIndex = indexes[Math.floor(Math.random()*indexes.length)];
+		indexes.then(function (indexes) {
+			let validMotions = indexes.length-1; //The last item is not a motion, its a create more motions button
 
-		   return nonActiveMotions.get(randomIndex);
+		    var randomIndex = indexes[Math.floor(Math.random()*validMotions)];
 
+		    deferred.fulfill(nonActiveMotions.get(randomIndex));
 		});
 
+		return deferred.promise;
 
 	}
 
+	getSidebarItems(){
+	    browser.waitForAngular();
+		return this.sidebarItems;
+	}
+
+	getSidebarLinks(){
+	    browser.waitForAngular();
+		return this.sidebarLinks;
+	}
 
 }
 

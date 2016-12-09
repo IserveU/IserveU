@@ -3,7 +3,7 @@ let SidebarSection = require('../shared/pages/Motion/SidebarSection');
 let LoginHelper = require('../shared/helpers/LoginHelper');
 
 
-describe('motion.appearance making sure that a motion looks correct', function() {
+describe('motion.appearance making sure that a motion looks correct ||', function() {
 
 	let motion = new MotionPage();
 	let login = new LoginHelper();
@@ -21,6 +21,8 @@ describe('motion.appearance making sure that a motion looks correct', function()
 
 		expect(motion.getTitle('text')).toBe("A Published Motion");
 		expect(motion.getText('text')).toContain("Content of the published motion");
+		expect(motion.getDepartmentIcon('md-svg-icon')).toBe("/icons/unknown.svg");
+
 
 		browser.wait(EC.elementToBeClickable(motion.getFile('An Attached PDF'), 5000));
 
@@ -44,6 +46,7 @@ describe('motion.appearance making sure that a motion looks correct', function()
 		currentUrl = browser.getCurrentUrl();
 
 		sidebar.clickRandomMotion();
+		var EC = protractor.ExpectedConditions;
 
 		browser.wait(EC.not(EC.urlIs(currentUrl)),3000);
 
