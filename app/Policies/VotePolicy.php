@@ -17,7 +17,6 @@ class VotePolicy
             return false;
         }
 
-
         if (!Auth::user()->can('create-vote')) {
             return false;
         }
@@ -29,7 +28,6 @@ class VotePolicy
         if (!$motion->motionOpenForVoting) { //Motion has closed/expired
              abort(403, 'Motion isnt not open for voting');
         }
-
 
         if (array_key_exists('user_id', $inputs) && $inputs['user_id'] != Auth::user()->id) {
             abort(403, 'You can only update and create your own vote');

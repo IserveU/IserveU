@@ -25,14 +25,12 @@ class CommentVote extends NewApiModel implements CachedModel
      */
     protected $fillable = ['position', 'vote_id', 'comment_id'];
 
-
     /**
      * The default attributes included in the JSON/Array.
      *
      * @var array
      */
     protected $visible = [''];
-
 
     /**
      * The attributes appended and returned (if visible) to the user.
@@ -96,7 +94,6 @@ class CommentVote extends NewApiModel implements CachedModel
     }
 
     /************************************* Custom Methods *******************************************/
-
 
     /************************************* Getters & Setters ****************************************/
 

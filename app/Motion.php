@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\Motion\MotionCreated;
 use App\Events\Motion\MotionDeleted;
+use App\Events\Motion\MotionSaving;
 use App\Events\Motion\MotionUpdated;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -34,14 +35,12 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $fillable = ['title', 'text', 'summary', 'department_id', 'closing_at', 'status', 'user_id', 'implementation'];
 
-
     /**
      * The attributes included in the JSON/Array.
      *
      * @var array
      */
     protected $visible = [''];
-
 
     /**
      * The attributes included in the JSON/Array.
@@ -50,15 +49,12 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $hidden = ['content'];
 
-
     /**
      * The attributes included in the JSON/Array.
      *
      * @var array
      */
     protected $with = ['department', 'user', 'files'];
-
-
 
     /**
      * The attributes appended and returned (if visible) to the user.
@@ -67,14 +63,12 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank', 'text'];
 
-
-
     /**
      * The fields that are dates/times.
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'closing_at'];
+    protected $dates = ['created_at', 'updated_at', 'closing_at', 'published_at'];
 
     /**
 
@@ -98,7 +92,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         'status'    => 'draft',
         'content'   => '{"text": ""}',
     ];
-
 
     /**
      * Casts fields to database columns.
@@ -134,13 +127,19 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             return true;
         });
 
+        static::saving(function ($model) {
+            // Does  Nothing
+            event(new MotionSaving($model));
+
+            return true;
+        });
+
         static::created(function ($model) {
             // Does  Nothing
             event(new MotionCreated($model));
 
             return true;
         });
-
 
         static::updating(function ($model) {
             // SendNotificationEmail
@@ -261,12 +260,10 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             return false;
         }
 
-
         //This motion is not published and cannot be voted on
         if ($this->attributes['status'] != 'published') {
             return false;
         }
-
 
         if ($this->closing_at['carbon']->lt(Carbon::now())) {
             $this->attributes['status'] = 'closed';
@@ -401,6 +398,16 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     public function scopeUpdatedAfter($query, Carbon $time)
     {
         return $query->where('updated_at', '>=', $time);
+    }
+
+    public function scopePublishedAfter($query, Carbon $time)
+    {
+        return $query->where('published_at', '>=', $time);
+    }
+
+    public function scopePublishedBefore($query, Carbon $time)
+    {
+        return $query->where('published_at', '<=', $time);
     }
 
     public function scopeClosingBefore($query, Carbon $time)

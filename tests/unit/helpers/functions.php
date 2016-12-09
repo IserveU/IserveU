@@ -44,15 +44,12 @@
         $vote = factory(App\Vote::class)->make(['motion_id' => $motion->id, 'user_id' => $self->user->id])
             ->setVisible(['user_id', 'motion_id', 'position'])->toArray();
 
-
         $vote = $self->call('POST', '/api/vote', $vote);
 
         $self->assertResponseOk();
 
         return $vote->getOriginalContent(); //This is an object
     }
-
-
 
     function postComment($self, $attributes = [], $code = 200)
     {
@@ -76,8 +73,6 @@
         return $response->getOriginalContent();
     }
 
-
-
     /*****************************************************************
     *
     *    Create models to test GETTERS and Views
@@ -94,8 +89,6 @@
     {
         return ['closing_at' => \Carbon\Carbon::now()->addDays(7)];
     }
-
-
 
     function createComment($voteId)
     {
@@ -140,7 +133,6 @@
         return $vote->getOriginalContent();
     }
 
-
     function generateMotions($self)
     {
         if (!$self->user) {
@@ -183,13 +175,10 @@
         }
     }
 
-
     function getUserWithToken($api_token)
     {
         return \App\User::where('api_token', $api_token)->first();
     }
-
-
 
     function aNormalMotion($status = 'published')
     {

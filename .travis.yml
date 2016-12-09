@@ -9,9 +9,6 @@ language: php
 php:
   - 7.0
 
-addons:
-  firefox: "49.0"
-
 notifications:
   email: false
 

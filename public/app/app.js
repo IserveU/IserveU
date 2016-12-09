@@ -15,9 +15,9 @@
     'mdColorPicker',
     'isu-form-sections',
     'angular-loading-bar',
-    'alloyeditor'
-  ])
-  .run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
+    'alloyeditor',
+    'hc.marked'
+  ]).run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
     '$state', '$mdDialog', 'motionResource',
     function($rootScope, $window, $timeout, $globalProvider, $stateParams,
       $state, $mdDialog, motionResource) {

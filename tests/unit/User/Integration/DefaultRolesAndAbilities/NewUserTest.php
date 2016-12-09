@@ -64,7 +64,6 @@ class NewUserTest extends TestCase
 
         $this->call('GET', '/api/user/'.$user->id);
 
-
         $this->assertResponseOk();
 
         $this->seeJson(['id' => $user->id, 'first_name' => $user->first_name]);

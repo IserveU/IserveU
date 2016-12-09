@@ -37,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\User\Updating\AddUserModificationEntry', //Tested
             'App\Listeners\User\Updating\IdentityReverification',  //Tested
         ],
+        'App\Events\Motion\MotionSaving' => [
+            'App\Listeners\Motion\Saving\SetPublishedAtField', //Tested
+        ],
         'App\Events\Motion\MotionUpdated' => [
             'App\Listeners\Motion\Updated\AlertVoters',
         ],

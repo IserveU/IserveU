@@ -30,7 +30,6 @@ class StoreCommentRequest extends Request
             return false; //You can not comment tied to another users vote
         }
 
-
         return true;
     }
 

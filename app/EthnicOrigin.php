@@ -23,7 +23,6 @@ class EthnicOrigin extends ApiModel
      */
     protected $fillable = ['region', 'description'];
 
-
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -67,8 +66,6 @@ class EthnicOrigin extends ApiModel
 
     /**************************************** Custom Methods **************************************** */
 
-
-
     /****************************************** Getters & Setters ************************************/
 
     public function getVisibleAttribute()
@@ -102,7 +99,6 @@ class EthnicOrigin extends ApiModel
     }
 
     /************************************* Scopes *****************************************/
-
 
     /**********************************  Relationships *****************************************/
 

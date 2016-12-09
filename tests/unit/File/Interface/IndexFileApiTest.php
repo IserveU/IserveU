@@ -23,12 +23,10 @@ class IndexFileApiTest extends FileApi
         $oldImageFile = factory(App\File::class, 'image')->create(['replacement_id' => $imageFile->id]);
         $oldestImageFile = factory(App\File::class, 'image')->create(['replacement_id' => $oldImageFile->id]);
 
-
         $this->parent->files()->save($imageFile);
         $this->parent->files()->save($documentFile);
         $this->parent->files()->save($oldImageFile);
         $this->parent->files()->save($oldestImageFile);
-
 
         $this->get($this->route)
                 ->assertResponseStatus(200)

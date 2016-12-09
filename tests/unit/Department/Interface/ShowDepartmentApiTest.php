@@ -22,7 +22,6 @@ class ShowDepartmentApiTest extends DepartmentApi
 
         $department = factory(App\Department::class)->create();
 
-
         $this->visit('/api/department/'.$department->slug)
             ->assertResponseStatus(200)
             ->seeJsonStructure([

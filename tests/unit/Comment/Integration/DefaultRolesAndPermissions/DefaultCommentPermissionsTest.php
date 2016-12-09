@@ -48,7 +48,6 @@ class DefaultCommentPermissionTest extends TestCase
 
         $comment = postComment($this);
 
-
         $this->seeInDatabase('comments', [
             'text'  => $comment->text,
         ]);
@@ -125,7 +124,6 @@ class DefaultCommentPermissionTest extends TestCase
         $this->signInAsPermissionedUser('delete-comment');
         $comment = factory(App\Comment::class)->create();
 
-
         // Delete comment
         $this->delete('/api/comment/'.$comment->id);
 
@@ -138,7 +136,6 @@ class DefaultCommentPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-comment');
         $comment = factory(App\Comment::class)->create();
-
 
         // Delete comment
         $this->delete('/api/comment/'.$comment->id);

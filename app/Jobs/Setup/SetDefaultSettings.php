@@ -33,7 +33,6 @@ class SetDefaultSettings
                 'allow_closing'                      => 1,
             ]);
 
-
         Setting::ifNotSetThenSet('site', [
             'name'      => 'IserveU - eDemocracy',
             'terms'     => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.',
@@ -44,25 +43,21 @@ class SetDefaultSettings
             'backup'    => '0 0 0/12 1/1 * ? *',
         ]);
 
-
         Setting::ifNotSetThenSet('voting', [
             'on'        => 1,
             'abstain'   => 1,
         ]);
-
 
         Setting::ifNotSetThenSet('comment', [
             'on'            => 1,
             'cachetime'     => 60,
         ]);
 
-
         Setting::ifNotSetThenSet('authentication', [
             'login_attempts_lock'           => 5,
             'ask_for_birthday_on_create'    => 1,
             'required'                      => 1,
         ]);
-
 
         //TODO: Language/term translation and should be hardcoded into translation files and maybe these could be over-rides?
         Setting::ifNotSetThenSet('jargon.en', [
@@ -72,7 +67,6 @@ class SetDefaultSettings
                     'departments' => 'Departments',
                 ]);
 
-
         Setting::ifNotSetThenSet('home', [
                 'widgets'       => [
                     'your_votes'    => 1,
@@ -81,8 +75,6 @@ class SetDefaultSettings
                     'top_motions'   => 1,
                 ],
             ]);
-
-
 
         Setting::ifNotSetThenSet('theme', [
                 'colors' => [
@@ -103,15 +95,12 @@ class SetDefaultSettings
                 'background'    => '',
             ]);
 
-
-
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
                 'on'    => 1,
                 'text'  => "Welcome to the IserveU beta, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions. \nWe welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife City Council, until then it operates as an advisory and feedback tool.",
                 ],
         ]);
-
 
         Setting::save();
     }

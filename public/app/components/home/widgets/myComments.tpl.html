@@ -9,7 +9,7 @@
     <div ng-if="!myComments.loading">
       <md-list ng-if="myComments.commentList" ng-repeat="comment in myComments.commentList | limitTo: 5">
         <md-list-item ui-sref-active="active"  ui-sref="motion({id:comment.vote.motion_id})" >
-          <p class="md-body-1">{{comment.text | limitTo: 120}}</p>
+          <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
           <md-button class="md-icon-button" aria-label="yourCommentRedirect" ui-sref="motion({id:comment.vote.motion_id})">
             <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
           </md-button>

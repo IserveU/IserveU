@@ -26,7 +26,7 @@ class SetDefaultPreferences
     public function handle(UserCreating $event)
     {
         // Authentication and Users
-        $event->user->setPreference('authentication.notify.admin.oncreate', 1, true); // Used
+        $event->user->setPreference('authentication.notify.admin.oncreate', 1, true); // Used in User Model Event
         $event->user->setPreference('authentication.notify.admin.summary', 1, true); // Used in Jobs
         $event->user->setPreference('authentication.notify.user.onrolechange', 1, true);
 

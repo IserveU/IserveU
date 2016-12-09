@@ -73,7 +73,6 @@ return [
             'retry_after'    => 90,
         ],
 
-
     ],
 
     /*

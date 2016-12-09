@@ -8,8 +8,6 @@ class StoreVoteApiTest extends VoteApi
 {
     use DatabaseTransactions;
 
-
-
     protected $class = App\Vote::class;
 
     protected $modelToUpdate;

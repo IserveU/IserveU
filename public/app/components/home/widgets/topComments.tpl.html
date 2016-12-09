@@ -11,7 +11,7 @@
         <div ng-if="topComments.commentList" ng-repeat="comment in topComments.commentList | limitTo: 5">
 
           <md-list-item ui-sref-active="active" ui-sref="motion({id:comment.motionId})">
-            <p class="md-body-1">{{comment.text | limitTo: 120}}{{comment.text.length > 120 ? '...' : ''}}</p>
+            <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
 
             <span style="color:green;">{{ (comment.commentRank > 0) ? '+' + comment.commentRank : '0'}}</span>
             <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionId})">

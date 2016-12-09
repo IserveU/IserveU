@@ -6,13 +6,11 @@ class IndexUserCommentVoteApiTest extends TestCase
 {
     use DatabaseTransactions;
 
-
     protected static $userCommentVoting;
 
     public function setUp()
     {
         parent::setUp();
-
 
         if (is_null(static::$userCommentVoting)) {
             $motion = $this->getStaticMotion();
@@ -51,7 +49,6 @@ class IndexUserCommentVoteApiTest extends TestCase
     public function by_motion_user_comment_vote_filter_in()
     {
         $motion = $this->getStaticMotion();
-
 
         $commentVoteIds = static::$userCommentVoting->commentVotes->pluck('id')->toArray();
 

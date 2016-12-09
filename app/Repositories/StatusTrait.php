@@ -71,7 +71,6 @@ trait StatusTrait
             abort(500, 'Default status not set in model');
         }
 
-
         if (static::$statuses[$this->status] == 'visible') {
             return true;
         }

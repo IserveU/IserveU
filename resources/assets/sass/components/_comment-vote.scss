@@ -10,6 +10,10 @@
 
 }
 
+.comment-vote__user-comment {
+  word-wrap: break-word;
+}
+
 
 
 	// .comment-votes{
@@ -18,7 +22,7 @@
 	// 		@extend .title-svg-icon;
 	// 	}
 	// }
-	// 
+	//
 	// 	div.comment-votes {
 	// 	padding: 0;
 	// 	md-button {
