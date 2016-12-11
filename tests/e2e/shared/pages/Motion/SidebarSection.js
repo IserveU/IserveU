@@ -1,6 +1,10 @@
 let DomHelper = require('../../helpers/DomHelper');
 let ShowMotionPage = require('../../pages/Motion/ShowMotionPage');
 
+var scrollIntoView = function (element) {
+				//Will need to refactor, but this scrolls the window to the element
+  arguments[0].scrollIntoView();
+};
 
 class SidebarSection extends ShowMotionPage{
 
@@ -15,7 +19,12 @@ class SidebarSection extends ShowMotionPage{
 	}
 
 	clickRandomMotion(){
+		browser.waitForAngular();
 		this.getRandomMotion().then(function(val){
+			//Will need to refactor, but this scrolls the window to the element which 
+			//a promise that gets one item from an ElementArrayFinder won't do it seems
+			//http://stackoverflow.com/questions/27023768/scroll-down-to-an-element-with-protractor
+			browser.executeScript(scrollIntoView,val.getWebElement());
 			val.click();
 		});
 	}

@@ -58,9 +58,11 @@ class LoginPage{
 	}
 
 	loginWithEmailPassword(email,password){
+		browser.waitForAngular();
 		this.emailInput.sendKeys(email);
 	    this.passwordInput.sendKeys(password);
 	    this.clickLoginButton();
+   		browser.waitForAngular();
 	}
 
 	getMessage(){

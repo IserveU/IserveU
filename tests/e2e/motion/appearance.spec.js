@@ -53,5 +53,12 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
   	});
 
+  	
+    afterEach(function(){
+        browser.manage().logs().get('browser').then(function(browserlog){
+         // expect(browserlog.length).toEqual(0);
+          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
+        });
+    });
 
 });

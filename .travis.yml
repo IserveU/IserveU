@@ -1,28 +1,26 @@
 dist: trusty
 sudo: required
-group: deprecated
 services:
 - redis-server
 language: php
 php:
-- 7.0
+ - 7.0
 notifications:
   email: false
 before_install:
 - chmod +x ./tests/scripts/*
-- "./tests/scripts/install-node.sh"
-- "./tests/scripts/install-mysql.sh"
-- "./tests/scripts/install-yarn.sh"
-- "./tests/scripts/install-protractor.sh"
+- ./tests/scripts/install-node.sh
+- ./tests/scripts/install-mysql.sh
+- ./tests/scripts/install-protractor.sh
 - sudo npm install -g bower
+- sudo npm install -g gulp
 before_script:
 - cp ./tests/scripts/.env.travis ./.env
 - cp ./tests/scripts/protractor.conf.js.travis ./protractor.conf.js
 - mysql -u root -e 'create database forge;'
-- composer self-update
 - composer install --no-interaction
 - yarn
-- bower install
+- bower update
 - npm rebuild node-sass
 - gulp
 - php artisan route:cache
@@ -35,13 +33,14 @@ script:
 - php artisan setup:initialize admin@iserveu.ca abcd1234 yes yes
 - vendor/bin/phpunit
 after_script:
-- "./tests/scripts/codeclimate.sh"
+- ./tests/scripts/codeclimate.sh
 cache:
+  yarn: true
   directories:
-  - "$HOME/.yarn-cache"
   - node_modules
   - vendor
   - bower
+  - $HOME/.composer/cache
 env:
   global:
   - SELENIUM_HOST=hub-cloud.browserstack.com

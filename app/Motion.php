@@ -251,7 +251,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     {
 
         // Motions can stay open forever ATM
-        if ($this->closing_at === null) {
+        if ($this->closing_at == null || $this->closing_at['carbon'] == null) {
             return true;
         }
 

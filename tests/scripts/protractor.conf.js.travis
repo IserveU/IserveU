@@ -20,15 +20,21 @@ exports.config = {
   },
 
   'multiCapabilities': [{
-    'browserName': 'Chrome'
+    'browserName': 'Chrome',
+    'browser_version': '55.0',
+    'resolution': '1920x1080',
+    'os': 'Windows',
+    'os_version': '7'
   }],
 
 
   framework: 'jasmine2',
 
+  allScriptsTimeout: 120000,
+  getPageTimeout: 120000,
   jasmineNodeOpts: {
       showColors: true,
-      defaultTimeoutInterval: 60000,
+      defaultTimeoutInterval: 120000,
       realtimeFailure: true
   },
 
@@ -46,6 +52,10 @@ exports.config = {
         resolve();
       });
     });
+  },
+
+  onPrepare: function() {
+    browser.driver.manage().window().maximize();
   },
 
   // Code to stop browserstack local after end of test
