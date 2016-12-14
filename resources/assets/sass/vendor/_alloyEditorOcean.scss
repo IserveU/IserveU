@@ -554,22 +554,22 @@
     font-family: alloyeditor-ocean; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-bottom:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-top:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-top-left:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-top-right:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-left:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-arrow-box.ae-arrow-box-right:after {
-  color: #32a8e6; }
+  color: $accentColor; }
 
 .ae-ui .ae-container-dropdown > .ae-toolbar-element .ae-container .ae-icon-arrow, .ae-ui [class^=ae-container-dropdown-] > .ae-toolbar-element .ae-container .ae-icon-arrow {
   -webkit-transform: rotate(90deg);
@@ -633,7 +633,7 @@
     background-color: #fcfcfc; }
 
 .ae-ui .ae-toolbar, .ae-ui [class^=ae-toolbar-] {
-  background-color: #32a8e6;
+  background-color: $primaryColor;
   border-radius: 4px;
   color: #fff;
   z-index: 10;
@@ -641,16 +641,16 @@
   .ae-ui .ae-toolbar .ae-button, .ae-ui .ae-toolbar .ae-toolbar-element, .ae-ui [class^=ae-toolbar-] .ae-button, .ae-ui [class^=ae-toolbar-] .ae-toolbar-element {
     background-color: transparent; }
     .ae-ui .ae-toolbar .ae-button:hover, .ae-ui .ae-toolbar .ae-toolbar-element:hover, .ae-ui [class^=ae-toolbar-] .ae-button:hover, .ae-ui [class^=ae-toolbar-] .ae-toolbar-element:hover {
-      color: #1888c3; }
+      color: $midGrey; }
     .ae-ui .ae-toolbar .ae-button.ae-button-pressed, .ae-ui .ae-toolbar .ae-toolbar-element.ae-button-pressed, .ae-ui [class^=ae-toolbar-] .ae-button.ae-button-pressed, .ae-ui [class^=ae-toolbar-] .ae-toolbar-element.ae-button-pressed {
-      background-color: #1a95d5; }
+      background-color: $midGrey; }
       .ae-ui .ae-toolbar .ae-button.ae-button-pressed:hover, .ae-ui .ae-toolbar .ae-toolbar-element.ae-button-pressed:hover, .ae-ui [class^=ae-toolbar-] .ae-button.ae-button-pressed:hover, .ae-ui [class^=ae-toolbar-] .ae-toolbar-element.ae-button-pressed:hover {
-        color: #1888c3; }
+        color: $midGrey; }
     .ae-ui .ae-toolbar .ae-button.ae-button-disabled, .ae-ui .ae-toolbar .ae-toolbar-element.ae-button-disabled, .ae-ui [class^=ae-toolbar-] .ae-button.ae-button-disabled, .ae-ui [class^=ae-toolbar-] .ae-toolbar-element.ae-button-disabled {
       opacity: 0.3; }
 
 .ae-ui .ae-toolbar-add {
-  background-color: #32a8e6;
+  background-color: $accentColor;
   border-color: transparent;
   border-radius: 12px;
   color: #fff; }

@@ -30,5 +30,7 @@
     "test": "webdriver-manager start && protractor conf",
     "lint": "eslint public/app"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-sass": "^3.0.0"
+  }
 }
