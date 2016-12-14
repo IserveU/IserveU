@@ -21,7 +21,7 @@
 					<h3 class="title-header">Summary</h3>
 					<div layout="column" flex>
 						<md-input-container style="margin-top: 0; margin-bottom: 0;">
-							<input name="title" type="text" ng-model="form.motion.summary" minlength="8" required/>
+							<input name="summary" type="text" ng-model="form.motion.summary" minlength="8" required/>
 						</md-input-container>
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 				<div>
 					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
 					<h3  class="title-header">Body</h3>
-					<textarea alloy-editor flow-init class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
+					<textarea name="body" alloy-editor flow-init class="md-body-1" id="motion-form-editor" ng-model="form.motion.text" layout-padding></textarea>
 				</div>
 
 				<div has-permission="create-motion">

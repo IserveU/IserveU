@@ -21,3 +21,4 @@ npm-debug.log
 codeception.yml
 tests/_output/*
 .DS_Store
+*.log

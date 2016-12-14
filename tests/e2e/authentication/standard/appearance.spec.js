@@ -1,4 +1,4 @@
-let LoginPage = require('../shared/pages/LoginPage');
+let LoginPage = require('../../shared/pages/LoginPage');
 
 
 describe('authenication.appearance iserveu first landing on login page as new user', function() {

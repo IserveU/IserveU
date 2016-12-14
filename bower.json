@@ -3,15 +3,17 @@
   "version": "0.0.1",
   "dependencies": {
     "alloyeditor": "^1.2.3",
-    "angular": "latest",
+    "angular": "~1.5",
     "angular-alloyeditor": "^0.0.4",
-    "angular-animate": "latest",
-    "angular-cookies": "latest",
+    "angular-animate": "~1.5",
+    "angular-aria": "~1.5",
+    "angular-cookies": "~1.5",
     "angular-loading-bar": "~0.9.0",
+    "angular-marked": "^1.2.2",
     "angular-material": "latest",
-    "angular-messages": "latest",
-    "angular-resource": "latest",
-    "angular-sanitize": "latest",
+    "angular-messages": "~1.5",
+    "angular-resource": "~1.5",
+    "angular-sanitize": "~1.5",
     "angular-translate": "latest",
     "angular-translate-storage-cookie": "latest",
     "angular-translate-storage-local": "latest",
@@ -20,18 +22,17 @@
     "font-awesome": "*",
     "isu-form-sections": "*",
     "jquery": "latest",
+    "marked": "^0.3.6",
     "md-color-picker": "*",
     "mdi": "latest",
     "ng-flow": "*",
     "ngInfiniteScroll": "~1.2.1",
     "satellizer": "latest",
     "svg-morpheus": "latest",
-    "textAngular": "1.4.2",
-    "angular-marked": "^1.2.2",
-    "marked": "^0.3.6"
+    "textAngular": "1.4.2"
   },
   "private": true,
   "resolutions": {
-    "angular": "~1.4.0"
+ 
   }
 }

@@ -2,7 +2,7 @@
 	"suites": {
 	    "motion"   			:   "tests/e2e/motion/*spec.js",
 	   	"vote"   			:   "tests/e2e/vote/*spec.js",
-	    "authenication"    	:   "tests/e2e/authenication/*spec.js",
+	    "authentication"    :   "tests/e2e/authentication/**/*spec.js",
 	    "full"     			:   "tests/e2e/**/*spec.js"
 	}
 }

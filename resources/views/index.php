@@ -44,7 +44,7 @@
     </body>
 
 
-    <?php if (Config::get('app.debug')): ?>
+    <?php if (Config::get('app.livereload')): ?>
         <script type="text/javascript">
             document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>');  
         </script>

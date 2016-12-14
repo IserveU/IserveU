@@ -1,22 +1,22 @@
 <md-grid-list md-cols="1" md-cols-sm="3" md-cols-xs="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding flex ng-cloak>
 
     <md-grid-tile class="md-whiteframe-z1">
-	    <md-icon md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
+	    <md-icon id="department_icon" md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
 	    <md-tooltip md-direction="{{::direction}}">{{ motion.department.name }}</md-tooltip>
     </md-grid-tile>
 
-    <md-grid-tile ng-if="settingsGlobal.motion.allow_closing" class="md-whiteframe-z1">
-	    <md-icon ng-show="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">
+    <md-grid-tile id="closing_tile" ng-if="settingsGlobal.motion.allow_closing" class="md-whiteframe-z1">
+	    <md-icon ng-if="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">
 	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
 	    </md-icon>
 
-	    <md-icon ng-show="motion.motionOpenForVoting" md-svg-icon="calendar-clock">
+	    <md-icon ng-if="motion.motionOpenForVoting" md-svg-icon="calendar-clock">
 	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing_at.alpha_date | customLongDate }}</md-tooltip>
 	    </md-icon>
     </md-grid-tile>
 
     <md-grid-tile class="md-whiteframe-z1">
-	  	<md-icon md-svg-src="{{ motion.motionVotes.overallPosition.icon || 'loading' }}"></md-icon>
+	  	<md-icon id="passing_status_icon" md-svg-src="{{ motion.motionVotes.overallPosition.icon || 'loading' }}"></md-icon>
 	    <md-tooltip md-direction="{{::direction}}">{{ motion.motionVotes.overallPosition.message }}</md-tooltip>
     </md-grid-tile>
 

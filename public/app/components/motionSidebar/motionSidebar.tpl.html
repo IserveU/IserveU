@@ -22,27 +22,19 @@
 
           </md-list-item>
 
-          <md-list-item has-permission="create-motion" layout="row" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">
-              <p>{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
-              <md-icon class="mdi mdi-plus" aria-label="create motion"  layout-margin></md-icon>
-          </md-list-item>
 
           <md-list-item ng-if="motionSidebar.motionIndex._index.length == 0 && !motionSidebar.motionIndex._paginating">
             <p class="md-body-1 ellipsis" translate="{{'NO_MOTIONS'}}"></p>
           </md-list-item>
 
-          <md-progress-circular md-mode="indeterminate" ng-if="motionSidebar.motionIndex._paginating && !motionSidebar.motionIndex._stopPaginating"></md-progress-circular>
 
-          <md-subheader ng-if="itemsInReview.length">
-              <p>Upcoming {{ 'MOTIONS' | translate }}:</p>
-          </md-subheader>
+          <md-list-item has-permission="create-motion" layout="row" class="sidebar-list-item" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">
 
-          <md-list-item ng-if="itemsInReview.length" layout="row" ng-repeat="review in itemsInReview = (motionSidebar.motionObj.data | isInReview | filter:motionSidebar.search.text)" ui-sref-active="active" ui-sref="motion({id:review.id})" ng-click="motionSidebar.closeSidenav('left')">
-            <md-icon class="department" md-svg-src="{{ ::review.department.icon }}">
-              <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
-            </md-icon>
-            <p>{{ ::review.title }}</p>
+              <p class="md-body-1 ellipsis">{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
+              <md-icon class="mdi mdi-plus" aria-label="Create Motion"  layout-margin></md-icon>
           </md-list-item>
+
+
       </md-list>
     </div>
 </md-content>

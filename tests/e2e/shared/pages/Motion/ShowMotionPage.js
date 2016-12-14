@@ -12,6 +12,11 @@ class ShowMotionPage{
 		this.createCommentHeader	= element(by.css('user-comment-create header'));
 		this.submitCommentButton 	= element(by.css('user-comment-create button[type=submit]'));
 		this.closeCommentButton 	= element(by.css('user-comment-create button[type=button]'));
+
+		// Motion Model Icons (Vote is not here)
+		this.departmentIcon			= element(by.id('department_icon')); 
+		this.closingIcon 			= element(by.css('#closing_tile md-icon'));
+
 	}
 
 
@@ -30,6 +35,15 @@ class ShowMotionPage{
 	getText(attr){
 		return DomHelper.extractAttribute(this.motionText,attr);
 	}
+
+	getDepartmentIcon(attr){
+		return DomHelper.extractAttribute(this.departmentIcon,attr);
+	}
+
+	getClosingIcon(attr){
+		return DomHelper.extractAttribute(this.closingIcon,attr);
+	}
+
 
 	getFile(title){
 		if(!title){

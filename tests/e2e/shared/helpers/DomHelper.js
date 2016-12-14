@@ -16,6 +16,11 @@ class DomHelper {
 		return element;
 	}
 
+	scrollIntoView(element) {
+ 		arguments[0].scrollIntoView();
+	};
+
+
 }
 
 
