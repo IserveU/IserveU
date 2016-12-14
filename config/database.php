@@ -89,7 +89,7 @@ return [
             'host'      => env('HYN_HOST', '127.0.0.1'),
             'database'  => env('HYN_DATABASE','hyn_multi_tenancy'),
             'username'  => env('HYN_USERNAME','hyn'),
-            'password'  => env('HYN_PASSWORD','<your_strong_random_string>'),
+            'password'  => env('HYN_PASSWORD','strongpassword'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
