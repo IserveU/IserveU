@@ -1,4 +1,5 @@
-let LoginPage = require('../pages/LoginPage');
+let LoginPage 	= require('../pages/LoginPage');
+let Setting = require('../pages/setting/Settings');
 
 class LoginHelper {
 
@@ -7,9 +8,16 @@ class LoginHelper {
 		this.password = password;
 
 		this.loginPage = new LoginPage();
+
+		this.logoutButton	= element();
+	
 	}
 
-	login(){
+	login(email){
+		if(email){
+			this.email = email;
+		}
+
 		if(!this.email){
 			this.email = "admin@iserveu.ca";
 		}
@@ -27,6 +35,8 @@ class LoginHelper {
 
 
 	logout(){
+		let setting = new Setting();
+  		setting.openSettingsSection('logout');
 		
 	}
 
