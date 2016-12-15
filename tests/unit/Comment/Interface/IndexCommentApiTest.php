@@ -24,7 +24,13 @@ class IndexCommentApiTest extends CommentApi
              ->assertResponseStatus(200)
              ->seeJsonStructure([
                 '*' => [
-                    'id', 'text', 'created_at', 'commentRank', 'user', 'motionTitle', 'motionId',
+                    'id', 'text', 'created_at', 'commentRank', 'motionTitle', 'motionId',
+                    'user' => [
+                        'community' => [
+                            'adjective',
+                        ],
+                    ],
+
                 ],
             ]);
     }

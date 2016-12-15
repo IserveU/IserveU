@@ -42,6 +42,10 @@ class RouteServiceProvider extends ServiceProvider
             return \App\User::findBySlugOrId($user);
         });
 
+        app('router')->bind('community', function ($user) {
+            return \App\Community::findBySlugOrId($user);
+        });
+
         app('router')->bind('vote', function ($vote) {
             return \App\Vote::find($vote);
         });

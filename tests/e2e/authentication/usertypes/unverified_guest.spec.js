@@ -3,7 +3,7 @@ let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
 
-describe('authenication.guest page interactions for a guest users (no account)', function() {
+describe('authenication.guest page interactions for a guest users (no account) ||', function() {
 
 	let page = new LoginPage();
   let EC = protractor.ExpectedConditions;
@@ -41,7 +41,7 @@ describe('authenication.guest page interactions for a guest users (no account)',
   	});
 
 
-  	it('Should be able to signup for site', function() {
+  	fit('Should be able to signup for site', function() {
         let email     = faker.internet.email();
         page.clickCreateButton();
 

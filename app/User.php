@@ -15,7 +15,6 @@ use App\Repositories\StatusTrait;
 use Auth;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DB;
 use Event;
 use Hash;
@@ -32,7 +31,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract, Authenticatable, CachedModel, VisibilityModel
 {
-    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers, SoftDeletes;
+    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SoftDeletes;
     use EntrustUserTrait{
         SoftDeletes::restore insteadof EntrustUserTrait;
         EntrustUserTrait::restore insteadof SoftDeletes;
@@ -55,7 +54,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone', 'government_identification_id'];
 
-    protected $visible = [''];
+    protected $visible = ['community'];
+
     protected $hidden = ['password'];
 
     /**
