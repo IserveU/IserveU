@@ -47,16 +47,17 @@ class IndexMotionRequest extends Request
     public function rules()
     {
         return [
-            'rank_greater_than' => 'numeric',
-            'rank_less_than'    => 'numeric',
-            'department_id'     => 'numeric|exists:departments,id',
-            'by_closing_at'     => ['regex:(desc|asc)'],
-            'by_created_at'     => ['regex:(desc|asc)'],
-            'status'            => 'array',
-            'implementation'    => 'array',
-            'user_id'           => 'exists:users,id',
-            'limit'             => 'integer',
-            'page'              => 'integer',
+            'rankGreaterThan'        => 'numeric',
+            'rankLessThan'           => 'numeric',
+            'departmentId'           => 'numeric|exists:departments,id',
+            'orderByClosingDate'     => ['regex:(desc|asc)'],
+            'orderByCreateDate'      => ['regex:(desc|asc)'],
+            'status'                 => 'array',
+            'implementation'         => 'array',
+            'userId'                 => 'exists:users,id',
+            'limit'                  => 'integer',
+            'title'                  => 'max:255',
+            'page'                   => 'integer',
         ];
     }
 }

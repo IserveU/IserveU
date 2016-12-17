@@ -6,6 +6,7 @@ use App\Events\Motion\MotionCreated;
 use App\Events\Motion\MotionDeleted;
 use App\Events\Motion\MotionSaving;
 use App\Events\Motion\MotionUpdated;
+use App\Filters\MotionFilter;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
@@ -331,6 +332,19 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     /************************************* Scopes ***************************************************/
 
     /**
+     * Executes the filters passed in on the.
+     *
+     * @param Builder       $query   Instance of the query builder
+     * @param ArticleFilter $filters Motion filter class
+     *
+     * @return Builder
+     */
+    public function scopeFilter($query, MotionFilter $filters)
+    {
+        return $filters->apply($query);
+    }
+
+    /**
      * Checks that the given record has the status.
      *
      * @param Builder      $query          Query builder instance
@@ -345,59 +359,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         return $query->where('status', $status);
-    }
-
-    /**
-     * Checks that the given record has the implementation field.
-     *
-     * @param Builder      $query          Query builder instance
-     * @param Array/String $implementation the implementation value or values being sought
-     *
-     * @return Buidler
-     */
-    public function scopeImplementation($query, $implementation)
-    {
-        if (is_array($implementation)) {
-            return $query->whereIn('implementation', $implementation);
-        }
-
-        return $query->where('implementation', $implementation);
-    }
-
-    public function scopeWriter($query, $user)
-    {
-        if (is_numeric($user)) {
-            return $query->where('user_id', $user);
-        }
-
-        return $query->where('user_id', $user->id);
-    }
-
-    /** Depreciated in favor of Closing Before/After */
-    public function scopeExpired($query)
-    {
-        return $query->where('closing_at', '<=', Carbon::now());
-    }
-
-    /** Depreciated in favor of Closing Before/After */
-    public function scopeCurrent($query)
-    {
-        return $query->where('closing_at', '>=', Carbon::now());
-    }
-
-    public function scopeDepartment($query, $department_id)
-    {
-        return $query->where('department_id', $department_id);
-    }
-
-    public function scopeUpdatedBefore($query, Carbon $time)
-    {
-        return $query->where('updated_at', '<=', $time);
-    }
-
-    public function scopeUpdatedAfter($query, Carbon $time)
-    {
-        return $query->where('updated_at', '>=', $time);
     }
 
     public function scopePublishedAfter($query, Carbon $time)
@@ -420,28 +381,13 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $query->where('closing_at', '>=', $time);
     }
 
-    public function scopeOrderByClosingAt($query, $direction = 'desc')
+    public function scopeWriter($query, $user)
     {
-        return $query->orderBy('closing_at', $direction);
-    }
+        if (is_numeric($user)) {
+            return $query->where('user_id', $user);
+        }
 
-    public function scopeOrderByCreatedAt($query, $direction = 'desc')
-    {
-        return $query->orderBy('created_at', $direction);
-    }
-
-    public function scopeRankGreaterThan($query, $rank)
-    {
-        return $query->whereHas('votes', function ($query) use ($rank) {
-            $query->havingRaw('SUM(position) > '.$rank);
-        });
-    }
-
-    public function scopeRankLessThan($query, $rank)
-    {
-        return $query->whereHas('votes', function ($query) use ($rank) {
-            $query->havingRaw('SUM(position) < '.$rank);
-        });
+        return $query->where('user_id', $user->id);
     }
 
     /************************************* Relationships ********************************************/

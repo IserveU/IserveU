@@ -8,16 +8,17 @@ class IndexMotionApiTest extends MotionApi
 {
     use DatabaseTransactions;
 
-    protected static $motions;
+    //protected static $motions;
 
     public function setUp()
     {
         parent::setUp();
-
-        if (is_null(static::$motions)) {
-            static::$motions = factory(App\Motion::class, 25)->create();
-        }
-        factory(App\Motion::class, 5)->create();
+        $this->signInAsAdmin();
+        // if (is_null(static::$motions)) {
+        //     static::$motions = factory(App\Motion::class, 25)->create();
+        // }
+        factory(App\Motion::class, 5)->create(
+            ['status'=> 'published']);
     }
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
@@ -57,8 +58,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_created_at_ascending()
     {
-        $this->signInAsRole('administrator');
-        $this->json('GET', $this->route, ['by_created_at' => 'asc'])
+        $this->json('GET', $this->route, ['orderByCreateDate' => 'asc'])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'created_at');
     }
@@ -66,8 +66,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_created_at_descending()
     {
-        $this->signInAsRole('administrator');
-        $this->json('GET', $this->route, ['by_created_at' => 'desc'])
+        $this->json('GET', $this->route, ['orderByCreateDate' => 'desc'])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('desc', 'created_at');
     }
@@ -75,8 +74,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_closing_descending()
     {
-        $this->signInAsRole('administrator');
-        $this->json('GET', $this->route, ['by_closing_at' => 'desc'])
+        $this->json('GET', $this->route, ['orderByClosingDate' => 'desc'])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('desc', 'closing_at');
     }
@@ -84,8 +82,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_closing_ascending()
     {
-        $this->signInAsRole('administrator');
-        $this->json('GET', $this->route, ['by_closing_at' => 'asc'])
+        $this->json('GET', $this->route, ['orderByClosingDate' => 'asc'])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'closing_at');
     }
@@ -93,8 +90,6 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_draft_status()
     {
-        $this->signInAsRole('administrator');
-
         $motion = factory(App\Motion::class, 'draft')->create();
 
         $this->json('GET', $this->route, ['status' => ['draft']])
@@ -111,8 +106,6 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_review_status()
     {
-        $this->signInAsRole('administrator');
-
         $motion = factory(App\Motion::class, 'review')->create();
 
         $this->json('GET', $this->route, ['status' => ['review']])
@@ -130,8 +123,6 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_published_status()
     {
-        $this->signInAsRole('administrator');
-
         $motion = factory(App\Motion::class, 'published')->create();
 
         $this->json('GET', $this->route, ['status' => ['published']])
@@ -149,8 +140,6 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_closed_status()
     {
-        $this->signInAsRole('administrator');
-
         $motion = factory(App\Motion::class, 'closed')->create();
 
         $this->json('GET', $this->route, ['status' => ['closed']])
@@ -166,16 +155,32 @@ class IndexMotionApiTest extends MotionApi
     }
 
     /** @test */
+    public function motion_filter_by_title()
+    {
+        $motion = factory(App\Motion::class, 'published')->create(
+            ['title'=> 'this is a unique text']);
+
+        $this->json('GET', $this->route, ['title' =>'this is a unique text'])
+                ->assertResponseStatus(200);
+
+        $motions = json_decode($this->response->getContent());
+        $this->assertTrue(($motions->total > 0));
+
+        foreach ($motions->data as $motion) {
+            $this->assertEquals($motion->title, 'this is a unique text');
+        }
+    }
+
+    /** @test */
     public function motion_filter_rank_greater_than()
     {
-        $this->signInAsRole('administrator');
 
         //Create a vote on a motion greater than 1
         $vote = factory(App\Vote::class)->create([
             'position'  => 1,
         ]);
 
-        $this->json('GET', $this->route, ['rank_greater_than' => 0])
+        $this->json('GET', $this->route, ['rankGreaterThan' => 0])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
@@ -190,14 +195,13 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_rank_less_than()
     {
-        $this->signInAsRole('administrator');
 
         //Create a vote on a motion last than 1
         $vote = factory(App\Vote::class)->create([
             'position'  => -1,
         ]);
 
-        $this->json('GET', $this->route, ['rank_less_than' => 0])
+        $this->json('GET', $this->route, ['rankLessThan' => 0])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
@@ -212,13 +216,11 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_user_id()
     {
-        $this->signInAsRole('administrator');
-
-        $motion = factory(App\Motion::class)->create([
+        $motion = factory(App\Motion::class, 'published')->create([
             'user_id'   => $this->user->id,
         ]);
 
-        $this->json('GET', $this->route, ['user_id' => $this->user->id])
+        $this->json('GET', $this->route, ['userId' => $this->user->id])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
@@ -233,15 +235,13 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_department_id()
     {
-        $this->signInAsRole('administrator');
-
         $department = \App\Department::first();
 
-        $motion = factory(App\Motion::class)->create([
+        $motion = factory(App\Motion::class, 'published')->create([
             'department_id' => $department->id,
         ]);
 
-        $this->json('GET', $this->route, ['department_id' => $department->id])
+        $this->json('GET', $this->route, ['departmentId' => $department->id])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
@@ -256,9 +256,8 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_nonbinding_implementation()
     {
-        $this->signInAsRole('administrator');
-
-        $motion = factory(App\Motion::class, 3)->create();
+        $motion = factory(App\Motion::class, 3)->create(
+            ['status'=> 'published']);
 
         $this->json('GET', $this->route, ['implementation' => ['non-binding']])
                 ->assertResponseStatus(200);
@@ -274,9 +273,8 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_binding_implementation()
     {
-        $this->signInAsRole('administrator');
-
-        $motion = factory(App\Motion::class, 3)->create();
+        $motion = factory(App\Motion::class, 3)->create(
+            ['status'=> 'published']);
 
         $this->json('GET', $this->route, ['implementation' => ['binding']])
                 ->assertResponseStatus(200);

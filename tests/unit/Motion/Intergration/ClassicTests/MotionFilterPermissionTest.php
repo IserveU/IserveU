@@ -18,6 +18,8 @@ class MotionFilterPermissionTest extends TestCase
         $this->signInAsPermissionedUser('show-motion');
         $motions = generateMotions($this);
         //Default with no filters
+        // as defaults we only allow published and closed
+        // on MotionFilter class.
         filterCheck(
                 $this,
                 [
@@ -25,10 +27,10 @@ class MotionFilterPermissionTest extends TestCase
                     $motions['motionMyPublished'],
                     $motions['motionClosed'],
                     $motions['motionMyClosed'],
-                    $motions['motionDraft'],
-                    $motions['motionMyDraft'],
-                    $motions['motionReview'],
-                    $motions['motionMyReview'],
+                    // $motions['motionDraft'],
+                    // $motions['motionMyDraft'],
+                    // $motions['motionReview'],
+                    // $motions['motionMyReview'],
                 ], []
         );
         $this->assertResponseStatus(200);

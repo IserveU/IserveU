@@ -41,7 +41,7 @@ describe('authenication.guest page interactions for a guest users (no account) |
   	});
 
 
-  	fit('Should be able to signup for site', function() {
+  	it('Should be able to signup for site', function() {
         let email     = faker.internet.email();
         page.clickCreateButton();
 
