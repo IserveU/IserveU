@@ -19,6 +19,7 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
   		
 		var EC = protractor.ExpectedConditions;
 
+		//Failed 2016-12-16 Failed to locate this one time  No element found using locator: By(css selector, h1.motion__title)
 		expect(motion.getTitle('text')).toBe("A Published Motion");
 		expect(motion.getText('text')).toContain("Content of the published motion");
 		expect(motion.getDepartmentIcon('md-svg-icon')).toBe("/icons/unknown.svg");

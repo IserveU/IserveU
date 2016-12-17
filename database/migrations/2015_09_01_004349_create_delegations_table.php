@@ -1,7 +1,5 @@
 <?php
 
-use App\Delegation;
-use App\Department;
 use App\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -31,24 +29,6 @@ class CreateDelegationsTable extends Migration
             $table->foreign('delegate_from_id')->references('id')->on('users');
             $table->foreign('department_id')->references('id')->on('departments');
         });
-
-        $validUsers = User::notRepresentative()->get();
-        $departments = Department::all();
-        $numberOfRepresentatives = User::representative()->count();
-
-        if (isset($numberOfRepresentative)) {
-            foreach ($validUsers as $user) {
-                foreach ($departments as $department) {
-                    $representatives = User::representative()->get();
-                    $leastDelegatedToRepresentative = $representatives->sortBy('totalDelegationsTo')->first();
-                    $newDelegation = new Delegation();
-                    $newDelegation->department_id = $department->id;
-                    $newDelegation->delegate_from_id = $user->id;
-                    $newDelegation->delegate_to_id = $leastDelegatedToRepresentative->id;
-                    $newDelegation->save();
-                }
-            }
-        }
     }
 
     /**
