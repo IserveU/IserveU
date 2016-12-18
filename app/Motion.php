@@ -189,7 +189,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
         //If self or show-other-private-user
         if (Auth::check() && (Auth::user()->id == $this->user_id || Auth::user()->can('show-motion'))) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'implementation']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'implementation']);
         }
 
         if (Auth::check()) {
@@ -197,7 +197,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'rank', 'implementation']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'rank', 'implementation']);
         }
 
         return $this;
@@ -213,6 +213,24 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      * @return array
      */
     public function getClosingAtAttribute($attr)
+    {
+        $carbon = Carbon::parse($attr);
+
+        return [
+            'diff'          => ($attr) ? $carbon->diffForHumans() : null,
+            'alpha_date'    => ($attr) ? $carbon->format('j F Y') : null,
+            'carbon'        => ($attr) ? $carbon : null,
+        ];
+    }
+
+    /**
+     * Converts the date/time to a handy set of date details.
+     *
+     * @param string $attr String of date to be parsed
+     *
+     * @return array
+     */
+    public function getPublishedAtAttribute($attr)
     {
         $carbon = Carbon::parse($attr);
 

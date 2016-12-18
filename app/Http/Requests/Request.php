@@ -84,6 +84,14 @@ abstract class Request extends FormRequest
     private function getInvalidData(array $requestData, array $rules)
     {
         $invalidData = [];
+
+        // Makes sure that dot notation isn't done on non-array values. Probably won't work for everything
+        foreach ($requestData as $key => $value) {
+            if (!is_numeric($value) && is_array($value) && isAssoc($value)) {
+                $requestData = array_dot($requestData);
+            }
+        }
+
         foreach ($requestData as $key => $value) {
             if (!array_key_exists($key, $rules)) {
                 $invalidData[] = $key;

@@ -2,12 +2,8 @@
 
 include_once 'MotionApi.php';
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 class IndexMotionApiTest extends MotionApi
 {
-    use DatabaseTransactions;
-
     //protected static $motions;
 
     public function setUp()
@@ -17,8 +13,7 @@ class IndexMotionApiTest extends MotionApi
         // if (is_null(static::$motions)) {
         //     static::$motions = factory(App\Motion::class, 25)->create();
         // }
-        factory(App\Motion::class, 5)->create(
-            ['status'=> 'published']);
+        factory(App\Motion::class, 2)->create(['status'=> 'published']);
     }
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
@@ -45,6 +40,7 @@ class IndexMotionApiTest extends MotionApi
                         'text',
                         'implementation',
                         'closing_at',
+                        'published_at',
                         'status',
                         'motionOpenForVoting',
                         'department' => [
@@ -53,12 +49,16 @@ class IndexMotionApiTest extends MotionApi
                     ],
                 ],
             ]);
+
+        $this->seeOrderInTimeField('desc', 'published_at'); //Default order
+        $this->dontSee('draft');
+        $this->dontSee('review');
     }
 
     /** @test */
     public function motion_filter_by_created_at_ascending()
     {
-        $this->json('GET', $this->route, ['orderByCreateDate' => 'asc'])
+        $this->json('GET', $this->route, ['orderBy' => ['created_at'=>'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'created_at');
     }
@@ -66,7 +66,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_created_at_descending()
     {
-        $this->json('GET', $this->route, ['orderByCreateDate' => 'desc'])
+        $this->json('GET', $this->route, ['orderBy' => ['created_at'=>'desc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('desc', 'created_at');
     }
@@ -74,7 +74,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_closing_descending()
     {
-        $this->json('GET', $this->route, ['orderByClosingDate' => 'desc'])
+        $this->json('GET', $this->route, ['orderBy' => ['closing_at'=>'desc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('desc', 'closing_at');
     }
@@ -82,7 +82,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_by_closing_ascending()
     {
-        $this->json('GET', $this->route, ['orderByClosingDate' => 'asc'])
+        $this->json('GET', $this->route, ['orderBy' => ['closing_at'=>'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'closing_at');
     }

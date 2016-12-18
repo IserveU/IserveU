@@ -6,8 +6,8 @@ class MotionFilter extends QueryFilter
 {
     //Done unless otherwise specified, very important for security
     protected $defaultsUnlessOverridden = [
-        'status'             => ['published', 'closed'],
-        'orderByDate'        => 'desc',
+        'status'                => ['published', 'closed'],
+        'orderBy'               => ['published_at' => 'desc'],
     ];
 
     /* A status or an array of statuses */
@@ -101,18 +101,12 @@ class MotionFilter extends QueryFilter
     }
 
     /* desc or asc */
-    public function orderByPublishedDate($order = 'desc')
+    public function orderBy($fieldPairs)
     {
-        return $this->query->orderBy('published_at', $order);
-    }
+        foreach ($fieldPairs as $field => $direction) {
+            $this->query->orderBy($field, $direction);
+        }
 
-    public function orderByClosingDate($order = 'desc')
-    {
-        return $this->query->orderBy('closing_at', $order);
-    }
-
-    public function orderByCreateDate($order = 'desc')
-    {
-        return $this->query->orderBy('created_at', $order);
+        return $this->query;
     }
 }
