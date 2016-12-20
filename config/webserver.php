@@ -103,7 +103,7 @@ return [
         'class'   => 'Hyn\Webserver\Generators\Webserver\Fpm',
         'enabled' => true,
         'conf'    => [
-            '/etc/php7/fpm/pool.d/'
+            '/etc/php7/fpm/pool.d/',
         ],
         // path to service daemon, used to verify service exists
         'service' => '/etc/init.d/php7-fpm',

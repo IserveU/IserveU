@@ -44,7 +44,7 @@ return [
      * used.
      */
     'queue' => [
-        'root' => null,
+        'root'  => null,
         'other' => null,
     ],
 
