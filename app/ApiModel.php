@@ -4,11 +4,11 @@ namespace App;
 
 use Auth;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Hyn\Tenancy\Abstracts\Models\TenantModel;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ApiModel extends Model
+class ApiModel extends TenantModel
 {
     public $errors;
 

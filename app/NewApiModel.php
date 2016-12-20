@@ -3,9 +3,9 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Hyn\Tenancy\Abstracts\Models\TenantModel;
 
-class NewApiModel extends Model
+class NewApiModel extends TenantModel
 {
     /**
      * Set by the skipVisibility() method.
