@@ -18,7 +18,7 @@
       this.showVoting = false;
 
       this.save = function(dataType) {
-        settings.saveRecursive(dataType);
+        settings.saveTypeOf(dataType);
       };
 
       this.toggleDepartment = function() {
