@@ -37,7 +37,7 @@ class PrepareAdminSummary implements ShouldQueue
     public function prepareNewUserSummary()
     {
         $newUsers = User::with('roles')->where('created_at', '>=', Carbon::now()->subHours(24))
-                    ->notRoles(['administrator'])->get();
+                    ->doesntHaveRoles(['administrator'])->get();
 
         if ($newUsers->isEmpty()) {
             return true;

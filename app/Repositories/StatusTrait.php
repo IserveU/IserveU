@@ -98,6 +98,38 @@ trait StatusTrait
         return $query->whereDate('published_at', '>', $time);
     }
 
+    public function scopeUpdatedBefore($query, $time)
+    {
+        return $query->where('updated_at', '<', $time);
+    }
+
+    public function scopeUpdatedAfter($query, $time)
+    {
+        return $query->where('updated_at', '>', $time);
+    }
+
+    public function scopeClosingBefore($query, Carbon $time)
+    {
+        return $query->where('closing_at', '<=', $time);
+    }
+
+    public function scopeClosingAfter($query, Carbon $time)
+    {
+        return $query->where('closing_at', '>=', $time);
+    }
+
+    /** Depreciated in favor of Closing Before/After */
+    // public function scopeExpired($query)
+    // {
+    //     return $query->where('closing_at', '<=', Carbon::now());
+    // }
+
+    /** Depreciated in favor of Closing Before/After */
+    // public function scopeCurrent($query)
+    // {
+    //     return $query->where('closing_at', '>=', Carbon::now());
+    // }
+
     /*
     * Handles the trailing data error
     */

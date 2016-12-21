@@ -32,7 +32,7 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $message = $this->getLastMessageFor($user->email);
-
+        //This line failed at the same time as the one below (2016-12)
         $this->assertTrue($message->contains($motion->title));
 
         $this->assertTrue($message->contains(url("/#/motion/$motion->slug")));
@@ -52,7 +52,7 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $message = $this->getLastMessageFor($user->email);
-
+        //This line failed at the same time as the one above (2016-12)
         $this->assertTrue($message->contains($motion->title));
         $this->assertEquals($message->subject, 'Summary of Latest Motions');
     }

@@ -25,7 +25,7 @@
 
   <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
     <md-menu class="nav__menu" md-position-mode="target-right target">
-        <md-button aria-label="User Menu" id="nav__button" class="md-icon-button" ng-click="$mdOpenMenu()">
+        <md-button aria-label="User Menu" id="setting_cog" class="md-icon-button" ng-click="$mdOpenMenu()">
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ng-if="$mdMedia('gt-sm')"></md-icon>
             <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-menu" ng-if="!$mdMedia('gt-sm')"></md-icon>
         </md-button>
@@ -47,14 +47,16 @@
 
             <span ng-show="userIsLoggedIn">
 
-                <md-menu-item class="menu__button-dashboard" has-permission="create-motion, administrate-permission" ui-sref="dashboard">
+                <md-menu-item class="menu__button-dashboard" has-permission="administrate-permission, administrate-user, administrate-department" ui-sref="dashboard">
                     <md-button aria-label="go to admin dashboard">
                         <div layout="row">
-                            <p flex>Dashboard</p>
+                            <p flex>Site Admin</p>
                             <md-icon class="mdi mdi-view-dashboard"></md-icon>
                         </div>
                     </md-button>
                 </md-menu-item>
+
+                <md-divider has-permission="administrate-permission, administrate-user, administrate-department"></md-divider>
 
                 <md-menu-item class="menu__button-create-motion" has-permission="create-motion" ng-if="settingsGlobal.motion.on" ui-sref="create-motion">
                     <md-button aria-label="go to create-motion form">
@@ -79,7 +81,7 @@
                 <md-menu-item class="menu__button-user" ui-sref="edit-user({id:authenticatedUser.id})">
                     <md-button aria-label="go to your profile">
                         <div layout="row">
-                            <p flex translate="{{'YOUR_PROFILE'}}"></p>
+                            <p flex>Preferences / Profile</p>
                             <md-icon class="mdi mdi-account-circle"></md-icon>
                         </div>
                     </md-button>

@@ -19,6 +19,7 @@ class FormHelper {
 	 * @param  {String} text [description]
 	 * @return {[type]}      [description]
 	 */
+
 	selectBox(model, text){
 		
  		element(by.model(model)).click();
@@ -41,11 +42,32 @@ class FormHelper {
 		browser.wait(EC.presenceOf(editor), 5000,"Unable to find the cke editor instance");
 
 		editor.sendKeys(text);
-
 	}
 
 	submit(){
 		this.submitButton.click();
+	}
+
+
+	static toggleOn(field){
+
+		field.getAttribute('aria-checked').then(function(attribute){
+			if(attribute == "false"){
+				field.click();
+			}
+
+		});
+
+	}
+
+
+	static toggleOff(field){
+		field.getAttribute('aria-checked').then(function(attribute){
+			if(attribute == "true"){
+				field.click();
+			}
+
+		});
 	}
 
 }

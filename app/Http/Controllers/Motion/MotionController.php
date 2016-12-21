@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Motion;
 
+use App\Filters\MotionFilter;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Motion\DestroyMotionRequest;
 use App\Http\Requests\Motion\IndexMotionRequest;
@@ -23,7 +24,7 @@ class MotionController extends ApiController
      *
      * @return Response
      */
-    public function index(IndexMotionRequest $request)
+    public function index(MotionFilter $filters, IndexMotionRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
 
@@ -31,60 +32,12 @@ class MotionController extends ApiController
 
             $motions = Motion::with(['votes' => function ($query) {
                 $query->where('user_id', Auth::user()->id);
+
+                return $motions->paginate($limit);
             }]);
-        } else {
-            $motions = (new Motion())->newQuery();
         }
 
-        if ($request->has('status')) {
-            $motions->status($request->input('status'));
-        }
-
-        if ($request->has('implementation')) {
-            $motions->implementation($request->input('implementation'));
-        }
-
-        if ($request->has('rank_greater_than')) {
-            $motions->rankGreaterThan($request->input('rank_greater_than'));
-        }
-
-        if ($request->has('user_id')) {
-            $motions->writer($request->input('user_id'));
-        }
-
-        if ($request->has('rank_less_than')) {
-            $motions->rankLessThan($request->input('rank_less_than'));
-        }
-
-        if ($request->has('department_id')) {
-            $motions->department($request->input('department_id'));
-        }
-
-        if ($request->has('closing_before')) {
-            $motions->closingBefore($request->input('closing_before'));
-        }
-
-        if ($request->has('closing_after')) {
-            $motions->closingAfter($request->input('closing_after'));
-        }
-
-        if ($request->has('by_closing_at')) {
-            $motions->orderByClosingAt($request->input('by_closing_at'));
-        }
-
-        if ($request->has('by_created_at')) {
-            $motions->orderByCreatedAt($request->input('by_created_at'));
-        }
-
-        if ($request->has('take')) {
-            $motions->take($request->input('take'));
-        } else {
-            $motions->take(1);
-        }
-
-        $motions = $motions->paginate($limit);
-
-        return $motions;
+        return Motion::filter($filters)->paginate($limit);
     }
 
     /**

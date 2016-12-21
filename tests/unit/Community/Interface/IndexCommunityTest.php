@@ -18,7 +18,26 @@ class IndexCommunityApiTest extends CommunityApi
     /** @test */
     public function default_community_filter()
     {
-        $this->get($this->route);
+        $this->get($this->route)
+            ->assertResponseStatus(200)
+            ->seeJsonStructure([
+                'total',
+                'per_page',
+                'current_page',
+                'last_page',
+                'next_page_url',
+                'prev_page_url',
+                'from',
+                'to',
+                'data'  => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'adjective',
+                        'active',
+                    ],
+                ],
+            ]);
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

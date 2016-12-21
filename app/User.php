@@ -15,7 +15,6 @@ use App\Repositories\StatusTrait;
 use Auth;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use DB;
 use Event;
 use Hash;
@@ -32,7 +31,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract, Authenticatable, CachedModel, VisibilityModel
 {
-    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SluggableScopeHelpers, SoftDeletes;
+    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SoftDeletes;
     use EntrustUserTrait{
         SoftDeletes::restore insteadof EntrustUserTrait;
         EntrustUserTrait::restore insteadof SoftDeletes;
@@ -55,7 +54,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     protected $fillable = ['email', 'ethnic_origin_id', 'password', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'public', 'website', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'preferences', 'status', 'phone', 'government_identification_id'];
 
-    protected $visible = [''];
+    protected $visible = ['community'];
+
     protected $hidden = ['password'];
 
     /**
@@ -520,44 +520,17 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $query->where('email', $email);
     }
 
-    /**
-     * Makes sure the voter is a verified Canadian citizen who is living in Yellowknife.
-     *
-     * @param query
-     */
-    public function scopeValidVoter($query)
-    {
-        return $query->where('address_verified_until', '>=', Carbon::now())
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'citizen');
-            });
-    }
-
-    public function scopeRepresentative($query)
-    {
-        return $query->whereHas('roles', function ($query) {
-            $query->where('name', 'representative');
-        });
-    }
-
-    public function scopeNotRoles($query, $role)
+    public function scopeDoesntHaveRoles($query, $role)
     {
         return $query->whereDoesntHave('roles', function ($q) use ($role) {
             $q->whereIn('name', $role);
         });
     }
 
-    public function scopeNotRepresentative($query)
+    public function scopeHasRoles($query, $role)
     {
-        return $query->whereDoesntHave('roles', function ($q) {
-            $q->where('name', 'representative');
-        });
-    }
-
-    public function scopeNotCitizen($query)
-    {
-        return $query->whereDoesntHave('roles', function ($q) {
-            $q->where('name', 'citizen');
+        return $query->whereHas('roles', function ($q) use ($role) {
+            $q->whereIn('name', $role);
         });
     }
 
@@ -584,13 +557,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     public function scopeAddressNotSet($query)
     {
         return $query->whereNotNull('street_name');
-    }
-
-    public function scopeHasRoles($query, $roles)
-    {
-        return $query->whereHas('roles', function ($query) use ($roles) {
-            $query->whereIn('name', $roles);
-        });
     }
 
     public function scopeHasPermissions($query, $permissions)

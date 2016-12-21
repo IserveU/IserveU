@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
-class Community extends ApiModel
+class Community extends NewApiModel
 {
+    use Sluggable;
+
     /**
      * The name of the table for this model, also for the permissions set for this model.
      *
@@ -18,5 +21,27 @@ class Community extends ApiModel
      *
      * @var array
      */
-    protected $fillable = ['name', 'active'];
+    protected $fillable = ['name', 'active', 'adjective'];
+
+    /**
+     * The attributes universally visible.
+     *
+     * @var array
+     */
+    protected $visible = ['id', 'name', 'active', 'slug', 'adjective'];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source'      => ['name'],
+                'onUpdate'    => true,
+            ],
+        ];
+    }
 }

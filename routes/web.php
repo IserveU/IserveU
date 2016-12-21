@@ -60,7 +60,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::resource('setting', 'SettingController', ['only' => ['index', 'update']]);
 
     //Community
-    Route::resource('community', 'CommunityController', ['only' => ['index']]);
+    Route::resource('community', 'CommunityController');
 
     //Department
     Route::resource('department', 'DepartmentController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);

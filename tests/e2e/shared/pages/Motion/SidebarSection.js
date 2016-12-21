@@ -55,8 +55,8 @@ class SidebarSection extends ShowMotionPage{
 		});
 
 		return deferred.promise;
-
 	}
+
 
 	getSidebarItems(){
 	    browser.waitForAngular();
