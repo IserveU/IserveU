@@ -185,3 +185,15 @@ $factory->define(App\Department::class, function ($faker) use ($factory) {
         'active'        => 1,
     ];
 });
+
+/************************* Community Factories ***********************************/
+
+$factory->define(App\Community::class, function ($faker) use ($factory) {
+    $town = $faker->city;
+
+    return [
+        'name'          => $town,
+        'active'        => 1,
+        'adjective'     => "Person from $town",
+    ];
+});

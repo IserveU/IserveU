@@ -25,6 +25,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();
+
 			if(counts.agree>counts.disagree){
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumb-up');
 
@@ -32,6 +33,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumb-down');
 
 			} else {
+				//Has failed with Expected 'thumbs-up-down' to be 'thumb-up'. several times 2016-12-10
+				console.log("Agree:"+counts.agree+ " Disagree:"+counts.disagree + " Abstain:"+counts.abstain);
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumbs-up-down');
 
 			}

@@ -5,6 +5,7 @@ let FormHelper = require('../shared/helpers/FormHelper');
 let faker = require('faker');
 
 
+
 describe('motion.administration making sure that a motion creation and editing works correctly || ', function() {
 
 	let motionAdmin = new AdministrateMotionPage();
@@ -30,15 +31,13 @@ describe('motion.administration making sure that a motion creation and editing w
 		motionAdmin.get(); //Old published motion
 		motionAdmin.clickCreateMotion();
 		
+
 		browser.wait(EC.urlContains("create-motion"),10000,"On motion page create button does not work");
 
 		motionAdmin.get(); //Old published motion
 		motionAdmin.clickEditMotion();
 
 		browser.wait(EC.urlContains("edit-motion"),10000);
-
-
-
 
   	});
 
@@ -61,6 +60,7 @@ describe('motion.administration making sure that a motion creation and editing w
    		formHelper.selectBox('form.motion.department.id',"Unknown");
    		formHelper.selectBox('form.motion.status',"Draft");
  		formHelper.submit();
+
 		browser.wait(EC.urlContains("/motion/"),5000,"Motion did not redirect");
 
   	});

@@ -3,7 +3,7 @@ let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
 
-describe('authenication.guest page interactions for a guest users (no account)', function() {
+describe('authenication.guest page interactions for a guest users (no account) ||', function() {
 
 	let page = new LoginPage();
   let EC = protractor.ExpectedConditions;

@@ -2,7 +2,7 @@ let VoteSection = require('../shared/pages/Motion/VoteSection');
 let LoginHelper = require('../shared/helpers/LoginHelper');
 
 
-describe('vote.permissions making sure that vote permissions work correctly', function() {
+describe('vote.permissions making sure that vote permissions work correctly || ', function() {
 
 	let vote 		= new VoteSection();
 	let login 		= new LoginHelper();

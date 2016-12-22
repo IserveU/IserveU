@@ -27,7 +27,7 @@ class SetPublishedAtFieldTest extends TestCase
         $motion->update([
             'status' => 'published',
         ]);
-
+        //This failed 2016-12
         $this->seeInDatabase('motions', ['id' => $motion->id, 'published_at' => Carbon::now()]);
     }
 

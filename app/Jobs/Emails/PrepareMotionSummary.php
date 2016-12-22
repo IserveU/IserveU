@@ -41,7 +41,7 @@ class PrepareMotionSummary implements ShouldQueue
 
         $recentlyClosedMotions = Motion::status('closed')->closingAfter(Carbon::now()->subHours(24))->closingBefore(Carbon::now())->get();
         // echo print_r(\DB::getQueryLog());
-        $closingSoonMotions = Motion::expired('published')->closingAfter(Carbon::now())->closingBefore(Carbon::now()->addHours(24))->get();
+        $closingSoonMotions = Motion::status('published')->closingAfter(Carbon::now())->closingBefore(Carbon::now()->addHours(24))->get();
 
         if ($latestLaunchedMotions->isEmpty() && $recentlyClosedMotions->isEmpty() && $closingSoonMotions->isEmpty()) { //No updates today
             return true;

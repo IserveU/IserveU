@@ -78,7 +78,9 @@ class UserController extends ApiController
 
         $user = $user->fresh();
 
-        Auth::setUser($user);
+        if (!Auth::check()) {
+            Auth::setUser($user);
+        }
 
         return $user;
     }

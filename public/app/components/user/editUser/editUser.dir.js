@@ -30,7 +30,7 @@
 	        }
 			function fetchCommunities() {
 				communityResource.getCommunities().then(function(results) {
-					$scope.communities = results.data;
+					$scope.communities = results.data.data;
 				});
 			}
 			function fetchUserRoles() {

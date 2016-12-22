@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends ApiController
 {
-    protected $departmentTransformer;
-
     public function __construct()
     {
         $this->middleware('role:administrator', ['except' => ['index', 'show']]);

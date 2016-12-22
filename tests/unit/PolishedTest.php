@@ -541,6 +541,7 @@ trait PolishedTest
             if ($order == 'desc') {
                 if (!$thisClosingAt->lte($previousClosingAt)) {
                     var_dump($thisClosingAt);
+                    echo '+'.$record['id'].'+';
                     var_dump($previousClosingAt);
                 }
 

@@ -17,7 +17,8 @@ class AdministrateMotionPage extends ShowMotionPage{
 		this.cancelButton 				= element(by.css('.create-motion__button button[type=button]'));
 
 		/* Toasts */
-		this.deleteMotionConfirmation	= element(by.css('md-toast button'));
+		this.deleteMotionConfirmation	= element(by.buttonText('Yes'));
+
 
 	}
 
@@ -60,7 +61,6 @@ class AdministrateMotionPage extends ShowMotionPage{
 	getSaveButton(){
 		return this.saveButton;
 	}
-
 
 }
 
