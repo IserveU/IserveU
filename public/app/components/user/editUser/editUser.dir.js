@@ -6,15 +6,15 @@
 		.module('iserveu')
 		.directive('editUser',
 			['communityResource',
-			 'editUserFormService',
-			 'userResource',
-       		'userPreferenceResource',
-       		'userPreferenceFactory',
-			 'userRoleResource',
-			 'userRoleFactory',
-			 'Authorizer',
-			 'ToastMessage',
-			 'utils',
+			'editUserFormService',
+			'userResource',
+			'userPreferenceResource',
+			'userPreferenceFactory',
+			'userRoleResource',
+			'userRoleFactory',
+			'Authorizer',
+			'ToastMessage',
+			'utils',
 		editUser]);
 
 	/** @ngInject */
@@ -95,7 +95,7 @@
 			(function init() {
 				fetchCommunities();
 				fetchUserRoles();
-        fetchUserPreferences();
+        		fetchUserPreferences();
 				setUserProfile();
 			})();
 		

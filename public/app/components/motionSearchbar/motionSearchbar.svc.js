@@ -57,7 +57,10 @@
 			query: function(filter) {
 
 				var temp = Object.getOwnPropertyNames(filter);
+				console.log('the filter is', filter);
+				console.log('the temp is', temp);
 				temp.pop();			//removes $mdSelect event thats bundled with var filter
+				console.log('the temp after pop is', temp);
 
 				this.clearFilters();
 				this.setFilterBy(temp[0]);

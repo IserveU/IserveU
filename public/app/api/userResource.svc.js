@@ -64,6 +64,7 @@
     }
 
     function updateUser(id, data) {
+      console.log('updateUser:id,data', id, data)
       return User.update({id: id}, data).$promise.then(function(result) {
         return result;
       }, function(error) {

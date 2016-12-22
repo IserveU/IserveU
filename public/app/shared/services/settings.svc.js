@@ -38,10 +38,12 @@
       /** Post function */
       save: function(data) {
         this.data.saving = true;
+        data.saving = true;
 
         $http.patch('/api/setting/' + data.name , {value: data.value})
         .success(function(r) {
           Settings.data.saving = false;
+          data.saving = false;
           SETTINGS_JSON[data.name] = data.value;
         }).error(function(e) { });
       },

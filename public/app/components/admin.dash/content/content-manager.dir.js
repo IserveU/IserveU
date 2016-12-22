@@ -1,19 +1,21 @@
-'use strict';
 (function(window, angular, undefined) {
+
+	'use strict';
 
 	angular
 		.module('iserveu')
-		.directive('contentManager', [
-			'$rootScope',
+		.directive('contentManager',
+			['$rootScope',
 			'settings',
 			'Palette',
 			'pageService',
 			'$timeout',
+			'contentManagerService',
 			contentManager]);
 
-	function contentManager($rootScope, settings, Palette, pageService, $timeout) {
+	function contentManager($rootScope, settings, Palette, pageService, $timeout, contentManagerService) {
 
-		function contentController() {
+		function contentController($scope) {
 
 			this.palette = new Palette($rootScope.theme.colors);
 			this.service = settings;
@@ -31,7 +33,7 @@
 			this.showTerms = false;
 			this.showFavicon = false;
 			this.showLoginImage = false;
-      this.showBackground = false;
+      		this.showBackground = false;
 			this.showTheme = false;
 
 			this.backgroundFiles = [];
@@ -112,19 +114,40 @@
 				this.showLoginImage = !this.showLoginImage;
 			};
 
-	    this.toggleBackground = function() {
-	        this.showBackground = !this.showBackground;
-	    };
+		    this.toggleBackground = function() {
+		        this.showBackground = !this.showBackground;
+		    };
 
 			this.toggleTheme = function() {
 				this.showTheme = !this.showTheme;
 			};
 
+
+			function saveField(ev, item) {
+				settings.save({name:item.setting, value:item.value, saving: item.saving})
+			}
+
+			(function exposeScopeMethods() {
+				$scope.content        = contentManagerService;
+				$scope.saveField        = saveField;
+			})();
+			// 	var data = editUserFormService.delegateProfileData(item.label.toLowerCase(), $scope.profile);
+			// 	var id   = $scope.profile.id;
+			// 	var slug = $scope.profile.slug;
+
+			// 	userResource.updateUser(slug, data).then(function(results) {
+			// 		setUserProfile();
+			// 		toggleItem(item);
+			// 	}, function(error) {
+			// 		toggleItem(item);
+			// 	});
+			// }
+
 		}
 
 		return {
-      restrict: 'EA',
-			controller: contentController,
+      		restrict: 'EA',
+			controller: ['$scope', contentController],
 			controllerAs: 'contentManager',
 			templateUrl: 'app/components/admin.dash/content/content-manager.tpl.html'
 		}

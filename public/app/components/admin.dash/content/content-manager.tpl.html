@@ -2,7 +2,37 @@
   <md-card>
     <md-card-content>
 
- <md-list ng-cloak flex style="padding-top: 0;">
+
+
+      <md-list ng-cloak flex style="padding-top: 0;">
+        <md-subheader class="md-no-sticky">Content</md-subheader>
+        <md-list-item ng-repeat="item in content.ContentSettings.options" class="md-2-line" flex>
+          <md-icon class="mdi {{ item.icon }}"></md-icon>
+          <div class="md-list-item-text" ng-hide="item.edit">
+            <h3>{{ item.label }}</h3>
+            <p>{{ item.value }}</p>
+          </div>
+
+          <div class="md-list-item-text" ng-show="item.edit" ng-switch="item.label" flex>
+            <div ng-switch-when="Site Name" edit-site-name-field></div>
+            <div ng-switch-when="Social Media" edit-social-media-field></div>
+            <div ng-switch-when="Terms and Conditions" edit-password-field></div>
+          </div>
+
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="item.edit = !item.edit" ng-hide="item.edit">
+            <md-icon class="mdi mdi-pencil"></md-icon>
+          </md-button>
+
+          <md-button class="md-secondary" ng-show="item.edit" ng-disabled="item.form.$invalid" type="submit" ng-click="saveField($event, item)">
+            <span ng-hide="item.saving">Save</span>
+            <md-icon md-svg-src="loading" ng-show="item.saving"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Cancel</md-button>
+          
+        </md-list-item>
+
+ <!-- old code -->
+
       <md-subheader class="md-no-sticky">Content</md-subheader>
         <md-list-item class="md-3-line" flex layout-padding>
 
@@ -243,7 +273,6 @@
                   </md-input-container>
                 </div>
               </div>
-              <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.togglePalette('custom');"></spinner>
             </div>
 
           <md-button class="md-icon-button md-secondary" ng-click="contentManager.toggleTheme();">

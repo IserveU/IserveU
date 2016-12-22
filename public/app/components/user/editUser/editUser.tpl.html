@@ -54,7 +54,7 @@
             <div ng-switch-when="Address" edit-address-field></div>
           </div>
 
-          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="item.edit = !item.edit" ng-hide="item.edit">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
 
@@ -83,9 +83,10 @@
             <div ng-switch-when="Password" edit-password-field></div>
           </div>
 
-          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="editField($event); item.edit = !item.edit" ng-hide="item.edit">
+          <md-button class="md-icon-button md-secondary" name="{{ item.label | lowercase }}" ng-click="item.edit = !item.edit" ng-hide="item.edit">
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
+          
           <md-button class="md-secondary" ng-show="item.edit" ng-disabled="item.form.$invalid" type="submit" ng-click="saveField($event, item)">
             <span ng-hide="item.saving">Save</span>
             <md-icon md-svg-src="loading" ng-show="item.saving"></md-icon>
