@@ -172,6 +172,57 @@ class IndexMotionApiTest extends MotionApi
     }
 
     /** @test */
+    public function motion_filter_all_field_can_get_title()
+    {
+        $motion = factory(App\Motion::class, 'published')->create(
+            ['title'=> 'test title']);
+
+        $this->json('GET', $this->route, ['allTextFields' =>'test title'])
+                ->assertResponseStatus(200);
+
+        $titleMotions = json_decode($this->response->getContent());
+        $this->assertTrue(($titleMotions->total > 0));
+
+        foreach ($titleMotions->data as $titleMotion) {
+            $this->assertEquals($titleMotion->title, 'test title');
+        }
+    }
+
+    /** @test */
+    public function motion_filter_all_field_can_get_summary()
+    {
+        $motion = factory(App\Motion::class, 'published')->create(
+            ['summary'=> 'test summary']);
+
+        $this->json('GET', $this->route, ['allTextFields' =>'test summary'])
+                ->assertResponseStatus(200);
+
+        $summaryMotions = json_decode($this->response->getContent());
+        $this->assertTrue(($summaryMotions->total > 0));
+
+        foreach ($summaryMotions->data as $summaryMotion) {
+            $this->assertEquals($summaryMotion->summary, 'test summary');
+        }
+    }
+
+    /** @test */
+    public function motion_filter_all_field_can_get_slug()
+    {
+        //will generate slug we wants as test-slug
+        $motion = factory(App\Motion::class, 'published')->create(
+            ['title'=> 'test slug']);
+        $this->json('GET', $this->route, ['allTextFields' =>'test-slug'])
+                ->assertResponseStatus(200);
+
+        $slugMotions = json_decode($this->response->getContent());
+        $this->assertTrue(($slugMotions->total > 0));
+
+        foreach ($slugMotions->data as $slugMotion) {
+            $this->assertEquals($slugMotion->slug, 'test-slug');
+        }
+    }
+
+    /** @test */
     public function motion_filter_rank_greater_than()
     {
 
