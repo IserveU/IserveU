@@ -54,13 +54,23 @@
 				this.getResults(this._filters);
 			},
 
+			testRequest: function() {
+				console.log("test request!")
+				var data = {
+					'title': 'Animi' // TODO alter function to take paramaters from searchbar input
+				};
+
+				motion.getMotions(data)
+					.then(result => {
+						console.log('result', result);
+					})
+			},
+
 			query: function(filter) {
 
 				var temp = Object.getOwnPropertyNames(filter);
-				console.log('the filter is', filter);
-				console.log('the temp is', temp);
+
 				temp.pop();			//removes $mdSelect event thats bundled with var filter
-				console.log('the temp after pop is', temp);
 
 				this.clearFilters();
 				this.setFilterBy(temp[0]);
