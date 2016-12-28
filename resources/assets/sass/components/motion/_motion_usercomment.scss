@@ -1,0 +1,19 @@
+.motion_usercomment{
+    flex: 1 0 100%;
+    padding:$padding;
+
+    form{
+    	flex-direction: column;
+    	flex: 1 0 auto !important;
+    	display: flex;
+    }
+}
+
+
+.motion_usercomment__title{
+	margin:0;
+}
+
+.motion_usercomment__input{
+	flex: 1 0 auto;
+}

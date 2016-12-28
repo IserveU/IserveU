@@ -8,9 +8,7 @@ use App\Http\Requests\Comment\DestroyCommentRequest;
 use App\Http\Requests\Comment\IndexCommentRequest;
 use App\Http\Requests\Comment\ShowCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
-use App\Vote;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Request;
 use Validator;
 
 class CommentController extends ApiController
@@ -22,34 +20,29 @@ class CommentController extends ApiController
      */
     public function index(IndexCommentRequest $request)
     {
-        $input = Request::all();
+        $limit = $request->get('limit') ?: 20;
 
         if (!isset($input['start_date'])) {
-            $input['start_date'] = Carbon::today();
+            $input['start_date'] = Carbon::now()->subDays(5);
         }
 
         if (!isset($input['end_date'])) {
-            $input['end_date'] = Carbon::tomorrow();
+            $input['end_date'] = Carbon::now()->addDays(2);
         }
 
-        if (!isset($input['number'])) {
-            $input['number'] = 1;
-        }
-
+        //Move validation into IndexCommentRequest
         $validator = Validator::make($input, [
             'start_date'      => 'date',
             'end_date'        => 'date',
-            'number'          => 'integer',
         ]);
 
         if ($validator->fails()) {
             return $validator->errors();
         }
 
-        $comments = Comment::with('commentvotes', 'vote')
-                    ->betweenDates($input['start_date'], $input['end_date'])
-                    ->get()
-                    ->sortBy('commentRank')->reverse();
+        $comments = Comment::orderByCommentRank('desc')
+                            ->betweenDates($input['start_date'], $input['end_date'])
+                            ->paginate($limit);
 
         return $comments;
     }

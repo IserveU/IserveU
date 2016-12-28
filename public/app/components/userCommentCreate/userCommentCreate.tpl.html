@@ -1,31 +1,26 @@
-<section flex>
-
-	<header ng-click="userCommentCreate.writeComment()" layout-padding>
-		<md-icon class="mdi mdi-pencil"></md-icon>
-		<h1>Write a comment</h1>
-	</header>
+<h2 class="motion_usercomment__title">Why Did You 
+		{{motion.userVote.position > 0 ? 'Agree' : ''  }}{{motion.userVote.position < 0 ? 'Disagree' : ''  }}{{motion.userVote.position == 0 ? 'Abstain' : ''  }}?</h2>
 
 
-	<div ng-if="userCommentCreate.writing" layout="column" layout-padding flex>
 
-		<form layout="column" name="commentForm" flex="100"  style="flex: 1 0 auto !important;">
-			<md-input-container flex>
-				<textarea columns="4" ng-model="userComment.text" required></textarea>
-			</md-input-container>
+<form name="commentForm">
+	<md-input-container class="motion_usercomment__input">
+		<textarea columns="4" ng-model="userComment.text" required></textarea>
+	</md-input-container>
 
-      <md-checkbox ng-model="userComment.status"
-       ng-true-value="'private'" ng-false-value="'public'"
-       aria-label="anonymous">
-        Make comment anonymous.
-      </md-checkbox>
+	<md-checkbox ng-model="userComment.status"
+   		ng-true-value="'private'" ng-false-value="'public'"
+   		aria-label="anonymous">
+    	Make Anonymous
+  	</md-checkbox>
 
-			<spinner layout="row" layout-align="front end"
-					 primary-action="userComment.submit(motion)"
-					 form-name="commentForm" name="'Submit'" on-hide="userComment.posting"
-					 secondary-btn="{control: userCommentCreate.writeComment, name: 'Close'}">
-			</spinner>
+	<div class="inline-action-buttons" layout layout-align="end end">
+		<md-button class="md-icon-button" ng-click="userComment.submit(motion)" aria-label="save comment">
+			<md-icon class="md-primary mdi mdi-content-save"></md-icon>
+		</md-button>
 
-		</form>
 	</div>
 
-</section>
+</form>
+
+

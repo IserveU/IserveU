@@ -1,11 +1,9 @@
 <div class="comment-vote__container" ng-if="userIsLoggedIn" has-permission="create-comment_vote" layout="row" layout-align="end center">
-
     <md-button ng-click="commentVote.button.castVote(comment.id, 1, motion)"
     	class="md-icon-button comment-vote__button {{ commentVote.button.agree.class }}"
       aria-label="Agree comment vote"
       ng-disabled="motion.userVote.position != commentVote.position">
     <md-icon class="comment-vote__button-icon" md-svg-src="{{ commentVote.button.agree.selectedIcon }}"></md-icon>
-    <md-tooltip ng-if="motion.userVote.position != commentVote.position">You can only vote on comments which have the same position as you.</md-tooltip>
   </md-button>
 
     <md-button ng-click="commentVote.button.castVote(comment.id, -1, motion)"
@@ -13,7 +11,9 @@
       aria-label="Disagree comment vote"
       ng-disabled="motion.userVote.position != commentVote.position">
 		<md-icon class="comment-vote__button-icon" md-svg-src="{{ commentVote.button.disagree.selectedIcon }}"></md-icon>
-    <md-tooltip ng-if="motion.userVote.position != commentVote.position">You can only vote on comments which have the same position as you.</md-tooltip>
-  </md-button>
 
+  </md-button> 
 </div>
+<md-tooltip ng-if="motion.userVote.position != commentVote.position">You can only vote on comments which have the same position as you.</md-tooltip>
+
+<div class="motion_commentlist__points" ng-class="(comment.commentRank < 0) ? 'motion_commentlist__points--negative' : 'motion_commentlist__points--positive'"  ng-bind="comment.commentRank"></div>

@@ -25,6 +25,13 @@ class Vote extends NewApiModel implements CachedModel
     protected $fillable = ['motion_id', 'position', 'user_id'];
 
     /**
+     * The default attributes eager loaded.
+     *
+     * @var array
+     */
+    protected $with = [];
+
+    /**
      * The default attributes included in the JSON/Array.
      *
      * @var array

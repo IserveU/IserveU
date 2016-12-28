@@ -1,6 +1,14 @@
 @import 'home';
 @import 'login';
-@import 'vote';
-@import 'motion_vote-statusbar';
-@import 'comment-vote';
+@import 'motion/motion';
+@import 'motion/motion_usercomment';
+@import 'motion/motion_commentlist';
+@import 'motion/motion_header';
+@import 'motion/motion_tiles';
+@import 'motion/motion_details';
+@import 'motion/motion_fab';
+@import 'motion/motion_files';
+@import 'motion/motion_vote_buttons';
+@import 'motion/motion_vote_statusbar';
+@import 'comment_vote';
 @import 'comment_list'

@@ -1,54 +1,43 @@
-<section flex layout-padding>
+<h2 class="motion_usercomment__title">Your Comment</h2>
 
-	<header>
-		<md-icon class="mdi mdi-comment-text-outline"></md-icon>
-		<h1>Your comment</h1>
-	</header>
+<p marked="userComment.text" class="md-body-1 comment-vote__user-comment" ng-hide="userCommentEdit.editing"></p>
 
-
-	<p marked="userComment.text" class="md-body-1 comment-vote__user-comment" ng-hide="userCommentEdit.editing"></p>
-
-	<div ng-show="userCommentEdit.editing" layout="column">
+<div ng-show="userCommentEdit.editing" layout="column">
 
 
-		<md-input-container>
-			<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
-		</md-input-container>
+	<md-input-container>
+		<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
+	</md-input-container>
 
-    <md-checkbox ng-model="userComment.status"
-     ng-true-value="'private'" ng-false-value="'public'"
-     aria-label="anonymous">
-      Make comment anonymous.
-    </md-checkbox>
+	<md-checkbox ng-model="userComment.status"
+ ng-true-value="'private'" ng-false-value="'public'"
+ aria-label="anonymous">
+  Make comment anonymous.
+	</md-checkbox>
 
-		<spinner layout="row" primary-action="userComment.update(motion); userCommentEdit.editComment()"
-				 name="'Save Comment'"
-				 secondary-btn="{control: userCommentEdit.editComment, name: 'Close'}">
-		</spinner>
-	</div>
 
-	<div ng-hide="userCommentEdit.editing" class="inline-action-buttons" layout layout-align="end end">
-
-		<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="edit comment button">
-			<md-icon class="md-primary mdi mdi-pencil"></md-icon>
+	<div class="inline-action-buttons" layout layout-align="end end">
+		<md-button class="md-icon-button" ng-click="userComment.update(motion); userCommentEdit.editComment()" aria-label="save comment">
+			<md-icon class="md-primary mdi mdi-content-save"></md-icon>
 		</md-button>
 
-		<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button">
-			<md-icon class="md-warn mdi mdi-delete"></md-icon>
+		<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="undo comment edits">
+			<md-icon class="mdi mdi-undo"></md-icon>
 		</md-button>
 	</div>
 
 
-</section>
-
-
-
-<!-- TODO: php return the number of comment votes in the thisUsersComment array; perhaps in a normalized way in comment table
-
-<div class="comment-votes">
-	<md-icon md-svg-src="thumb-up" class="md-primary"></md-icon>
-	<h4 class="title-subhead">16</h4>
-	<md-icon md-svg-src="thumb-down" class="md-accent"></md-icon>
-	<h4 class="title-subhead">3</h4>
 </div>
- -->
+
+<div ng-hide="userCommentEdit.editing" class="inline-action-buttons" layout layout-align="end end">
+
+	<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="edit comment button">
+		<md-icon class="md-primary mdi mdi-pencil"></md-icon>
+	</md-button>
+
+	<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button">
+		<md-icon class="md-warn mdi mdi-delete"></md-icon>
+	</md-button>
+</div>
+
+

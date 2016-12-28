@@ -9,6 +9,8 @@ trait PolishedTest
     protected $settings = [];
     protected $env = [];
 
+    protected $responseData;
+
     protected $files = [
         'test.png' => [
                 'name'          => 'test.png',
@@ -181,6 +183,17 @@ trait PolishedTest
         );
     }
 
+    public function getResponseData()
+    {
+        if ($this->responseData) {
+            return $this->responseData;
+        }
+
+        $this->responseData = json_decode($this->response->getContent(), true)['data'];
+
+        return $this->responseData;
+    }
+
     /**
      * Assert that the client response has a given code.
      *
@@ -344,10 +357,12 @@ trait PolishedTest
         if ($responseToSee) {
             $this->seeInResponse($responseToSee);
         }
+
+        return $this;
     }
 
     /**
-     * Gets a user post array with given fields.
+     * Gets a post array with given fields.
      *
      * @param array $fields An array of fields
      *
@@ -445,15 +460,11 @@ trait PolishedTest
      */
     public function seeInResponse($responseToSee)
     {
-        if (!is_array($responseToSee)) {
-            $this->see($responseToSee);
-
-            return $this;
+        if (is_array($responseToSee)) {
+            return $this->seeInResponse($responseToSee);
         }
 
-        foreach ($responseToSee as $string) {
-            $this->see($string);
-        }
+        $this->see($responseToSee);
 
         return $this;
     }
@@ -461,19 +472,19 @@ trait PolishedTest
     /**
      * Handling ocassionally flakey JSON response analysis.
      *
-     * @param String/Array $responseToSee A string or array anticipated
+     * @param String/Array $responseToNotSee A string or array anticipated
      *
      * @return $this
      */
-    public function dontSeeInResponse($responseToSee)
+    public function dontSeeInResponse($responseToNotSee)
     {
-        if (!is_array($responseToSee)) {
-            $this->dontSee($responseToSee);
+        if (!is_array($responseToNotSee)) {
+            $this->dontSee($responseToNotSee);
 
             return $this;
         }
 
-        foreach ($responseToSee as $string) {
+        foreach ($responseToNotSee as $string) {
             $this->dontSee($string);
         }
 
@@ -490,12 +501,48 @@ trait PolishedTest
         }
 
         if (!isset($this->table)) {
+            if (!isset($this->class)) {
+                echo "\n\nError: You need to set the class variable in your test class \n\n";
+            }
             $this->table = (new $this->class())->getTable();
         }
 
         if (!isset($this->skipDatabaseCheck)) {
             $this->skipDatabaseCheck = $this->alwaysHidden;
         }
+    }
+
+    /**
+     * Runs filters on the route, mainly to be used to ensure the limit and code are appropriate
+     * because checking results from filters are too complex.
+     *
+     * @param array $content          An array of filters
+     * @param int   $expectedCode     The resonse code expected
+     * @param int   $responseToSee    Optionally the content expected
+     * @param int   $responseToNotSee The content not expected
+     */
+    public function filterFieldsGetSee($filters, $expectedCode = 200, $responseToSee = null, $responseToNotSee = null)
+    {
+        $this->setUnsetDefaults();
+
+        $this->filtersToGet = array_merge(['limit' => 5000], $filters);
+
+        $this->call('GET', $this->route, $this->removeNullValues($this->filtersToGet));
+        $this->assertResponseStatus($expectedCode);
+
+        if ($responseToSee) {
+            if (is_array($responseToSee)) {
+                $this->seeJsonStructure($responseToSee);
+            } else {
+                $this->seeInResponse($responseToSee);
+            }
+        }
+
+        if ($responseToNotSee) {
+            $this->dontSeeInResponse($responseToNotSee);
+        }
+
+        return $this;
     }
 
     /**
@@ -506,10 +553,10 @@ trait PolishedTest
      *
      * @return $this
      */
-    public function seeNumberOfResults($expected = 0, $responseData = null)
+    public function seeNumberOfResults($expected = 20, $responseData = null)
     {
         if (!$responseData) {
-            $responseData = json_decode($this->response->getContent(), true)['data'];
+            $responseData = $this->getResponseData();
         }
 
         $this->assertEquals(count($responseData), $expected);
@@ -528,38 +575,69 @@ trait PolishedTest
     public function seeOrderInTimeField($order = 'desc', $fieldName = 'id', $responseData = null)
     {
         if (!$responseData) {
-            $responseData = json_decode($this->response->getContent(), true)['data'];
+            $responseData = $this->getResponseData();
         }
 
         $this->assertTrue(count($responseData) > 0);
 
-        $previousClosingAt = Carbon::parse($responseData[0][$fieldName]['carbon']['date']);
+        $previousItem = Carbon::parse($responseData[0][$fieldName]['carbon']['date']);
 
         foreach ($responseData as $record) {
-            $thisClosingAt = Carbon::parse($record[$fieldName]['carbon']['date']);
+            $thisItem = Carbon::parse($record[$fieldName]['carbon']['date']);
 
             if ($order == 'desc') {
-                if (!$thisClosingAt->lte($previousClosingAt)) {
-                    var_dump($thisClosingAt);
+                if (!$thisItem->lte($previousItem)) {
+                    var_dump($thisItem);
                     echo '+'.$record['id'].'+';
-                    var_dump($previousClosingAt);
+                    var_dump($previousItem);
                 }
 
                 $this->assertTrue(
-                    $thisClosingAt->lte($previousClosingAt)
+                    $thisItem->lte($previousItem)
                 );
             } else {
-                if (!$thisClosingAt->gte($previousClosingAt)) {
-                    var_dump($thisClosingAt);
-                    var_dump($previousClosingAt);
+                if (!$thisItem->gte($previousItem)) {
+                    var_dump($thisItem);
+                    var_dump($previousItem);
                 }
 
                 $this->assertTrue(
-                    $thisClosingAt->gte($previousClosingAt)
+                    $thisItem->gte($previousItem)
                 );
             }
 
-            $previousClosingAt = $thisClosingAt;
+            $previousItem = $thisItem;
+        }
+    }
+
+    /**
+     * Asserts that the JSON response has a given order for a response.
+     *
+     * @param string|desc $order
+     * @param string|id   $fieldName
+     *
+     * @return $this
+     */
+    public function seeOrderInField($order = 'desc', $fieldName = 'id', $responseData = null)
+    {
+        if (!$responseData) {
+            $responseData = $this->getResponseData();
+        }
+
+        $this->assertTrue(count($responseData) > 0);
+
+        $previousItem = $responseData[0][$fieldName];
+
+        foreach ($responseData as $record) {
+            $thisItem = $record[$fieldName];
+
+            if ($order == 'desc') {
+                $this->assertTrue($thisItem <= $previousItem);
+            } else {
+                $this->assertTrue($thisItem >= $previousItem);
+            }
+
+            $previousItem = $thisItem;
         }
     }
 }

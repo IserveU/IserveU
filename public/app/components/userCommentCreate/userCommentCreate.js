@@ -10,12 +10,6 @@
 			
 			var self = this; // global context for this
 
-			self.writing = false;
-			self.writeComment = writeComment;
-
-			function writeComment() {
-				self.writing = !self.writing;
-			}
 		}
 
 		return {

@@ -8,16 +8,15 @@ class VoteSection extends ShowMotionPage{
 		super();
 		
 		/* Button lookups */
-		this.agreeButton 			= 	element(by.id('agree_button'));
-		this.abstainButton 			= 	element(by.id('abstain_button'));
-		this.disagreeButton			= 	element(by.id('disagree_button'));
+		this.agreeButton 			= 	element(by.css('.motion_vote_buttons__button--agree'));
+		this.abstainButton 			= 	element(by.css('.motion_vote_buttons__button--abstain'));
+		this.disagreeButton			= 	element(by.css('.motion_vote_buttons__button--disagree'));
 
-		this.agreeBar 				=	element(by.css('button.motion__votes-statusbar_agree'));
-		this.disagreeBar 			=	element(by.css('button.motion__votes-statusbar_disagree'));
-		this.abstainBar 			=	element(by.css('button.motion__votes-statusbar_abstain'));
+		this.agreeBar 				=	element(by.css('.motion_vote_statusbar__bar--agree'));
+		this.disagreeBar 			=	element(by.css('.motion_vote_statusbar__bar--disagree'));
+		this.abstainBar 			=	element(by.css('.motion_vote_statusbar__bar--abstain'));
 
-
-		this.passingStatusIcon 			=	element(by.id('passing_status_icon'));
+		this.passingStatusIcon 		=	element(by.id('passing_status_icon'));
 	}
 
 	clickAgreeButton(){
@@ -98,7 +97,7 @@ class VoteSection extends ShowMotionPage{
 
 		bar.isPresent().then(function(isPresent){
    			if(!isPresent){
-   				deferred.fulfill(0);
+   				deferred.fulfill(null);
    			} else {
 				bar.getAttribute('aria-label').then(function(attr){
 					let count = VoteSection.getCountFromLabelString(attr);

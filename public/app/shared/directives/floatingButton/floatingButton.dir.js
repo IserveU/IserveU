@@ -9,8 +9,8 @@
 
     function floatingButtonController() {
       this.isOpen = false;
-      this.topDirections = ['left', 'up'];
-      this.bottomDirections = ['down', 'right'];
+      // this.topDirections = ['left', 'up'];
+      // this.bottomDirections = ['down', 'right'];
       this.show = {
         create: false,
         edit: false,

@@ -18,21 +18,36 @@ class IndexCommentApiTest extends CommentApi
     /** @test */
     public function comment_filter_defaults()
     {
-        $this->getStaticMotion();
-
         $this->get($this->route)
              ->assertResponseStatus(200)
              ->seeJsonStructure([
-                '*' => [
-                    'id', 'text', 'created_at', 'commentRank', 'motionTitle', 'motionId',
-                    'user' => [
-                        'community' => [
-                            'adjective',
-                        ],
-                    ],
+                            'total',
+                            'per_page',
+                            'current_page',
+                            'last_page',
+                            'next_page_url',
+                            'prev_page_url',
+                            'from',
+                            'to',
+                            'data'  => [
+                                '*' => [
+                                    'id',
+                                    'text',
+                                    'created_at',
+                                    'commentRank',
+                                    'motionTitle',
+                                    'motionId',
+                                    'user' => [
+                                        'community' => [
+                                            'adjective',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ]);
 
-                ],
-            ]);
+        $this->seeNumberOfResults(20); //Default pagination count
+        $this->seeOrderInField('desc', 'commentRank'); //Default order
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
