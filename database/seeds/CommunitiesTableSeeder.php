@@ -13,14 +13,15 @@ class CommunitiesTableSeeder extends Seeder
     public function run()
     {
         $communities = [
-            'Yellowknife',
+            'name'      => 'Yellowknife',
+            'adjective' => 'Yellowknifer',
         ];
 
         foreach ($communities as $name) {
-            $communities = new Community();
-            $communities->active = true;
-            $communities->name = $name;
-            $communities->save();
+            Community::create(
+                $communities
+
+            );
         }
     }
 }

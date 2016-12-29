@@ -1,12 +1,12 @@
-<section flex="100" ng-if="userIsLoggedIn && motion.userVote">
-	<md-card flex>
-		<md-card-content>
+<md-card flex>
+	<md-card-content>
 
+		<div class="motion_usercomment">
 			<user-comment-create ng-if="!(motion.motionComments && userComment.exists || !motion.motionOpenForVoting)"></user-comment-create>
 			<user-comment-edit ng-if="userComment.exists"></user-comment-edit>
+		</div>
 
-		</md-card-content>
-	</md-card>
-</section>
+	</md-card-content>
+</md-card>
 
 

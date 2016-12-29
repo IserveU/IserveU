@@ -6,7 +6,7 @@ let faker = require('faker');
 
 
 
-describe('motion.administration making sure that a motion creation and editing works correctly || ', function() {
+describe('motion.administrate making sure that a motion creation and editing works correctly || ', function() {
 
 	let motionAdmin = new AdministrateMotionPage();
 	let login = new LoginHelper();

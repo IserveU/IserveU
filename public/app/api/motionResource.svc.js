@@ -101,6 +101,8 @@
     function getMotionFiles(id) {
       return MotionFiles.query({motion_id: id})
         .$promise.then(function(success) {
+
+          console.log(success);
           return success;
         }, function(error) {
           return $q.reject(error);

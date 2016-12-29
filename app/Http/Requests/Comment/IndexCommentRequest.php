@@ -23,6 +23,8 @@ class IndexCommentRequest extends Request
      */
     public function rules()
     {
-        return [];
+        return [
+            'limit' => 'integer',
+        ];
     }
 }

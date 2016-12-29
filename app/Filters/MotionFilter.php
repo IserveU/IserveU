@@ -67,13 +67,10 @@ class MotionFilter extends QueryFilter
     /*Finding queries of all the fields */
     public function allTextFields($string = '')
     {
-        return $this->query->where(function ($query) use ($string) {
-            $query->orWhere('title', 'like', '%$string%')
-            ->orWhere('summary', 'like', '%$string')
-            ->orWhere('implementation', 'like', '%$string')
-            ->orWhere('status', 'like', '%$string')
-            ->orWhere('slug', 'like', '%$string');
-        });
+        return $this->query->where('title', 'like', "%$string%")->orWhere('summary', 'like', "%$string%")
+            ->orWhere('implementation', 'like', "%$string%")
+            ->orWhere('status', 'like', "%$string%")
+            ->orWhere('slug', 'like', "%$string%");
     }
 
     /************* DATE SCOPES****************************************/

@@ -13,7 +13,7 @@ class FakerDataSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $publishedMotions = factory(App\Motion::class, 'published', 5)->create();
+        $publishedMotions = factory(App\Motion::class, 'published', 25)->create();
 
         foreach ($publishedMotions as $motion) {
             $this->giveMotionComments($motion);
@@ -22,6 +22,7 @@ class FakerDataSeeder extends Seeder
         //Create a published motion
         $publishedMotion = factory(App\Motion::class, 'published')->create([
             'title'         => 'A Published Motion',
+            'summary'       => 'The summary of the published motion',
             'text'          => '<p>Content of the published motion</p>',
             'department_id' => 1,
         ]);
@@ -36,8 +37,8 @@ class FakerDataSeeder extends Seeder
             'title' => 'A Draft Motion',
         ]);
 
-        $scheduledMotion = factory(App\Motion::class, 'draft')->create([
-            'title' => 'A Scheduled Motion',
+        $reviewMotion = factory(App\Motion::class, 'review')->create([
+            'title' => 'A Reviewed Motion',
         ]);
 
         $closedMotion = factory(App\Motion::class, 'closed')->create([
@@ -68,20 +69,27 @@ class FakerDataSeeder extends Seeder
 
     public function giveMotionComments($motion)
     {
-        $comments = factory(App\Comment::class, 4)->create();
+        $votes = factory(App\Vote::class, 4)->create([
+            'motion_id' => $motion->id,
+        ]);
 
-        foreach ($comments as $comment) {
-            $comment->vote->motion_id = $motion->id;
-            $comment->vote->save();
+        foreach ($votes as $vote) {
+            factory(App\Comment::class)->create([
+                'vote_id' => $vote->id,
+            ]);
         }
 
-        //Each commenter likes a random comment
-        foreach ($comments as $comment) {
-            \App\CommentVote::create([
-                'comment_id'    => $comments->random()->id,
-                'vote_id'       => $comment->vote_id,
-                'position'      => rand(-1, 1),
-            ]);
+        //Each commenter likes/dislikes all comments on their side
+        foreach ($votes as $vote) {
+            $commentsOnSide = \App\Comment::onMotion($vote->motion_id)->position($vote->position)->get();
+
+            foreach ($commentsOnSide as $commentOnSide) {
+                \App\CommentVote::create([
+                    'comment_id'    => $commentOnSide->id,
+                    'vote_id'       => $vote->id,
+                    'position'      => rand(-1, 1),
+                ]);
+            }
         }
     }
 }

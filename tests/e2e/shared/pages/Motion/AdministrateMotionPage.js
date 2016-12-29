@@ -31,21 +31,33 @@ class AdministrateMotionPage extends ShowMotionPage{
 	}
 
 	clickCreateMotion(){
-		this.fabMenu.click();
+		var EC = protractor.ExpectedConditions;
+
+		this.fabMenu.$('button').click();
+		browser.wait(EC.elementToBeClickable(this.createFabButton), 10000,"Menu did not drop down");
 		this.createFabButton.click();
 	}
 
 	clickEditMotion(){
+		var EC = protractor.ExpectedConditions;
+
 		this.fabMenu.click();
+		browser.wait(EC.elementToBeClickable(this.editFabButton), 5000,"Menu did not drop down");
 		this.editFabButton.click();
 	}
 	
 	clickDeleteMotion(){
+		var EC = protractor.ExpectedConditions;
+
 		this.fabMenu.click();
+		browser.wait(EC.elementToBeClickable(this.deleteFabButton), 5000,"Menu did not drop down");
 		this.deleteFabButton.click();
 	}
 
 	clickDeleteMotionConfirmation(){
+		var EC = protractor.ExpectedConditions;
+		browser.wait(EC.elementToBeClickable(this.deleteMotionConfirmation), 5000,"Confirmation box did not show");
+
 		this.deleteMotionConfirmation.click();
 	}
 
@@ -53,10 +65,6 @@ class AdministrateMotionPage extends ShowMotionPage{
 		return this.deleteMotionConfirmation;
 	}
 
-	clickCancelButton(){
-		this.fabMenu.click();
-		this.deleteFabButton.click();
-	}
 	
 	getSaveButton(){
 		return this.saveButton;

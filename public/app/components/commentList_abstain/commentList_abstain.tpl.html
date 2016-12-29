@@ -1,39 +1,19 @@
-<md-card class="comment-list__container" layout-margin flex>
-	<md-card-content flex>
+<md-list ng-show="motion.motionComments.abstainComments.length != 0">
+	<md-list-item class="md-3-line md-long-text" ng-repeat="comment in motion.motionComments.abstainComments | orderBy:'-commentRank'">
+		<md-icon class="mdi md-avatar-icon mdi-account-circle"></md-icon>
+		
+        <div class="md-list-item-text">
+            <h3 class="motion_commentlist__usertitle" ng-bind="comment.user.first_name ? comment.user.first_name + ' ' + comment.user.last_name : comment.user.community.adjective"></h3>
+            <h4 class="motion_commentlist__date" ng-bind="show.formatDate(comment)"></h4>
+            <div class="motion_commentlist__text" marked="comment.text"></div>
+        </div>
 
-	<span layout="row" layout-md="column" layout-sm="column" layout-xs="column" layout-align="center center">
-		<header layout-margin>
-				<md-icon md-svg-src="thumbs-up-down" class="title-svg-icon"></md-icon>
-				<h1 class="md-subhead">ABSTAINED</h1>
-		</header>
-	</span>
+        <comment-vote position="0" comment-id="comment.id"></comment-vote>
 
-		<md-divider></md-divider>
+    </md-list-item>
+</md-list>
 
-		<section class="comment-list__list-item-container" ng-repeat="comment in motion.motionComments.abstainComments | orderBy:'-commentRank'" layout-padding>
-
-			<header layout layout-align="front" class="comment-list__list-item-header">
-				<md-icon class="mdi mdi-account-circle"></md-icon>
-				<h3 class="title-header" ng-bind="comment.user ? comment.user.first_name + ' ' + comment.user.last_name : 'Yellowknifer'" layout-padding></h3>
-        <h3 class="title-header" ng-bind="comment.commentRank === 1 ? comment.commentRank + ' ' + 'Point' : comment.commentRank + ' ' + 'Points'" layout-padding></h3>
-      </header>
-
-			<div class="comment-list__list-item">
-				<p class="md-caption comment-list__list-item-date" ng-bind="show.formatDate(comment)"></p>
-				<p marked="comment.text" class="md-body-1 comment-list__list-item-text"></p>
-				<comment-vote position="0" comment-id="comment.id"></comment-vote>
-			</div>
-
-			<md-divider ng-show="!$last" class="md-default-theme"></md-divider>
-
-		</section>
-
-		<section class="comment-list__list-item-container zero-comments" ng-show="motion.motionComments.abstainComments.length == 0">
-			<div>
-				<md-icon class="mdi mdi-microphone-off title-icon"></md-icon>
-				<h1 class="md-subhead title-header">No comments have been made for abstain.</h1>
-			</div>
-		</section>
-
-	</md-card-content>
-</md-card>
+<section ng-show="motion.motionComments.abstainComments.length == 0">
+	<md-icon class="mdi mdi-microphone-off title-icon"></md-icon>
+	<h1 class="md-subhead title-header">No comments have been made for agree.</h1>
+</section>

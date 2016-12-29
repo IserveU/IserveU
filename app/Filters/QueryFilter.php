@@ -47,6 +47,13 @@ abstract class QueryFilter
         return $this->query;
     }
 
+    /**
+     * Creates a key for the current query filter so that you can cache it and save the results for later.
+     *
+     * @param string $append lets you append a string when generating the cache key in case you want to save specific version like a cached rendered result and a cached query result
+     *
+     * @return string a JSON encoded string representing this query filter
+     */
     public function cacheKey($append = '')
     {
         $filterKey = '';

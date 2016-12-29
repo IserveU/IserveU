@@ -1,23 +1,23 @@
-.floating-button__directive {
-	position: fixed;
-	right: 15px;
-	z-index: $zNavigation;
-}
+// .floating-button__directive {
+// 	position: fixed;
+// 	right: 15px;
+// 	z-index: $zNavigation;
+// }
 
-.floating-button__directive md-fab-trigger > button > md-icon {
-	margin-bottom: 26px;
-}
+// .floating-button__directive md-fab-trigger > button > md-icon {
+// 	margin-bottom: 26px;
+// }
 
-.floating-button__directive .md-fab-action-item > button > md-icon {
-	margin-bottom: 16px;
-}
+// .floating-button__directive .md-fab-action-item > button > md-icon {
+// 	margin-bottom: 16px;
+// }
 
-.floating-button__directive md-fab-speed-dial {
-	transition-duration: .5s;
-	-o-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	-moz-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	-webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+// .floating-button__directive md-fab-speed-dial {
+// 	transition-duration: .5s;
+// 	-o-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+// 	-moz-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+// 	-webkit-transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+// }
 
 // Angular Material overrides
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

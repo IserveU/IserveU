@@ -1,0 +1,46 @@
+/*****
+*  Vote buttons on a motion
+***/
+
+.motion_vote_buttons{
+    transition: all 0.3s ease;
+    opacity: 1;
+
+    padding: $padding 0px;
+
+    &.ng-hide-add, 
+    &.ng-hide-remove{ 
+        display: inline-block !important;
+    }
+
+    &.ng-hide{
+        opacity: 0;
+    }
+
+}
+
+.motion_vote_buttons__button{
+
+	button {
+		margin: 0px;
+		height: 50px;
+
+		md-icon{
+			height: 80%;
+			width: 25%;
+		}
+	}
+}
+
+.motion_vote_buttons__button--abstain{
+	@extend .motion_vote_buttons__button;
+}
+
+.motion_vote_buttons__button--agree{
+	@extend .motion_vote_buttons__button;
+}
+
+.motion_vote_buttons__button--disagree{
+	@extend .motion_vote_buttons__button;
+}
+

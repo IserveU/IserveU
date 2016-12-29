@@ -32,11 +32,14 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			} else if (counts.agree<counts.disagree){
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumb-down');
 
-			} else {
-				//Has failed with Expected 'thumbs-up-down' to be 'thumb-up'. several times 2016-12-10
+			} else if (counts.agree==counts.disagree){
+				// Has failed with Expected 'thumb-up' to be 'thumbs-up-down'. several times 2016-12-10
+				// Could be due to not finding the element as when the CSS was totally changed it resolved here
 				console.log("Agree:"+counts.agree+ " Disagree:"+counts.disagree + " Abstain:"+counts.abstain);
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumbs-up-down');
 
+			} else {
+				expect(counts).toEqual("Not finding counts");
 			}
 
 		});
