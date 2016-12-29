@@ -43,9 +43,17 @@
 
 			show: function() {
 				if(this.isOpen)
-					this.text = '';
-				this.isOpen = !this.isOpen;
-			},
+				var data = {
+					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
+				};
+				motion.getMotions(data)
+					.then(result => {
+						console.log('result', result);
+					})
+			
+			this.isOpen = !this.isOpen;
+
+			}, 
 
 			all: function() {
 				this._department.filter = '';
@@ -53,19 +61,7 @@
 				this.clearFilters();
 				this.getResults(this._filters);
 			},
-
-			testRequest: function() {
-				console.log("test request!")
-				var data = {
-					'title': 'Animi' // TODO alter function to take paramaters from searchbar input
-				};
-
-				motion.getMotions(data)
-					.then(result => {
-						console.log('result', result);
-					})
-			},
-
+			
 			query: function(filter) {
 
 				var temp = Object.getOwnPropertyNames(filter);
