@@ -27,16 +27,7 @@ class MotionController extends ApiController
     public function index(MotionFilter $filters, IndexMotionRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
-
-        if (Auth::check()) { //Logged in user will want to see if they voted on these things
-
-            $motions = Motion::with(['votes' => function ($query) {
-                $query->where('user_id', Auth::user()->id);
-
-                return $motions->paginate($limit);
-            }]);
-        }
-
+        //filtering the request 
         return Motion::filter($filters)->paginate($limit);
     }
 
