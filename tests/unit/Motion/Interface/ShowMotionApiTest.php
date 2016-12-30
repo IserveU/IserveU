@@ -34,7 +34,7 @@ class ShowMotionApiTest extends MotionApi
                 'votes', 'users', 'content',
             ]);
     }
-    
+
     /** @test */
     public function users_see_their_votes_on_specific_motion()
     {
@@ -43,7 +43,5 @@ class ShowMotionApiTest extends MotionApi
         $this->visit('/api/motion/'.$vote->motion->slug)
              ->assertResponseStatus(200)
              ->see($vote->position);
-
     }
-
 }

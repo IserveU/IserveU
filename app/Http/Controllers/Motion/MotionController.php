@@ -27,7 +27,7 @@ class MotionController extends ApiController
     public function index(MotionFilter $filters, IndexMotionRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
-        //filtering the request 
+        //filtering the request
         return Motion::filter($filters)->paginate($limit);
     }
 

@@ -19,12 +19,11 @@ class IndexMotionApiTest extends MotionApi
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function user_can_see_their_voted_motions(){
-
+    public function user_can_see_their_voted_motions()
+    {
         $vote = factory(App\Vote::class)->create();
         $this->signIn($vote->user);
         $this->get($this->route)->see($vote->motion->id)->see($vote->position);
-
     }
 
     /** @test */
