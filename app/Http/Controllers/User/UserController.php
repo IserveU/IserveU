@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\File;
+use App\Filters\UserFilter;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\User\IndexUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Transformers\UserTransformer;
@@ -20,7 +22,7 @@ class UserController extends ApiController
     public function __construct(UserTransformer $userTransformer)
     {
         $this->userTransformer = $userTransformer;
-        $this->middleware('auth:api', ['except' => ['create', 'store']]);
+        $this->middleware('auth:api', ['except' => ['index', 'create', 'store']]);
     }
 
     /**
@@ -29,37 +31,14 @@ class UserController extends ApiController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index(UserFilter $filters, IndexUserRequest $request)
     {
-        $filters = $request->all();
-        $limit = $request->input('limit') ?: 50;
+        $limit = $request->input('limit') ?: 20;
 
-        if (Auth::user()->can('show-user')) { //An admin able to see all users
-            $users = User::whereExists(function ($query) {
-                $query->where('id', '>', 0);
-            });
-        } else {
-            //Other people can see a list of the public users
-            $users = User::arePublic();
+        if (Auth::check()) { //An admin able to see all users
+            return User::filter($filters)->paginate($limit);
         }
 
-        if (isset($filters['verified'])) {
-            $users->verified($filters['verified']);
-        }
-
-        if (isset($filters['unverified'])) {
-            $users->unverified($filters['unverified']);
-        }
-
-        if (isset($filters['address_unverified'])) {
-            $users->addressUnverified($filters['address_unverified']);
-        }
-
-        if (isset($filters['address_not_set'])) {
-            $users->addressNotSet($filters['address_not_set']);
-        }
-
-        return $users->paginate($limit);
     }
 
     /**
