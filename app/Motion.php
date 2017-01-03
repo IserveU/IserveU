@@ -362,8 +362,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $filters->apply($query);
     }
 
-
-
     /* check if motion has more votes than the query */
     public function scopeRankGreaterThan($rank = 0)
     {
@@ -389,7 +387,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $query->where('user_id', $user->id);
     }
 
-    //if these functions below are not used for any other purpose, they 
+    //if these functions below are not used for any other purpose, they
     // are deprecated due to filter 'orderBy'do the job already.
     public function scopePublishedAfter($query, Carbon $time)
     {
@@ -410,8 +408,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     {
         return $query->where('closing_at', '>=', $time);
     }
-
-
 
     /************************************* Relationships ********************************************/
 

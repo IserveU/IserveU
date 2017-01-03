@@ -266,7 +266,7 @@ class IndexMotionApiTest extends MotionApi
 
     /** @test */
     public function motion_filter_user_id()
-    {   
+    {
         $motion = factory(App\Motion::class, 'published')->create([
             'user_id'   => $this->user->id,
         ]);
@@ -275,7 +275,7 @@ class IndexMotionApiTest extends MotionApi
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
-        // see how many motions 
+        // see how many motions
 
         $this->assertTrue(($motions->total > 0));
 
