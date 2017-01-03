@@ -32,6 +32,7 @@ class IndexMotionRequest extends Request
 
             //If you want to see unpublshed motions you can only see yours
             //$this->request->add(['user_id'=>Auth::user()->id]);
+            //this does not affect see or not on user's unpublished motions.
             $this['user_id'] = Auth::user()->id;
         }
 

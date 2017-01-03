@@ -362,23 +362,35 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $filters->apply($query);
     }
 
-    /**
-     * Checks that the given record has the status.
-     *
-     * @param Builder      $query          Query builder instance
-     * @param Array/String $implementation the implementation value or values being sought
-     *
-     * @return Buidler
-     */
-    public function scopeStatus($query, $status = 'published')
-    {
-        if (is_array($status)) {
-            return $query->whereIn('status', $status);
-        }
 
-        return $query->where('status', $status);
+
+    /* check if motion has more votes than the query */
+    public function scopeRankGreaterThan($rank = 0)
+    {
+        return $this->query->whereHas('votes', function ($query) use ($rank) {
+            $query->havingRaw('SUM(position) > '.$rank);
+        });
     }
 
+    /* check if motion has lesss votes than the query */
+    public function scopeRankLessThan($rank = 0)
+    {
+        return $this->query->whereHas('votes', function ($query) use ($rank) {
+            $query->havingRaw('SUM(position) < '.$rank);
+        });
+    }
+
+    public function scopeWriter($query, $user)
+    {
+        if (is_numeric($user)) {
+            return $query->where('user_id', $user);
+        }
+
+        return $query->where('user_id', $user->id);
+    }
+
+    //if these functions below are not used for any other purpose, they 
+    // are deprecated due to filter 'orderBy'do the job already.
     public function scopePublishedAfter($query, Carbon $time)
     {
         return $query->where('published_at', '>=', $time);
@@ -399,14 +411,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $query->where('closing_at', '>=', $time);
     }
 
-    public function scopeWriter($query, $user)
-    {
-        if (is_numeric($user)) {
-            return $query->where('user_id', $user);
-        }
 
-        return $query->where('user_id', $user->id);
-    }
 
     /************************************* Relationships ********************************************/
 
