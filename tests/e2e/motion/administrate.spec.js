@@ -21,12 +21,6 @@ describe('motion.administrate making sure that a motion creation and editing wor
   	it('Motion administration buttons exist and work as expected', function() {
 		var EC = protractor.ExpectedConditions;
 		
-		sidebarSection.getSidebarLinks().last().click();
-
-		
-		browser.wait(EC.urlContains("create-motion"),10000,"Sidebar create motion button does not work");
-  		
-	
 	
 		motionAdmin.get(); //Old published motion
 		motionAdmin.clickCreateMotion();

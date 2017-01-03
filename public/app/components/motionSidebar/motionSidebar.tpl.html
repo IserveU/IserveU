@@ -28,7 +28,7 @@
           </md-list-item>
 
 
-          <md-list-item has-permission="create-motion" layout="row" class="sidebar-list-item" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')">
+          <md-list-item has-permission="create-motion" layout="row" class="sidebar-list-item" ui-sref-active="active" ui-sref="create-motion" ng-click="motionSidebar.closeSidenav('left')" ng-if="motionSidebar.motionIndex._index.length == 0 && !motionSidebar.motionIndex._paginating">
 
               <p class="md-body-1 ellipsis">{{'CREATE_NEW_MOTION' | translate | capitalize}}</p>
               <md-icon class="mdi mdi-plus" aria-label="Create Motion"  layout-margin></md-icon>

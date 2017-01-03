@@ -16,6 +16,10 @@ class SidebarSection extends ShowMotionPage{
 		this.sidebarItems 			= 	element.all(by.css('motion-sidebar md-list-item'));
 		this.sidebarLinks 			= 	element.all(by.css('motion-sidebar md-list-item a'));
 
+		this.searchIcon				=	element(by.css('.sidebar-toolbar .search-icon'));
+		this.searchBox				=	element(by.model('search.text'));
+
+
 	}
 
 	clickRandomMotion(){
@@ -29,10 +33,9 @@ class SidebarSection extends ShowMotionPage{
 		});
 	}
 
+
 	getRandomMotion(){
 		let deferred = protractor.promise.defer();
-
-
 
 		//Motions that aren't already open and slightly greyed
 		let nonActiveMotions = this.getSidebarItems().filter(function (option) {
@@ -47,9 +50,8 @@ class SidebarSection extends ShowMotionPage{
 		});
 
 		indexes.then(function (indexes) {
-			let validMotions = indexes.length-1; //The last item is not a motion, its a create more motions button
 
-		    var randomIndex = indexes[Math.floor(Math.random()*validMotions)];
+		    var randomIndex = indexes[Math.floor(Math.random()*indexes.length)];
 
 		    deferred.fulfill(nonActiveMotions.get(randomIndex));
 		});
@@ -66,6 +68,40 @@ class SidebarSection extends ShowMotionPage{
 	getSidebarLinks(){
 	    browser.waitForAngular();
 		return this.sidebarLinks;
+	}
+
+	textSearch(content){
+		var EC = protractor.ExpectedConditions;
+		console.log(this.searchIcon);
+
+		let vm = this;
+
+		this.searchBox.isDisplayed().then(function(isVisible){
+			if(!isVisible){
+				console.log(vm.searchIcon);
+				vm.searchIcon.click();
+			}
+
+		});
+
+
+		browser.wait(EC.visibilityOf(this.searchBox), 5000,"Search icon did not trigger the appearance of the text search field");
+
+		this.searchBox.sendKeys(content);
+
+	}
+
+	sidebarItemsAllContain(content){
+		browser.waitForAngular();
+		var EC = protractor.ExpectedConditions;
+
+		this.sidebarItems.each(function(item){
+
+			expect(item.getText()).toContain(content);
+			// item.getText
+
+			// browser.wait(EC.textToBePresentInElement(item, content), 5000, "The text '"+content+"'' is not present in the item");
+		});
 	}
 
 }

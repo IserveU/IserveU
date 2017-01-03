@@ -18,13 +18,6 @@ class IndexMotionRequest extends Request
             return true;
         }
 
-        //If you're not an admin and haven't set a status, these are the defaults
-        if (!$this->has('status')) {
-            $this['status'] = ['published', 'closed'];
-           // $this->request->add(['status'=>[2,3]]); Didn't work
-            return true;
-        }
-
         if (array_intersect(['draft', 'review'], $this->input('status'))) {
             if (!Auth::check()) {
                 return false;
