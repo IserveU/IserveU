@@ -35,5 +35,4 @@ class UserFilter extends QueryFilter
 
         return $this->query;
     }
-
 }
