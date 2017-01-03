@@ -22,7 +22,15 @@ describe('motion.sidebar making sure that a motion sidebar works ||', function()
   		let word = faker.lorem.words(1);
 
 		sidebar.textSearch(word);
-		sidebar.sidebarItemsAllContain(word);
+
+		sidebar.clickRandomMotion();
+		expect(motion.containsText(word)).toEqual(true);
+
+		sidebar.clickRandomMotion();
+		expect(motion.containsText(word)).toEqual(true);
+
+		sidebar.clickRandomMotion();
+		expect(motion.containsText(word)).toEqual(true);
 
   	});
 
@@ -31,7 +39,7 @@ describe('motion.sidebar making sure that a motion sidebar works ||', function()
     afterEach(function(){
         browser.manage().logs().get('browser').then(function(browserlog){
          // expect(browserlog.length).toEqual(0);
-          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
+      //    if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
         });
     });
 

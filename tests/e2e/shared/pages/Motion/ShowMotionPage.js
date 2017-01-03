@@ -31,7 +31,6 @@ class ShowMotionPage{
 	}
 
 	getTitle(attr){
-		console.log(attr);
 		browser.sleep(2000);
 
 		return DomHelper.extractAttribute(this.motionTitle,attr);
@@ -65,6 +64,39 @@ class ShowMotionPage{
 		  	});
 		}).first();
 
+	}
+
+	containsText(text){
+		text = text.toLowerCase();
+		let vm = this;
+		let deferred = protractor.promise.defer();
+
+		let contained = false;
+		this.getTitle("text").then(function(content){
+			if(content.toLowerCase().includes(text)){
+				contained = true;
+			}
+			//console.log(contained + "(" + text + ")" + content);
+
+			vm.getSummary("text").then(function(content){
+				if(content.toLowerCase().includes(text)){
+					contained = true;
+				}
+			//	console.log(contained + "(" + text + ")" + content);
+
+				vm.getText("text").then(function(content){
+					if(content.toLowerCase().includes(text)){
+						contained = true;
+					}
+				//	console.log(contained + "(" + text + ")" + content);
+
+					deferred.fulfill(contained);
+				});
+			});
+		});
+
+		
+		return deferred.promise;
 	}
 }
 

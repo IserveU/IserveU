@@ -72,13 +72,11 @@ class SidebarSection extends ShowMotionPage{
 
 	textSearch(content){
 		var EC = protractor.ExpectedConditions;
-		console.log(this.searchIcon);
 
 		let vm = this;
 
 		this.searchBox.isDisplayed().then(function(isVisible){
 			if(!isVisible){
-				console.log(vm.searchIcon);
 				vm.searchIcon.click();
 			}
 
