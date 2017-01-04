@@ -84,7 +84,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_status_private()
     {
-        $this->json('GET', $this->route, ['status' => ['private']])
+        $this->json('GET', $this->route, ['status' => 'private'])
                 ->assertResponseStatus(200)
                 ->dontSee('public');
     }
@@ -92,10 +92,25 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_status_public()
     {
-        $this->json('GET', $this->route, ['status' => ['public']])
+        $this->json('GET', $this->route, ['status' => 'public'])
                 ->assertResponseStatus(200)
                 ->dontSee('private');
     }
 
+    /** @test */
+    public function user_filter_by_identity_verified()
+    {
+        $this->json('GET', $this->route, ['identity_verified' => 1])
+        ->assertResponseStatus(200)
+        ->dontSeeJson(['identity_verified' => 0]);
+    }
+
+    /** @test */
+    public function user_filter_by_identity_not_verified()
+    {
+        $this->json('GET', $this->route, ['identity_verified' => 0])
+        ->assertResponseStatus(200)
+        ->dontSeeJson(['identity_verified' => 1]);
+    }
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }

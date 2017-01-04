@@ -21,9 +21,23 @@ class UserFilter extends QueryFilter
         return $this->query->where('first_name', 'like', "%$name%");
     }
 
+    public function last_name($name = '')
+    {
+        return $this->query->where('last_name', 'like', "%$name%");
+    }
+
     public function identity_verified($verified = 1)
     {
         return $this->query->where('identity_verified', $verified);
+    }
+
+    public function address_verified($verified = 1)
+    {
+        if ($verified) {
+            return $this->query->whereNotNull('address_verified_until');
+        } else {
+            return $this->query->whereNull('address_verified_until');
+        }
     }
 
     /* desc or asc */
