@@ -38,7 +38,6 @@ class UserController extends ApiController
         if (Auth::check()) { //An admin able to see all users
             return User::filter($filters)->paginate($limit);
         }
-
     }
 
     /**

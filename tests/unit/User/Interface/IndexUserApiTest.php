@@ -16,7 +16,6 @@ class IndexUserApiTest extends UserApi
         $this->signInAsAdmin();
 
         factory(App\User::class, 5)->create();
-
     }
 
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
@@ -41,7 +40,7 @@ class IndexUserApiTest extends UserApi
                         'first_name',
                         'last_name',
                         'community_id',
-                        'community'
+                        'community',
                     ],
                 ],
             ]);
