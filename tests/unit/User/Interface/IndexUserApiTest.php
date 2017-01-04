@@ -111,5 +111,6 @@ class IndexUserApiTest extends UserApi
         ->assertResponseStatus(200)
         ->dontSeeJson(['identity_verified' => 1]);
     }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }
