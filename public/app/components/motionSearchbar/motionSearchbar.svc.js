@@ -46,7 +46,23 @@
 					this.text = '';
 				this.isOpen = !this.isOpen;
 			},
+			//normal casual text search 
+			searchAll: function() {
+				var data = {
+					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
+				};
+				motion.getMotions(data)
+					.then(result => {
+						console.log('result', result);
+					})
+			},
+			// search according to filter choice
+			searchSpecific: function() {
 
+			},
+			// need to have a clear filter
+			// then that's it. 
+			// need to combine html and js.
 			all: function() {
 				this._department.filter = '';
 				this._orderBy.filter 	= '';
