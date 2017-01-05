@@ -8,6 +8,7 @@ use App\Events\User\UserDeleted;
 use App\Events\User\UserDeleting;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
+use App\Filters\UserFilter;
 use App\Notifications\Authentication\RoleGranted;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -208,7 +209,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['first_name', 'last_name', 'id', 'community_id']);
+            $this->addVisible(['first_name', 'last_name', 'id', 'community_id', 'status']);
         }
 
         return $this;
@@ -500,6 +501,20 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     /************************************* Scopes *****************************************/
 
+    public function scopeFilter($query, UserFilter $filters)
+    {
+        return $filters->apply($query);
+    }
+
+    public function scopeStatus($query, $status = 'published')
+    {
+        if (is_array($status)) {
+            return $query->whereIn('status', $status);
+        }
+
+        return $query->where('status', $status);
+    }
+
     /**
      * Checks the user is public.
      *
@@ -507,7 +522,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     public function scopeArePublic($query)
     {
-        return $query->where('public', 1);
+        return $query->where('status', 'public');
     }
 
     /**
