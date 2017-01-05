@@ -11,8 +11,13 @@ class MotionSummary extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $sections = ["Latest Launched", "Recently Closed", "Closing Soon"];
+    public $sections    = ["Latest Launched", "Recently Closed", "Closing Soon"];
 
+    public $greeting    = "Motion Summary: ";
+
+    public $introLines   = ["A summary of motions"];
+    
+    public $outroLines   = [];
 
     /**
      * Create a new message instance.
@@ -22,6 +27,12 @@ class MotionSummary extends Mailable
     public function __construct(array $motions)
     {
         $this->sections = $motions;
+
+        foreach($motions as $key => $value){
+            $this->greeting .= $key;
+        }
+
+
     }
 
     /**
@@ -31,6 +42,7 @@ class MotionSummary extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.summary');
+        return $this->view('emails.summary')
+                ->subject($this->greeting);
     }
 }

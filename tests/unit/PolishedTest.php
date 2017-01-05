@@ -78,7 +78,7 @@ trait PolishedTest
             File::delete($filename);
         }
 
-    //    \Config::set('mail.driver', 'log');
+        \Config::set('mail.driver', 'log');
     }
 
     public function tearDown()
