@@ -45,19 +45,20 @@ class MotionFilter extends QueryFilter
             ->orWhere('slug', 'like', "%$string%");
     }
 
-    public function userId($id){
+    public function userId($id)
+    {
         return $this->query->writer($id);
     }
 
-    public function rankLessThan($rank){
+    public function rankLessThan($rank)
+    {
         return $this->query->rankLessThan($rank);
     }
 
-    public function rankGreaterThan($rank){
+    public function rankGreaterThan($rank)
+    {
         return $this->query->rankGreaterThan($rank);
     }
-
-
 
     /************* DATE SCOPES****************************************/
 

@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MotionSummary extends Mailable
 {
@@ -16,7 +15,7 @@ class MotionSummary extends Mailable
     public $greeting    = "Motion Summary: ";
 
     public $introLines   = ["A summary of motions"];
-    
+
     public $outroLines   = [];
 
     /**

@@ -42,6 +42,7 @@ class PrepareMotionSummaryTest extends TestCase
 
             return true;
         });
+
     }
 
     /** @test */
@@ -194,7 +195,7 @@ class PrepareMotionSummaryTest extends TestCase
         $motion->save();
 
         Mail::fake();
-        
+
         dispatch(new PrepareMotionSummary());
 
         $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {

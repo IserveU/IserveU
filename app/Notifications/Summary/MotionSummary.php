@@ -53,10 +53,10 @@ class MotionSummary extends Notification
                     // ->line('heres');
 
         if (!$this->latestLaunchedMotions->isEmpty()) {
-                  //  var_dump($this->latestLaunchedMotions);
+            //  var_dump($this->latestLaunchedMotions);
 
             foreach ($this->latestLaunchedMotions as $motion) {
-              //  dd('there');
+                //  dd('there');
 
                $title = $motion->title;
 
@@ -78,7 +78,7 @@ class MotionSummary extends Notification
         }
 
         if (!$this->closingSoonMotions->isEmpty()) {
-            $mailMessage->greeting("BAS")->greeting('Motions Closing Soon');
+            $mailMessage->greeting('BAS')->greeting('Motions Closing Soon');
             foreach ($this->closingSoonMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)
