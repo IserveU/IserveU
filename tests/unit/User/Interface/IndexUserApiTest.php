@@ -205,6 +205,4 @@ class IndexUserApiTest extends UserApi
         ->assertResponseStatus(200)
         ->SeeJson(['per_page' => 11]);
     }
-
-    /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }
