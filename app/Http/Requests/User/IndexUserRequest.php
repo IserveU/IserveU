@@ -39,7 +39,7 @@ class IndexUserRequest extends Request
             'firstName'               => 'string',
             'allNames'                => 'string',
             'page'                    => 'integer',
-            'limit'                   => 'integer'
+            'limit'                   => 'integer',
         ];
     }
 }

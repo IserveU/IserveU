@@ -135,7 +135,7 @@ class IndexUserApiTest extends UserApi
 
         factory(App\User::class)->create(
             ['last_name' => $lastName,
-             'status'    => 'public']);
+             'status'    => 'public', ]);
 
         $this->json('GET', $this->route, ['lastName' => $lastName])
                 ->assertResponseStatus(200)
@@ -150,7 +150,7 @@ class IndexUserApiTest extends UserApi
 
         factory(App\User::class)->create(
             ['first_name' => $firstName,
-             'status'    => 'public']);
+             'status'     => 'public', ]);
 
         $this->json('GET', $this->route, ['firstName' => $firstName])
                 ->assertResponseStatus(200)
@@ -165,7 +165,7 @@ class IndexUserApiTest extends UserApi
 
         factory(App\User::class)->create(
             ['middle_name' => $middleName,
-             'status'    => 'public']);
+             'status'      => 'public', ]);
 
         $this->json('GET', $this->route, ['middleName' => $middleName])
                 ->assertResponseStatus(200)
@@ -180,22 +180,22 @@ class IndexUserApiTest extends UserApi
 
         factory(App\User::class)->create(
             ['first_name' => $name,
-             'status'    => 'public']);
+             'status'     => 'public', ]);
 
         factory(App\User::class)->create(
             ['middle_name' => $name,
-             'status'    => 'public']);
+             'status'      => 'public', ]);
 
         factory(App\User::class)->create(
             ['last_name' => $name,
-             'status'    => 'public']);
+             'status'    => 'public', ]);
 
         $this->json('GET', $this->route, ['allNames' => $name])
                 ->assertResponseStatus(200)
                 ->seeJson(['total' => 3])
                 ->seeJson(['first_name' => $name,
                            'last_name'  => $name,
-                           'last_name'  => $name]);
+                           'last_name'  => $name, ]);
     }
 
     /** @test */
