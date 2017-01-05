@@ -4,7 +4,8 @@ class ShowMotionPage{
 
 	constructor(){
 		/* Motion Details */
-		this.motionTitle 			= element(by.css('h1.motion__title'));
+		this.motionTitle 			= element(by.css('h1.motion_header__title'));
+		this.motionSummary 			= element(by.css('p.motion_header__summary'));
 		this.motionText 			= element(by.binding('motion.text'));
 		this.motionFiles 			= element.all(by.repeater('file in motion.motionFiles'))
 
@@ -21,19 +22,27 @@ class ShowMotionPage{
 
 
 	get(slug){
-		if(slug){
-			return browser.get('#/motion/'+slug);
+		if(!slug){
+			slug = "a-published-motion";			
 		}
 
-		return browser.get('#/motion/a-published-motion'); //The database seeder suite
+		return browser.get('/#/motion/'+slug);
+		
 	}
 
 	getTitle(attr){
+		console.log(attr);
+		browser.sleep(2000);
+
 		return DomHelper.extractAttribute(this.motionTitle,attr);
 	}
 
 	getText(attr){
 		return DomHelper.extractAttribute(this.motionText,attr);
+	}
+
+	getSummary(attr){
+		return DomHelper.extractAttribute(this.motionSummary,attr);
 	}
 
 	getDepartmentIcon(attr){
@@ -50,11 +59,12 @@ class ShowMotionPage{
 			return this.motionFiles;
 		}
 
-		return this.motionFiles.filter(function(elem, index) {
-		  return elem.getText().then(function(text) {
-		    return text === title;
-		  });
-		}).first()
+		return this.motionFiles.$$('a').filter(function(elem, index) {
+		  	return elem.getText().then(function(text) {
+		    	return text === title;
+		  	});
+		}).first();
+
 	}
 }
 

@@ -32,5 +32,7 @@
     "textAngular": "1.4.2"
   },
   "private": true,
-  "resolutions": {}
+  "resolutions": {
+    "angular": "1.5.10"
+  }
 }

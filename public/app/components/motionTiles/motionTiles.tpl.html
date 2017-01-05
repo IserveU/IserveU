@@ -1,23 +1,36 @@
-<md-grid-list md-cols="1" md-cols-sm="3" md-cols-xs="3" md-cols-md="1" md-cols-gt-md="1" md-row-height-gt-md="1:1" md-row-height="1:1" md-gutter="16px" layout-padding flex ng-cloak>
+<md-list flex>
+	<md-list-item class="md-2-line">
+		<md-icon id="department_icon" md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
 
-    <md-grid-tile class="md-whiteframe-z1">
-	    <md-icon id="department_icon" md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
-	    <md-tooltip md-direction="{{::direction}}">{{ motion.department.name }}</md-tooltip>
-    </md-grid-tile>
+        <div class="md-list-item-text">
+			<h3>{{ motion.department.name }}</h3>
+        	<p>Department</p>
+        </div>
+	</md-list-item>
 
-    <md-grid-tile id="closing_tile" ng-if="settingsGlobal.motion.allow_closing" class="md-whiteframe-z1">
-	    <md-icon ng-if="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">
-	    	<md-tooltip md-direction="{{::direction}}">{{'CLOSED' | translate}}</md-tooltip>
-	    </md-icon>
+	<md-list-item class="md-2-line" id="closing_tile" ng-if="settingsGlobal.motion.allow_closing">
+ 		<md-icon ng-if="!motion.motionOpenForVoting" md-svg-icon="calendar-remove">	    </md-icon>
+        <div ng-if="!motion.motionOpenForVoting" class="md-list-item-text">
+			<h3>{{'CLOSED' | translate}}</h3>
+        	<p>{{ 'CLOSES_ON' | translate }}</p>
+        </div>
 
-	    <md-icon ng-if="motion.motionOpenForVoting" md-svg-icon="calendar-clock">
-	    	<md-tooltip md-direction="{{::direction}}">{{ 'CLOSES_ON' | translate }} {{ motion.closing_at.alpha_date | customLongDate }}</md-tooltip>
-	    </md-icon>
-    </md-grid-tile>
+	    <md-icon ng-if="motion.motionOpenForVoting" md-svg-icon="calendar-clock"></md-icon>
+        <div ng-if="motion.motionOpenForVoting" class="md-list-item-text">
+			<h3>{{ motion.closing_at.alpha_date | customLongDate }}</h3>
+        	<p>{{ 'CLOSES_ON' | translate }}</p>
+        </div>
+	</md-list-item>
 
-    <md-grid-tile class="md-whiteframe-z1">
+
+	<md-list-item class="md-2-line">
 	  	<md-icon id="passing_status_icon" md-svg-src="{{ motion.motionVotes.overallPosition.icon || 'loading' }}"></md-icon>
-	    <md-tooltip md-direction="{{::direction}}">{{ motion.motionVotes.overallPosition.message }}</md-tooltip>
-    </md-grid-tile>
 
-</md-grid-list>
+        <div class="md-list-item-text">
+			<h3>{{ motion.motionVotes.overallPosition.message }}</h3>
+        	<p>Status</p>
+        </div>
+	</md-list-item>
+
+</md-list>
+

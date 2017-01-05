@@ -40,7 +40,9 @@ abstract class QueryFilter
 
         foreach ($this->filters() as $name => $value) {
             if (method_exists($this, $name)) {
-                call_user_func_array([$this, $name], array_filter([$value]));
+                call_user_func_array([$this, $name], array_filter([$value], function ($value) {
+                    return $value !== null && $value !== false && $value !== ''; // don't filter out zeros
+                }));
             }
         }
 
@@ -48,8 +50,10 @@ abstract class QueryFilter
     }
 
     /**
-     * Creates a key for the current query filter so that you can cache it and save the results for later
-     * @param  string $append lets you append a string when generating the cache key in case you want to save specific version like a cached rendered result and a cached query result
+     * Creates a key for the current query filter so that you can cache it and save the results for later.
+     *
+     * @param string $append lets you append a string when generating the cache key in case you want to save specific version like a cached rendered result and a cached query result
+     *
      * @return string a JSON encoded string representing this query filter
      */
     public function cacheKey($append = '')

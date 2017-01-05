@@ -1,10 +1,18 @@
 <?php
 
+use App\Comment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DefaultCommentPermissionTest extends TestCase
 {
     use DatabaseTransactions;
+
+    protected $route = '/api/comment/';
+    protected $class = App\Comment::class;
+    protected $table = 'comments';
+    protected $alwaysHidden = ['vote_id'];
+    protected $defaultFields = [];
+    protected $modelToUpdate;
 
     public function setUp()
     {
@@ -24,11 +32,7 @@ class DefaultCommentPermissionTest extends TestCase
     {
         $comment = factory(App\Comment::class)->create();
 
-        $this->get('/api/comment');
-
-        $this->assertResponseStatus(200);
-
-        $this->see($comment->text);
+        $this->filterFieldsGetSee([], 200, $comment->text);
     }
 
     /** @test */

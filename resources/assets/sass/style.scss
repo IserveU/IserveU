@@ -4,34 +4,45 @@
 @import 'components/components';
 @import 'global/global';
 
-header {
-	.inline-icon {
-		display:inline-block;
-		position: relative;
-		cursor: pointer;
-		font-size: 17px !important;
-		left: -1px !important;
-		bottom: 1px !important;
-	}
-	md-icon {
-		@extend .inline-icon;
-		cursor: default;
-		font-size: 19px !important;
-		left: 3px !important;
-		vertical-align:inherit;
-	}
-	&md-icon[md-svg-src] {
-		display:inline-block;
-		width: 18px;
-	}
-	h1, h2, h3 {
-		font-size: 16px; margin-bottom: 18px; display:inline-block;
-	}
-	h4, h5, h6{
-		@extend .title-header;
-		font-size: 14px;
-		color: $darkGrey;
-	}
+// header {
+// 	.inline-icon {
+// 		display:inline-block;
+// 		position: relative;
+// 		cursor: pointer;
+// 		font-size: 17px !important;
+// 		left: -1px !important;
+// 		bottom: 1px !important;
+// 	}
+// 	md-icon {
+// 		@extend .inline-icon;
+// 		cursor: default;
+// 		font-size: 19px !important;
+// 		left: 3px !important;
+// 		vertical-align:inherit;
+// 	}
+// 	&md-icon[md-svg-src] {
+// 		display:inline-block;
+// 		width: 18px;
+// 	}
+// 	h1, h2, h3 {
+// 		font-size: 16px; margin-bottom: 18px; display:inline-block;
+// 	}
+// 	h4, h5, h6{
+// 		@extend .title-header;
+// 		font-size: 14px;
+// 		color: $darkGrey;
+// 	}
+// }
+// 
+
+*{
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */	
+}
+
+md-icon{
+	height: auto;
 }
 
 /*Prevents duplicate issue SVG issue */
@@ -100,14 +111,14 @@ button md-icon svg:nth-child(2) {
 	transition: 2s filter linear;
 	position: relative;
 
-	md-grid-tile{
-		background-color: $midGrey;
-		md-icon{
-			width: 80%;
-			height: 80%;
-			text-align: center;
-		}
-	}
+	// md-grid-tile{
+	// 	background-color: $midGrey;
+	// 	md-icon{
+	// 		width: 80%;
+	// 		height: 80%;
+	// 		text-align: center;
+	// 	}
+	// }
 
 	.voting-disabled {
 		md-icon {
@@ -130,9 +141,9 @@ button md-icon svg:nth-child(2) {
 		margin: $padding/2;
 	}
 
-	p.md-body-1{
-		margin: $padding/2;
-	}
+	// p.md-body-1{
+	// 	margin: $padding/2;
+	// }
 
 }
 
@@ -337,22 +348,7 @@ md-menu-item{
 // start comment
 #display-comments {
 
-	margin: 0;
-	header {
-		text-align:center;
-		h1 {
-			letter-spacing: 0.3px;
-		    position: relative;
-			bottom: 12px;
-		}
-		md-icon {
-			margin-left: 4px; margin-right: 1px;
-		}
-		> md-icon:last-child {
-			margin-right: 3px
-		}
-	}
-
+	
 	section.motion-comments {
 		p, h4, i{
 			display:inline;

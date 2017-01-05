@@ -97,7 +97,7 @@
       DETAILS: 'Details',
       CLOSED: 'Closed',
       OPEN: 'Open',
-      CLOSES_ON: 'closes on ',
+      CLOSES_ON: 'Closes on ',
       DESCRIPTION: 'Description',
       VOTING: 'Voting',
       POST: 'Post',

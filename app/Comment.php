@@ -10,6 +10,8 @@ use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
 use Auth;
 use Cache;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends NewApiModel implements CachedModel, VisibilityModel
@@ -37,14 +39,14 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $visible = [''];
 
-    protected $with = ['vote.user', 'commentRankRelation'];
+    protected $with = ['vote.user.roles', 'vote.motion.user.roles']; // 'commentRankRelation' not loaded because orderByCommentRank loads an attribute
 
     /**
      * The attributes appended and returned (if visible) to the user.
      *
      * @var array
      */
-    protected $appends = ['motion', 'commentRank', 'user', 'motionTitle', 'motionId'];
+    protected $appends = ['motion', 'user', 'commentRank', 'motionId', 'motionTitle']; //, , 'user', , 'motionId'];
 
     /**
      * The fields that are dates/times.
@@ -151,10 +153,16 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
     /****************************************** Getters & Setters ************************************/
 
     /**
-     * @return int the mutator to get the sum of all the comment votes
+     * An accessor that will efficiently figure out if the comment rank is required.
+     *
+     * @return int the sum of the comment_votes position
      */
     public function getCommentRankAttribute()
     {
+        if (array_key_exists('commentRank', $this->attributes)) {
+            return $this->attributes['commentRank'];
+        }
+
         // if relation is not loaded already, let's do it first
       if (!array_key_exists('commentRankRelation', $this->relations)) {
           $this->load('commentRankRelation');
@@ -167,16 +175,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
     }
 
     /************************************* Casts & Accesors *****************************************/
-
-    /**
-     * @return The sum of all the comment votes
-     */
-    public function commentRankRelation()
-    {
-        return $this->hasOne('App\CommentVote')
-        ->selectRaw('comment_id, sum(position) as rank')
-        ->groupBy('comment_id');
-    }
 
     /**
      * Gets the motion title for Comment Index requests.
@@ -207,21 +205,16 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
         });
     }
 
-    public function scopeBetweenDates($query, $startDate, $endDate)
+    public function scopeBetweenDates($query, Carbon $startDate, Carbon $endDate)
     {
         if ($startDate) {
-            $query = $query->where('created_at', '>=', $startDate);
+            $query = $query->whereDate('comments.created_at', '>', $startDate);
         }
         if ($endDate) {
-            $query = $query->where('created_at', '<=', $endDate);
+            $query = $query->whereDate('comments.created_at', '<', $endDate);
         }
 
         return $query;
-    }
-
-    public function scopeOrderBy($query, $field, $direction)
-    {
-        return $query->orderBy($field, $direction);
     }
 
     public function scopeOnMotion($query, $motionId)
@@ -238,7 +231,35 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
         });
     }
 
+    /**
+     * Orders a comment by the sum of the votes that it has in the comment_votes table.
+     * Comment votes can have a position of 1, 0 and -1 so the sum of all these entries works as a rank.
+     *
+     * @param Builder $query Query builder instance
+     * @param string  $order asc/desc
+     *
+     * @return Builder instance
+     */
+    public function scopeOrderByCommentRank($query, $order = 'desc')
+    {
+        return $query->leftJoin('comment_votes', 'comment_votes.comment_id', '=', 'comments.id')
+            ->groupBy('comments.id')
+            ->addSelect(['comments.*', \DB::raw('sum(position) as commentRank')])
+            ->orderBy('commentRank', $order);
+    }
+
     /**********************************  Relationships *****************************************/
+
+    /**
+     * An alternative relationship with comment votes for DB count queries.
+     */
+    public function commentRankRelation()
+    {
+        return $this->hasOne('App\CommentVote')
+        ->selectRaw('comment_id, sum(position) as rank')
+        ->groupBy('comment_id');
+    }
+
     public function commentVotes()
     {
         return $this->hasMany('App\CommentVote');
@@ -256,11 +277,11 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getUserAttribute()
     {
-        $this->load(['vote.user' => function ($q) use (&$user) {
-            $user = $q->first();
-        }]);
-
-        return $user;
+        if (!$this->vote) {
+            dd($this);
+        }
+        //If this is failing it needs to be eager loaded. For some reason nested eager loading is not working
+        return $this->vote->user;
     }
 
     /**
@@ -270,10 +291,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getMotionAttribute()
     {
-        $this->load(['vote.motion' => function ($q) use (&$motion) {
-            $motion = $q->first();
-        }]);
-
-        return $motion;
+        //Should be eager loaded, this will load it if it is not
+        return $this->vote->motion;
     }
 }

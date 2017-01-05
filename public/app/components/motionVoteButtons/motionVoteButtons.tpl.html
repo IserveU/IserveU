@@ -1,16 +1,9 @@
-<div class="motion__votes-button_container" layout="row" flex>
-
-  <md-card ng-repeat="button in motionVoteButtons.buttons" class="motion__votes-button {{ ::button.type }}" ng-hide="button.hidden" flex>
-    <md-card-content>
-
-      <md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)"
-                 ng-class="button.selectedClass" layout-fill id="{{ ::button.type }}_button">
-
-          <md-icon ng-class="button.selectedColour" md-svg-src="{{ button.selectedIcon }}"></md-icon>
-
-      </md-button>
-
-      <md-tooltip>{{ button.tooltip }}</md-tooltip>
-    </md-card-content>
-  </md-card>
+<div class="motion_vote_buttons" layout="row" flex>
+	<div ng-repeat="button in motionVoteButtons.buttons" ng-hide="button.hidden" flex class="motion_vote_buttons__button--{{ ::button.type }}">
+		<md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)" 
+		ng-attr-disabled="{{ button.disabled || undefined }}" >
+		      <md-icon ng-class="button.selectedColour" md-svg-src="{{ button.selectedIcon }}"></md-icon>
+		</md-button>
+		<md-tooltip>{{ button.tooltip }}</md-tooltip>
+	</div>
 </div>

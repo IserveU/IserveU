@@ -1,0 +1,20 @@
+
+/****************************************************************
+*
+*	Header of a Motion
+*
+****************************************************************/
+.motion_header{
+	padding: $padding;
+	display:flex;
+	flex-direction:column;
+	flex:1 0 65%;
+}
+
+.motion_header__title{
+	margin: 0;
+}
+
+.motion_header__summary{
+	
+}

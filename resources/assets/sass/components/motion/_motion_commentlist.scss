@@ -1,0 +1,51 @@
+/* Applied to agree/disagree/abstain */
+.motion_commentlist{
+
+	header{
+		flex-direction:row;
+		display: flex;
+	}
+
+	section{
+		padding: $padding;
+	}
+}
+
+
+.motion_commentlist__text{
+
+}
+
+.motion_commentlist__vote{
+
+}
+
+.motion_commentlist__time{
+
+}
+
+
+.motion_commentlist__usericon{
+
+}
+
+.motion_commentlist__usertitle{
+
+}
+
+.motion_commentlist__points{
+	text-align:center;
+	margin-top:$padding;
+	font-size: 1.3rem;
+}
+
+.motion_commentlist__points--positive{
+	@extend .motion_commentlist__points;
+	color:$primaryColor;
+}
+
+
+.motion_commentlist__points--negative{
+	@extend .motion_commentlist__points;
+	color:$accentColor;
+}

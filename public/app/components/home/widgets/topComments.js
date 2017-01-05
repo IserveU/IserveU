@@ -16,7 +16,7 @@
 			(function init() {
 				homeResource.getTopComments().then(function(results){
 					self.loading = false;
-					self.commentList = results.data;
+					self.commentList = results.data.data;
 				}, function(error){
 					self.loading = false;
 					throw new Error("Unable to retrieve top comments.");

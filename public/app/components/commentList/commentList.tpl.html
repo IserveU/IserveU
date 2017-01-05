@@ -1,22 +1,27 @@
 <section ng-show="motion.motionComments" flex>
 	<div flex layout="row">
 
-    <md-tabs md-dynamic-height md-border-bottom flex layout-align="center center" md-selected="commentList.selectedIndex">
-        <md-tab label="agree ({{ commentList.count(motion.motionComments.agreeComments) }})">
-			<comment-list-agree flex></comment-list-agree>
-        </md-tab>
-        <md-tab ng-if="settingsGlobal.voting.abstain" label="abstain ({{ commentList.count(motion.motionComments.abstainComments)}})">
-			<comment-list-abstain flex></comment-list-abstain>
-        </md-tab>
-        <md-tab label="disagree ({{ commentList.count(motion.motionComments.disagreeComments) }})">
-			<comment-list-disagree flex></comment-list-disagree>
-        </md-tab>
-    </md-tabs>
+	<md-card class="comment-list__container" flex>
+		<md-card-content flex>
+
+		    <md-tabs md-dynamic-height md-border-bottom flex layout-align="center center" md-selected="commentList.selectedIndex">
+		        <md-tab label="Comments Agreeing ({{ commentList.count(motion.motionComments.agreeComments) }})">
+					<comment-list-agree class="motion_commentlist"></comment-list-agree>
+		        </md-tab>
+		        <md-tab ng-if="settingsGlobal.voting.abstain" label="Comments Abstaining ({{ commentList.count(motion.motionComments.abstainComments)}})">
+					<comment-list-abstain class="motion_commentlist"></comment-list-abstain>
+		        </md-tab>
+		        <md-tab label="Comments Disagreeing ({{ commentList.count(motion.motionComments.disagreeComments) }})">
+					<comment-list-disagree class="motion_commentlist"></comment-list-disagree>
+		        </md-tab>
+		    </md-tabs>
+
+		</md-card-content>    
 	</div>
 </section>
 
 <section ng-hide="motion.motionComments" flex>
-	<md-card layout-margin>
+	<md-card>
 		<md-card-content>
 
 			<div style="margin: 3px 0 0 8px;">

@@ -1,0 +1,13 @@
+/** Motion block and large division blocks */
+
+motion, user-comment, motion-votes, comment-list{
+	margin: $padding 0;
+	display: flex;
+	flex-direction: column;
+
+
+}
+ 
+motion{
+	flex-direction:row;
+}

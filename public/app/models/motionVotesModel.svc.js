@@ -34,19 +34,19 @@
       },
       agree: {
         icon: 'thumb-up',
-        message: 'Most people agree'
+        message: 'Majority agree'
       },
       disagree: {
         icon: 'thumb-down',
-        message: 'Most people disagree'
+        message: 'Majority disagree'
       },
       abstain: {
         icon: 'thumbs-up-down',
-        message: 'Most people abstained'
+        message: 'Majority abstained'
       },
       tie: {
         icon: 'thumbs-up-down',
-        message: 'There has been a majority tie'
+        message: 'Majority tie'
       }
     };
 
