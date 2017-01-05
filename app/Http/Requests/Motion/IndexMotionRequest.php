@@ -25,7 +25,7 @@ class IndexMotionRequest extends Request
         }
 
         //If you are only filtering your own motion drafts/reviews no problem
-        if (Auth::check() && $this->has('user_id') && $this->input('user_id')==Auth::user()->id)  {
+        if (Auth::check() && $this->has('user_id') && $this->input('user_id') == Auth::user()->id) {
             return true;
         }
 

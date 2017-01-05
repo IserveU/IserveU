@@ -5,14 +5,12 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MotionSummary extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $sections = ["Latest Launched", "Recently Closed", "Closing Soon"];
-
+    public $sections = ['Latest Launched', 'Recently Closed', 'Closing Soon'];
 
     /**
      * Create a new message instance.

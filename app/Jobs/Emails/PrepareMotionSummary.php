@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Emails;
 
-use App\Motion;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\MotionSummary;
+use App\Motion;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class PrepareMotionSummary implements ShouldQueue
 {
@@ -41,18 +41,18 @@ class PrepareMotionSummary implements ShouldQueue
 
         // Get latest or new motion
         $latestLaunchedMotions = Motion::status('published')->publishedAfter(Carbon::now()->subHours(24))->get();
-        if(!$latestLaunchedMotions->isEmpty()){
-            $motions["Latest Launched"] = $latestLaunchedMotions;
+        if (!$latestLaunchedMotions->isEmpty()) {
+            $motions['Latest Launched'] = $latestLaunchedMotions;
         }
 
         $recentlyClosedMotions = Motion::status('closed')->closingAfter(Carbon::now()->subHours(24))->closingBefore(Carbon::now())->get();
-        if(!$recentlyClosedMotions->isEmpty()){
-            $motions["Recently Closed"] = $recentlyClosedMotions;
+        if (!$recentlyClosedMotions->isEmpty()) {
+            $motions['Recently Closed'] = $recentlyClosedMotions;
         }
 
         $closingSoonMotions = Motion::status('published')->closingAfter(Carbon::now())->closingBefore(Carbon::now()->addHours(24))->get();
-        if(!$closingSoonMotions->isEmpty()){
-            $motions["Closing Soon"] = $closingSoonMotions;
+        if (!$closingSoonMotions->isEmpty()) {
+            $motions['Closing Soon'] = $closingSoonMotions;
         }
 
         if (!$motions) { //No updates today
@@ -61,6 +61,5 @@ class PrepareMotionSummary implements ShouldQueue
 
         dd(Mail::send(new MotionSummary($motions)));
         Mail::to($users)->send(new MotionSummary($motions));
-
     }
 }

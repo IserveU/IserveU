@@ -32,8 +32,8 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $message = $this->getLastMessageFor($user->email);
-        if(!$message->contains($motion->title)){
-      //      echo "==".$motion->title."==";
+        if (!$message->contains($motion->title)) {
+            //      echo "==".$motion->title."==";
             var_dump($message->getBody());
         }
         //This line failed at the same time as the one below (2016-12)
