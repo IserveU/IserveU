@@ -1,10 +1,10 @@
 <?php
 
 use App\Jobs\Emails\PrepareMotionSummary;
+use App\Mail\MotionSummary;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MotionSummary;
 
 class PrepareMotionSummaryTest extends TestCase
 {
@@ -31,10 +31,10 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user],MotionSummary::class, function ($mail) use ($motion) {
-            if(!$mail->sections["Latest Launched"]->contains($motion)){
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Latest Launched']->contains($motion)) {
                 return false;
-            };
+            }
 
             //TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
 
@@ -42,7 +42,6 @@ class PrepareMotionSummaryTest extends TestCase
 
             return true;
         });
-
     }
 
     /** @test */
@@ -59,10 +58,10 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user],MotionSummary::class, function ($mail) use ($motion) {
-            if(!$mail->sections["Recently Closed"]->contains($motion)){
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Recently Closed']->contains($motion)) {
                 return false;
-            };
+            }
 
             //TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
 
@@ -70,8 +69,6 @@ class PrepareMotionSummaryTest extends TestCase
 
             return true;
         });
-
-
     }
 
     /** @test */
@@ -88,10 +85,10 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user],MotionSummary::class, function ($mail) use ($motion) {
-            if(!$mail->sections["Closing Soon"]->contains($motion)){
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Closing Soon']->contains($motion)) {
                 return false;
-            };
+            }
 
             //TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
 
@@ -99,7 +96,6 @@ class PrepareMotionSummaryTest extends TestCase
 
             return true;
         });
-
     }
 
     /// Negative Tests
@@ -119,16 +115,16 @@ class PrepareMotionSummaryTest extends TestCase
         Mail::send(MotionSummary::class);
 
         $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
-            foreach($mail->sections as $section){
-              if($section->contains($motion)){
-                  return true;
-              };
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
             }
+
             return false;
         });
 
         $this->assertTrue($summaries->isEmpty());
-
     }
 
     /** @test */
@@ -144,11 +140,12 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
-            foreach($mail->sections as $section){
-              if($section->contains($motion)){
-                  return true;
-              };
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
             }
+
             return false;
         });
 
@@ -170,11 +167,12 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
-            foreach($mail->sections as $section){
-              if($section->contains($motion)){
-                  return true;
-              };
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
             }
+
             return false;
         });
 
@@ -199,11 +197,12 @@ class PrepareMotionSummaryTest extends TestCase
         dispatch(new PrepareMotionSummary());
 
         $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
-            foreach($mail->sections as $section){
-              if($section->contains($motion)){
-                  return true;
-              };
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
             }
+
             return false;
         });
 

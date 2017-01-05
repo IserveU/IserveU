@@ -10,13 +10,13 @@ class MotionSummary extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $sections    = ["Latest Launched", "Recently Closed", "Closing Soon"];
+    public $sections = ['Latest Launched', 'Recently Closed', 'Closing Soon'];
 
-    public $greeting    = "Motion Summary: ";
+    public $greeting = 'Motion Summary: ';
 
-    public $introLines   = ["A summary of motions"];
+    public $introLines = ['A summary of motions'];
 
-    public $outroLines   = [];
+    public $outroLines = [];
 
     /**
      * Create a new message instance.
@@ -27,11 +27,9 @@ class MotionSummary extends Mailable
     {
         $this->sections = $motions;
 
-        foreach($motions as $key => $value){
+        foreach ($motions as $key => $value) {
             $this->greeting .= $key;
         }
-
-
     }
 
     /**
