@@ -45,7 +45,7 @@ class IndexUserApiTest extends UserApi
                 ],
             ]);
         $this->seeOrderInTimeField(); //Default order
-        $this->dontSee('private');
+        $this->dontSeeJson(['status' => 'private']);
     }
 
     /** @test */
@@ -85,7 +85,7 @@ class IndexUserApiTest extends UserApi
     {
         $this->json('GET', $this->route, ['status' => 'private'])
                 ->assertResponseStatus(200)
-                ->dontSee('public');
+                ->dontSeeJson(['status' => 'public']);
     }
 
     /** @test */
@@ -93,13 +93,13 @@ class IndexUserApiTest extends UserApi
     {
         $this->json('GET', $this->route, ['status' => 'public'])
                 ->assertResponseStatus(200)
-                ->dontSee('private');
+                ->dontSeeJson(['status' => 'private']);
     }
 
     /** @test */
     public function user_filter_by_identity_verified()
     {
-        $this->json('GET', $this->route, ['identity_verified' => 1])
+        $this->json('GET', $this->route, ['identityVerified' => 1])
         ->assertResponseStatus(200)
         ->dontSeeJson(['identity_verified' => 0]);
     }
@@ -107,9 +107,104 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_identity_not_verified()
     {
-        $this->json('GET', $this->route, ['identity_verified' => 0])
+        $this->json('GET', $this->route, ['identityVerified' => 0])
         ->assertResponseStatus(200)
         ->dontSeeJson(['identity_verified' => 1]);
     }
+
+    /** @test */
+    public function user_filter_by_address_verified()
+    {
+        $this->json('GET', $this->route, ['addressVerified' => 1])
+        ->assertResponseStatus(200)
+        ->dontSeeJson(['address_verified' => false]);
+    }
+
+    /** @test */
+    public function user_filter_by_adrdress_not_verified()
+    {
+        $this->json('GET', $this->route, ['addressVerified' => 0])
+        ->assertResponseStatus(200)
+        ->dontSeeJson(['address_verified' => true]);
+    }
+
+    /** @test */
+    public function user_filter_by_lastName()
+    {
+        $lastName = 'Krieger1337';
+
+        factory(App\User::class)->create(
+            ['last_name' => $lastName,
+             'status'    => 'public']);
+
+        $this->json('GET', $this->route, ['lastName' => $lastName])
+                ->assertResponseStatus(200)
+                ->seeJson(['total' => 1])
+                ->seeJson(['last_name' => $lastName]);
+    }
+
+    /** @test */
+    public function user_filter_by_firstName()
+    {
+        $firstName = 'Vinh1337';
+
+        factory(App\User::class)->create(
+            ['first_name' => $firstName,
+             'status'    => 'public']);
+
+        $this->json('GET', $this->route, ['firstName' => $firstName])
+                ->assertResponseStatus(200)
+                ->seeJson(['total' => 1])
+                ->seeJson(['first_name' => $firstName]);
+    }
+
+    /** @test */
+    public function user_filter_by_middleName()
+    {
+        $middleName = 'Murray1337';
+
+        factory(App\User::class)->create(
+            ['middle_name' => $middleName,
+             'status'    => 'public']);
+
+        $this->json('GET', $this->route, ['middleName' => $middleName])
+                ->assertResponseStatus(200)
+                ->seeJson(['total' => 1])
+                ->seeJson(['middle_name' => $middleName]);
+    }
+
+    /** @test */
+    public function user_filter_by_allNames()
+    {
+        $name = 'SeaHorse42069';
+
+        factory(App\User::class)->create(
+            ['first_name' => $name,
+             'status'    => 'public']);
+
+        factory(App\User::class)->create(
+            ['middle_name' => $name,
+             'status'    => 'public']);
+
+        factory(App\User::class)->create(
+            ['last_name' => $name,
+             'status'    => 'public']);
+
+        $this->json('GET', $this->route, ['allNames' => $name])
+                ->assertResponseStatus(200)
+                ->seeJson(['total' => 3])
+                ->seeJson(['first_name' => $name,
+                           'last_name'  => $name,
+                           'last_name'  => $name]);
+    }
+
+    /** @test */
+    public function user_filter_result_limit()
+    {
+        $this->json('GET', $this->route, ['limit' => 11])
+        ->assertResponseStatus(200)
+        ->SeeJson(['per_page' => 11]);
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }

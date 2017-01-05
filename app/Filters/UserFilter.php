@@ -16,22 +16,34 @@ class UserFilter extends QueryFilter
         return $this->query->where('status', $status);
     }
 
-    public function first_name($name = '')
+    public function firstName($name = '')
     {
         return $this->query->where('first_name', 'like', "%$name%");
     }
 
-    public function last_name($name = '')
+    public function middleName($name = '')
+    {
+        return $this->query->where('middle_name', 'like', "%$name%");
+    }
+
+    public function lastName($name = '')
     {
         return $this->query->where('last_name', 'like', "%$name%");
     }
 
-    public function identity_verified($verified = 1)
+    public function allNames($name = '')
+    {
+        return $this->query->where('first_name', 'like', "%$name%")
+                           ->orWhere('middle_name', 'like', "%$name%")
+                           ->orWhere('last_name', 'like', "%$name%");
+    }
+
+    public function identityVerified($verified = 1)
     {
         return $this->query->where('identity_verified', $verified);
     }
 
-    public function address_verified($verified = 1)
+    public function addressVerified($verified = 1)
     {
         if ($verified) {
             return $this->query->whereNotNull('address_verified_until');

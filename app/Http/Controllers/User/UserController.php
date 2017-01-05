@@ -22,7 +22,7 @@ class UserController extends ApiController
     public function __construct(UserTransformer $userTransformer)
     {
         $this->userTransformer = $userTransformer;
-        $this->middleware('auth:api', ['except' => ['index', 'create', 'store']]);
+        $this->middleware('auth:api', ['except' => ['create', 'store']]);
     }
 
     /**
@@ -35,9 +35,7 @@ class UserController extends ApiController
     {
         $limit = $request->input('limit') ?: 20;
 
-        if (Auth::check()) { //An admin able to see all users
-            return User::filter($filters)->paginate($limit);
-        }
+        return User::filter($filters)->paginate($limit);
     }
 
     /**

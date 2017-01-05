@@ -32,7 +32,14 @@ class IndexUserRequest extends Request
             'orderBy.created_at'      => ['regex:(desc|asc)'],
             'orderBy.id'              => ['regex:(desc|asc)'],
             'status'                  => 'string',
-            'identity_verified'       => 'boolean',
+            'identityVerified'        => 'boolean',
+            'addressVerified'         => 'boolean',
+            'lastName'                => 'string',
+            'middleName'              => 'string',
+            'firstName'               => 'string',
+            'allNames'                => 'string',
+            'page'                    => 'integer',
+            'limit'                   => 'integer'
         ];
     }
 }
