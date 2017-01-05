@@ -49,18 +49,27 @@ class MotionSummary extends Notification
     {
         $mailMessage = (new MailMessage())
                     ->subject('Summary of Latest Motions');
+                    // ->greeting('greeting')
+                    // ->line('heres');
 
         if (!$this->latestLaunchedMotions->isEmpty()) {
-            $mailMessage = $mailMessage->greeting('Latest Motions');
+                  //  var_dump($this->latestLaunchedMotions);
+
             foreach ($this->latestLaunchedMotions as $motion) {
+              //  dd('there');
+
+               $title = $motion->title;
+
+                var_dump($title);
+
                 $mailMessage
                     ->line($motion->introduction)
-                    ->action($motion->title, url('/#/motion/'.$motion->slug));
+                    ->action($title, url('/#/motion/'.$motion->slug));
             }
         }
 
         if (!$this->recentlyClosedMotions->isEmpty()) {
-            $mailMessage = $mailMessage->greeting('Recently Closed Motions');
+            $mailMessage->greeting('Recently Closed Motions');
             foreach ($this->recentlyClosedMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)
@@ -69,7 +78,7 @@ class MotionSummary extends Notification
         }
 
         if (!$this->closingSoonMotions->isEmpty()) {
-            $mailMessage = $mailMessage->greeting('Motions Closing Soon');
+            $mailMessage->greeting("BAS")->greeting('Motions Closing Soon');
             foreach ($this->closingSoonMotions as $motion) {
                 $mailMessage
                     ->line($motion->introduction)

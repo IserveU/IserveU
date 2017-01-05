@@ -78,7 +78,7 @@ trait PolishedTest
             File::delete($filename);
         }
 
-        \Config::set('mail.driver', 'log');
+    //    \Config::set('mail.driver', 'log');
     }
 
     public function tearDown()
@@ -527,7 +527,7 @@ trait PolishedTest
 
         $this->filtersToGet = array_merge(['limit' => 5000], $filters);
 
-        $this->call('GET', $this->route, $this->removeNullValues($this->filtersToGet));
+        $this->json('GET', $this->route, $this->removeNullValues($this->filtersToGet));
         $this->assertResponseStatus($expectedCode);
 
         if ($responseToSee) {

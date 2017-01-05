@@ -356,6 +356,14 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     }
 
     /**
+     * Gets the name for the mailer class
+     * @return string The users full name
+     */
+    public function getNameAttribute(){
+        return $this->first_name." ".$this->last_name;
+    }
+
+    /**
      * A bridge to the comment votes of this user.
      *
      * @return Collection A collection of comment votes

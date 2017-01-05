@@ -42,10 +42,22 @@ class MotionFilter extends QueryFilter
     public function allTextFields($string = '')
     {
         return $this->query->where('title', 'like', "%$string%")->orWhere('summary', 'like', "%$string%")
-            ->orWhere('implementation', 'like', "%$string%")
-            ->orWhere('status', 'like', "%$string%")
             ->orWhere('slug', 'like', "%$string%");
     }
+
+    public function userId($id){
+        return $this->query->writer($id);
+    }
+
+    public function rankLessThan($rank){
+        return $this->query->rankLessThan($rank);
+    }
+
+    public function rankGreaterThan($rank){
+        return $this->query->rankGreaterThan($rank);
+    }
+
+
 
     /************* DATE SCOPES****************************************/
 

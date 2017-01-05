@@ -81,6 +81,7 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'title'         => $faker->sentence($nbWords = 6),
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $department->id,
+        'published_at'  => Carbon\Carbon::now(),
         'user_id'       => function () {
             return factory(App\User::class, 'verified')->create()->id;
         },
