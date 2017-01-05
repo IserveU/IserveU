@@ -56,6 +56,15 @@
                     </md-button>
                 </md-menu-item>
 
+                <md-menu-item class="menu__button-dashboard" has-permission="administrate-permission, administrate-user, administrate-department" ui-sref="user-manager">
+                    <md-button aria-label="Go to the user manager">
+                        <div layout="row">
+                            <p flex>User Manager</p>
+                            <md-icon class="mdi mdi-account-multiple"></md-icon>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+
                 <md-divider has-permission="administrate-permission, administrate-user, administrate-department"></md-divider>
 
                 <md-menu-item class="menu__button-create-motion" has-permission="create-motion" ng-if="settingsGlobal.motion.on" ui-sref="create-motion">
