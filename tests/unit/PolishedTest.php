@@ -3,7 +3,6 @@
 use App\Permission;
 use App\Role;
 use Carbon\Carbon;
-
 use Doctrine\Common\Inflector\Inflector;
 
 trait PolishedTest
@@ -62,14 +61,13 @@ trait PolishedTest
             //config(['app.timezone' => 'America/Chicago']);
             config([$key  =>  $value]);
             $this->env[$key] = getenv($key); //Getting the before value
-
         }
     }
 
     public function restoreEnv()
     {
         foreach ($this->env as $key => $value) {
-          config([$key  =>  $value]);
+            config([$key  =>  $value]);
         }
         $this->env = [];
     }
@@ -267,9 +265,9 @@ trait PolishedTest
      * Posts a model with the required fields merged with any content that user wants to submit.
      *
      * @param array $contentToPost An array of content to merge into a post
-     * @param int   $expectedCode    The code expected
-     * @param int   $responseToSee  Content expected in the responseToSee
-     * @param array $jsonFields     Fields in the database related to this model that are JSON for checks
+     * @param int   $expectedCode  The code expected
+     * @param int   $responseToSee Content expected in the responseToSee
+     * @param array $jsonFields    Fields in the database related to this model that are JSON for checks
      */
     public function storeContentGetSee(array $contentToPost, $expectedCode = 200, $responseToSee = null, array $jsonFields = [])
     {
@@ -518,7 +516,7 @@ trait PolishedTest
         }
 
         if (!isset($this->route)) {
-            $this->route = "/api/".Inflector::singularize($this->table);
+            $this->route = '/api/'.Inflector::singularize($this->table);
         }
 
         if (!isset($this->skipDatabaseCheck)) {

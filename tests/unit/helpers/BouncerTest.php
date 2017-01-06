@@ -23,8 +23,7 @@ class BouncerTest extends TestCase
     public function bouncer_works_when_in_debug_mode()
     {
         $this->setEnv(['app.debug'=>true]);
-        $this->storeContentGetSee(['title'=>'Motion Title','summary'=>'Motion summary','not_a_thing'=>'Plus vite'],400,'not_a_thing');
-
+        $this->storeContentGetSee(['title'=>'Motion Title', 'summary'=>'Motion summary', 'not_a_thing'=>'Plus vite'], 400, 'not_a_thing');
     }
 
     /** @test  */
@@ -32,10 +31,8 @@ class BouncerTest extends TestCase
     {
         $this->setEnv(['app.debug'=>false]);
 
-        $this->post('/api/motion',['title'=>'Motion Title','summary'=>'Motion summary','not_a_thing'=>'Plus vite'])
+        $this->post('/api/motion', ['title'=>'Motion Title', 'summary'=>'Motion summary', 'not_a_thing'=>'Plus vite'])
              ->assertResponseStatus(200)
-             ->seeInDatabase('motions',['title'=>'Motion Title']);
-
-
+             ->seeInDatabase('motions', ['title'=>'Motion Title']);
     }
 }

@@ -13,8 +13,8 @@ use Auth;
 
 class MotionController extends ApiController
 {
-
-     public function __construct() {
+    public function __construct()
+    {
         //Because this controller is partially visible
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }

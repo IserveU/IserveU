@@ -7,8 +7,6 @@ use Auth;
 
 class IndexMotionRequest extends Request
 {
-
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,8 +15,8 @@ class IndexMotionRequest extends Request
     public function authorize()
     {
         //If they are just using the defailts (published/closed)
-        if(!$this->has('status')){
-          return true;
+        if (!$this->has('status')) {
+            return true;
         }
 
         //If they dont want to see hidden motions no problem

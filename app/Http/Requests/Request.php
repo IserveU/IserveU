@@ -10,12 +10,9 @@ use Illuminate\Http\Response;
 
 abstract class Request extends FormRequest
 {
-
-
-
-  /**
+    /**
    * Reverses the order of the parent trait to first validate the input then do auth.
-   * This is because a lot of filter auth was checking inputs and they were being submitted invalid
+   * This is because a lot of filter auth was checking inputs and they were being submitted invalid.
    *
    * @return void
    */
@@ -23,18 +20,16 @@ abstract class Request extends FormRequest
   {
       $this->prepareForValidation();
 
-      if(!$instance){
+      if (!$instance) {
           $instance = $this->getValidatorInstance();
       }
 
-
-      if (! $instance->passes()) {
+      if (!$instance->passes()) {
           $this->failedValidation($instance);
-      } elseif (! $this->passesAuthorization()) {
+      } elseif (!$this->passesAuthorization()) {
           $this->failedAuthorization();
       }
   }
-
 
     /**
      * Determine if the user is authorized to make this request.

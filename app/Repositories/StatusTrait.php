@@ -135,7 +135,7 @@ trait StatusTrait
     */
     public function setPublishedAtAttribute($datetime)
     {
-        if(!isset($datetime)){
+        if (!isset($datetime)) {
             return true;
         }
         try {
