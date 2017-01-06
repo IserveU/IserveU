@@ -31,7 +31,7 @@
                 role="navigation"
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
-                <motion-sidebar flex></motion-sidebar>
+                <sidebar flex></sidebar>
             </md-sidenav>
 
             <!-- Main content -->
@@ -46,7 +46,7 @@
 
     <?php if (Config::get('app.livereload')): ?>
         <script type="text/javascript">
-            document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>');  
+            document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>');
         </script>
     <?php endif; ?>
 
