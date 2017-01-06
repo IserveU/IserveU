@@ -71,10 +71,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     protected $dates = ['created_at', 'updated_at', 'closing_at', 'published_at'];
 
-    /**
-
-
-     /**
+   /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -363,17 +360,17 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     }
 
     /* check if motion has more votes than the query */
-    public function scopeRankGreaterThan($rank = 0)
+    public function scopeRankGreaterThan($query, $rank = 0)
     {
-        return $this->query->whereHas('votes', function ($query) use ($rank) {
+        return $query->whereHas('votes', function ($query) use ($rank) {
             $query->havingRaw('SUM(position) > '.$rank);
         });
     }
 
     /* check if motion has lesss votes than the query */
-    public function scopeRankLessThan($rank = 0)
+    public function scopeRankLessThan($query, $rank = 0)
     {
-        return $this->query->whereHas('votes', function ($query) use ($rank) {
+        return $query->whereHas('votes', function ($query) use ($rank) {
             $query->havingRaw('SUM(position) < '.$rank);
         });
     }

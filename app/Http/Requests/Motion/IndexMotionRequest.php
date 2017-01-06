@@ -7,6 +7,8 @@ use Auth;
 
 class IndexMotionRequest extends Request
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,8 +16,13 @@ class IndexMotionRequest extends Request
      */
     public function authorize()
     {
+        //If they are just using the defailts (published/closed)
+        if(!$this->has('status')){
+          return true;
+        }
+
         //If they dont want to see hidden motions no problem
-        if (!array_intersect(['draft', 'review'], $this->input('status'))) {
+        if ($this->has('status') && !array_intersect(['draft', 'review'], $this->input('status'))) {
             return true;
         }
 
@@ -25,11 +32,11 @@ class IndexMotionRequest extends Request
         }
 
         //If you are only filtering your own motion drafts/reviews no problem
-        if (Auth::check() && $this->has('user_id') && $this->input('user_id') == Auth::user()->id) {
+        if (Auth::check() && $this->has('userId') && $this->input('userId') == Auth::user()->id) {
             return true;
         }
 
-        // Not trying to see an unpublished motion
+        // Trying to see an unpublished motion, and not filtering to see only your own
         return false;
     }
 

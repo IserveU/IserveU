@@ -13,7 +13,7 @@ class SetPublishedAtFieldTest extends TestCase
     }
 
     /** @test **/
-    public function motion_create_as_published_has_published_at_field_set()
+    public function motion_create_with_published_status_has_published_at_field_set()
     {
         $publishedMotion = factory(App\Motion::class, 'published')->create();
 
@@ -21,7 +21,7 @@ class SetPublishedAtFieldTest extends TestCase
     }
 
     /** @test **/
-    public function motion_updated_to_published_has_published_at_field_set()
+    public function motion_updated_to_published_status_has_published_at_field_set()
     {
         $motion = factory(App\Motion::class, 'draft')->create();
         $motion->update([
@@ -34,7 +34,7 @@ class SetPublishedAtFieldTest extends TestCase
     //Negative Tests
 
     /** @test **/
-    public function draft_motions_do_not_have_published_at_field_set()
+    public function draft_status_motions_do_not_have_published_at_field_set()
     {
         $draftMotion = factory(App\Motion::class, 'draft')->create();
 
@@ -42,7 +42,7 @@ class SetPublishedAtFieldTest extends TestCase
     }
 
     /** @test **/
-    public function review_motions_do_not_have_published_at_field_set()
+    public function review_status_motions_do_not_have_published_at_field_set()
     {
         $reviewMotion = factory(App\Motion::class, 'review')->create();
 
@@ -50,10 +50,9 @@ class SetPublishedAtFieldTest extends TestCase
     }
 
     /** @test **/
-    public function closed_motions_do_not_have_published_at_field_set()
+    public function closed_status_motions_do_have_published_at_field_set()
     {
         $closedMotion = factory(App\Motion::class, 'closed')->create();
-
         $this->seeInDatabase('motions', ['id' => $closedMotion->id, 'published_at' => null]);
     }
 }

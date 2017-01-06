@@ -135,6 +135,9 @@ trait StatusTrait
     */
     public function setPublishedAtAttribute($datetime)
     {
+        if(!isset($datetime)){
+            return true;
+        }
         try {
             $this->attributes['published_at'] = Carbon::parse($datetime);
         } catch (\Exception $err) {
