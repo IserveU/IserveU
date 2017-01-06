@@ -216,7 +216,7 @@ return [
         'Image'        => 'Intervention\Image\Facades\Image',
         'Setting'      => 'anlutro\LaravelSettings\Facade',
         'Notification' => Illuminate\Support\Facades\Notification::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
