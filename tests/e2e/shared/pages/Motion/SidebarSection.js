@@ -10,18 +10,18 @@ class SidebarSection extends ShowMotionPage{
 
 	constructor(){
 		super();
-		
+
 		/* Button lookups */
-		this.sidebar 				= 	element(by.css('motion-sidebar'));
-		this.sidebarItems 			= 	element.all(by.css('motion-sidebar md-list-item'));
-		this.sidebarLinks 			= 	element.all(by.css('motion-sidebar md-list-item a'));
+		this.sidebar      = element(by.css('motion-sidebar'));
+		this.sidebarItems = element.all(by.css('sidebar md-list-item'));
+		this.sidebarLinks = element.all(by.css('sidebar md-list-item a'));
 
 	}
 
 	clickRandomMotion(){
 		browser.waitForAngular();
 		this.getRandomMotion().then(function(val){
-			//Will need to refactor, but this scrolls the window to the element which 
+			//Will need to refactor, but this scrolls the window to the element which
 			//a promise that gets one item from an ElementArrayFinder won't do it seems
 			//http://stackoverflow.com/questions/27023768/scroll-down-to-an-element-with-protractor
 			browser.executeScript(scrollIntoView,val.getWebElement());
@@ -41,7 +41,7 @@ class SidebarSection extends ShowMotionPage{
 		    });
 		});
 
-		
+
 		var indexes = nonActiveMotions.map(function (option, index) {
 		    return index;
 		});
