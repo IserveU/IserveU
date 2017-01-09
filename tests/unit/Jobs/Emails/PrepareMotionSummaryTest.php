@@ -24,7 +24,7 @@ class PrepareMotionSummaryTest extends TestCase
         $user->setPreference('motion.notify.user.summary', 1)->save();
 
         $motion = factory(App\Motion::class, 'published')->create([
-          'user_id' =>  $user->id //Create and see a summary of their own motion to speed up the test
+          'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
         ]);
 
         DB::table('motions')->where(['id' => $motion->id])->update(['created_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s')]);
@@ -32,7 +32,6 @@ class PrepareMotionSummaryTest extends TestCase
         Mail::fake();
 
         dispatch(new PrepareMotionSummary());
-
 
         Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
             if (!$mail->sections['Latest Launched']->contains($motion)) {
