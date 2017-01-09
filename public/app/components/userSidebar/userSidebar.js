@@ -8,9 +8,10 @@
     	['$timeout',
        '$mdSidenav',
     	 'userIndex',
+       'userSearchFactory',
     	userSidebar]);
 
-  function userSidebar($timeout, $mdSidenav, userIndex) {
+  function userSidebar($timeout, $mdSidenav, userIndex, userSearchFactory) {
 
     	function UserSidebarController($scope) {
 
@@ -23,6 +24,17 @@
         self.closeSidenav = closeSidenav;
         self.loadUsers = loadUsers;
         self.userIndex = userIndex;
+        self.search = userSearchFactory;
+        self.verifyAddress = verifyAddress;
+
+
+        function verifyAddress(until) {
+          if (!until)
+            return false;
+          var date_verified_until = new Date(until.alpha_date);
+          return date_verified_until > Date.now();
+        }
+
         /**
          * Pull to fill sidebar using userIndex service.
          * @return {}

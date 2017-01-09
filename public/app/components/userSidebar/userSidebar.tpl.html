@@ -10,11 +10,18 @@
               <p>Filtered by {{ userSidebar.search._filteredBy }}:</p>
           </md-subheader>
 
-          <md-list-item layout="row" class="sidebar-list-item" ng-repeat="user in userSidebar.userIndex._index" ui-sref-active="active" ng-href="#/edit-user/{{ user.id }}" ng-click="userSidebar.closeSidenav('left')">
+          <md-list-item layout="row" class="sidebar-list-item" ng-repeat="user in userSidebar.userIndex._index | filter:userSidebar.search.text" ui-sref-active="active" ng-href="#/edit-user/{{ user.id }}" ng-click="userSidebar.closeSidenav('left')">
 
             <md-icon class="mdi mdi-account-circle material-icons"></md-icon>
 
             <p class="md-body-1 ellipsis">{{ ::user.first_name }} {{ ::user.last_name }}</p>
+
+            <md-icon ng-show="::user.identity_verified" class="mdi mdi-verified">
+              <md-tooltip>User is verified.</md-tooltip>
+            </md-icon>
+            <md-icon ng-show="userSidebar.verifyAddress(user.address_verified_until)" class="mdi mdi-home">
+              <md-tooltip>Users address is verfified until {{ ::user.address_verified_until.diff }}</md-tooltip>
+            </md-icon>
 
           </md-list-item>
 
