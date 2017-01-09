@@ -2,17 +2,17 @@
 
 <html>
     <head>
-        <title><?=Setting::get('site.name')?></title>
+        <title>{{Setting::get('site.name')}}</title>
         <meta name="viewport" content="initial-scale=1" />
 
-        <link rel="stylesheet" href="<?=elixir('css/dependencies.css')?>">
-        <link rel="stylesheet" href="<?=elixir('css/app.css')?>">
+        <link rel="stylesheet" href="{{elixir('css/dependencies.css')}}">
+        <link rel="stylesheet" href="{{elixir('css/app.css')}}">
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/symbol-png/resize/100">
 
         <!-- Alloy Editor Dependencies -->
         <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>
-        <script src="<?=elixir('js/dependencies.js')?>"></script>
-        <script src="<?=elixir('js/app.js')?>"></script>
+        <script src="{{elixir('js/dependencies.js')}}"></script>
+        <script src="{{elixir('js/app.js')}}"></script>
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
         </script>
