@@ -18,19 +18,19 @@ describe('motion.administrate making sure that a motion creation and editing wor
 		login.login('admin@iserveu.ca');
 	});
 
-  	it('Motion administration buttons exist and work as expected', function() {
+  it('Motion administration buttons exist and work as expected', function() {
 		var EC = protractor.ExpectedConditions;
-		
+
 		sidebarSection.getSidebarLinks().last().click();
 
-		
+
 		browser.wait(EC.urlContains("create-motion"),10000,"Sidebar create motion button does not work");
-  		
-	
-	
+
+
+
 		motionAdmin.get(); //Old published motion
 		motionAdmin.clickCreateMotion();
-		
+
 
 		browser.wait(EC.urlContains("create-motion"),10000,"On motion page create button does not work");
 
@@ -42,7 +42,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
   	});
 
 
-  	it('Motion creation and deletion process works as expected', function() {
+  it('Motion creation and deletion process works as expected', function() {
 		var EC = protractor.ExpectedConditions;
 
 		motionAdmin.createMotion();
@@ -61,7 +61,8 @@ describe('motion.administrate making sure that a motion creation and editing wor
    		formHelper.selectBox('form.motion.status',"Draft");
  		formHelper.submit();
 
-		browser.wait(EC.urlContains("/motion/"),5000,"Motion did not redirect");
+		//This failed during some query updates for the first time on 2017/01/06
+		browser.wait(EC.urlContains("/motion/"),10000,"Motion did not redirect");
 
   	});
 

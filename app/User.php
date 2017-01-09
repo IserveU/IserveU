@@ -8,6 +8,7 @@ use App\Events\User\UserDeleted;
 use App\Events\User\UserDeleting;
 use App\Events\User\UserUpdated;
 use App\Events\User\UserUpdating;
+use App\Filters\UserFilter;
 use App\Notifications\Authentication\RoleGranted;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -208,7 +209,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['first_name', 'last_name', 'id', 'community_id']);
+            $this->addVisible(['first_name', 'last_name', 'id', 'community_id', 'status']);
         }
 
         return $this;
@@ -500,6 +501,11 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     /************************************* Scopes *****************************************/
 
+    public function scopeFilter($query, UserFilter $filters)
+    {
+        return $filters->apply($query);
+    }
+
     /**
      * Checks the user is public.
      *
@@ -507,7 +513,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     public function scopeArePublic($query)
     {
-        return $query->where('public', 1);
+        return $query->status('public');
     }
 
     /**
@@ -549,14 +555,16 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $query->where('identity_verified', 0);
     }
 
-    public function scopeAddressUnverified($query)
+    public function scopeAddressVerified($query)
     {
-        return $query->where('address_verified_until', null);
+        return $query->whereNotNull('address_verified_until')
+                ->whereDate('address_verified_until', '>=', Carbon::today());
     }
 
-    public function scopeAddressNotSet($query)
+    public function scopeAddressUnverified($query)
     {
-        return $query->whereNotNull('street_name');
+        return $query->whereNull('address_verified_until')
+                ->orWhereDate('address_verified_until', '<=', Carbon::today());
     }
 
     public function scopeHasPermissions($query, $permissions)
