@@ -5,18 +5,17 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Setting;
 
 class MotionSummary extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $sections = ['Latest Launched', 'Recently Closed', 'Closing Soon'];
+    public $sections = [];
 
-    public $greeting = 'Motion Summary: ';
+    public $greeting;
 
-    public $introLines = ['A summary of motions'];
-
-    public $outroLines = [];
+    public $child     = 'summary';
 
     /**
      * Create a new message instance.
@@ -27,9 +26,7 @@ class MotionSummary extends Mailable
     {
         $this->sections = $motions;
 
-        foreach ($motions as $key => $value) {
-            $this->greeting .= $key;
-        }
+        $this->greeting = "A summary of the latest ".Setting::get('jargon.en.motions')." openings, closing and closed on ".config('app.name');
     }
 
     /**
@@ -39,7 +36,8 @@ class MotionSummary extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.summary')
-                ->subject($this->greeting);
+        return $this->view('emails.layout')
+                    ->cc('psaunders@sosnewmedia.com')
+                    ->subject(Setting::get('jargon.en.motion')." Summary");
     }
 }

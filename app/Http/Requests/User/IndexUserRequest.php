@@ -31,7 +31,7 @@ class IndexUserRequest extends Request
         return [
             'orderBy.created_at'      => ['regex:(desc|asc)'],
             'orderBy.id'              => ['regex:(desc|asc)'],
-            'status'                  => 'string',
+            'status'                  => 'array',
             'identityVerified'        => 'boolean',
             'addressVerified'         => 'boolean',
             'lastName'                => 'string',

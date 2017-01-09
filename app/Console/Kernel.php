@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         if (Setting::get('motion.email.user')) {
             $schedule->call(function () {
                 dispatch(new PrepareMotionSummary());
-            })->daily();
+            })->weekly();
         }
 
         // Defaults to twice a day

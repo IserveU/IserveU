@@ -516,15 +516,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $filters->apply($query);
     }
 
-    public function scopeStatus($query, $status = 'published')
-    {
-        if (is_array($status)) {
-            return $query->whereIn('status', $status);
-        }
-
-        return $query->where('status', $status);
-    }
-
     /**
      * Checks the user is public.
      *
@@ -532,7 +523,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     public function scopeArePublic($query)
     {
-        return $query->where('status', 'public');
+        return $query->status('public');
     }
 
     /**
@@ -574,14 +565,16 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         return $query->where('identity_verified', 0);
     }
 
-    public function scopeAddressUnverified($query)
+    public function scopeAddressVerified($query)
     {
-        return $query->where('address_verified_until', null);
+        return $query->whereNotNull('address_verified_until')
+                ->whereDate('address_verified_until', '>=', Carbon::today());
     }
 
-    public function scopeAddressNotSet($query)
+    public function scopeAddressUnverified($query)
     {
-        return $query->whereNotNull('street_name');
+        return $query->whereNull('address_verified_until')
+                ->orWhereDate('address_verified_until', '<=', Carbon::today());
     }
 
     public function scopeHasPermissions($query, $permissions)

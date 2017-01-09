@@ -13,7 +13,7 @@ class UserFilter extends QueryFilter
     /* A status or an array of statuses */
     public function status($status = 'public')
     {
-        return $this->query->where('status', $status);
+        return $this->query->status($status);
     }
 
     public function firstName($name = '')
@@ -43,13 +43,17 @@ class UserFilter extends QueryFilter
         return $this->query->where('identity_verified', $verified);
     }
 
+    /**
+     * Needs to check that it is both not null and not before now.
+     * People have to reverify their addresses.
+     **/
     public function addressVerified($verified = 1)
     {
         if ($verified) {
-            return $this->query->whereNotNull('address_verified_until');
-        } else {
-            return $this->query->whereNull('address_verified_until');
+            return $this->query->addressVerified();
         }
+
+        return $this->query->addressVerified();
     }
 
     /* desc or asc */
