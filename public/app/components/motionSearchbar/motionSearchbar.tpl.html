@@ -1,6 +1,6 @@
 <div class="md-toolbar-tools sidebar-toolbar motion-search" ng-if="settingsGlobal.motion.on" layout="row" flex>
 
-    <input md-colors="{'border-bottom-color': '{{ theme.accent}}-50'}" class="sidebar-search-input toolbar" placeholder="Search" type="text" ng-model="search.text" ng-class="{'sidebar-search-input':search.isOpen}" ng-click="search.clearInput()" md-autofocus style="color: black;" flex/>
+    <input md-colors="{'border-bottom-color': '{{ theme.accent}}-50'}" class="sidebar-search-input toolbar" placeholder="Search" type="text" ng-model="search.text" ng-class="{'sidebar-search-input':search.isOpen}" ng-keypress="search.searchAll()" md-autofocus style="color: black;" flex/>
 
     <div ng-class="search.isOpen?'':'action-buttons'" layout-align="end end">
 

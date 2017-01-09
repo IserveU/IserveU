@@ -39,7 +39,7 @@
 
 			_newFilter: [],
 
-			_filteredBy: '',
+			_filputeredBy: '',
 
 			show: function() {
 				if(this.isOpen)
@@ -48,6 +48,7 @@
 			},
 			//normal casual text search 
 			searchAll: function() {
+				console.log('work');
 				var data = {
 					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
 				};
@@ -55,6 +56,12 @@
 					.then(result => {
 						console.log('result', result);
 					})
+				//1. we have all the motions here 
+				//2. we want searchAll to work whenever user enter a new letter 
+				//3. abc -> abcd searchAll -> motion.
+				//4. how to get searchAll to work everytimea user types something new
+				//
+				//5. motion -> html -> show results
 			},
 			// search according to filter choice
 			searchSpecific: function() {
