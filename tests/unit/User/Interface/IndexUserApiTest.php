@@ -83,7 +83,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_status_private()
     {
-        $this->json('GET', $this->route, ['status' => 'private'])
+        $this->json('GET', $this->route, ['status' => ['private']])
                 ->assertResponseStatus(200)
                 ->dontSeeJson(['status' => 'public']);
     }
@@ -91,7 +91,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_status_public()
     {
-        $this->json('GET', $this->route, ['status' => 'public'])
+        $this->json('GET', $this->route, ['status' => ['public']])
                 ->assertResponseStatus(200)
                 ->dontSeeJson(['status' => 'private']);
     }
