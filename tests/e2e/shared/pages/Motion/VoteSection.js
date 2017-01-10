@@ -6,7 +6,7 @@ class VoteSection extends ShowMotionPage{
 
 	constructor(){
 		super();
-		
+
 		/* Button lookups */
 		this.agreeButton 			= 	element(by.css('.motion_vote_buttons__button--agree'));
 		this.abstainButton 			= 	element(by.css('.motion_vote_buttons__button--abstain'));
@@ -76,7 +76,7 @@ class VoteSection extends ShowMotionPage{
 		};
 
 		self.getAgreeCount().then(function(value){
-			counts.agree = value;
+			counts.agree = value?value:0;
 
 			self.getDisagreeCount().then(function(value){
 				counts.disagree = value;

@@ -324,7 +324,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     public function getRankAttribute()
     {
-        return $this->votes()->sum('position');
+        return (int) $this->votes()->sum('position');
     }
 
     /**
