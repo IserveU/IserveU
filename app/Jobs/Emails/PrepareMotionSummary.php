@@ -59,7 +59,6 @@ class PrepareMotionSummary implements ShouldQueue
             return true;
         }
 
-
         Mail::to($users)->send(new MotionSummary($motions));
     }
 }
