@@ -7,7 +7,6 @@ use App\Repositories\Preferences\PreferenceManager;
 
 class SetDefaultPreferences
 {
-
     /**
      * Create the event listener.
      *

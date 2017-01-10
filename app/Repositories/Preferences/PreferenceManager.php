@@ -27,7 +27,7 @@ class PreferenceManager
       'authentication.notify.user.onrolechange.on'  => 1,
       'motion.notify.user.onchange.on'              => 0,
       'motion.notify.user.summary.on'               => 0,
-      'motion.notify.user.summary.times'            => ['sunday'=>17,'monday'=>null,'tuesday'=>null,'wednesday'=>null,'thursday'=>null,'friday'=>null,'saturday'=>null],
+      'motion.notify.user.summary.times'            => ['sunday'=>17, 'monday'=>null, 'tuesday'=>null, 'wednesday'=>null, 'thursday'=>null, 'friday'=>null, 'saturday'=>null],
       'motion.notify.admin.summary.on'              => 0,
     ];
 
