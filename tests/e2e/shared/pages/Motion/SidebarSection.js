@@ -13,8 +13,8 @@ class SidebarSection extends ShowMotionPage{
 
 		/* Button lookups */
 		this.sidebar      = element(by.css('motion-sidebar'));
-		this.sidebarItems = element.all(by.css('sidebar md-list-item'));
-		this.sidebarLinks = element.all(by.css('sidebar md-list-item a'));
+		this.sidebarItems = element.all(by.css('motion-sidebar md-list-item'));
+		this.sidebarLinks = element.all(by.css('motion-sidebar md-list-item a'));
 
 	}
 

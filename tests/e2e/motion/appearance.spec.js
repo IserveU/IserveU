@@ -13,17 +13,17 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 		login.login();
 
-		return motion.get(); //Returning a promise makes the beforeEach wait		
+		return motion.get(); //Returning a promise makes the beforeEach wait
 	});
 
 
   	it('Can see all parts of motion', function() {
 
-  	
+
 		var EC = protractor.ExpectedConditions;
-	
+
 		expect(motion.getTitle('text')).toBe("A Published Motion");
-		
+
 		expect(motion.getSummary('text')).toBe("The summary of the published motion");
 
 		expect(motion.getText('text')).toContain("Content of the published motion");
@@ -35,9 +35,9 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 
 	it('Can naviate between motions rapidly', function() {
-  		
+
 		var EC = protractor.ExpectedConditions;
-		
+
 		let sidebar = new SidebarSection();
 
 		sidebar.clickRandomMotion();
@@ -46,19 +46,19 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 		sidebar.clickRandomMotion();
 
-		browser.wait(EC.not(EC.urlIs(currentUrl)),3000);
+		browser.wait(EC.not(EC.urlIs(currentUrl)),5000);
 
 		currentUrl = browser.getCurrentUrl();
 
 		sidebar.clickRandomMotion();
 		var EC = protractor.ExpectedConditions;
 
-		browser.wait(EC.not(EC.urlIs(currentUrl)),3000);
+		browser.wait(EC.not(EC.urlIs(currentUrl)),5000);
 
 
   	});
 
-  	
+
     afterEach(function(){
         browser.manage().logs().get('browser').then(function(browserlog){
          // expect(browserlog.length).toEqual(0);
