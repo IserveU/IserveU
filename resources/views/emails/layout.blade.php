@@ -52,6 +52,9 @@ $style = [
     'paragraph-sub' => 'margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;',
     'paragraph-center' => 'text-align: center;',
 
+    'large-thumb'     =>  'width:60px; padding-right:15px;',
+    'small-thumb'     =>  'width:30px; padding-left:5px',
+
     /* Buttons ------------------------------ */
 
     'button' => 'display: block; display: inline-block; width: 200px; min-height: 20px; padding: 10px;

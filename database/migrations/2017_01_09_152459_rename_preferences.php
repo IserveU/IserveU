@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\Preferences\PreferenceMananger;
+use App\Repositories\Preferences\PreferenceManager;
 use App\User;
 use Illuminate\Database\Migrations\Migration;
 
@@ -16,7 +16,7 @@ class RenamePreferences extends Migration
         $users = User::all();
 
         foreach ($users as $user) {
-            $preferenceManager = new PreferenceMananger($user);
+            $preferenceManager = new PreferenceManager($user);
 
             $preferenceManager->renamePreferences(
                               [

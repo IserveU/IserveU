@@ -34,8 +34,11 @@ class PrepareMotionSummary implements ShouldQueue
     public function handle()
     {
 
-        //Get users who want a daily summary
-        $users = User::preference('motion.notify.user.summary', 1)->get();
+        $hour = Carbon::now()->hour;
+        $day  = strtolower(Carbon::now()->format('l'));
+
+        //Get users who want a daily summary on this day and hour
+        $users = User::preference('motion.notify.user.summary.on', 1)->preference("motion.notify.user.summary.times.$day", $hour)->get();
 
         $motions;
 
@@ -58,7 +61,7 @@ class PrepareMotionSummary implements ShouldQueue
         if (!isset($motions)) { //No updates today
             return true;
         }
-
+        
         Mail::to($users)->send(new MotionSummary($motions));
     }
 }

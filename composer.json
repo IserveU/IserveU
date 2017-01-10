@@ -40,6 +40,7 @@
 		"classmap": [
 			"database",
 			"app/Transformers",
+			"app/Repositories",
 			"app/Http/Requests/Validators"
 		],
 		"psr-4": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8851e54f597ce68c34ce5595ced5dffd",
+    "hash": "4d943b1afd28b72b0bd341e01c54fcb8",
     "content-hash": "1005a6db1d2fdd72f945f2c18d760cb8",
     "packages": [
         {
@@ -1179,12 +1179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "75aef997472b26dbf9bb6f9823f38f5aa65c7315"
+                "reference": "2bce9a59c43b868300b02a7d31a1e4aa67a200ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/75aef997472b26dbf9bb6f9823f38f5aa65c7315",
-                "reference": "75aef997472b26dbf9bb6f9823f38f5aa65c7315",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/2bce9a59c43b868300b02a7d31a1e4aa67a200ae",
+                "reference": "2bce9a59c43b868300b02a7d31a1e4aa67a200ae",
                 "shasum": ""
             },
             "require": {
@@ -1233,7 +1233,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2017-01-09 20:41:27"
+            "time": "2017-01-10 14:15:56"
         },
         {
             "name": "intervention/imagecache",

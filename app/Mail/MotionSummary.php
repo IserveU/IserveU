@@ -36,8 +36,9 @@ class MotionSummary extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.layout')
+      return $this->view('emails.layout')
                     ->cc('psaunders@sosnewmedia.com')
                     ->subject(Setting::get('jargon.en.motion').' Summary');
+
     }
 }

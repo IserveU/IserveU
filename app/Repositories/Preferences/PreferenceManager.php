@@ -17,7 +17,7 @@ class PreferenceManager
       'authentication.notify.user.onrolechange.on'  => 'boolean',
       'motion.notify.user.onchange.on'              => 'boolean',
       'motion.notify.user.summary.on'               => 'boolean',
-      'motion.notify.user.summary.frequency'        => 'cron_expression', //Figure out this
+      'motion.notify.user.summary.times.*'          => 'integer|nullable|between:0,23',
       'motion.notify.admin.summary.on'              => 'boolean',
     ];
 
@@ -27,7 +27,7 @@ class PreferenceManager
       'authentication.notify.user.onrolechange.on'  => 1,
       'motion.notify.user.onchange.on'              => 0,
       'motion.notify.user.summary.on'               => 0,
-      'motion.notify.user.summary.frequency'        => '0 18 * * 0',  //Sunday @ 6pm
+      'motion.notify.user.summary.times'            => ['sunday'=>17,'monday'=>null,'tuesday'=>null,'wednesday'=>null,'thursday'=>null,'friday'=>null,'saturday'=>null],
       'motion.notify.admin.summary.on'              => 0,
     ];
 

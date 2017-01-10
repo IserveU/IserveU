@@ -127,7 +127,6 @@ class File extends NewApiModel implements CachedModel
                 $mimeType = \File::mimeType($destinationPath.$model->filename);
                 $model->mime = substr($mimeType, strrpos($mimeType, '/') + 1);
                 $model->type = File::categorizeTypeOfFile($model->filename, $mimeType);
-                \Log::info('storing a '.$model->type_category);
             }
 
             return true;

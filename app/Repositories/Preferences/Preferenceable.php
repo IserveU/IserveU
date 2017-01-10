@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Preferences;
 
-use PreferenceManager;
+use App\Repositories\Preferences\PreferenceManager;
 
 /**
  *   A reusable status and published trait to manage visibility of montions and users.

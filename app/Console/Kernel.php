@@ -30,17 +30,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (Setting::get('motion.email.admin')) {
-            $schedule->call(function () {
-                dispatch(new PrepareAdminSummary());
-            })->daily();
-        }
+        $schedule->call(function () {
+            dispatch(new PrepareAdminSummary());
+        })->daily();
 
-        if (Setting::get('motion.email.user')) {
-            $schedule->call(function () {
-                dispatch(new PrepareMotionSummary());
-            })->weekly();
-        }
+        $schedule->call(function () {
+            dispatch(new PrepareMotionSummary());
+        })->hourly();
 
         // Defaults to twice a day
         if (Setting::get('site.backup')) {

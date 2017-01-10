@@ -3,10 +3,11 @@
 namespace App\Listeners\User\Creating;
 
 use App\Events\User\UserCreating;
-use App\Repositories\Preferences\PreferenceMananger;
+use App\Repositories\Preferences\PreferenceManager;
 
 class SetDefaultPreferences
 {
+
     /**
      * Create the event listener.
      *
@@ -26,7 +27,7 @@ class SetDefaultPreferences
      */
     public function handle(UserCreating $event)
     {
-        (new PreferenceMananger($event->user))->setDefaults();
+        (new PreferenceManager($event->user))->setDefaults();
 
         return true;
     }
