@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories\Preferences;
+
 use PreferenceManager;
 
 /**
@@ -8,11 +9,7 @@ use PreferenceManager;
  **/
 trait Preferenceable
 {
-
-
-
-
-      /**
+    /**
        * Sets a preference in the preferences array.
        *
        * @param string         $key   Key in the dot notation
@@ -21,12 +18,11 @@ trait Preferenceable
        */
       public function setPreference($key, $value, $force = false)
       {
-        (new PreferenceManager($this))->setPreference($key, $value, $force = false)->save();
-
+          (new PreferenceManager($this))->setPreference($key, $value, $force = false)->save();
       }
 
       /**
-       * Gets a preference in the preferences array of this model
+       * Gets a preference in the preferences array of this model.
        *
        * @param string $key Key in the dot notation
        *
@@ -35,7 +31,5 @@ trait Preferenceable
       public function getPreference($key)
       {
           return (new PreferenceManager($this))->getPreference($key);
-
       }
-
 }

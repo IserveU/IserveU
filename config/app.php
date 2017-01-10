@@ -164,7 +164,7 @@ return [
          Cviebrock\EloquentSluggable\ServiceProvider::class,
          Vinkla\Backup\BackupServiceProvider::class,
          Barryvdh\Debugbar\ServiceProvider::class,
-         Coop182\LaravelCronValidator\CronValidatorServiceProvider::class
+         Coop182\LaravelCronValidator\CronValidatorServiceProvider::class,
     ],
 
     /*

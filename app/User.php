@@ -12,7 +12,6 @@ use App\Filters\UserFilter;
 use App\Notifications\Authentication\RoleGranted;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
-use App\Repositories\Preferences\PreferenceMananger;
 use App\Repositories\Preferences\Preferenceable;
 use App\Repositories\StatusTrait;
 use Auth;
@@ -450,7 +449,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         }
         $this->attributes['public'] = $value; //This was setting everyone to public
     }
-
 
     /************************************* Casts & Accesors *****************************************/
 

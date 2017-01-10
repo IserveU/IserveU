@@ -22,16 +22,16 @@ class SetDefaultPreferancesTest extends TestCase
                 'notify' => [
                     'admin' => [
                         'oncreate' => [
-                            'on'  =>  1,
+                            'on'  => 1,
                         ],
                         'summary'  => [
-                            'on'  =>  1,
-                        ]
+                            'on'  => 1,
+                        ],
                     ],
                     'user' => [
                         'onrolechange' => [
-                            'on'  =>  1,
-                        ]
+                            'on'  => 1,
+                        ],
                     ],
                 ],
             ],
@@ -39,17 +39,17 @@ class SetDefaultPreferancesTest extends TestCase
                 'notify' => [
                     'admin' => [
                         'summary' => [
-                            'on'  =>  0,
-                        ]
+                            'on'  => 0,
+                        ],
                     ],
                     'user' => [
                         'onchange' => [
-                            'on'  =>  0,
+                            'on'  => 0,
                         ],
                         'summary'  => [
-                            'on'        =>  0,
-                            'frequency' =>  "0 18 * * 0"
-                        ]
+                            'on'        => 0,
+                            'frequency' => '0 18 * * 0',
+                        ],
                     ],
                 ],
             ],

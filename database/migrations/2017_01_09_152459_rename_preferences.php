@@ -1,9 +1,7 @@
 <?php
 
-use App\User;
 use App\Repositories\Preferences\PreferenceMananger;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\User;
 use Illuminate\Database\Migrations\Migration;
 
 class RenamePreferences extends Migration
@@ -15,13 +13,12 @@ class RenamePreferences extends Migration
      */
     public function up()
     {
-
         $users = User::all();
 
-        foreach($users as $user){
-          $preferenceManager = new PreferenceMananger($user);
+        foreach ($users as $user) {
+            $preferenceManager = new PreferenceMananger($user);
 
-          $preferenceManager->renamePreferences(
+            $preferenceManager->renamePreferences(
                               [
                                 'authentication.notify.admin.oncreate'     => 'authentication.notify.admin.oncreate.on',
                                 'authentication.notify.admin.summary'      => 'authentication.notify.admin.summary.on',
@@ -34,8 +31,6 @@ class RenamePreferences extends Migration
                             )
                             ->setDefaults()
                             ->save();
-
-
         }
     }
 
