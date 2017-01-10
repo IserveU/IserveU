@@ -12,6 +12,8 @@ use App\Filters\UserFilter;
 use App\Notifications\Authentication\RoleGranted;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
+use App\Repositories\Preferences\PreferenceMananger;
+use App\Repositories\Preferences\Preferenceable;
 use App\Repositories\StatusTrait;
 use Auth;
 use Carbon\Carbon;
@@ -32,7 +34,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends NewApiModel implements AuthorizableContract, CanResetPasswordContract, Authenticatable, CachedModel, VisibilityModel
 {
-    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SoftDeletes;
+    use Authorizable, CanResetPassword, AuthenticatableTrait, Notifiable, StatusTrait, Sluggable, SoftDeletes, Preferenceable;
     use EntrustUserTrait{
         SoftDeletes::restore insteadof EntrustUserTrait;
         EntrustUserTrait::restore insteadof SoftDeletes;
@@ -449,45 +451,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         $this->attributes['public'] = $value; //This was setting everyone to public
     }
 
-    /**
-     * Sets a preference in the preferences array.
-     *
-     * @param string         $key   Key in the dot notation
-     * @param String/Integer $value The value to set the key to be
-     * @param bool           $force If you wish to set a value
-     */
-    public function setPreference($key, $value, $force = false)
-    {
-        $preferences = $this->preferences;
-
-        if (!$force && !array_has($preferences, $key)) {
-            throw new \Exception('Preference key does not exist');
-        }
-
-        array_set($preferences, $key, $value);
-
-        $this->preferences = $preferences;
-
-        return $this;
-    }
-
-    /**
-     * Gets a preference in the preferences array.
-     *
-     * @param string $key Key in the dot notation
-     *
-     * @return Value of the preference
-     */
-    public function getPreference($key)
-    {
-        $preferences = $this->preferences;
-
-        if (!array_has($preferences, $key)) {
-            throw new \Exception('Preference key does not exist');
-        }
-
-        return array_get($preferences, $key);
-    }
 
     /************************************* Casts & Accesors *****************************************/
 

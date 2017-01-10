@@ -21,22 +21,35 @@ class SetDefaultPreferancesTest extends TestCase
             'authentication' => [
                 'notify' => [
                     'admin' => [
-                        'oncreate' => 1,
-                        'summary'  => 1,
+                        'oncreate' => [
+                            'on'  =>  1,
+                        ],
+                        'summary'  => [
+                            'on'  =>  1,
+                        ]
                     ],
                     'user' => [
-                        'onrolechange' => 1,
+                        'onrolechange' => [
+                            'on'  =>  1,
+                        ]
                     ],
                 ],
             ],
             'motion' => [
                 'notify' => [
                     'admin' => [
-                        'summary' => 0,
+                        'summary' => [
+                            'on'  =>  0,
+                        ]
                     ],
                     'user' => [
-                        'onchange' => 0,
-                        'summary'  => 0,
+                        'onchange' => [
+                            'on'  =>  0,
+                        ],
+                        'summary'  => [
+                            'on'        =>  0,
+                            'frequency' =>  "0 18 * * 0"
+                        ]
                     ],
                 ],
             ],

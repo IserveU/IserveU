@@ -3,6 +3,7 @@
 namespace App\Listeners\User\Creating;
 
 use App\Events\User\UserCreating;
+use App\Repositories\Preferences\PreferenceMananger;
 
 class SetDefaultPreferences
 {
@@ -25,15 +26,7 @@ class SetDefaultPreferences
      */
     public function handle(UserCreating $event)
     {
-        // Authentication and Users
-        $event->user->setPreference('authentication.notify.admin.oncreate', 1, true); // Used in User Model Event
-        $event->user->setPreference('authentication.notify.admin.summary', 1, true); // Used in Jobs
-        $event->user->setPreference('authentication.notify.user.onrolechange', 1, true);
-
-        // Motions
-        $event->user->setPreference('motion.notify.user.onchange', 0, true);
-        $event->user->setPreference('motion.notify.user.summary', 0, true); // Used in Jobs
-        $event->user->setPreference('motion.notify.admin.summary', 0, true); // TODO: not used
+        (new PreferenceMananger($event->user))->setDefaults();
 
         return true;
     }
