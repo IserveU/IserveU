@@ -29,9 +29,9 @@
 			_orderBy: {
 
 				filters: [
-				   {name: "Newest", query: {oldest: true}},
-				   {name: "Oldest", query: {newest: true}}
-				   // {name: "Closed", query: {is_expired:true}}
+				   {name: "Newest", query: {'oldest': true}},
+				   {name: "Oldest", query: {'newest': true}},
+				   {name: "Closed", query: {'orderBy.closing_at':'desc'}}
 				],
 
 				filter: ''
@@ -48,38 +48,30 @@
 			},
 			//normal casual text search 
 			searchAll: function() {
-				console.log('work');
 				var data = {
 					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
 				};
 				motion.getMotions(data)
 					.then(result => {
-						console.log('result', result);
+					motionIndex._index = result.data;
+					motionIndex._next_page = null;
+					factory.searching = false;
 					})
-				//1. we have all the motions here 
-				//2. we want searchAll to work whenever user enter a new letter 
-				//3. abc -> abcd searchAll -> motion.
-				//4. how to get searchAll to work everytimea user types something new
-				//
-				//5. motion -> html -> show results
 			},
 			// search according to filter choice
 			searchSpecific: function() {
 
-			},
-			// need to have a clear filter
-			// then that's it. 
-			// need to combine html and js.
+			},.
 			all: function() {
 				this._department.filter = '';
 				this._orderBy.filter 	= '';
 				this.clearFilters();
 				this.getResults(this._filters);
 			},
-
 			query: function(filter) {
 
 				var temp = Object.getOwnPropertyNames(filter);
+				console.log(temp);
 				temp.pop();			//removes $mdSelect event thats bundled with var filter
 
 				this.clearFilters();
@@ -106,9 +98,9 @@
 
 				this.setFilterBy(filter.name);
 
-				this._newFilter['department_id'] = filter.department_id;
+				this._newFilter['departmentId'] = filter.department_id;
 				this.clearFilters();
-				this._filters['department_id'] = this._newFilter['department_id'];
+				this._filters['departmentId'] = this._newFilter['departmentId'];
 
 				return motion.getMotions(this._newFilter).then(function(r){
 					factory._newFilter = factory._newFilter;
@@ -135,8 +127,8 @@
 
 				this.setFilterBy(null);
 
-				motion.getMotions(filter).then(function(r) {
-					motionIndex._index = r.data;
+				motion.getMotions(filter).then(result => {
+					motionIndex._index = result.data;
 					motionIndex._next_page = null;
 					factory.searching = false;
 				});
