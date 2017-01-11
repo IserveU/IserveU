@@ -162,9 +162,8 @@ class PreferenceManager
         return $this;
     }
 
-
     /**
-     * Validates and moves the preferences to the user model for saving
+     * Validates and moves the preferences to the user model for saving.
      *
      * @return User the user with preferences staged
      */
@@ -185,7 +184,6 @@ class PreferenceManager
 
         return $this->user;
     }
-
 
     /**
      * Commits the preferences to the user.

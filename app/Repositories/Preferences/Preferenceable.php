@@ -17,11 +17,11 @@ trait Preferenceable
       {
           (new PreferenceManager($this))->setPreference($key, $value)
                                         ->stagePreferences();
+
           return $this;
       }
 
-
-      /**
+        /**
          * Sets a preference in the preferences array.
          *
          * @param string         $key   Key in the dot notation
@@ -31,6 +31,7 @@ trait Preferenceable
         {
             (new PreferenceManager($this))->createPreference($key, $value, $force)
                                           ->stagePreferences();
+
             return $this;
         }
 

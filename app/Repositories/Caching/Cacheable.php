@@ -12,6 +12,7 @@ trait Cacheable
         static::created(function ($model) {
             $this->flushCache();
             dd('Why wont this triggeron motion');
+
             return true;
         });
 

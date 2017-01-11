@@ -293,7 +293,6 @@ class UpdateUserApiTest extends UserApi
             ->assertResponseStatus(400);
     }
 
-
     /** @test  ******************/
     public function update_user_user_with_string_when_numeric_preference_fails()
     {

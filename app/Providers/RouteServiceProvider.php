@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Motion;
+use Cache;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Route;
-use Cache;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -29,11 +29,9 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         app('router')->bind('motion', function ($slug) {
-
-            return Cache::tags(['motion','motion.query'])->rememberForever($slug,function() use ($slug){
+            return Cache::tags(['motion', 'motion.query'])->rememberForever($slug, function () use ($slug) {
                 return \App\Motion::findBySlugOrId($slug);
             });
-
         });
 
         app('router')->bind('file', function ($file) {

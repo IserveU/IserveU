@@ -27,7 +27,7 @@ class UserPreferencesTest extends TestCase
         $user->createPreference('not.a.preference.here.buddy', 'Not');
         $user->save();
 
-        $user->createPreference('not.a.preference.here.buddy', 'OVER WRITE',true);
+        $user->createPreference('not.a.preference.here.buddy', 'OVER WRITE', true);
         $user->save();
     }
 
@@ -49,9 +49,9 @@ class UserPreferencesTest extends TestCase
     public function can_set_and_get_an_existing_user_preference()
     {
         $user = factory(App\User::class)->create();
-        $user->setPreference('authentication.notify.admin.oncreate.on',1);
+        $user->setPreference('authentication.notify.admin.oncreate.on', 1);
         $user->save();
-        $this->assertEquals($user->getPreference('authentication.notify.admin.oncreate.on'),1);
+        $this->assertEquals($user->getPreference('authentication.notify.admin.oncreate.on'), 1);
     }
 
     /**
