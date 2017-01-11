@@ -60,12 +60,7 @@
           data: {
             requireLogin: true,
             moduleMotion: true
-          },
-          onEnter: ['$state', '$stateParams' , function($state, $stateParams) {
-            if (!$stateParams.id || !$stateParams.position) {
-              $state.go('home');
-            }
-          }]
+          }
         })
         .state('create-motion', {
           url: '/create-' + SETTINGS_JSON.jargon.en.motion.toLowerCase(),
