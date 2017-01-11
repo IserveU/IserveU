@@ -19,7 +19,7 @@ class PrepareMotionSummaryTest extends TestCase
     {
         $user = factory(App\User::class)->create();
 
-        $user->setPreference('motion.notify.user.summary.on', 1);
+        $user->setPreference('motion.notify.user.summary.on', 1)->save();
 
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
@@ -249,7 +249,7 @@ class PrepareMotionSummaryTest extends TestCase
     public function motion_summary_email_does_not_go_to_people_with_the_preference_off()
     {
         $user = $this->getUserWithPreferenceTimeForNow();
-        $user->setPreference('motion.notify.user.summary.on', 0);
+        $user->setPreference('motion.notify.user.summary.on', 0)->save();
 
         $motionB = factory(App\Motion::class, 'closed')->create();
         $motionA = factory(App\Motion::class, 'published')->create();
@@ -267,7 +267,7 @@ class PrepareMotionSummaryTest extends TestCase
         $user = $this->getUserWithPreferenceTimeForNow();
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
-        $user->setPreference("motion.notify.user.summary.times.$day", $hour++);
+        $user->setPreference("motion.notify.user.summary.times.$day", $hour++)->save();
 
         $motionB = factory(App\Motion::class, 'closed')->create();
         $motionA = factory(App\Motion::class, 'published')->create();
@@ -285,7 +285,7 @@ class PrepareMotionSummaryTest extends TestCase
         $user = $this->getUserWithPreferenceTimeForNow();
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
-        $user->setPreference("motion.notify.user.summary.times.$day", null);
+        $user->setPreference("motion.notify.user.summary.times.$day", null)->save();
 
         $motionB = factory(App\Motion::class, 'closed')->create();
         $motionA = factory(App\Motion::class, 'published')->create();

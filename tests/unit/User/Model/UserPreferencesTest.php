@@ -21,10 +21,27 @@ class UserPreferencesTest extends TestCase
     /**
      * @test
      */
-    public function can_force_set_a_non_existent_user_preferences()
+    public function can_create_a_non_existent_user_preference()
     {
         $user = factory(App\User::class)->create();
-        $user->setPreference('not.a.preference', 'Not', true);
+        $user->createPreference('not.a.preference.here.buddy', 'Not');
+        $user->save();
+
+        $user->createPreference('not.a.preference.here.buddy', 'OVER WRITE',true);
+        $user->save();
+    }
+
+    /**
+     * @test
+     * @expectedException Exception
+     */
+    public function can_not_create_an_existing_user_preference()
+    {
+        $user = factory(App\User::class)->create();
+        $user->createPreference('not.a.preference.here.buddy', 'Not');
+        $user->save();
+
+        $user->createPreference('not.a.preference.here.buddy', 'OVER WRITE');
         $user->save();
     }
 
@@ -32,19 +49,30 @@ class UserPreferencesTest extends TestCase
     public function can_set_and_get_an_existing_user_preference()
     {
         $user = factory(App\User::class)->create();
-        $user->setPreference('authentication.notify.admin.oncreate', 'Jump Around');
+        $user->setPreference('authentication.notify.admin.oncreate.on',1);
         $user->save();
-        $this->assertEquals($user->getPreference('authentication.notify.admin.oncreate'), 'Jump Around');
+        $this->assertEquals($user->getPreference('authentication.notify.admin.oncreate.on'),1);
     }
 
     /**
      * @expectedException Exception
      * @test
      */
-    public function can_not_set_a_non_existent_user_preferences()
+    public function can_not_set_a_non_existent_user_preference()
     {
         $user = factory(App\User::class)->create();
-        $user->setPreference('not.a.preference', 'Not');
+        $user->setPreference('not.a.preference.here.buddy', 'Not');
+        $user->save();
+    }
+
+    /**
+     * @expectedException Exception
+     * @test
+     */
+    public function can_not_set_a_invalid_user_preference()
+    {
+        $user = factory(App\User::class)->create();
+        $user->setPreference('authentication.notify.admin.oncreate.on', 'Your Mum');
         $user->save();
     }
 
@@ -54,12 +82,12 @@ class UserPreferencesTest extends TestCase
         $userB = factory(App\User::class)->create();
 
         $userA = factory(App\User::class)->create();
-        $userA->setPreference('whatever.thing', 'Jump Up, Jump Up and Get Down', true);
+        $userA->createPreference('whatever.thing.stuff.yay.ultimate', 'Jump Up, Jump Up and Get Down', true);
         $userA->save();
 
         $userC = factory(App\User::class)->create();
 
-        $findUser = User::preference('whatever.thing', 'Jump Up, Jump Up and Get Down')->first();
+        $findUser = User::preference('whatever.thing.stuff.yay.ultimate', 'Jump Up, Jump Up and Get Down')->first();
 
         $this->assertEquals($userA->id, $findUser->id);
     }

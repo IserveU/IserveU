@@ -7,6 +7,7 @@ use App\Events\Motion\MotionDeleted;
 use App\Events\Motion\MotionSaving;
 use App\Events\Motion\MotionUpdated;
 use App\Filters\MotionFilter;
+use App\Repositories\Caching\Cacheable;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes; // Disabled currently
 
 class Motion extends NewApiModel implements CachedModel, VisibilityModel
 {
-    use Sluggable, SluggableScopeHelpers, StatusTrait, SoftDeletes;
+    use Sluggable, SluggableScopeHelpers, StatusTrait, SoftDeletes, Cacheable;
 
     /**
      * The name of the table for this model, also for the permissions set for this model.
@@ -135,6 +136,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         static::created(function ($model) {
             // Does  Nothing
             event(new MotionCreated($model));
+            $model->flushCache();
 
             return true;
         });
@@ -163,8 +165,9 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushCache($fromModel = null)
     {
-        Cache::tags('motion.'.$this->slug)->flush();
-        Cache::forget('motion'.$this->slug.'_comments');
+        Cache::tags(['motion.filters'])->flush();
+        Cache::tags(['motion'])->forget($this->slug);
+      //  Cache::forget('motion'.$this->slug.'_comments');
     }
 
     /**
@@ -176,7 +179,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        Cache::tags(['motion.'.$this->id])->flush('motion'.$this->id.'_comments'); // MotionComment Index
+    //    Cache::tags(['motion.'.$this->id])->flush('motion'.$this->id.'_comments'); // MotionComment Index
     }
 
     //////////////////////// Visibility Implementation

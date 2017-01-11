@@ -10,6 +10,7 @@ use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Motion;
 use Auth;
+use Cache;
 
 class MotionController extends ApiController
 {
@@ -37,7 +38,10 @@ class MotionController extends ApiController
             }]);
         }
 
-        return Motion::filter($filters)->paginate($limit);
+        return Cache::tags(['motion','motion.filters'])->rememberForever($filters->cacheKey($limit),function() use ($filters, $limit){
+           return Motion::filter($filters)->paginate($limit)->toJson();
+        });
+
     }
 
     /**

@@ -12,6 +12,10 @@ class PreferenceManager
     public $preferences;
 
     protected $rules = [
+      '*'                                           => 'array',
+      '*.*'                                         => 'array',
+      '*.*.*'                                       => 'array',
+      '*.*.*.*'                                     => 'array',
       'authentication.notify.admin.oncreate.on'     => 'boolean',
       'authentication.notify.admin.summary.on'      => 'boolean',
       'authentication.notify.user.onrolechange.on'  => 'boolean',
@@ -153,17 +157,18 @@ class PreferenceManager
           }
       }
 
-        $this->user->preferences = $this->preferences;
+        $this->stagePreferences();
 
         return $this;
     }
 
+
     /**
-     * Commits the preferences to the user.
+     * Validates and moves the preferences to the user model for saving
      *
-     * @return $this
+     * @return User the user with preferences staged
      */
-    public function save()
+    public function stagePreferences()
     {
         $validator = Validator::make($this->preferences, $this->rules);
 
@@ -178,6 +183,18 @@ class PreferenceManager
 
         $this->user->preferences = $this->preferences;
 
-        $this->user->save();
+        return $this->user;
+    }
+
+
+    /**
+     * Commits the preferences to the user.
+     *
+     * @return $this
+     */
+    public function save()
+    {
+        $this->stagePreferences()
+              ->save();
     }
 }

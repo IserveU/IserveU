@@ -12,12 +12,27 @@ trait Preferenceable
        *
        * @param string         $key   Key in the dot notation
        * @param String/Integer $value The value to set the key to be
-       * @param bool           $force If you wish to set a value
        */
-      public function setPreference($key, $value, $force = false)
+      public function setPreference($key, $value)
       {
-          (new PreferenceManager($this))->setPreference($key, $value, $force = false)->save();
+          (new PreferenceManager($this))->setPreference($key, $value)
+                                        ->stagePreferences();
+          return $this;
       }
+
+
+      /**
+         * Sets a preference in the preferences array.
+         *
+         * @param string         $key   Key in the dot notation
+         * @param String/Integer $value The value to set the key to be
+         */
+        public function createPreference($key, $value, $force = false)
+        {
+            (new PreferenceManager($this))->createPreference($key, $value, $force)
+                                          ->stagePreferences();
+            return $this;
+        }
 
       /**
        * Gets a preference in the preferences array of this model.

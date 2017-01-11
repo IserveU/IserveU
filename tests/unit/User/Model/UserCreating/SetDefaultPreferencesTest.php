@@ -48,7 +48,15 @@ class SetDefaultPreferancesTest extends TestCase
                         ],
                         'summary'  => [
                             'on'        => 0,
-                            'frequency' => '0 18 * * 0',
+                            'times'     =>  [
+                              'friday'    =>  null,
+                              'monday'    =>  null,
+                              'saturday'  =>  null,
+                              'sunday'    =>  17,
+                              'thursday'  =>  null,
+                              'tuesday'   =>  null,
+                              'wednesday' =>  null,                              
+                            ]
                         ],
                     ],
                 ],

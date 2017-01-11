@@ -102,23 +102,16 @@ class UpdateUserApiTest extends UserApi
     }
 
     /** @test  ******************/
-    public function update_user_with_string_preference()
+    public function update_user_user_with_valid_numeric_true_preference()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 'avalue'])
-            ->assertResponseStatus(200);
-    }
-
-    /** @test  ******************/
-    public function update_user_user_with_numeric_true_preference()
-    {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 1])
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 1])
             ->assertResponseStatus(200);
     }
 
     /** @test  ******************/
     public function update_user_user_with_numeric_false_preference()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => 0])
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 0])
             ->assertResponseStatus(200);
     }
 
@@ -273,7 +266,7 @@ class UpdateUserApiTest extends UserApi
     }
 
     /** @test  ******************/
-    public function update_user_with_non_existant_preference_fails()
+    public function update_user_with_non_exist_preference_fails()
     {
         $this->post('/api/user/'.$this->user->id.'/setpreference/authedcation.notfsdify.usfdser.onrolechangeo', ['value' => 'avalue'])
             ->assertResponseStatus(400);
@@ -297,6 +290,14 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_empty_preference_fails()
     {
         $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => ''])
+            ->assertResponseStatus(400);
+    }
+
+
+    /** @test  ******************/
+    public function update_user_user_with_string_when_numeric_preference_fails()
+    {
+        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 'true'])
             ->assertResponseStatus(400);
     }
 }
