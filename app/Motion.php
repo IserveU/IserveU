@@ -145,6 +145,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             // SendNotificationEmail
             // AlertVoters
             event(new MotionUpdated($model));
+            $model->flushCache();
 
             return true;
         });
