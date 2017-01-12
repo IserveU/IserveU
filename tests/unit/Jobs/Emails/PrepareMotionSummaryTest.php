@@ -1,8 +1,8 @@
 <?php
 
-use App\User;
 use App\Jobs\Emails\PrepareMotionSummary;
 use App\Mail\MotionSummary;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
@@ -25,7 +25,6 @@ class PrepareMotionSummaryTest extends TestCase
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
         $user->setPreference("motion.notify.user.summary.times.$day", $hour)->save();
-
 
         return $user;
     }

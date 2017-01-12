@@ -60,7 +60,7 @@ class PrepareMotionSummary implements ShouldQueue
         if (!isset($motions) || $users->isEmpty()) { //No updates today
             return true;
         }
-      
+
         Mail::to($users)->send(new MotionSummary($motions));
     }
 }
