@@ -34,7 +34,7 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
   	});
 
 
-	fit('Can naviate between motions rapidly', function() {
+	it('Can naviate between motions rapidly', function() {
 
 		var EC = protractor.ExpectedConditions;
 
