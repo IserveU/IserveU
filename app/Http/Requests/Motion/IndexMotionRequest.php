@@ -14,29 +14,28 @@ class IndexMotionRequest extends Request
      */
     public function authorize()
     {
+        //If they are just using the defailts (published/closed)
+        if (!$this->has('status')) {
+            return true;
+        }
+
+        //If they dont want to see hidden motions no problem
+        if ($this->has('status') && !array_intersect(['draft', 'review'], $this->input('status'))) {
+            return true;
+        }
+
+        //If they are admin no problem seeing hidden
         if (Auth::check() && Auth::user()->can('show-motion')) {
             return true;
         }
 
-        //If you're not an admin and haven't set a status, these are the defaults
-        if (!$this->has('status')) {
-            $this['status'] = ['published', 'closed'];
-           // $this->request->add(['status'=>[2,3]]); Didn't work
+        //If you are only filtering your own motion drafts/reviews no problem
+        if (Auth::check() && $this->has('userId') && $this->input('userId') == Auth::user()->id) {
             return true;
         }
 
-        if (array_intersect(['draft', 'review'], $this->input('status'))) {
-            if (!Auth::check()) {
-                return false;
-            }
-
-            //If you want to see unpublshed motions you can only see yours
-            //$this->request->add(['user_id'=>Auth::user()->id]);
-            $this['user_id'] = Auth::user()->id;
-        }
-
-        //Not trying to see an unpublished motion
-        return true;
+        // Trying to see an unpublished motion, and not filtering to see only your own
+        return false;
     }
 
     /**

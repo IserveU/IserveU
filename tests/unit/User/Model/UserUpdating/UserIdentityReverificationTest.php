@@ -100,7 +100,7 @@ class UserIdentityReverificationTest extends TestCase
         $user = $this->createVerifiedUser();
 
         //Mock settings that don't matter
-        $user->setPreference('motion.notify.user.summary', 1);
+        $user->setPreference('motion.notify.user.summary.on', 1);
         $user->ethnic_origin_id = 1;
         $user->agreement_accepted_date = Carbon::now();
         $user->save();

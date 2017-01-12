@@ -283,6 +283,7 @@ class IndexMotionApiTest extends MotionApi
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
+        // see how many motions
 
         $this->assertTrue(($motions->total > 0));
 

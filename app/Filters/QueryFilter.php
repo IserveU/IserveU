@@ -60,6 +60,7 @@ abstract class QueryFilter
     {
         $filterKey = '';
 
+        //Does not use filters() as this is based on user input
         foreach ($this->filters as $key => $value) {
             $filterKey .= $key.json_encode($value);
         }

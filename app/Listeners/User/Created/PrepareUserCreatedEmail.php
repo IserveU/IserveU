@@ -29,7 +29,7 @@ class PrepareUserCreatedEmail
     {
 
         // For all admins, send a notification
-        $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.oncreate', 1)->get();
+        $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.oncreate.on', 1)->get();
 
         foreach ($admins as $admin) {
             $admin->notify(new UserCreatedNotification($event->user));
