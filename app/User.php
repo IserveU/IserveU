@@ -43,7 +43,6 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
     }
 
-
     /**
      * The name of the table for this model, also for the permissions set for this model.
      *
@@ -69,7 +68,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     protected $appends = ['permissions', 'totalDelegationsTo', 'user_role', 'avatar', 'need_identification', 'agreement_accepted'];
 
-    protected $with = ['roles.permissions','community'];
+    protected $with = ['roles.permissions', 'community'];
 
     /**
      * Fields that are unique so that the ID of this field can be appended to them in update validation.
