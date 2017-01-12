@@ -127,7 +127,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-
         $this->motion->flushCache($this);
     }
 
