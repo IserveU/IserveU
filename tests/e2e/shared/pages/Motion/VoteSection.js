@@ -20,14 +20,20 @@ class VoteSection extends ShowMotionPage{
 	}
 
 	clickAgreeButton(){
+    var EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(this.agreeButton),10000,"Cannot click agreeButton");
 		this.agreeButton.click();
 	}
 
 	clickAbstainButton(){
+    var EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(this.abstainButton),10000,"Cannot click abstainButton");
 		this.abstainButton.click();
 	}
 
 	clickDisagreeButton(){
+    var EC = protractor.ExpectedConditions;
+    browser.wait(EC.elementToBeClickable(this.disagreeButton),10000,"Cannot click disagreeButton");
 		this.disagreeButton.click();
 	}
 

@@ -24,7 +24,11 @@ class SidebarSection extends ShowMotionPage{
 			//Will need to refactor, but this scrolls the window to the element which
 			//a promise that gets one item from an ElementArrayFinder won't do it seems
 			//http://stackoverflow.com/questions/27023768/scroll-down-to-an-element-with-protractor
+
+
+      var EC = protractor.ExpectedConditions;
 			browser.executeScript(scrollIntoView,val.getWebElement());
+      browser.wait(EC.elementToBeClickable(val),10000,"Cannot click random motion");
 			val.click();
 		});
 	}
