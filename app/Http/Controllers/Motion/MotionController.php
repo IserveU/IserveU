@@ -32,7 +32,6 @@ class MotionController extends ApiController
         return Cache::tags(['motion', 'motion.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
             return Motion::filter($filters)->paginate($limit)->toJson();
         });
-
     }
 
     /**
