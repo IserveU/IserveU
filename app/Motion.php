@@ -7,6 +7,7 @@ use App\Events\Motion\MotionDeleted;
 use App\Events\Motion\MotionSaving;
 use App\Events\Motion\MotionUpdated;
 use App\Filters\MotionFilter;
+use App\Repositories\Caching\Cacheable;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes; // Disabled currently
 
 class Motion extends NewApiModel implements CachedModel, VisibilityModel
 {
-    use Sluggable, SluggableScopeHelpers, StatusTrait, SoftDeletes;
+    use Sluggable, SluggableScopeHelpers, StatusTrait, SoftDeletes, Cacheable;
 
     /**
      * The name of the table for this model, also for the permissions set for this model.
@@ -72,9 +73,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     protected $dates = ['created_at', 'updated_at', 'closing_at', 'published_at'];
 
     /**
-
-
-     /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -138,6 +136,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         static::created(function ($model) {
             // Does  Nothing
             event(new MotionCreated($model));
+            $model->flushCache();
 
             return true;
         });
@@ -146,6 +145,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
             // SendNotificationEmail
             // AlertVoters
             event(new MotionUpdated($model));
+            $model->flushCache();
 
             return true;
         });
@@ -166,8 +166,9 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushCache($fromModel = null)
     {
-        Cache::tags('motion.'.$this->slug)->flush();
-        Cache::forget('motion'.$this->slug.'_comments');
+        Cache::tags(['motion.filters'])->flush();
+        Cache::tags(['motion'])->forget($this->slug);
+      //  Cache::forget('motion'.$this->slug.'_comments');
     }
 
     /**
@@ -179,7 +180,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        Cache::tags(['motion.'.$this->id])->flush('motion'.$this->id.'_comments'); // MotionComment Index
+        //    Cache::tags(['motion.'.$this->id])->flush('motion'.$this->id.'_comments'); // MotionComment Index
     }
 
     //////////////////////// Visibility Implementation
@@ -362,23 +363,33 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $filters->apply($query);
     }
 
-    /**
-     * Checks that the given record has the status.
-     *
-     * @param Builder      $query          Query builder instance
-     * @param Array/String $implementation the implementation value or values being sought
-     *
-     * @return Buidler
-     */
-    public function scopeStatus($query, $status = 'published')
+    /* check if motion has more votes than the query */
+    public function scopeRankGreaterThan($query, $rank = 0)
     {
-        if (is_array($status)) {
-            return $query->whereIn('status', $status);
-        }
-
-        return $query->where('status', $status);
+        return $query->whereHas('votes', function ($query) use ($rank) {
+            $query->havingRaw('SUM(position) > '.$rank);
+        });
     }
 
+    /* check if motion has lesss votes than the query */
+    public function scopeRankLessThan($query, $rank = 0)
+    {
+        return $query->whereHas('votes', function ($query) use ($rank) {
+            $query->havingRaw('SUM(position) < '.$rank);
+        });
+    }
+
+    public function scopeWriter($query, $user)
+    {
+        if (is_numeric($user)) {
+            return $query->where('user_id', $user);
+        }
+
+        return $query->where('user_id', $user->id);
+    }
+
+    //if these functions below are not used for any other purpose, they
+    // are deprecated due to filter 'orderBy'do the job already.
     public function scopePublishedAfter($query, Carbon $time)
     {
         return $query->where('published_at', '>=', $time);
@@ -397,15 +408,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     public function scopeClosingAfter($query, Carbon $time)
     {
         return $query->where('closing_at', '>=', $time);
-    }
-
-    public function scopeWriter($query, $user)
-    {
-        if (is_numeric($user)) {
-            return $query->where('user_id', $user);
-        }
-
-        return $query->where('user_id', $user->id);
     }
 
     /************************************* Relationships ********************************************/

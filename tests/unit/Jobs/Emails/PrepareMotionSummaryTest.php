@@ -1,78 +1,142 @@
 <?php
 
 use App\Jobs\Emails\PrepareMotionSummary;
+use App\Mail\MotionSummary;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use MailThief\Testing\InteractsWithMail;
+use Illuminate\Support\Facades\Mail;
 
 class PrepareMotionSummaryTest extends TestCase
 {
     use DatabaseTransactions;
-    use InteractsWithMail;
 
     public function setUp()
     {
         parent::setUp();
+    }
 
-        $this->mailerInstance = $this->getMailer();
+    public function getUserWithPreferenceTimeForNow()
+    {
+        $user = factory(App\User::class)->create();
+
+        $user->setPreference('motion.notify.user.summary.on', 1);
+
+        $hour = Carbon::now()->hour;
+        $day = strtolower(Carbon::now()->format('l'));
+        $user->setPreference("motion.notify.user.summary.times.$day", $hour)->save();
+
+        return $user;
     }
 
     // Positive Tests
 
+    /**
+     * Because when Mail::fake is turned on it won't render it, this should at least turn up 500 errors.
+     *
+     * @test
+     */
+    public function motion_summary_template_can_render()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+
+        factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+
+        factory(App\Motion::class, 'closed')->create([
+            'closing_at'    => Carbon::now()->subHours(12),
+            'user_id'       => $user->id, //Create and see a summary of their own motion to speed up the test
+
+        ]);
+
+        $motion = factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+        //Model does not allow editing of this field
+        DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+
+        dispatch(new PrepareMotionSummary());
+    }
+
     /** @test */
     public function motion_summary_email_contains_new_motions_based_on_published_at_field()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
-        $motion = factory(App\Motion::class, 'published')->create();
+        $motion = factory(App\Motion::class, 'published')->create([
+          'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
 
         DB::table('motions')->where(['id' => $motion->id])->update(['created_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->subYears(1)->format('Y-m-d H:i:s')]);
 
+        Mail::fake();
+
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
-        //This line failed at the same time as the one below (2016-12)
-        $this->assertTrue($message->contains($motion->title));
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Latest Launched']->contains($motion)) {
+                return false;
+            }
 
-        $this->assertTrue($message->contains(url("/#/motion/$motion->slug")));
-        $this->assertEquals($message->subject, 'Summary of Latest Motions');
+            // TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
+
+            // TODO: Check motion URL. Currently mailable mocks do not really support this because you can't get a rendered view (it doesn't actually send)
+
+            return true;
+        });
     }
 
     /** @test */
     public function motion_summary_email_contains_motions_that_recently_closed()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'closed')->create([
             'closing_at'    => Carbon::now()->subHours(12),
         ]);
 
+        Mail::fake();
+
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
-        //This line failed at the same time as the one above (2016-12)
-        $this->assertTrue($message->contains($motion->title));
-        $this->assertEquals($message->subject, 'Summary of Latest Motions');
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Recently Closed']->contains($motion)) {
+                return false;
+            }
+
+            //TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
+
+            //TODO: Check motion URL. Currently mailable mocks do not really support this because you can't get a rendered view (it doesn't actually send)
+
+            return true;
+        });
     }
 
     /** @test */
     public function motion_summary_email_contains_motions_that_will_close_soon()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'published')->create();
 
         DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
 
+        Mail::fake();
+
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
+        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
+            if (!$mail->sections['Closing Soon']->contains($motion)) {
+                return false;
+            }
 
-        $this->assertTrue($message->contains($motion->title));
-        $this->assertEquals($message->subject, 'Summary of Latest Motions');
+            //TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
+
+            //TODO: Check motion URL. Currently mailable mocks do not really support this because you can't get a rendered view (it doesn't actually send)
+
+            return true;
+        });
     }
 
     /// Negative Tests
@@ -80,55 +144,83 @@ class PrepareMotionSummaryTest extends TestCase
     /** @test */
     public function motion_summary_email_does_not_contain_draft_motions()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
-        $draftMotion = factory(App\Motion::class, 'draft')->create();
+        $motion = factory(App\Motion::class, 'draft')->create();
+
+        Mail::fake();
 
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
+        Mail::send(MotionSummary::class);
 
-        $this->assertFalse($message->contains($draftMotion->title));
+        $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+        $this->assertTrue($summaries->isEmpty());
     }
 
     /** @test */
     public function motion_summary_email_does_not_contain_review_motions()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
-        $reviewMotion = factory(App\Motion::class, 'review')->create();
+        $motion = factory(App\Motion::class, 'review')->create();
+
+        Mail::fake();
 
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
+        $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
+            }
 
-        $this->assertFalse($message->contains($reviewMotion->title));
+            return false;
+        });
+
+        $this->assertTrue($summaries->isEmpty());
     }
 
     /** @test */
     public function motion_summary_email_does_not_contain_long_closed_motions()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
-        $closedMotion = factory(App\Motion::class, 'closed')->create([
+        $motion = factory(App\Motion::class, 'closed')->create([
             'closing_at'    => Carbon::now()->subDays(8),
         ]);
 
+        Mail::fake();
+
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
+        $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
+            }
 
-        $this->assertFalse($message->contains($closedMotion->title));
+            return false;
+        });
+
+        $this->assertTrue($summaries->isEmpty());
     }
 
     /** @test */
     public function motion_summary_email_does_not_contain_long_published_motions()
     {
-        $user = factory(App\User::class)->create();
-        $user->setPreference('motion.notify.user.summary', 1)->save();
+        $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'published')->create([
             'closing_at'    => Carbon::now()->addDays(8),
@@ -137,10 +229,72 @@ class PrepareMotionSummaryTest extends TestCase
         $motion->published_at = Carbon::now()->subDays(8); //Not mass assignable
         $motion->save();
 
+        Mail::fake();
+
         dispatch(new PrepareMotionSummary());
 
-        $message = $this->getLastMessageFor($user->email);
+        $summaries = Mail::sent(MotionSummary::class, function ($mail) use ($motion) {
+            foreach ($mail->sections as $section) {
+                if ($section->contains($motion)) {
+                    return true;
+                }
+            }
 
-        $this->assertFalse($message->contains($motion->title));
+            return false;
+        });
+
+        $this->assertTrue($summaries->isEmpty());
+    }
+
+    /** @test */
+    public function motion_summary_email_does_not_go_to_people_with_the_preference_off()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+        $user->setPreference('motion.notify.user.summary.on', 0)->save();
+
+        $motionB = factory(App\Motion::class, 'closed')->create();
+        $motionA = factory(App\Motion::class, 'published')->create();
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        Mail::assertNotSent($user, MotionSummary::class);
+    }
+
+    /** @test */
+    public function motion_summary_email_does_not_go_to_people_with_a_different_time()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+        $hour = Carbon::now()->hour;
+        $day = strtolower(Carbon::now()->format('l'));
+        $user->setPreference("motion.notify.user.summary.times.$day", $hour++)->save();
+
+        $motionB = factory(App\Motion::class, 'closed')->create();
+        $motionA = factory(App\Motion::class, 'published')->create();
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        Mail::assertNotSent($user, MotionSummary::class);
+    }
+
+    /** @test */
+    public function motion_summary_email_does_not_go_to_people_with_a_null_time_for_the_day()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+        $hour = Carbon::now()->hour;
+        $day = strtolower(Carbon::now()->format('l'));
+        $user->setPreference("motion.notify.user.summary.times.$day", null)->save();
+
+        $motionB = factory(App\Motion::class, 'closed')->create();
+        $motionA = factory(App\Motion::class, 'published')->create();
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        Mail::assertNotSent($user, MotionSummary::class);
     }
 }
