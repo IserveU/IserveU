@@ -19,7 +19,6 @@ class SidebarSection extends ShowMotionPage{
 	}
 
 	clickRandomMotion(){
-		browser.waitForAngular();
 		this.getRandomMotion().then(function(val){
 			//Will need to refactor, but this scrolls the window to the element which
 			//a promise that gets one item from an ElementArrayFinder won't do it seems
@@ -59,12 +58,10 @@ class SidebarSection extends ShowMotionPage{
 
 
 	getSidebarItems(){
-	    browser.waitForAngular();
 		return this.sidebarItems;
 	}
 
 	getSidebarLinks(){
-	    browser.waitForAngular();
 		return this.sidebarLinks;
 	}
 

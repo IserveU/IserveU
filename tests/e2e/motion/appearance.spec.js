@@ -51,7 +51,6 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 		currentUrl = browser.getCurrentUrl();
 
 		sidebar.clickRandomMotion();
-		var EC = protractor.ExpectedConditions;
 
 		browser.wait(EC.not(EC.urlIs(currentUrl)),5000);
 
