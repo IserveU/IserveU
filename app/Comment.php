@@ -126,7 +126,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        Cache::tags(['motion.'.$this->motion->id])->flush('motion'.$this->motion->id.'_comments'); // MotionComment Index
+        $this->motion->flushCache();
     }
 
     //////////////////////// Visibility Implementation

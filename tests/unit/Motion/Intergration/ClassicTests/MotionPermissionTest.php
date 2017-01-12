@@ -263,7 +263,11 @@ class MotionPermissionTest extends TestCase
     *    else that comes up.
     *
     ******************************************************************/
+    // /** @test */
+    // public function it_can_only_see_its_unpublished_motion()
+    // {
 
+    // }
     // /** @test */
     // public function it_cannot_create_or_update_a_comment_without_having_voted()
     // {
