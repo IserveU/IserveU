@@ -57,10 +57,10 @@ class PrepareMotionSummary implements ShouldQueue
             $motions['Closing Soon'] = $closingSoonMotions;
         }
 
-        if (!isset($motions)) { //No updates today
+        if (!isset($motions) || $users->isEmpty()) { //No updates today
             return true;
         }
-
+      
         Mail::to($users)->send(new MotionSummary($motions));
     }
 }

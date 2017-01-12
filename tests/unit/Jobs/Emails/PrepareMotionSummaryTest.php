@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use App\Jobs\Emails\PrepareMotionSummary;
 use App\Mail\MotionSummary;
 use Carbon\Carbon;
@@ -19,11 +20,12 @@ class PrepareMotionSummaryTest extends TestCase
     {
         $user = factory(App\User::class)->create();
 
-        $user->setPreference('motion.notify.user.summary.on', 1)->save();
+        $user->setPreference('motion.notify.user.summary.on', 1);
 
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
-        $user->setPreference("motion.notify.user.summary.times.$day", $hour);
+        $user->setPreference("motion.notify.user.summary.times.$day", $hour)->save();
+
 
         return $user;
     }
