@@ -55,7 +55,7 @@
         })
         .state('vote-motion-url', {
           url: '/motion/:slug/vote/:position',
-          template: '<h1>Thank you</h1>',
+          template: '<email-vote></email-vote>',
           controller: 'emailVoteController',
           data: {
             requireLogin: true,

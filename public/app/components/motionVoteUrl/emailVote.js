@@ -1,35 +1,45 @@
 'use strict';
 angular
   .module('iserveu')
-  .controller('emailVoteController',
+  .directive('emailVoteController',
     ['$state',
     '$stateParams',
-    'voteResource',
     '$location',
-  emailVoteController]);
+    'voteResource',
+  emailVote]);
 
-  function emailVoteController($state, $stateParams, $location, voteResource) {
+  function emailVote($state, $stateParams, $location, voteResource) {
 
-    if (!$stateParams.slug || getPosition($stateParams.position) === undefined) {
-      return $state.go('home');
-    }
+    function emailVoteController($state, $stateParams, $location, voteResource) {
 
-    var data = {
-      motion_id: $stateParams.slug,
-      position: getPosition($stateParams.position)
-    };
+      if (!$stateParams.slug || getPosition($stateParams.position) === undefined) {
+        return $state.go('home');
+      }
 
-    voteResource.castVote(data).then(function(results) {
-      $location.path('#/motion/' + $stateParams.slug)
-    }, function (error) {
-      return $state.go('home');
-    });
+      var data = {
+        motion_id: $stateParams.slug,
+        position: getPosition($stateParams.position)
+      };
 
-    function getPosition(position) {
-      if (position === 'agree')
-        return 1;
+      voteResource.castVote(data).then(function(results) {
+        $state.go('motion', {'id': $stateParams.slug});
+      }, function (error) {
+        $state.go('home');
+      });
 
-      if (position === 'disagree')
-        return -1;
-    }
+      function getPosition(position) {
+        if (position === 'agree')
+          return 1;
+
+        if (position === 'disagree')
+          return -1;
+      }
+  }
+
+  return {
+    controller: ['$state', emailVoteController],
+    controllerAs: 'emailVote',
+    templateUrl: 'app/components/emailVote/emailVote.tpl.html'
+  }
+
   }
