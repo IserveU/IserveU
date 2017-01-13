@@ -67,14 +67,14 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
     browser.get('#/motion/a-published-motion/vote/agree');
     browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe(browser.params.baseUrl + '/#/motion/a-published-motion');
+    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
 
     expect(agreeCount).toEqual(agreeCount + 1);
     expect(disagreeCount).toEqual(disagreeCount);
 
     browser.get('#/motion/a-published-motion/vote/disagree');
     browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe(browser.params.baseUrl + '/#/motion/a-published-motion');
+    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
 
     expect(agreeCount).toEqual(agreeCount);
     expect(disagreeCount).toEqual(disagreeCount + 1);
