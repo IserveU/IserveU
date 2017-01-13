@@ -32,6 +32,14 @@
             requirePermissions: ['administrate-permission', 'create-motion', 'delete-user']
           }
         })
+        .state('user-manager', {
+          url: '/user-manager',
+          template: '<user-manager></user-manager>',
+          data: {
+            requireLogin: true,
+            requirePermissions: ['administrate-permission', 'create-motion', 'delete-user']
+          }
+        })
         .state('motion', {
           url: '/' + SETTINGS_JSON.jargon.en.motion.toLowerCase() + '/:id',
           template: '<display-motion flex layout="column"></display-motion>',
@@ -86,16 +94,6 @@
             requirePermissions: ['administrate-motion']
           }
         })
-        // @depcrecated
-        // .state( 'create-page', {
-        //      url: '/create-page',
-        //      template: '<create-page-content autopost="true">
-        //      </create-page-content>',
-        //      data: {
-        //requireLogin: true,
-        //requirePermissions: ['create-motion']
-        //      }
-        //  })
         .state('userResource', {
           url: '/user/:id',
           template: '<display-profile></display-profile>',

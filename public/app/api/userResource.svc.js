@@ -12,6 +12,17 @@
 
   function userResource($resource, $q, $rootScope, authResource) {
 
+    var customQuery = {
+      query: {
+        method: 'GET',
+        params: {},
+        isArray: true,
+        ignoreLoadingBar: true,
+        transformRequest: angular.identity
+      }
+    };
+
+
     /****************************************************************
     *
     * Resource setters using Angular's internal ngResource.
@@ -25,11 +36,28 @@
 
     // var UserEdit = $resource('api/user/:id/edit'); TODO
 
+    var UserIndex = $resource('api/user', {page: '@pnext_page'}, {
+      query: {
+        method: 'GET',
+        ignoreLoadingBar: true,
+        cancellable: true
+      }
+    });
+
     /*****************************************************************
     *
     * Server-side functions.
     *
     ******************************************************************/
+
+    function getUsersIndex(next_page) {
+      return UserIndex.query({page: next_page})
+        .$promise.then(function(success) {
+          return success;
+        }, function(error) {
+          return $q.reject(error);
+        });
+    }
 
     function getIndex() {
       return User.get().$promise.then(function(results) {
@@ -93,6 +121,7 @@
 
     return {
       getIndex: getIndex,
+      getUsersIndex: getUsersIndex,
       getUserInfo: getUserInfo,
       getUser: getUser,
       updateUser: updateUser,

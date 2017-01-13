@@ -31,7 +31,7 @@
                 role="navigation"
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
-                <motion-sidebar flex></motion-sidebar>
+                <sidebar flex></sidebar>
             </md-sidenav>
 
             <!-- Main content -->
