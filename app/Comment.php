@@ -5,6 +5,7 @@ namespace App;
 use App\Events\Comment\CommentCreated;
 use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
+use App\Repositories\Caching\Cacheable;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
 use App\Repositories\StatusTrait;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends NewApiModel implements CachedModel, VisibilityModel
 {
-    use StatusTrait;
+    use StatusTrait, Cacheable;
 
     /**
      * The name of the table for this model, also for the permissions set for this model.
@@ -76,14 +77,14 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
         static::creating(function ($model) {
             event(new CommentCreated($model));
-            $model->flushRelatedCache();
+            $model->flushCache();
 
             return true;
         });
 
         static::updating(function ($model) {
             event(new CommentUpdated($model));
-            $model->flushRelatedCache();
+            $model->flushCache();
 
             return true;
         });
@@ -126,7 +127,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        Cache::tags(['motion.'.$this->motion->id])->flush('motion'.$this->motion->id.'_comments'); // MotionComment Index
+        $this->motion->flushCache($this);
     }
 
     //////////////////////// Visibility Implementation

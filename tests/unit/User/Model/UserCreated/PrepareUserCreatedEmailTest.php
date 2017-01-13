@@ -18,7 +18,7 @@ class PrepareUserCreatedEmailTest extends TestCase
     public function showUser_administrator_get_new_user_created_email()
     {
         $admin = static::getPermissionedUser('show-user');
-        $admin->setPreference('authentication.notify.admin.oncreate', 1)->save();
+        $admin->setPreference('authentication.notify.admin.oncreate.on', 1)->save();
 
         $user = factory(App\User::class, 'public')->create();
 
@@ -34,7 +34,7 @@ class PrepareUserCreatedEmailTest extends TestCase
     public function showUser_administrator_does_not_get_new_user_created_email()
     {
         $admin = static::getPermissionedUser('show-user');
-        $admin->setPreference('authentication.notify.admin.oncreate', 0)->save();
+        $admin->setPreference('authentication.notify.admin.oncreate.on', 0)->save();
 
         $user = factory(App\User::class, 'public')->create();
 

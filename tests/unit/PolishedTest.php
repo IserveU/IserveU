@@ -3,6 +3,7 @@
 use App\Permission;
 use App\Role;
 use Carbon\Carbon;
+use Doctrine\Common\Inflector\Inflector;
 
 trait PolishedTest
 {
@@ -57,15 +58,16 @@ trait PolishedTest
     public function setEnv($temporaryEnv)
     {
         foreach ($temporaryEnv as $key => $value) {
+            //config(['app.timezone' => 'America/Chicago']);
+            config([$key  =>  $value]);
             $this->env[$key] = getenv($key); //Getting the before value
-            putenv("$key=$value");
         }
     }
 
     public function restoreEnv()
     {
         foreach ($this->env as $key => $value) {
-            putenv("$key=$value");
+            config([$key  =>  $value]);
         }
         $this->env = [];
     }
@@ -262,10 +264,12 @@ trait PolishedTest
     /**
      * Posts a model with the required fields merged with any content that user wants to submit.
      *
-     * @param array $content An array of content to merge into a post
-     * @param int   $code    The code expected
+     * @param array $contentToPost An array of content to merge into a post
+     * @param int   $expectedCode  The code expected
+     * @param int   $responseToSee Content expected in the responseToSee
+     * @param array $jsonFields    Fields in the database related to this model that are JSON for checks
      */
-    public function storeContentGetSee($contentToPost, $expectedCode = 200, $responseToSee = null, $jsonFields = [])
+    public function storeContentGetSee(array $contentToPost, $expectedCode = 200, $responseToSee = null, array $jsonFields = [])
     {
         $this->setUnsetDefaults();
 
@@ -500,11 +504,19 @@ trait PolishedTest
             $this->alwaysHidden = []; //Guessing if not set
         }
 
+        if (!isset($this->defaultFields)) {
+            $this->defaultFields = []; //Guessing if not set
+        }
+
         if (!isset($this->table)) {
             if (!isset($this->class)) {
                 echo "\n\nError: You need to set the class variable in your test class \n\n";
             }
             $this->table = (new $this->class())->getTable();
+        }
+
+        if (!isset($this->route)) {
+            $this->route = '/api/'.Inflector::singularize($this->table);
         }
 
         if (!isset($this->skipDatabaseCheck)) {
@@ -527,7 +539,7 @@ trait PolishedTest
 
         $this->filtersToGet = array_merge(['limit' => 5000], $filters);
 
-        $this->call('GET', $this->route, $this->removeNullValues($this->filtersToGet));
+        $this->json('GET', $this->route, $this->removeNullValues($this->filtersToGet));
         $this->assertResponseStatus($expectedCode);
 
         if ($responseToSee) {
