@@ -1,7 +1,7 @@
 <md-toolbar id="userbar" class="md-whiteframe-z2 site-content-toolbar nav__header" layout="row" layout-align="center center" md-scroll-shrink>
 
     <md-toolbar-filler class="nav__header-filler_container" ng-class="settingsGlobal.motion.on?'motion-enabled flex':''" hide-xs hide-sm>
-        <motion-search></motion-search>
+        <sidebar-search></sidebar-search>
     </md-toolbar-filler>
 
     <div class="nav__header-button_container" hide-gt-lg hide-lg hide-gt-md hide-md>
@@ -52,6 +52,15 @@
                         <div layout="row">
                             <p flex>Site Admin</p>
                             <md-icon class="mdi mdi-view-dashboard"></md-icon>
+                        </div>
+                    </md-button>
+                </md-menu-item>
+
+                <md-menu-item class="menu__button-dashboard" has-permission="administrate-permission, administrate-user, administrate-department" ui-sref="user-manager">
+                    <md-button aria-label="Go to the user manager">
+                        <div layout="row">
+                            <p flex>User Manager</p>
+                            <md-icon class="mdi mdi-account-multiple"></md-icon>
                         </div>
                     </md-button>
                 </md-menu-item>

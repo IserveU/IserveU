@@ -11,10 +11,10 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 	});
 
- 
+
 
   	it('citizen can vote on published motion and see that reflected in status bar', function() {
-  		login.login('citizen@iserveu.ca'); 		
+  		login.login('citizen@iserveu.ca');
 
 		vote.get();
 
@@ -51,7 +51,7 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 
   	it('citizen can not vote on closed motion', function() {
-  		login.login('citizen@iserveu.ca'); 		
+  		login.login('citizen@iserveu.ca');
 
 		vote.get('a-closed-motion');
 
@@ -86,6 +86,6 @@ describe('vote.permissions making sure that vote permissions work correctly || '
   	});
 
 
-  	
+
 
 });

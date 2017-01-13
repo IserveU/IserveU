@@ -14,11 +14,11 @@ angular
 
 		_index: {},
 
-		_current_page: 1,
+		_current_page: 0,
 
 		_last_page: null,
 
-		_next_page: 2,
+		_next_page: 1,
 
 		_paginating: false,
 

@@ -10,6 +10,7 @@ use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Motion;
 use Auth;
+use Cache;
 
 class MotionController extends ApiController
 {
@@ -27,8 +28,10 @@ class MotionController extends ApiController
     public function index(MotionFilter $filters, IndexMotionRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
-        //filtering the request
-        return Motion::filter($filters)->paginate($limit);
+
+        return Cache::tags(['motion', 'motion.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
+            return Motion::filter($filters)->paginate($limit)->toJson();
+        });
     }
 
     /**

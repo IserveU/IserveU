@@ -1,8 +1,11 @@
 <div class="md-toolbar-tools sidebar-toolbar" ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
 
-  <md-button class="md-icon-button" aria-label="Home Button">
-    <symbol-all-white-png resize-width="24" ui-sref="home" ng-if="!search.isOpen"></symbol-all-white-png>
-    <md-icon class="mdi mdi-arrow-left" ng-show="search.isOpen" ng-click="search.show()"></md-icon>
+  <md-button class="md-icon-button" aria-label="Home Button" href="#/home" ng-show="!search.isOpen">
+    <symbol-all-white-png resize-width="24" ng-href="#/home"></symbol-all-white-png>
+  </md-button>
+
+  <md-button class="md-icon-button" aria-label="Stop Search Button" ng-show="search.isOpen" ng-click="search.show()">
+    <md-icon class="mdi mdi-arrow-left"</md-icon>
   </md-button>
 
     <div ng-if="settingsGlobal.motion.on" layout="row" flex>
@@ -36,7 +39,3 @@
       </div>
 
 </div>
-
-
-
-
