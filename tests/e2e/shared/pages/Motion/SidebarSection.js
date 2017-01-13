@@ -28,8 +28,8 @@ class SidebarSection extends ShowMotionPage{
 
       var EC = protractor.ExpectedConditions;
 			browser.executeScript(scrollIntoView,val.getWebElement());
-      browser.wait(EC.elementToBeClickable(val),10000,"Cannot click random motion");
-			val.click();
+
+				DomHelper.clickBetter(val); //.click();
 		});
 	}
 

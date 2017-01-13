@@ -75,7 +75,7 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $user = factory(App\Motion::class, 'draft')->create();
+        $user = factory(App\User::class)->create();
 
         $this->post('/api/motion/', ['status' => 'draft', 'title' => 'The title', 'user_id' => $user->id])
             ->assertResponseStatus(403);
