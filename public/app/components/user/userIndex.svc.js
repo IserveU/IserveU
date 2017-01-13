@@ -4,21 +4,21 @@
 
 angular
 	.module('iserveu')
-	.factory('motionIndex',
+	.factory('userIndex',
 		['$http',
-		 'motionResource',
+		 'userResource',
 
-	function($http, motionResource) {
+	function($http, userResource) {
 
-	var motionIndex = {
+	var userIndex = {
 
 		_index: {},
 
-		_current_page: 0,
+		_current_page: 1,
 
 		_last_page: null,
 
-		_next_page: 1,
+		_next_page: 2,
 
 		_paginating: false,
 
@@ -29,8 +29,7 @@ angular
 
 			self._paginating = true;
 
-			motionResource.getMotionsIndex(this._current_page).then(function(results) {
-
+			userResource.getUsersIndex(this._current_page).then(function(results) {
 				console.log(results);
 
 				self._next_page = self.nextPage(results.next_page_url);
@@ -40,7 +39,7 @@ angular
 				self._stopPaginating = results.next_page_url ? false : true;
 
 			}, function(error) {
-				throw new Error('Unable to retrieve initial index of motions.');
+				throw new Error('Unable to retrieve initial index of users.');
 			});
 		},
 
@@ -58,7 +57,7 @@ angular
 
 		},
 
-		loadMoreMotions: function() {
+		loadMoreUsers: function() {
 			var self = this;
 
 			if(!self._next_page || self._current_page === self._last_page || self._stopPaginating)
@@ -66,7 +65,7 @@ angular
 
 			self._paginating = true;
 
-			motionResource.getMotionsIndex(self._next_page).then(function(results) {
+			userResource.getUsersIndex(self._next_page).then(function(results) {
 
 				console.log(results);
 
@@ -77,7 +76,7 @@ angular
 				self._stopPaginating = results.next_page_url ? false : true;
 
 			}, function(error) {
-				throw new Error('Unable to retrieve next page of motion index.');
+				throw new Error('Unable to retrieve next page of user index.');
 			});
 		},
 
@@ -94,23 +93,23 @@ angular
 			return false;
 		},
 
-		reloadOne: function(motion) {
+		reloadOne: function(user) {
 			var i = 0;
 
 			for(i in this._index) {
-				if( motion.id === this._index[i].id ) {
-					this._index[i] = motion;
+				if( user.id === this._index[i].id ) {
+					this._index[i] = user;
 					return true;
 				}
 			}
 
-			this._index[++i] = motion;
+			this._index[++i] = user;
 
 			return true;
 		}
 	}
 
-	return motionIndex;
+	return userIndex;
 
 }])
 

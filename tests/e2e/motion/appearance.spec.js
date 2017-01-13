@@ -46,14 +46,13 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 		sidebar.clickRandomMotion();
 
-		browser.wait(EC.not(EC.urlIs(currentUrl)),3000);
+		browser.wait(EC.not(EC.urlIs(currentUrl)),5000);
 
 		currentUrl = browser.getCurrentUrl();
 
 		sidebar.clickRandomMotion();
-		var EC = protractor.ExpectedConditions;
 
-		browser.wait(EC.not(EC.urlIs(currentUrl)),3000);
+		browser.wait(EC.not(EC.urlIs(currentUrl)),5000);
 
 
   	});

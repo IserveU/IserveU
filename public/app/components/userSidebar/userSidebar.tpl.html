@@ -1,0 +1,34 @@
+<md-content class="flex md-default-theme user-sidebar">
+  <user-search hide-gt-lg hide-lg hide-gt-md hide-md flex>></user-search>
+    <div infinite-scroll="userSidebar.loadUsers()"
+         infinite-scroll-container="'.site-sidenav'"
+         infinite-scroll-distance="0"
+         infinite-scroll-disabled="( userSidebar.userIndex._paginating || userSidebar.userIndex._stopPaginating)">
+
+      <md-list>
+          <md-subheader ng-show="userSidebar.search._filteredBy">
+              <p>Filtered by {{ userSidebar.search._filteredBy }}:</p>
+          </md-subheader>
+
+          <md-list-item layout="row" class="sidebar-list-item" ng-repeat="user in userSidebar.userIndex._index | filter:userSidebar.search.text" ui-sref-active="active" ng-href="#/edit-user/{{ user.id }}" ng-click="userSidebar.closeSidenav('left')">
+
+            <md-icon class="mdi mdi-account-circle material-icons"></md-icon>
+
+            <p class="md-body-1 ellipsis">{{ ::user.first_name }} {{ ::user.last_name }}</p>
+
+            <md-icon ng-show="::user.identity_verified" class="mdi mdi-verified">
+              <md-tooltip>User is verified.</md-tooltip>
+            </md-icon>
+            <md-icon ng-show="userSidebar.verifyAddress(user.address_verified_until)" class="mdi mdi-home">
+              <md-tooltip>Users address is verfified until {{ ::user.address_verified_until.diff }}</md-tooltip>
+            </md-icon>
+
+          </md-list-item>
+
+
+          <md-list-item ng-if="userSidebar.userIndex._index.length == 0 && !userSidebar.userIndex._paginating">
+            <p class="md-body-1 ellipsis"></p>
+          </md-list-item>
+      </md-list>
+    </div>
+</md-content>
