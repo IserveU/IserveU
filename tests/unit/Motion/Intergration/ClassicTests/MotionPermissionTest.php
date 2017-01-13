@@ -75,7 +75,7 @@ class MotionPermissionTest extends TestCase
     {
         $this->signInAsPermissionedUser('create-motion');
 
-        $user = factory(App\Motion::class, 'draft')->create();
+        $user = factory(App\User::class)->create();
 
         $this->post('/api/motion/', ['status' => 'draft', 'title' => 'The title', 'user_id' => $user->id])
             ->assertResponseStatus(403);
@@ -263,7 +263,11 @@ class MotionPermissionTest extends TestCase
     *    else that comes up.
     *
     ******************************************************************/
+    // /** @test */
+    // public function it_can_only_see_its_unpublished_motion()
+    // {
 
+    // }
     // /** @test */
     // public function it_cannot_create_or_update_a_comment_without_having_voted()
     // {

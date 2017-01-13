@@ -3,14 +3,15 @@ let ShowMotionPage = require('../../pages/Motion/ShowMotionPage');
 
 class AdministrateMotionPage extends ShowMotionPage{
 
+
 	constructor(){
 		super();
 
 		/* FAB UI */
-		this.fabMenu					= element(by.tagName('md-fab-trigger'));		
+		this.fabMenu					= element(by.tagName('md-fab-trigger'));
 		this.createFabButton			= element(by.id('create_new_motion'));
 		this.editFabButton				= element(by.id('edit_this_motion'));
-		this.deleteFabButton			= element(by.id('delete_this_motion'));		
+		this.deleteFabButton			= element(by.id('delete_this_motion'));
 
 		/* Form Buttons */
 		this.saveButton 				= element(by.css('.create-motion__button button[type=submit]'));
@@ -33,7 +34,7 @@ class AdministrateMotionPage extends ShowMotionPage{
 	clickCreateMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		this.fabMenu.$('button').click();
+		DomHelper.clickBetter(this.fabMenu.$('button')); //.click();
 		browser.wait(EC.elementToBeClickable(this.createFabButton), 10000,"Menu did not drop down");
 		this.createFabButton.click();
 	}
@@ -41,11 +42,11 @@ class AdministrateMotionPage extends ShowMotionPage{
 	clickEditMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		this.fabMenu.click();
+		DomHelper.clickBetter(this.fabMenu); //.click();
 		browser.wait(EC.elementToBeClickable(this.editFabButton), 5000,"Menu did not drop down");
 		this.editFabButton.click();
 	}
-	
+
 	clickDeleteMotion(){
 		var EC = protractor.ExpectedConditions;
 
@@ -65,7 +66,7 @@ class AdministrateMotionPage extends ShowMotionPage{
 		return this.deleteMotionConfirmation;
 	}
 
-	
+
 	getSaveButton(){
 		return this.saveButton;
 	}

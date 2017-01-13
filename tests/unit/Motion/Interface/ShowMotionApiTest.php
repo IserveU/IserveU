@@ -34,4 +34,14 @@ class ShowMotionApiTest extends MotionApi
                 'votes', 'users', 'content',
             ]);
     }
+
+    /** @test */
+    public function users_see_their_votes_on_specific_motion()
+    {
+        $vote = factory(App\Vote::class)->create();
+        $this->signIn($vote->user);
+        $this->visit('/api/motion/'.$vote->motion->slug)
+             ->assertResponseStatus(200)
+             ->see($vote->position);
+    }
 }

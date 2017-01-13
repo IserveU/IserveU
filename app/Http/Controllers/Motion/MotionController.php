@@ -10,6 +10,7 @@ use App\Http\Requests\Motion\ShowMotionRequest;
 use App\Http\Requests\Motion\StoreUpdateMotionRequest;
 use App\Motion;
 use Auth;
+use Cache;
 
 class MotionController extends ApiController
 {
@@ -28,16 +29,9 @@ class MotionController extends ApiController
     {
         $limit = $request->get('limit') ?: 20;
 
-        if (Auth::check()) { //Logged in user will want to see if they voted on these things
-
-            $motions = Motion::with(['votes' => function ($query) {
-                $query->where('user_id', Auth::user()->id);
-
-                return $motions->paginate($limit);
-            }]);
-        }
-
-        return Motion::filter($filters)->paginate($limit);
+        return Cache::tags(['motion', 'motion.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
+            return Motion::filter($filters)->paginate($limit)->toJson();
+        });
     }
 
     /**

@@ -34,6 +34,7 @@ class StoreUpdateMotionRequest extends Request
             'status'            => 'string|valid_status',
             'content'           => 'reject',
             'department_id'     => 'integer|exists:departments,id',
+            'published_at'      => 'reject', //This field is set by the status being changed to status
             'implementation'    => 'string|filled|in:binding,non-binding',
             'closing_at'        => 'date|after:today',
             'user_id'           => 'integer|exists:users,id',

@@ -43,7 +43,7 @@ class PrepareAdminSummary implements ShouldQueue
             return true;
         }
 
-        $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.summary', 1)->get();
+        $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.summary.on', 1)->get();
 
         foreach ($admins as $admin) {
             $admin->notify(new AdminDailyUserSummary($newUsers, $admin));
