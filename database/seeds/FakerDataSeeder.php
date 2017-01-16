@@ -13,7 +13,7 @@ class FakerDataSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $publishedMotions = factory(App\Motion::class, 'published', 25)->create();
+        $publishedMotions = factory(App\Motion::class, 'published', 20)->create();
 
         foreach ($publishedMotions as $motion) {
             $this->giveMotionComments($motion);

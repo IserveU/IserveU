@@ -75,9 +75,16 @@
 					position: button.value
 				}
 
+				console.log(data);
+				console.log(motion);
+				motion.rank -= (motion.userVote) ? motion.userVote.position : 0; // remove the old user position
+
+    //    motion.rank -= motion.userVote.position; // remove the old user position
+
 				motion.userVote = motion.userVote || {};
 				motion.userVote.position = button.value;
 
+        motion.rank += motion.userVote.position // add the new position
 
 				if( !data.id ) {
 					voteResource.castVote(data).then(function(results) {

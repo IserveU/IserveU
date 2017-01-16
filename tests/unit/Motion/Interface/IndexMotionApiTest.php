@@ -19,6 +19,14 @@ class IndexMotionApiTest extends MotionApi
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
+    public function user_can_see_their_voted_motions()
+    {
+        $vote = factory(App\Vote::class)->create();
+        $this->signIn($vote->user);
+        $this->get($this->route)->see($vote->motion->id)->see($vote->position);
+    }
+
+    /** @test */
     public function motion_filter_defaults()
     {
         $this->get($this->route)
@@ -275,6 +283,7 @@ class IndexMotionApiTest extends MotionApi
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
+        // see how many motions
 
         $this->assertTrue(($motions->total > 0));
 

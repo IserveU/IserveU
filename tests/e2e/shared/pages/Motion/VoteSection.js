@@ -1,3 +1,4 @@
+
 let DomHelper = require('../../helpers/DomHelper');
 let ShowMotionPage = require('../../pages/Motion/ShowMotionPage');
 
@@ -19,16 +20,28 @@ class VoteSection extends ShowMotionPage{
 		this.passingStatusIcon 		=	element(by.id('passing_status_icon'));
 	}
 
+	getAgreeButton(){
+		return this.agreeButton;
+	}
+
+	getAbstainButton(){
+		return this.abstainButton;
+	}
+
+	getDisagreeButton(){
+		return this.disagreeButton;
+	}
+
 	clickAgreeButton(){
-		this.agreeButton.click();
+		DomHelper.clickBetter(this.getAgreeButton());
 	}
 
 	clickAbstainButton(){
-		this.abstainButton.click();
+		DomHelper.clickBetter(this.getAbstainButton());
 	}
 
 	clickDisagreeButton(){
-		this.disagreeButton.click();
+		DomHelper.clickBetter(this.getDisagreeButton());
 	}
 
 	voteRandomWay(){
@@ -97,7 +110,8 @@ class VoteSection extends ShowMotionPage{
 
 		bar.isPresent().then(function(isPresent){
    			if(!isPresent){
-   				deferred.fulfill(null);
+					console.log('no bar present');
+   				deferred.fulfill(0); //If the bar isn't there, it's a zero count or incrementing won't work
    			} else {
 				bar.getAttribute('aria-label').then(function(attr){
 					let count = VoteSection.getCountFromLabelString(attr);

@@ -34,6 +34,7 @@
           summary: this.summary,
           text: this.text,
           status: this.status,
+          rank: this.rank,
           department_id: this.department ? this.department.id : 1,
           closing_at: this.getClosing(),
           user_id: this.user_id,
@@ -101,6 +102,16 @@
           // temporary fix for php error
           self.setData({motionComments: null });
         });
+      },
+
+      /**
+      * Get the rank of this motion.
+      * < 0 = agree
+      * > 0 = Disagree
+      * 0   = tie
+      */
+      getMotionRank: function(id) {
+
       },
 
       /**

@@ -164,7 +164,7 @@
 
     function filterCheck($self, $hasThese, $doesntHaveThese, $filters = [])
     {
-        $self->call('GET', '/api/motion/', array_merge(['limit' => 5000], $filters));
+        $self->json('GET', '/api/motion/', array_merge(['limit' => 5000], $filters));
 
         foreach ($hasThese as $motion) {
             $self->see($motion->title);

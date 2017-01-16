@@ -35,7 +35,7 @@
 		return {
 			controller: userController,
 			controllerAs: 'user',
-			templateUrl: 'app/components/admin.dash/user/user-manager.tpl.html'
+			templateUrl: 'app/components/users.dash/user-manager.tpl.html'
 		}
 
 

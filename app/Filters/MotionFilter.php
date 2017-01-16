@@ -28,16 +28,6 @@ class MotionFilter extends QueryFilter
         return $this->query->where('department_id', $department_id);
     }
 
-    /* Motion creator */
-    public function userId($user = 1)
-    {
-        if (is_numeric($user)) {
-            return $this->query->where('user_id', $user);
-        }
-
-        return $this->query->where('user_id', $user->id);
-    }
-
     /* Checks that the given record has the implementation field */
     public function implementation($implementation = 'binding')
     {
@@ -48,56 +38,31 @@ class MotionFilter extends QueryFilter
         return $this->query->where('implementation', $implementation);
     }
 
-    /* check if motion has more votes than the query */
-    public function rankGreaterThan($rank = 0)
-    {
-        return $this->query->whereHas('votes', function ($query) use ($rank) {
-            $query->havingRaw('SUM(position) > '.$rank);
-        });
-    }
-
-    /* check if motion has lesss votes than the query */
-    public function rankLessThan($rank = 0)
-    {
-        return $this->query->whereHas('votes', function ($query) use ($rank) {
-            $query->havingRaw('SUM(position) < '.$rank);
-        });
-    }
-
     /*Finding queries of all the fields */
     public function allTextFields($string = '')
     {
         return $this->query->where('title', 'like', "%$string%")->orWhere('summary', 'like', "%$string%")
-            ->orWhere('implementation', 'like', "%$string%")
-            ->orWhere('status', 'like', "%$string%")
             ->orWhere('slug', 'like', "%$string%");
+    }
+
+    public function userId($id)
+    {
+        return $this->query->writer($id);
+    }
+
+    public function rankLessThan($rank)
+    {
+        return $this->query->rankLessThan($rank);
+    }
+
+    public function rankGreaterThan($rank)
+    {
+        return $this->query->rankGreaterThan($rank);
     }
 
     /************* DATE SCOPES****************************************/
 
-    public function updatedBefore()
-    {
-        if (!$time) {
-            return $this->query;
-        }
-
-        $time = new \Carbon\Carbon($time);
-
-        return $this->query->updatedBefore($time);
-    }
-
-    public function updatedAfter()
-    {
-        if (!$time) {
-            return $this->query;
-        }
-
-        $time = new \Carbon\Carbon($time);
-
-        return $this->query->updatedAfter($time);
-    }
-
-    /* desc or asc */
+    /* desc or asc of closingAt,publisheAt and createdAt*/
     public function orderBy($fieldPairs)
     {
         foreach ($fieldPairs as $field => $direction) {
