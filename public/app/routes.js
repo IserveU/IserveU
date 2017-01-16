@@ -11,7 +11,7 @@
           url: '/home',
           template: '<home-page></home-page>',
           data: {
-            requireLogin: true
+            requireLogin: false
           },
           resolve: {
             homePage: ['pageService', 'utils', function(pageService, utils) {
@@ -44,7 +44,7 @@
           url: '/' + SETTINGS_JSON.jargon.en.motion.toLowerCase() + '/:id',
           template: '<display-motion flex layout="column"></display-motion>',
           data: {
-            requireLogin: true,
+            requireLogin: false,
             moduleMotion: true
           },
           onEnter: ['$state', '$stateParams', function($state, $stateParams) {
@@ -92,7 +92,7 @@
           url: '/page/:id',
           template: '<page-content></page-content>',
           data: {
-            requireLogin: true
+            requireLogin: false
           }
         })
         .state('edit-page', {
