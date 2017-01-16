@@ -38,6 +38,7 @@ class StoreUpdateMotionRequest extends Request
             'implementation'    => 'string|filled|in:binding,non-binding',
             'closing_at'        => 'date|after:today',
             'user_id'           => 'integer|exists:users,id',
+            'rank'              => 'integer',
             'id'                => 'integer',
         ];
     }
