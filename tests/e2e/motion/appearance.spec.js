@@ -17,7 +17,7 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 	});
 
 
-  	it('Can see all parts of motion', function() {
+  it('Can see all parts of motion', function() {
 
 
 		var EC = protractor.ExpectedConditions;
@@ -31,7 +31,7 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 		browser.wait(EC.elementToBeClickable(motion.getFile('An Attached PDF')), 5000,"File not showing up");
 
-  	});
+  });
 
 
 	it('Can naviate between motions rapidly', function() {
