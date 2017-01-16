@@ -61,6 +61,15 @@
             moduleMotion: true
           }
         })
+        .state('vote-motion-url', {
+          url: '/motion/:slug/vote/:position',
+          template: '<email-vote></email-vote>',
+          controller: 'emailVoteController',
+          data: {
+            requireLogin: true,
+            moduleMotion: true
+          }
+        })
         .state('create-motion', {
           url: '/create-' + SETTINGS_JSON.jargon.en.motion.toLowerCase(),
           template: '<motion-form autopost="true"></motion-form>',

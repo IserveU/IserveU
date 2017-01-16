@@ -24,13 +24,12 @@
 
 
 	<md-list-item class="md-2-line">
-	  	<md-icon id="passing_status_icon" md-svg-src="{{ motion.motionVotes.overallPosition.icon || 'loading' }}"></md-icon>
+	  	<md-icon id="passing_status_icon" md-svg-src="{{ getRankTile(motion.rank).icon || 'loading' }}"></md-icon>
 
         <div class="md-list-item-text">
-			<h3>{{ motion.motionVotes.overallPosition.message }}</h3>
+          <h3>{{ getRankTile(motion.rank).message }}</h3>
         	<p>Status</p>
         </div>
 	</md-list-item>
 
 </md-list>
-

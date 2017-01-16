@@ -58,6 +58,7 @@ class IndexMotionRequest extends Request
             'userId'                  => 'exists:users,id',
             'limit'                   => 'integer',
             'title'                   => 'max:255',
+            'rank'                    => 'integer',
             'page'                    => 'integer',
         ];
     }
