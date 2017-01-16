@@ -63,17 +63,12 @@
         })
         .state('vote-motion-url', {
           url: '/motion/:slug/vote/:position',
-          template: '<h1>Thank you</h1>',
+          template: '<email-vote></email-vote>',
           controller: 'emailVoteController',
           data: {
             requireLogin: true,
             moduleMotion: true
-          },
-          onEnter: ['$state', '$stateParams' , function($state, $stateParams) {
-            if (!$stateParams.id || !$stateParams.position) {
-              $state.go('home');
-            }
-          }]
+          }
         })
         .state('create-motion', {
           url: '/create-' + SETTINGS_JSON.jargon.en.motion.toLowerCase(),

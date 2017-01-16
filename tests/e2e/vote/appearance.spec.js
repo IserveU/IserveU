@@ -1,13 +1,16 @@
 let VoteSection 	= require('../shared/pages/Motion/VoteSection');
 let LoginHelper 	= require('../shared/helpers/LoginHelper');
 let SidebarSection 	= require('../shared/pages/Motion/SidebarSection');
+let MotionPage = require('../shared/pages/Motion/ShowMotionPage');
+
 
 
 describe('vote.appearance making sure that votes display correctly || ', function() {
 
 	let vote 		= new VoteSection();
-	let login 		= new LoginHelper();
-	let sidebar  	= new SidebarSection();
+	let login 	= new LoginHelper();
+	let sidebar = new SidebarSection();
+  let motion  = new MotionPage();
 
 	beforeEach(function(){
 
@@ -52,11 +55,30 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			}
 
 		});
+  });
 
+  it('Voting with URL should match', function() {
+    login.login();
 
+    motion.get();
+    vote.clickAbstainButton();
+    var agreeCount = vote.getAgreeCount();
+    var disagreeCount = vote.getDisagreeCount();
 
-  	});
+    browser.get('#/motion/a-published-motion/vote/agree');
+    browser.driver.sleep(7000);
+    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
 
+    expect(agreeCount).toEqual(agreeCount + 1);
+    expect(disagreeCount).toEqual(disagreeCount);
 
+    browser.get('#/motion/a-published-motion/vote/disagree');
+    browser.driver.sleep(7000);
+    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
+
+    expect(agreeCount).toEqual(agreeCount);
+    expect(disagreeCount).toEqual(disagreeCount + 1);
+
+  });
 
 });
