@@ -335,6 +335,9 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function setTextAttribute($input)
     {
+        if (!$this->content) {
+            $this->content = [];
+        }
         $this->content = array_merge($this->content, ['text' => $input]);
     }
 
@@ -353,8 +356,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     /**
      * Executes the filters passed in on the.
      *
-     * @param Builder       $query   Instance of the query builder
-     * @param ArticleFilter $filters Motion filter class
+     * @param $query Builder Instance of the query builder
+     * @param $filters MotionFilter Motion filter class
      *
      * @return Builder
      */

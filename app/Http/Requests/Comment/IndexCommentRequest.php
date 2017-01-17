@@ -24,7 +24,9 @@ class IndexCommentRequest extends Request
     public function rules()
     {
         return [
-            'limit' => 'integer',
+            'limit'             => 'integer|min:0',
+            'createdBefore'     => 'date',
+            'createdAfter'      => 'date',
         ];
     }
 }

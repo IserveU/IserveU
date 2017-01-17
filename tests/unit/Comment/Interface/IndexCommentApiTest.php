@@ -37,7 +37,7 @@ class IndexCommentApiTest extends CommentApi
                                     'commentRank',
                                     'motionTitle',
                                     'motionId',
-                                    'user' => [
+                                    'commentWriter' => [
                                         'community' => [
                                             'adjective',
                                         ],

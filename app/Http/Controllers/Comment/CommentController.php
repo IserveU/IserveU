@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Comment;
 
 use App\Comment;
+use App\Filters\CommentFilter;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Comment\DestroyCommentRequest;
 use App\Http\Requests\Comment\IndexCommentRequest;
 use App\Http\Requests\Comment\ShowCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
+use Cache;
 use Carbon\Carbon;
-use Validator;
 
 class CommentController extends ApiController
 {
@@ -18,7 +19,7 @@ class CommentController extends ApiController
      *
      * @return Response
      */
-    public function index(IndexCommentRequest $request)
+    public function index(CommentFilter $filters, IndexCommentRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
 
@@ -30,21 +31,9 @@ class CommentController extends ApiController
             $input['end_date'] = Carbon::now()->addDays(2);
         }
 
-        //Move validation into IndexCommentRequest
-        $validator = Validator::make($input, [
-            'start_date'      => 'date',
-            'end_date'        => 'date',
-        ]);
-
-        if ($validator->fails()) {
-            return $validator->errors();
-        }
-
-        $comments = Comment::orderByCommentRank('desc')
-                            ->betweenDates($input['start_date'], $input['end_date'])
-                            ->paginate($limit);
-
-        return $comments;
+        return Cache::tags(['comment', 'comment.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
+            return Comment::filter($filters)->paginate($limit)->toJson();
+        });
     }
 
     /**

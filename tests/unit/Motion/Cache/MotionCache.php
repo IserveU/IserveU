@@ -1,6 +1,5 @@
 <?php
 
-use DB;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class MotionCache extends TestCase

@@ -23,7 +23,7 @@ class DefaultCommentPermissionTest extends TestCase
 
     /*****************************************************************
     *
-    *                   Basic CRUD functions:
+    *                   Deprecated classes
     *
     ******************************************************************/
 

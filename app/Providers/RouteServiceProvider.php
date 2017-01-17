@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         app('router')->bind('motion', function ($slug) {
-            return Cache::tags(['motion', 'motion.query'])->rememberForever($slug, function () use ($slug) {
+            return Cache::tags(['motion', 'motion.model'])->rememberForever($slug, function () use ($slug) {
                 return \App\Motion::findBySlugOrId($slug);
             });
         });
@@ -54,8 +54,10 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Vote::find($vote);
         });
 
-        app('router')->bind('comment', function ($comment) {
-            return \App\Comment::find($comment);
+        app('router')->bind('comment', function ($id) {
+            return Cache::tags(['comment', 'comment.model'])->rememberForever($id, function () use ($id) {
+                return \App\Comment::find($id);
+            });
         });
 
         app('router')->bind('comment_vote', function ($comment_vote) {
