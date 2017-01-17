@@ -31,12 +31,14 @@
 
             checkLogin: function(ev, requireLogin) {
               var $rootScope = $injector.get('$rootScope');
-              if (!$rootScope.settingsGlobal.authentication.required)
+              var $state = $injector.get('$state');
+
+              // this is a string in the settings.json
+              if ($rootScope.settingsGlobal.authentication.required === '0'){
                 return true;
 
-              else if (!$rootScope.userIsLoggedIn && requireLogin) {
+              } else if (!$rootScope.userIsLoggedIn && requireLogin) {
                 ev.preventDefault();
-                var $state = $injector.get('$state');
                 $state.go('login');
               }
 
