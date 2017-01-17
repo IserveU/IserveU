@@ -2,7 +2,6 @@
 
 include_once 'MotionCache.php';
 
-use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionCacheCreateTest extends MotionCache
@@ -36,10 +35,10 @@ class MotionCacheCreateTest extends MotionCache
 
         $this->get('/api/motion/'.$otherMotion->slug)->assertResponseStatus(200);
 
-        $this->assertNotNull(Cache::tags(['motion', 'motion.query'])->get($otherMotion->slug));
+        $this->assertNotNull(Cache::tags(['motion', 'motion.model'])->get($otherMotion->slug));
 
         factory(App\Motion::class)->create();
 
-        $this->assertNotNull(Cache::tags(['motion', 'motion.query'])->get($otherMotion->slug));
+        $this->assertNotNull(Cache::tags(['motion', 'motion.model'])->get($otherMotion->slug));
     }
 }

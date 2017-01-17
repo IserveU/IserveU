@@ -465,7 +465,11 @@ trait PolishedTest
     public function seeInResponse($responseToSee)
     {
         if (is_array($responseToSee)) {
-            return $this->seeInResponse($responseToSee);
+            foreach ($responseToSee as $subResponseToSee) {
+                $this->seeInResponse($subResponseToSee);
+            }
+
+            return $this;
         }
 
         $this->see($responseToSee);
@@ -482,15 +486,15 @@ trait PolishedTest
      */
     public function dontSeeInResponse($responseToNotSee)
     {
-        if (!is_array($responseToNotSee)) {
-            $this->dontSee($responseToNotSee);
+        if (is_array($responseToNotSee)) {
+            foreach ($responseToNotSee as $subResponseToNotSee) {
+                $this->dontSeeInResponse($subResponseToNotSee);
+            }
 
             return $this;
         }
 
-        foreach ($responseToNotSee as $string) {
-            $this->dontSee($string);
-        }
+        $this->dontSee($responseToNotSee);
 
         return $this;
     }
