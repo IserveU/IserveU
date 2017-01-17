@@ -44,7 +44,7 @@
           url: '/' + SETTINGS_JSON.jargon.en.motion.toLowerCase() + '/:id',
           template: '<display-motion flex layout="column"></display-motion>',
           data: {
-            requireLogin: false,
+            requireLogin: true,
             moduleMotion: true
           },
           onEnter: ['$state', '$stateParams', function($state, $stateParams) {
@@ -92,7 +92,7 @@
           url: '/page/:id',
           template: '<page-content></page-content>',
           data: {
-            requireLogin: false
+            requireLogin: true
           }
         })
         .state('edit-page', {
