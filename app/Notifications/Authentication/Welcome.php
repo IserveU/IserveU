@@ -63,8 +63,8 @@ class Welcome extends Notification
             $mailMessage->line($line);
         }
 
-        if(!$this->user->password){
-            $mailMessage->action("Get Started",url("/#/login/".$this->user->remember_token));
+        if (!$this->user->password) {
+            $mailMessage->action('Get Started', url('/#/login/'.$this->user->remember_token));
         }
 
         return $mailMessage;
