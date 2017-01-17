@@ -60,7 +60,7 @@ class MotionFilter extends QueryFilter
         return $this->query->rankGreaterThan($rank);
     }
 
-    /************* DATE SCOPES****************************************/
+    /************* ORDERING ****************************************/
 
     /* desc or asc of closingAt,publisheAt and createdAt*/
     public function orderBy($fieldPairs)

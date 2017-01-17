@@ -60,24 +60,27 @@ describe('vote.appearance making sure that votes display correctly || ', functio
   it('Voting with URL should match', function() {
     login.login();
 
+		var EC = protractor.ExpectedConditions;
+
     motion.get();
     vote.clickAbstainButton();
-    var agreeCount = vote.getAgreeCount();
-    var disagreeCount = vote.getDisagreeCount();
 
-    browser.get('#/motion/a-published-motion/vote/agree');
-    browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
+		vote.getCounts().then(function(counts){
 
-    expect(agreeCount).toEqual(agreeCount + 1);
-    expect(disagreeCount).toEqual(disagreeCount);
+			browser.get('/#/motion/a-published-motion/vote/agree');
 
-    browser.get('#/motion/a-published-motion/vote/disagree');
-    browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
+			browser.waitForAngular();
 
-    expect(agreeCount).toEqual(agreeCount);
-    expect(disagreeCount).toEqual(disagreeCount + 1);
+			expect(vote.getAgreeCount()).toBe(counts.agree+1);
+			expect(vote.getDisagreeCount()).toBe(counts.disagree);
+
+			browser.get('/#/motion/a-published-motion/vote/disagree');
+
+			browser.waitForAngular();
+
+			expect(vote.getAgreeCount()).toBe(counts.agree);
+			expect(vote.getDisagreeCount()).toBe(counts.disagree+1);
+		});
 
   });
 

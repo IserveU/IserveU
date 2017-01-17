@@ -50,7 +50,7 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 
 
-  	fit('citizen can not vote on closed motion', function() {
+  	it('citizen can not vote on closed motion', function() {
 			login.login('citizen@iserveu.ca');
 
 			vote.get('a-closed-motion');
