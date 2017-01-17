@@ -27,7 +27,7 @@ class PrepareWelcomeEmail implements ShouldQueue
      */
     public function handle(UserCreated $event)
     {
-        $welcomeNotification = new Welcome();
+        $welcomeNotification = new Welcome($event->user);
 
         if (Auth::check()) {
             $welcomeNotification->createdByOther = true;

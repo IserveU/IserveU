@@ -165,6 +165,7 @@ return [
          Vinkla\Backup\BackupServiceProvider::class,
          Barryvdh\Debugbar\ServiceProvider::class,
          Coop182\LaravelCronValidator\CronValidatorServiceProvider::class,
+         Maatwebsite\Excel\ExcelServiceProvider::class
     ],
 
     /*
@@ -218,6 +219,7 @@ return [
         'Setting'      => 'anlutro\LaravelSettings\Facade',
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+        'Excel'        => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];

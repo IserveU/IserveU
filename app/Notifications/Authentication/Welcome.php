@@ -22,10 +22,11 @@ class Welcome extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
         $this->text = Setting::get('emails.welcome.text');
         $this->footer = Setting::get('emails.footer');
+        $this->user = $user;
     }
 
     /**
@@ -52,14 +53,18 @@ class Welcome extends Notification
         $mailMessage = (new MailMessage());
 
         if ($this->createdByOther) {
-            $mailMessage = $mailMessage->greeting('An account has been created for you');
+            $mailMessage->greeting('An account has been created for you');
         } else {
-            $mailMessage = $mailMessage->greeting('Welcome,');
+            $mailMessage->greeting('Welcome,');
         }
 
         $lines = explode("\n", $this->text);
         foreach ($lines as $line) {
-            $mailMessage = $mailMessage->line($line);
+            $mailMessage->line($line);
+        }
+
+        if(!$this->user->password){
+            $mailMessage->action("Get Started",url("/#/login/".$this->user->remember_token));
         }
 
         return $mailMessage;
