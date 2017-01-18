@@ -12,7 +12,7 @@ class JsonFields extends Migration
      */
     public function up()
     {
-        $motionsStore = \App\Motion::all()->pluck('text', 'id');
+        $motionsStore = DB::table('motions')->get()->pluck('text', 'id');
 
         Schema::table('motions', function ($table) {
             $table->dropColumn('text');
@@ -29,7 +29,7 @@ class JsonFields extends Migration
             $motion->save();
         }
 
-        $pagesStore = \App\Page::all()->pluck('content', 'id');
+        $pagesStore = DB::table('pages')->get()->pluck('content', 'id'); // \App\Page::all()->pluck('content', 'id');
 
         Schema::table('pages', function ($table) {
             $table->dropColumn('content');

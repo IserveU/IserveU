@@ -28,7 +28,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			console.log(url);
 		});
 
-		browser.driver.sleep(5000); //This verification after this point failed randomly 2016-12-4
+		browser.waitForAngular();
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();
@@ -57,16 +57,19 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
   });
 
-  it('Voting with URL should match', function() {
-    login.login();
+  fit('Voting with URL should match', function() {
+    login.login('citizen@iserveu.ca');
 
 		var EC = protractor.ExpectedConditions;
 
-    motion.get();
+    motion.get('a-published-motion');
     vote.clickAbstainButton();
 
 		vote.getCounts().then(function(counts){
 
+			//Failed randomly Jan 18th
+			console.log("counts gathered");
+			console.log(counts);
 			browser.get('/#/motion/a-published-motion/vote/agree');
 
 			browser.waitForAngular();

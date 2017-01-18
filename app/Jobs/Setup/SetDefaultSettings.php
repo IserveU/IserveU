@@ -40,7 +40,7 @@ class SetDefaultSettings
             'address'   => 'http://iserveu.ca',
             'twitter'   => 'http://twitter.com/iserveu_org',
             'facebook'  => 'https://www.facebook.com/iserveu.ca',
-            'backup'    => '0 0 0/12 1/1 * ? *',
+            'backup'    => '0 0 * * *',
         ]);
 
         Setting::ifNotSetThenSet('voting', [
