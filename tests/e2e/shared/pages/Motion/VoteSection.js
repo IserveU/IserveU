@@ -110,7 +110,7 @@ class VoteSection extends ShowMotionPage{
 
 		bar.isPresent().then(function(isPresent){
    			if(!isPresent){
-					console.log('no bar present');
+					console.log('no segment present (0)');
    				deferred.fulfill(0); //If the bar isn't there, it's a zero count or incrementing won't work
    			} else {
 				bar.getAttribute('aria-label').then(function(attr){

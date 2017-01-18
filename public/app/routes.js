@@ -11,7 +11,7 @@
           url: '/home',
           template: '<home-page></home-page>',
           data: {
-            requireLogin: true
+            requireLogin: false
           },
           resolve: {
             homePage: ['pageService', 'utils', function(pageService, utils) {

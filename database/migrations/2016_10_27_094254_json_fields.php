@@ -12,24 +12,7 @@ class JsonFields extends Migration
      */
     public function up()
     {
-        $pagesStore = \App\Page::all()->pluck('content', 'id');
-
-        Schema::table('pages', function ($table) {
-            $table->dropColumn('content');
-        });
-
-        Schema::table('pages', function ($table) {
-            $table->json('content')->nullable();
-        });
-
-        $pages = \App\Page::all();
-
-        foreach ($pages as $page) {
-            $page->text = $pagesStore[$page->id];
-            $page->save();
-        }
-
-        $motionsStore = \App\Page::all()->pluck('text', 'id');
+        $motionsStore = DB::table('motions')->get()->pluck('text', 'id');
 
         Schema::table('motions', function ($table) {
             $table->dropColumn('text');
@@ -44,6 +27,23 @@ class JsonFields extends Migration
         foreach ($motions as $motion) {
             $motion->text = $motionsStore[$motion->id];
             $motion->save();
+        }
+
+        $pagesStore = DB::table('pages')->get()->pluck('content', 'id'); // \App\Page::all()->pluck('content', 'id');
+
+        Schema::table('pages', function ($table) {
+            $table->dropColumn('content');
+        });
+
+        Schema::table('pages', function ($table) {
+            $table->json('content')->nullable();
+        });
+
+        $pages = \App\Page::all();
+
+        foreach ($pages as $page) {
+            $page->text = $pagesStore[$page->id];
+            $page->save();
         }
     }
 

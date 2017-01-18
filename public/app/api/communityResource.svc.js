@@ -34,6 +34,7 @@
     }
 
     /**
+     * TODO 2017/01/18 "this function looks usless" - Victor
      * grab community given the id
      * @param  {number} id
      * @return {promise}    promise or cached item
@@ -45,12 +46,6 @@
         });
       } else {
         var name;
-        index.forEach(function(el) {
-          if (el.id === id) {
-            name = el.name;
-          }
-        });
-
         return $q.when(name);
       }
     }

@@ -27,7 +27,6 @@ describe('motion.administrate making sure that a motion creation and editing wor
 		browser.wait(EC.urlContains("create-motion"),10000,"Sidebar create motion button does not work");
 
 
-
 		motionAdmin.get(); //Old published motion
 		motionAdmin.clickCreateMotion();
 
@@ -39,7 +38,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
 
 		browser.wait(EC.urlContains("edit-motion"),10000);
 
-  	});
+  });
 
 
   it('Motion creation and deletion process works as expected', function() {

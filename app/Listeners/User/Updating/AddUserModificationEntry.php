@@ -37,7 +37,6 @@ class AddUserModificationEntry
         }
 
         $modifiedRecord->modification_to_id = $user->id;
-     //   dd($user->getDirty());
         $modifiedRecord->fields = json_encode($user->getDirty());
         $modifiedRecord->save();
 

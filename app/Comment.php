@@ -5,6 +5,7 @@ namespace App;
 use App\Events\Comment\CommentCreated;
 use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
+use App\Filters\CommentFilter;
 use App\Repositories\Caching\Cacheable;
 use App\Repositories\Caching\CachedModel;
 use App\Repositories\Contracts\VisibilityModel;
@@ -38,16 +39,16 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $visible = [''];
+    protected $visible = [];
 
-    protected $with = ['vote.user.roles', 'vote.motion.user.roles']; // 'commentRankRelation' not loaded because orderByCommentRank loads an attribute
+    protected $with = ['vote.user.roles', 'vote.motion.user.community']; // 'commentRankRelation' not loaded because orderByCommentRank loads an attribute
 
     /**
      * The attributes appended and returned (if visible) to the user.
      *
      * @var array
      */
-    protected $appends = ['motion', 'user', 'commentRank', 'motionId', 'motionTitle']; //, , 'user', , 'motionId'];
+    protected $appends = ['motion', 'commentWriter', 'commentRank', 'motionId', 'motionTitle']; //, , 'user', , 'motionId'];
 
     /**
      * The fields that are dates/times.
@@ -77,14 +78,13 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
         static::creating(function ($model) {
             event(new CommentCreated($model));
-            $model->flushCache();
+        //    $model->flushCache();
 
             return true;
         });
 
         static::updating(function ($model) {
             event(new CommentUpdated($model));
-            $model->flushCache();
 
             return true;
         });
@@ -115,7 +115,8 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushCache($fromModel = null)
     {
-        \Cache::flush(); //Just for now
+        Cache::tags(['comment.filters'])->flush(); //All things tagged with comment.filters
+        Cache::tags(['comment', 'comment.model'])->forget($this->id); //This records model data
     }
 
     /**
@@ -127,7 +128,8 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function flushRelatedCache($fromModel = null)
     {
-        $this->motion->flushCache($this);
+        //MotionComment controller
+        Cache::tags(['motion', 'comment'])->forget($this->motion->id); //This records model data
     }
 
     //////////////////////// Visibility Implementation
@@ -141,10 +143,10 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['vote.user', 'user', 'userName']);
+            $this->addVisible([]);
         }
 
-        $this->addVisible(['text', 'created_at', 'id', 'commentRank', 'motionTitle', 'motionId']);
+        $this->addVisible(['text', 'created_at', 'id', 'commentRank', 'motionTitle', 'motionId', 'commentWriter']);
 
         return $this;
     }
@@ -184,7 +186,11 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getMotionTitleAttribute()
     {
-        return $this->motion->title;
+        if ($this->motion) {
+            return $this->motion->title;
+        }
+
+        return 'Deleted Motion';
     }
 
     /**
@@ -194,10 +200,43 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getMotionIdAttribute()
     {
-        return $this->motion->id;
+        if ($this->motion) {
+            return $this->motion->id;
+        }
+    }
+
+    public function getCommentWriterAttribute()
+    {
+        $data['community'] = $this->user->community ?? ['name'=>'Unknown Community', 'adjective'=>'Unknown Community'];
+        $data['status'] = $this->user->status; // A little easier to spot issues
+
+      if ($this->publiclyVisible) {
+          $data['first_name'] = $this->user->first_name;
+          $data['last_name'] = $this->user->last_name;
+
+        //Can we also visit the user's profile
+        if ($this->user->publiclyVisible) {
+            $data['slug'] = $this->user->slug;
+        }
+      }
+
+        return $data;
     }
 
     /************************************* Scopes *****************************************/
+
+    /**
+     * Executes the filters passed in on the comment.
+     *
+     * @param $query Builder Instance of the query builder
+     * @param $filters MotionFilter an instance of the filter class for the query
+     *
+     * @return Builder
+     */
+    public function scopeFilter($query, CommentFilter $filters)
+    {
+        return $filters->apply($query);
+    }
 
     public function scopePosition($query, $position)
     {
@@ -278,9 +317,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getUserAttribute()
     {
-        if (!$this->vote) {
-            dd($this);
-        }
         //If this is failing it needs to be eager loaded. For some reason nested eager loading is not working
         return $this->vote->user;
     }

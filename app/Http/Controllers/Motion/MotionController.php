@@ -7,7 +7,8 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Motion\DestroyMotionRequest;
 use App\Http\Requests\Motion\IndexMotionRequest;
 use App\Http\Requests\Motion\ShowMotionRequest;
-use App\Http\Requests\Motion\StoreUpdateMotionRequest;
+use App\Http\Requests\Motion\StoreMotionRequest;
+use App\Http\Requests\Motion\UpdateMotionRequest;
 use App\Motion;
 use Auth;
 use Cache;
@@ -39,7 +40,7 @@ class MotionController extends ApiController
      *
      * @return Response
      */
-    public function store(StoreUpdateMotionRequest $request)
+    public function store(StoreMotionRequest $request)
     {
         $motion = Motion::create($request->all());
 
@@ -65,7 +66,7 @@ class MotionController extends ApiController
      *
      * @return Response
      */
-    public function update(StoreUpdateMotionRequest $request, Motion $motion)
+    public function update(UpdateMotionRequest $request, Motion $motion)
     {
         $motion->update($request->all());
 

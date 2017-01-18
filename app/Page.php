@@ -96,6 +96,9 @@ class Page extends NewApiModel
      */
     public function setTextAttribute($input)
     {
+        if (!$this->content) {
+            $this->content = [];
+        }
         $this->content = array_merge($this->content, ['text' => $input]);
     }
 

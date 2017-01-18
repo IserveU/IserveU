@@ -4,7 +4,7 @@
     <div class="md-toolbar-tools">
       <h2>Terms and Conditions</h2>
       <span flex></span>
-      <md-button class="md-icon-button" ng-click="cancel()">
+      <md-button ng-if="notAccepted" class="md-icon-button" ng-click="cancel()">
         <md-icon class="mdi mdi-window-close" aria-label="Close dialog"></md-icon>
       </md-button>
     </div>
@@ -26,8 +26,11 @@
       More on IserveU
     </md-button>
     <span flex></span>
+    <md-button ng-if='userIsLoggedIn && notAccepted' class="md-raised md-accent terms_conditions__button" ng-href="http://Iserveu.ca/">
+      {{ 'I Disagree' }}
+    </md-button>
     <md-button class="md-raised md-accent terms_conditions__button" ng-click="answer('agree')">
-      {{ userIsLoggedIn ? 'Close' : 'I Agree' }}
+      {{ !userIsLoggedIn || notAccepted ? 'I Agree' : 'Close' }}
     </md-button>
   </div>
 

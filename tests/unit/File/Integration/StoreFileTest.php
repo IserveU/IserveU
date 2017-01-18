@@ -32,26 +32,4 @@ class UploadFileTest extends TestCase
             ])
             ->seeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion']);
     }
-
-    /**
-     * @test
-     **/
-    public function can_update_a_file()
-    {
-        $motion = factory(App\Motion::class)->create();
-        $existing = factory(App\File::class)->create();
-
-        $motion->files()->save($existing);
-
-        $file = $this->getAnUploadedFile();
-        $this->patch('/api/motion/'.$motion->slug.'/file/'.$existing->id, ['file' => $file, 'title' => 'Replacement Title'])
-            ->assertResponseStatus(200)
-            ->seeJsonStructure([
-                'slug',
-                'id',
-                'type',
-            ])
-            ->seeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion', 'title' => 'Replacement Title'])
-            ->seeInDatabase('files', ['fileable_id' => $motion->id, 'fileable_type' => 'App\\Motion', 'title' => $existing->title]);
-    }
 }

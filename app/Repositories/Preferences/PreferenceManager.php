@@ -117,6 +117,20 @@ class PreferenceManager
     }
 
     /**
+     * Remove a preference in the preferences array.
+     *
+     * @param string $key Key in the dot notation
+     */
+    public function exists($key)
+    {
+        if (array_has($this->preferences, $key)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Rename a single preference.
      *
      * @param string $oldName The current name
@@ -126,10 +140,13 @@ class PreferenceManager
      */
     public function renamePreference($oldName, $newName)
     {
-        $value = $this->getPreference($oldName);
-        $this->removePreference($oldName);
+        //These preference migrations can't work on some older users
+        if ($this->exists($oldName)) {
+            $value = $this->getPreference($oldName);
+            $this->removePreference($oldName);
 
-        $this->createPreference($newName, $value, true);
+            $this->createPreference($newName, $value, true);
+        }
 
         return $this;
     }

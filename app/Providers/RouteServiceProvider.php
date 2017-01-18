@@ -29,8 +29,12 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         app('router')->bind('motion', function ($slug) {
-            return Cache::tags(['motion', 'motion.query'])->rememberForever($slug, function () use ($slug) {
-                return \App\Motion::findBySlugOrId($slug);
+            return Cache::tags(['motion', 'motion.model'])->rememberForever($slug, function () use ($slug) {
+                $motion = \App\Motion::findBySlugOrId($slug);
+                if ($motion) {
+                    return $motion;
+                }
+                abort(404, 'Motion not found');
             });
         });
 
@@ -39,7 +43,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         app('router')->bind('page', function ($page) {
-            return \App\Page::findBySlugOrId($page);
+            $page = \App\Page::findBySlugOrId($page);
+            if ($page) {
+                return $page;
+            }
+            abort(404, 'Page not found');
         });
 
         app('router')->bind('user', function ($user) {
@@ -54,8 +62,10 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Vote::find($vote);
         });
 
-        app('router')->bind('comment', function ($comment) {
-            return \App\Comment::find($comment);
+        app('router')->bind('comment', function ($id) {
+            return Cache::tags(['comment', 'comment.model'])->rememberForever($id, function () use ($id) {
+                return \App\Comment::find($id);
+            });
         });
 
         app('router')->bind('comment_vote', function ($comment_vote) {

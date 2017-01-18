@@ -7,23 +7,25 @@ namespace App\Repositories\Caching;
  **/
 trait Cacheable
 {
-    public static function bootCachable()
+    public static function bootCacheable()
     {
         static::created(function ($model) {
-            $this->flushCache();
-            dd('Why wont this triggeron motion');
+            $model->flushCache($model);
+            $model->flushRelatedCache($model);
 
             return true;
         });
 
         static::updated(function ($model) {
-            $this->flushCache();
+            $model->flushCache($model);
+            $model->flushRelatedCache($model);
 
             return true;
         });
 
         static::deleted(function ($model) {
-            $this->flushCache();
+            $model->flushCache($model);
+            $model->flushRelatedCache($model);
 
             return true;
         });

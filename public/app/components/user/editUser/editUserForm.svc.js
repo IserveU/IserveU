@@ -142,7 +142,7 @@
     }
 
     function setUserProfileFields(user) {
-      personalInformation.forEach(function(el, index) {
+      personalInformation.forEach(function(el) {
         switch (el.label) {
           case 'Name':
             el.data = user.first_name + ' ' + (user.middle_name || '')
@@ -165,7 +165,7 @@
         }
       });
 
-      contactInformation.forEach(function(el, index) {
+      contactInformation.forEach(function(el) {
         switch (el.label) {
           case 'Email':
             el.data = user.email;
@@ -191,7 +191,7 @@
             break;
         }
       });
-      securitySettings.forEach(function(el, index) {
+      securitySettings.forEach(function(el) {
         switch (el.label) {
           case 'Show profile':
             el.data = user.status;

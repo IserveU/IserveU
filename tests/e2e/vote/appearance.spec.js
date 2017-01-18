@@ -28,7 +28,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			console.log(url);
 		});
 
-		browser.driver.sleep(5000); //This verification after this point failed randomly 2016-12-4
+		browser.waitForAngular();
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();
@@ -57,27 +57,33 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
   });
 
-  it('Voting with URL should match', function() {
-    login.login();
+  fit('Voting with URL should match', function() {
+    login.login('citizen@iserveu.ca');
 
-    motion.get();
+		var EC = protractor.ExpectedConditions;
+
+    motion.get('a-published-motion');
     vote.clickAbstainButton();
-    var agreeCount = vote.getAgreeCount();
-    var disagreeCount = vote.getDisagreeCount();
 
-    browser.get('#/motion/a-published-motion/vote/agree');
-    browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
+		vote.getCounts().then(function(counts){
 
-    expect(agreeCount).toEqual(agreeCount + 1);
-    expect(disagreeCount).toEqual(disagreeCount);
+			//Failed randomly Jan 18th
+			console.log("counts gathered");
+			console.log(counts);
+			browser.get('/#/motion/a-published-motion/vote/agree');
 
-    browser.get('#/motion/a-published-motion/vote/disagree');
-    browser.driver.sleep(7000);
-    expect(browser.getCurrentUrl()).toBe('/#/motion/a-published-motion');
+			browser.waitForAngular();
 
-    expect(agreeCount).toEqual(agreeCount);
-    expect(disagreeCount).toEqual(disagreeCount + 1);
+			expect(vote.getAgreeCount()).toBe(counts.agree+1);
+			expect(vote.getDisagreeCount()).toBe(counts.disagree);
+
+			browser.get('/#/motion/a-published-motion/vote/disagree');
+
+			browser.waitForAngular();
+
+			expect(vote.getAgreeCount()).toBe(counts.agree);
+			expect(vote.getDisagreeCount()).toBe(counts.disagree+1);
+		});
 
   });
 

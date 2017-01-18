@@ -269,12 +269,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     public function getMotionOpenForVotingAttribute()
     {
-
-        // Motions can stay open forever ATM
-        if ($this->closing_at == null || $this->closing_at['carbon'] == null) {
-            return true;
-        }
-
         //Created without a status but not saved
         if (!array_key_exists('status', $this->attributes)) {
             return false;
@@ -283,6 +277,11 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         //This motion is not published and cannot be voted on
         if ($this->attributes['status'] != 'published') {
             return false;
+        }
+
+        // Motions can stay open forever if their closing is null
+        if ($this->closing_at == null || $this->closing_at['carbon'] == null) {
+            return true;
         }
 
         if ($this->closing_at['carbon']->lt(Carbon::now())) {
@@ -335,6 +334,9 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function setTextAttribute($input)
     {
+        if (!$this->content) {
+            $this->content = [];
+        }
         $this->content = array_merge($this->content, ['text' => $input]);
     }
 
@@ -353,8 +355,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     /**
      * Executes the filters passed in on the.
      *
-     * @param Builder       $query   Instance of the query builder
-     * @param ArticleFilter $filters Motion filter class
+     * @param $query Builder Instance of the query builder
+     * @param $filters MotionFilter Motion filter class
      *
      * @return Builder
      */

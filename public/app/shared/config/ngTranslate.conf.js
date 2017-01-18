@@ -21,7 +21,7 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: 'IserveU is currently in BETA. ',
+      BETA_HEADER: 'This software is currently in BETA. ',
       BETA_MESSAGE: ['Features and improvements are constantly being added. ',
         'If you would like give feedback and help us test ',
         'the software, please email '].join(''),

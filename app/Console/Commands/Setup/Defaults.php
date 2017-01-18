@@ -39,12 +39,11 @@ class Defaults extends Command
      */
     public function handle()
     {
-
         // Will set any new settings since last run
         dispatch(new SetDefaultSettings());
 
         // Will set any new permissions since last run
-        // TODO: Will want to create a seperation beenween assigning the permissions and creating them so that people's permissions don't get wiped each update
+        // TODO: Will want to create a seperation beenween assigning the default permissions and creating them so that people's permissions don't get wiped each update
         dispatch(new SetDefaultPermissions());
     }
 }
