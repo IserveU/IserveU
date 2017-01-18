@@ -57,7 +57,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
   });
 
-  fit('Voting with URL should match', function() {
+  it('Voting with URL should match', function() {
     login.login('citizen@iserveu.ca');
 
 		var EC = protractor.ExpectedConditions;
