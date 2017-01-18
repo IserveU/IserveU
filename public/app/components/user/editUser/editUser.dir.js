@@ -22,9 +22,9 @@
 
 		function editUserController($scope) {
 
-			function destroy() {	
+			function destroy() {
 				ToastMessage.destroyThis("user", function(){
-				// we will change to slug later, so this need to be changed as well. 
+				// we will change to slug later, so this need to be changed as well.
 				userResource.deleteUser($scope.profile.id);
 				});
 	        }
@@ -71,8 +71,8 @@
 				var slug = $scope.profile.slug;
 
 				userResource.updateUser(slug, data).then(function(results) {
+          toggleItem(item);
 					setUserProfile();
-					toggleItem(item);
 				}, function(error) {
 					toggleItem(item);
 				});
@@ -98,7 +98,7 @@
         fetchUserPreferences();
 				setUserProfile();
 			})();
-		
+
 			(function exposeScopeMethods() {
 				$scope.communities = {};
 				$scope.roles       = {};

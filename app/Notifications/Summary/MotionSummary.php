@@ -56,9 +56,7 @@ class MotionSummary extends Notification
             //  var_dump($this->latestLaunchedMotions);
 
             foreach ($this->latestLaunchedMotions as $motion) {
-                //  dd('there');
-
-               $title = $motion->title;
+                $title = $motion->title;
 
                 var_dump($title);
 

@@ -30,7 +30,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         app('router')->bind('motion', function ($slug) {
             return Cache::tags(['motion', 'motion.model'])->rememberForever($slug, function () use ($slug) {
-                return \App\Motion::findBySlugOrId($slug);
+                $motion = \App\Motion::findBySlugOrId($slug);
+                if ($motion) {
+                    return $motion;
+                }
+                abort(404, 'Motion not found');
             });
         });
 
@@ -39,7 +43,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         app('router')->bind('page', function ($page) {
-            return \App\Page::findBySlugOrId($page);
+            $page = \App\Page::findBySlugOrId($page);
+            if ($page) {
+                return $page;
+            }
+            abort(404, 'Page not found');
         });
 
         app('router')->bind('user', function ($user) {

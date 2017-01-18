@@ -119,6 +119,7 @@ class File extends NewApiModel implements CachedModel
                 return true;
             }
 
+            //What is this doing?
             if (!\File::exists($destinationPath.$model->filename)) {
                 \File::move(storage_path().'/app/'.$model->filename, $destinationPath.$model->filename);
             }
@@ -136,6 +137,7 @@ class File extends NewApiModel implements CachedModel
             $model->flushCache($model);
             $model->flushRelatedCache($model);
         });
+
         static::updated(function ($model) {
         });
 
