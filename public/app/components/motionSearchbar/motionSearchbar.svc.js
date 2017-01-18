@@ -3,13 +3,10 @@
 	angular
 		.module('iserveu')
 		.factory('motionSearchFactory', ['motionResource', 'motionIndex', 'motionDepartments', motionSearchFactory]);
-
      // TODO: needs documentation
 	function motionSearchFactory(motion, motionIndex, motionDepartments) {
 
 		motionDepartments.loadAll();
-
-
 		var factory = {
 			text: '',
 			searching: false,
@@ -25,83 +22,77 @@
 			},
 
 			_department: motionDepartments,
+			_status: {
+				filters: [
+				   {name: "Published", query: {'status': ["published",""]}},
+				   {name: "Closed", query: {'status': ["","closed"]}},
 
+				],
+
+				filter: ''
+
+			},
 			_orderBy: {
 
 				filters: [
-				   {name: "Newest", query: {oldest: true}},
-				   {name: "Oldest", query: {newest: true}}
-				   // {name: "Closed", query: {is_expired:true}}
+				   {name: "Newest", query: {'published': 'desc'}},
+				   {name: "Oldest", query: {'published': 'asc'}},
+				   {name: "Closing Soon", query: {'descClosing':'desc'}}
 				],
 
 				filter: ''
 			},
 
 			_newFilter: [],
-
 			_filteredBy: '',
-
 			show: function() {
 				if(this.isOpen)
 					this.text = '';
 				this.isOpen = !this.isOpen;
 			},
-
+			//normal casual text search 
+			searchAll: function() {
+				var data = {
+					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
+				};
+				motion.getMotions(data)
+					.then(result => {
+					motionIndex._index = result.data;
+					motionIndex._next_page = null;
+					factory.searching = false;
+					})
+			},
 			all: function() {
 				this._department.filter = '';
 				this._orderBy.filter 	= '';
+				this._status.filter = '';
 				this.clearFilters();
 				this.getResults(this._filters);
 			},
+			searchSpecific: function() {
+				
+				this._newFilter['status[]'] = this._status.filter.status;
+ 				this._newFilter['departmentId'] = this._department.filter;
+ 				this._newFilter['orderBy[closing_at]'] = this._orderBy.filter.descClosing;
+ 				this._newFilter['orderBy[published_at]'] = this._orderBy.filter.published;
+ 				//sanitize the data in case the value is empty/ user has not chosen the filter.
 
-			query: function(filter) {
-
-				var temp = Object.getOwnPropertyNames(filter);
-				temp.pop();			//removes $mdSelect event thats bundled with var filter
-
-				this.clearFilters();
-				this.setFilterBy(temp[0]);
-
-				angular.forEach(temp, function(f, key){
-					factory._filters[f] = true;
-				});
-
-				if(angular.isNumber(this._department.filter)){
-					filter['department_id'] = this._department.filter;
-					this._filters.push(this._department.filter);
-				}
-
-				return motion.getMotions(filter).then(function(r){
-					factory.newFilter = filter;
-					factory.searching = false;
-					motionIndex.data = r.data;
-					return r.data;
-				});
-			},
-
-			queryDepartment: function(filter) {
-
-				this.setFilterBy(filter.name);
-
-				this._newFilter['department_id'] = filter.department_id;
-				this.clearFilters();
-				this._filters['department_id'] = this._newFilter['department_id'];
-
-				return motion.getMotions(this._newFilter).then(function(r){
+ 				var sanitized = {}; 
+  				for (var key in this._newFilter) {
+   					if (!!this._newFilter[key])
+     				sanitized[key] = this._newFilter[key];
+  				}
+				return motion.getMotions(sanitized).then(function(r){
 					factory._newFilter = factory._newFilter;
 					factory.searching = false;
-					motionIndex._index = r.data
+					motionIndex._index = r.data;
 					return r.data;
-				});
+				});				
 			},
-
 			clearFilters: function() {
 				var temp = this._filters;
-
 				this._filters		   = [];
-				this._filters['take']  = temp.take;
 				this._filters['limit'] = temp.limit;
-				this._filters['next_page']  = temp.next_page;
 			},
 
 			clearText: function() {
@@ -112,8 +103,8 @@
 
 				this.setFilterBy(null);
 
-				motion.getMotions(filter).then(function(r) {
-					motionIndex._index = r.data;
+				motion.getMotions(filter).then(result => {
+					motionIndex._index = result.data;
 					motionIndex._next_page = null;
 					factory.searching = false;
 				});
