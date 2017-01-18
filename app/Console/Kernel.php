@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         '\App\Console\Commands\Setup\InitializeApp',
         '\App\Console\Commands\Setup\Defaults',
+        '\App\Console\Commands\ProcessCSV',
     ];
 
     /**

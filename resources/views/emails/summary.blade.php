@@ -36,14 +36,14 @@
                           </td>
                           <td>
                             @if($motion->motionOpenForVoting)
-                              <a style="{{ $style['header-2'] }}" href="{{url('/#/motion/'.$motion->slug.'/agree')}}">
+                              <a style="{{ $style['header-2'] }}" href="{{url('/#/motion/'.$motion->slug.'/vote/agree')}}">
                                 <img style="{{ $style['small-thumb'] }}" src="{{url("/symbols/thumb-up.svg")}}" title="Agree with this" />
                               </a>
                             @endif
                           </td>
                           <td>
                             @if($motion->motionOpenForVoting)
-                              <a style="{{ $style['header-2'] }}" href="{{url('/#/motion/'.$motion->slug.'/disagree')}}">
+                              <a style="{{ $style['header-2'] }}" href="{{url('/#/motion/'.$motion->slug.'/vote/disagree')}}">
                                 <img style="{{ $style['small-thumb'] }}" src="{{url("/symbols/thumb-down.svg")}}" title="Disagree with this" />
                               </a>
                             @endif($motion->motionOpenForVoting)

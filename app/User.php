@@ -311,6 +311,10 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      */
     public function setPasswordAttribute($value)
     {
+        if (empty($value)) {
+            return false;
+        }
+
         $this->attributes['password'] = Hash::make($value);
     }
 
