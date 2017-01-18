@@ -22,7 +22,7 @@
 		"doctrine/dbal": "^2.5",
 		"flowjs/flow-php-server": "^1.0",
 		"intervention/imagecache": "^2.3",
-		"vinkla/backup": "^2.0",
+		"vinkla/backup": "^2.1",
 		"barryvdh/laravel-debugbar": "^2.3",
 		"coop182/laravel-cron-validator": "0.*",
 		"maatwebsite/excel": "~2.1.0"

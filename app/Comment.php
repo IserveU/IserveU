@@ -317,9 +317,6 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getUserAttribute()
     {
-        if (!$this->vote) {
-            dd($this);
-        }
         //If this is failing it needs to be eager loaded. For some reason nested eager loading is not working
         return $this->vote->user;
     }

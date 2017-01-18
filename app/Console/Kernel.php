@@ -4,7 +4,6 @@ namespace App\Console;
 
 use App\Jobs\Emails\PrepareAdminSummary;
 use App\Jobs\Emails\PrepareMotionSummary;
-use App\Jobs\RunBackup;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Setting;
@@ -42,7 +41,7 @@ class Kernel extends ConsoleKernel
         // Defaults to twice a day
         if (Setting::get('site.backup')) {
             $schedule->call(function () {
-                dispatch(new RunBackup());
+                \Artisan::call('backup:run');
             })->cron(Setting::get('site.backup'));
         }
     }

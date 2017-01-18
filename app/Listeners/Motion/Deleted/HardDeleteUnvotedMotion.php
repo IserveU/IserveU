@@ -29,7 +29,6 @@ class HardDeleteUnvotedMotion
         $motion = $event->motion;
         $votes = $motion->votes;
 
-        //dd($user->modificationTo);
         if ($votes->isEmpty()) {
             DB::table('motions')->where('id', $motion->id)->delete(); //Force delete
         }

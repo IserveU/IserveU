@@ -137,6 +137,7 @@ class File extends NewApiModel implements CachedModel
             $model->flushCache($model);
             $model->flushRelatedCache($model);
         });
+
         static::updated(function ($model) {
         });
 

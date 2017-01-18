@@ -269,12 +269,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     public function getMotionOpenForVotingAttribute()
     {
-
-        // Motions can stay open forever ATM
-        if ($this->closing_at == null || $this->closing_at['carbon'] == null) {
-            return true;
-        }
-
         //Created without a status but not saved
         if (!array_key_exists('status', $this->attributes)) {
             return false;
@@ -283,6 +277,11 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         //This motion is not published and cannot be voted on
         if ($this->attributes['status'] != 'published') {
             return false;
+        }
+
+        // Motions can stay open forever if their closing is null
+        if ($this->closing_at == null || $this->closing_at['carbon'] == null) {
+            return true;
         }
 
         if ($this->closing_at['carbon']->lt(Carbon::now())) {

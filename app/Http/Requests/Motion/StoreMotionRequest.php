@@ -5,7 +5,7 @@ namespace App\Http\Requests\Motion;
 use App\Http\Requests\Request;
 use App\Policies\MotionPolicy;
 
-class StoreUpdateMotionRequest extends Request
+class StoreMotionRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
