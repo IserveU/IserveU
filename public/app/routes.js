@@ -174,6 +174,13 @@
             requireLogin: false
           }
         })
+        .state('reset-password', {
+          url: '/reset-password',
+          template:'<reset-password></reset-password>' ,
+          data: {
+            requireLogin: true
+          }
+        })
         .state('permissionfail', {
           url: '/invalidentry',
           controller: 'RedirectController as redirect',
