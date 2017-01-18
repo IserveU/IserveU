@@ -1,5 +1,5 @@
 <footer layout="row" layout-align="end end" ng-cloak flex>
-	<md-button class="md-accent md-raised"
+	<md-button class="md-accent md-raised" ng-hide="userIsLoggedIn && user.agreement_accepted"
 	terms-and-conditions ng-click="terms.showContract($event)" flex-sm="50" flex-md="25" flex-gt-md="25">
 	Terms &amp; Conditions
 	</md-button>

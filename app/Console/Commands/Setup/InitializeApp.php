@@ -75,11 +75,12 @@ class InitializeApp extends Command
         $user = User::updateOrCreate([
             'email'         => $email,
             ], [
-            'email'         => $email,
-            'password'      => $password,
-            'first_name'    => 'Default',
-            'last_name'     => 'User',
-            'status'        => 'public',
+            'email'              => $email,
+            'password'           => $password,
+            'first_name'         => 'Default',
+            'last_name'          => 'User',
+            'status'             => 'public',
+            'agreement_accepted' => 1,
         ]);
         $this->info("Creating Admin: $email / $password");
 
