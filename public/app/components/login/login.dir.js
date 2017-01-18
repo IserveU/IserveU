@@ -44,7 +44,7 @@
 	        ToastMessage.simple(results.data.message);
 		    },
         function(error) {
-          ToastMessage.simple(error.data.message);
+          ToastMessage.simple("Email address not found.");
         });
 			}
 

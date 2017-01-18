@@ -30,6 +30,7 @@
 
 		function postToken(token){
 			authResource.rememberToken(token).then(function(results) {
+          $rootScope.redirectUrlName = 'reset-password';
 					loginService.successHandler(results.data);
 				}, function(error) {
 					if (error.status === 404) {
