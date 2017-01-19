@@ -19,9 +19,35 @@
 
 			self.button = new CommentVote();
       self.position = $attrs.position;
+      self.currentVote = 0;
+      self.initialVote = 0;
+
+      self.vote = function(id, pos) {
+
+        if (self.button['agree'].isActive) {
+          self.currentVote = pos === -1 ? pos : 0;
+        } else if (self.button['disagree'].isActive) {
+          self.currentVote = pos === 1 ? pos : 0;
+        } else {
+          self.currentVote = pos;
+        }
+
+        self.button.castVote(id, pos);
+      }
 
 			function fetchUserCommentVotes() {
 				commentVoteResource.getUserCommentVotes({user_id: $rootScope.authenticatedUser.id}).then(renderActiveCommentVotes);
+
+        if (self.button.agree.isActive) {
+          self.currentVote = 1;
+        } else if (self.button.disagree.isActive) {
+          self.currentVote = -1;
+        } else {
+          self.currentVote = 0;
+        }
+
+        self.initialVote = self.currentVote;
+
 			}
 
 			function renderActiveCommentVotes(res) {
@@ -48,11 +74,7 @@
 				if(!$rootScope.authenticatedUser) {
 					return false;
 				}
-
-				utils.waitUntil(function scopeDependenciesAreInstantiated(){
-					return !utils.objectIsEmpty($scope.motion) && ( $scope.$parent && $scope.$parent.$parent && !utils.objectIsEmpty( $scope.$parent.$parent.commentVoteList ));
-				}, fetchUserCommentVotes);
-
+        fetchUserCommentVotes();
 			})();
 		}
 
