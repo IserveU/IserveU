@@ -30,7 +30,7 @@ class SetDefaultPreferancesTest extends TestCase
                     ],
                     'user' => [
                         'onrolechange' => [
-                            'on'  => 1,
+                            'on'  => 0,
                         ],
                     ],
                 ],

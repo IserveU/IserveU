@@ -2,10 +2,12 @@
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use MailThief\Testing\InteractsWithMail;
 
 class CheckUserRolesTest extends TestCase
 {
     use DatabaseTransactions;
+    use InteractsWithMail;
 
     public function setUp()
     {
@@ -64,5 +66,51 @@ class CheckUserRolesTest extends TestCase
         $user->touch();
 
         $this->notSeeInDatabase('role_user', ['user_id' => $user->id]);
+    }
+
+    /** @test **/
+    public function user_with_preference_will_be_notifed_of_role_change()
+    {
+        $this->mailerInstance = $this->getMailer();
+
+        $user = factory(App\User::class, 'verified')->create();
+        $user->setPreference('authentication.notify.user.onrolechange.on', 1)->save();
+        $user->addRole('citizen');
+        $user->touch();
+
+        $message = $this->getLastMessageFor($user->email);
+        $this->assertEquals($message->subject, 'Account Approved & Upgraded');
+    }
+
+    /** @test **/
+    public function user_with_no_password_will_not_be_notifed_of_role_change() //new users created by admin/csv
+    {
+        $this->mailerInstance = $this->getMailer();
+
+        $user = factory(App\User::class, 'verified')->create([
+            'password'                  => null,
+        ]);
+        $user->setPreference('authentication.notify.user.onrolechange.on', 1)->save();
+        $user->addRole('citizen');
+        $user->touch();
+
+        $message = $this->getLastMessageFor($user->email);
+        $this->assertNotEquals($message->subject, 'Account Approved & Upgraded');
+    }
+
+    /** @test **/
+    public function user_without_preference_will_not_be_notifed_of_role_change()
+    {
+        $this->mailerInstance = $this->getMailer();
+
+        $user = factory(App\User::class, 'verified')->create([
+          'address_verified_until'    => Carbon::yesterday(),
+      ]);
+        $user->setPreference('authentication.notify.user.onrolechange.on', 0)->save();
+        $user->addRole('citizen');
+        $user->touch();
+
+        $message = $this->getLastMessageFor($user->email);
+        $this->assertNotEquals($message->subject, 'Account Approved & Upgraded');
     }
 }

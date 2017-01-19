@@ -26,13 +26,13 @@ class PreferenceManager
     ];
 
     protected $defaults = [
-      'authentication.notify.admin.oncreate.on'     => 1,
-      'authentication.notify.admin.summary.on'      => 1,
-      'authentication.notify.user.onrolechange.on'  => 1,
-      'motion.notify.user.onchange.on'              => 0,
-      'motion.notify.user.summary.on'               => 0,
+      'authentication.notify.admin.oncreate.on'     => 1, // Send admins emails when people sign up
+      'authentication.notify.admin.summary.on'      => 1, // Send admins a summary of users each day
+      'authentication.notify.user.onrolechange.on'  => 0, // Send this user an email if their role has changed
+      'motion.notify.user.onchange.on'              => 0, // Send this user an email when a motion they voted on changes
+      'motion.notify.user.summary.on'               => 0, // Send this user a summary of the motions on the site
       'motion.notify.user.summary.times'            => ['sunday'=>17, 'monday'=>null, 'tuesday'=>null, 'wednesday'=>null, 'thursday'=>null, 'friday'=>null, 'saturday'=>null],
-      'motion.notify.admin.summary.on'              => 0,
+      'motion.notify.admin.summary.on'              => 0, // Send this user (if admin) an email summarizing the motions
     ];
 
     /**
