@@ -45,7 +45,7 @@
 			template: ['<form>',
 			      	   '<md-input-container>',
           			   '<label>Birthday</label>',
-					   '<md-datepicker ng-model="profile.date_of_birth" md-placeholder="MM/DD/YYYY" format-date flex></md-datepicker>',
+					   '<md-datepicker ng-model="profile.date_of_birth" md-placeholder="MM/DD/YYYY" flex></md-datepicker>',
 					   '</md-input-container>',
 					   '</form>'].join('')
 		}
