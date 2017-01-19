@@ -230,7 +230,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
             $this->roles()->attach($role->id);
         }
 
-        if ($this->getPreference('authentication.notify.user.onrolechange')) {
+        //If users want to be notified and are not admin added
+        if ($this->getPreference('authentication.notify.user.onrolechange.on') && !$this->addedByAdmin()) {
             $this->notify(new RoleGranted($role));
         }
 
@@ -267,6 +268,20 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     }
 
     /****************************************** Getters & Setters ************************************/
+
+    /**
+     * Checks if a user was added by the site admin.
+     *
+     * @return bool Crude check but works for now
+     */
+    public function addedByAdmin()
+    {
+        if ($this->password) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @param string takes a string and hashes it into a password

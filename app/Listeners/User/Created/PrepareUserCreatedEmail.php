@@ -27,6 +27,9 @@ class PrepareUserCreatedEmail
      */
     public function handle(UserCreated $event)
     {
+        if ($event->user->addedByAdmin()) {
+            return true;
+        }
 
         // For all admins, send a notification
         $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.oncreate.on', 1)->get();

@@ -1,4 +1,4 @@
-<?php
++<?php
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
@@ -37,6 +37,20 @@ class PrepareUserCreatedEmailTest extends TestCase
         $admin->setPreference('authentication.notify.admin.oncreate.on', 0)->save();
 
         $user = factory(App\User::class, 'public')->create();
+
+        $message = $this->getLastMessageFor($admin->email);
+        $this->assertNotEquals($message->subject, 'User Created: '.$user->first_name.' '.$user->last_name);
+    }
+
+    /** @test **/
+    public function showUser_administrator_does_not_get_a_user_with_no_password()
+    {
+        $admin = static::getPermissionedUser('show-user');
+        $admin->setPreference('authentication.notify.admin.oncreate.on', 1)->save();
+
+        $user = factory(App\User::class, 'public')->create([
+          'password' => null,
+        ]);
 
         $message = $this->getLastMessageFor($admin->email);
         $this->assertNotEquals($message->subject, 'User Created: '.$user->first_name.' '.$user->last_name);
