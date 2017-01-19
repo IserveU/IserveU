@@ -1,4 +1,4 @@
-<div class="md-toolbar-tools sidebar-toolbar" ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
+<div class="md-toolbar-tools sidebar-toolbar"  ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
 
   <md-button class="md-icon-button" aria-label="Home Button" href="#/home" ng-show="!search.isOpen">
     <symbol-all-white-png resize-width="24" ng-href="#/home"></symbol-all-white-png>
@@ -12,7 +12,7 @@
 
       <h2 ng-if="!search.isOpen" translate="{{'MOTIONS'}}" flex></h2>
 
-      <input class="sidebar-search-input" type='text' placeholder="Search ..." ng-show="search.isOpen" ng-model='search.text' ng-class="{'sidebar-search-input':search.isOpen}" focus-input="search.isOpen" auto-focus flex/>
+      <input class="sidebar-search-input" type='text' placeholder="Search ..." ng-show="search.isOpen" ng-model='search.text' ng-class="{'sidebar-search-input':search.isOpen}" ng-keypress="search.searchAll()" focus-input="search.isOpen" auto-focus flex/>
 
 
       <div ng-class="search.isOpen?'':'action-buttons'" layout-align="end end">
@@ -21,13 +21,16 @@
         <md-menu md-offset="27 32">
           <md-icon class="mdi mdi-dots-vertical" ng-click="$mdOpenMenu()"></md-icon>
           <md-menu-content width="4" class="md-body-1">
-
-            <md-select placeholder="Filter by Departments" ng-model="search._department.filter" aria-label="filter motions by department" layout-padding>
-              <md-option ng-repeat="department in search._department.index" ng-mousedown="search.queryDepartment({name: department.name, department_id:department.id})" ng-value="department.id">{{::department.name}}</md-option>
+            <md-select placeholder="Filter by Departments" ng-model="search._department.filter" ng-change="search.searchSpecific()" aria-label="filter motions by department" layout-padding>
+              <md-option ng-repeat="department in search._department.index" ng-value="department.id">{{::department.name}}</md-option>
             </md-select>
 
-            <md-select ng-model="search._orderBy.filter" placeholder="Order by:" aria-label="filter motions by properties" layout-padding>
-              <md-option ng-mousedown="search.query(filter.query)" ng-repeat="filter in search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+            <md-select placeholder="Filter by Status" ng-model="search._status.filter" ng-change="search.searchSpecific()" aria-label="filter motions by status" layout-padding>
+              <md-option ng-repeat="filter in search._status.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+            </md-select>
+                                    
+            <md-select ng-model="search._orderBy.filter" ng-change="search.searchSpecific()" placeholder="Order by:" aria-label="filter motions by properties" layout-padding>
+              <md-option ng-repeat="filter in search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
             </md-select>
 
             <md-menu-button class="action-buttons" layout="row" layout-align="end end">
