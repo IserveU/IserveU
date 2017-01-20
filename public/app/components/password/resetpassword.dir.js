@@ -7,18 +7,21 @@
     .directive('resetPassword', [
       '$rootScope',
       '$state',
+      '$location',
       'userResource',
       'ToastMessage',
     resetPassword]);
 
-    function resetPassword($rootScope, $state, userResource, ToastMessage) {
+    function resetPassword($rootScope, $state, $location, userResource,ToastMessage) {
 
       function resetPasswordController($scope, $state) {
         $scope.user = $rootScope.authenticatedUser;
 
         $scope.savePassword = function () {
           userResource.updateUser($scope.user.slug, {password: $scope.password}).then(function(results) {
-            $state.go('home');
+            $state.go('home').then(function(succ){
+              $state.reload();
+            });
           }, function(error) {
             ToastMessage.simple('Something went wrong. Please try again later.');
           });

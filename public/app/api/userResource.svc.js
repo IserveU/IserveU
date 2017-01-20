@@ -77,6 +77,7 @@
 
     function getUser(id) {
       return User.get({id: id}).$promise.then(function(result) {
+        localStorage.setItem('user', JSON.stringify(result));
         return result;
       }, function(error) {
         return $q.reject(error);
@@ -93,6 +94,7 @@
 
     function updateUser(id, data) {
       return User.update({id: id}, data).$promise.then(function(result) {
+        localStorage.setItem('user', JSON.stringify(result));
         return result;
       }, function(error) {
         return $q.reject(error);
