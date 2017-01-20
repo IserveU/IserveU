@@ -4,19 +4,36 @@
 	<md-card class="comment-list__container" flex>
 		<md-card-content flex>
 
-		    <md-tabs md-dynamic-height md-border-bottom flex layout-align="center center" md-selected="commentList.selectedIndex">
-		        <md-tab label="Comments Agreeing ({{ commentList.count(motion.motionComments.agreeComments) }})">
-					<comment-list-agree class="motion_commentlist"></comment-list-agree>
+		    <md-tabs md-dynamic-height md-border-bottom md-swipe-content md-stretch-tabs="always" flex layout-align="center center" md-selected="commentList.selectedIndex">
+		        <md-tab>
+								<md-tab-label>
+										<md-tooltip>See comments that agree with this motion</md-tooltip>
+										<md-icon md-svg-src="thumb-up"></md-icon>
+								</md-tab-label>
+								<md-tab-body>
+									<comment-list-agree class="motion_commentlist"></comment-list-agree>
+								</md-tab-body>
 		        </md-tab>
-		        <md-tab ng-if="settingsGlobal.voting.abstain" label="Comments Abstaining ({{ commentList.count(motion.motionComments.abstainComments)}})">
-					<comment-list-abstain class="motion_commentlist"></comment-list-abstain>
+		        <md-tab ng-if="settingsGlobal.voting.abstain">
+							<md-tab-label>
+								<md-tooltip>See comments that abstained from this motion</md-tooltip>
+									<md-icon md-svg-src="thumbs-up-down"></md-icon>
+							</md-tab-label>
+							<md-tab-body>
+								<comment-list-abstain class="motion_commentlist"></comment-list-abstain>
+							</md-tab-body>
 		        </md-tab>
-		        <md-tab label="Comments Disagreeing ({{ commentList.count(motion.motionComments.disagreeComments) }})">
-					<comment-list-disagree class="motion_commentlist"></comment-list-disagree>
-		        </md-tab>
+						<md-tab>
+							<md-tab-label>
+									<md-tooltip>See comments that disagree with this motion</md-tooltip>
+									<md-icon md-svg-src="thumb-down"></md-icon>
+							</md-tab-label>
+							<md-tab-body>
+								<comment-list-disagree class="motion_commentlist"></comment-list-disagree>
+							</md-tab-body>
+						</md-tab>
 		    </md-tabs>
-
-		</md-card-content>    
+		</md-card-content>
 	</div>
 </section>
 

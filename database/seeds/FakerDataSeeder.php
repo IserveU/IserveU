@@ -48,20 +48,23 @@ class FakerDataSeeder extends Seeder
         $this->giveMotionComments($closedMotion);
 
         $user = factory(App\User::class, 'unverified')->create([
-            'email'     => 'user@iserveu.ca',
-            'password'  => 'abcd1234',
+            'first_name'  => 'MrsUnverified',
+            'email'       => 'user@iserveu.ca',
+            'password'    => 'abcd1234',
         ]);
 
         $citizen = factory(App\User::class, 'verified')->create([
-            'email'     => 'citizen@iserveu.ca',
-            'password'  => 'abcd1234',
+            'first_name'  => 'MrsVerified',
+            'email'       => 'citizen@iserveu.ca',
+            'password'    => 'abcd1234',
         ]);
 
         $citizen->addRole('citizen');
 
         $representative = factory(App\User::class, 'verified')->create([
-            'email'     => 'representative@iserveu.ca',
-            'password'  => 'abcd1234',
+            'first_name'  => 'MrsRepresentative',
+            'email'       => 'representative@iserveu.ca',
+            'password'    => 'abcd1234',
         ]);
 
         $representative->addRole('representative');

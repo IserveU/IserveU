@@ -23,7 +23,13 @@ class DomHelper {
 	}
 
 	static clickBetter(element){
+
+		if(!element){
+			console.log("The element has not been set");
+		}
+
 		var EC = protractor.ExpectedConditions;
+
 
 		let me = this;
 

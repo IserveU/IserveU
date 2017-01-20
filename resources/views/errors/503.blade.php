@@ -49,7 +49,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Maintaince Underway</div>
+                <div class="title">Maintenance Underway</div>
                 <div class="subtitle">Our finely tuned democracy cogs are currently being oiled and replaced</p>
             </div>
         </div>

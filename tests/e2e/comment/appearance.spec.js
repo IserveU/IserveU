@@ -24,7 +24,25 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		let commentText = faker.lorem.sentences(4);
 
 		comment.setAndSaveUserComment(commentText);
-		comment.sectionActive('disagree');
+
+		comment.expectSectionActive('disagree');
+		comment.expectSectionInactive(['agree','abstain']);
+
+		comment.clickAgreeSection();
+
+		comment.expectSectionInactive(['disagree','abstain']);
+		comment.expectSectionActive('agree');
+
+		comment.expectCommentListContainsComment('agree',[commentText,"MrsVerified"]);
+
+
+  });
+
+  afterEach(function(){
+      browser.manage().logs().get('browser').then(function(browserlog){
+       // expect(browserlog.length).toEqual(0);
+        if(browserlog.length) console.error(JSON.stringify(browserlog));
+      });
   });
 
 
