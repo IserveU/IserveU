@@ -11,7 +11,7 @@
 
         <!-- Alloy Editor Dependencies -->
         <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>
-        <script src="{{elixir('js/dependencies.js')}}"></script>
+        <script src="/js/dependencies.js"></script>
         <script src="{{elixir('js/app.js')}}"></script>
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');

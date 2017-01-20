@@ -24,7 +24,7 @@ elixir(function(mix) {
         '/angular-material/angular-material.min.js',
         '/angular-resource/angular-resource.min.js',
         '/angular-messages/angular-messages.min.js',
-        '/angular-ui-router/release/angular-ui-router.min.js',
+        '/angular-ui-router/release/angular-ui-router.js',
         '/angular-sanitize/angular-sanitize.min.js',
         '/satellizer/dist/satellizer.min.js', //depecrated, maybe
         '/ng-flow/dist/ng-flow-standalone.min.js',
@@ -61,6 +61,8 @@ elixir(function(mix) {
 
     //Copy the glyph fonts and symbols for the UI
     mix.copy('resources/assets/symbols', 'public/symbols');
+
+    mix.copy('resources/assets/maintenance.jpg', 'public');
 
     mix.version(['public/css/dependencies.css','public/css/app.css','public/js/app.js','public/js/dependencies.js']);
 

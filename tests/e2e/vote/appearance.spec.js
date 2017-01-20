@@ -17,11 +17,12 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 	});
 
 
-  it('the passing status icon should match', function() {
+  fit('the passing status icon should match', function() {
   		login.login('citizen@iserveu.ca');
 
 		sidebar.clickRandomMotion();
 
+		//Failed on Jan-17:  No element found using locator: By(css selector, .motion_vote_buttons__button--abstain)
 		vote.voteRandomWay(); //Ensure starting in abstain position
 
 		browser.getCurrentUrl().then(function(url){
