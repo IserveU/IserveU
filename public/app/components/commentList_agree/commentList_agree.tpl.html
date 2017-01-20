@@ -3,7 +3,7 @@
 		<md-icon class="mdi md-avatar-icon mdi-account-circle"></md-icon>
 
         <div class="md-list-item-text">
-            <h3 class="motion_commentlist__usertitle" ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.user.community.adjective"></h3>
+            <h3 class="motion_commentlist__usertitle" ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.commentWriter.community.adjective"></h3>
             <h4 class="motion_commentlist__date" ng-bind="show.formatDate(comment)"></h4>
             <div class="motion_commentlist__text" marked="comment.text"></div>
         </div>

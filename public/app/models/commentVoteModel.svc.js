@@ -56,7 +56,6 @@
       },
 
       castVote: function(comment_id, pos) {
-
         var type = stringifyPosition(pos);
         var oldType = stringifyPosition(pos *= -1);
 

@@ -1,12 +1,6 @@
 /vendor
 /node_modules
-/public/css/*
-/public/js/*
-/public/themes/*
-/public/build/*
-/public/icons/*
-/public/symbols/*
-/public/fonts/*
+/public/*
 /bower/*
 /tests/build/*
 /storage/logs/*

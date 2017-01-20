@@ -13,7 +13,7 @@ class UpdateUserRequest extends Request
      * @var array
      */
     protected $rules = [
-        'email'                         => 'email|unique:users,email|min:0',
+        'email'                         => 'email|min:0|unique:users,email',
         'password'                      => 'min:8',
         'first_name'                    => 'string|filled',
         'last_name'                     => 'string|filled',
