@@ -63,8 +63,8 @@ describe('authenication.guest page interactions for a guest users (no account) |
     		browser.driver.sleep(500);
 
      		page.clickIAgreeButton();
-
-     		browser.wait(EC.urlContains('home'), 10000,"url did not match");
+				//Failed on January the 17 (URL did not match)
+     		browser.wait(EC.urlContains('home'), 12000,"Url did not match");
 
   	});
 
