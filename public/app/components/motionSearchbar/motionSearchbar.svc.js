@@ -72,7 +72,7 @@
 			searchSpecific: function() {
 				
 				this._newFilter['status[]'] = this._status.filter.status;
- 				this._newFilter['departmentId'] = this._department.filter;
+ 				this._newFilter['department_id'] = this._department.filter;
  				this._newFilter['orderBy[closing_at]'] = this._orderBy.filter.descClosing;
  				this._newFilter['orderBy[published_at]'] = this._orderBy.filter.published;
  				//sanitize the data in case the value is empty/ user has not chosen the filter.

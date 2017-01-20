@@ -30,7 +30,7 @@ class IndexMotionRequest extends Request
         }
 
         //If you are only filtering your own motion drafts/reviews no problem
-        if (Auth::check() && $this->has('userId') && $this->input('userId') == Auth::user()->id) {
+        if (Auth::check() && $this->has('user_id') && $this->input('user_id') == Auth::user()->id) {
             return true;
         }
 
@@ -46,20 +46,20 @@ class IndexMotionRequest extends Request
     public function rules()
     {
         return [
-            'allTextFields'           => 'max:255',
-            'rankGreaterThan'         => 'numeric',
-            'rankLessThan'            => 'numeric',
-            'departmentId'            => 'numeric|exists:departments,id',
-            'orderBy.closing_at'      => ['regex:(desc|asc)'],
-            'orderBy.published_at'    => ['regex:(desc|asc)'],
-            'orderBy.created_at'      => ['regex:(desc|asc)'],
-            'status'                  => 'array',
-            'implementation'          => 'array',
-            'userId'                  => 'exists:users,id',
-            'limit'                   => 'integer',
-            'title'                   => 'max:255',
-            'rank'                    => 'integer',
-            'page'                    => 'integer',
+            'allTextFields'            => 'max:255',
+            'rankGreaterThan'          => 'numeric',
+            'rankLessThan'             => 'numeric',
+            'department_id'            => 'numeric|exists:departments,id',
+            'orderBy.closing_at'       => ['regex:(desc|asc)'],
+            'orderBy.published_at'     => ['regex:(desc|asc)'],
+            'orderBy.created_at'       => ['regex:(desc|asc)'],
+            'status'                   => 'array',
+            'implementation'           => 'array',
+            'user_id'                  => 'exists:users,id',
+            'limit'                    => 'integer',
+            'title'                    => 'max:255',
+            'rank'                     => 'integer',
+            'page'                     => 'integer',
         ];
     }
 }

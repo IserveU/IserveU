@@ -23,7 +23,7 @@ class MotionFilter extends QueryFilter
     }
 
     /* Department of motions */
-    public function departmentId($department_id = 1)
+    public function department_id($department_id = 1)
     {
         return $this->query->where('department_id', $department_id);
     }
@@ -45,7 +45,7 @@ class MotionFilter extends QueryFilter
             ->orWhere('slug', 'like', "%$string%");
     }
 
-    public function userId($id)
+    public function user_id($id)
     {
         return $this->query->writer($id);
     }

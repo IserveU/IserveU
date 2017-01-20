@@ -279,7 +279,7 @@ class IndexMotionApiTest extends MotionApi
             'user_id'   => $this->user->id,
         ]);
 
-        $this->json('GET', $this->route, ['userId' => $this->user->id])
+        $this->json('GET', $this->route, ['user_id' => $this->user->id])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
@@ -301,7 +301,7 @@ class IndexMotionApiTest extends MotionApi
             'department_id' => $department->id,
         ]);
 
-        $this->json('GET', $this->route, ['departmentId' => $department->id])
+        $this->json('GET', $this->route, ['department_id' => $department->id])
                 ->assertResponseStatus(200);
 
         $motions = json_decode($this->response->getContent());
