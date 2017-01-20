@@ -1,7 +1,7 @@
 class DomHelper {
 
 	constructor() {
-
+		this.buttonText = "";
 	}
 
 	static extractAttribute(element, attr){
@@ -25,6 +25,12 @@ class DomHelper {
 	static clickBetter(element){
 		var EC = protractor.ExpectedConditions;
 
+		let me = this;
+
+		element.getText().then(function(buttonText){
+			me.buttonText = buttonText;
+		});
+
 		browser.wait(EC.presenceOf(element), 2000, "The element is not in the DOM");
 
 		browser.wait(EC.visibilityOf(element), 2000, "The element is in the DOM but not visible");
@@ -32,15 +38,13 @@ class DomHelper {
 		browser.wait(EC.elementToBeClickable(element), 2000, "The element is in the DOM and visible but not clickalble");
 
 		this.scrollIntoView(element);
-		element.getText().then(function(name){
-			console.log(name+' being clicked');
-		});
+
+		console.log(this.buttonText+' being clicked');
 
 		element.click();
 
-		element.getText().then(function(name){
-			console.log(name+' clicked');
-		});
+		console.log(this.buttonText+' clicked');
+
 	}
 
 
