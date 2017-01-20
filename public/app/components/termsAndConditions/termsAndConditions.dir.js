@@ -4,7 +4,11 @@
 
   angular
     .module('iserveu')
-    .directive('termsAndConditions', ['$rootScope', 'loginService', 'userResource', termsAndConditions]);
+    .directive('termsAndConditions',
+      ['$rootScope',
+       'loginService',
+       'userResource',
+       termsAndConditions]);
 
     function termsAndConditions($rootScope, loginService, userResource) {
 
@@ -21,7 +25,6 @@
       self.agreed   = user.agreement_accepted || false;
       self.hasRead  = false;
 
-      console.log(user);
       if ($scope.userIsLoggedIn && !self.agreed) {
         showContract();
       }

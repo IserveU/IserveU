@@ -26,7 +26,7 @@
       More on IserveU
     </md-button>
     <span flex></span>
-    <md-button ng-if='userIsLoggedIn && notAccepted' class="md-raised md-accent terms_conditions__button" ng-href="http://Iserveu.ca/">
+    <md-button ng-if='userIsLoggedIn || notAccepted' class="md-raised md-accent terms_conditions__button" ng-href="http://Iserveu.ca/">
       {{ 'I Disagree' }}
     </md-button>
     <md-button class="md-raised md-accent terms_conditions__button" ng-click="answer('agree')">
