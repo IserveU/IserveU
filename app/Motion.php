@@ -244,10 +244,6 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
     public function setClosingAtAttribute($value)
     {
-        if (!$this->votes->isEmpty()) {
-            abort(403, 'People have already began voting on this motion, you can not change its closing date');
-        }
-
         $this->attributes['closing_at'] = $value;
 
         return true;
