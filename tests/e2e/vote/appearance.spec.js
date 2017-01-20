@@ -17,7 +17,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 	});
 
 
-  fit('the passing status icon should match', function() {
+  it('the passing status icon should match', function() {
   		login.login('citizen@iserveu.ca');
 
 		sidebar.clickRandomMotion();
