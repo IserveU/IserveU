@@ -78,8 +78,13 @@ class ProcessCSV extends Command
         $address = array_values(array_filter([$result->primary_address1, $result->user_submitted_submitted_address, $result->user_submitted_address1], function ($val) {
             return !empty($val);
         }));
-
         $address = empty($address) ? null : $address[0];
+
+
+        $phones = array_values(array_filter([$result->mobile_number, $result->phone_number], function ($val) {
+            return !empty($val);
+        }));
+        $phone = empty($phones) ? null : preg_replace('~\D~', '', $phones[0]);
 
         if ($user) {
             if (!$user->first_name && $result->first_name) {
@@ -91,6 +96,11 @@ class ProcessCSV extends Command
             if (!$user->last_name && $result->last_name) {
                 $user->last_name = $result->last_name;
             }
+
+            if (!$user->phone && $phone) {
+                $user->phone = $phone;
+            }
+
             if (!$user->postal_code && $result->primary_zip) {
                 $user->postal_code = $result->primary_zip;
             }
@@ -129,6 +139,7 @@ class ProcessCSV extends Command
         'first_name'      => $result->first_name ?? 'Unknown',
         'middle_name'     => $result->middle_name,
         'last_name'       => $result->last_name ?? 'Unknown',
+        'phone'           => $phone,
         'postal_code'     => $result->primary_zip,
         'street_name'     => $address,
         'community_id'    => (strpos($result->primary_city, 'Yellow') !== false) ? 1 : 0, //($result->primary_city=="Yellowknife")?1:null,
