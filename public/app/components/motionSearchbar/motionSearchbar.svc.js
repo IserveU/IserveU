@@ -51,7 +51,11 @@
 				this.isOpen = !this.isOpen;
 			},
 			//normal casual text search 
-			searchAll: function() {
+			searchAll: function(event) {
+				if(event.keyCode === 8 && !this.text)
+				{
+					this.text = this.text.substring(0,this.text.length-1);
+				}
 				var data = {
 					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
 				};
