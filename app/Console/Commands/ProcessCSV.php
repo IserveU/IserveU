@@ -80,7 +80,6 @@ class ProcessCSV extends Command
         }));
         $address = empty($address) ? null : $address[0];
 
-
         $phones = array_values(array_filter([$result->mobile_number, $result->phone_number], function ($val) {
             return !empty($val);
         }));
