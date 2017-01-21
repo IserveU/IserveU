@@ -59,12 +59,11 @@
 				var data = {
 					'allTextFields': this.text // TODO alter function to take paramaters from searchbar input
 				};
-				motion.getMotions(data)
-					.then(result => {
-					motionIndex._index = result.data;
-					motionIndex._next_page = null;
-					factory.searching = false;
-					})
+				motion.getMotions(data).then(function (result) {
+		          motionIndex._index = result.data;
+		          motionIndex._next_page = null;
+		          factory.searching = false;
+		        });
 			},
 			all: function() {
 				this._department.filter = '';
@@ -107,7 +106,7 @@
 
 				this.setFilterBy(null);
 
-				motion.getMotions(filter).then(result => {
+				motion.getMotions(data).then(function (result) {
 					motionIndex._index = result.data;
 					motionIndex._next_page = null;
 					factory.searching = false;

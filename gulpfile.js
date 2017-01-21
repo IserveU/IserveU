@@ -16,15 +16,15 @@ require('laravel-elixir-livereload');
 
 elixir(function(mix) {
 
-    mix.scripts([
-        '/angular/angular.js',
+    mix.combine([
+        '/angular/angular.min.js',
         '/jquery/dist/jquery.min.js',
         '/angular-animate/angular-animate.min.js',
         '/angular-aria/angular-aria.min.js',
         '/angular-material/angular-material.min.js',
         '/angular-resource/angular-resource.min.js',
         '/angular-messages/angular-messages.min.js',
-        '/angular-ui-router/release/angular-ui-router.js',
+        '/angular-ui-router/release/angular-ui-router.min.js',
         '/angular-sanitize/angular-sanitize.min.js',
         '/satellizer/dist/satellizer.min.js', //depecrated, maybe
         '/ng-flow/dist/ng-flow-standalone.min.js',
