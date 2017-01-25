@@ -1,44 +1,15 @@
-@import 'utils/utils';
+@import 'variables';
 @import 'vendor/vendor';
 @import 'common/common';
 @import 'components/components';
 @import 'global/global';
 
-// header {
-// 	.inline-icon {
-// 		display:inline-block;
-// 		position: relative;
-// 		cursor: pointer;
-// 		font-size: 17px !important;
-// 		left: -1px !important;
-// 		bottom: 1px !important;
-// 	}
-// 	md-icon {
-// 		@extend .inline-icon;
-// 		cursor: default;
-// 		font-size: 19px !important;
-// 		left: 3px !important;
-// 		vertical-align:inherit;
-// 	}
-// 	&md-icon[md-svg-src] {
-// 		display:inline-block;
-// 		width: 18px;
-// 	}
-// 	h1, h2, h3 {
-// 		font-size: 16px; margin-bottom: 18px; display:inline-block;
-// 	}
-// 	h4, h5, h6{
-// 		@extend .title-header;
-// 		font-size: 14px;
-// 		color: $darkGrey;
-// 	}
-// }
-// 
+
 
 *{
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;         /* Opera/IE 8+ */	
+	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 md-icon{
@@ -348,7 +319,7 @@ md-menu-item{
 // start comment
 #display-comments {
 
-	
+
 	section.motion-comments {
 		p, h4, i{
 			display:inline;

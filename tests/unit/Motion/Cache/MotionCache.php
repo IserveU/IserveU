@@ -4,16 +4,15 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class MotionCache extends TestCase
 {
-    use DatabaseTransactions;
 
-    protected $route = '/api/motion/';
-    protected $class = App\Motion::class;
-    protected $table = 'motions';
-    protected $modelToUpdate;
-    protected $update = ['title'=>'Updated Motion'];
+  use DatabaseTransactions, CacheTest;
 
-    public function updateInDB()
-    {
-        DB::table($this->table)->where(['id'=>$modelToUpdate->id])->update($this->update);
-    }
+  protected $route = '/api/motion/';
+  protected $class = App\Motion::class;
+  protected $table = 'motions';
+  protected $otherModel;
+  protected $thisModel;
+  protected $update = ['summary'=>'Whatever. I do what I want'];
+
+
 }

@@ -15,30 +15,28 @@ class MotionCacheCreateTest extends MotionCache
         $this->signInAsAdmin();
     }
 
+
     /** @test  */
-    public function creating_motion_clears_index_cache()
+    public function creating_motion_clears_filter_cache()
     {
-        $this->motionToUpdate = factory(App\Motion::class)->create();
+        $this->triggerFilterRoute()
+             ->assertNotNull($this->getFilterCache());
 
-        $this->get('/api/motion');
+        factory($this->class)->create();
 
-        $this->assertNotNull(Cache::tags(['motion', 'motion.filters'])->get(20));
-
-        factory(App\Motion::class)->create();
-        $this->assertNull(Cache::tags(['motion', 'motion.filters'])->get(20));
+        $this->assertNull($this->getFilterCache());
     }
 
     /** @test  */
-    public function creating_motion_does_not_clear_other_query_caches()
+    public function creating_motion_does_not_clear_other_model_cache()
     {
-        $otherMotion = factory(App\Motion::class)->create();
+        $this->otherModel = factory($this->class)->create();
 
-        $this->get('/api/motion/'.$otherMotion->slug)->assertResponseStatus(200);
+        $this->triggerOtherRoute()
+             ->assertNotNull($this->getOtherCache());
 
-        $this->assertNotNull(Cache::tags(['motion', 'motion.model'])->get($otherMotion->slug));
+        factory($this->class)->create();
 
-        factory(App\Motion::class)->create();
-
-        $this->assertNotNull(Cache::tags(['motion', 'motion.model'])->get($otherMotion->slug));
+        $this->assertNotNull($this->getOtherCache());
     }
 }
