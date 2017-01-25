@@ -15,7 +15,6 @@ class MotionCacheCreateTest extends MotionCache
         $this->signInAsAdmin();
     }
 
-
     /** @test  */
     public function creating_motion_clears_filter_cache()
     {

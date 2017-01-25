@@ -656,6 +656,4 @@ trait PolishedTest
             $previousItem = $thisItem;
         }
     }
-
-
 }

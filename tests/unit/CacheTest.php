@@ -3,8 +3,6 @@
 
 trait CacheTest
 {
-
-
     public function updateInDB($model)
     {
         DB::table($this->table)->where(['id'=>$model->id])->update($this->update);
@@ -66,5 +64,4 @@ trait CacheTest
 
         return Cache::tags([str_singular($this->table),  str_singular($this->table).'.model'])->get($slug);
     }
-
 }

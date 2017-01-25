@@ -167,8 +167,8 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     public function flushCache($fromModel = null)
     {
         Cache::tags(['motion.filters'])->flush();
-        Cache::tags(['motion','motion.model'])->forget($this->slug);
-        Cache::tags(['motion','motion.model'])->forget($this->id);
+        Cache::tags(['motion', 'motion.model'])->forget($this->slug);
+        Cache::tags(['motion', 'motion.model'])->forget($this->id);
       //  Cache::forget('motion'.$this->slug.'_comments');
     }
 

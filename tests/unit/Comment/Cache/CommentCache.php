@@ -12,5 +12,4 @@ abstract class CommentCache extends TestCase
     protected $otherModel;
     protected $thisModel;
     protected $update = ['text'=>'Whatever. I do what I want'];
-
 }
