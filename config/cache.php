@@ -74,7 +74,7 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_NAME','laravel'),
+    'prefix' => env('CACHE_NAME', 'laravel'),
 
     'ttl'    => 30,
 
