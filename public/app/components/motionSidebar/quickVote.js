@@ -54,7 +54,8 @@
 		}
 
     function isMotionDraft(status) {
-      return ['draft', 'review'].includes(status);
+
+      return ['draft', 'review'].indexOf(status) >= 0;
     }
 
 		/******************************************************************
