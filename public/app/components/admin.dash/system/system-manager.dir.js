@@ -16,6 +16,7 @@
       this.showMotion = false;
       this.showSecurity = false;
       this.showVoting = false;
+      this.showBetaMessage = false;
 
       this.save = function(dataType) {
         settings.saveTypeOf(dataType);
@@ -36,7 +37,9 @@
       this.toggleVoting = function() {
         this.showVoting = !this.showVoting;
       };
-
+      this.toggleBetaMessage = function() {
+        this.showBetaMessage = !this.showBetaMessage;
+      };
     }
 
     return {
