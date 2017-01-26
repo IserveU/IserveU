@@ -3,9 +3,9 @@
 
   angular
     .module('iserveu')
-    .directive('floatingButton', ['$window', 'utils', floatingButton]);
+    .directive('floatingButton', ['$window', 'utils', '$log', floatingButton]);
 
-  function floatingButton($window, utils) {
+  function floatingButton($window, utils, $log) {
 
     function floatingButtonController() {
       this.isOpen = false;
@@ -21,8 +21,9 @@
     function floatingButtonLink(scope, el, attrs, ctrl) {
       var buttons = angular.extend([], scope.$eval(attrs.initButtons));
 
+
       for (var i in ctrl.show) {
-        if (buttons.includes(i)) {
+        if (buttons.indexOf(i) >= 0) {
           ctrl.show[i] = true;
         }
       }

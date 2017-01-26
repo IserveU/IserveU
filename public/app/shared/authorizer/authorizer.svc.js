@@ -23,7 +23,7 @@
       }
 
       return requirePermissions.every(function(el) {
-        return user.permissions.includes(el.trim());
+        return user.permissions.indexOf(el.trim()) >= 0;
       });
     };
 

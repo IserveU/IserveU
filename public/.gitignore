@@ -2,3 +2,5 @@
 !.gitignore
 !index.php
 !robots.txt
+!/app
+!/build

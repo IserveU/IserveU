@@ -7,7 +7,7 @@ return [
     /*
      * Used for the site title and masthead in emails
      */
-    'name' => env('APP_NAME', 'IserveU'),
+    'name' => env('APP_NAME', 'IserveU Deployment'),
 
     /*
      * If you want to enable the live reload option during development

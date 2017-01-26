@@ -1,6 +1,6 @@
 /vendor
 /node_modules
-/public/*
+
 /bower/*
 /tests/build/*
 /storage/logs/*
@@ -16,5 +16,3 @@ codeception.yml
 tests/_output/*
 .DS_Store
 *.log
-
-!/public/app/*
