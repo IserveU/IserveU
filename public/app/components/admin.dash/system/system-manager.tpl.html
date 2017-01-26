@@ -73,6 +73,37 @@
       </div>
 
       <md-list-item ng-click="noop();">
+        <p>Beta-message</p>
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleBetaMessage()">
+          <md-icon class="mdi mdi-pencil"></md-icon>
+        </md-button>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.betaMessage.on" ng-change="systemManager.save('betaMessage.on')"></md-switch>
+      </md-list-item>
+
+      <div ng-if="systemManager.showBetaMessage" layout="column" layout-padding>
+          <md-input-container>
+            <label>Header</label>
+            <input type="text" ng-model="settingsGlobal.betaMessage.header" ngMaxlength=200>
+          </md-input-container>
+          <md-input-container>
+            <label>Content</label>
+            <textarea type="text" ng-model="settingsGlobal.betaMessage.message" ngMaxlength=200>
+            </textarea>
+          </md-input-container>
+
+        <div layout="row" layout-align="front center">
+          <spinner ng-click="systemManager.save('betaMessage')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleBetaMessage();"></spinner>
+          <md-button ng-show="systemManager.showBetaMessage" ng-click="systemManager.toggleBetaMessage();">Cancel</md-button>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <md-list-item ng-click="noop();">
         <p>Comments</p>
         <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.comment.on" ng-change="systemManager.save('comment.on')"></md-switch>
       </md-list-item>

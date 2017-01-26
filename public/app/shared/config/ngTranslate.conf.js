@@ -8,7 +8,7 @@
   function translateProvider($translateProvider, SETTINGS_JSON) {
 
     var j = SETTINGS_JSON.jargon;
-
+    var b = SETTINGS_JSON.betaMessage;
     $translateProvider.preferredLanguage('en');
 
     // $translateProvider.determinePreferredLanguage(function(){
@@ -21,8 +21,8 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: 'This software is currently in BETA. ',
-      BETA_MESSAGE: ['Features and improvements are constantly being added. ',
+      BETA_HEADER: b ? b.header : 'This software is currently in BETA. ',
+      BETA_MESSAGE: b ? b.message : ['Features and improvements are constantly being added. ',
         'If you would like give feedback and help us test ',
         'the software, please email '].join(''),
       BETA_MESSAGE_MINI: 'If you encounter any issues, please email ',
