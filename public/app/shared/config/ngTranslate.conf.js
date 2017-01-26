@@ -21,10 +21,7 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: b ? b.header : 'This software is currently in BETA. ',
-      BETA_MESSAGE: b ? b.message : ['Features and improvements are constantly being added. ',
-        'If you would like give feedback and help us test ',
-        'the software, please email '].join(''),
+      BETA_HEADER: b.text,
       BETA_MESSAGE_MINI: 'If you encounter any issues, please email ',
       PHOTO_COURTESY: 'Photo courtesy of ',
       LOGOUT: 'Logout',
