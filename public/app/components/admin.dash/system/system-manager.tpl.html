@@ -82,12 +82,8 @@
 
       <div ng-if="systemManager.showBetaMessage" layout="column" layout-padding>
           <md-input-container>
-            <label>Header</label>
-            <input type="text" ng-model="settingsGlobal.betaMessage.header" ngMaxlength=200>
-          </md-input-container>
-          <md-input-container>
             <label>Content</label>
-            <textarea type="text" ng-model="settingsGlobal.betaMessage.message" ngMaxlength=200>
+            <textarea type="text" ng-model="settingsGlobal.betaMessage.text" ngMaxlength=200>
             </textarea>
           </md-input-container>
 

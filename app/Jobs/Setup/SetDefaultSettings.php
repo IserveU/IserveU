@@ -103,8 +103,7 @@ class SetDefaultSettings
         ]);
         Setting::ifNotSetThenSet('betaMessage', [
                     'on'           => 1,
-                    'header'       => 'This software is currently in BETA. ',
-                    'message'      => 'Features and improvements are constantly being added. If you would like give feedback and help us test, the software, please email',
+                    'text'         => 'This software is currently in BETA. Features and improvements are constantly being added. If you would like give feedback and help us test, the software, please email',
                 ]);
         Setting::save();
     }
