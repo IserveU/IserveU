@@ -17,11 +17,11 @@ require('laravel-elixir-livereload');
 elixir(function(mix) {
 
     mix.combine([
-        '/angular/angular.min.js',
-        '/jquery/dist/jquery.min.js',
-        '/angular-animate/angular-animate.min.js',
+        '/angular/angular.js',
+        '/jquery/dist/jquery.js',
+        '/angular-animate/angular-animate.js',
         '/angular-aria/angular-aria.min.js',
-        '/angular-material/angular-material.min.js',
+        '/angular-material/angular-material.js',
         '/angular-resource/angular-resource.min.js',
         '/angular-messages/angular-messages.min.js',
         '/angular-ui-router/release/angular-ui-router.min.js',
