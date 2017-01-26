@@ -29,3 +29,11 @@ a{
 *:focus{
   outline: none;
 }
+
+md-card img[style*="float: right"]{
+  margin: 0px 0px $padding $padding;
+}
+
+md-card img[style*="float: left"]{
+  margin: 0px $padding $padding 0px;
+}

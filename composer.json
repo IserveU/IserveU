@@ -51,10 +51,11 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-            "tests/unit/TestCase.php"
+        "tests/unit/TestCase.php"
 		],
 		"files": [
-			"tests/unit/helpers/functions.php"
+			"tests/unit/helpers/functions.php",
+			"tests/unit/CacheTest.php"
 		]
 	},
 	"scripts": {
