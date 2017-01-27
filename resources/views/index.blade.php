@@ -10,8 +10,7 @@
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
         <!-- Alloy Editor Dependencies -->
-        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>
-        <script src="/js/dependencies.js"></script>
+        <script src="{{elixir('js/dependencies.js')}}"></script>
         <script src="{{elixir('js/app.js')}}"></script>
         <script>
             angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
@@ -19,7 +18,7 @@
 
     </head>
 
-    <body>
+    <body ng-cloak>
         <!-- Headers -->
         <beta-message></beta-message>
         <user-bar ng-if="!isLoginState"></user-bar>

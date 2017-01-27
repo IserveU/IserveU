@@ -1,31 +1,32 @@
-<h2 class="motion_usercomment__title">Your Comment</h2>
+<h2 class="motion_usercomment__title">Why Did You
+		{{motion.userVote.position > 0 ? 'Agree' : ''  }}{{motion.userVote.position < 0 ? 'Disagree' : ''  }}{{motion.userVote.position == 0 ? 'Abstain' : ''  }}?</h2>
 
 <p marked="userComment.text" class="md-body-1 comment-vote__user-comment" ng-hide="userCommentEdit.editing"></p>
 
-<div ng-show="userCommentEdit.editing" layout="column">
+<div ng-show="userCommentEdit.editing">
+
+	<form name="commentForm">
+		<md-input-container>
+			<textarea columns="4" aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
+		</md-input-container>
+
+		<md-checkbox ng-model="userComment.status"
+	 ng-true-value="'private'" ng-false-value="'public'"
+	 aria-label="anonymous">
+	  Make comment anonymous.
+		</md-checkbox>
 
 
-	<md-input-container>
-		<textarea layout-padding aria-label="Your comment" ng-model="userComment.text" focus-input="userCommentEdit.editing"></textarea>
-	</md-input-container>
+		<div class="inline-action-buttons" layout layout-align="end end">
+			<md-button class="md-icon-button" ng-click="userComment.update(motion); userCommentEdit.editComment()" aria-label="save comment">
+				<md-icon class="md-primary mdi mdi-content-save"></md-icon>
+			</md-button>
 
-	<md-checkbox ng-model="userComment.status"
- ng-true-value="'private'" ng-false-value="'public'"
- aria-label="anonymous">
-  Make comment anonymous.
-	</md-checkbox>
-
-
-	<div class="inline-action-buttons" layout layout-align="end end">
-		<md-button class="md-icon-button" ng-click="userComment.update(motion); userCommentEdit.editComment()" aria-label="save comment">
-			<md-icon class="md-primary mdi mdi-content-save"></md-icon>
-		</md-button>
-
-		<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="undo comment edits">
-			<md-icon class="mdi mdi-undo"></md-icon>
-		</md-button>
-	</div>
-
+			<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="undo comment edits">
+				<md-icon class="mdi mdi-undo"></md-icon>
+			</md-button>
+		</div>
+	</form>
 
 </div>
 
@@ -39,5 +40,3 @@
 		<md-icon class="md-warn mdi mdi-delete"></md-icon>
 	</md-button>
 </div>
-
-

@@ -7,6 +7,10 @@
     	flex: 1 0 auto !important;
     	display: flex;
     }
+
+    md-input-container textarea.md-input{
+       min-height:100px; // When hitting edit, keeps the form open
+    }
 }
 
 
