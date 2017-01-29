@@ -8,7 +8,7 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleMotion()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.on" ng-change="systemManager.save('motion.on')"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.motion.on" ng-change="systemManager.save('motion','on', settingsGlobal.motion.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showMotion" layout="column" layout-padding>
@@ -47,7 +47,7 @@
           </md-input-container>
 
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('motion'); systemManager.save('jargon.en')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleMotion();"></spinner>
+          <spinner ng-click="systemManager.saveAll('motion'); systemManager.saveAll('jargon.en')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleMotion();"></spinner>
           <md-button ng-show="systemManager.showMotion" ng-click="systemManager.toggleMotion();">Cancel</md-button>
         </div>
       </div>
@@ -59,15 +59,15 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleVoting()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.on" ng-change="systemManager.save('voting.on')"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.on" ng-change="systemManager.save('voting','on',settingsGlobale.votion.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showVoting" layout="column" layout-padding>
-        <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.abstain.on">
+        <md-checkbox ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.abstain">
           Enable abstain voting
         </md-checkbox>
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('voting')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleVoting();"></spinner>
+          <spinner ng-click="systemManager.save('voting','abstain',settingsGlobal.voting.abstain)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleVoting();"></spinner>
           <md-button ng-show="systemManager.showVoting" ng-click="systemManager.toggleVoting();">Cancel</md-button>
         </div>
       </div>
@@ -77,7 +77,7 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleBetaMessage()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.betaMessage.on" ng-change="systemManager.save('betaMessage.on')"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.betaMessage.on" ng-change="systemManager.save('betaMessage','on',settingsGlobal.betaMessage.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showBetaMessage" layout="column" layout-padding>
@@ -88,20 +88,14 @@
           </md-input-container>
 
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('betaMessage')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleBetaMessage();"></spinner>
+          <spinner ng-click="systemManager.save('betaMessage','on',$settingsGlobal.betaMessage.text)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleBetaMessage();"></spinner>
           <md-button ng-show="systemManager.showBetaMessage" ng-click="systemManager.toggleBetaMessage();">Cancel</md-button>
         </div>
       </div>
 
-
-
-
-
-
-
       <md-list-item ng-click="noop();">
         <p>Comments</p>
-        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.comment.on" ng-change="systemManager.save('comment.on')"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.comment.on" ng-change="systemManager.save('comment','on',settingsGlobal.comment.on)"></md-switch>
       </md-list-item>
 
       <md-list-item ng-click="noop();">
@@ -136,7 +130,7 @@
           </md-list>
 
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('jargon.en', settingsGlobal.jargon.en); systemManager.department.saveAll();"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleDepartment();"></spinner>
+          <spinner ng-click="systemManager.saveAll('jargon'); systemManager.department.saveAll();"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleDepartment();"></spinner>
           <md-button ng-show="systemManager.showDepartment" ng-click="systemManager.toggleDepartment();">Cancel</md-button>
         </div>
       </div>
@@ -163,7 +157,7 @@
         </md-checkbox>
 
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('authentication')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleSecurity();"></spinner>
+          <spinner ng-click="systemManager.saveAll('authentication')"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleSecurity();"></spinner>
           <md-button ng-show="systemManager.showSecurity" ng-click="systemManager.toggleSecurity();">Cancel</md-button>
         </div>
       </div>

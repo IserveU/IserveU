@@ -17,9 +17,13 @@
       this.showSecurity = false;
       this.showVoting = false;
       this.showBetaMessage = false;
-
-      this.save = function(dataType) {
-        settings.saveTypeOf(dataType);
+      this.saveAll = function(type){
+        settings.saveTypeOf(type);
+      }
+      this.save = function(type,key,value) {
+        var data = new Array();
+        data[key.toString()] = parseInt(value);
+        settings.saveTypeOf(type,data);
       };
 
       this.toggleDepartment = function() {
