@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Setting;
 
 use App\Http\Requests\Request;
+
 class UpdateSettingRequest extends Request
 {
     protected $rules = [
@@ -23,11 +24,12 @@ class UpdateSettingRequest extends Request
     }
 
     public function rules()
-    {   
+    {
         //workaround to conver numeric value to int
-        if(is_numeric($this['value'])){
+        if (is_numeric($this['value'])) {
             $this['value'] = (int) $this['value'];
         }
+
         return $this->rules;
     }
 }

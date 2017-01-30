@@ -40,7 +40,7 @@ class SettingController extends ApiController
     public function update(UpdateSettingRequest $request, $key)
     {
         $value = $request->input('value');
-        
+
         return Setting::update($key, $value) ?
             response()->json([
                     'message' => 'setting saved.',
