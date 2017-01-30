@@ -6,9 +6,8 @@
             <h3 class="motion_commentlist__usertitle" ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.commentWriter.community.adjective"></h3>
             <h4 class="motion_commentlist__date" ng-bind="show.formatDate(comment)"></h4>
             <div class="motion_commentlist__text" marked="comment.text"></div>
+            <comment-vote position="1" comment-id="comment.id"></comment-vote>
         </div>
-
-        <comment-vote position="1" comment-id="comment.id"></comment-vote>
 
     </md-list-item>
 </md-list>

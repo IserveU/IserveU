@@ -17,7 +17,7 @@ require('laravel-elixir-livereload');
 elixir(function(mix) {
 
     mix.combine([
-        '/alloyeditor/dist/alloy-editor/alloy-editor-all.js',
+        '/alloyeditor/dist/alloy-editor/alloy-editor-all-min.js',
         '/angular/angular.min.js',
         '/jquery/dist/jquery.min.js',
         '/angular-animate/angular-animate.min.js',
