@@ -2,13 +2,13 @@
 	<md-list-item class="md-3-line md-long-text" ng-repeat="comment in motion.motionComments.disagreeComments | orderBy:'-commentRank'">
 		<md-icon class="mdi md-avatar-icon mdi-account-circle"></md-icon>
 
-        <div class="md-list-item-text">
+        <div class="md-list-item-text motion_commentlist__text">
             <h3 class="motion_commentlist__usertitle" ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.commentWriter.community.adjective"></h3>
             <h4 class="motion_commentlist__date" ng-bind="show.formatDate(comment)"></h4>
             <div class="motion_commentlist__text" marked="comment.text"></div>
-        </div>
 
-        <comment-vote position="-1" comment-id="comment.id"></comment-vote>
+            <comment-vote position="-1" comment-id="comment.id"></comment-vote>
+        </div>
 
     </md-list-item>
 </md-list>

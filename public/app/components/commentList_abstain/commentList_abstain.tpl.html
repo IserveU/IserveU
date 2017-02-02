@@ -5,10 +5,10 @@
         <div class="md-list-item-text">
             <h3 class="motion_commentlist__usertitle" ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.commentWriter.community.adjective"></h3>
             <h4 class="motion_commentlist__date" ng-bind="show.formatDate(comment)"></h4>
-            <div class="motion_commentlist__text" marked="comment.text"></div>
-        </div>
 
-        <comment-vote position="0" comment-id="comment.id"></comment-vote>
+            <div class="motion_commentlist__text" marked="comment.text"></div>
+            <comment-vote position="0" comment-id="comment.id"></comment-vote>
+        </div>
 
     </md-list-item>
 </md-list>

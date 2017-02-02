@@ -20,23 +20,23 @@
 
 }
 
-.motion_commentlist__time{
+@media screen and (max-width: 500px) {
+	.motion_commentlist{
+		md-icon.md-avatar-icon{
+			margin:$padding;
+		}
 
-}
-
-
-.motion_commentlist__usericon{
-
-}
-
-.motion_commentlist__usertitle{
-
+		md-list-item{
+			display: flex;
+			flex-flow: row wrap;
+		}	
+	}
 }
 
 .motion_commentlist__points{
 	text-align:center;
-	margin-top:$padding;
-	font-size: 1.3rem;
+	margin-top:0px;
+	font-size: 1.4rem;
 }
 
 .motion_commentlist__points--positive{
