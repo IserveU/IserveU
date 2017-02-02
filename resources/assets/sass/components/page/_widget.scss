@@ -1,0 +1,47 @@
+/****************************************************************
+*
+*	Widgets on a page
+*
+****************************************************************/
+.widget{
+	display:flex;
+	flex:1 0 50%;
+
+	&:not(:first-child) {
+		margin-top: $padding*2;
+	}
+}
+
+.widget_title{
+	padding:$padding;
+	margin: 0px;
+}
+
+.widget_content{
+	padding:0px $padding $padding $padding;
+}
+
+.widget_content--list{
+	@extend .widget_content;
+	padding:0px 0px $padding 0px;
+}
+
+
+
+//Angular overrides for block
+
+.widget md-list md-list-item{
+
+	&:not(:last-child){
+		border-bottom: 1px solid #ddd;
+	}
+
+	.md-list-item-text{
+		padding: $padding/2 0 $padding/2 0;	
+	}
+	
+}
+
+.widget md-list{
+	padding-bottom: 0px;
+}
