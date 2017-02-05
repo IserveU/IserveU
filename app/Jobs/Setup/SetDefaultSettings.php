@@ -98,7 +98,7 @@ class SetDefaultSettings
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
                 'on'    => 1,
-                'text'  => "Welcome to this deployment of IserveU, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions.",
+                'text'  => 'Welcome to this deployment of IserveU, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions.',
             ],
         ]);
         Setting::ifNotSetThenSet('betaMessage', [
