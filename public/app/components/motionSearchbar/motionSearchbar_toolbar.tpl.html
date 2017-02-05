@@ -1,4 +1,4 @@
-<div class="md-toolbar-tools sidebar-toolbar"  ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
+<div  class="md-toolbar-tools sidebar-toolbar"  ng-class="settingsGlobal.motion.on?'motion-enabled flex':''">
 
   <md-button class="md-icon-button" aria-label="Home Button" href="#/home" ng-show="!search.isOpen">
     <symbol-all-white-png resize-width="24" ng-href="#/home"></symbol-all-white-png>
@@ -26,7 +26,10 @@
             </md-select>
 
             <md-select placeholder="Filter by Status" ng-model="search._status.filter" ng-change="search.searchSpecific()" aria-label="filter motions by status" layout-padding>
-              <md-option ng-repeat="filter in search._status.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+              <md-option ng-value="search._status.filters[0].query">{{search._status.filters[0].name}}</md-option>
+              <md-option ng-value="search._status.filters[1].query">{{search._status.filters[1].name}}</md-option>
+              <md-option has-permission="show-motion" ng-value="search._status.filters[2].query">{{search._status.filters[2].name}}</md-option>
+              
             </md-select>
                                     
             <md-select ng-model="search._orderBy.filter" ng-change="search.searchSpecific()" placeholder="Order by:" aria-label="filter motions by properties" layout-padding>
