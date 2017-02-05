@@ -1,5 +1,5 @@
-var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
-var JasmineReporters = require('jasmine-reporters');
+//var HtmlScreenshotReporter = require("protractor-jasmine2-screenshot-reporter");
+//var JasmineReporters = require('jasmine-reporters');
 var defaultConfig = require('./tests/e2e/config.json');
 
 exports.config = {
@@ -32,7 +32,9 @@ exports.config = {
 
    onPrepare: function() {
         browser.driver.manage().window().maximize();
-        
+
+        //These have caused ng-issues in the past
+        /*
         var disableNgAnimate = function() {
             angular
                 .module('disableNgAnimate', [])
@@ -60,6 +62,7 @@ exports.config = {
 
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
         browser.addMockModule('disableCssAnimate', disableCssAnimate);
+        */
 
     },
 
