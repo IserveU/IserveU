@@ -14,7 +14,7 @@ use App\Vote;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Log;
 class UserController extends ApiController
 {
     protected $userTransformer;
@@ -66,6 +66,7 @@ class UserController extends ApiController
      *
      * @return Response
      */
+    // need to have showuserrequest in future.
     public function show(Request $request, User $user)
     {
         return $user;
