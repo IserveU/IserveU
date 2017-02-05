@@ -1,35 +1,29 @@
-<div flex>
-<md-card ng-if="settingsGlobal.home.widgets.top_comments" layout layout-margin flex>
-  <md-card-content layout-padding flex>
-    <md-icon class="mdi mdi-playlist-minus title-icon"></md-icon>
-    <h3 class="title-header">Top Comments</h3>
+<h3 class="widget_title"><md-icon class="mdi mdi-playlist-minus title-icon"></md-icon>Top Comments</h3>
 
-      <md-progress-circular md-mode="indeterminate"  ng-if="topComments.loading"></md-progress-circular>
+<div class="widget_content--list">
 
+  <md-progress-circular md-mode="indeterminate"  ng-if="topComments.loading"></md-progress-circular>
 
-      <md-list ng-if="!topComments.loading">
-        <div ng-if="topComments.commentList" ng-repeat="comment in topComments.commentList | limitTo: 5">
+  <md-list ng-if="!topComments.loading">
 
-          <md-list-item ui-sref-active="active" ui-sref="motion({id:comment.motionId})">
-            <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
-
-            <span style="color:green;">{{ (comment.commentRank > 0) ? '+' + comment.commentRank : '0'}}</span>
-            <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionId})">
-              <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
-            </md-button>
-
-          </md-list-item>
-
-          <md-divider></md-divider>
-
-          <md-list-item class="md-caption" layout-align="end">
-            <span ng-show="comment.user.public">{{'BY' | translate}}{{comment.user.first_name + ' ' + comment.user.last_name}}</span>
-            <span ng-hide="comment.user.public">{{'BY_A' | translate}}</span>
-          </md-list-item>
+      <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})" 
+          ng-repeat="comment in topComments.commentList | limitTo: 5">
+        <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
+        <div class="md-list-item-text">
+          <h3>
+            <span ng-show="comment.user.status == 'public'">{{'BY' | translate}}{{comment.user.first_name + ' ' + comment.user.last_name}}</span>
+            <span ng-hide="comment.user.status == 'public'">{{'BY_A' | translate}}</span>
+          </h3>
+          <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
         </div>
-       <p ng-show="topComments.commentList.length <= 0" ng-cloak class="md-body-1">There aren't any top comments.</p>
-      </md-list>
+        <div class="md-secondary-container">
+          <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionId})">
+            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
+          </md-button>
+        </div>
+                
+      </md-list-item>     
 
-  </md-card-content>
-</md-card>
+      <p ng-if="topComments.commentList.length <= 0" ng-cloak class="md-body-1">There aren't any top comments.</p>
+  </md-list>
 </div>

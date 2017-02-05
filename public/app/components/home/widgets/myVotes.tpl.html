@@ -1,39 +1,38 @@
-<div flex>
-<md-card ng-if="settingsGlobal.home.widgets.your_votes || settingsGlobal.voting.on" layout-margin layout flex>
-  <md-card-content layout-padding flex>
+<h3 class="widget_title">
+  <md-icon class="mdi mdi-checkbox-marked-circle-outline"></md-icon>
+  Your Votes
+</h3>
 
-    <md-icon class="mdi mdi-checkbox-marked-circle-outline title-icon"></md-icon>
-    <h3 class="title-header">Your votes</h3>
+<div class="widget_content--list">
+  <md-progress-circular md-mode="indeterminate" ng-if="myVotes.loading"></md-progress-circular>
 
+  <div ng-if="!myVotes.loading">
+    <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList | limitTo: 5">
+    
+      <md-list-item class="md-2-line"  ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})" 
+      ng-switch="{{ vote.position }}">
+        <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
+        <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
+        <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
 
-    <md-progress-circular md-mode="indeterminate" ng-if="myVotes.loading"></md-progress-circular>
-
-    <div ng-if="!myVotes.loading">
-      <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList | limitTo: 5">
-      <md-list-item ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})">
-       <span ng-switch="{{ vote.position }}">
-          <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
-          <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
-          <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
-        </span>
-
-
-      <p class="md-body-1">{{ myVotes.motionIndex.retrieveById(vote.motion_id).title }}</p>
-
+        <div class="md-list-item-text">
+          <h3>{{ myVotes.motionIndex.retrieveById(vote.motion_id).title }}</h3>
+          <p>{{ vote.updated_at['diff'] }}</p>
+        </div>
+        <div class="md-secondary-container">
           <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
           </md-button>
+        </div>
         </md-list-item>
 
         <md-divider ng-if="!$last"></md-divider>
-        </md-list>
+    </md-list>
 
-
-      <md-list ng-if="myVotes.voteList.length <= 0" ng-cloak>
-        <p class="md-body-1">You haven't voted, yet.</p>
-      </md-list>
-    </div>
-
-  </md-card-content>
-</md-card>
+    <md-list ng-if="myVotes.voteList.length <= 0" ng-cloak>
+      <p class="md-body-1">You haven't voted, yet.</p>
+    </md-list>
+  </div>
 </div>
+
+

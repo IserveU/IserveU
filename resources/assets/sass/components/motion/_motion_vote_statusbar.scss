@@ -5,7 +5,7 @@
 *
 ****************************************************************/
 .motion_vote_statusbar {
-	display: flex;
+		display: flex;
     white-space: nowrap;
     padding: $padding 0;
 }
@@ -13,6 +13,10 @@
 .motion_vote_statusbar__bar {
 	margin: 0;
 	border-radius:0;
+	flex: 1 0 auto;
+	-webkit-display:block;
+
+	flex-shrink: 0;
 }
 
 .motion_vote_statusbar__bar--abstain{
