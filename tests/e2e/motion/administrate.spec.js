@@ -3,6 +3,7 @@ let LoginHelper = require('../shared/helpers/LoginHelper');
 let SidebarSection = require('../shared/pages/Motion/SidebarSection');
 let FormHelper = require('../shared/helpers/FormHelper');
 let faker = require('faker');
+let DomHelper = require('../shared/helpers/DomHelper');
 
 
 
@@ -21,13 +22,14 @@ describe('motion.administrate making sure that a motion creation and editing wor
   it('Motion administration buttons exist and work as expected', function() {
 		var EC = protractor.ExpectedConditions;
 
-		sidebarSection.getSidebarLinks().last().click();
+		DomHelper.clickBetter(sidebarSection.getSidebarLinks().last());
 
 
 		browser.wait(EC.urlContains("create-motion"),10000,"Sidebar create motion button does not work");
 
 
 		motionAdmin.get(); //Old published motion
+
 		motionAdmin.clickCreateMotion();
 
 
@@ -53,6 +55,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
             ['summary', faker.lorem.sentences(2)]
           ])
         );
+
 
    		formHelper.alloyEditor('body',faker.lorem.sentences(10));
 
