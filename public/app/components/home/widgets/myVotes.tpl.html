@@ -3,14 +3,11 @@
   Your Votes
 </h3>
 
-<div class="widget_content--list">
-  <md-progress-circular md-mode="indeterminate" ng-if="myVotes.loading"></md-progress-circular>
+<div class="widget_content--list" ng-if="myVotes.voteList.length > 0">
+    <md-list>
 
-  <div ng-if="!myVotes.loading">
-    <md-list ng-if="!home.empty.myvotes" ng-repeat="vote in myVotes.voteList | limitTo: 5">
-    
-      <md-list-item class="md-2-line"  ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})" 
-      ng-switch="{{ vote.position }}">
+      <md-list-item class="md-2-line"  ui-sref-active="active"  ui-sref="motion({id:vote.motion_id})"
+      ng-switch="{{ vote.position }}"  ng-repeat="vote in myVotes.voteList | limitTo: 5">
         <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
         <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
         <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
@@ -28,11 +25,12 @@
 
         <md-divider ng-if="!$last"></md-divider>
     </md-list>
-
-    <md-list ng-if="myVotes.voteList.length <= 0" ng-cloak>
-      <p class="md-body-1">You haven't voted, yet.</p>
-    </md-list>
-  </div>
 </div>
 
+<div class="widget_content--text" ng-if="myVotes.voteList.length <= 0">
+    <p>You haven't voted, yet.</p>
+</div>
 
+<div class="widget_content--text"  ng-if="myVotes.loading">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
