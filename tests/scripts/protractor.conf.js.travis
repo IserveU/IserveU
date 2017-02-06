@@ -56,34 +56,7 @@ exports.config = {
 
   onPrepare: function() {
         browser.driver.manage().window().maximize();
-        
-        var disableNgAnimate = function() {
-            angular
-                .module('disableNgAnimate', [])
-                .run(['$animate', function($animate) {
-                    $animate.enabled(false);
-                }]);
-        };
 
-        var disableCssAnimate = function() {
-            angular
-                .module('disableCssAnimate', [])
-                .run(function() {
-                    var style = document.createElement('style');
-                    style.type = 'text/css';
-                    style.innerHTML = '* {' +
-                        '-webkit-transition: none !important;' +
-                        '-moz-transition: none !important' +
-                        '-o-transition: none !important' +
-                        '-ms-transition: none !important' +
-                        'transition: none !important' +
-                        '}';
-                    document.getElementsByTagName('head')[0].appendChild(style);
-                });
-        };
-
-       // Breaks Angular Material Buttons browser.addMockModule('disableNgAnimate', disableNgAnimate);
-       // Breaks Angular Material Buttons browser.addMockModule('disableCssAnimate', disableCssAnimate);
   },
 
 

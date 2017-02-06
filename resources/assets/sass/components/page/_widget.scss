@@ -21,6 +21,20 @@
 	padding:0px $padding $padding $padding;
 }
 
+.widget_content--text{
+  @extend .widget_content;
+
+  > *:first-child{
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  > *:last-child{
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
 .widget_content--list{
 	@extend .widget_content;
 	padding:0px 0px $padding 0px;
@@ -37,9 +51,9 @@
 	}
 
 	.md-list-item-text{
-		padding: $padding/2 0 $padding/2 0;	
+		padding: $padding/2 0 $padding/2 0;
 	}
-	
+
 }
 
 .widget md-list{

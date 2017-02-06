@@ -1,15 +1,17 @@
 <div class="home layout-row layout-wrap flex" ng-cloak>
- 
+
   <home-introduction class="widget md-card"></home-introduction>
   <!---webkit-flex: 1 0 auto !important; flex: 1 0 auto !important; -->
   <div class="flex-order-0 flex-gt-md-50 flex-100">
-      <my-comments class="widget md-card" ng-if="userIsLoggedIn && authenticatedUser &&settingsGlobal.comment.on"></my-comments>
       <my-votes class="widget md-card" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.voting.on"></my-votes>
+
+      <top-motions class="widget md-card" ng-if="settingsGlobal.motion.on && settingsGlobal.home.widgets.top_motions"></top-motions>
   </div>
 
   <!---webkit-flex: 1 0 auto !important; flex: 1 0 auto !important;-->
   <div class="flex-order-1 flex-gt-md-50 flex-100">
-    <top-motions class="widget md-card" ng-if="settingsGlobal.motion.on && settingsGlobal.home.widgets.top_motions"></top-motions>
+    <my-comments class="widget md-card" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.comment.on"></my-comments>
+
     <top-comments class="widget md-card"  ng-if="settingsGlobal.comment.on"></top-comments>
   </div>
 
