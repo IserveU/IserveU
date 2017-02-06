@@ -56,6 +56,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
           ])
         );
 
+
    		formHelper.alloyEditor('body',faker.lorem.sentences(10));
 
    		formHelper.selectBox('form.motion.department.id',"Unknown");
