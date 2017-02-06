@@ -35,7 +35,7 @@ class SetDefaultSettings
 
         Setting::ifNotSetThenSet('site', [
             'name'      => 'IserveU - eDemocracy',
-            'terms'     => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance. IserveU always endeavours to hand over care of the system to the government free of charge. In using this site you acknowledge that you are both a Canadian citizen and are an resident of Yellowknife who is eligible to vote in municipal elections.',
+            'terms'     => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
             'slogan'    => 'Conceived &amp; Forged In Yellowknife, Canada',
             'address'   => 'http://iserveu.ca',
             'twitter'   => 'http://twitter.com/iserveu_org',
@@ -98,7 +98,7 @@ class SetDefaultSettings
         Setting::ifNotSetThenSet('emails', [
             'welcome' => [
                 'on'    => 1,
-                'text'  => "Welcome to the IserveU beta, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions. \nWe welcome you to join in and vote on city issues during the beta process. When the system has proven it is reliable and accessible to Yellowknifers it will be used to make binding decisions in the Yellowknife City Council, until then it operates as an advisory and feedback tool.",
+                'text'  => 'Welcome to this deployment of IserveU, IserveU is an open-source eDemocracy system built by volunteers in Yellowknife. We aim to upgrade our government and make it work better for everyone with more informed decision makers and more meaningful input from the public on decisions.',
             ],
         ]);
         Setting::ifNotSetThenSet('betaMessage', [

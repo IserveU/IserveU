@@ -3,12 +3,9 @@
   Your Comments
 </h3>
 
-<div class="widget_content--list">
-
-  <md-progress-circular md-mode="indeterminate"  ng-if="myComments.loading"></md-progress-circular>
-
-  <md-list ng-if="!myComments.loading">
-    <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})" 
+<div class="widget_content--list" ng-if="myComments.commentList.length > 0">
+  <md-list>
+    <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})"
       ng-repeat="comment in myComments.commentList | limitTo: 5">
       <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
       <div class="md-list-item-text">
@@ -19,8 +16,15 @@
         <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionId})">
           <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
         </md-button>
-      </div>                
+      </div>
     </md-list-item>
-    <p ng-if="topComments.commentList.length <= 0" ng-cloak class="md-body-1">There aren't any top comments.</p>
   </md-list>
+</div>
+
+<div class="widget_content--text" ng-if="myComments.commentList.length <= 0">
+    <p>There aren't any top comments.</p>
+</div>
+
+<div class="widget_content--text"  ng-if="myComments.loading">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

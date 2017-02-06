@@ -2,12 +2,9 @@
 <h3 class="widget_title"> <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
  Top {{ 'MOTIONS' | translate }}</h3>
 
-<div class="widget_content--list">
-  <md-progress-circular md-mode="indeterminate" ng-if="topMotions.loading"></md-progress-circular>
-
-  <md-list ng-if="!topMotions.loading">
-
-    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.id})" class="md-with-secondary" ng-if="topMotions.motionList" 
+<div class="widget_content--list" ng-if="topMotions.motionList.length > 0">
+  <md-list>
+    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.id})" class="md-with-secondary" ng-if="topMotions.motionList"
         ng-repeat="motion in topMotions.motionList | limitTo: 5">
       <div class="md-list-item-text" ui-sref="motion({id:motion.id})">{{motion.title}}</div>
 
@@ -18,7 +15,13 @@
       </div>
 
     </md-list-item>
-
-    <p ng-if="!topMotions.motionList" ng-cloak class="md-body-1">There are no motions right now.</p>
   </md-list>
+</div>
+
+<div class="widget_content--text" ng-if="topMotions.motionList.length <= 0">
+    <p ng-if="!topMotions.motionList" ng-cloak class="md-body-1">There are no motions right now.</p>
+</div>
+
+<div class="widget_content--text"  ng-if="topMotions.loading">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>
