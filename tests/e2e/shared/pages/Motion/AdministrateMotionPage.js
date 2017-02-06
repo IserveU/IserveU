@@ -8,7 +8,7 @@ class AdministrateMotionPage extends ShowMotionPage{
 		super();
 
 		/* FAB UI */
-		this.fabMenu					= element(by.tagName('md-fab-trigger'));
+		this.fabMenu				    	= element(by.tagName('md-fab-trigger'));
 		this.createFabButton			= element(by.id('create_new_motion'));
 		this.editFabButton				= element(by.id('edit_this_motion'));
 		this.deleteFabButton			= element(by.id('delete_this_motion'));
@@ -34,7 +34,7 @@ class AdministrateMotionPage extends ShowMotionPage{
 	clickCreateMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		DomHelper.clickBetter(this.fabMenu.$('button')); //.click();
+		DomHelper.clickBetter(this.fabMenu); //.click();
 		browser.wait(EC.elementToBeClickable(this.createFabButton), 10000,"Menu did not drop down");
 		this.createFabButton.click();
 	}
