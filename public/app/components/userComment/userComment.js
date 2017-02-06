@@ -1,19 +1,19 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
-		.directive('userComment', 
+		.directive('userComment',
 			['$rootScope',
 			 '$interval',
 			 'Comment',
-			 'commentResource', 
+			 'commentResource',
 			 'utils',
 		userComment]);
 
 	function userComment($rootScope, $interval, Comment, commentResource, utils) {
 
 		function userCommentController($scope) {
-		
+
 			var self = this, comments;
 
 			$scope.isEmpty = utils.iobjectIsEmpty;
@@ -24,14 +24,14 @@
 			}
 
 			function determineCommentExists(userComments) {
-				
+
 				if(!$scope.motion || !$scope.motion.userVote){
 					return false;
 				}
 
 				comments = userComments.data || userComments;
 				for( var i in comments ) {
-					if(comments[i].vote_id === $scope.motion.userVote.id) {
+					if(comments[i].motionId === $scope.motion.id) {
 						$scope.userComment.setData(comments[i]);
 						$scope.userComment.exists = true;
 					}

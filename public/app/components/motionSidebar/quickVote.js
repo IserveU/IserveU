@@ -31,7 +31,7 @@
 				ToastMessage.simple("This " + $translate.instant('MOTION') + " is not open for voting.", 1000);
 			}
 		 	else if(!Authorizer.canAccess('create-vote')) {
-				ToastMessage.simple("You must be a Yellowknife resident to vote.", 1000);
+				ToastMessage.simple("You aren't able to vote until your account is authorized", 1000);
 			}
 			else {
 				if( !motion.userVote || motion.userVote && !motion.userVote.id ){
