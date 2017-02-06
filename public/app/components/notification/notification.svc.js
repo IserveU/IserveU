@@ -11,25 +11,13 @@
 
 		self.copyText = {
 
-			unverifiedUser: ['<p>Your identity has not yet been identified. Our system is created for Yellowknife citizens to vote on city council motions.',
-							 '<p>You can go to one of the IserveU locations in town and get an organization member',
-							 ' to personally confirm your identity, address and date of birth against the Canadian',
-							 ' registered voters repository.</p><br><p>Regards,<br>The IserveU Crew</p>'
-							].join(''),
+			unverifiedUser: ['<p>Your identity has not yet been identified.'].join(''),
 
 			pendingReview: ['<p>Your profile is pending review. Please be patient with us while we process your information.</p>'
 
 							].join(''),
 
-			softLaunch: ['<h4>IserveU is in the process of a soft launch!&nbsp;</h4><p>Don\'t worry.',
-						' We will be updating you on city council motions,',
-						' but we invite you to play around with our software and send us your feedback.</p>',
-						'<p>It\'s easy:</p><ol>',
-						'<li>Click on the cog on on the top right toolbar.</li>',
-						'<li>Choose "Submit a Motion".</li>',
-						'<li>Fill in the fields.</li>',
-						'<li>We\'ll review and make it public for other Yellowknifers to vote on your idea on how to improve the city!</li>',
-						'</ol>'].join('')
+			softLaunch: ['<h4>Our system is in the process of a soft launch!&nbsp;'].join('')
 
 		};
 

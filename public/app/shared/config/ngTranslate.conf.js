@@ -21,8 +21,6 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: b.text,
-      BETA_MESSAGE_MINI: 'If you encounter any issues, please email ',
       PHOTO_COURTESY: 'Photo courtesy of ',
       LOGOUT: 'Logout',
       YOUR_PROFILE: 'Your Profile',
@@ -40,7 +38,7 @@
       CURRENTLY_PASSING: 'Currently Passing',
       TODAYS_TOP_COMMENTS: 'Today\'s Top Comments',
       BY: 'by ',
-      BY_A: 'by a Yellowknifer',
+      BY_A: 'by a ',
       //background state
       WHO_TOOK_THIS: 'Who took this photo?',
       EXAMPLE_WEBSITE: 'myphotographywebsite.ca',
@@ -139,7 +137,7 @@
       //Address keys
       VERIFY_ADDRESS: 'Verify your address',
       ADDRESS_CAPTION: ['We will need to verify your identity ',
-        'for your Yellowknife vote to count.'].join(''),
+        'for your vote to count.'].join(''),
       APT_SUITE: 'Apt./Suite',
       STREET_NUM: 'Street Number',
       POSTAL_CODE: 'Postal Code',
@@ -158,10 +156,6 @@
     //   LANG_NAME: 'Langue',
     //   MOTION: j ? j.fr.motion : 'Motion',
     //   MOTIONS: j ? j.fr.motions : 'Motions',
-    //   BETA_HEADER: 'IserveU est présentement en BETA. ',
-    //   BETA_MESSAGE: ['Les caractéristiques et les améliorations sont ',
-    //     'constamment ajoutées. Si vous désirez nous aider en testant notre',
-    //     ' programme, envoyez-nous un courriel à '].join(''),
     //   BETA_MESSAGE_MINI: ['Pour tous problèmes, communiquez',
     //     ' avec nous par courriel '].join(''),
     //   PHOTO_COURTESY: 'Les photos sont une courtoisie de ',
