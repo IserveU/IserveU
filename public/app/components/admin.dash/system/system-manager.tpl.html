@@ -135,13 +135,12 @@
         </div>
       </div>
 
-      <md-list-item ng-click="systemManager.toggleSecurity()">
+      <md-list-item ng-click="noop();">
         <p>Security</p>
-        <md-button class="md-icon-button md-secondary">
+        <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleSecurity()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
       </md-list-item>
-
       <div ng-if="systemManager.showSecurity" layout="column" layout-padding>
         <md-input-container>
           <label>Number of attempts allowed before locking an account</label>
