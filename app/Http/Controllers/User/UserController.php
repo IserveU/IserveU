@@ -66,6 +66,7 @@ class UserController extends ApiController
      *
      * @return Response
      */
+    // need to have showuserrequest in future.
     public function show(Request $request, User $user)
     {
         return $user;
