@@ -12,7 +12,7 @@ angular
 
 	var userIndex = {
 
-		_index: {},
+		_index: [],
 
 		_current_page: 1,
 
