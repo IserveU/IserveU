@@ -28,6 +28,7 @@ class UpdateDepartmentRequest extends Request
             'icon'              => 'string|filled',
             'slug'              => 'reject',
             'active'            => 'boolean',
+            'id'                => 'integer',
         ];
     }
 }
