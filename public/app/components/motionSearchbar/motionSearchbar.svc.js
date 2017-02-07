@@ -26,6 +26,7 @@
 				filters: [
 				   {name: "Published", query: {'status': ["published",""]}},
 				   {name: "Closed", query: {'status': ["","closed"]}},
+				   {name: "Draft", query: {'status': ["","draft"]}}
 
 				],
 
