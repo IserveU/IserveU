@@ -22,7 +22,7 @@
       }
       this.save = function(type,key,value) {
         var data = new Array();
-        data[key.toString()] = parseInt(value);
+        data[key.toString()] = value;
         settings.saveTypeOf(type,data);
       };
 

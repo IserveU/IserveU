@@ -21,6 +21,7 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
+      BETA_HEADER: b ? b.text : 'This software is currently in BETA.',
       PHOTO_COURTESY: 'Photo courtesy of ',
       LOGOUT: 'Logout',
       YOUR_PROFILE: 'Your Profile',
