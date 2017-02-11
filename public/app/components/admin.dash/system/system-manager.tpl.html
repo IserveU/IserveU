@@ -59,7 +59,7 @@
         <md-button class="md-icon-button md-secondary" ng-click="systemManager.toggleVoting()">
           <md-icon class="mdi mdi-pencil"></md-icon>
         </md-button>
-        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.on" ng-change="systemManager.save('voting','on',settingsGlobale.votion.on)"></md-switch>
+        <md-switch class="md-secondary" ng-true-value="1" ng-false-value="0" ng-model="settingsGlobal.voting.on" ng-change="systemManager.save('voting','on',settingsGlobal.voting.on)"></md-switch>
       </md-list-item>
 
       <div ng-if="systemManager.showVoting" layout="column" layout-padding>
@@ -88,7 +88,7 @@
           </md-input-container>
 
         <div layout="row" layout-align="front center">
-          <spinner ng-click="systemManager.save('betaMessage','on',$settingsGlobal.betaMessage.text)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleBetaMessage();"></spinner>
+          <spinner ng-click="systemManager.save('betaMessage','text',settingsGlobal.betaMessage.text)"  name="'Save'" on-hide="systemManager.service.data.saving" on-loaded="systemManager.toggleBetaMessage();"></spinner>
           <md-button ng-show="systemManager.showBetaMessage" ng-click="systemManager.toggleBetaMessage();">Cancel</md-button>
         </div>
       </div>
