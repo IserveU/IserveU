@@ -74,10 +74,13 @@
         return $q.reject(error);
       });
     }
-
     function getUser(id) {
       return User.get({id: id}).$promise.then(function(result) {
-        localStorage.setItem('user', JSON.stringify(result));
+        // probably dont need to update localStorage when getUser for now. 
+        // but if needed, please uncomment the following codes for security.
+        // if(localStorage.getItem('user') === undefined){
+        //     localStorage.setItem('user', JSON.stringify(result));
+        // }
         return result;
       }, function(error) {
         return $q.reject(error);
@@ -93,8 +96,12 @@
     }
 
     function updateUser(id, data) {
+      var oldUser = JSON.parse(localStorage.getItem('user'));
       return User.update({id: id}, data).$promise.then(function(result) {
-        localStorage.setItem('user', JSON.stringify(result));
+        // only the current user need his/her localStorage updated, admin dont.
+        if(id == oldUser.id){
+            localStorage.setItem('user', JSON.stringify(result));
+        }
         return result;
       }, function(error) {
         return $q.reject(error);
