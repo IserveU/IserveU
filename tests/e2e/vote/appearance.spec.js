@@ -18,7 +18,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 
   it('the passing status icon should match', function() {
-  		login.login('citizen@iserveu.ca');
+  	login.login('citizen@iserveu.ca');
+    var EC = protractor.ExpectedConditions;
 
 		sidebar.clickRandomMotion();
 
@@ -30,6 +31,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
 
 		browser.waitForAngular();
+    
+    browser.sleep(1000); //The code below was evaluating to "Loading"
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();

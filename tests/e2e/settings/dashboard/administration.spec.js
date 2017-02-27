@@ -1,7 +1,7 @@
 let LoginHelper 		= require('../../shared/helpers/LoginHelper');
 let AdministrationPage 	= require('../../shared/pages/setting/AdministrationPage');
 let MotionPage  = require('../../shared/pages/Motion/ShowMotionPage');
-
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 let FormHelper			= require('../../shared/helpers/FormHelper');
 
 describe('settings.administration.authentication settings for authentication || ', function() {
@@ -43,5 +43,9 @@ describe('settings.administration.authentication settings for authentication || 
       browser.wait(EC.urlContains("a-published-motion"),10000,"The site lets people look at published motions now");
 
   	});
+    
+    afterEach(function(){
+        ConsoleHelper.printErrors();
+    });
 
 });

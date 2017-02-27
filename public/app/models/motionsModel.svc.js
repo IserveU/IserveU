@@ -34,7 +34,6 @@
           summary: this.summary,
           text: this.text,
           status: this.status,
-          rank: this.rank,
           department_id: this.department ? this.department.id : 1,
           closing_at: this.getClosing(),
           user_id: this.user_id,
@@ -110,7 +109,7 @@
       * > 0 = Disagree
       * 0   = tie
       */
-      getMotionRank: function(id) {
+      getRank: function(id) {
 
       },
 
@@ -186,8 +185,8 @@
       * Update the user's votes attached to this Motion.
       */
       reloadUserVote: function(vote) {
-        this.userVote = {};
-        this.userVote = {
+        this._userVote = {};
+        this._userVote = {
           motion_id: vote.motion_id,
           id: vote.id,
           position: +vote.position

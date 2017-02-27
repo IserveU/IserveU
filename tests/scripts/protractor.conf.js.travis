@@ -21,7 +21,7 @@ exports.config = {
 
   'multiCapabilities': [{
     'browserName': 'Chrome',
-    'browser_version': '55.0',
+    'browser_version': '56.0',
     'resolution': '1920x1080',
     'os': 'Windows',
     'os_version': '7'
@@ -34,7 +34,7 @@ exports.config = {
   getPageTimeout: 120000,
   jasmineNodeOpts: {
       showColors: true,
-      defaultTimeoutInterval: 120000,
+      defaultTimeoutInterval: 300000,
       realtimeFailure: true
   },
 

@@ -50,5 +50,21 @@ class IndexCommentApiTest extends CommentApi
         $this->seeOrderInField('desc', 'commentRank'); //Default order
     }
 
+    /** @test */
+    public function comment_filter_by_comment_rank_ascending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'asc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('asc', 'commentRank');
+    }
+
+    /** @test */
+    public function comment_filter_by_comment_rank_descending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'desc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('desc', 'commentRank');
+    }
+
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
 }

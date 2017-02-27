@@ -1,3 +1,6 @@
+let DomHelper = require('../../helpers/DomHelper');
+
+
 class Settings{
 
 	constructor() {
@@ -13,9 +16,15 @@ class Settings{
 	}
 
 	openSettingsSection(menuItem){
-		this.cogMenu.click();
-		this.cogMenuButtons[menuItem].click();
+		DomHelper.clickBetter(this.cogMenu);
+		DomHelper.clickBetter(this.cogMenuButtons[menuItem])
 	}
+  
+  openCogMenu(){
+    DomHelper.clickBetter(this.cogMenu);
+  }
+  
+  
 
 }
 

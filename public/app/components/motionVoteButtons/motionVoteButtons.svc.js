@@ -13,7 +13,7 @@
 
 	function motionVoteButtonServiceFactory($rootScope, Authorizer, $translate, SETTINGS_JSON) {
 
-
+    
 	    /*****************************************************************
 	    *
 	    *	Private Variables // strings to concatenate
@@ -28,7 +28,7 @@
 				value: 1,
 				hidden: false,
 				disabled: false,
-				tooltip: '',
+				tooltip: 'Agree with this',
 
 				availableButtonClasses: availableButtonClasses,
 				availableIcons: { default: 'thumb-up-outline', active: 'thumb-up', loading: 'loading' },
@@ -45,7 +45,7 @@
 				value: 0,
 				hidden: !SETTINGS_JSON.voting.abstain || false,
 				disabled: false,
-				tooltip: '',
+				tooltip: 'Abstain from voting on this',
 
 				availableButtonClasses: availableButtonClasses,
 				availableIcons: { default: 'thumbs-up-down-outline', active: 'thumbs-up-down', loading: 'loading' },
@@ -62,7 +62,7 @@
 				value: -1,
 				hidden: false,
 				disabled: false,
-				tooltip: '',
+				tooltip: 'Disagree with this',
 
 				availableButtonClasses: availableButtonClasses,
 				availableIcons: { default: 'thumb-down-outline', active: 'thumb-down', loading: 'loading' },
@@ -90,7 +90,7 @@
 			else if ( motion.status === 'review' ) {
 				return "This "+ item + " is currently being reviewed and is not open for voting.";
 			}
-			else if ( !motion.motionOpenForVoting ) {
+			else if ( !motion._motionOpenForVoting ) {
 				return "This "+ item + " is closed for voting.";
 			} else {
 				return type + " with this " +  item;
@@ -98,7 +98,7 @@
 		}
 
 		function isVotingEnabled(motion) {
-			return ( !motion.motionOpenForVoting || !Authorizer.canAccess('create-vote') ||  motion.status === 'review' );
+			return ( !motion._motionOpenForVoting || !Authorizer.canAccess('create-vote') ||  motion.status === 'review' );
 		}
 
 		return {

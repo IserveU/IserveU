@@ -12,11 +12,17 @@ class CommentSection extends VoteSection{
 		this.userComment									= element(by.model('userComment.text'));
 		this.userCommentTitle 						= element(by.css("h2.motion_usercomment__title"));
 		this.userCommentSaveButton 				= element(by.css("user-comment-create button"));
+    
+    //Existing user comments
+    this.userCommentEditButton 				= element(by.css("#user-comment-edit"));
+    this.userCommentDeleteButton 				= element(by.css("#user-comment-delete"));
+    this.userCommentUpdateButton 				= element(by.css("#user-comment-update"));
+    this.userCommentUndoButton 				= element(by.css("#user-comment-undo"));
+
+
 
 		this.agreeCommentListButton 		= element(by.css('md-tab-item'));
-
 		this.agreeComments				 				= element(by.repeater("comment in motion.motionComments.agreeComments"));
-
 
 
 		/* Create Comment UI */
@@ -37,8 +43,15 @@ class CommentSection extends VoteSection{
 	setAndSaveUserComment(text){
 			this.userComment.sendKeys(text);
 			DomHelper.clickBetter(this.userCommentSaveButton);
-
 	}
+
+  editAndSaveUserComment(text){
+      DomHelper.clickBetter(this.userCommentEditButton);
+      this.userComment.clear();
+			this.userComment.sendKeys(text);
+			DomHelper.clickBetter(this.userCommentUpdateButton);
+	}
+
 
 	expectSectionActive(name){
 			if(Array.isArray(name)){
@@ -77,10 +90,21 @@ class CommentSection extends VoteSection{
 		text.forEach(function(item){
 				browser.wait(EC.textToBePresentInElement(list, item), 5000, "The text ("+item+ ") is not visible in the element");
 		});
-
-
-
 	}
+  
+  /** This will probably go into some utilty class in a refactor */
+  voteAndWriteAComment(text){
+    let vm = this;
+    this.get('a-commented-on-motion');
+    this.voteRandomWay();
+    this.userCommentEditButton.isPresent().then(function(result){
+      if(result){
+        vm.editAndSaveUserComment(text)
+      } else {
+        vm.setAndSaveUserComment(text)
+      }
+    });
+  }
 
 	clickAgreeSection(){
 			DomHelper.clickBetter(this.agreeCommentListButton);

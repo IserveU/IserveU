@@ -2,23 +2,20 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexUserVotesApiTest extends TestCase
+include_once __DIR__.'/../UserVotesTests.php';
+
+class IndexUserVotesApiTest extends UserVotesTests
 {
     use DatabaseTransactions;
-
-    protected static $votingUser;
 
     public function setUp()
     {
         parent::setUp();
 
-        if (is_null(static::$votingUser)) {
-            static::$votingUser = factory(App\User::class)->create();
-
-            $votes = factory(App\Vote::class, 10)->create([
-                'user_id'   => static::$votingUser->id,
-            ]);
-        }
+        //Creates an newer vote to check ordering
+        factory(App\Vote::class)->create([
+            'user_id'   => static::$votingUser->id,
+        ]);
 
         $this->signIn(static::$votingUser);
     }
@@ -28,6 +25,9 @@ class IndexUserVotesApiTest extends TestCase
     /** @test */
     public function default_user_vote_filter()
     {
+        //Make sure a vote is up to date
+        static::$votingUser->votes->first()->touch();
+
         $this->get('/api/user/'.static::$votingUser->id.'/vote')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
@@ -40,10 +40,34 @@ class IndexUserVotesApiTest extends TestCase
                     'from',
                     'to',
                     'data'  => [
-                    '*' => ['id', 'position', 'motion_id', 'deferred_to_id'],
+                    '*' => ['id', 'position', 'motion_id', 'deferred_to_id', '_motion_title'],
                    ],
                 ])
-                ->seeNumberOfResults(10);
+                ->seeOrderInTimeField('desc', 'updated_at');
+    }
+
+    /** @test */
+    public function user_vote_filter_by_updated_at_ascending()
+    {
+        $votes = factory(App\Vote::class, 1)->create([
+            'user_id'   => static::$votingUser->id,
+        ]);
+
+        $this->json('GET', $this->route, ['orderBy' => ['updated_at'=>'asc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('asc', 'updated_at');
+    }
+
+    /** @test */
+    public function user_vote_filter_by_updated_at_descending()
+    {
+        $votes = factory(App\Vote::class, 1)->create([
+            'user_id'   => static::$votingUser->id,
+        ]);
+
+        $this->json('GET', $this->route, ['orderBy' => ['updated_at'=>'desc']])//->dump()
+                ->assertResponseStatus(200)
+                ->seeOrderInTimeField('desc', 'updated_at');
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\Vote\VoteUpdated;
+use App\Filters\VoteFilter;
 use App\Repositories\Caching\CachedModel;
 use Auth;
 use Cache;
@@ -29,7 +30,7 @@ class Vote extends NewApiModel implements CachedModel
      *
      * @var array
      */
-    protected $with = [];
+    protected $with = ['motion'];
 
     /**
      * The default attributes included in the JSON/Array.
@@ -43,7 +44,7 @@ class Vote extends NewApiModel implements CachedModel
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = ['_motion_title'];
 
     /**************************************** Standard Methods *****************************************/
     public static function boot()
@@ -105,12 +106,12 @@ class Vote extends NewApiModel implements CachedModel
     public function setVisibility()
     {
         if ($this->user->publiclyVisible) {
-            $this->addVisible(['id', 'position', 'motion_id', 'id', 'deferred_to_id']);
+            $this->addVisible(['id', 'position', 'motion_id', 'id', 'deferred_to_id', '_motion_title']);
         }
 
         //If self or show-other-private-user
         if (Auth::check() && Auth::user()->id == $this->user_id) {
-            $this->addVisible(['id', 'position', 'motion_id', 'user_id', 'deferred_to_id', 'visited', 'updated_at']);
+            $this->addVisible(['id', 'position', 'motion_id', 'user_id', 'deferred_to_id', 'visited', 'updated_at', '_motion_title']);
         }
 
         return $this;
@@ -140,9 +141,19 @@ class Vote extends NewApiModel implements CachedModel
         return 'abstain';
     }
 
+    public function getMotionTitleAttribute()
+    {
+        return $this->motion->title;
+    }
+
     /************************************* Casts & Accesors *****************************************/
 
     /************************************* Scopes ***************************************************/
+
+    public function scopeFilter($query, VoteFilter $filters)
+    {
+        return $filters->apply($query);
+    }
 
     public function scopeActive($query)
     {
@@ -174,6 +185,11 @@ class Vote extends NewApiModel implements CachedModel
         return $query->whereNotNull('position');
     }
 
+    public function scopeUser($query, $user)
+    {
+        return $query->where('user_id', $user);
+    }
+
     /**
      * Motions that have a.
      *
@@ -187,6 +203,16 @@ class Vote extends NewApiModel implements CachedModel
         return $query->whereHas('motion', function ($query) use ($status) {
             $query->whereIn('status', ['published']);
         });
+    }
+
+    public function scopeOnMotion($query, $motionId)
+    {
+        return $query->where('motion_id', $motionId);
+    }
+
+    public function scopePosition($query, $position)
+    {
+        return $query->where('position', $position);
     }
 
     /************************************* Relationships ********************************************/

@@ -2,6 +2,7 @@ let LoginPage = require('../../shared/pages/LoginPage');
 let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.guest page interactions for a guest users (no account) ||', function() {
 
@@ -67,5 +68,9 @@ describe('authenication.guest page interactions for a guest users (no account) |
      		browser.wait(EC.urlContains('home'), 12000,"Url did not match");
 
   	});
+    
+    afterEach(function(){
+        ConsoleHelper.printErrors();
+    });
 
 });

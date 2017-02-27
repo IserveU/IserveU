@@ -1,3 +1,4 @@
+
 /** Motion block and large division blocks */
 
 motion, user-comment, motion-votes, comment-list{
@@ -11,3 +12,13 @@ motion, user-comment, motion-votes, comment-list{
 motion{
 	flex-direction:row;
 }
+
+@import 'motion_usercomment';
+@import 'motion_commentlist';
+@import 'motion_header';
+@import 'motion_tiles';
+@import 'motion_details';
+@import 'motion_fab';
+@import 'motion_files';
+@import 'motion_vote_buttons';
+@import 'motion_vote_statusbar';

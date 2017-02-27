@@ -1,5 +1,5 @@
 <h2 class="motion_usercomment__title">Why Did You
-		{{motion.userVote.position > 0 ? 'Agree' : ''  }}{{motion.userVote.position < 0 ? 'Disagree' : ''  }}{{motion.userVote.position == 0 ? 'Abstain' : ''  }}?</h2>
+		{{motion._userVote.position > 0 ? 'Agree' : ''  }}{{motion._userVote.position < 0 ? 'Disagree' : ''  }}{{motion._userVote.position == 0 ? 'Abstain' : ''  }}?</h2>
 
 <p marked="userComment.text" class="md-body-1 comment-vote__user-comment" ng-hide="userCommentEdit.editing"></p>
 
@@ -18,11 +18,11 @@
 
 
 		<div class="inline-action-buttons" layout layout-align="end end">
-			<md-button class="md-icon-button" ng-click="userComment.update(motion); userCommentEdit.editComment()" aria-label="save comment">
+			<md-button class="md-icon-button" ng-click="userComment.update(motion); userCommentEdit.editComment()" aria-label="save comment" id="user-comment-update">
 				<md-icon class="md-primary mdi mdi-content-save"></md-icon>
 			</md-button>
 
-			<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="undo comment edits">
+			<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="undo comment edits" id="user-comment-undo">
 				<md-icon class="mdi mdi-undo"></md-icon>
 			</md-button>
 		</div>
@@ -32,11 +32,11 @@
 
 <div ng-hide="userCommentEdit.editing" class="inline-action-buttons" layout layout-align="end end">
 
-	<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="edit comment button">
+	<md-button class="md-icon-button" ng-click="userCommentEdit.editComment()" aria-label="edit comment button" id="user-comment-edit"> 
 		<md-icon class="md-primary mdi mdi-pencil"></md-icon>
 	</md-button>
 
-	<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button">
+	<md-button class="md-icon-button" ng-click="userComment.delete(motion)" aria-label="delete comment button" id="user-comment-delete">
 		<md-icon class="md-warn mdi mdi-delete"></md-icon>
 	</md-button>
 </div>
