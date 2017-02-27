@@ -55,7 +55,7 @@
       self.posting = true;
 
       commentResource.saveComment({
-        vote_id: motion.userVote.id,
+        vote_id: motion._userVote.id,
         text: self.text,
         status: self.status
       }).then(function(success) {

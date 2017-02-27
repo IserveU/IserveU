@@ -24,9 +24,10 @@ class IndexCommentRequest extends Request
     public function rules()
     {
         return [
-            'limit'             => 'integer|min:0',
-            'createdBefore'     => 'date',
-            'createdAfter'      => 'date',
+            'limit'                   => 'integer|min:0',
+            'createdBefore'           => 'date',
+            'createdAfter'            => 'date',
+            'orderBy.commentRank'     => ['regex:(desc|asc)'],
         ];
     }
 }

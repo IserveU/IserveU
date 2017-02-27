@@ -63,7 +63,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $appends = ['motionOpenForVoting', 'userVote', 'userComment', 'rank', 'text'];
+    protected $appends = ['_motionOpenForVoting', '_userVote', '_userComment', '_rank', 'text'];
 
     /**
      * The fields that are dates/times.
@@ -191,15 +191,15 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
         //If self or show-other-private-user
         if (Auth::check() && (Auth::user()->id == $this->user_id || Auth::user()->can('show-motion'))) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'implementation']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', '_rank', '_motionOpenForVoting', 'implementation']);
         }
 
         if (Auth::check()) {
-            $this->addVisible(['userVote', 'userComment']);
+            $this->addVisible(['_userVote', '_userComment']);
         }
 
         if ($this->publiclyVisible) {
-            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', 'motionOpenForVoting', 'rank', 'implementation']);
+            $this->addVisible(['id', 'user_id', 'title', 'summary', 'slug', 'text', 'department', 'closing_at', 'published_at', 'status', 'created_at', 'updated_at', 'user', '_motionOpenForVoting', '_rank', 'implementation']);
         }
 
         return $this;
@@ -234,6 +234,10 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getPublishedAtAttribute($attr)
     {
+        if (!$attr) {
+            return;
+        }
+
         $carbon = Carbon::parse($attr);
 
         return [
@@ -319,9 +323,20 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $comments;
     }
 
+    /**
+     * @return int the mutator to get the sum of all the votes
+     */
     public function getRankAttribute()
     {
-        return (int) $this->votes()->sum('position');
+        // if relation is not loaded already, let's do it first
+      if (!array_key_exists('rankRelation', $this->relations)) {
+          $this->load('rankRelation');
+      }
+
+        $related = $this->getRelation('rankRelation');
+
+      // then return the count directly
+      return ($related) ? (int) $related->rank : 0;
     }
 
     /**
@@ -378,6 +393,23 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         });
     }
 
+    /**
+     * Orders a motion by the sum of the votes that it has in votes table.
+     * Votes can have a position of 1, 0 and -1 so the sum of all these entries works as a rank.
+     *
+     * @param Builder $query Query builder instance
+     * @param string  $order asc/desc
+     *
+     * @return Builder instance
+     */
+    public function scopeOrderByRank($query, $order = 'desc')
+    {
+        return $query->rightJoin('votes', 'votes.motion_id', '=', 'motions.id')
+            ->groupBy('motions.id')
+            ->addSelect(['motions.*', \DB::raw('sum(position) as rank')])
+            ->orderBy('rank', $order);
+    }
+
     public function scopeWriter($query, $user)
     {
         if (is_numeric($user)) {
@@ -431,11 +463,14 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         return $this->hasMany('App\Vote');
     }
 
-    public function comments()
+    /**
+     * An alternative relationship with comment votes for DB count queries.
+     */
+    public function rankRelation()
     {
-        return $this->whereHas('votes', function ($query) use ($rank) {
-            $query->havingRaw('SUM(position) < '.$rank);
-        });
+        return $this->hasOne('App\Vote')
+        ->selectRaw('motion_id, sum(position) as rank')
+        ->groupBy('motion_id');
     }
 
     public function thisUserVote()

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Filters\VoteFilter;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\User\Vote\IndexUserVoteRequest;
 use App\User;
 use App\Vote;
-use Illuminate\Support\Facades\Request;
 
 class UserVoteController extends ApiController
 {
@@ -14,10 +15,10 @@ class UserVoteController extends ApiController
      *
      * @return Response
      */
-    public function index(User $user)
+    public function index(VoteFilter $filters, User $user, IndexUserVoteRequest $request)
     {
-        $limit = Request::get('limit') ?: 100;
+        $limit = $request->get('limit') ?: 100;
 
-        return Vote::where('user_id', $user->id)->paginate($limit);
+        return Vote::filter($filters)->paginate($limit);
     }
 }

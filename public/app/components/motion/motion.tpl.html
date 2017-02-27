@@ -57,7 +57,7 @@
 		<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on"></motion-votes>
 
 		<comment-section ng-if="settingsGlobal.comment.on">
-			<user-comment ng-if="userIsLoggedIn && motion.userVote"></user-comment>
+			<user-comment ng-if="userIsLoggedIn && motion._userVote"></user-comment>
 			<comment-list></comment-list>
 		</comment-section>
 

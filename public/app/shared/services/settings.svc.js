@@ -6,10 +6,11 @@
     .factory('settings', [
       '$rootScope',
       '$http',
+      'utils',
       'SETTINGS_JSON',
       settingsServiceFactory]);
 
-  function settingsServiceFactory($rootScope, $http, SETTINGS_JSON) {
+  function settingsServiceFactory($rootScope, $http, utils, SETTINGS_JSON) {
 
     var Settings = {
       /**
@@ -24,7 +25,12 @@
       getData: function() {
         return this.data;
       },
-
+      
+      get: function(key){
+        return utils.getNestedWithKey(this.data, key);
+        
+      },
+      
       /**
       * Robust check with guard so that you are not submitting
       * a null/empty/undefined value to the settings array.

@@ -1,6 +1,7 @@
 let LoginPage = require('../../shared/pages/LoginPage');
 let faker = require('faker');
 let randomstring = require("randomstring");
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.admin page interactions for a verified user with the admin role', function() {
 
@@ -24,6 +25,9 @@ describe('authenication.admin page interactions for a verified user with the adm
 
   	});
 
+    afterEach(function(){
+        ConsoleHelper.printErrors();
+    });
 
 
 });

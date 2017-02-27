@@ -141,10 +141,10 @@ trait PolishedTest
         return $role;
     }
 
-    public static function getPermissionedUser($permissionName)
+    public static function getPermissionedUser($permissionName, $preferences = [])
     {
         $role = static::createPermissionedRole($permissionName);
-        $user = factory(App\User::class)->create();
+        $user = factory(App\User::class)->create($preferences);
         $user->attachRole($role);
 
         return $user;
@@ -581,7 +581,7 @@ trait PolishedTest
     }
 
     /**
-     * Asserts that the JSON response has a given structure.
+     * Asserts that the JSON response has a given order in a time field. Will not do the sort order of a null field.
      *
      * @param string|desc $order
      * @param string|id   $fieldName
@@ -594,6 +594,14 @@ trait PolishedTest
             $responseData = $this->getResponseData();
         }
 
+        $responseData = array_filter($responseData, function ($val) use ($fieldName) {
+            if ($val[$fieldName]) {
+                return true;
+            }
+
+            return false;
+        });
+
         $this->assertTrue(count($responseData) > 0);
 
         $previousItem = Carbon::parse($responseData[0][$fieldName]['carbon']['date']);
@@ -603,9 +611,8 @@ trait PolishedTest
 
             if ($order == 'desc') {
                 if (!$thisItem->lte($previousItem)) {
-                    var_dump($thisItem);
-                    echo '+'.$record['id'].'+';
-                    var_dump($previousItem);
+                    echo "\n".$previousItem.' previous';
+                    echo "\n".$thisItem.' this';
                 }
 
                 $this->assertTrue(
@@ -613,8 +620,8 @@ trait PolishedTest
                 );
             } else {
                 if (!$thisItem->gte($previousItem)) {
-                    var_dump($thisItem);
-                    var_dump($previousItem);
+                    echo "\n".$previousItem.' previous';
+                    echo "\n".$thisItem.' this';
                 }
 
                 $this->assertTrue(
@@ -624,6 +631,8 @@ trait PolishedTest
 
             $previousItem = $thisItem;
         }
+
+        return $this;
     }
 
     /**

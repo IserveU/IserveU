@@ -1,15 +1,20 @@
+let DomHelper = require('./DomHelper');
 
 class FormHelper {
 
 	constructor(submitButton,fillFields) {
 		this.submitButton = submitButton;
 		this.fillFields(fillFields);
+
+    this.EC = protractor.ExpectedConditions;
 	}
 
 
 	fillFields(content){
 		for (let [key, value] of content) {
-			element(by.name(key)).sendKeys(value);
+			let field = element(by.name(key));
+      DomHelper.canInteractCheck(field);
+      field.sendKeys(value);
 		}
 	}
 
@@ -22,24 +27,26 @@ class FormHelper {
 
 	selectBox(model, text){
 		
- 		element(by.model(model)).click();
-	    browser.waitForAngular(); 
+ 		DomHelper.clickBetter(element(by.model(model)));
+    
+    browser.sleep(1500); //Wait for the box to animate open
+    
+    let el = element(by.cssContainingText('.md-select-menu-container.md-active md-option > div.md-text', text));
+      
+    DomHelper.clickBetter(el);
+  
+    browser.waitForAngular(); 
+    
+    browser.sleep(1000); //Wait for the box to animate closed
 
-	    let el = element(by.cssContainingText('.md-select-menu-container.md-active md-option > div.md-text', text));
-	    if (!(el.isPresent())) {
-	        throw Error('Not clickable');
-	    }
-	    el.click();
-	    browser.waitForAngular(); 
 
 	}
 
 	alloyEditor(name,text){
-		var EC = protractor.ExpectedConditions;
 
 		var editor = element(by.css("textarea[name="+name+"] + div.cke_textarea_inline"));
 
-		browser.wait(EC.presenceOf(editor), 5000,"Unable to find the cke editor instance");
+    DomHelper.canInteractCheck(editor);
 
 		editor.sendKeys(text);
 	}

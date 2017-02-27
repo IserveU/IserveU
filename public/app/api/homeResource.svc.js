@@ -41,11 +41,15 @@
     };
 
     var getTopComments = function() {
-      return query(_api.topComments, 'topComments');
+      return query(_api.topComments, 'topComments', {
+          'orderBy[commentRank]': "desc"
+      });
     };
 
     var getTopMotion = function() {
-      return query(_api.topMotion, 'topMotion', {rank_greater_than: 0});
+      return query(_api.topMotion, 'topMotion',  {
+          'orderBy[_rank]': "desc"
+      });
     };
 
       /*****************************************************************
@@ -70,7 +74,8 @@
         method: 'GET',
         isArray: true,
         url: _endpoint,
-        data: data || {},
+        data: data || {}, /* Why is this here, what is it doing? */
+        params : data,
         ignoreLoadingBar: true
       }).success(function(results) {
         cacheData[key] = results;

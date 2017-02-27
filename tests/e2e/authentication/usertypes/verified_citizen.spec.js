@@ -2,6 +2,7 @@ let LoginPage = require('../../shared/pages/LoginPage');
 let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.verified_citizen page interactions for verified users with the citizen role', function() {
 
@@ -26,5 +27,8 @@ describe('authenication.verified_citizen page interactions for verified users wi
   	});
 
 
+    afterEach(function(){
+        ConsoleHelper.printErrors();
+    });
 
 });

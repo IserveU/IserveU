@@ -1,6 +1,7 @@
 let CommentSection 	= require('../shared/pages/Motion/CommentSection');
 let LoginHelper 	= require('../shared/helpers/LoginHelper');
 let faker = require('faker');
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 describe('vote.appearance making sure that votes display correctly || ', function() {
 
@@ -39,10 +40,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
   });
 
   afterEach(function(){
-      browser.manage().logs().get('browser').then(function(browserlog){
-       // expect(browserlog.length).toEqual(0);
-        if(browserlog.length) console.error(JSON.stringify(browserlog));
-      });
+      ConsoleHelper.printErrors();
   });
 
 

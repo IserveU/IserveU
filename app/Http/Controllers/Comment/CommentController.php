@@ -10,7 +10,6 @@ use App\Http\Requests\Comment\IndexCommentRequest;
 use App\Http\Requests\Comment\ShowCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use Cache;
-use Carbon\Carbon;
 
 class CommentController extends ApiController
 {
@@ -22,14 +21,6 @@ class CommentController extends ApiController
     public function index(CommentFilter $filters, IndexCommentRequest $request)
     {
         $limit = $request->get('limit') ?: 20;
-
-        if (!isset($input['start_date'])) {
-            $input['start_date'] = Carbon::now()->subDays(5);
-        }
-
-        if (!isset($input['end_date'])) {
-            $input['end_date'] = Carbon::now()->addDays(2);
-        }
 
         return Cache::tags(['comment', 'comment.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
             return Comment::filter($filters)->paginate($limit)->toJson();

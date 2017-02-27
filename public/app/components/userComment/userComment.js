@@ -25,7 +25,7 @@
 
 			function determineCommentExists(userComments) {
 
-				if(!$scope.motion || !$scope.motion.userVote){
+				if(!$scope.motion || !$scope.motion._userVote){
 					return false;
 				}
 

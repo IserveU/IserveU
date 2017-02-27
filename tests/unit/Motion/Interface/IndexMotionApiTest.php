@@ -29,7 +29,7 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_defaults()
     {
-        $this->get($this->route)
+        $this->json('GET', $this->route, ['limit' => 5000])
             ->seeJsonStructure([
                 'total',
                 'per_page',
@@ -50,7 +50,8 @@ class IndexMotionApiTest extends MotionApi
                         'closing_at',
                         'published_at',
                         'status',
-                        'motionOpenForVoting',
+                        '_motionOpenForVoting',
+                        '_rank',
                         'department' => [
                             'id', 'name',
                         ],
@@ -60,7 +61,9 @@ class IndexMotionApiTest extends MotionApi
 
         $this->seeOrderInTimeField('desc', 'published_at'); //Default order
         $this->dontSee('draft');
+        $this->see('closed');
         $this->dontSee('review');
+        $this->see('published');
     }
 
     /** @test */
@@ -93,6 +96,22 @@ class IndexMotionApiTest extends MotionApi
         $this->json('GET', $this->route, ['orderBy' => ['closing_at'=>'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'closing_at');
+    }
+
+    /** @test */
+    public function motion_filter_by_motion_rank_ascending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['_rank'=>'asc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('asc', '_rank');
+    }
+
+    /** @test */
+    public function motion_filter_by_motion_rank_descending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['_rank'=>'desc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('desc', '_rank');
     }
 
     /** @test */
@@ -233,7 +252,6 @@ class IndexMotionApiTest extends MotionApi
     /** @test */
     public function motion_filter_rank_greater_than()
     {
-
         //Create a vote on a motion greater than 1
         $vote = factory(App\Vote::class)->create([
             'position'  => 1,
@@ -247,7 +265,7 @@ class IndexMotionApiTest extends MotionApi
         $this->assertTrue(($motions->total > 0));
 
         foreach ($motions->data as $motion) {
-            $this->assertTrue(($motion->rank >= 0));
+            $this->assertTrue(($motion->_rank >= 0));
         }
     }
 
@@ -268,7 +286,7 @@ class IndexMotionApiTest extends MotionApi
         $this->assertTrue(($motions->total > 0));
 
         foreach ($motions->data as $motion) {
-            $this->assertTrue(($motion->rank <= 0));
+            $this->assertTrue(($motion->_rank <= 0));
         }
     }
 

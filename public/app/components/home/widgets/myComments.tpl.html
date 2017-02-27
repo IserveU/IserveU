@@ -3,7 +3,7 @@
   Your Comments
 </h3>
 
-<div class="widget_content--list" ng-if="myComments.commentList.length > 0">
+<div class="widget_content--list" ng-if="myComments.commentList">
   <md-list>
     <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})"
       ng-repeat="comment in myComments.commentList | limitTo: 5">
@@ -22,7 +22,7 @@
 </div>
 
 <div class="widget_content--text" ng-if="myComments.commentList.length <= 0">
-    <p>There aren't any top comments.</p>
+    <p>You haven't commented, yet.</p>
 </div>
 
 <div class="widget_content--text"  ng-if="myComments.loading">

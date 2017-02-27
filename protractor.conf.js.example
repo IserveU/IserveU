@@ -10,17 +10,7 @@ exports.config = {
         'browserName': 'chrome'
     },
 
-
     baseUrl: 'http://iserveu.local/', // change this to your local
-
-    // anything you'd need to be user specific in tests
-    params: {
-        login: {
-            username: 'YOUR_USERNAME',
-            password: 'YOUR_PASSWORD'
-        }
-    },
-
 
     framework: 'jasmine2',
 

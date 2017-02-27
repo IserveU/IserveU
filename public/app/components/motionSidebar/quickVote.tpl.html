@@ -2,15 +2,15 @@
 
 	<md-button aria-label="User Menu" class="md-icon-button" ng-mousedown="quickVote.cycleVote(motion)">
 
-		  <md-icon ng-switch-when="1" class="md-primary" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="thumb-up"  aria-label="cycle vote" ></md-icon>
+		  <md-icon ng-switch-when="1" class="md-primary" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" md-svg-src="thumb-up"  aria-label="cycle vote" ></md-icon>
 
-		  <md-icon ng-if="settingsGlobal.voting.abstain" ng-switch-when="0" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="thumbs-up-down" aria-label="cycle vote" ng-disabled="!motion.motionOpenForVoting"></md-icon>
+		  <md-icon ng-if="settingsGlobal.voting.abstain" ng-switch-when="0" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" md-svg-src="thumbs-up-down" aria-label="cycle vote" ng-disabled="!motion._motionOpenForVoting"></md-icon>
 
-		  <md-icon ng-switch-when="-1" class="md-accent" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" md-svg-src="thumb-down"  aria-label="cycle vote" ng-disabled="!motion.motionOpenForVoting"></md-icon>
+		  <md-icon ng-switch-when="-1" class="md-accent" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" md-svg-src="thumb-down"  aria-label="cycle vote" ng-disabled="!motion._motionOpenForVoting"></md-icon>
 
-		  <md-icon ng-switch-when="undefined" class="mdi mdi-med mdi-checkbox-blank-circle-outline" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" aria-label="cycle vote"></md-icon>
+		  <md-icon ng-switch-when="undefined" class="mdi mdi-med mdi-checkbox-blank-circle-outline" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" aria-label="cycle vote"></md-icon>
 
-	  <md-tooltip>{{ motion.motionOpenForVoting ? 'Quick Vote' : ( 'MOTION' | translate ) + ' is closed to voting.' }}</md-tooltip>
+	  <md-tooltip>{{ motion._motionOpenForVoting ? 'Quick Vote' : ( 'MOTION' | translate ) + ' is closed to voting.' }}</md-tooltip>
 
 	</md-button>
 
@@ -18,8 +18,8 @@
 
 <div ng-if="quickVote.isMotionDraft(motion.status)" ng-switch="motion.status">
   <md-button aria-label="User Menu" class="md-icon-button">
-    <md-icon ng-switch-when="draft" class="mdi mdi-med mdi-file-document" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" aria-label="cycle vote"></md-icon>
-    <md-icon ng-switch-when="review" class="mdi mdi-med mdi-file-find" ng-class="{'quick-vote-disabled':!motion.motionOpenForVoting}" aria-label="cycle vote"></md-icon>
+    <md-icon ng-switch-when="draft" class="mdi mdi-med mdi-file-document" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" aria-label="cycle vote"></md-icon>
+    <md-icon ng-switch-when="review" class="mdi mdi-med mdi-file-find" ng-class="{'quick-vote-disabled':!motion._motionOpenForVoting}" aria-label="cycle vote"></md-icon>
     <md-tooltip>{{motion.status}}</md-tooltip>
 
   </md-button>

@@ -1,6 +1,7 @@
 let MotionPage = require('../shared/pages/Motion/ShowMotionPage');
 let SidebarSection = require('../shared/pages/Motion/SidebarSection');
 let LoginHelper = require('../shared/helpers/LoginHelper');
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 
 describe('motion.appearance making sure that a motion looks correct ||', function() {
@@ -59,10 +60,8 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 
     afterEach(function(){
-        browser.manage().logs().get('browser').then(function(browserlog){
-         // expect(browserlog.length).toEqual(0);
-          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
-        });
+        ConsoleHelper.printErrors();
     });
+
 
 });

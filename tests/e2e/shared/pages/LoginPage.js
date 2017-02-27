@@ -26,7 +26,7 @@ class LoginPage{
 	}
 
 	clickLoginButton(){
-		this.loginButton.click();
+		DomHelper.clickBetter(this.loginButton);
 	}
 
 	getCreateButton(){
@@ -34,11 +34,11 @@ class LoginPage{
 	}
 
 	clickCreateButton(){
-		this.createButton.click();
+		DomHelper.clickBetter(this.createButton);
 	}
 
 	clickIAgreeButton(){
-		this.agreeButton.click();
+		DomHelper.clickBetter(this.agreeButton);
 	}
 
 	getTitle(){
