@@ -17,31 +17,25 @@ describe('page.appearance making sure that pages look correct ||', function() {
   let EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
-
+    page.get();
 	});
   
-  
-  
-  xit('New user sees correct parts of home page', function() {
-    let login = new LoginHelper();
+    
+  it('New user sees correct parts of home page', function() {
     login.logout();
-
     login.create();
-    
-    page.get();
-    
+        
     DomHelper.canInteractCheck(page.yourVotes);
     browser.wait(EC.textToBePresentInElement(page.yourVotes,"You haven't voted, yet."), 5000, "");
     
     DomHelper.canInteractCheck(page.yourComments);
     browser.wait(EC.textToBePresentInElement(page.yourComments,"You haven't commented, yet."), 5000, "Can not find 'A Commented On Motion' in the Your Comments section");
     
+
   });
   
 
-  xit('Not logged In see correct parts of home page', function() {
-      page.get();
-
+  it('Not logged In see correct parts of home page', function() {
       login.logout();
 
       page.get();
@@ -61,8 +55,8 @@ describe('page.appearance making sure that pages look correct ||', function() {
   });
   
   
-  xit('Logged in sees correct parts of home page', function() {
-      let login = new LoginHelper();
+  it('Logged in sees correct parts of home page', function() {
+      login.logout();
 
       login.login('citizen@iserveu.ca');    
       
@@ -83,6 +77,9 @@ describe('page.appearance making sure that pages look correct ||', function() {
 
 
   afterEach(function(){
+      let login = new LoginHelper();
+      login.logout();
+      
       ConsoleHelper.printErrors();
   });
 

@@ -52,7 +52,7 @@ class FormHelper {
 	}
 
 	submit(){
-		this.submitButton.click();
+    DomHelper.clickBetter(this.submitButton);
 	}
 
 

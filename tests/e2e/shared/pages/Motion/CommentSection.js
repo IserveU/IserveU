@@ -21,7 +21,9 @@ class CommentSection extends VoteSection{
 
 
 
-		this.agreeCommentListButton 		= element(by.css('md-tab-item'));
+		this.agreeCommentListButton 		= element(by.css('md-tab-item:first-of-type'));
+    this.disagreeCommentListButton 		= element(by.css('md-tab-item:last-of-type'));
+
 		this.agreeComments				 				= element(by.repeater("comment in motion.motionComments.agreeComments"));
 
 
@@ -41,6 +43,7 @@ class CommentSection extends VoteSection{
 	}
 
 	setAndSaveUserComment(text){
+      DomHelper.canInteractCheck(this.userComment);
 			this.userComment.sendKeys(text);
 			DomHelper.clickBetter(this.userCommentSaveButton);
 	}
@@ -109,7 +112,10 @@ class CommentSection extends VoteSection{
 	clickAgreeSection(){
 			DomHelper.clickBetter(this.agreeCommentListButton);
 	}
-
+  
+  clickDisagreeSection(){
+			DomHelper.clickBetter(this.disagreeCommentListButton);
+	}
 }
 
 

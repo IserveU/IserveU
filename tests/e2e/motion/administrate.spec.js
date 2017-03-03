@@ -74,6 +74,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
   	});
 
     afterEach(function(){
+    
         ConsoleHelper.printErrors();
     });
 

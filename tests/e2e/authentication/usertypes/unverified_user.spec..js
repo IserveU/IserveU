@@ -26,6 +26,7 @@ describe('authenication.unverified_user page interactions for an unverified user
   	});
 
     afterEach(function(){
+
         ConsoleHelper.printErrors();
     });
 
