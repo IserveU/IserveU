@@ -17,7 +17,7 @@ describe('page.appearance making sure that pages look correct ||', function() {
   let EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
-    page.get();
+    return page.get();
 	});
   
     

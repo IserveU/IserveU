@@ -104,14 +104,16 @@
 	}
 	function editPasswordField() {
 		return {
-			template: ['<form layout="column">',
+			template: ['<form layout="column" name="editPassword">',
 					   '<md-input-container>',
 					   '<label>New Password</label>',
-					   '<input type="password" ng-model="profile.password">',
+					   '<input name="changePassword" type="password"  ng-minlength="8" ng-model="profile.password">',
+					   '<span class="error" ng-show="editPassword.changePassword.$error.minlength">Minimum password length : 8 </span>',
 					   '</md-input-container>',
    					   '<md-input-container>',
 					   '<label>Confirm Password</label>',
-					   '<input type="password" ng-model="profile.confirm_password" compare-to="profile.password">',
+					   '<input type="password"  ng-minlength="8" ng-model="profile.confirm_password" compare-to="profile.password">',
+					   '<span class="error" ng-show="editPassword.changePassword.$error.minlength">Minimum password length : 8 </span>',					   
 					   '</md-input-container>',
 					   '</form>'].join('')
 		}

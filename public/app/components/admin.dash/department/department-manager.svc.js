@@ -34,7 +34,7 @@
             	});
 			},
 			destroy: function(name, id) {
-				ToastMessage.destroyThis(name,
+				ToastMessage.destroyThis("department",
 					function(){
 						department.deleteDepartment(id);
 						for (var i in factory.list.index) {

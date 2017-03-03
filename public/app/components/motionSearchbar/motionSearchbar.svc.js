@@ -107,7 +107,7 @@
 
 				this.setFilterBy(null);
 
-				motion.getMotions(data).then(function (result) {
+				motion.getMotions(filter).then(function (result) {
 					motionIndex._index = result.data;
 					motionIndex._next_page = null;
 					factory.searching = false;

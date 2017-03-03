@@ -41,6 +41,18 @@ class CommentSection extends VoteSection{
 	getUserComment(attr){
 		return DomHelper.extractAttribute(this.userComment,attr);
 	}
+  
+  comment(text){
+    let vm = this;
+
+    this.userCommentEditButton.isPresent().then(function(result){
+      if(result){
+        vm.editAndSaveUserComment(text)
+      } else {
+        vm.setAndSaveUserComment(text)
+      }
+    });
+  }
 
 	setAndSaveUserComment(text){
       DomHelper.canInteractCheck(this.userComment);
@@ -97,16 +109,9 @@ class CommentSection extends VoteSection{
   
   /** This will probably go into some utilty class in a refactor */
   voteAndWriteAComment(text){
-    let vm = this;
     this.get('a-commented-on-motion');
     this.voteRandomWay();
-    this.userCommentEditButton.isPresent().then(function(result){
-      if(result){
-        vm.editAndSaveUserComment(text)
-      } else {
-        vm.setAndSaveUserComment(text)
-      }
-    });
+    this.comment(text);
   }
 
 	clickAgreeSection(){
