@@ -25,7 +25,7 @@ describe('comment.appearance making sure that votes display correctly || ', func
 
 		let commentText = faker.lorem.sentences(4);
 
-		comment.setAndSaveUserComment(commentText);
+		comment.comment(commentText);
 
 		comment.expectSectionActive('agree');
 		comment.expectSectionInactive(['disagree','abstain']);
