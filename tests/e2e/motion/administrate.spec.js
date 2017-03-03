@@ -4,8 +4,7 @@ let SidebarSection = require('../shared/pages/Motion/SidebarSection');
 let FormHelper = require('../shared/helpers/FormHelper');
 let faker = require('faker');
 let DomHelper = require('../shared/helpers/DomHelper');
-
-
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 describe('motion.administrate making sure that a motion creation and editing works correctly || ', function() {
 
@@ -21,6 +20,7 @@ describe('motion.administrate making sure that a motion creation and editing wor
 
   it('Motion administration buttons exist and work as expected', function() {
 		var EC = protractor.ExpectedConditions;
+
 
 		DomHelper.clickBetter(sidebarSection.getSidebarLinks().last());
 
@@ -59,25 +59,23 @@ describe('motion.administrate making sure that a motion creation and editing wor
 
    		formHelper.alloyEditor('body',faker.lorem.sentences(10));
 
+      browser.sleep(1000); //This next line fails all the time.
    		formHelper.selectBox('form.motion.department.id',"Unknown");
+      
+      browser.sleep(1000); //This next line fails all the time. I think because the box above it doesn't finish closing
    		formHelper.selectBox('form.motion.status',"Draft");
- 		formHelper.submit();
+      
+      browser.sleep(1000); //This next line fails all the time. I think because the box above it doesn't finish closing
+ 		  formHelper.submit();
 
 		//This failed during some query updates for the first time on 2017/01/06
-		browser.wait(EC.urlContains("/motion/"),10000,"Motion did not redirect");
+		  browser.wait(EC.urlContains("/motion/"),10000,"Motion did not redirect");
 
   	});
 
-// 		motionAdmin.clickDeleteMotion();
-// 		browser.wait(EC.presenceOf(element(by.tagName('md-toast'))),1000,"Toast did not occur");
-// 		motionAdmin.clickDeleteMotionConfirmation();
-// 		return browser.wait(EC.urlContains("/home"),5000,"Did not get returned to home page");
-
     afterEach(function(){
-        browser.manage().logs().get('browser').then(function(browserlog){
-         // expect(browserlog.length).toEqual(0);
-          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
-        });
+        ConsoleHelper.printErrors();
     });
+
 
 });

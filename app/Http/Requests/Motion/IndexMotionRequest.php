@@ -53,12 +53,13 @@ class IndexMotionRequest extends Request
             'orderBy.closing_at'       => ['regex:(desc|asc)'],
             'orderBy.published_at'     => ['regex:(desc|asc)'],
             'orderBy.created_at'       => ['regex:(desc|asc)'],
+            'orderBy._rank'            => ['regex:(desc|asc)'],
             'status'                   => 'array',
             'implementation'           => 'array',
             'user_id'                  => 'exists:users,id',
             'limit'                    => 'integer',
             'title'                    => 'max:255',
-            'rank'                     => 'integer',
+      //      'rank'                     => 'integer',
             'page'                     => 'integer',
         ];
     }

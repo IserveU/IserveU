@@ -28,8 +28,8 @@
 				});
 			}
 
-			function fetchSelectedIndex(userVote) {
-				var vote = userVote || $scope.motion.userVote;
+			function fetchSelectedIndex(_userVote) {
+				var vote = _userVote || $scope.motion._userVote;
 				if( !vote || vote.position === 'undefined' ) {
 					return;
 				} else if( vote.position == 1 ) {
@@ -41,7 +41,7 @@
 				}
 			}
 
-			$scope.$watch('motion.userVote', function(vote) {
+			$scope.$watch('motion._userVote', function(vote) {
 				if(vote && vote.id){
 					fetchSelectedIndex(vote);
 				}

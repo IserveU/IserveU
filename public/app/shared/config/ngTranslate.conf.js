@@ -8,7 +8,6 @@
   function translateProvider($translateProvider, SETTINGS_JSON) {
 
     var j = SETTINGS_JSON.jargon;
-    var b = SETTINGS_JSON.betaMessage;
     $translateProvider.preferredLanguage('en');
 
     // $translateProvider.determinePreferredLanguage(function(){
@@ -21,7 +20,6 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: b ? b.text : 'This software is currently in BETA.',
       PHOTO_COURTESY: 'Photo courtesy of ',
       LOGOUT: 'Logout',
       YOUR_PROFILE: 'Your Profile',
@@ -157,7 +155,6 @@
     //   LANG_NAME: 'Langue',
     //   MOTION: j ? j.fr.motion : 'Motion',
     //   MOTIONS: j ? j.fr.motions : 'Motions',
-    //   BETA_MESSAGE_MINI: ['Pour tous problèmes, communiquez',
     //     ' avec nous par courriel '].join(''),
     //   PHOTO_COURTESY: 'Les photos sont une courtoisie de ',
     //   LOGOUT: 'Se déconnecter',

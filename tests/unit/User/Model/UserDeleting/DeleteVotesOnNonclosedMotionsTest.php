@@ -6,13 +6,13 @@ class DeleteActiveVotesTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public $votingUser;
+    public $userThatVoted;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->votingUser = factory(App\User::class)->create();
+        $this->userThatVoted = factory(App\User::class)->create();
     }
 
     /** @test **/
@@ -20,13 +20,13 @@ class DeleteActiveVotesTest extends TestCase
     {
         $nonClosedMotionVotes = factory(App\Vote::class, 5)->create();
         foreach ($nonClosedMotionVotes as $vote) {
-            $vote->user_id = $this->votingUser->id;
+            $vote->user_id = $this->userThatVoted->id;
             $vote->save();
         }
 
-        $this->votingUser->delete();
+        $this->userThatVoted->delete();
 
-        $this->dontSeeInDatabase('votes', ['user_id' => $this->votingUser->id]);
+        $this->dontSeeInDatabase('votes', ['user_id' => $this->userThatVoted->id]);
     }
 
     /** @test **/

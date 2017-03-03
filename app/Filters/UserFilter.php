@@ -56,11 +56,14 @@ class UserFilter extends QueryFilter
         return $this->query->addressVerified();
     }
 
-    /* desc or asc */
     public function orderBy($fieldPairs)
     {
         foreach ($fieldPairs as $field => $direction) {
-            $this->query->orderBy($field, $direction);
+            switch ($field) {
+              default:
+                /* desc or asc of closingAt,publisheAt and createdAt or another other native table field*/
+                $this->query->orderBy($field, $direction);
+            }
         }
 
         return $this->query;

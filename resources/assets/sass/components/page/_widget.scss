@@ -44,15 +44,21 @@
 
 //Angular overrides for block
 
-.widget md-list md-list-item{
+.widget md-list {
+  
+  md-list-item{
 
-	&:not(:last-child){
-		border-bottom: 1px solid #ddd;
-	}
+    border-bottom: 1px solid #ddd;
 
-	.md-list-item-text{
-		padding: $padding/2 0 $padding/2 0;
-	}
+    &:last-child{
+      border-bottom: none;
+    }
+
+
+  	.md-list-item-text{
+  		padding: $padding/2 0 $padding/2 0;
+  	}
+  }
 
 }
 

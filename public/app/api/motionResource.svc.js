@@ -121,13 +121,13 @@
         return error;
       });
     }
-
+    
     function getMyMotions() {
       return $http({
         method: 'GET',
         url: '/api/motion',
         params: {
-          'status[]': ['draft', 'review', 'published'],
+          'status[]': ['draft', 'review', 'published', 'closed'],
           user_id: $rootScope.authenticatedUser.id
         },
         ignoreLoadingBar: true

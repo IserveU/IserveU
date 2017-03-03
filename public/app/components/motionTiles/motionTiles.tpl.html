@@ -3,25 +3,25 @@
 		<md-icon id="department_icon" md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
 
         <div class="md-list-item-text">
-			<h3>{{ motion.department.name }}</h3>
+			    <h3>{{ motion.department.name }}</h3>
         	<p>Department</p>
         </div>
 	</md-list-item>
 
   <md-list-item class="md-2-line" id="closing_tile" ng-if="settingsGlobal.motion.allow_closing">
-    <md-icon ng-if="!motion.motionOpenForVoting" md-svg-icon="calendar-remove"></md-icon>
-        <div ng-if="!motion.motionOpenForVoting" class="md-list-item-text">
+    <md-icon ng-if="!motion._motionOpenForVoting" md-svg-icon="calendar-remove"></md-icon>
+        <div ng-if="!motion._motionOpenForVoting" class="md-list-item-text">
           <h3>{{'CLOSED' | translate}}</h3>
           <p>{{ 'CLOSES_ON' | translate }}</p>
         </div>
 
-	    <md-icon ng-if="motion.motionOpenForVoting" md-svg-icon="calendar-clock"></md-icon>
-        <div ng-if="motion.motionOpenForVoting && motion.closing_at.alpha_date" class="md-list-item-text">
+	    <md-icon ng-if="motion._motionOpenForVoting" md-svg-icon="calendar-clock"></md-icon>
+        <div ng-if="motion._motionOpenForVoting && motion.closing_at.alpha_date" class="md-list-item-text">
           <h3>{{ motion.closing_at.alpha_date | customLongDate }}</h3>
           <p>{{ 'CLOSES_ON' | translate }}</p>
         </div>
 
-        <div ng-if="motion.motionOpenForVoting && !motion.closing_at.alpha_date" class="md-list-item-text">
+        <div ng-if="motion._motionOpenForVoting && !motion.closing_at.alpha_date" class="md-list-item-text">
           <h3>Undetermined</h3>
           <p>{{ 'CLOSES_ON' | translate }}</p>
         </div>
@@ -29,10 +29,10 @@
 
 
 	<md-list-item class="md-2-line">
-	  	<md-icon id="passing_status_icon" md-svg-src="{{ getRankTile(motion.rank).icon || 'loading' }}"></md-icon>
+	  	<md-icon id="passing_status_icon" md-svg-src="{{ getRankTile(motion._rank).icon || 'loading' }}"></md-icon>
 
         <div class="md-list-item-text">
-          <h3>{{ getRankTile(motion.rank).message }}</h3>
+          <h3>{{ getRankTile(motion._rank).message }}</h3>
         	<p>Status</p>
         </div>
 	</md-list-item>

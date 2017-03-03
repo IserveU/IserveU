@@ -18,8 +18,8 @@
   </md-list>
 </div>
 
-<div class="widget_content--text" ng-if="topMotions.motionList.length <= 0">
-    <p ng-if="!topMotions.motionList" ng-cloak class="md-body-1">There are no motions right now.</p>
+<div class="widget_content--text" ng-if="!topMotions.motionList.length">
+    <p>There are no motions right now.</p>
 </div>
 
 <div class="widget_content--text"  ng-if="topMotions.loading">

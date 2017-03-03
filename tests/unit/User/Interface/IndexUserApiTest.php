@@ -44,7 +44,8 @@ class IndexUserApiTest extends UserApi
                     ],
                 ],
             ]);
-        $this->seeOrderInTimeField(); //Default order
+
+        $this->seeOrderInField('desc', 'id'); //Default order
         //deprecated, Admin can see private user for now.
         //$this->dontSeeJson(['status' => 'private']);
     }
@@ -70,7 +71,7 @@ class IndexUserApiTest extends UserApi
     {
         $this->json('GET', $this->route, ['orderBy' => ['id'=>'desc']])
                 ->assertResponseStatus(200)
-                ->seeOrderInTimeField('desc', 'id');
+                ->seeOrderInField('desc', 'id');
     }
 
     /** @test */
@@ -78,7 +79,7 @@ class IndexUserApiTest extends UserApi
     {
         $this->json('GET', $this->route, ['orderBy' => ['id'=>'asc']])
                 ->assertResponseStatus(200)
-                ->seeOrderInTimeField('asc', 'id');
+                ->seeOrderInField('asc', 'id');
     }
 
     /** @test */

@@ -1,5 +1,6 @@
 let VoteSection = require('../shared/pages/Motion/VoteSection');
 let LoginHelper = require('../shared/helpers/LoginHelper');
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 
 describe('vote.permissions making sure that vote permissions work correctly || ', function() {
@@ -90,10 +91,7 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 
     afterEach(function(){
-        browser.manage().logs().get('browser').then(function(browserlog){
-         // expect(browserlog.length).toEqual(0);
-          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
-        });
+        ConsoleHelper.printErrors();
     });
 
 

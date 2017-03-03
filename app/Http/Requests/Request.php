@@ -65,7 +65,7 @@ abstract class Request extends FormRequest
     //Courtesy of @Kiniamaro
     public function validate()
     {
-        if (config('app.debug') == 'true') {
+        if (config('app.bouncer') == 'true') {
             $validator = $this->getValidatorInstance();
 
             // Add universal rules

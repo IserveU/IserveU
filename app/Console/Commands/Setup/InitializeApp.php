@@ -4,10 +4,10 @@ namespace App\Console\Commands\Setup;
 
 use App\Jobs\Setup\CreateAdminUser;
 use App\Jobs\Setup\SeedDatabaseDefaults;
-use App\Jobs\Setup\SeedDatabaseFaker;
 use App\Jobs\Setup\SetDefaultPermissions;
 use App\Jobs\Setup\SetDefaultSettings;
 use App\User;
+use Artisan;
 use Illuminate\Console\Command;
 use Setting;
 
@@ -89,7 +89,7 @@ class InitializeApp extends Command
         dispatch(new CreateAdminUser($user));
 
         if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
-            dispatch(new SeedDatabaseFaker());
+            Artisan::call('db:seed', ['--class' => 'FakerDataSeeder']);
         }
     }
 }
