@@ -3,7 +3,7 @@ let LoginHelper 	= require('../shared/helpers/LoginHelper');
 let faker = require('faker');
 let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
-describe('vote.appearance making sure that votes display correctly || ', function() {
+describe('comment.appearance making sure that votes display correctly || ', function() {
 
 	let comment 	= new CommentSection();
 	let login 		= new LoginHelper();
@@ -14,7 +14,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 
   it('should see own agreeing comment', function() {
-  	login.login('citizen@iserveu.ca');
+  	
+    login.login('citizen@iserveu.ca');
 
 		comment.get('a-published-motion');
 
@@ -26,20 +27,21 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 		comment.setAndSaveUserComment(commentText);
 
-		comment.expectSectionActive('disagree');
-		comment.expectSectionInactive(['agree','abstain']);
-
-		comment.clickAgreeSection();
-
-		comment.expectSectionInactive(['disagree','abstain']);
 		comment.expectSectionActive('agree');
+		comment.expectSectionInactive(['disagree','abstain']);
+    comment.expectCommentListContainsComment('agree',[commentText,"MrsVerified"]);
 
-		comment.expectCommentListContainsComment('agree',[commentText,"MrsVerified"]);
+		comment.clickDisagreeSection();
+
+		comment.expectSectionInactive(['agree','abstain']);
+		comment.expectSectionActive('disagree');
 
 
   });
 
   afterEach(function(){
+      let login = new LoginHelper();
+      login.logout();
       ConsoleHelper.printErrors();
   });
 

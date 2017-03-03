@@ -16,7 +16,6 @@
 
   	 /** @ngInject */
 	function loginServiceFactory($rootScope, $timeout, authResource, ToastMessage, utils, redirectService, motionIndex) {
-
 		var Login = {
 			creating: false,
 			loggingIn: false,
@@ -55,12 +54,11 @@
 			$rootScope.userIsLoggedIn = false;
 			localStorage.clear();
 			motionIndex.clear();
-
-			if (redirect) {
-				redirectService.onLogout();
+			if (redirect) { 
+        redirectService.onLogout();
 			}
 		}
-
+ 
 		function clearErrorMessages() {
 			Login.authError = false;
 			for (var i in Login.errors) {
@@ -74,6 +72,7 @@
 			Login.loggingIn = true;
 
 			authResource.login(credentials).then(successHandler, function(error) {
+
 				Login.loggingIn = false;
 				errorHandler( error.data );
 			});

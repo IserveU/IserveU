@@ -19,7 +19,7 @@ describe('authenication.verified_citizen page interactions for verified users wi
 		expect(browser.isElementPresent(page.getMessage())).toBe(false);
 
  
-  		page.loginWithEmailPassword("citizen@iserveu.ca","abcd1234");
+    		page.loginWithEmailPassword("citizen@iserveu.ca","abcd1234");
   		
 
       	browser.wait(EC.urlContains('home'), 5000,"url did not match");
@@ -28,6 +28,7 @@ describe('authenication.verified_citizen page interactions for verified users wi
 
 
     afterEach(function(){
+  
         ConsoleHelper.printErrors();
     });
 

@@ -29,7 +29,7 @@ class SidebarSection extends ShowMotionPage{
       var EC = protractor.ExpectedConditions;
 			browser.executeScript(scrollIntoView,val.getWebElement());
 
-				DomHelper.clickBetter(val); //.click();
+				DomHelper.clickBetter(val);
 		});
 	}
 
