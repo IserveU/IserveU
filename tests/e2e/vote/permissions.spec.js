@@ -90,7 +90,9 @@ describe('vote.permissions making sure that vote permissions work correctly || '
   	});
 
 
+    
     afterEach(function(){
+
         ConsoleHelper.printErrors();
     });
 

@@ -34,32 +34,32 @@ class AdministrateMotionPage extends ShowMotionPage{
 	clickCreateMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		DomHelper.clickBetter(this.fabMenu); //.click();
+		DomHelper.clickBetter(this.fabMenu);
 		browser.wait(EC.elementToBeClickable(this.createFabButton), 10000,"Menu did not drop down");
-		this.createFabButton.click();
+		DomHelper.clickBetter(this.createFabButton);
 	}
 
 	clickEditMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		DomHelper.clickBetter(this.fabMenu); //.click();
+		DomHelper.clickBetter(this.fabMenu); 
 		browser.wait(EC.elementToBeClickable(this.editFabButton), 5000,"Menu did not drop down");
-		this.editFabButton.click();
+		DomHelper.clickBetter(this.editFabButton);
 	}
 
 	clickDeleteMotion(){
 		var EC = protractor.ExpectedConditions;
 
-		this.fabMenu.click();
+		DomHelper.clickBetter(this.fabMenu);
 		browser.wait(EC.elementToBeClickable(this.deleteFabButton), 5000,"Menu did not drop down");
-		this.deleteFabButton.click();
+		DomHelper.clickBetter(this.deleteFabButton);
 	}
 
 	clickDeleteMotionConfirmation(){
 		var EC = protractor.ExpectedConditions;
 		browser.wait(EC.elementToBeClickable(this.deleteMotionConfirmation), 5000,"Confirmation box did not show");
 
-		this.deleteMotionConfirmation.click();
+		DomHelper.clickBetter(this.deleteMotionConfirmation);
 	}
 
 	getDeleteMotionConfirmation(){

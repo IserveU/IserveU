@@ -55,11 +55,11 @@
     }
 
     function destroyThis(type, fn) {
-      var toast = action('Destroy this ' + type + '?', 'Yes', true);
+      var toast = action('Destroy this ' + $translate.instant(type) + '?', 'Yes', true);
       $mdToast.show(toast).then(function(r) {
         if (r === 'ok') {
           fn();
-          simple(utils.capitalize(type) + ' destroyed', 1000);
+          simple(utils.capitalize($translate.instant(type)) + ' destroyed', 1000);
         }
       });
     }

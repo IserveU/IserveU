@@ -2,7 +2,7 @@ let VoteSection 	= require('../shared/pages/Motion/VoteSection');
 let LoginHelper 	= require('../shared/helpers/LoginHelper');
 let SidebarSection 	= require('../shared/pages/Motion/SidebarSection');
 let MotionPage = require('../shared/pages/Motion/ShowMotionPage');
-
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 
 describe('vote.appearance making sure that votes display correctly || ', function() {
@@ -90,5 +90,12 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
 
   });
+  
+  
+    afterEach(function(){
+
+        ConsoleHelper.printErrors();
+    });
+
 
 });

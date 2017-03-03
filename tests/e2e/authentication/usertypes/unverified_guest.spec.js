@@ -6,16 +6,15 @@ let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.guest page interactions for a guest users (no account) ||', function() {
 
-	let page = new LoginPage();
-  let EC = protractor.ExpectedConditions;
+  	let page = new LoginPage();
+    let EC = protractor.ExpectedConditions;
 
-	beforeEach(function(){
-		page.get();
+  	beforeEach(function(){
+  		return page.get();
 
-	});
+  	});
 
   	it('Should see correct error message after login attempt', function() {
-
 		  expect(browser.isElementPresent(page.getMessage())).toBe(false);
 
   		let email 			= faker.internet.email();
@@ -70,6 +69,7 @@ describe('authenication.guest page interactions for a guest users (no account) |
   	});
     
     afterEach(function(){
+    
         ConsoleHelper.printErrors();
     });
 

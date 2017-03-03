@@ -13,7 +13,6 @@ class LoginHelper {
 
 		this.loginPage = new LoginPage();
 
-		this.logoutButton	= element();
 
 	}
 
@@ -36,7 +35,6 @@ class LoginHelper {
 			this.password = "abcd1234";
 		}
 		
-		this.loginPage.get();
 		this.loginPage.loginWithEmailPassword(this.email, this.password);
 
 		return browser.sleep(1000); // If this times out just use browser.waitForAngular();
@@ -48,6 +46,8 @@ class LoginHelper {
 
     this.loginPage.get();
     
+    browser.wait(EC.urlContains('#/login'), 5000,"Unable to raise the login page");
+
     if(email === undefined){
       email     = faker.internet.email();
     }
@@ -79,6 +79,8 @@ class LoginHelper {
   }
 
 	logout(){
+    let EC = protractor.ExpectedConditions;
+
 		let setting = new Setting();
     
     setting.openCogMenu();
@@ -88,10 +90,9 @@ class LoginHelper {
       if(displayed){
           DomHelper.clickBetter(setting.cogMenuButtons['logout']);
       }
-      
+      browser.wait(EC.urlContains('#/home'), 5000,"Did not redirect to home page");
     });
-    
-		
+
 	}
 
 }

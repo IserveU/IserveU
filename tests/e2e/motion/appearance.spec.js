@@ -60,6 +60,7 @@ describe('motion.appearance making sure that a motion looks correct ||', functio
 
 
     afterEach(function(){
+
         ConsoleHelper.printErrors();
     });
 

@@ -21,7 +21,9 @@ class CommentSection extends VoteSection{
 
 
 
-		this.agreeCommentListButton 		= element(by.css('md-tab-item'));
+		this.agreeCommentListButton 		= element(by.css('md-tab-item:first-of-type'));
+    this.disagreeCommentListButton 		= element(by.css('md-tab-item:last-of-type'));
+
 		this.agreeComments				 				= element(by.repeater("comment in motion.motionComments.agreeComments"));
 
 
@@ -39,8 +41,21 @@ class CommentSection extends VoteSection{
 	getUserComment(attr){
 		return DomHelper.extractAttribute(this.userComment,attr);
 	}
+  
+  comment(text){
+    let vm = this;
+
+    this.userCommentEditButton.isPresent().then(function(result){
+      if(result){
+        vm.editAndSaveUserComment(text)
+      } else {
+        vm.setAndSaveUserComment(text)
+      }
+    });
+  }
 
 	setAndSaveUserComment(text){
+      DomHelper.canInteractCheck(this.userComment);
 			this.userComment.sendKeys(text);
 			DomHelper.clickBetter(this.userCommentSaveButton);
 	}
@@ -94,22 +109,18 @@ class CommentSection extends VoteSection{
   
   /** This will probably go into some utilty class in a refactor */
   voteAndWriteAComment(text){
-    let vm = this;
     this.get('a-commented-on-motion');
     this.voteRandomWay();
-    this.userCommentEditButton.isPresent().then(function(result){
-      if(result){
-        vm.editAndSaveUserComment(text)
-      } else {
-        vm.setAndSaveUserComment(text)
-      }
-    });
+    this.comment(text);
   }
 
 	clickAgreeSection(){
 			DomHelper.clickBetter(this.agreeCommentListButton);
 	}
-
+  
+  clickDisagreeSection(){
+			DomHelper.clickBetter(this.disagreeCommentListButton);
+	}
 }
 
 
