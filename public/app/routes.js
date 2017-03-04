@@ -176,7 +176,7 @@
         })
         .state('reset-password', {
           url: '/reset-password',
-          template:'<reset-password></reset-password>' ,
+          template:'<reset-password class="widget md-card"></reset-password>' ,
           data: {
             requireLogin: true
           }
