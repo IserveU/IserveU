@@ -30,7 +30,6 @@ angular
 			self._paginating = true;
 
 			userResource.getUsersIndex(this._current_page).then(function(results) {
-				console.log(results);
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
@@ -67,7 +66,6 @@ angular
 
 			userResource.getUsersIndex(self._next_page).then(function(results) {
 
-				console.log(results);
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = angular.isArray(self._index) ? self._index.concat(results.data) : results.data;

@@ -149,17 +149,14 @@
             + ' ' + user.last_name;
             break;
           case 'Community':
-            communityResource.retrieveNameById(user.community_id)
-              .then(function(name) {
-                el.data = name;
-              });
+          
+            el.data = user.community.name;
             break;
           case 'Birthday':
             if (user.date_of_birth) {
-              var formattedDate = new Date(user.date_of_birth);
-              el.data = $filter('date')(formattedDate, 'MMMM d, y');
+              el.data = $filter('date')(user.date_of_birth, 'MMMM d, y');
             } else {
-              el.data = user.date_of_birth;
+              el.data = "Not Set";
             }
             break;
         }

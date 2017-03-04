@@ -76,6 +76,17 @@
     }
     function getUser(id) {
       return User.get({id: id}).$promise.then(function(result) {
+        
+        //Probably should make a dates->objects functions
+        if(result.date_of_birth!==undefined || 
+            result.date_of_birth!="" || _.includes(result.date_of_birth, "-000"))
+            {
+          result.date_of_birth = null;
+        } else {
+          result.date_of_birth = new Date(result.date_of_birth);
+        }
+         
+
         // probably dont need to update localStorage when getUser for now. 
         // but if needed, please uncomment the following codes for security.
         // if(localStorage.getItem('user') === undefined){

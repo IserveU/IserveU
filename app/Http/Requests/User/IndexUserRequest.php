@@ -40,6 +40,7 @@ class IndexUserRequest extends Request
             'allNames'                => 'string',
             'page'                    => 'integer',
             'limit'                   => 'integer',
+            'roles'                   => 'array',
         ];
     }
 }

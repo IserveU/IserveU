@@ -1,12 +1,13 @@
-<div flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
-  <floating-button has-permission="administrate-user"
+<user>
+
+  <floating-button md-direction="up" has-permission="administrate-user" class="user_fab"
     init-buttons="['delete']"
     on-delete="destroy()">
   </floating-button>
-<!-- <profile-toolbar></profile-toolbar> -->
-  <md-card>
-    <md-card-content>
-
+  
+  <div id="centered_content">
+    <md-card>
+    <md-card-content flex>
 
     <md-list ng-cloak style="padding: 0" flex>
 
@@ -178,4 +179,4 @@
     </md-list>
     </md-card-content>
   </md-card>
-</div>
+</user>

@@ -1,9 +1,8 @@
 @import 'variables';
+@import 'global/global';
 @import 'vendor/vendor';
 @import 'common/common';
 @import 'components/components';
-@import 'global/global';
-
 
 
 *{
@@ -203,6 +202,7 @@ md-sidenav, md-sidenav.md-locked-open, md-sidenav.md-closed.md-locked-open-add-a
   		font-size:26px;
 	}
 }
+
 input.sidebar-search-input {
 
 	border: 0px;
@@ -474,6 +474,8 @@ md-menu-item{
 		}
 	}
 }
+
+
 
 // style preset for md-card style that emulates angular.io's material style.
 .inline-icon {

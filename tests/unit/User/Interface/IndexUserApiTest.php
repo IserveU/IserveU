@@ -180,24 +180,69 @@ class IndexUserApiTest extends UserApi
     {
         $name = 'SeaHorse42069';
 
-        factory(App\User::class)->create(
+        $userA = factory(App\User::class)->create(
             ['first_name' => $name,
              'status'     => 'public', ]);
 
-        factory(App\User::class)->create(
+        $userB = factory(App\User::class)->create(
             ['middle_name' => $name,
              'status'      => 'public', ]);
 
-        factory(App\User::class)->create(
+        $userC = factory(App\User::class)->create(
             ['last_name' => $name,
              'status'    => 'public', ]);
 
         $this->json('GET', $this->route, ['allNames' => $name])
                 ->assertResponseStatus(200)
                 ->seeJson(['total' => 3])
-                ->seeJson(['first_name' => $name,
-                           'last_name'  => $name,
-                           'last_name'  => $name, ]);
+                ->seeJson(['last_name'      => $userA->last_name,
+                           'last_name'      => $userB->last_name,
+                           'first_name'     => $userC->first_name, ]);
+    }
+
+    /** @test */
+    public function user_filter_by_roles()
+    {
+        $citizen = factory(App\User::class, 'verified')->create();
+        $citizen->addRole('citizen');
+
+        $participant = factory(App\User::class)->create();
+        $participant->addRole('participant');
+
+        $noRoles = factory(App\User::class, 'private')->create();
+
+        $admin = factory(App\User::class, 'public')->create();
+        $admin->addRole('administrator');
+
+        //Citizen
+        $this->json('GET', $this->route, ['roles' => ['citizen']])
+                ->assertResponseStatus(200)
+                ->seeJson(['slug' => $citizen->slug])
+                ->dontSeeJson([
+                    'slug'  => $participant->slug,
+                    'slug'  => $noRoles->slug,
+                    'slug'  => $admin->slug,
+                  ]);
+
+        //Admin
+        $this->json('GET', $this->route, ['roles' => ['administrator']])
+                ->assertResponseStatus(200)
+                ->seeJson(['slug' => $admin->slug])
+                ->dontSeeJson([
+                    'slug'  => $participant->slug,
+                    'slug'  => $noRoles->slug,
+                    'slug'  => $citizen->slug,
+                  ]);
+
+        //No role users
+        $this->json('GET', $this->route, ['roles' => []])
+                ->assertResponseStatus(200)
+                ->seeJson(['slug' => $noRoles->slug])
+                ->dontSeeJson([
+                    'slug'  => $participant->slug,
+                    'slug'  => $admin->slug,
+                    'slug'  => $citizen->slug,
+                  ]);
     }
 
     /** @test */
