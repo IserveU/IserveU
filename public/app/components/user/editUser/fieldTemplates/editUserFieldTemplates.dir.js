@@ -65,7 +65,7 @@
 			template: ['<form>',
 					   '<md-input-container>',
 					   '<label>Telephone</label>',
-					   '<input type="tel" ng-model="profile.phone_number">',
+					   '<input type="tel" ng-model="profile.phone">',
 					   '</md-input-container>',
 					   '</form>'].join('')
 		}
