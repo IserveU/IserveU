@@ -43,6 +43,15 @@ class UserFilter extends QueryFilter
         return $this->query->where('identity_verified', $verified);
     }
 
+    public function roles($roles)
+    {
+        if (empty($roles)) {
+            return $this->query->doesntHave('roles');
+        }
+
+        return $this->query->hasRoles($roles);
+    }
+
     /**
      * Needs to check that it is both not null and not before now.
      * People have to reverify their addresses.

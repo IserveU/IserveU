@@ -24,3 +24,9 @@ $cubicBezierFadeIn:  all 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $zNavigation: 10;
 $zBody: 1;
 $zBackground: -10;
+
+/* Media query break points */
+$xs: 600px;
+$sm: 960px;
+$md: 1280px;
+$lg: 1920px;
