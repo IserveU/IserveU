@@ -12,6 +12,7 @@
 	}
 }
 
+
 .widget_title{
 	padding:$padding;
 	margin: 0px;
@@ -40,7 +41,10 @@
 	padding:0px 0px $padding 0px;
 }
 
+.widget_content--form{
+  @extend .widget_content;
 
+}
 
 //Angular overrides for block
 
