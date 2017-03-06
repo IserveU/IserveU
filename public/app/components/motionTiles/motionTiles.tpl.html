@@ -29,10 +29,9 @@
 
 
 	<md-list-item class="md-2-line">
-	  	<md-icon id="passing_status_icon" md-svg-src="{{ getRankTile(motion._rank).icon || 'loading' }}"></md-icon>
-
-        <div class="md-list-item-text">
-          <h3>{{ getRankTile(motion._rank).message }}</h3>
+	  	<md-icon id="passing_status_icon" md-svg-src="{{ motion.rankTile.icon || 'loading' }}"></md-icon>
+        <div class="md-list-item-text" >
+          <h3>{{ motion.rankTile.message }}</h3>
         	<p>Status</p>
         </div>
 	</md-list-item>

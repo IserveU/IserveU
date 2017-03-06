@@ -8,7 +8,10 @@
 
     function motionTilesController($scope, $mdMedia, Motion) {
 
-      $scope.getRankTile = function(rank) {
+      $scope.$watch('motion.rank',function(){
+        $scope.motion.rankTile =getRankTile($scope.motion.rank);
+      });
+      function getRankTile(rank) {
         var overallPosition = {
           loading: {
             icon: 'loading',
