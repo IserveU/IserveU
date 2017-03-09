@@ -34,6 +34,11 @@
       WELCOME: 'Welcome!',
       YOUR_VOTES: 'Your Votes',
       YOUR_COMMENTS: 'Your Comments',
+      
+      COMMENTLIST_NOABSTAIN: 'No comments have been made for abstain',
+      COMMENTLIST_NOAGREE: 'No comments have been made for agree',
+      COMMENTLIST_NODISAGREE: 'No comments have been made for disagree',
+  
       CURRENTLY_PASSING: 'Currently Passing',
       TODAYS_TOP_COMMENTS: 'Today\'s Top Comments',
       BY: 'by ',
