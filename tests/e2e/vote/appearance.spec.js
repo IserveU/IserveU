@@ -32,7 +32,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 		browser.waitForAngular();
     
-    browser.sleep(1000); //The code below was evaluating to "Loading"
+    browser.sleep(2000); //The code below was evaluating to "Loading"
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();
@@ -45,7 +45,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			} else if (counts.agree<counts.disagree){
 
 				console.log("Agree:"+counts.agree+ " Disagree:"+counts.disagree + " Abstain:"+counts.abstain);
-				//This failed too on 2017-01-06
+				//This failed too on 2017-01-06 && 2017-03-01
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumb-down');
 
 			} else if (counts.agree==counts.disagree){

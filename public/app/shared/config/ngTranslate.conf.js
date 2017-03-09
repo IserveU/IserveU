@@ -146,8 +146,12 @@
       FIELD_SEARCH: 'Please fill in the fields on the left to begin searching.',
       UNIT_NUMBER: 'Unit Number',
       STREET_ADDRESS: 'Street Address',
-      STREET: 'Street Name'
-
+      STREET: 'Street Name',
+      
+      MOTION_CLOSED: 'Closed for voting',
+      
+      //Permission denied messages
+      PERMISSION_CREATEVOTE: 'Your account has not been approved for voting'
 
     });
 

@@ -6,10 +6,7 @@
          infinite-scroll-disabled="( motionSidebar.motionIndex._paginating || motionSidebar.motionIndex._stopPaginating)">
 
       <md-list>
-         <!--  <md-subheader ng-show="motionSidebar.search._filteredBy">
-              <p>Filtered by {{ motionSidebar.search._filteredBy }}:</p>
-          </md-subheader>
- -->
+
           <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in motionSidebar.motionIndex._index | isPublished" ui-sref-active="active" ui-sref="motion({id:motion.id})" ng-click="motionSidebar.closeSidenav('left')">
 
             <md-icon class="department" md-svg-src="{{ ::motion.department.icon }}">

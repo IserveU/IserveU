@@ -105,6 +105,7 @@
 			localStorage.setItem( 'api_token', user.api_token );
 			localStorage.setItem( 'user', JSON.stringify(user) );
 			localStorage.setItem( 'public_computer', Login.publicComputer );
+      motionIndex.clear();
 
 			$timeout(function() { redirectService.redirect() }, 250 );
 		}

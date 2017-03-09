@@ -96,15 +96,25 @@
 				return type + " with this " +  item;
 			}
 		}
-
-		function isVotingEnabled(motion) {
-			return ( !motion._motionOpenForVoting || !Authorizer.canAccess('create-vote') ||  motion.status === 'review' );
-		}
-
+    // 
+    // function canVoteOn(motion){
+    // 
+    //   if(!Authorizer.canAccess('create-vote')){ return false; }
+    // 
+    //   return isVotingEnabled(motion);
+    // }
+    // 
+		// function isVotingEnabled(motion) {
+    //   if(!motion._motionOpenForVoting){
+    //     return false;
+    //   }
+    // 
+    //   return true;
+		// }
+    
 		return {
 			buttons: MotionVoteButtons,
 			getMessage: getMessage,
-			isVotingEnabled: isVotingEnabled
 		}
 	}
 

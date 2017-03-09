@@ -19,14 +19,6 @@ class IndexMotionApiTest extends MotionApi
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function user_can_see_their_voted_motions()
-    {
-        $vote = factory(App\Vote::class)->create();
-        $this->signIn($vote->user);
-        $this->get($this->route)->see($vote->motion->id)->see($vote->position);
-    }
-
-    /** @test */
     public function motion_filter_defaults()
     {
         $this->json('GET', $this->route, ['limit' => 5000])
@@ -52,6 +44,7 @@ class IndexMotionApiTest extends MotionApi
                         'status',
                         '_motionOpenForVoting',
                         '_rank',
+                        '_userVote', //This isnt good for caching
                         'department' => [
                             'id', 'name',
                         ],
@@ -61,6 +54,8 @@ class IndexMotionApiTest extends MotionApi
 
         $this->seeOrderInTimeField('desc', 'published_at'); //Default order
         $this->dontSee('draft');
+        $this->dontSee('draft');
+
         $this->see('closed');
         $this->dontSee('review');
         $this->see('published');

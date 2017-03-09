@@ -1,19 +1,17 @@
-<div class="home layout-row layout-wrap flex" ng-cloak>
+<page class="home layout-row layout-wrap flex" ng-cloak>
+  
+  <div id="centered_content">
 
-  <home-introduction class="widget md-card"></home-introduction>
-  <!---webkit-flex: 1 0 auto !important; flex: 1 0 auto !important; -->
-  <div class="flex-order-0 flex-gt-md-50 flex-100">
-      <my-votes class="widget md-card" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.voting.on"></my-votes>
+    <home-introduction class="widget"></home-introduction>
 
-      <top-motions class="widget md-card" ng-if="settingsGlobal.motion.on && settingsGlobal.home.widgets.top_motions"></top-motions>
-  </div>
+    <my-votes class="widget" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.voting.on"></my-votes>
 
-  <!---webkit-flex: 1 0 auto !important; flex: 1 0 auto !important;-->
-  <div class="flex-order-1 flex-gt-md-50 flex-100">
-    <my-comments class="widget md-card" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.comment.on"></my-comments>
-    
+    <top-motions class="widget" ng-if="settingsGlobal.motion.on && settingsGlobal.home.widgets.top_motions"></top-motions>
 
-    <top-comments class="widget md-card"  ng-if="settingsGlobal.comment.on"></top-comments>
+    <my-comments class="widget" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.comment.on"></my-comments>  
+
+    <top-comments class="widget"  ng-if="settingsGlobal.comment.on"></top-comments>
+
   </div>
 
   <floating-button  md-direction="up" has-permission="administrate-motion"  class="motion_fab"
@@ -21,5 +19,5 @@
     on-edit="homePage.edit(home)">
   </floating-button>
 
-
-</div>
+  
+</page>

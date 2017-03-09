@@ -26,7 +26,6 @@
 	  		*   Motion model and reinsert that into the index.
 	  		*/
 			$scope.motion = Motion.get( $stateParams.id );
-			console.log($scope.motion);
 
 			function create() {
 				$state.go('create-motion');

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -52,11 +53,12 @@ abstract class QueryFilter
     /**
      * Creates a key for the current query filter so that you can cache it and save the results for later.
      *
-     * @param string $append lets you append a string when generating the cache key in case you want to save specific version like a cached rendered result and a cached query result
+     * @param string $append        lets you append a string when generating the cache key in case you want to save specific version like a cached rendered result and a cached query result
+     * @param bool   $userSensitive Caches uniquely for a user
      *
      * @return string a JSON encoded string representing this query filter
      */
-    public function cacheKey($append = '')
+    public function cacheKey($append = '', $userSensitive = false)
     {
         $filterKey = '';
 
@@ -65,6 +67,10 @@ abstract class QueryFilter
             $filterKey .= $key.json_encode($value);
         }
         $filterKey .= $append;
+
+        if ($userSensitive && Auth::check()) {
+            $filterKey .= 'user:'.Auth::user()->id;
+        }
 
         return $filterKey;
     }

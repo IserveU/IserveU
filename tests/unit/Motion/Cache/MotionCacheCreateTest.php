@@ -19,7 +19,7 @@ class MotionCacheCreateTest extends MotionCache
     public function creating_motion_clears_filter_cache()
     {
         $this->triggerFilterRoute()
-             ->assertNotNull($this->getFilterCache());
+             ->assertNotNull($this->getFilterCache(20, true));
 
         factory($this->class)->create();
 

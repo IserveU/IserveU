@@ -1,7 +1,6 @@
 <div class="motion_vote_buttons" layout="row" flex>
-	<div ng-repeat="button in motionVoteButtons.buttons" ng-hide="button.hidden" flex class="motion_vote_buttons__button--{{ ::button.type }}">
-		<md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)" 
-		ng-attr-disabled="{{ button.disabled || undefined }}" >
+	<div ng-repeat="button in motionVoteButtons.buttons" ng-hide="button.hidden" flex class="motion_vote_buttons__button--{{ button.disabled ? 'disabled':  button.type }}">
+		<md-button aria-label="{{ ::button.ariaLabel }}" ng-mousedown="button.cast(motion)" >
 		      <md-icon ng-class="button.selectedColour" md-svg-src="{{ button.selectedIcon }}"></md-icon>
 		</md-button>
 		<md-tooltip>{{ button.tooltip }}</md-tooltip>
