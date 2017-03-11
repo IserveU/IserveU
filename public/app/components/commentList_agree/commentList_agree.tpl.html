@@ -1,5 +1,5 @@
 <md-list ng-show="motion.motionComments.agreeComments.length != 0">
-	<md-list-item class="md-3-line md-long-text" ng-repeat="comment in motion.motionComments.agreeComments | orderBy:'-commentRank'">
+	<md-list-item class="md-3-line md-long-text motion_commentlist__item" ng-repeat="comment in motion.motionComments.agreeComments | orderBy:'-commentRank'">
 		<md-icon class="mdi md-avatar-icon mdi-account-circle"></md-icon>
 
         <div class="md-list-item-text">

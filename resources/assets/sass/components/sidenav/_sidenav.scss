@@ -8,3 +8,7 @@ md-sidenav{
 md-sidenav.md-closed{
   display: block !important; /* Was breaking infinite scroll */
 }
+// 
+// md-list-item{
+//   max-height: 60px; /* iPhone 5 flexbox bug */
+// }
