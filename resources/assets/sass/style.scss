@@ -12,6 +12,7 @@
 }
 
 md-icon{
+  max-height: 52px; /* This is needed to stop iphones going crazy */
 	height: auto;
 }
 

@@ -43,7 +43,7 @@ class ProcessCSV extends Command
     {
         Excel::load(storage_path('app/nationbuilder.csv'), function ($reader) {
             $results = static::filterUnusableRecords($reader->get());
-
+            $results = $results->random(2);
             foreach ($results as $result) {
                 try {
                     $user = static::processUser($result);
