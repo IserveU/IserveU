@@ -149,8 +149,10 @@
             + ' ' + user.last_name;
             break;
           case 'Community':
-          
-            el.data = user.community.name;
+            if(user.community !== null){
+              el.data = user.community.name;
+              break;
+            }
             break;
           case 'Birthday':
             if (user.date_of_birth) {

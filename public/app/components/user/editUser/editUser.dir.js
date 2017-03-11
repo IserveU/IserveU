@@ -65,7 +65,6 @@
 
 			function saveField(ev, item) {
 				item.saving = true;
-				console.log($scope.profile);
 				var data = editUserFormService.delegateProfileData(item.label.toLowerCase(), $scope.profile);
 				var id   = $scope.profile.id;
 				var slug = $scope.profile.slug;
