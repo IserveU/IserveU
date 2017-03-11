@@ -114,7 +114,7 @@
     
 		return {
 			buttons: MotionVoteButtons,
-			getMessage: getMessage,
+			getMessage: getMessage
 		}
 	}
 

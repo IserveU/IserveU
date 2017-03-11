@@ -1,6 +1,7 @@
 /* whole page pane*/
 #maincontent{
   padding: 0;
+  overflow: scroll;
 }
 
 @mixin frame{

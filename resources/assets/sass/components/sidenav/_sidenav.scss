@@ -1,0 +1,10 @@
+md-sidenav{
+  // display: block !important;
+  @media screen and (max-width: $sm) {
+    height:100% !important;
+  }
+}
+
+md-sidenav.md-closed{
+  display: block !important; /* Was breaking infinite scroll */
+}

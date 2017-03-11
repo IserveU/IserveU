@@ -35,11 +35,11 @@
             </md-sidenav>
 
             <!-- Main content -->
-            <md-content id="maincontent" layout-fill ng-style="{'height': isLoginState ? '100vh' : '92vh'}">
+            <div id="maincontent" layout-fill ng-style="{'height': isLoginState ? '100vh' : '92vh'}">
                 <!-- <notification-template ng-hide="isLoginState" flex-order="0"></notification-template> -->
                 <div ui-view flex flex-order="1" role="main" tabIndex="-1"></div>
                 <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>
-            </md-content>
+            </div>
         </div>
     </body>
 
