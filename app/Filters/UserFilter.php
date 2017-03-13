@@ -58,8 +58,8 @@ class UserFilter extends QueryFilter
      **/
     public function addressVerified($verified = 1)
     {
-        if ($verified) {
-            return $this->query->addressVerified();
+        if (!$verified) {
+            return $this->query->addressUnverified();
         }
 
         return $this->query->addressVerified();

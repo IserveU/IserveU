@@ -14,6 +14,7 @@ use App\Vote;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends ApiController
 {
@@ -33,6 +34,7 @@ class UserController extends ApiController
      */
     public function index(UserFilter $filters, IndexUserRequest $request)
     {
+        Log::info($request->input('roles'));
         $limit = $request->input('limit') ?: 20;
 
         return User::filter($filters)->paginate($limit);

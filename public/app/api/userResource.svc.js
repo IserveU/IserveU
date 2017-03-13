@@ -98,6 +98,13 @@
       });
     }
 
+    function getUsers(data) {
+      return User.get(data).$promise.then(function(succcess) {
+        return succcess;
+      }, function(error) {
+        return $q.reject(error);
+      });
+    }
     function storeUser(info) {
       return User.save(info).$promise.then(function(result) {
         return result;
@@ -144,6 +151,7 @@
       getUsersIndex: getUsersIndex,
       getUserInfo: getUserInfo,
       getUser: getUser,
+      getUsers: getUsers,
       updateUser: updateUser,
       deleteUser: deleteUser,
       storeUser: storeUser,
