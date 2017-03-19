@@ -58,7 +58,6 @@
         	if(year %4 === 0){
         		if(month == 'February')
         		{
-        			cac();
         			var nbOfDays =29;
 		     		var minDay =1;
 		     		$scope.days = [];
