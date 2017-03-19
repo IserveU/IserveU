@@ -99,6 +99,8 @@
 
     function delegateProfileData(label, user) {
       var data;
+      // create date from 3 strings.
+      
       switch (label) {
         case 'name':
           data = {
@@ -111,6 +113,7 @@
           data = { community_id: user.community_id };
           break;
         case 'birthday':
+          
           data = { date_of_birth: utils.date.stringify(user.date_of_birth) };
           break;
         case 'email':
