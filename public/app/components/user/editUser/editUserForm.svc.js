@@ -98,9 +98,7 @@
     };
 
     function delegateProfileData(label, user) {
-      var data;
-      // create date from 3 strings.
-      
+      var data;      
       switch (label) {
         case 'name':
           data = {
