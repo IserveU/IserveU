@@ -42,11 +42,19 @@
 	}
 	function editBirthdayField() {
 		return {
-			template: ['<form>',
-			      	   '<md-input-container>',
-          			   '<label>Birthday</label>',
-					   '<md-datepicker ng-model="profile.date_of_birth" md-placeholder="MM/DD/YYYY" flex></md-datepicker>',
-					   '</md-input-container>',
+			template: ['<form layout="row"  ng-controller="birthdayController as birthday" flex>',
+			           '<md-input-container>',
+          			   '<label>Month</label>',
+					   '<md-select ng-model="profile.date_of_birth.month" ng-change="selectMonth(profile.date_of_birth.month.name)"><md-option ng-repeat="month in months " placeholder="Month" ng-value="month">{{month.name}}</md-option></md-select>',
+			           '</md-input-container>',          			   
+          			   '<md-input-container>',
+          			   '<label>Day</label>',          			   
+					   '<md-select ng-model="profile.date_of_birth.day" ng-change=""><md-option ng-repeat="day in days" placeholder="Day" ng-value="day">{{day}}</md-option></md-select>',
+			           '</md-input-container>',
+			           '<md-input-container>',
+          			   '<label>Year</label>',
+					   '<md-select ng-model="profile.date_of_birth.year" ng-change="selectYear(profile.date_of_birth.month,profile.date_of_birth.year)"><md-option ng-repeat="year in years" placeholder="Year" ng-value="year">{{year}}</md-option></md-select>',
+			           '</md-input-container>',
 					   '</form>'].join('')
 		}
 	}
