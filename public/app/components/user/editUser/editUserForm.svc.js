@@ -98,7 +98,7 @@
     };
 
     function delegateProfileData(label, user) {
-      var data;      
+      var data;
       switch (label) {
         case 'name':
           data = {
@@ -111,7 +111,8 @@
           data = { community_id: user.community_id };
           break;
         case 'birthday':
-          
+          //user date of birth is empty,it need to be combined from 3 values.
+          user.date_of_birth =  new Date(user.date_of_birth.year,user.date_of_birth.month.value,user.date_of_birth.day);
           data = { date_of_birth: utils.date.stringify(user.date_of_birth) };
           break;
         case 'email':
