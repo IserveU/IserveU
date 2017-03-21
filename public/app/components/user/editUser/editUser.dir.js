@@ -65,8 +65,6 @@
 
 			function saveField(ev, item) {
 				item.saving = true;
-				$scope.profile.date_of_birth =  new Date($scope.profile.date_of_birth.year,$scope.profile.date_of_birth.month.value,$scope.profile.date_of_birth.day);
-				console.log($scope.profile.date_of_birth);
 				var data = editUserFormService.delegateProfileData(item.label.toLowerCase(), $scope.profile);
 				var id   = $scope.profile.id;
 				var slug = $scope.profile.slug;

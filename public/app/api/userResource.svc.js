@@ -78,8 +78,8 @@
       return User.get({id: id}).$promise.then(function(result) {
         
         //Probably should make a dates->objects functions
-        if(result.date_of_birth ==undefined || 
-            result.date_of_birth=="" || result.date_of_birth.includes("-000"))
+        if(result.date_of_birth ===undefined || 
+            result.date_of_birth==="" || result.date_of_birth.includes("-000"))
             {
           result.date_of_birth = null;
         } else {
