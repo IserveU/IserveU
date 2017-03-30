@@ -112,7 +112,7 @@
 
     function publishMotion($motion, $user)
     {
-        $updated = $user->call('PATCH', '/api/motion/'.$motion->id, ['status' => 'published']);
+        $updated = $user->call('PATCH', '/api/motion/'.$motion->slug, ['status' => 'published']);
 
         return $updated->getOriginalContent();
     }

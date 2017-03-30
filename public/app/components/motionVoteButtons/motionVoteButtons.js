@@ -8,10 +8,10 @@
 			 'ToastMessage',
 			 'motionVoteButtonService',
        'Authorizer',
-       'voteService',
+       'voteModel',
 		motionVoteButtons]);
 
-	function motionVoteButtons($interval, voteResource, ToastMessage, motionVoteButtonService, Authorizer, voteService) {
+	function motionVoteButtons($interval, voteResource, ToastMessage, motionVoteButtonService, Authorizer, voteModel) {
 
 		function motionVoteButtonsController($scope) {
 
@@ -28,7 +28,7 @@
 			self.commonFunctions = {
 
 				cast: function(motion) {
-          voteService.validVote(motion, this.position);
+          voteModel.validVote(motion, this.position);
           //Call if you can vote function
           //I
           //I
@@ -55,7 +55,7 @@
 				},
 
 				setDisabled: function(motion) {
-					this.disabled = !voteService.canVoteOn(motion);
+					this.disabled = !voteModel.canVoteOn(motion);
           
 				}
 			};
@@ -101,7 +101,7 @@
 
 
 			function successHandler(button, motion, vote) {
-				voteService.voteSuccess(button.type);
+				voteModel.voteSuccess(button.type);
 				motion.reloadOnVoteSuccess( vote );
 			}
 

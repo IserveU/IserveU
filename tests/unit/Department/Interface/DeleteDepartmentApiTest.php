@@ -22,7 +22,7 @@ class DeleteDepartmentApiTest extends DepartmentApi
 
         $department = factory(App\Department::class)->create();
 
-        $this->delete('/api/department/'.$department->id)
+        $this->delete('/api/department/'.$department->slug)
             ->assertResponseStatus(200);
     }
 

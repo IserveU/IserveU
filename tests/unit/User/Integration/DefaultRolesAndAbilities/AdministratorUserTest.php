@@ -25,7 +25,7 @@ class AdministratorUserTest extends TestCase
     {
         $user = factory(App\User::class, 'public')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200);
 
@@ -38,7 +38,7 @@ class AdministratorUserTest extends TestCase
     {
         $user = factory(App\User::class, 'private')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200);
 
@@ -61,7 +61,7 @@ class AdministratorUserTest extends TestCase
 
         $this->seeInDatabase('users', ['id' => $user->id, 'identity_verified' => 0]);
 
-        $this->patch('/api/user/'.$user->id, ['identity_verified' => 1]);
+        $this->patch('/api/user/'.$user->slug, ['identity_verified' => 1]);
 
         $this->assertResponseStatus(200);
 
@@ -77,7 +77,7 @@ class AdministratorUserTest extends TestCase
 
         $verifyUntilDate = \Carbon\Carbon::now()->addDays(1200)->toIso8601String();
 
-        $this->patch('/api/user/'.$user->id, ['address_verified_until' => $verifyUntilDate]);
+        $this->patch('/api/user/'.$user->slug, ['address_verified_until' => $verifyUntilDate]);
 
         $this->assertResponseStatus(200);
 

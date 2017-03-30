@@ -97,7 +97,6 @@
      					sanitized[key] = this._newFilter[key];
      				}
   				}
-  				console.log(sanitized);
 				return user.getUsers(sanitized).then(function(r){
 					factory._newFilter = factory._newFilter;
 					factory.searching = false;

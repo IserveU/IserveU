@@ -22,7 +22,7 @@ class DeleteMotionApiTest extends MotionApi
 
         $motion = factory(App\Motion::class)->create();
 
-        $this->delete('/api/motion/'.$motion->id)
+        $this->delete('/api/motion/'.$motion->slug)
             ->assertResponseStatus(200);
     }
 
