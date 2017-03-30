@@ -193,7 +193,7 @@ class FakerDataSeeder extends Seeder
 
     public static function giveCommentVotes(Comment $comment, $position = 'rand')
     {
-        $votesOnSide = \App\Vote::onMotion($comment->motion_id)->position($comment->vote->position)->get();
+        $votesOnSide = \App\Vote::onMotion($comment->motion_slug)->position($comment->vote->position)->get();
 
         foreach ($votesOnSide as $voteOnSide) {
             \App\CommentVote::create([

@@ -16,7 +16,7 @@ class StoreVoteApiTest extends VoteApi
     {
         parent::setUp();
         $this->motion = factory(App\Motion::class, 'published')->create();
-        $this->route = '/api/motion/'.$this->motion->id.'/vote/';
+        $this->route = '/api/motion/'.$this->motion->slug.'/vote/';
 
         $this->signInAsRole('administrator');
     }

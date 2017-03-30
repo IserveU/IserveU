@@ -44,7 +44,7 @@ class ShowPageApiTest extends PageApi
 
         $page = factory(App\Page::class)->create();
 
-        $this->get('/api/page/'.$page->id)
+        $this->get('/api/page/'.$page->slug)
             ->assertResponseStatus(200);
     }
 

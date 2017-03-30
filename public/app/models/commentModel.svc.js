@@ -62,7 +62,7 @@
         self.posting = false;
         self.exists = true;
         self.id = success.id;
-        motion.getMotionComments(motion.id);
+        motion.getMotionComments(motion.slug);
       }, function(error) {
         self.posting = false;
       });
@@ -78,7 +78,7 @@
       }).then(function(success) {
         self.posting = false;
         self.exists = true;
-        motion.getMotionComments(motion.id);
+        motion.getMotionComments(motion.slug);
       }, function(error) {
         self.posting = false;
       });
@@ -90,7 +90,7 @@
         commentResource.deleteComment(self.id).then(function(results) {
           self.exists = false;
           self.setData({id: null, text: null, status: null, posting: null, exists: null});
-          motion.getMotionComments(motion.id);
+          motion.getMotionComments(motion.slug);
         });
       });
     }

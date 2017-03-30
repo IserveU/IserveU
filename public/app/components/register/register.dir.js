@@ -14,6 +14,7 @@
 				var self = this;
 				
 				communityResource.getCommunities().then(function(results) {
+
 					self.communityIndex = results.data.data; 
 				});
 			},

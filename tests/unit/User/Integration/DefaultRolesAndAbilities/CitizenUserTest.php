@@ -25,7 +25,7 @@ class CitizenUserTest extends TestCase
     {
         $user = factory(App\User::class, 'public')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200);
 
@@ -39,7 +39,7 @@ class CitizenUserTest extends TestCase
     {
         $user = factory(App\User::class, 'private')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200); //Will be a 403 one day
         $this->dontSee($user->first_name);

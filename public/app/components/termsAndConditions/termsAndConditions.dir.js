@@ -98,7 +98,6 @@
         $mdDialog.hide(answer);
       };
 
-      console.log($rootScope.userIsLoggedIn);
       $scope.userIsLoggedIn = $rootScope.userIsLoggedIn;
       $scope.settingsGlobal = $rootScope.settingsGlobal;
   	}
