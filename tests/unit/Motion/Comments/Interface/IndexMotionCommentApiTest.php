@@ -38,7 +38,7 @@ class IndexMotionCommentApiTest extends TestCase
     /** @test */
     public function default_filter()
     {
-        $this->get('/api/motion/'.static::$motion->id.'/comment')
+        $this->get('/api/motion/'.static::$motion->slug.'/comment')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
                     'agreeComments',

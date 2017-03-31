@@ -205,9 +205,15 @@ class Vote extends NewApiModel implements CachedModel
         });
     }
 
-    public function scopeOnMotion($query, $motionId)
+    public function scopeOnMotion($query, $motionIdent)
     {
-        return $query->where('motion_id', $motionId);
+        if (is_numeric($motionIdent)) {
+            return $query->where('motion_id', $motionIdent);
+        }
+
+        return $query->whereHas('motion', function ($query) use ($motionIdent) {
+            $query->where('slug', $motionIdent);
+        });
     }
 
     public function scopePosition($query, $position)

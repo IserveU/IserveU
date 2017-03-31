@@ -53,9 +53,9 @@
 			</md-card-content>
 		</md-card>
 
-		<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on"></motion-votes>
+		<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on && motion.status !== 'draft' "></motion-votes>
 
-		<comment-section ng-if="settingsGlobal.comment.on">
+		<comment-section ng-if="settingsGlobal.comment.on  && motion.status !== 'draft'">
 			<user-comment ng-if="userIsLoggedIn && motion._userVote"></user-comment>
 			<comment-list></comment-list>
 		</comment-section>

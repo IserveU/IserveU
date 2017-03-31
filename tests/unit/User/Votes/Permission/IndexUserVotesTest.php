@@ -66,7 +66,7 @@ class IndexUserVotesTest extends UserVotesTests
 
         $this->signInAsAdmin();
 
-        $this->get('/api/user/'.$publicUser->id.'/vote')
+        $this->get('/api/user/'.$publicUser->slug.'/vote')
             ->assertResponseStatus(200);
     }
 
@@ -81,7 +81,7 @@ class IndexUserVotesTest extends UserVotesTests
 
         $this->signInAsAdmin();
 
-        $this->get('/api/user/'.$privateUser->id.'/vote')
+        $this->get('/api/user/'.$privateUser->slug.'/vote')
             ->assertResponseStatus(403);
     }
 }

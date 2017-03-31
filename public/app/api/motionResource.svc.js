@@ -89,8 +89,8 @@
         return error;
       });
     }
-
     function getMotionComments(id) {
+      //id = slug here.
       return MotionComments.get({id: id}).$promise.then(function(success) {
         return success;
       }, function(error) {
@@ -106,8 +106,8 @@
           return $q.reject(error);
         });
     }
-
     function getMotionVotes(id) {
+      //id here = slug
       return $http.get('api/motion/' + id + '/vote', {
         withCredentials: true,
         headers: {'Content-Type': undefined },
@@ -121,6 +121,7 @@
     }
     
     function getMyMotions() {
+      // user_id is correct here.
       return $http({
         method: 'GET',
         url: '/api/motion',
@@ -170,6 +171,7 @@
     }
 
     function deleteMotion(id) {
+
       return Motion.delete({id: id}).$promise.then(function(success) {
         return success;
       }, function(error) {

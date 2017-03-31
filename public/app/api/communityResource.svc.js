@@ -30,14 +30,14 @@
         return error;
       });
       
-    };
+    }
 
     function checkCache(){
       if(utils.objectIsEmpty(index)){
         return false;
       }    
       return $q.resolve(index);
-    };
+    }
 
     /**
      * Not currently used, but it could be
@@ -48,21 +48,15 @@
       
       return getCommunities().then(function(results) {
         for (var i = 0, len = results.data.data.length; i < len; i++) {
-          if (results.data.data[i].id == id || results.data.data[i].slug == id) {
+          if (results.data.data[i].id === id || results.data.data[i].slug === id) {
             return results.data.data[i];
           }
         }
         return null;
       });
       
-    };
-    
-    function checkCache(){
-      if(utils.objectIsEmpty(index)){
-        return false;
-      }    
-      return $q.resolve(index);
-    };
+    }
+  
 
     return {
       getCommunities: getCommunities,

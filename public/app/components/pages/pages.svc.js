@@ -23,7 +23,6 @@
 
 				$http.get('/api/page/'+slug).then(function(r){
 
-					console.log(r);
 					var body = r.data || r;
 
 					if(body){
@@ -54,7 +53,6 @@
 				});
 			},
 			save: function(data) {
-				console.log(data);
 				$http.post('/api/page', data).then(function(r){
 					var body = r.data || data;
 					Page.getIndex();

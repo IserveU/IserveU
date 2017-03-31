@@ -12,7 +12,6 @@
 			attach: function(id, files) {
                 if (!files)
 					return 0;
-
 				// TODO: put this into the service
 				for (var i in files)
 					if (files[i])

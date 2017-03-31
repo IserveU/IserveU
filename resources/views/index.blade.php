@@ -10,7 +10,9 @@
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
         <!-- Alloy Editor Dependencies -->
-        <script type="text/javascript" src="https://cdn.rawgit.com/liferay/alloy-editor/327c41f9/dist/alloy-editor/alloy-editor-all.js"></script>
+
+
+        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all.js"></script>
         <script src="{{elixir('js/dependencies.js')}}"></script>
         <script src="{{elixir('js/app.js')}}"></script>
         <script>
@@ -21,8 +23,7 @@
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
                     (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
         </script>
 

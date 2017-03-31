@@ -18,7 +18,7 @@ class DeleteUserApiTest extends TestCase
     {
         $this->signIn();
 
-        $this->delete('/api/user/'.$this->user->id)
+        $this->delete('/api/user/'.$this->user->slug)
             ->assertResponseStatus(200);
     }
 

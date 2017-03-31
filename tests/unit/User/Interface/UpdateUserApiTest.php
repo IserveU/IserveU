@@ -104,14 +104,14 @@ class UpdateUserApiTest extends UserApi
     /** @test  ******************/
     public function update_user_user_with_valid_numeric_true_preference()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 1])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 1])
             ->assertResponseStatus(200);
     }
 
     /** @test  ******************/
     public function update_user_user_with_numeric_false_preference()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 0])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 0])
             ->assertResponseStatus(200);
     }
 
@@ -268,35 +268,35 @@ class UpdateUserApiTest extends UserApi
     /** @test  ******************/
     public function update_user_with_non_exist_preference_fails()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authedcation.notfsdify.usfdser.onrolechangeo', ['value' => 'avalue'])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authedcation.notfsdify.usfdser.onrolechangeo', ['value' => 'avalue'])
             ->assertResponseStatus(400);
     }
 
     /** @test  ******************/
     public function update_user_preference_with_array_fails()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify', ['value' => ['user' => 1]])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify', ['value' => ['user' => 1]])
             ->assertResponseStatus(400);
     }
 
     /** @test  ******************/
     public function update_user_with_boolean_preference_fails()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => true])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify.user.onrolechange', ['value' => true])
             ->assertResponseStatus(400);
     }
 
     /** @test  ******************/
     public function update_user_with_empty_preference_fails()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange', ['value' => ''])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify.user.onrolechange', ['value' => ''])
             ->assertResponseStatus(400);
     }
 
     /** @test  ******************/
     public function update_user_user_with_string_when_numeric_preference_fails()
     {
-        $this->post('/api/user/'.$this->user->id.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 'true'])
+        $this->post('/api/user/'.$this->user->slug.'/setpreference/authentication.notify.user.onrolechange.on', ['value' => 'true'])
             ->assertResponseStatus(400);
     }
 }

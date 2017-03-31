@@ -12,10 +12,10 @@
 
 	<md-list ng-repeat="motion in myMotions.motions">
 
-		<md-list-item ui-sref="motion({id:motion.id})">
+		<md-list-item ui-sref="motion({id:motion.slug})">
 
 			<p class="md-body-1">{{ motion.title }}</p> <i class="md-caption">[ {{ motion.status}} ]</i>
-            <md-button class="md-icon-button" aria-label="Motion Redirect" ui-sref="motion({id:motion.id})">
+            <md-button class="md-icon-button" aria-label="Motion Redirect" ui-sref="motion({id:motion.slug})">
               <md-icon class="mdi" layout-align="end"md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
             </md-button>
 
