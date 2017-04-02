@@ -48,7 +48,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @var array
      */
-    protected $appends = ['motion', 'commentWriter', 'commentRank', 'motionId', 'motionTitle']; //, , 'user', , 'motionId'];
+    protected $appends = ['motion', 'commentWriter', 'commentRank', 'motionSlug', 'motionTitle'];
 
     /**
      * The fields that are dates/times.
@@ -146,7 +146,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
             $this->addVisible([]);
         }
 
-        $this->addVisible(['text', 'created_at', 'id', 'commentRank', 'motionTitle', 'motionId', 'commentWriter']);
+        $this->addVisible(['text', 'created_at', 'id', 'commentRank', 'motionTitle', 'motionSlug', 'commentWriter']);
 
         return $this;
     }
@@ -198,10 +198,10 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      *
      * @return int The ID of the motion this was made on
      */
-    public function getMotionIdAttribute()
+    public function getMotionSlugAttribute()
     {
         if ($this->motion) {
-            return $this->motion->id;
+            return $this->motion->slug;
         }
     }
 

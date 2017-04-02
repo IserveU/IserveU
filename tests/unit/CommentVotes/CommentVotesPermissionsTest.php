@@ -23,7 +23,7 @@ class CommentVotesPermissionsTest extends TestCase
         $this->signInAsAdmin();
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->get('/api/motion/'.$motion->id)
+        $this->get('/api/motion/'.$motion->slug)
             ->assertResponseStatus(200);
 
         $this->signInAsPermissionedUser('create-comment_vote');

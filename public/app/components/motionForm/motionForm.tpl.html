@@ -37,7 +37,7 @@
 						<h3 class="title-header">Resources</h3>
 
 						<isu-file-upload
-							isu-bind-endpoint="/api/motion/{{form.motion.id}}/file"
+							isu-bind-endpoint="/api/motion/{{form.motion.slug}}/file"
 							isu-bind-files="form.motionFiles"
 							isu-existing-files="{{form.existingMotionFiles}}">
 						</isu-file-upload>

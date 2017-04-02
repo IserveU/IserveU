@@ -9,10 +9,10 @@
     	'ToastMessage',
     	'Authorizer',
     	'SETTINGS_JSON',
-      'voteService',
+      'voteModel',
 	quickVote]);
 
-  function quickVote($translate, ToastMessage, Authorizer, SETTINGS_JSON, voteService) {
+  function quickVote($translate, ToastMessage, Authorizer, SETTINGS_JSON, voteModel) {
 
   	function quickVoteController() {
 
@@ -22,11 +22,11 @@
 
       var position = calculateNewUserPosition(motion);
 
-      if(!voteService.validVote(motion, position)){
+      if(!voteModel.validVote(motion, position)){
         return false;
       }
 
-      voteService.vote(motion, position);
+      voteModel.vote(motion, position);
 		}
     
     function calculateNewUserPosition(motion){

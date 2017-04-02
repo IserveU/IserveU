@@ -10,7 +10,9 @@
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
         <!-- Alloy Editor Dependencies -->
-        <script type="text/javascript" src="https://cdn.rawgit.com/liferay/alloy-editor/327c41f9/dist/alloy-editor/alloy-editor-all.js"></script>
+
+
+        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all.js"></script>
         <script src="{{elixir('js/dependencies.js')}}"></script>
         <script src="{{elixir('js/app.js')}}"></script>
         <script>
