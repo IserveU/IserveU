@@ -1,27 +1,78 @@
-// @deprecated
-// (function() {
+'use strict';
+angular
+    .module('iserveu')
+    .controller('birthdayController', ['$scope', function($scope) {
 
-//  angular
-//    .module('iserveu')
-//    .directive('formatBirthday', ['$filter', formatBirthday]);
+        $scope.days = [];
+        $scope.months = [{
+            value: 1,
+            name: 'January'
+        }, {
+            value: 2,
+            name: 'February'
+        }, {
+            value: 3,
+            name: 'March'
+        }, {
+            value: 4,
+            name: 'April'
+        }, {
+            value: 5,
+            name: 'May'
+        }, {
+            value: 6,
+            name: 'June'
+        }, {
+            value: 7,
+            name: 'July'
+        }, {
+            value: 8,
+            name: 'August'
+        }, {
+            value: 9,
+            name: 'September'
+        }, {
+            value: 10,
+            name: 'October'
+        }, {
+            value: 11,
+            name: 'November'
+        }, {
+            value: 12,
+            name: 'December'
+        }];
+        $scope.years = createYearsArray(120);
 
-//  function formatBirthday($filter) {
+        function createDate(year, month, day) {
 
-//    return {
-//        require: 'ngModel',
-//        link: function(scope, element, attrs, ngModelController) {
+            var nbOfDays = new Date(year, month, day).getDate();
+            var minDay = 1;
+            $scope.days = [];
+            while ($scope.days.push(minDay++) < nbOfDays) {};
 
-//        // ngModelController.$parsers.push(function(data) {
-//        //  return new Date(data);
-//        // });
+        }
 
-//            ngModelController.$formatters.push(function(data) {
-//          var d = new Date(data);
-//          return new Date(d.setTime( d.getTime() +
-//          d.getTimezoneOffset()*60000 ));
-//          });
-//        }
-//    };
-//  }
-
-// })();
+        function createYearsArray(nbOfYears) {
+            //maximum 120 years.
+            var today = new Date();
+            var currentYear = today.getFullYear();
+            var years = [];
+            while (years.push(currentYear--) <= nbOfYears) {};
+            return years;
+        }
+        $scope.selectYear = function(month, year) {
+            if (month) {
+                createDate(year, month.value, 0);
+            }
+        }
+        $scope.selectMonth = function(month, year) {
+            //if year is selected.
+            if (year) {
+                createDate(year, month.value, 0);
+            }
+            //if year is not selected.
+            if (!year) {
+                createDate(0, month.value, 0);
+            }
+        }
+    }]);

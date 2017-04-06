@@ -11,6 +11,7 @@
 
         <!-- Alloy Editor Dependencies -->
 
+
         <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all.js"></script>
         <script src="{{elixir('js/dependencies.js')}}"></script>
         <script src="{{elixir('js/app.js')}}"></script>
