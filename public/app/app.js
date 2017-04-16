@@ -36,7 +36,7 @@
           && $stateParams.id) {
 
           event.preventDefault();
-
+          //this is broken 
           var confirm = $mdDialog.confirm()
                 .parent(angular.element(document.body))
                 .title('Would you like to discard this draft?')
@@ -46,9 +46,14 @@
                 .cancel('No thanks.');
 
           $mdDialog.show(confirm).then(function() {
+            // console.log($stateParams.id);
             motionResource.deleteMotion($stateParams.id);
+            console.log(toState);
+            console.log(toState.url);
+            console.log(toParams.id);
+            console.log(toParams);
             $stateParams.id = null;
-            $state.go(toState.name || 'home');
+            $state.go(toState.name, {'id': toParams.id} || toState.name || 'home');
           }, function() {});
 
         } else if (fromState.name === 'create-page' && $stateParams.id) {
@@ -56,7 +61,7 @@
 
           var confirm2 = $mdDialog.confirm()
             .parent(angular.element(document.body))
-            .title('Would you like to discard this draft?')
+            .title('Would you like to discard this fucking draft?')
             .textContent('Your changes and draft will not be saved.')
             .ariaLabel('Navigate away from create-motion')
             .ok('Please do it!')
@@ -65,7 +70,7 @@
           $mdDialog.show(confirm2).then(function() {
             // pageService.destroy($stateParams.id);
             $stateParams.id = null;
-            $state.go(toState.name || 'home');
+            $state.go(toState.name, {'id': toParams.id} || toState.name || 'home');
           }, function() {});
         } else {
           $globalProvider.checkUser();
