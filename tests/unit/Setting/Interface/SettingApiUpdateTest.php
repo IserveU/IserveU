@@ -3,7 +3,7 @@
 use App\Setting;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class SettingApiUpdateTest extends TestCase
+class SettingApiUpdateTest extends BrowserKitTestCase
 {
     use WithoutMiddleware;
 

@@ -4,7 +4,7 @@ use App\File;
 use App\Page;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SettingFileIntegrationTest extends TestCase
+class SettingFileIntegrationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

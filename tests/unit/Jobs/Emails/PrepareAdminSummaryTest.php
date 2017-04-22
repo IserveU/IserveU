@@ -4,7 +4,7 @@ use App\Jobs\Emails\PrepareAdminSummary;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
-class AdminSummaryTest extends TestCase
+class AdminSummaryTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;
@@ -31,7 +31,7 @@ class AdminSummaryTest extends TestCase
         $message = $this->getLastMessageFor($adminUser->email);
 
         // This failed once
-        $this->assertTrue($message->contains(e($user->first_name.' '.$user->last_name.' ('.$user->email.')')));
+        $this->assertTrue($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
         $this->assertEquals($message->subject, 'Daily User Summary');
     }
 
@@ -49,7 +49,7 @@ class AdminSummaryTest extends TestCase
 
         $message = $this->getLastMessageFor($adminUser->email);
 
-        $this->assertFalse($message->contains(e($user->first_name.' '.$user->last_name.' ('.$user->email.')')));
+        $this->assertFalse($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
         $this->assertNotEquals($message->subject, 'Daily Admin Summary');
     }
 
@@ -71,7 +71,8 @@ class AdminSummaryTest extends TestCase
         $message = $this->getLastMessageFor($adminUser->email);
 
         $this->assertEquals($message->subject, 'Daily User Summary');
-        $this->assertFalse($message->contains(e($siteAdministrator->first_name.' '.$siteAdministrator->last_name.' ('.$siteAdministrator->email.')')));
-        $this->assertTrue($message->contains(e(html_entity_decode($regularUser->first_name.' '.$regularUser->last_name).' ('.$regularUser->email.')')));
+
+        $this->assertFalse($message->contains($siteAdministrator->first_name.' '.$siteAdministrator->last_name.' ('.$siteAdministrator->email.')'));
+        $this->assertTrue($message->contains($regularUser->first_name.' '.$regularUser->last_name.' ('.$regularUser->email.')'));
     }
 }

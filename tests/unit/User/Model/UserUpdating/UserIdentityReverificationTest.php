@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
-class UserIdentityReverificationTest extends TestCase
+class UserIdentityReverificationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;

@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class HardDeleteEmptyUserTest extends TestCase
+class HardDeleteEmptyUserTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

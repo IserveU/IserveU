@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class UserApi extends TestCase
+abstract class UserApi extends BrowserKitTestCase
 {
     protected $route = '/api/user/';
     protected $class = App\User::class;

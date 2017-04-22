@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-abstract class MotionCache extends TestCase
+abstract class MotionCache extends BrowserKitTestCase
 {
     use DatabaseTransactions, CacheTest;
 

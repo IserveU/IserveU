@@ -3,7 +3,7 @@
 use App\Role;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteUserRoleApiTest extends TestCase
+class DeleteUserRoleApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

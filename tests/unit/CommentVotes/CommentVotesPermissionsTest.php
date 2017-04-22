@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CommentVotesPermissionsTest extends TestCase
+class CommentVotesPermissionsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

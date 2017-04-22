@@ -1,7 +1,7 @@
 <?php
 
 
-class HomePageTest extends TestCase
+class HomePageTest extends BrowserKitTestCase
 {
     /** @test */
     public function can_visit_home_page()

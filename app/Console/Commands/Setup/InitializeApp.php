@@ -46,7 +46,8 @@ class InitializeApp extends Command
     {
         \Artisan::call('migrate:refresh');
 
-        \Config::set('mail.driver', 'log'); //The mail singleton will initialize with this and then can't be changed easily once the singleton exists
+        \Config::set('mail.driver', 'log'); // The mail singleton will initialize with this and then can't be changed easily once the singleton exists
+        \Config::set('queue.driver', 'sync'); // Run without queue
 
         // Settings
         if (\File::exists('storage/settings.json')) {

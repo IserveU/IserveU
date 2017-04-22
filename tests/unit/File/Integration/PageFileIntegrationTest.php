@@ -4,7 +4,7 @@ use App\File;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class PageFileIntegrationTest extends TestCase
+class PageFileIntegrationTest extends BrowserKitTestCase
 {
     //use WithoutMiddleware; Needed for the generation of expections
 

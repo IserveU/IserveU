@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-abstract class DepartmentApi extends TestCase
+abstract class DepartmentApi extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

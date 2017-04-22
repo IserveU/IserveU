@@ -3,7 +3,7 @@
 use App\Article;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FileEventsTest extends TestCase
+class FileEventsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

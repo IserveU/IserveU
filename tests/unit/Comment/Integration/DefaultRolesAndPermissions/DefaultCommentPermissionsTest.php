@@ -3,7 +3,7 @@
 use App\Comment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DefaultCommentPermissionTest extends TestCase
+class DefaultCommentPermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

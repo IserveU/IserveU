@@ -3,7 +3,7 @@
 use App\Article;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FileTypeDetectionTest extends TestCase
+class FileTypeDetectionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

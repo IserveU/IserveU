@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexVoteApiTest extends TestCase
+class IndexVoteApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

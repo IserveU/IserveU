@@ -3,7 +3,7 @@
 
 use App\Setting;
 
-class SettingModelTest extends TestCase
+class SettingModelTest extends BrowserKitTestCase
 {
     public function setUp()
     {
@@ -19,7 +19,7 @@ class SettingModelTest extends TestCase
     }
 
     /** @test */
-    public function can_set_new_nested_value_in_testcase()
+    public function can_set_new_nested_value_in_BrowserKitTestCase()
     {
         $value = Faker\Factory::create()->sentence;
         $this->setSettings(['notset.nested' => $value]);

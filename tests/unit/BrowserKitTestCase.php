@@ -1,10 +1,15 @@
 <?php
 
+include_once 'PolishedTest.php';
+use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
+abstract class BrowserKitTestCase extends BaseTestCase
 {
-    // This base test case is used for laravel 5.4 update tests
-// Further test will be using TestCase.
+    use PolishedTest;
+
+    protected $contentToPost;
+
+    public $user;   // (public) Depreciated
 
     /**
      * The base URL to use while testing the application.

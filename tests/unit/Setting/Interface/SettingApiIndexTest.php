@@ -3,7 +3,7 @@
 use App\Setting;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class SettingApiIndexTest extends TestCase
+class SettingApiIndexTest extends BrowserKitTestCase
 {
     use WithoutMiddleware;
 

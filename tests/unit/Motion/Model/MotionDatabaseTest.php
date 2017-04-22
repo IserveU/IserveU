@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionDatabaseTest extends TestCase
+class MotionDatabaseTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

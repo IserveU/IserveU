@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteUnattachedFilesTest extends TestCase
+class DeleteUnattachedFilesTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
