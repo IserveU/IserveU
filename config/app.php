@@ -160,7 +160,6 @@ return [
         'Illuminate\View\ViewServiceProvider',
          Illuminate\Notifications\NotificationServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
-        'Sofa\Eloquence\ServiceProvider',
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
         /*
          * Application Service Providers...

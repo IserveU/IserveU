@@ -4,7 +4,7 @@ include_once 'CommentVoteApi.php';
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ShowCommentVoteApiTest extends TestCase
+class ShowCommentVoteApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

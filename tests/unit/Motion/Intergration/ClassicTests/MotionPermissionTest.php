@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionPermissionTest extends TestCase
+class MotionPermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

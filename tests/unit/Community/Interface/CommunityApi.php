@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class CommunityApi extends TestCase
+abstract class CommunityApi extends BrowserKitTestCase
 {
     protected $route = '/api/community/';
     protected $class = App\Community::class;

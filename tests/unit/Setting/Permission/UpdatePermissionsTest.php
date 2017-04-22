@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UpdatePermissionsTest extends TestCase
+class UpdatePermissionsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

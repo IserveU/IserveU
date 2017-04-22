@@ -3,7 +3,7 @@
 use App\Role;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UpdateUserRoleApiTest extends TestCase
+class UpdateUserRoleApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

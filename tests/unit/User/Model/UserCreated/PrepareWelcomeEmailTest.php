@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification;
 use MailThief\Testing\InteractsWithMail;
 
-class PrepareWelcomeEmailTest extends TestCase
+class PrepareWelcomeEmailTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;

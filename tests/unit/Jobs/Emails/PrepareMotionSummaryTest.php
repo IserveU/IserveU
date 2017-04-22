@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 
-class PrepareMotionSummaryTest extends TestCase
+class PrepareMotionSummaryTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -74,8 +74,8 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
-            if (!$mail->sections['Latest Launched']->contains($motion)) {
+        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+            if (!$mail->sections['Latest Launched']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
 
@@ -100,8 +100,8 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
-            if (!$mail->sections['Recently Closed']->contains($motion)) {
+        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+            if (!$mail->sections['Recently Closed']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
 
@@ -126,8 +126,8 @@ class PrepareMotionSummaryTest extends TestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSentTo([$user], MotionSummary::class, function ($mail) use ($motion) {
-            if (!$mail->sections['Closing Soon']->contains($motion)) {
+        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+            if (!$mail->sections['Closing Soon']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
 

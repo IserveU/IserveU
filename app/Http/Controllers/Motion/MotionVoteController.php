@@ -10,6 +10,11 @@ use Auth;
 
 class MotionVoteController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

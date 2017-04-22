@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionCommentCreateTest extends TestCase
+class MotionCommentCreateTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

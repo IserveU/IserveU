@@ -227,12 +227,12 @@ trait PolishedTest
             return $this;
         }
 
-        PHPUnit_Framework_TestCase::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \nResponseContent:    ".$this->response->getContent());
+        PHPUnit_Framework_BrowserKitTestCase::assertEquals($code, $this->response->getStatusCode(), "Expected status code {$code}, got {$actual}. \nResponseContent:    ".$this->response->getContent());
 
         return $this;
     }
 
-    ////////// APITestCase Workings
+    ////////// APIBrowserKitTestCase Workings
 
     /**
      * Posts a model with the given fields and checks that the status code matches.

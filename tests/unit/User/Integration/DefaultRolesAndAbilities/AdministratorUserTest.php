@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AdministratorUserTest extends TestCase
+class AdministratorUserTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

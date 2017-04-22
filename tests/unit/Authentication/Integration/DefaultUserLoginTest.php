@@ -3,7 +3,7 @@
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DefaultUserLoginTest extends TestCase
+class DefaultUserLoginTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

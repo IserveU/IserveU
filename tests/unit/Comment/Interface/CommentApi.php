@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class CommentApi extends TestCase
+abstract class CommentApi extends BrowserKitTestCase
 {
     protected $route = '/api/comment/';
     protected $class = App\Comment::class;
