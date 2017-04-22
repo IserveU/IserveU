@@ -36,7 +36,6 @@
           && $stateParams.id) {
 
           event.preventDefault();
-          //this is broken 
           var confirm = $mdDialog.confirm()
                 .parent(angular.element(document.body))
                 .title('Would you like to discard this draft?')
@@ -46,7 +45,6 @@
                 .cancel('No thanks.');
 
           $mdDialog.show(confirm).then(function() {
-            // console.log($stateParams.id);
             motionResource.deleteMotion($stateParams.id);
             console.log(toState);
             console.log(toState.url);
@@ -61,7 +59,7 @@
 
           var confirm2 = $mdDialog.confirm()
             .parent(angular.element(document.body))
-            .title('Would you like to discard this fucking draft?')
+            .title('Would you like to discard this draft?')
             .textContent('Your changes and draft will not be saved.')
             .ariaLabel('Navigate away from create-motion')
             .ok('Please do it!')
