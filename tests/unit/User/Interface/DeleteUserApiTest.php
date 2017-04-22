@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class DeleteUserApiTest extends TestCase
+class DeleteUserApiTest extends BrowserKitTestCase
 {
     use WithoutMiddleware;
 

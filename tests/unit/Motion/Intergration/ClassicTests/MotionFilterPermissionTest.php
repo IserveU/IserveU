@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionFilterPermissionTest extends TestCase
+class MotionFilterPermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

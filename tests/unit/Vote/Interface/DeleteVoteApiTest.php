@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteVoteApiTest extends TestCase
+class DeleteVoteApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

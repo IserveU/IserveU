@@ -3,7 +3,7 @@
 use App\File;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionFileIntegrationTest extends TestCase
+class MotionFileIntegrationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

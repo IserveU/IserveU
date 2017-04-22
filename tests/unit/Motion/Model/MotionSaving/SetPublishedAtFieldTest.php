@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SetPublishedAtFieldTest extends TestCase
+class SetPublishedAtFieldTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

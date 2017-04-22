@@ -5,7 +5,7 @@ use App\Events\Comment\CommentDeleted;
 use App\Events\Comment\CommentUpdated;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CommentModelTest extends TestCase
+class CommentModelTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
-class CheckUserRolesTest extends TestCase
+class CheckUserRolesTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;

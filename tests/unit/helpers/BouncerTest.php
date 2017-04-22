@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BouncerTest extends TestCase
+class BouncerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

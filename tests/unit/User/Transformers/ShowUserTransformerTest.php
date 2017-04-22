@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ShowUserTransformerTest extends TestCase
+class ShowUserTransformerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

@@ -3,7 +3,7 @@
 use App\Article;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FileCleanupAndDeleteTest extends TestCase
+class FileCleanupAndDeleteTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

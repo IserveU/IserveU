@@ -1,12 +1,13 @@
 {
   "private": true,
   "devDependencies": {
+    "axios": "^0.15.3",
     "browserstack-local": "^1.0.0",
+    "cross-env": "^3.2.3",
     "eslint": "^3.8.1",
     "eslint-config-angular": "^0.5.0",
     "eslint-plugin-angular": "^1.4.1",
     "faker": "^3.1.0",
-    "gulp": "^3.9.1",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
     "jasmine-reporters": "^2.2.0",
@@ -17,9 +18,7 @@
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^0.3.8",
     "karma-safari-launcher": "^1.0.0",
-    "laravel-elixir": "^6.0.0-10",
-    "laravel-elixir-babel": "^0.2.0",
-    "laravel-elixir-livereload": "^1.1.6",
+    "laravel-mix": "^0.8.3",
     "lite-server": "^2.2.0",
     "lodash": "^4.14.0",
     "materialize-css": "^0.98.0",
@@ -27,10 +26,36 @@
     "randomstring": "^1.1.5"
   },
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "gulp watch",
-    "test": "webdriver-manager start && protractor conf",
-    "lint": "eslint public/app"
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --watch-poll --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "alloyeditor": "^1.2.3",
+    "angular": "~1.5",
+    "angular-alloyeditor": "^0.0.4",
+    "angular-animate": "~1.5",
+    "angular-aria": "~1.5",
+    "angular-cookies": "~1.5",
+    "angular-loading-bar": "~0.9.0",
+    "angular-marked": "^1.2.2",
+    "angular-material": "1.1.3",
+    "angular-messages": "~1.5",
+    "angular-resource": "~1.5",
+    "angular-sanitize": "~1.5",
+    "angular-translate": "2.13.1",
+    "angular-translate-storage-local": "^2.15.1",
+    "angular-ui-router": "0.4.0",
+    "bootstrap-css-only": "3.3.7",
+    "font-awesome": "*",
+    "jquery": "^3.1.1",
+    "marked": "^0.3.6",
+    "md-color-picker": "*",
+    "mdi": "1.8.36",
+    "ng-flow": "*",
+    "ng-infinite-scroll": "^1.3.0",
+    "satellizer": "0.15.5"
+  }
 }

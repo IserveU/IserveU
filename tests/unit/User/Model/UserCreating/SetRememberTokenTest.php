@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SetRememberTokenTest extends TestCase
+class SetRememberTokenTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

@@ -12,17 +12,13 @@ before_install:
 - ./tests/scripts/install-node.sh
 - ./tests/scripts/install-mysql.sh
 - ./tests/scripts/install-protractor.sh
-- sudo npm install -g bower
-- sudo npm install -g gulp
 before_script:
 - cp ./tests/scripts/.env.travis ./.env
 - cp ./tests/scripts/protractor.conf.js.travis ./protractor.conf.js
 - mysql -u root -e 'create database forge;'
 - composer install --no-interaction
 - yarn
-- bower update
-- npm rebuild node-sass
-- gulp --production
+- npm run dev
 - php artisan route:cache
 - php artisan config:cache
 - php artisan optimize --force

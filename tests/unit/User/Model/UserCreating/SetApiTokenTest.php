@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SetApiTokenTest extends TestCase
+class SetApiTokenTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
