@@ -29,6 +29,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application API Bouncer
+    |--------------------------------------------------------------------------
+    |
+    | For use in development mode, will reject requests that contain input that
+    | the backend does not want
+    |
+    */
+
+    'bouncer' => env('APP_BOUNCER', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -148,7 +160,6 @@ return [
         'Illuminate\View\ViewServiceProvider',
          Illuminate\Notifications\NotificationServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
-        'Sofa\Eloquence\ServiceProvider',
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
         /*
          * Application Service Providers...

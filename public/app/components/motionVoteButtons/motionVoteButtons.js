@@ -7,9 +7,11 @@
 			 'voteResource',
 			 'ToastMessage',
 			 'motionVoteButtonService',
+       'Authorizer',
+       'voteModel',
 		motionVoteButtons]);
 
-	function motionVoteButtons($interval, voteResource, ToastMessage, motionVoteButtonService) {
+	function motionVoteButtons($interval, voteResource, ToastMessage, motionVoteButtonService, Authorizer, voteModel) {
 
 		function motionVoteButtonsController($scope) {
 
@@ -26,13 +28,11 @@
 			self.commonFunctions = {
 
 				cast: function(motion) {
-
-					if( ToastMessage.mustBeLoggedIn('to vote.') ||
-						motion.userVote && motion.userVote.position === this.value ||
-						motionVoteButtonService.isVotingEnabled(motion) )
-					return false;
-
-					castVote(this, motion.userVote, motion);
+          voteModel.validVote(motion, this.position);
+          //Call if you can vote function
+          //I
+          //I
+					castVote(this, motion._userVote, motion);
 				},
 
 				setActive: function() {
@@ -55,7 +55,8 @@
 				},
 
 				setDisabled: function(motion) {
-					this.disabled = motionVoteButtonService.isVotingEnabled(motion);
+					this.disabled = !voteModel.canVoteOn(motion);
+          
 				}
 			};
 
@@ -75,16 +76,15 @@
 					position: button.value
 				}
 
-				console.log(data);
-				console.log(motion);
-				motion.rank -= (motion.userVote) ? motion.userVote.position : 0; // remove the old user position
+  
+				motion._rank -= (motion._userVote) ? motion._userVote.position : 0; // remove the old user position
 
-    //    motion.rank -= motion.userVote.position; // remove the old user position
+    //    motion.rank -= motion._userVote.position; // remove the old user position
 
-				motion.userVote = motion.userVote || {};
-				motion.userVote.position = button.value;
+				motion._userVote = motion._userVote || {};
+				motion._userVote.position = button.value;
 
-        motion.rank += motion.userVote.position // add the new position
+        motion._rank += motion._userVote.position // add the new position
 
 				if( !data.id ) {
 					voteResource.castVote(data).then(function(results) {
@@ -101,12 +101,12 @@
 
 
 			function successHandler(button, motion, vote) {
-				ToastMessage.voteSuccess(button.type);
+				voteModel.voteSuccess(button.type);
 				motion.reloadOnVoteSuccess( vote );
 			}
 
 
-			$scope.$watch('motion.userVote', function(vote) {
+			$scope.$watch('motion._userVote', function(vote) {
 				if( vote && vote.id ) {
 
 					self.buttons.agree.setDefault();
@@ -126,7 +126,7 @@
 
 			(function init() {
 				var untilMotion = $interval(function(){
-					if($scope.motion && $scope.motion.hasOwnProperty('motionOpenForVoting')) {
+					if($scope.motion && $scope.motion.hasOwnProperty('_motionOpenForVoting')) {
 						var motion = $scope.motion;
 						for (var i in self.buttons) {
 							if (self.buttons[i]) {

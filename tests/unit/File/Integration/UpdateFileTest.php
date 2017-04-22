@@ -3,7 +3,7 @@
 use App\File;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FileVersioninTest extends TestCase
+class UpdateFileTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -27,7 +27,7 @@ class FileVersioninTest extends TestCase
         $page->files()->save($existing);
 
         $file = $this->getAnUploadedFile();
-        $this->patch('/api/page/'.$page->slug.'/file/'.$existing->id, ['file' => $file, 'title' => 'Replacement Title'])
+        $this->patch('/api/page/'.$page->slug.'/file/'.$existing->slug, ['file' => $file, 'title' => 'Replacement Title'])
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'slug',

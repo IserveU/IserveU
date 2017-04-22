@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexMotionCommentApiTest extends TestCase
+class IndexMotionCommentApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -38,7 +38,7 @@ class IndexMotionCommentApiTest extends TestCase
     /** @test */
     public function default_filter()
     {
-        $this->get('/api/motion/'.static::$motion->id.'/comment')
+        $this->get('/api/motion/'.static::$motion->slug.'/comment')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
                     'agreeComments',

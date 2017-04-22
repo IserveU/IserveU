@@ -43,24 +43,36 @@ class UserFilter extends QueryFilter
         return $this->query->where('identity_verified', $verified);
     }
 
+    public function roles($roles)
+    {
+        if (empty($roles)) {
+            return $this->query->doesntHave('roles');
+        }
+
+        return $this->query->hasRoles($roles);
+    }
+
     /**
      * Needs to check that it is both not null and not before now.
      * People have to reverify their addresses.
      **/
     public function addressVerified($verified = 1)
     {
-        if ($verified) {
-            return $this->query->addressVerified();
+        if (!$verified) {
+            return $this->query->addressUnverified();
         }
 
         return $this->query->addressVerified();
     }
 
-    /* desc or asc */
     public function orderBy($fieldPairs)
     {
         foreach ($fieldPairs as $field => $direction) {
-            $this->query->orderBy($field, $direction);
+            switch ($field) {
+              default:
+                /* desc or asc of closingAt,publisheAt and createdAt or another other native table field*/
+                $this->query->orderBy($field, $direction);
+            }
         }
 
         return $this->query;

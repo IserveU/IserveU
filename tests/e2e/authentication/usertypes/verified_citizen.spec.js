@@ -2,6 +2,7 @@ let LoginPage = require('../../shared/pages/LoginPage');
 let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.verified_citizen page interactions for verified users with the citizen role', function() {
 
@@ -18,7 +19,7 @@ describe('authenication.verified_citizen page interactions for verified users wi
 		expect(browser.isElementPresent(page.getMessage())).toBe(false);
 
  
-  		page.loginWithEmailPassword("citizen@iserveu.ca","abcd1234");
+    		page.loginWithEmailPassword("citizen@iserveu.ca","abcd1234");
   		
 
       	browser.wait(EC.urlContains('home'), 5000,"url did not match");
@@ -26,5 +27,9 @@ describe('authenication.verified_citizen page interactions for verified users wi
   	});
 
 
+    afterEach(function(){
+  
+        ConsoleHelper.printErrors();
+    });
 
 });

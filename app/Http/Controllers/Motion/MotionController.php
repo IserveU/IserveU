@@ -30,7 +30,7 @@ class MotionController extends ApiController
     {
         $limit = $request->get('limit') ?: 20;
 
-        return Cache::tags(['motion', 'motion.filters'])->rememberForever($filters->cacheKey($limit), function () use ($filters, $limit) {
+        return Cache::tags(['motion', 'motion.filters'])->rememberForever($filters->cacheKey($limit, true), function () use ($filters, $limit) {
             return Motion::filter($filters)->paginate($limit)->toJson();
         });
     }

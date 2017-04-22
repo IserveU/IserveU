@@ -5,16 +5,27 @@
         <title>{{Setting::get('site.name')}}</title>
         <meta name="viewport" content="initial-scale=1" />
 
-        <link rel="stylesheet" href="{{elixir('css/dependencies.css')}}">
-        <link rel="stylesheet" href="{{elixir('css/app.css')}}">
+        <link rel="stylesheet" href="{{mix('/css/dependencies.css')}}">
+        <link rel="stylesheet" href="{{mix('/css/app.css')}}">
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
-        <!-- Alloy Editor Dependencies -->
-        <script type="text/javascript" src="https://rawgit.com/liferay/alloy-editor/master/dist/alloy-editor/alloy-editor-all-min.js"></script>
-        <script src="{{elixir('js/dependencies.js')}}"></script>
-        <script src="{{elixir('js/app.js')}}"></script>
+
+        <script src="/alloyeditor/alloy-editor-all-min.js"></script>
+
+        <script src="{{mix('/js/dependencies.js')}}"></script>
+        <script src="{{mix('/js/app.js')}}"></script>
+      
         <script>
-            angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+              angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+        </script>
+        
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
         </script>
 
     </head>
@@ -35,11 +46,11 @@
             </md-sidenav>
 
             <!-- Main content -->
-            <md-content id="maincontent" layout-fill ng-style="{'height': isLoginState ? '100vh' : '92vh'}">
+            <div id="maincontent" layout-fill ng-style="{'height': isLoginState ? '100vh' : '92vh'}">
                 <!-- <notification-template ng-hide="isLoginState" flex-order="0"></notification-template> -->
                 <div ui-view flex flex-order="1" role="main" tabIndex="-1"></div>
                 <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>
-            </md-content>
+            </div>
         </div>
     </body>
 

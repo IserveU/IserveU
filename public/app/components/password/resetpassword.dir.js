@@ -9,16 +9,17 @@
       '$state',
       '$location',
       'userResource',
+      'resetPasswordService',
       'ToastMessage',
     resetPassword]);
 
-    function resetPassword($rootScope, $state, $location, userResource,ToastMessage) {
+    function resetPassword($rootScope, $state, $location, userResource,
+                           resetPasswordService, ToastMessage) {
 
       function resetPasswordController($scope, $state) {
-        $scope.user = $rootScope.authenticatedUser;
 
         $scope.savePassword = function () {
-          userResource.updateUser($scope.user.slug, {password: $scope.password}).then(function(results) {
+          userResource.updateUser($rootScope.authenticatedUser.slug, {password: $scope.password}).then(function(results) {
             $state.go('home').then(function(succ){
               $state.reload();
             });
@@ -26,6 +27,10 @@
             ToastMessage.simple('Something went wrong. Please try again later.');
           });
         };
+
+        (function init() {
+          resetPasswordService.check();
+        })();
 
       }
 

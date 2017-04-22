@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexUserCommentApiTest extends TestCase
+class IndexUserCommentApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -31,7 +31,7 @@ class IndexUserCommentApiTest extends TestCase
     /** @test */
     public function default_user_comment_filter()
     {
-        $this->get('/api/user/'.static::$commentingUser->id.'/comment')
+        $this->get('/api/user/'.static::$commentingUser->slug.'/comment')
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
                    '*' => ['id', 'text', 'commentRank'],

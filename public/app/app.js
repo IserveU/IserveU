@@ -17,12 +17,16 @@
     'angular-loading-bar',
     'alloyeditor',
     'hc.marked'
-  ]).run(['$rootScope', '$window', '$timeout', '$globalProvider', '$stateParams',
+  ]).run(['$rootScope', '$window', '$location', '$timeout', '$globalProvider', '$stateParams',
     '$state', '$mdDialog', 'motionResource',
-    function($rootScope, $window, $timeout, $globalProvider, $stateParams,
+    function($rootScope, $window, $location, $timeout, $globalProvider, $stateParams,
       $state, $mdDialog, motionResource) {
 
       $rootScope.preventStateChange = false;
+
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+        $window.ga('send', 'pageview', $location.path());
+      });
 
       $rootScope.$on('$stateChangeStart', function(event, toState,
         toParams, fromState, fromParams) {
@@ -94,10 +98,14 @@
   function fetchData() {
     var initInjector = angular.injector(['ng']);
     var $http = initInjector.get('$http');
+    var $window = initInjector.get('$window');
 
     return $http.get('/api/setting').then(function(response) {
 
       var settings = response.data;
+
+      // Google analytics
+      $window.ga('create', settings.analytics_id, 'auto');
 
       iserveu.constant('SETTINGS_JSON', settings);
 
@@ -112,6 +120,7 @@
 
   function bootstrapApplication() {
     angular.element(document).ready(function() {
+      
       angular.bootstrap(document, ['iserveu'], {strictDi: true});
     });
   }

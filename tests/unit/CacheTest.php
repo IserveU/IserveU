@@ -1,5 +1,6 @@
 <?php
 
+use App\Filters\MotionFilter;
 
 trait CacheTest
 {
@@ -43,9 +44,12 @@ trait CacheTest
         return $this->get($this->route.$slug)->assertResponseStatus(200);
     }
 
-    public function getFilterCache($query = 20)
+    public function getFilterCache($query = 20, $userSensitive = false)
     {
-        return Cache::tags([str_singular($this->table), str_singular($this->table).'.filters'])->get($query);
+        //Will need to move this into a "generate cache key" function of some sort
+        $filters = (new MotionFilter())->cacheKey($query, $userSensitive);
+
+        return Cache::tags([str_singular($this->table), str_singular($this->table).'.filters'])->get($filters);
     }
 
     public function getOtherCache()

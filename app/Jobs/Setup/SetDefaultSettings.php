@@ -34,13 +34,14 @@ class SetDefaultSettings
             ]);
 
         Setting::ifNotSetThenSet('site', [
-            'name'      => 'IserveU - eDemocracy',
-            'terms'     => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
-            'slogan'    => 'Conceived &amp; Forged In Yellowknife, Canada',
-            'address'   => 'http://iserveu.ca',
-            'twitter'   => 'http://twitter.com/iserveu_org',
-            'facebook'  => 'https://www.facebook.com/iserveu.ca',
-            'backup'    => '0 0 * * *',
+            'name'          => 'IserveU - eDemocracy',
+            'terms'         => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
+            'slogan'        => 'Conceived &amp; Forged In Yellowknife, Canada',
+            'address'       => 'http://iserveu.ca',
+            'twitter'       => 'http://twitter.com/iserveu_org',
+            'facebook'      => 'https://www.facebook.com/iserveu.ca',
+            'backup'        => '0 0 * * *',
+            'analytics_id'  => '', //UA-00000000-0
         ]);
 
         Setting::ifNotSetThenSet('voting', [
@@ -103,7 +104,7 @@ class SetDefaultSettings
         ]);
         Setting::ifNotSetThenSet('betaMessage', [
                     'on'           => 1,
-                    'text'         => 'This software is currently in BETA. Features and improvements are constantly being added. If you would like give feedback and help us test, the software, please email',
+                    'text'         => 'This software is currently in BETA. Features and improvements are constantly being added. If you would like give feedback visit our website',
                 ]);
         Setting::save();
     }

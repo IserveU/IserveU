@@ -9,7 +9,7 @@ use App\Events\User\UserUpdating;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserModelEventsTest extends TestCase
+class UserModelEventsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

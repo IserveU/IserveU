@@ -1,0 +1,17 @@
+@mixin fab{
+  position: fixed;
+	bottom: 20px;
+	right: 20px;
+  z-index: 1000;
+}
+
+@mixin md-card{
+  color: rgba(0,0,0,0.87);
+  background-color: rgb(255,255,255);
+  border-radius: 2px;
+  box-sizing: border-box;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}

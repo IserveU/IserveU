@@ -20,17 +20,17 @@
 
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: $sm) {
 	.motion_commentlist{
 		md-icon.md-avatar-icon{
 			margin:$padding;
 		}
-
-		md-list-item{
-			display: flex;
-			flex-flow: row wrap;
-		}	
 	}
+  
+  .motion_commentlist__item{
+
+  }
+
 }
 
 .motion_commentlist__points{

@@ -3,7 +3,7 @@
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserPreferencesTest extends TestCase
+class UserPreferencesTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

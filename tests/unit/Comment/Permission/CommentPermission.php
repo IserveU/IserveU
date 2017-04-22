@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class CommentPermission extends TestCase
+abstract class CommentPermission extends BrowserKitTestCase
 {
     protected $route = '/api/comment/';
     protected $class = App\Comment::class;

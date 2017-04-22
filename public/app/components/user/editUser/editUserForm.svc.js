@@ -3,98 +3,87 @@
 
   angular
     .module('iserveu')
-    .factory('editUserFormService',
-      ['$http',
-       '$filter',
-       'communityResource',
-       'utils',
-    editUserFormServiceFactory]);
+    .factory('editUserFormService', ['$http',
+      '$filter',
+      'communityResource',
+      'utils',
+      editUserFormServiceFactory
+    ]);
 
   function editUserFormServiceFactory($http, $filter,
     communityResource, utils) {
 
-    var personalInformation = [
-      {
-        label:  'Name',
-        icon:   'mdi-account-circle',
-        data:   'Set your name',
-        edit:   false,
-        saving: false,
-        form:   'editName'
-      },
-      {
-        label:  'Community',
-        icon:   'mdi-hops',
-        data:   'Set your community',
-        edit:   false,
-        saving: false,
-        form:   'editCommunity'
-      },
-      {
-        label:  'Birthday',
-        icon:   'mdi-cake',
-        data:   'Set your birthday',
-        edit:   false,
-        saving: false,
-        form:   'editBirthday'
-      }
-    ];
+    var personalInformation = [{
+      label: 'Name',
+      icon: 'mdi-account-circle',
+      data: 'Set your name',
+      edit: false,
+      saving: false,
+      form: 'editName'
+    }, {
+      label: 'Community',
+      icon: 'mdi-hops',
+      data: 'Set your community',
+      edit: false,
+      saving: false,
+      form: 'editCommunity'
+    }, {
+      label: 'Birthday',
+      icon: 'mdi-cake',
+      data: 'Set your birthday',
+      edit: false,
+      saving: false,
+      form: 'editBirthday'
+    }];
 
-    var contactInformation = [
-      {
-        label:  'Email',
-        icon:   'mdi-email',
-        data:   'Set your email',
-        edit:   false,
-        saving: false,
-        form:   'editEmail'
-      },
-      {
-        label:  'Telephone',
-        icon:   'mdi-phone',
-        data:   'Set your phone number',
-        edit:   false,
-        saving: false,
-        form:   'editTelephone'
-      },
-      {
-        label:  'Address',
-        icon:   'mdi-home',
-        data:   'Set your address',
-        edit:   false,
-        saving: false,
-        form:   'editAddress'
-      }
-    ];
+    var contactInformation = [{
+      label: 'Email',
+      icon: 'mdi-email',
+      data: 'Set your email',
+      edit: false,
+      saving: false,
+      form: 'editEmail'
+    }, {
+      label: 'Telephone',
+      icon: 'mdi-phone',
+      data: 'Set your phone number',
+      edit: false,
+      saving: false,
+      form: 'editTelephone'
+    }, {
+      label: 'Address',
+      icon: 'mdi-home',
+      data: 'Set your address',
+      edit: false,
+      saving: false,
+      form: 'editAddress'
+    }];
 
-    var securitySettings = [
-      {
-        label:  'Show profile',
-        icon:   'mdi-odnoklassniki',
-        data:   'Display options',
-        edit:   false,
-        saving: false,
-        form:   'editStatus'
-      },
-      {
-        label:  'Password',
-        icon:   'mdi-account-key',
-        data:   'Change your password',
-        edit:   false,
-        saving: false,
-        form:   'editPassword'
-      }
-    ];
+    var securitySettings = [{
+      label: 'Show profile',
+      icon: 'mdi-odnoklassniki',
+      data: 'Display options',
+      edit: false,
+      saving: false,
+      form: 'editStatus'
+    }, {
+      label: 'Password',
+      icon: 'mdi-account-key',
+      data: 'Change your password',
+      edit: false,
+      saving: false,
+      form: 'editPassword'
+    }];
 
 
 
     var verifyUser = {
-        label:  'Verify',
-        icon:   'mdi-account-key',
-        data:   'User is verified to vote and post comments.',
-        edit:   false,
-        saving: false,
-        form:   'editVerify'
+      label: 'Verify',
+      icon: 'mdi-account-key',
+      data: 'User is verified to vote and post comments.',
+      edit: false,
+      saving: false,
+      form: 'editVerify'
     };
 
     function delegateProfileData(label, user) {
@@ -108,33 +97,49 @@
           };
           break;
         case 'community':
-          data = { community_id: user.community_id };
+          data = {
+            community_id: user.community_id
+          };
           break;
         case 'birthday':
-          data = { date_of_birth: utils.date.stringify(user.date_of_birth) };
+          //user date of birth is empty,it need to be combined from 3 values.
+          user.date_of_birth = new Date(user.date_of_birth.year, user.date_of_birth.month.value, user.date_of_birth.day);
+          data = {
+            date_of_birth: utils.date.stringify(user.date_of_birth)
+          };
           break;
         case 'email':
-          data = { email: user.email };
+          data = {
+            email: user.email
+          };
           break;
         case 'telephone':
-          data = { phone: user.phone_number };
+          data = {
+            phone: user.phone
+          };
           break;
         case 'address':
           data = {
             street_number: user.street_number,
-            street_name:   user.street_name,
-            unit_number:   user.unit_number,
-            postal_code:   user.postal_code
+            street_name: user.street_name,
+            unit_number: user.unit_number,
+            postal_code: user.postal_code
           };
           break;
         case 'show profile':
-          data = { status: user.status };
+          data = {
+            status: user.status
+          };
           break;
         case 'password':
-          data = { password: user.password };
+          data = {
+            password: user.password
+          };
           break;
         case 'verify':
-          data = { identity_verified: user.identity_verified };
+          data = {
+            identity_verified: user.identity_verified
+          };
           break;
       }
 
@@ -145,21 +150,19 @@
       personalInformation.forEach(function(el) {
         switch (el.label) {
           case 'Name':
-            el.data = user.first_name + ' ' + (user.middle_name || '')
-            + ' ' + user.last_name;
+            el.data = user.first_name + ' ' + (user.middle_name || '') + ' ' + user.last_name;
             break;
           case 'Community':
-            communityResource.retrieveNameById(user.community_id)
-              .then(function(name) {
-                el.data = name;
-              });
+            if (user.community !== null) {
+              el.data = user.community.name;
+              break;
+            }
             break;
           case 'Birthday':
             if (user.date_of_birth) {
-              var formattedDate = new Date(user.date_of_birth);
-              el.data = $filter('date')(formattedDate, 'MMMM d, y');
+              el.data = $filter('date')(user.date_of_birth, 'MMMM d, y');
             } else {
-              el.data = user.date_of_birth;
+              el.data = "Not Set";
             }
             break;
         }
@@ -171,7 +174,7 @@
             el.data = user.email;
             break;
           case 'Telephone':
-            el.data = user.phone_number;
+            el.data = user.phone;
             break;
           case 'Address':
             if (!user.street_name)

@@ -89,8 +89,8 @@
         return error;
       });
     }
-
     function getMotionComments(id) {
+      //id = slug here.
       return MotionComments.get({id: id}).$promise.then(function(success) {
         return success;
       }, function(error) {
@@ -101,15 +101,13 @@
     function getMotionFiles(id) {
       return MotionFiles.query({motion_id: id})
         .$promise.then(function(success) {
-
-          console.log(success);
           return success;
         }, function(error) {
           return $q.reject(error);
         });
     }
-
     function getMotionVotes(id) {
+      //id here = slug
       return $http.get('api/motion/' + id + '/vote', {
         withCredentials: true,
         headers: {'Content-Type': undefined },
@@ -121,13 +119,14 @@
         return error;
       });
     }
-
+    
     function getMyMotions() {
+      // user_id is correct here.
       return $http({
         method: 'GET',
         url: '/api/motion',
         params: {
-          'status[]': ['draft', 'review', 'published'],
+          'status[]': ['draft', 'review', 'published', 'closed'],
           user_id: $rootScope.authenticatedUser.id
         },
         ignoreLoadingBar: true
@@ -172,6 +171,7 @@
     }
 
     function deleteMotion(id) {
+
       return Motion.delete({id: id}).$promise.then(function(success) {
         return success;
       }, function(error) {

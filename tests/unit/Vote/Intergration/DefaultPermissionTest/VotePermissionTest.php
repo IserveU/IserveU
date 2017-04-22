@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class VotePermissionTest extends TestCase
+class VotePermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -26,7 +26,7 @@ class VotePermissionTest extends TestCase
         $this->signInAsPermissionedUser('create-vote');
 
         $this->motion = factory(App\Motion::class, 'published')->create();
-        $this->route = '/api/motion/'.$this->motion->id.'/vote/';
+        $this->route = '/api/motion/'.$this->motion->slug.'/vote/';
 
         $this->storeFieldsGetSee(['position'], 200);
     }
@@ -66,7 +66,7 @@ class VotePermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->get('/api/motion/'.$motion->id.'/vote')
+        $this->get('/api/motion/'.$motion->slug.'/vote')
             ->assertResponseStatus(200);
     }
 
@@ -74,7 +74,7 @@ class VotePermissionTest extends TestCase
     public function it_cannot_create_a_vote()
     {
         $this->motion = factory(App\Motion::class, 'published')->create();
-        $this->route = '/api/motion/'.$this->motion->id.'/vote/';
+        $this->route = '/api/motion/'.$this->motion->slug.'/vote/';
 
         $this->storeFieldsGetSee(['position'], 302);
     }

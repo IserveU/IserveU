@@ -17,42 +17,50 @@
      * @return {promise} promise or cached index
      */
     function getCommunities() {
-      if (!utils.objectIsEmpty(index)) {
-        return $q.when({data: index});
-      }
-
+      if(checkCache()) return checkCache();
+      
       return $http({
         method: 'GET',
         url: '/api/community',
         ignoreLoadingBar: true
       }).success(function(results) {
         index = results;
-        return results;
+        return index;
       }).error(function(error) {
         return error;
       });
+      
+    }
+
+    function checkCache(){
+      if(utils.objectIsEmpty(index)){
+        return false;
+      }    
+      return $q.resolve(index);
     }
 
     /**
-     * TODO 2017/01/18 "this function looks usless" - Victor
-     * grab community given the id
+     * Not currently used, but it could be
      * @param  {number} id
      * @return {promise}    promise or cached item
      */
-    function retrieveNameById(id) {
-      if (utils.objectIsEmpty(index)) {
-        return getCommunities().then(function(results) {
-          return retrieveNameById(id);
-        });
-      } else {
-        var name;
-        return $q.when(name);
-      }
+    function retrieveById(id) {
+      
+      return getCommunities().then(function(results) {
+        for (var i = 0, len = results.data.data.length; i < len; i++) {
+          if (results.data.data[i].id === id || results.data.data[i].slug === id) {
+            return results.data.data[i];
+          }
+        }
+        return null;
+      });
+      
     }
+  
 
     return {
       getCommunities: getCommunities,
-      retrieveNameById: retrieveNameById,
+      retrieveById: retrieveById,
       index: index
     };
   }

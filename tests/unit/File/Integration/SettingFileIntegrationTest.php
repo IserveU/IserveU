@@ -4,7 +4,7 @@ use App\File;
 use App\Page;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SettingFileIntegrationTest extends TestCase
+class SettingFileIntegrationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -26,7 +26,7 @@ class SettingFileIntegrationTest extends TestCase
         $logoFile = File::findBySlug('logo-png');
 
        //Can patch
-      $this->patch('/api/page/'.$homePage->id.'/file/logo-png', $filePost)
+      $this->patch('/api/page/'.$homePage->slug.'/file/logo-png', $filePost)
           ->assertResponseStatus(200)
           ->seeInDatabase('files', ['slug' => 'logo-png', 'replacement_id'=>null])
           ->dontSeeInDatabase('files', ['slug' => 'logo-png', 'filename'=>$logoFile->filename])
@@ -44,7 +44,7 @@ class SettingFileIntegrationTest extends TestCase
         $symbolFile = File::findBySlug('symbol-png');
 
        //Can patch
-      $this->patch('/api/page/'.$homePage->id.'/file/symbol-png', $filePost)
+      $this->patch('/api/page/'.$homePage->slug.'/file/symbol-png', $filePost)
           ->assertResponseStatus(200)
           ->seeInDatabase('files', ['slug' => 'symbol-png', 'replacement_id'=>null])
           ->dontSeeInDatabase('files', ['slug' => 'symbol-png', 'filename'=>$symbolFile->filename])

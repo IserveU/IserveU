@@ -24,10 +24,6 @@ class IndexUserVoteRequest extends Request
             return false;
         }
 
-        if (Auth::user()->can('show-vote')) { //Not the current user, or public and not an admin
-        return true;
-        }
-
         if (Auth::user()->id == $user->id) {
             return true;
         }
@@ -42,6 +38,8 @@ class IndexUserVoteRequest extends Request
      */
     public function rules()
     {
-        return [];
+        return [
+          'orderBy.updated_at'      => ['regex:(desc|asc)'],
+        ];
     }
 }

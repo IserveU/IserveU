@@ -168,17 +168,17 @@
             $rootScope.isLoginState = false;
           }]
         })
-        .state('login.resetpassword', {
+        .state('reset-password', {
+          url: '/reset-password',
+          template:'<reset-password class="widget md-card"></reset-password>' ,
+          data: {
+            requireLogin: true
+          }
+        })
+        .state('reset-password.token', {
           url: '/:token',
           data: {
             requireLogin: false
-          }
-        })
-        .state('reset-password', {
-          url: '/reset-password',
-          template:'<reset-password></reset-password>' ,
-          data: {
-            requireLogin: true
           }
         })
         .state('permissionfail', {

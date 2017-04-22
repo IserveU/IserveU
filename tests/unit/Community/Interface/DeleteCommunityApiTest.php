@@ -22,7 +22,7 @@ class DeleteCommunityApiTest extends CommunityApi
 
         $community = factory(App\Community::class)->create();
 
-        $this->delete('/api/community/'.$community->id)
+        $this->delete('/api/community/'.$community->slug)
             ->assertResponseStatus(200);
     }
 

@@ -12,6 +12,7 @@ class VoteSection extends ShowMotionPage{
 		this.agreeButton 			= 	element(by.css('.motion_vote_buttons__button--agree'));
 		this.abstainButton 			= 	element(by.css('.motion_vote_buttons__button--abstain'));
 		this.disagreeButton			= 	element(by.css('.motion_vote_buttons__button--disagree'));
+    this.disabledButton			= 	element(by.css('.motion_vote_buttons__button--disabled'));
 
 		this.agreeBar 				=	element(by.css('.motion_vote_statusbar__bar--agree'));
 		this.disagreeBar 			=	element(by.css('.motion_vote_statusbar__bar--disagree'));
@@ -32,6 +33,10 @@ class VoteSection extends ShowMotionPage{
 		return this.disagreeButton;
 	}
 
+	getDisabledButton(){
+		return this.disabledButton;
+	}
+
 	clickAgreeButton(){
 		DomHelper.clickBetter(this.getAgreeButton());
 	}
@@ -42,6 +47,10 @@ class VoteSection extends ShowMotionPage{
 
 	clickDisagreeButton(){
 		DomHelper.clickBetter(this.getDisagreeButton());
+	}
+  
+	clickDisabledButton(){
+    DomHelper.clickBetter(this.getDisabledButton());
 	}
 
 	voteRandomWay(){

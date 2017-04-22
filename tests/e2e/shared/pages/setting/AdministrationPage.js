@@ -22,11 +22,11 @@ class AdministrationPage extends Settings{
 
 
 	openTab(name){
-		this.tabButtons[name.toLowerCase()].click();
+		DomHelper.clickBetter(this.tabButtons[name.toLowerCase()]);
 	}
 
 	openSection(text){
-		element(by.cssContainingText('.md-button',text)).click();
+		DomHelper.clickBetter(element(by.cssContainingText('.md-button',text)));
 	}
 
 

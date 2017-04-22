@@ -1,5 +1,6 @@
 let VoteSection = require('../shared/pages/Motion/VoteSection');
 let LoginHelper = require('../shared/helpers/LoginHelper');
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 
 describe('vote.permissions making sure that vote permissions work correctly || ', function() {
@@ -57,14 +58,11 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 			// expect(vote.getAbstainButton().isEnabled()).toBe(false); //Probably a better check but it's failin
 
-
-			vote.clickAbstainButton(); //Ensure starting in abstain position
-
-
+      vote.clickDisabledButton();
+      
+      
 			vote.getAgreeCount().then(function(firstCount){
-
-				vote.clickAgreeButton();
-
+        
 				expect(vote.getAgreeCount()).toBe(firstCount);
 
 			});
@@ -72,16 +70,14 @@ describe('vote.permissions making sure that vote permissions work correctly || '
 
 			vote.getDisagreeCount().then(function(firstCount){
 
-				vote.clickDisagreeButton();
-
+				
 				expect(vote.getDisagreeCount()).toBe(firstCount);
 
 			});
 
 			vote.getAbstainCount().then(function(firstCount){
 
-				vote.clickAbstainButton();
-
+				
 				expect(vote.getAbstainCount()).toBe(firstCount);
 
 			});
@@ -89,11 +85,10 @@ describe('vote.permissions making sure that vote permissions work correctly || '
   	});
 
 
+    
     afterEach(function(){
-        browser.manage().logs().get('browser').then(function(browserlog){
-         // expect(browserlog.length).toEqual(0);
-          if(browserlog.length) console.error("log: "+JSON.stringify(browserlog));
-        });
+
+        ConsoleHelper.printErrors();
     });
 
 

@@ -1,0 +1,9 @@
+
+/* Keeps iframes from blowing out the UI */
+@media screen and (max-width: $sm) {
+  iframe {
+    width: $sm - ($padding * 2);
+    max-width: $sm !important;
+    height: auto;
+  }
+}

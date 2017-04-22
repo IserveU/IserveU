@@ -2,7 +2,7 @@
 
 	angular
 		.module('iserveu')
-		.factory('userSearchFactory', ['userIndex', userSearchFactory]);
+		.factory('userSearchFactory', ['userResource','userIndex', userSearchFactory]);
 
      // TODO: needs documentation
 	function userSearchFactory(user, userIndex) {
@@ -20,19 +20,38 @@
 				is_active: true,
 				is_current: true
 			},
-
-
-			_orderBy: {
-
+			_role: {
 				filters: [
-				   {name: "Newest", query: {oldest: true}},
-				   {name: "Oldest", query: {newest: true}}
-				   // {name: "Closed", query: {is_expired:true}}
+				   {name: "Citizen", query: {'roles': ["citizen",""]}},
+				   {name: "Participant", query: {'roles': ["participant",""]}},
+				   {name: "Representative", query: {'roles': ["representative",""]}},
+				   {name: "Administrator", query: {'roles': ["administrator",""]}}
+
 				],
 
 				filter: ''
-			},
 
+			},
+			_identity: {
+				filters: [
+				   {name: "Unverified", query: {'id': 0}},
+				   {name: "Verified", query: {'id': 1}}
+
+				],
+
+				filter: ''
+
+			},
+			_addressVerified: {
+				filters: [
+				   {name: "Unverified", query: {'id': 0}},
+				   {name: "Verified", query: {'id': 1}}
+
+				],
+
+				filter: ''
+
+			},
 			_newFilter: [],
 
 			_filteredBy: '',
@@ -42,40 +61,54 @@
 					this.text = '';
 				this.isOpen = !this.isOpen;
 			},
-
+			//normal casual text search 
+			searchAll: function(event) {
+				if(event.keyCode === 8 && !this.text)
+				{
+					this.text = this.text.substring(0,this.text.length-1);
+				}
+				var data = {
+					'allNames': this.text // TODO alter function to take paramaters from searchbar input
+				};
+				user.getUsers(data).then(function (result) {
+		          userIndex._index = result.data;
+		          userIndex._next_page = null;
+		          factory.searching = false;
+		        });
+			},
 			all: function() {
-				this._orderBy.filter 	= '';
+				this._role.filter = '';
+				this._identity.filter = '';
+				this._addressVerified.filter = '';
 				this.clearFilters();
 				this.getResults(this._filters);
 			},
+			searchSpecific: function() {
+				
+				this._newFilter['roles[]'] = this._role.filter.roles;
+				this._newFilter['identityVerified'] = this._identity.filter.id;
+				this._newFilter['addressVerified'] = this._addressVerified.filter.id;
 
-			query: function(filter) {
-
-				var temp = Object.getOwnPropertyNames(filter);
-				temp.pop();			//removes $mdSelect event thats bundled with var filter
-
-				this.clearFilters();
-				this.setFilterBy(temp[0]);
-
-				angular.forEach(temp, function(f, key){
-					factory._filters[f] = true;
-				});
-
-				return user.getUsers(filter).then(function(r){
-					factory.newFilter = filter;
+ 				//sanitize the data in case user has not chosen the filter.
+ 				var sanitized = {}; 
+  				for (var key in this._newFilter) {
+   					if (this._newFilter[key] !== undefined){
+     					
+     					sanitized[key] = this._newFilter[key];
+     				}
+  				}
+				return user.getUsers(sanitized).then(function(r){
+					factory._newFilter = factory._newFilter;
 					factory.searching = false;
-					userIndex.data = r.data;
+					userIndex._index = r.data;
 					return r.data;
-				});
+				});				
 			},
-
 			clearFilters: function() {
 				var temp = this._filters;
 
 				this._filters		   = [];
-				this._filters['take']  = temp.take;
 				this._filters['limit'] = temp.limit;
-				this._filters['next_page']  = temp.next_page;
 			},
 
 			clearText: function() {

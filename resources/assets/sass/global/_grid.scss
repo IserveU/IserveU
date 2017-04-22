@@ -1,3 +1,55 @@
+/* whole page pane*/
 #maincontent{
-	padding: $padding;
+  padding: 0;
+  overflow: scroll;
 }
+
+@mixin frame{
+  padding: $padding * 2;
+  display: flex;
+  flex-direction:row;
+  
+  @media screen and (max-width: $xs) {
+    padding:  0;
+  }
+}
+
+#centered_content{
+  max-width: 70%;
+  flex:1 0 70%;
+  flex-direction: column;
+  margin: auto;
+
+  //  flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto; padding:15px"
+
+  @media screen and (max-width: $lg) {
+    max-width: 80%;
+    flex: 1 0 80%;
+  }
+  
+  @media screen and (max-width: $md) {
+    max-width: 80%;
+    flex:1 1 80%;
+  }
+  
+  @media screen and (max-width: $sm) {
+    max-width: 80%;
+    flex:1 1 80%;
+  }
+  
+  @media screen and (max-width: $xs) {
+    max-width: 100%;
+    flex:1 1 100%;
+  }
+  
+  
+  
+}
+
+@mixin section{
+  margin: $padding 0;
+  display: flex;
+  flex-direction: column;
+}
+
+

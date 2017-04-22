@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ShowUserApiTest extends TestCase
+class ShowUserApiTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -18,7 +18,7 @@ class ShowUserApiTest extends TestCase
     {
         $this->signIn();
 
-        $this->visit('/api/user/'.$this->user->id)
+        $this->visit('/api/user/'.$this->user->slug)
             ->seeJsonStructure([
                 'email', 'ethnic_origin_id', 'first_name', 'middle_name', 'last_name', 'date_of_birth', 'postal_code', 'street_name', 'street_number', 'unit_number', 'agreement_accepted', 'community_id', 'identity_verified', 'address_verified_until', 'status', 'phone',
             ])->dontSeeJson([

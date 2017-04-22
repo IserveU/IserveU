@@ -3,7 +3,7 @@
 use App\Comment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DefaultCommentPermissionTest extends TestCase
+class DefaultCommentPermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -40,7 +40,7 @@ class DefaultCommentPermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->call('GET', '/api/motion/'.$motion->id.'/comment');
+        $this->call('GET', '/api/motion/'.$motion->slug.'/comment');
 
         $this->assertResponseOk();
     }

@@ -26,6 +26,18 @@
         return user.permissions.indexOf(el.trim()) >= 0;
       });
     };
+    
+    /**
+     * Converts a permission into the string in the permission file.
+     * May belong in a 'translate' service if it exists
+     * @param  {string} permission The permission code
+     * @return {string}            The key for the tranlsate file
+     */
+    this.permissionToTranslateKey = function(permission){
+      permission = permission.replace('-','').toUpperCase();
+      
+      return "PERMISSION_"+permission;
+    }
 
   }
 })(window, window.angular);

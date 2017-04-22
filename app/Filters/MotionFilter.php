@@ -62,11 +62,17 @@ class MotionFilter extends QueryFilter
 
     /************* ORDERING ****************************************/
 
-    /* desc or asc of closingAt,publisheAt and createdAt*/
     public function orderBy($fieldPairs)
     {
         foreach ($fieldPairs as $field => $direction) {
-            $this->query->orderBy($field, $direction);
+            switch ($field) {
+              case '_rank':
+                $this->query->orderByRank($direction);
+                break;
+              default:
+                /* desc or asc of closingAt,publisheAt and createdAt or another other native table field*/
+                $this->query->orderBy($field, $direction);
+            }
         }
 
         return $this->query;

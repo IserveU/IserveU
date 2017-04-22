@@ -6,9 +6,10 @@ angular
 	.module('iserveu')
 	.factory('userIndex',
 		['$http',
+     'utils',
 		 'userResource',
 
-	function($http, userResource) {
+	function($http, utils, userResource) {
 
 	var userIndex = {
 
@@ -30,7 +31,6 @@ angular
 			self._paginating = true;
 
 			userResource.getUsersIndex(this._current_page).then(function(results) {
-				console.log(results);
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
@@ -66,9 +66,8 @@ angular
 			self._paginating = true;
 
 			userResource.getUsersIndex(self._next_page).then(function(results) {
-
-				console.log(results);
-
+      
+          
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = angular.isArray(self._index) ? self._index.concat(results.data) : results.data;
 				self._last_page = results.last_page;
@@ -81,7 +80,7 @@ angular
 		},
 
 		nextPage: function(url) {
-			return url ? url.slice(-1) : null;
+			return url ? utils.getUrlParameter('page',url) : null;
 		},
 
 		retrieveById: function(id) {
@@ -107,6 +106,7 @@ angular
 
 			return true;
 		}
+  
 	}
 
 	return userIndex;

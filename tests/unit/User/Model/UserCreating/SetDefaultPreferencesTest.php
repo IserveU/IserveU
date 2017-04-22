@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Arr;
 
-class SetDefaultPreferancesTest extends TestCase
+class SetDefaultPreferancesTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

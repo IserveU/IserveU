@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MotionPermissionTest extends TestCase
+class MotionPermissionTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -12,7 +12,7 @@ class MotionPermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'published')->create();
 
-        $this->get('/api/motion/'.$motion->id)
+        $this->get('/api/motion/'.$motion->slug)
             ->assertResponseStatus(200);
 
         $this->seeJson(['id' => $motion->id, 'text' => $motion->text]);
@@ -24,7 +24,7 @@ class MotionPermissionTest extends TestCase
         $this->signIn();
         $motion = factory(App\Motion::class, 'draft')->create();
 
-        $response = $this->call('GET', '/api/motion/'.$motion->id);
+        $response = $this->call('GET', '/api/motion/'.$motion->slug);
 
         $this->assertEquals(403, $response->status());
     }
@@ -63,7 +63,7 @@ class MotionPermissionTest extends TestCase
     {
         $motion = factory(App\Motion::class, 'closed')->create();
 
-        $response = $this->get('/api/motion/'.$motion->id);
+        $response = $this->get('/api/motion/'.$motion->slug);
 
         $this->assertResponseOk();
 
@@ -155,7 +155,7 @@ class MotionPermissionTest extends TestCase
 
         $motionPatch['status'] = 'review';
 
-        $this->patch('/api/motion/'.$motion->id, $motionPatch);
+        $this->patch('/api/motion/'.$motion->slug, $motionPatch);
 
         $this->assertResponseStatus(200);
     }
@@ -169,7 +169,7 @@ class MotionPermissionTest extends TestCase
             'user_id'   => $this->user->id,
         ]);
 
-        $this->get('/api/motion/'.$motion->id);
+        $this->get('/api/motion/'.$motion->slug);
 
         $this->assertResponseStatus(200);
     }
@@ -181,7 +181,7 @@ class MotionPermissionTest extends TestCase
 
         $toUpdate = factory(App\Motion::class)->create();
 
-        $this->patch('/api/motion/'.$toUpdate->id, ['closing_at' => Carbon::tomorrow()])
+        $this->patch('/api/motion/'.$toUpdate->slug, ['closing_at' => Carbon::tomorrow()])
             ->assertResponseStatus(200);
     }
 
@@ -192,7 +192,7 @@ class MotionPermissionTest extends TestCase
         $motion = factory(App\Motion::class)->create();
 
         // Delete Motion
-        $response = $this->call('DELETE', '/api/motion/'.$motion->id);
+        $response = $this->call('DELETE', '/api/motion/'.$motion->slug);
         $this->assertResponseStatus(403);
         $this->seeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
@@ -206,7 +206,7 @@ class MotionPermissionTest extends TestCase
         $motion->delete();
 
         // Restore motion
-        $this->call('GET', '/api/motion/'.$motion->id.'/restore');
+        $this->call('GET', '/api/motion/'.$motion->slug.'/restore');
         $this->assertResponseStatus(404);
         $this->dontSeeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
     }
@@ -219,7 +219,7 @@ class MotionPermissionTest extends TestCase
         $motion = factory(App\Motion::class, 'published')->create();
 
         // Delete Motion
-        $response = $this->call('DELETE', '/api/motion/'.$motion->id);
+        $response = $this->call('DELETE', '/api/motion/'.$motion->slug);
         $this->assertResponseOk();
 
         $this->notSeeInDatabase('motions', ['id' => $motion->id, 'deleted_at' => null]);
@@ -233,7 +233,7 @@ class MotionPermissionTest extends TestCase
         $this->signInAsPermissionedUser('delete-motion');
 
         // Delete Motion
-        $this->call('DELETE', '/api/motion/'.$vote->motion->id);
+        $this->call('DELETE', '/api/motion/'.$vote->motion->slug);
         $this->assertResponseStatus(200);
         $this->notSeeInDatabase('motions', ['id' => $vote->motion->id, 'deleted_at' => null]);
 
@@ -252,7 +252,7 @@ class MotionPermissionTest extends TestCase
 
         $newTitle = $faker->word.' '.$faker->word.' '.$faker->word;
 
-        $this->patch('/api/motion/'.$motion->id, ['title' => $newTitle]);
+        $this->patch('/api/motion/'.$motion->slug, ['title' => $newTitle]);
         $this->assertResponseStatus(200);
     }
 

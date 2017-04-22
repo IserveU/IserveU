@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class CommentVoteApi extends TestCase
+abstract class CommentVoteApi extends BrowserKitTestCase
 {
     protected $route = '/api/comment_vote/';
     protected $class = App\CommentVote::class;

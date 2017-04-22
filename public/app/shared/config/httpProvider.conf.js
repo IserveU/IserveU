@@ -42,8 +42,7 @@
                 auth.canAccess('administrate-permission')) {
               // TODO: only show for admins
               toast.report_error(config.data);
-            } else if (config.status === 401 &&
-              config.statusText === 'Unauthorized') {
+            } else if (config.status === 401 && config.statusText === 'Unauthorized') {
               var loginService = $injector.get('loginService');
               loginService.clearCredentials(true);
             } else if (config.status === 401) {

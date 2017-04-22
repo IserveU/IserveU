@@ -6,9 +6,10 @@ angular
 	.module('iserveu')
 	.factory('motionIndex',
 		['$http',
+    'utils',
 		 'motionResource',
 
-	function($http, motionResource) {
+	function($http, utils, motionResource) {
 
 	var motionIndex = {
 
@@ -78,7 +79,7 @@ angular
 		},
 
 		nextPage: function(url) {
-			return url ? url.slice(-1) : null;
+      return url ? utils.getUrlParameter('page',url) : null;
 		},
 
 		retrieveById: function(id) {

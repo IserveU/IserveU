@@ -50,7 +50,12 @@
     };
 
     this.onLogout = function() {
-      $state.transitionTo('login');
+      
+      if(window.location.hash!="#/login"){
+          window.location.href = "/";
+          // $state.transitionTo('login');  //was not resetting model states
+      }
+
     };
 
   }

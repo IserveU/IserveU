@@ -29,17 +29,18 @@ class IndexUserRequest extends Request
     public function rules()
     {
         return [
-            'orderBy.created_at'      => ['regex:(desc|asc)'],
-            'orderBy.id'              => ['regex:(desc|asc)'],
-            'status'                  => 'array',
-            'identityVerified'        => 'boolean',
-            'addressVerified'         => 'boolean',
-            'lastName'                => 'string',
-            'middleName'              => 'string',
-            'firstName'               => 'string',
-            'allNames'                => 'string',
-            'page'                    => 'integer',
-            'limit'                   => 'integer',
-        ];
+            'orderBy.created_at'       => ['regex:(desc|asc)'],
+            'orderBy.id'               => ['regex:(desc|asc)'],
+            'status'                   => 'array',
+            'identityVerified'         => 'boolean',
+            'addressVerified'          => 'boolean',
+            'lastName'                 => 'string',
+            'middleName'               => 'string',
+            'firstName'                => 'string',
+            'allNames'                 => 'string',
+            'page'                     => 'integer',
+            'limit'                    => 'integer',
+            'roles'                    => 'array',
+         ];
     }
 }

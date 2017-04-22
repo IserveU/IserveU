@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class NewUserTest extends TestCase
+class NewUserTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -23,7 +23,7 @@ class NewUserTest extends TestCase
     {
         $user = factory(App\User::class, 'public')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200);
 
@@ -37,7 +37,7 @@ class NewUserTest extends TestCase
     {
         $user = factory(App\User::class, 'private')->create();
 
-        $this->get('/api/user/'.$user->id);
+        $this->get('/api/user/'.$user->slug);
 
         $this->assertResponseStatus(200);   //Will be a 403 one day
         $this->dontSee($user->first_name);
@@ -52,7 +52,7 @@ class NewUserTest extends TestCase
         $updateData = ['first_name' => 'updated_first_name',
                        'last_name'  => 'updated_last_name', ];
 
-        $response = $this->call('PATCH', '/api/user/'.$user->id, $updateData);
+        $response = $this->call('PATCH', '/api/user/'.$user->slug, $updateData);
 
         $this->assertEquals(403, $response->status());
     }
@@ -62,7 +62,7 @@ class NewUserTest extends TestCase
     {
         $user = factory(App\User::class, 'public')->create();
 
-        $this->call('GET', '/api/user/'.$user->id);
+        $this->call('GET', '/api/user/'.$user->slug);
 
         $this->assertResponseOk();
 
@@ -74,7 +74,7 @@ class NewUserTest extends TestCase
     {
         $user = $this->user;
 
-        $response = $this->call('GET', '/api/user/'.$user->id);
+        $response = $this->call('GET', '/api/user/'.$user->slug);
 
         $this->assertResponseOk();
 
@@ -91,7 +91,7 @@ class NewUserTest extends TestCase
             'last_name'      => 'Ulast',
         ];
 
-        $this->patch('/api/user/'.$this->user->id, $updateData);
+        $this->patch('/api/user/'.$this->user->slug, $updateData);
 
         $this->assertResponseOk();
         $this->seeInDatabase('users', array_merge(['id' => $this->user->id], [

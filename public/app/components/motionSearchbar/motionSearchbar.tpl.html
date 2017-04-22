@@ -10,6 +10,7 @@
         <md-icon class="mdi mdi-dots-vertical" ng-click="$mdOpenMenu()"></md-icon>
         <md-menu-content width="4" class="md-body-1">
 
+
           <md-select placeholder="Filter by Departments" ng-model="search._department.filter" ng-change="search.searchSpecific()" aria-label="filter motions by department" layout-padding>
             <md-option ng-repeat="department in search._department.index" ng-value="department.id">{{::department.name}}</md-option>
           </md-select>

@@ -21,8 +21,10 @@
         <label>Description</label>
         <input type="text" ng-model="file.description" ng-change="changeProp(file, {description: file.description})" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
       </md-input-container>
-
-
+      <!-- <div style="display:inline-block;float:right;"> -->
+        <md-icon class="mdi mdi-delete" ng-click="cancel(file.slug)"></md-icon>
+        <md-icon class="mdi mdi-download" ></md-icon>
+      <!-- </div> -->
       <md-button ng-click="cancel(file.id)">
         <md-icon class="mdi mdi-delete"></md-icon>
         Delete File

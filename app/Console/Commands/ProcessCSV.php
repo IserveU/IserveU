@@ -47,7 +47,10 @@ class ProcessCSV extends Command
             foreach ($results as $result) {
                 try {
                     $user = static::processUser($result);
-                    $user->addRole('participant');
+
+                    if ($user) {
+                        $user->addRole('participant');
+                    }
                 } catch (Exception $e) {
                     dd($e);
                 }

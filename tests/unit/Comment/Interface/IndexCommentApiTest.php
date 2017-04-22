@@ -36,7 +36,7 @@ class IndexCommentApiTest extends CommentApi
                                     'created_at',
                                     'commentRank',
                                     'motionTitle',
-                                    'motionId',
+                                    'motionSlug',
                                     'commentWriter' => [
                                         'community' => [
                                             'adjective',
@@ -48,6 +48,22 @@ class IndexCommentApiTest extends CommentApi
 
         $this->seeNumberOfResults(20); //Default pagination count
         $this->seeOrderInField('desc', 'commentRank'); //Default order
+    }
+
+    /** @test */
+    public function comment_filter_by_comment_rank_ascending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'asc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('asc', 'commentRank');
+    }
+
+    /** @test */
+    public function comment_filter_by_comment_rank_descending()
+    {
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'desc']])
+                ->assertResponseStatus(200)
+                ->seeOrderInField('desc', 'commentRank');
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

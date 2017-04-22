@@ -4,9 +4,9 @@
 
 <div class="widget_content--list" ng-if="topMotions.motionList.length > 0">
   <md-list>
-    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.id})" class="md-with-secondary" ng-if="topMotions.motionList"
+    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.slug})" class="md-with-secondary" ng-if="topMotions.motionList"
         ng-repeat="motion in topMotions.motionList | limitTo: 5">
-      <div class="md-list-item-text" ui-sref="motion({id:motion.id})">{{motion.title}}</div>
+      <div class="md-list-item-text" ui-sref="motion({id:motion.slug})">{{motion.title}}</div>
 
       <div class="md-secondary-container">
         <md-button class="md-icon-button md-button" aria-label="topMotionRedirect"  ui-sref="motion({id:motion.id})">
@@ -18,8 +18,8 @@
   </md-list>
 </div>
 
-<div class="widget_content--text" ng-if="topMotions.motionList.length <= 0">
-    <p ng-if="!topMotions.motionList" ng-cloak class="md-body-1">There are no motions right now.</p>
+<div class="widget_content--text" ng-if="!topMotions.motionList.length">
+    <p>There are no motions right now.</p>
 </div>
 
 <div class="widget_content--text"  ng-if="topMotions.loading">

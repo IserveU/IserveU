@@ -1,0 +1,17 @@
+
+/** Motion block and large division blocks */
+
+user{
+  @include frame;
+  
+  @media screen and (max-width: $sm) {
+    md-icon{
+        display:none;
+    }
+  }
+
+
+}
+ 
+
+@import 'user_fab';

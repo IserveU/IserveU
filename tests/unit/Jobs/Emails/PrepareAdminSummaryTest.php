@@ -4,7 +4,7 @@ use App\Jobs\Emails\PrepareAdminSummary;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
-class AdminSummaryTest extends TestCase
+class AdminSummaryTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;
@@ -62,13 +62,16 @@ class AdminSummaryTest extends TestCase
         $siteAdministrator = factory(App\User::class)->create();
         $siteAdministrator->addRole('administrator');
 
-        $regularUser = factory(App\User::class)->create();
+        $regularUser = factory(App\User::class)->create([
+          'first_name'  => "O'Dickhead",
+        ]);
 
         dispatch(new PrepareAdminSummary());
 
         $message = $this->getLastMessageFor($adminUser->email);
 
         $this->assertEquals($message->subject, 'Daily User Summary');
+
         $this->assertFalse($message->contains($siteAdministrator->first_name.' '.$siteAdministrator->last_name.' ('.$siteAdministrator->email.')'));
         $this->assertTrue($message->contains($regularUser->first_name.' '.$regularUser->last_name.' ('.$regularUser->email.')'));
     }

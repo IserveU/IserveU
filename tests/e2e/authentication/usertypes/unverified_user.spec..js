@@ -2,6 +2,7 @@ let LoginPage = require('../../shared/pages/LoginPage');
 let FormHelper = require('../../shared/helpers/FormHelper');
 let faker = require('faker');
 let randomstring = require("randomstring");
+let ConsoleHelper = require('../../shared/helpers/ConsoleHelper');
 
 describe('authenication.unverified_user page interactions for an unverified user with no roles', function() {
 
@@ -24,5 +25,9 @@ describe('authenication.unverified_user page interactions for an unverified user
 
   	});
 
+    afterEach(function(){
+
+        ConsoleHelper.printErrors();
+    });
 
 });

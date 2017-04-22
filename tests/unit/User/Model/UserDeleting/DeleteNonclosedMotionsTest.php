@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteNonclosedMotionsTest extends TestCase
+class DeleteNonclosedMotionsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

@@ -1,5 +1,5 @@
 (function() {
-	
+
 	angular
 		.module('iserveu')
 		.directive('commentList', [
@@ -14,7 +14,7 @@
 		function commentListController($scope) {
 
 			var self = this;
-			
+
 			self.selectedIndex = 0;
 			self.count = utils.count;
 
@@ -28,27 +28,27 @@
 				});
 			}
 
-			function fetchSelectedIndex(userVote) {
-				var vote = userVote || $scope.motion.userVote;
+			function fetchSelectedIndex(_userVote) {
+				var vote = _userVote || $scope.motion._userVote;
 				if( !vote || vote.position === 'undefined' ) {
 					return;
-				} else if( vote.position == 1 ) {
+				} else if( vote.position === 1 ) {
+					self.selectedIndex = 0;
+				} else if( vote.position === 0 ) {
+					self.selectedIndex = 1;
+				} else if( vote.position === -1) {
 					self.selectedIndex = 2;
-				} else if( vote.position == 0 ) {
-					self.selectedIndex = 0;
-				} else if( vote.position == -1) {
-					self.selectedIndex = 0;
 				}
 			}
 
-			$scope.$watch('motion.userVote', function(vote) {
+			$scope.$watch('motion._userVote', function(vote) {
 				if(vote && vote.id){
 					fetchSelectedIndex(vote);
 				}
 			}, true);
 
 			(function init() {
-				utils.waitUntil( function() { return !utils.objectIsEmpty( $scope.motion ) }, 
+				utils.waitUntil( function() { return !utils.objectIsEmpty( $scope.motion ) },
 					function fetchItems() {
 						fetchSelectedIndex();
 						fetchUserCommentVotes();

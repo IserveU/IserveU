@@ -2,7 +2,7 @@ let VoteSection 	= require('../shared/pages/Motion/VoteSection');
 let LoginHelper 	= require('../shared/helpers/LoginHelper');
 let SidebarSection 	= require('../shared/pages/Motion/SidebarSection');
 let MotionPage = require('../shared/pages/Motion/ShowMotionPage');
-
+let ConsoleHelper = require('../shared/helpers/ConsoleHelper');
 
 
 describe('vote.appearance making sure that votes display correctly || ', function() {
@@ -18,7 +18,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 
 
   it('the passing status icon should match', function() {
-  		login.login('citizen@iserveu.ca');
+  	login.login('citizen@iserveu.ca');
+    var EC = protractor.ExpectedConditions;
 
 		sidebar.clickRandomMotion();
 
@@ -30,6 +31,8 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
 
 		browser.waitForAngular();
+    
+    browser.sleep(2000); //The code below was evaluating to "Loading"
 
 		return vote.getCounts().then(function(counts){
 			let passingStatusIcon = vote.getPassingStatusIcon();
@@ -42,7 +45,7 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 			} else if (counts.agree<counts.disagree){
 
 				console.log("Agree:"+counts.agree+ " Disagree:"+counts.disagree + " Abstain:"+counts.abstain);
-				//This failed too on 2017-01-06
+				//This failed too on 2017-01-06 && 2017-03-01
 				expect(passingStatusIcon.getAttribute('md-svg-src')).toBe('thumb-down');
 
 			} else if (counts.agree==counts.disagree){
@@ -87,5 +90,12 @@ describe('vote.appearance making sure that votes display correctly || ', functio
 		});
 
   });
+  
+  
+    afterEach(function(){
+
+        ConsoleHelper.printErrors();
+    });
+
 
 });

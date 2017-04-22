@@ -10,11 +10,12 @@
       '$timeout',
       '$translate',
       'utils',
+      'Authorizer',
       ToastMessage]);
 
      /** @ngInject */
   function ToastMessage($rootScope, $state, $mdToast,
-    $timeout, $translate, utils) {
+    $timeout, $translate, utils, Authorizer) {
 
     function simple(message, time) {
       var timeDelay = time || 1000;
@@ -55,11 +56,11 @@
     }
 
     function destroyThis(type, fn) {
-      var toast = action('Destroy this ' + type + '?', 'Yes', true);
+      var toast = action('Destroy this ' + $translate.instant(type) + '?', 'Yes', true);
       $mdToast.show(toast).then(function(r) {
         if (r === 'ok') {
           fn();
-          simple(utils.capitalize(type) + ' destroyed', 1000);
+          simple(utils.capitalize($translate.instant(type)) + ' destroyed', 1000);
         }
       });
     }
@@ -85,12 +86,32 @@
         })();
       }
     }
-
-    function voteSuccess(type) {
-      simple('You ' + type + (type === 'abstain' ? 'ed on' : 'd with') +
-        ' this ' + $translate.instant('MOTION'));
+    
+    /**
+     * Shows a toast message saying a message if the user does not have permission
+     * this should go into a permissions system in the future
+     * @param  {string} permission Permission string 'create-vote' or 'show-user'
+     * @param  {string} reason     The translate string shown if they are rejectexd
+     * @return {boolean}           if they have the permission
+     */
+    function mustHavePermission(permission,reason) {
+      if(!Authorizer.canAccess(permission)){
+        if(reason===undefined){
+          reason = Authorizer.permissionToTranslateKey(permission);
+        }
+        simple($translate.instant(reason));
+        return false;
+      }
+      return true;      
     }
-
+    
+    /**
+     * Shows a defaul toast message with the correct translation key
+     * @param  {string} key The key to use
+     */
+    function translate(key) {
+      simple($translate.instant(key));
+    }
 
     function cancelChanges(fn) {
       var toast = action('Discard changes?', 'Yes');
@@ -114,13 +135,14 @@
     // exports
     return {
       simple: simple,
+      translate: translate,
       action: action,
       reload: reload,
       customFunction: customFunction,
       destroyThis: destroyThis,
       destroyThisThenUndo: destroyThisThenUndo,
       mustBeLoggedIn: mustBeLoggedIn,
-      voteSuccess: voteSuccess,
+      mustHavePermission: mustHavePermission,
       cancelChanges: cancelChanges,
       report_error: report_error
     };

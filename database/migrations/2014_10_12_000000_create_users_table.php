@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('status')->default('private');
 
             $table->integer('ethnic_origin_id')->unsigned()->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable()->default(null);
 
             $table->date('address_verified_until')->nullable();
             $table->boolean('identity_verified')->default(0);

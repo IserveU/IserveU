@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class DeleteUserApiTest extends TestCase
+class DeleteUserApiTest extends BrowserKitTestCase
 {
     use WithoutMiddleware;
 
@@ -18,7 +18,7 @@ class DeleteUserApiTest extends TestCase
     {
         $this->signIn();
 
-        $this->delete('/api/user/'.$this->user->id)
+        $this->delete('/api/user/'.$this->user->slug)
             ->assertResponseStatus(200);
     }
 

@@ -34,7 +34,6 @@
           summary: this.summary,
           text: this.text,
           status: this.status,
-          rank: this.rank,
           department_id: this.department ? this.department.id : 1,
           closing_at: this.getClosing(),
           user_id: this.user_id,
@@ -85,7 +84,6 @@
         } else {
           return new Date(NaN);
         }
-
       },
 
       /**
@@ -93,7 +91,7 @@
       */
       getMotionComments: function(id) {
         var self = this;
-        id = id || self.id;
+        id = id || self.slug;
         motionResource.getMotionComments(id).then(function(result) {
           var motionComments = new MotionComments(result);
           self.setData({motionComments: motionComments});
@@ -110,7 +108,7 @@
       * > 0 = Disagree
       * 0   = tie
       */
-      getMotionRank: function(id) {
+      getRank: function(id) {
 
       },
 
@@ -119,8 +117,7 @@
       */
       getMotionFiles: function(id) {
         var self = this;
-        id = id || self.id;
-
+        id = id || self.slug;
         fileResource.getFiles(id).then(function(result) {
           var motionFiles = [];
           for (var i in result) {
@@ -163,7 +160,7 @@
       */
       getMotionVotes: function(id) {
         var self = this;
-        id = id || self.id;
+        id = id || self.slug;
 
         motionResource.getMotionVotes(id).then(function(result) {
 
@@ -186,8 +183,8 @@
       * Update the user's votes attached to this Motion.
       */
       reloadUserVote: function(vote) {
-        this.userVote = {};
-        this.userVote = {
+        this._userVote = {};
+        this._userVote = {
           motion_id: vote.motion_id,
           id: vote.id,
           position: +vote.position

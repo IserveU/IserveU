@@ -2,7 +2,7 @@
 	<md-card-content>
 
 		<div class="motion_usercomment">
-			<user-comment-create ng-if="!(motion.motionComments && userComment.exists || !motion.motionOpenForVoting)"></user-comment-create>
+			<user-comment-create ng-if="!(motion.motionComments && userComment.exists || !motion._motionOpenForVoting)"></user-comment-create>
 			<user-comment-edit ng-if="userComment.exists"></user-comment-edit>
 		</div>
 

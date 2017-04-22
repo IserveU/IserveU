@@ -8,25 +8,28 @@
 		display: flex;
     white-space: nowrap;
     padding: $padding 0;
+    max-width:100%;
+    justify-content: center;
+    .md-button{
+      -webkit-transition: all 2s; /* Safari 3.1 to 6.0 */
+      transition: all 2s;
+    }
 }
 
-.motion_vote_statusbar__bar {
+@mixin motion_vote_statusbar__bar{
 	margin: 0;
 	border-radius:0;
-	flex: 1 0 auto;
-	-webkit-display:block;
-
-	flex-shrink: 0;
+	flex: 1 1 auto;
 }
 
 .motion_vote_statusbar__bar--abstain{
-	@extend .motion_vote_statusbar__bar;
+	@include motion_vote_statusbar__bar;
 }
 
 .motion_vote_statusbar__bar--agree {
-	@extend .motion_vote_statusbar__bar;
+	@include motion_vote_statusbar__bar;
 }
 
 .motion_vote_statusbar__bar--disagree  {
-	@extend .motion_vote_statusbar__bar;
+	@include motion_vote_statusbar__bar;
 }

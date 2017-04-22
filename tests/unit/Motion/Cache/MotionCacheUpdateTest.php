@@ -34,7 +34,7 @@ class MotionCacheUpdateTest extends MotionCache
         $this->thisModel = factory($this->class)->create();
 
         $this->triggerFilterRoute()
-             ->assertNotNull($this->getFilterCache());
+            ->assertNotNull($this->getFilterCache(20, true));
 
         $this->update($this->thisModel);
 

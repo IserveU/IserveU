@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-abstract class CommentCache extends TestCase
+abstract class CommentCache extends BrowserKitTestCase
 {
     use DatabaseTransactions, CacheTest;
 

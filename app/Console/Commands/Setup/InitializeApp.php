@@ -4,10 +4,10 @@ namespace App\Console\Commands\Setup;
 
 use App\Jobs\Setup\CreateAdminUser;
 use App\Jobs\Setup\SeedDatabaseDefaults;
-use App\Jobs\Setup\SeedDatabaseFaker;
 use App\Jobs\Setup\SetDefaultPermissions;
 use App\Jobs\Setup\SetDefaultSettings;
 use App\User;
+use Artisan;
 use Illuminate\Console\Command;
 use Setting;
 
@@ -46,7 +46,8 @@ class InitializeApp extends Command
     {
         \Artisan::call('migrate:refresh');
 
-        \Config::set('mail.driver', 'log'); //The mail singleton will initialize with this and then can't be changed easily once the singleton exists
+        \Config::set('mail.driver', 'log'); // The mail singleton will initialize with this and then can't be changed easily once the singleton exists
+        \Config::set('queue.driver', 'sync'); // Run without queue
 
         // Settings
         if (\File::exists('storage/settings.json')) {
@@ -89,7 +90,7 @@ class InitializeApp extends Command
         dispatch(new CreateAdminUser($user));
 
         if (filter_var($this->argument('seed'), FILTER_VALIDATE_BOOLEAN) || $this->confirm('Do you want to seed the site with dummy data?')) {
-            dispatch(new SeedDatabaseFaker());
+            Artisan::call('db:seed', ['--class' => 'FakerDataSeeder']);
         }
     }
 }

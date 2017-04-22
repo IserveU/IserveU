@@ -21,6 +21,20 @@ class DomHelper {
 
  	//	arguments[0].scrollIntoView();
 	}
+  
+  static canInteractCheck(element){
+    var EC = protractor.ExpectedConditions;
+    
+		browser.wait(EC.presenceOf(element), 5000, "The element is not in the DOM");
+    
+    DomHelper.scrollIntoView(element); //Makes sure it's scrolled into view for next check
+
+		browser.wait(EC.visibilityOf(element), 5000, "The element is in the DOM but not visible");
+
+		browser.wait(EC.elementToBeClickable(element), 5000, "The element is in the DOM and visible but not clickable");
+
+    
+  }
 
 	static clickBetter(element){
 
@@ -28,22 +42,16 @@ class DomHelper {
 			console.log("The element has not been set");
 		}
 
-		var EC = protractor.ExpectedConditions;
-
-
 		let me = this;
 
 		element.getText().then(function(buttonText){
-			me.buttonText = buttonText;
+			   if(buttonText === undefined){
+           buttonText = "[Textless Button]";
+         }
+         me.buttonText = buttonText;
 		});
-
-		browser.wait(EC.presenceOf(element), 2000, "The element is not in the DOM");
-
-		browser.wait(EC.visibilityOf(element), 2000, "The element is in the DOM but not visible");
-
-		browser.wait(EC.elementToBeClickable(element), 2000, "The element is in the DOM and visible but not clickalble");
-
-		this.scrollIntoView(element);
+    
+    this.canInteractCheck(element);
 
 		console.log(this.buttonText+' being clicked');
 

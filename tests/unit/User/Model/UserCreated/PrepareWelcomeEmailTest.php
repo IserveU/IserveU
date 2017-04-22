@@ -1,9 +1,11 @@
 <?php
 
+use App\Notifications\Authentication\Welcome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
 use MailThief\Testing\InteractsWithMail;
 
-class PrepareWelcomeEmailTest extends TestCase
+class PrepareWelcomeEmailTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     use InteractsWithMail;
@@ -11,23 +13,26 @@ class PrepareWelcomeEmailTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->mailerInstance = $this->getMailer();
     }
 
     /** @test **/
     public function created_users_get_welcome_email()
     {
+        Notification::fake();
+
         $user = factory(App\User::class, 'public')->create();
 
-        $message = $this->getLastMessageFor($user->email);
-
-        $this->assertEquals($message->subject, 'Welcome');
-        $this->assertTrue($message->contains('Welcome,'));
+        Notification::assertSentTo(
+            $user,
+            Welcome::class
+        );
     }
 
     /** @test **/
     public function user_with_no_password_has_set_password_button()
     {
+        $this->mailerInstance = $this->getMailer();
+
         $user = factory(App\User::class, 'public')->create([
             'password'  => '',
         ]);
@@ -42,6 +47,8 @@ class PrepareWelcomeEmailTest extends TestCase
     /** @test **/
     public function user_with_password_do_not_get_set_password_button()
     {
+        $this->mailerInstance = $this->getMailer();
+
         $user = factory(App\User::class, 'public')->create();
 
         $message = $this->getLastMessageFor($user->email);

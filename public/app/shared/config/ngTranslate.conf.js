@@ -8,7 +8,6 @@
   function translateProvider($translateProvider, SETTINGS_JSON) {
 
     var j = SETTINGS_JSON.jargon;
-    var b = SETTINGS_JSON.betaMessage;
     $translateProvider.preferredLanguage('en');
 
     // $translateProvider.determinePreferredLanguage(function(){
@@ -21,7 +20,6 @@
       LANG_NAME: 'Languages',
       MOTION: j ? j.en.motion : 'Motion',
       MOTIONS: j ? j.en.motions : 'Motions', //depecrated
-      BETA_HEADER: b ? b.text : 'This software is currently in BETA.',
       PHOTO_COURTESY: 'Photo courtesy of ',
       LOGOUT: 'Logout',
       YOUR_PROFILE: 'Your Profile',
@@ -36,6 +34,11 @@
       WELCOME: 'Welcome!',
       YOUR_VOTES: 'Your Votes',
       YOUR_COMMENTS: 'Your Comments',
+      
+      COMMENTLIST_NOABSTAIN: 'No comments have been made for abstain',
+      COMMENTLIST_NOAGREE: 'No comments have been made for agree',
+      COMMENTLIST_NODISAGREE: 'No comments have been made for disagree',
+  
       CURRENTLY_PASSING: 'Currently Passing',
       TODAYS_TOP_COMMENTS: 'Today\'s Top Comments',
       BY: 'by ',
@@ -93,7 +96,7 @@
       DETAILS: 'Details',
       CLOSED: 'Closed',
       OPEN: 'Open',
-      CLOSES_ON: 'Closes on ',
+      CLOSES_ON: 'Closing Date',
       DESCRIPTION: 'Description',
       VOTING: 'Voting',
       POST: 'Post',
@@ -148,8 +151,12 @@
       FIELD_SEARCH: 'Please fill in the fields on the left to begin searching.',
       UNIT_NUMBER: 'Unit Number',
       STREET_ADDRESS: 'Street Address',
-      STREET: 'Street Name'
-
+      STREET: 'Street Name',
+      
+      MOTION_CLOSED: 'Closed for voting',
+      
+      //Permission denied messages
+      PERMISSION_CREATEVOTE: 'Your account has not been approved for voting'
 
     });
 
@@ -157,7 +164,6 @@
     //   LANG_NAME: 'Langue',
     //   MOTION: j ? j.fr.motion : 'Motion',
     //   MOTIONS: j ? j.fr.motions : 'Motions',
-    //   BETA_MESSAGE_MINI: ['Pour tous problèmes, communiquez',
     //     ' avec nous par courriel '].join(''),
     //   PHOTO_COURTESY: 'Les photos sont une courtoisie de ',
     //   LOGOUT: 'Se déconnecter',
