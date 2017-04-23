@@ -46,10 +46,6 @@
 
           $mdDialog.show(confirm).then(function() {
             motionResource.deleteMotion($stateParams.id);
-            console.log(toState);
-            console.log(toState.url);
-            console.log(toParams.id);
-            console.log(toParams);
             $stateParams.id = null;
             $state.go(toState.name, {'id': toParams.id} || toState.name || 'home');
           }, function() {});
@@ -116,7 +112,6 @@
         || '#FBFBFB');
 
     }, function(errorResponse) {
-      console.log('error');
     });
 
   }
