@@ -47,10 +47,13 @@
             requireLogin: true,
             moduleMotion: true
           },
-          onEnter: ['$state', '$stateParams', function($state, $stateParams) {
+          onEnter: ['$state', '$stateParams','$timeout', function($state, $stateParams,$timeout) {
+            //workaround using $timeout, as $state should not be inside another $state
+            $timeout(function(){
             if (!$stateParams.id) {
               $state.go('home');
             }
+          });
           }]
         })
         .state('edit-motion', {

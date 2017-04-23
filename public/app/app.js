@@ -36,7 +36,6 @@
           && $stateParams.id) {
 
           event.preventDefault();
-
           var confirm = $mdDialog.confirm()
                 .parent(angular.element(document.body))
                 .title('Would you like to discard this draft?')
@@ -48,7 +47,7 @@
           $mdDialog.show(confirm).then(function() {
             motionResource.deleteMotion($stateParams.id);
             $stateParams.id = null;
-            $state.go(toState.name || 'home');
+            $state.go(toState.name, {'id': toParams.id} || toState.name || 'home');
           }, function() {});
 
         } else if (fromState.name === 'create-page' && $stateParams.id) {
@@ -65,7 +64,7 @@
           $mdDialog.show(confirm2).then(function() {
             // pageService.destroy($stateParams.id);
             $stateParams.id = null;
-            $state.go(toState.name || 'home');
+            $state.go(toState.name, {'id': toParams.id} || toState.name || 'home');
           }, function() {});
         } else {
           $globalProvider.checkUser();
@@ -113,7 +112,6 @@
         || '#FBFBFB');
 
     }, function(errorResponse) {
-      console.log('error');
     });
 
   }
