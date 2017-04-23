@@ -177,6 +177,7 @@ return [
          Barryvdh\Debugbar\ServiceProvider::class,
          Coop182\LaravelCronValidator\CronValidatorServiceProvider::class,
          Maatwebsite\Excel\ExcelServiceProvider::class,
+         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
+        'Sentry'       => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];

@@ -25,7 +25,9 @@
 		"barryvdh/laravel-debugbar": "^2.3",
 		"coop182/laravel-cron-validator": "0.*",
 		"maatwebsite/excel": "~2.1.0",
-		"laravel/browser-kit-testing": "^1.0"
+		"laravel/browser-kit-testing": "^1.0",
+		"sentry/sentry": "^1.6",
+		"sentry/sentry-laravel": "^0.7.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^5.7",

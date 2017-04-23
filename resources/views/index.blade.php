@@ -5,6 +5,8 @@
         <title>{{Setting::get('site.name')}}</title>
         <meta name="viewport" content="initial-scale=1" />
 
+        <script src="https://cdn.ravenjs.com/3.14.2/raven.min.js"></script>
+        
         <link rel="stylesheet" href="{{mix('/css/dependencies.css')}}">
         <link rel="stylesheet" href="{{mix('/css/app.css')}}">
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
@@ -16,6 +18,7 @@
         <script src="{{mix('/js/app.js')}}"></script>
       
         <script>
+              Raven.config('https://248e9879c89e42d8b0346edeadc357d1@sentry.io/160800').install()
               angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
         </script>
         
