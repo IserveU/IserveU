@@ -6,7 +6,8 @@
 			'$rootScope',
 			'commentVoteResource',
 			'utils',
-		commentList]);
+			commentList
+		]);
 
 	function commentList($rootScope, commentVoteResource, utils) {
 
@@ -19,36 +20,38 @@
 			self.count = utils.count;
 
 			function fetchUserCommentVotes() {
-				if(!$rootScope.authenticatedUser) {
+				if (!$rootScope.authenticatedUser) {
 					return false;
 				}
 
-				commentVoteResource.getUserCommentVotes({user_id: $rootScope.authenticatedUser.id}).then(function(results){
+				$scope.userCommentVote.then(function(results) {
 					$scope.commentVoteList = results.data;
 				});
 			}
 
 			function fetchSelectedIndex(_userVote) {
 				var vote = _userVote || $scope.motion._userVote;
-				if( !vote || vote.position === 'undefined' ) {
+				if (!vote || vote.position === 'undefined') {
 					return;
-				} else if( vote.position === 1 ) {
+				} else if (vote.position === 1) {
 					self.selectedIndex = 0;
-				} else if( vote.position === 0 ) {
+				} else if (vote.position === 0) {
 					self.selectedIndex = 1;
-				} else if( vote.position === -1) {
+				} else if (vote.position === -1) {
 					self.selectedIndex = 2;
 				}
 			}
 
 			$scope.$watch('motion._userVote', function(vote) {
-				if(vote && vote.id){
+				if (vote && vote.id) {
 					fetchSelectedIndex(vote);
 				}
 			}, true);
 
 			(function init() {
-				utils.waitUntil( function() { return !utils.objectIsEmpty( $scope.motion ) },
+				utils.waitUntil(function() {
+						return !utils.objectIsEmpty($scope.motion)
+					},
 					function fetchItems() {
 						fetchSelectedIndex();
 						fetchUserCommentVotes();
