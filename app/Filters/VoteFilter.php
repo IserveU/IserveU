@@ -18,11 +18,10 @@ class VoteFilter extends QueryFilter
         if (!$user && Auth::check()) {
             $user = Auth::user()->id;
         }
-        
+
         if (!$user) {
             return $this->query;
         }
-
 
         return $this->query->user($user);
     }

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'dsn' => env('SENTRY_DSN',false),
+    'dsn' => env('SENTRY_DSN', false),
 
-    'public_dsn' => env('SENTRY_PUBLIC_DSN',false),
+    'public_dsn' => env('SENTRY_PUBLIC_DSN', false),
 
     // capture release as git sha
     // 'release' => trim(exec('git log --pretty="%h" -n1 HEAD')),

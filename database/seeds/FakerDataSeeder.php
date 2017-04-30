@@ -31,7 +31,7 @@ class FakerDataSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-        
+
         // Default users
         $user = factory(App\User::class, 'unverified')->create([
             'first_name'  => 'MrsUnverified',
@@ -90,7 +90,6 @@ class FakerDataSeeder extends Seeder
         ]);
 
         $this->for($closedMotion)->giveRegularVotes()->giveCommentsWithCommentVotes();
-
 
         //Create a published motion
         $topMotion = factory(App\Motion::class, 'published')->create([
