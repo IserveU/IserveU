@@ -12,14 +12,15 @@
 			'utils',
 			'redirectService',
 			'motionIndex',
+      'localStorageManager',
 		loginServiceFactory]);
 
   	 /** @ngInject */
-	function loginServiceFactory($rootScope, $timeout, authResource, ToastMessage, utils, redirectService, motionIndex) {
+	function loginServiceFactory($rootScope, $timeout, authResource, ToastMessage, utils, redirectService, motionIndex, localStorageManager) {
 		var Login = {
 			creating: false,
 			loggingIn: false,
-			publicComputer: false,
+			rememberMe: true,
 			authError: false,
 			credentials: {
 				email: '',
@@ -48,11 +49,14 @@
 			// made public for resetPassword
 			successHandler: successHandler
 		};
-
+    
+    /**
+     * Clears out the logged in user and logs out
+     */
 		function clearCredentials(redirect) {
 			$rootScope.authenticatedUser = null;
 			$rootScope.userIsLoggedIn = false;
-			localStorage.clear();
+      localStorageManager.logout();
 			motionIndex.clear();
 			if (redirect) { 
         redirectService.onLogout();
@@ -68,7 +72,7 @@
 		}
 
 		function login(credentials) {
-
+      console.log(credentials);
 			Login.loggingIn = true;
 
 			authResource.login(credentials).then(successHandler, function(error) {
@@ -95,6 +99,8 @@
 		}
 
 		function successHandler(res) {
+      localStorageManager.remove('agreement_accepted');
+      
 			var user = res.user || res.data || res;
 
 			$rootScope.userIsLoggedIn    = true;
@@ -102,10 +108,15 @@
 			$rootScope.authenticatedUser.permissions = utils
 				.transformObjectToArray($rootScope.authenticatedUser.permissions);
 
-			localStorage.setItem( 'api_token', user.api_token );
-			localStorage.setItem( 'user', JSON.stringify(user) );
-			localStorage.setItem( 'public_computer', Login.publicComputer );
       motionIndex.clear();
+
+			localStorageManager.login(user, Login.rememberMe );
+
+      // Temporary fix to the user agreement not having a service and directive
+      if(!user.agreement_accepted){
+          window.location.href = "/";
+      }
+
 
 			$timeout(function() { redirectService.redirect() }, 250 );
 		}

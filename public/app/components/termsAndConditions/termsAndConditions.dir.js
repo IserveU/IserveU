@@ -8,68 +8,68 @@
       ['$rootScope',
        'loginService',
        'userResource',
+       '$log',
+       'localStorageManager',
        termsAndConditions]);
 
-    function termsAndConditions($rootScope, loginService, userResource) {
+    function termsAndConditions($rootScope, loginService, userResource, $log, localStorageManager) {
 
 		function controllerMethod($mdDialog, $scope) {
 
       var self = this;  //global context for this
-      var user = {};
+      var user;
 
       if($rootScope.authenticatedUser){
         user = $rootScope.authenticatedUser;
       }
+      
+      self.agreed  = localStorageManager.get('agreement_accepted',false);      
 
-      self.showContract = showContract;
-      self.agreed   = user.agreement_accepted || false;
-      self.hasRead  = false;
+      if (!self.agreed) {
 
-      if ($scope.userIsLoggedIn && !self.agreed) {
         showContract();
       }
 
-      function showContract(ev) {
+      function showContract() {
 
-        if(ev) {
-          ev.preventDefault();
-        } else {
-          ev = {};
-        }
 
-	      if(self.hasRead === false){
-  		    $mdDialog.show({
-  		      controller: ['$scope', '$mdDialog', TermsAndConditionsController],
-  		      templateUrl: 'app/components/termsAndConditions/termsAndConditions.tpl.html',
-  		      parent: angular.element(document.body),
-  		      targetEvent: ev || null,
-  		      clickOutsideToClose: false
-  		    }).then(function(answer){
-  		    	handleAnswer(answer, ev);
-  		    });
-		    } else if ( ev.target.nodeName === 'FORM' ) {
-    		    loginService.createUser();
-		    }
+		    $mdDialog.show({
+		      controller: ['$scope', '$mdDialog', TermsAndConditionsController],
+		      templateUrl: 'app/components/termsAndConditions/termsAndConditions.tpl.html',
+		      parent: angular.element(document.body),
+		      targetEvent: ev || null,
+		      clickOutsideToClose: false
+		    });
     	}
 
-      function handleAnswer(answer, ev) {
+      function handleAnswer(answer) {
+        //Not agreeing does nothing. You must agree
+        if(answer!=='agree'){ return false; }
 
-        if( answer === 'agree' ) {
-          self.agreed = true;
-        }
+        // Post to the backend the record accept
+        if(user){ updateDatabaseRecord(user); }
+        
+        // Fixup the frontend
+        updateSessionRecord();
 
-    	if( answer === 'agree' && ev.target.nodeName === 'FORM') {
-    		loginService.createUser();
-    		self.hasRead = true;
-    	} else {
-    		self.hasRead = false;
-  		}
+        $mdDialog.hide(answer);
     }
 
-
+    function updateDatabaseRecord(user){
+      userResource.updateUser(user.slug, {agreement_accepted: 1}).then(function(result){
+        if(!result.agreement_accepted){
+          
+          $log.error("API not returning expected response", result);
+        }
+      });
+    }
+    
+    function updateSessionRecord(){
+        self.agreed   = true;
+        localStorageManager.set('agreement_accepted',true);
+    }
+        
     function TermsAndConditionsController($scope, $mdDialog){
-
-      var user = $rootScope.authenticatedUser;
 
       if ($scope.userIsLoggedIn && !user.agreement_accepted){
         $scope.notAccepted = true;
@@ -85,17 +85,7 @@
       };
 
       $scope.answer = function(answer) {
-
-        if(!$scope.notAccepted && user)
-          $mdDialog.hide();
-
-        if(answer === 'agree' && user){
-          userResource.updateUser(user.slug, {agreement_accepted: 1}).then(function(results){
-            $rootScope.authenticatedUser.agreement_accepted = true;
-          });
-        }
-
-        $mdDialog.hide(answer);
+    	    handleAnswer(answer);
       };
 
       $scope.userIsLoggedIn = $rootScope.userIsLoggedIn;

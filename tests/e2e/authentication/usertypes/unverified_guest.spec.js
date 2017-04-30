@@ -10,8 +10,8 @@ describe('authenication.guest page interactions for a guest users (no account) |
     let EC = protractor.ExpectedConditions;
 
   	beforeEach(function(){
-  		return page.get();
-
+      page.get();
+      page.clickIAgreeButton();
   	});
 
   	it('Should see correct error message after login attempt', function() {
@@ -60,9 +60,6 @@ describe('authenication.guest page interactions for a guest users (no account) |
 
      		formHelper.submit();
 
-    		browser.driver.sleep(500);
-
-     		page.clickIAgreeButton();
 				//Failed on January the 17 (URL did not match)
      		browser.wait(EC.urlContains('home'), 12000,"Url did not match");
 

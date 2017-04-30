@@ -51,7 +51,7 @@
 
     this.onLogout = function() {
       
-      if(window.location.hash!="#/login"){
+      if(window.location.hash!=="#/login"){
           window.location.href = "/";
           // $state.transitionTo('login');  //was not resetting model states
       }

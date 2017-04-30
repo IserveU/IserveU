@@ -1,5 +1,5 @@
-<form name="registerform" terms-and-conditions ng-submit="registerform.$valid && terms.showContract($event)" layout="column" novalidate>
-
+<form name="registerform" terms-and-conditions ng-submit="alert('here')" layout="column" novalidate>
+ 
   <md-input-container flex>
     <label>First Name</label>
     <input type="name" name="firstname" ng-model="login.service.newUser.first_name" required>
@@ -65,7 +65,7 @@
   </div>
 
   <div layout-padding>
-    <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.service.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>
+    <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.service.rememberMe" aria-label="Switch" ng-true-value="true" ng-false-value="false">Remember Me</md-checkbox>
   </div>
 
 </form>

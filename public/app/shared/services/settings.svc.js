@@ -90,7 +90,8 @@
       */
       saveTypeOf: function(type, data) {
 
-        var data = data || $rootScope.settingsGlobal[type];
+        data = data || $rootScope.settingsGlobal[type];
+        
         if (this.isUnsafe(data)) {
           return false;
         }

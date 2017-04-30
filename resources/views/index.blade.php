@@ -18,8 +18,12 @@
         <script src="{{mix('/js/app.js')}}"></script>
       
         <script>
-              Raven.config('https://248e9879c89e42d8b0346edeadc357d1@sentry.io/160800').install()
+            window.onload = function () { 
+              if({{config('sentry.public_dsn')?'true':'false'}}){
+                Raven.config({{config('sentry.public_dsn')}}).install();
+              }
               angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+            }
         </script>
         
         <script>
@@ -55,13 +59,9 @@
                 <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>
             </div>
         </div>
+        
+        <?php if (Config::get('app.livereload')): ?>
+          <script src="http://localhost:35729/livereload.js"></script>
+        <?php endif; ?>
     </body>
-
-
-    <?php if (Config::get('app.livereload')): ?>
-        <script type="text/javascript">
-            document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>');
-        </script>
-    <?php endif; ?>
-
 </html>
