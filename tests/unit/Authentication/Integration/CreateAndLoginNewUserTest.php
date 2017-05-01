@@ -18,7 +18,7 @@ class CreateAndLoginNewUserTest extends BrowserKitTestCase
             ->seeJsonStructure([
                 'permissions',
                 'remember_token',
-                'agreement_accepted' //THe mutator
+                'agreement_accepted', //THe mutator
             ]);
 
         $this->seeInDatabase('users', ['email' => $user['email'], 'first_name' => $user['first_name']]);

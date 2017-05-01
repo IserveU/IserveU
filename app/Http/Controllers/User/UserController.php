@@ -53,7 +53,7 @@ class UserController extends ApiController
         if (Auth::check()) {
             return $user->skipVisibility(['agreement_accepted']); //Shows all attributes and this accessor
         }
-        
+
         if (!Auth::check()) {
             Auth::setUser($user);
         }
