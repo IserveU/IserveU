@@ -92,8 +92,8 @@ class NewApiModel extends Model
      */
     public function skipVisibility()
     {
-        $this->setVisible(array_merge(array_keys($this->attributes),$this->getMutatedAttributes()));
-      
+        $this->setVisible(array_merge(array_keys($this->attributes), $this->getMutatedAttributes()));
+
         $this->skipVisibility = true;
 
         return $this;

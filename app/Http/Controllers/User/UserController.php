@@ -53,7 +53,7 @@ class UserController extends ApiController
         if (Auth::check()) {
             return $user->skipVisibility();
         }
-        
+
         if (!Auth::check()) {
             Auth::setUser($user);
         }
