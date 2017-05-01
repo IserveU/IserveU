@@ -19,10 +19,10 @@
 			self.count = utils.count;
 
 			function fetchUserCommentVotes() {
-				if(!$rootScope.authenticatedUser) {
+				if($rootScope.authenticatedUser === undefined || $rootScope.authenticatedUser === null || $rootScope.authenticatedUser === "" ) {
 					return false;
 				}
-
+        
 				commentVoteResource.getUserCommentVotes({user_id: $rootScope.authenticatedUser.id}).then(function(results){
 					$scope.commentVoteList = results.data;
 				});

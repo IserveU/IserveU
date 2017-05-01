@@ -21,12 +21,16 @@ class LoginHelper {
     var EC = protractor.ExpectedConditions;
 
     this.loginPage.get();
+
     browser.wait(EC.urlContains('login'), 5000,"Unable to open the login page");
   
     browser.sleep(1000);
     
     var vm = this;
-    element(by.buttonText('I Agree')).isDisplayed().then(function(result) {
+    
+    var button = element(by.css('md-dialog-content button.terms_conditions__button'));
+    
+    button.isPresent().then(function(result) {
         if ( result ) {
             vm.loginPage.clickIAgreeButton();
         } else {

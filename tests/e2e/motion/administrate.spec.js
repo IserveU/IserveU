@@ -15,7 +15,9 @@ describe('motion.administrate making sure that a motion creation and editing wor
 	let createdMotion = null;
 
 	beforeEach(function(){
+
     login.login('admin@iserveu.ca');
+
 	});
 
   it('Motion administration buttons exist and work as expected', function() {

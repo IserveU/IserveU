@@ -8,7 +8,6 @@ describe('authentication.appearance iserveu first landing on login page as new u
 
 	beforeEach(function(){
 		page.get();
-
 	});
 
   	it('Should see correct logo and title', function() {
