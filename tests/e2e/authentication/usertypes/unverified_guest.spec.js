@@ -11,7 +11,6 @@ describe('authenication.guest page interactions for a guest users (no account) |
 
   	beforeEach(function(){
       page.get();
-      page.clickIAgreeButton();
   	});
 
   	it('Should see correct error message after login attempt', function() {

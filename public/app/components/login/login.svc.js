@@ -26,25 +26,14 @@
 				email: '',
    	    password: ''
 		  },
-			newUser: {
-				first_name: '',
-				last_name: '',
-			  email: '',
-			  date_of_birth: '',
-			  community_id: '',
-				password: '',
-				agreement_accepted: true
-      },
 			errors: {
 				emailNotValid: false,
         invalidCredentials: false,
-        invalidEmail: false,
         accountLocked: false,
         default: {}
       },
 			clearCredentials: clearCredentials,
 			clearErrorMessages: clearErrorMessages,
-			createUser: register,
 			login: login,
 			// made public for resetPassword
 			successHandler: successHandler
@@ -72,31 +61,14 @@
 		}
 
 		function login(credentials) {
-      console.log(credentials);
 			Login.loggingIn = true;
 
 			authResource.login(credentials).then(successHandler, function(error) {
-
 				Login.loggingIn = false;
 				errorHandler( error.data );
 			});
 		}
 
-		function register() {
-
-			Login.creating = true;
-
-			if (Login.newUser.date_of_birth.length > 1) {
-				Login.newUser.date_of_birth = utils.date.stringify(Login.newUser.date_of_birth);
-			}
-
-			authResource.register( Login.newUser ).then(successHandler, function(error) {
-				Login.creating  = false;
-				Login.authError = true;
-
-				errorHandler( error.data );
-			});
-		}
 
 		function successHandler(res) {
       localStorageManager.remove('agreement_accepted');
@@ -136,9 +108,6 @@
 					break;
 				case "account is locked":
 					Login.errors.accountLocked = true;
-					break;
-				case "validation.unique":
-					Login.errors.emailNotValid = true;
 					break;
 				default:
 					Login.errors.default = {

@@ -110,6 +110,7 @@ mix.js([
   'public/app/components/password/resetpassword.dir.js',
   'public/app/components/password/resetpassword.svc.js',
   'public/app/components/register/register.dir.js',
+  'public/app/components/register/register.svc.js',
   'public/app/components/sidebar/sidebar.js',
   'public/app/components/sidebar/sidebarSearch.js',
   'public/app/components/termsAndConditions/termsAndConditions.dir.js',

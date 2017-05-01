@@ -15,7 +15,8 @@
     function termsAndConditions($rootScope, loginService, userResource, $log, localStorageManager) {
 
 		function controllerMethod($mdDialog, $scope) {
-
+    
+      
       var self = this;  //global context for this
       var user;
 
@@ -30,7 +31,7 @@
         showContract();
       }
 
-      function showContract() {
+      function showContract(ev) {
 
 
 		    $mdDialog.show({
