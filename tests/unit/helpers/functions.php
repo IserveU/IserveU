@@ -65,7 +65,6 @@
         $comment = factory(App\Comment::class)->make()->skipVisibility()->toArray();
 
         unset($comment['vote_id']);
-        
 
         $response = $self->call('POST', '/api/vote/'.$vote->id.'/comment', $comment);
 
