@@ -51,7 +51,7 @@ class UserController extends ApiController
         $user = User::create($request->except('token'))->fresh();
 
         if (Auth::check()) {
-            return $user->skipVisibility();
+            return $user->skipVisibility(['agreement_accepted']); //Shows all attributes and this accessor
         }
         
         if (!Auth::check()) {

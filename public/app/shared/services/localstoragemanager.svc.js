@@ -12,16 +12,12 @@
 
 
     this.clear = function() {
-
-
-      console.log("clear");
       localStorage.clear();
     };
     
     /* Create a function that clears customized stuff.
     */
     this.logout = function (){
-      console.log('logout');
       var clears = [
         'user',
         'api_key',
@@ -31,19 +27,21 @@
            box coming up unnaturally often */
       ];
       
-      $.each(localStorage, function(key, value){
+      Object.keys(localStorage).forEach(function (key) {
         if(clears.indexOf(key)!==-1){
-          console.log("REMOVING: "+key);
           vm.remove(key);
         }
+
       });
+      
+    
     }
 
     this.login = function(user, rememberMe) {
-      this.set('api_token', user.api_token );
-      this.set('user', user);
-      this.set('remember_me', rememberMe);
-      this.set('agreement_accepted', user.agreement_accepted);
+      vm.set('api_token', user.api_token );
+      vm.set('user', user);
+      vm.set('remember_me', rememberMe);
+      vm.set('agreement_accepted', user.agreement_accepted);
     };
 
     this.set = function(name, value) {
