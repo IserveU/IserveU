@@ -11,7 +11,7 @@ protractor.conf.js
 _ide_helper.php
 npm-debug.log
 .env
-.DS_Store
+*.DS_Store
 codeception.yml
 tests/_output/*
 .DS_Store

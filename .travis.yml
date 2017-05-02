@@ -18,6 +18,7 @@ before_script:
 - mysql -u root -e 'create database forge;'
 - composer install --no-interaction
 - yarn
+- npm rebuild node-sass
 - npm run dev
 - php artisan route:cache
 - php artisan config:cache

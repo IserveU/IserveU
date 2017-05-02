@@ -7,7 +7,7 @@
 
       <md-list>
 
-          <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in motionSidebar.motionIndex._index | isPublished" ui-sref-active="active" ui-sref="motion({id:motion.slug})" ng-click="motionSidebar.closeSidenav('left')">
+          <md-list-item layout="row" class="sidebar-list-item" ng-repeat="motion in motionSidebar.motionIndex._index" ui-sref-active="active" ui-sref="motion({id:motion.slug})" ng-click="motionSidebar.closeSidenav('left')">
             <md-icon class="department" md-svg-src="{{ ::motion.department.icon }}">
               <md-tooltip md-direction="right">{{ ::motion.department.name }}</md-tooltip>
             </md-icon>
