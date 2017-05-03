@@ -5,7 +5,7 @@ class LoginPage{
 	constructor() {
 		this.loginButton 			= element(by.buttonText('Login'));
 		this.createButton 			= element(by.buttonText('Create'));
-		this.agreeButton 			= element(by.buttonText('I Agree'));
+		this.agreeButton 			= element(by.css('md-dialog-content button.terms_conditions__button'));
 
 		this.emailInput 			= element(by.name('email'));
 		this.passwordInput 			= element(by.name('password'));
@@ -38,7 +38,15 @@ class LoginPage{
 	}
 
 	clickIAgreeButton(){
-		DomHelper.clickBetter(this.agreeButton);
+
+    this.agreeButton.isPresent().then(function(result) {
+        if ( result ) {
+          DomHelper.clickBetter(this.agreeButton);
+
+        } else {
+          console.log('no terms button');
+        }
+    });
 	}
 
 	getTitle(){

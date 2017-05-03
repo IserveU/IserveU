@@ -21,7 +21,14 @@ class Settings{
 	}
   
   openCogMenu(){
-    DomHelper.clickBetter(this.cogMenu);
+    var vm = this;
+    this.cogMenu.isPresent().then(function(result) {
+        if ( result ) {
+          DomHelper.clickBetter(vm.cogMenu);
+        } else {
+          console.log('no terms button');
+        }
+    });
   }
   
   

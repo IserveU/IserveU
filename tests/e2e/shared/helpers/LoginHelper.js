@@ -32,7 +32,7 @@ class LoginHelper {
     
     button.isPresent().then(function(result) {
         if ( result ) {
-            vm.loginPage.clickIAgreeButton();
+              DomHelper.clickBetter(button);
         } else {
           console.log('no terms button');
         }
@@ -99,14 +99,21 @@ class LoginHelper {
 		let setting = new Setting();
     
     setting.openCogMenu();
-    
-    setting.cogMenuButtons['logout'].isDisplayed().then(function(displayed){
+  
+    setting.cogMenu.isPresent().then(function(result) {
+        if ( result ) {
+          setting.cogMenuButtons['logout'].isDisplayed().then(function(displayed){
 
-      if(displayed){
-          DomHelper.clickBetter(setting.cogMenuButtons['logout']);
-      }
-      browser.wait(EC.urlContains('#/home'), 5000,"Did not redirect to home page");
+            if(displayed){
+                DomHelper.clickBetter(setting.cogMenuButtons['logout']);
+            }
+            browser.wait(EC.urlContains('#/home'), 5000,"Did not redirect to home page");
+          });
+        } else {
+          console.log('no terms button');
+        }
     });
+
 
 	}
 

@@ -59,7 +59,7 @@ class FormHelper {
 	static toggleOn(field){
 
 		field.getAttribute('aria-checked').then(function(attribute){
-			if(attribute == "false"){
+			if(attribute === "false"){
 				field.click();
 			}
 
@@ -70,7 +70,7 @@ class FormHelper {
 
 	static toggleOff(field){
 		field.getAttribute('aria-checked').then(function(attribute){
-			if(attribute == "true"){
+			if(attribute === "true"){
 				field.click();
 			}
 

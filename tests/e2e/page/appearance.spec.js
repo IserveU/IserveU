@@ -17,7 +17,17 @@ describe('page.appearance making sure that pages look correct ||', function() {
   let EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
-    return page.get();
+    page.get();
+    var button = element(by.css('md-dialog-content button.terms_conditions__button'));
+    browser.sleep(1000); //Literally no point in trying to make protractor better
+    button.isPresent().then(function(result) {
+        if ( result ) {
+            button.click();
+        } else {
+          console.log('no terms button');
+        }
+    });
+    
 	});
   
     
