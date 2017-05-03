@@ -55,6 +55,17 @@ class LoginPage{
 
 	get(){
 		browser.get('#/login');
+    browser.sleep(1000);
+
+    var button = element(by.css('md-dialog-content button.terms_conditions__button'));
+
+    button.isPresent().then(function(result) {
+        if ( result ) {
+            button.click();
+        } else {
+          console.log('no terms button');
+        }
+    });
 	}
 
 	loginWithEmailPassword(email,password){

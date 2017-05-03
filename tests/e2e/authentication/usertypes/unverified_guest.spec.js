@@ -55,7 +55,7 @@ describe('authenication.guest page interactions for a guest users (no account) |
           ])
         );
 
-   		  formHelper.selectBox('login.service.newUser.community_id',"Yellowknife");
+   		  formHelper.selectBox('register.values.community_id',"Yellowknife");
 
      		formHelper.submit();
 

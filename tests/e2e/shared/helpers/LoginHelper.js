@@ -82,7 +82,7 @@ class LoginHelper {
       details
     );
 
-    formHelper.selectBox('login.service.newUser.community_id',"Yellowknife");
+    formHelper.selectBox('register.values.community_id',"Yellowknife");
     formHelper.submit();
     
     browser.driver.sleep(1000); //Have to wait for this to be placed on the DOM
