@@ -17,7 +17,7 @@ describe('page.appearance making sure that pages look correct ||', function() {
   let EC = protractor.ExpectedConditions;
 
 	beforeEach(function(){
-    page.get();
+    page.get('/');
     var button = element(by.css('md-dialog-content button.terms_conditions__button'));
     browser.sleep(1000); //Literally no point in trying to make protractor better
     button.isPresent().then(function(result) {
@@ -74,7 +74,7 @@ describe('page.appearance making sure that pages look correct ||', function() {
       comment.voteAndWriteAComment(sentence);
       
       let page = new HomePage();
-      page.get();
+      page.get('/');
 
       DomHelper.canInteractCheck(page.yourVotes);
       browser.wait(EC.textToBePresentInElement(page.yourVotes,"A Commented On Motion"), 5000, "Can not find 'A Commented On Motion' in the Your Votes section");
