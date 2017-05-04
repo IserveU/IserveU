@@ -8,39 +8,19 @@
       '$http',
       '$q',
       'utils',
-      commentVoteResource]);
+      commentVoteResource
+    ]);
 
   function commentVoteResource($resource, $http, $q, utils) {
     var _userCommentVoteIndex = {};
     var CommentVote = $resource('api/comment_vote/:id', {}, {
-      'update': {method: 'PUT'}
-    });
-    var SaveCommentVote = $resource('api/comment/:id/comment_vote',
-      {ignoreLoadingBar: '@true'});
-
-    /**
-     * Comment votes query.
-     * @param  {object} data
-     * @return {promise} promise or cache user index
-     */
-    function getUserCommentVotes(data) {
-      if (!utils.objectIsEmpty(_userCommentVoteIndex)) {
-        return $q.when({data: _userCommentVoteIndex});
+      'update': {
+        method: 'PUT'
       }
-
-      return $http({
-        method: 'GET',
-        url: 'api/user/' + data.user_id + '/comment_vote',
-        params: {
-          ignoreLoadingBar: true
-        }
-      }).success(function(results) {
-        _userCommentVoteIndex = results.data || results;
-        return results;
-      }).error(function(error) {
-        return error.data || error;
-      });
-    }
+    });
+    var SaveCommentVote = $resource('api/comment/:id/comment_vote', {
+      ignoreLoadingBar: '@true'
+    });
 
     /**
      * Save comment
@@ -48,9 +28,11 @@
      * @return {promise}      promise
      */
     function saveCommentVote(data) {
-      return SaveCommentVote.save(
-        {id: data.comment_id},
-        {position: data.position})
+      return SaveCommentVote.save({
+          id: data.comment_id
+        }, {
+          position: data.position
+        })
         .$promise.then(successHandler).catch(errorHandler);
     }
 
@@ -60,9 +42,11 @@
      * @return {promise}      promise
      */
     function updateCommentVote(data) {
-      return CommentVote.update(
-        {id: data.id},
-        {position: data.position})
+      return CommentVote.update({
+          id: data.id
+        }, {
+          position: data.position
+        })
         .$promise.then(successHandler).catch(errorHandler);
     }
 
@@ -72,7 +56,9 @@
      * @return {promise}      promise
      */
     function deleteCommentVote(data) {
-      return CommentVote.delete({id: data.id})
+      return CommentVote.delete({
+          id: data.id
+        })
         .$promise.then(function(results) {
           successHandler(results, data.id);
         }).catch(errorHandler);
@@ -113,7 +99,6 @@
 
     return {
       _userCommentVoteIndex: _userCommentVoteIndex,
-      getUserCommentVotes: getUserCommentVotes,
       saveCommentVote: saveCommentVote,
       updateCommentVote: updateCommentVote,
       deleteCommentVote: deleteCommentVote

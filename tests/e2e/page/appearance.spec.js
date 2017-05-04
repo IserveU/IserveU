@@ -48,7 +48,7 @@ describe('page.appearance making sure that pages look correct ||', function() {
   it('Not logged In see correct parts of home page', function() {
       login.logout();
 
-      page.get();
+      page.get('/');
       
       //See things that you need to see to vote
       DomHelper.canInteractCheck(page.topComments);
