@@ -9,7 +9,8 @@
 			'Palette',
 			'pageService',
 			'$timeout',
-			contentManager]);
+			contentManager
+		]);
 
 	function contentManager($rootScope, settings, Palette, pageService, $timeout) {
 
@@ -17,7 +18,6 @@
 
 			this.palette = new Palette($rootScope.theme.colors);
 			this.service = settings;
-
 			this.materialPalette = false;
 			this.customPalette = false;
 
@@ -31,7 +31,7 @@
 			this.showTerms = false;
 			this.showFavicon = false;
 			this.showLoginImage = false;
-      this.showBackground = false;
+			this.showBackground = false;
 			this.showTheme = false;
 
 			this.backgroundFiles = [];
@@ -48,8 +48,8 @@
 
 				$timeout(function() {
 					self.toggleBackground();
-		      document.body.style.backgroundImage = (('url(' +
-		      $rootScope.settingsGlobal.theme.background + ')') || '#FBFBFB');
+					document.body.style.backgroundImage = (('url(' +
+						$rootScope.settingsGlobal.theme.background + ')') || '#FBFBFB');
 				}, 500);
 			};
 
@@ -70,7 +70,12 @@
 					primary: primary,
 					accent: accent
 				};
-				this.service.saveTypeOf('theme.colors', palette);
+				var customTheme = {
+					'customTheme': 0
+				};
+				this.service.saveTypeOf('theme.predefined', palette);
+				this.service.saveArray('theme', customTheme);
+
 			};
 
 			this.saveSocialMedia = function() {
@@ -112,9 +117,9 @@
 				this.showLoginImage = !this.showLoginImage;
 			};
 
-	    this.toggleBackground = function() {
-	        this.showBackground = !this.showBackground;
-	    };
+			this.toggleBackground = function() {
+				this.showBackground = !this.showBackground;
+			};
 
 			this.toggleTheme = function() {
 				this.showTheme = !this.showTheme;
@@ -123,7 +128,7 @@
 		}
 
 		return {
-      restrict: 'EA',
+			restrict: 'EA',
 			controller: contentController,
 			controllerAs: 'contentManager',
 			templateUrl: 'app/components/admin.dash/content/content-manager.tpl.html'

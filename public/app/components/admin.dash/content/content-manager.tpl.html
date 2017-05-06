@@ -202,7 +202,9 @@
               </div>
               <spinner ng-click="contentManager.saveMaterialPalette(primary, accent)" name="'Save'" on-hide="contentManager.service.data.saving" on-loaded="contentManager.togglePalette('material');"></spinner>
             </div>
-
+            <!-- End of preset theme section -->
+            
+            <!-- Customized preview theme -->
             <div class="content-manager_theme--custom-palette" ng-if="contentManager.palettes.custom">
               <div class="palette-warning">
                 <label>Warning Color</label>
@@ -222,8 +224,6 @@
                         <md-option value="dark">Dark</md-option>
                       </md-select>
                   </md-input-container>
-                  <spinner ng-click="contentManager.service.saveTypeOf('palette', contentManager.palette)" name="'Save'" on-hide="contentManager.service.data.saving"></spinner>
-
                 </div>
 
                 <div flex="30"></div>
