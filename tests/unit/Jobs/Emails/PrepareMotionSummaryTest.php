@@ -59,6 +59,46 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         dispatch(new PrepareMotionSummary());
     }
 
+    /**
+     * Because when Mail::fake is turned on it won't render it, this should at least turn up 500 errors.
+     *
+     * @test
+     */
+    public function motion_summary_sends_password_reset_for_users_who_havent_set_a_password()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+
+        DB::table('users')->where('id', $user->id)->update(['password'=>null]);
+        $user = $user->fresh();
+
+        factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+
+        factory(App\Motion::class, 'closed')->create([
+            'closing_at'    => Carbon::now()->subHours(12),
+            'user_id'       => $user->id, //Create and see a summary of their own motion to speed up the test
+
+        ]);
+
+        $motion = factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+        //Model does not allow editing of this field
+        DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+
+            //TODO: Check that password resets are contained in the email
+
+            return true;
+        });
+    }
+
     /** @test */
     public function motion_summary_email_contains_new_motions_based_on_published_at_field()
     {
@@ -78,7 +118,6 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
             if (!$mail->sections['Latest Launched']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
-
             // TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
 
             // TODO: Check motion URL. Currently mailable mocks do not really support this because you can't get a rendered view (it doesn't actually send)

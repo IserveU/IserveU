@@ -19,7 +19,6 @@ class StoreUserRequest extends Request
         'status'                        => 'string|valid_status',
         'login_attempts'                => 'integer',
         'identity_verified'             => 'boolean',
-        'remember_token'                => 'unique:users,remember_token',
         'postal_code'                   => 'string|max:10',
         'phone'                         => 'numeric|digits_between:8,15|unique:users,phone',
         'street_name'                   => 'string',

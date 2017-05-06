@@ -13,11 +13,13 @@
 			'ToastMessage',
 			'utils',
 			'motionIndex',
+      'redirectService',
 		resetPasswordService]);
 
 	function resetPasswordService($rootScope, $state, $stateParams,
 																authResource, loginService,
-																ToastMessage, utils, motionIndex) {
+																ToastMessage, utils, motionIndex, 
+                                redirectService) {
 
 		var checkToken = function(){
 			if ($state.current.name === 'reset-password.token') {
@@ -33,12 +35,13 @@
 
 		function postToken(token){
 			authResource.rememberToken(token).then(function(results) {
-					$rootScope.authenticatedUser = results;
 					$rootScope.redirectUrlName = 'reset-password';
 					successHandler(results.data);
 				}, function(error) {
 					if (error.status === 404) {
-						loginService.clearCredentials(true);
+            $rootScope.redirectUrlName = 'reset-password';
+            redirectService.redirect('home');
+						//loginService.clearCredentials(true);
 						ToastMessage.simple("Sorry! Your lost password token has expired.");
 					}
 			});

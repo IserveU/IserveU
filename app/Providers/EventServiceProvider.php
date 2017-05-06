@@ -18,7 +18,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\User\Created\PrepareUserCreatedEmail',  //Tested
         ],
         'App\Events\User\UserCreating' => [
-            'App\Listeners\User\Creating\SetRememberToken', //Tested
             'App\Listeners\User\Creating\SetApiToken', //Tested
             'App\Listeners\User\Creating\SetDefaultPreferences', //Tested
         ],
@@ -36,6 +35,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\User\UserUpdating'    => [
             'App\Listeners\User\Updating\AddUserModificationEntry', //Tested
             'App\Listeners\User\Updating\IdentityReverification',  //Tested
+        ],
+        'App\Events\Authentication\UserLoginSucceeded'    => [
+            'App\Listeners\Authentication\ClearAnyLocks',
+            'App\Listeners\Authentication\DeleteAnyTokens',
         ],
         'App\Events\Motion\MotionSaving' => [
             'App\Listeners\Motion\Saving\SetPublishedAtField', //Tested

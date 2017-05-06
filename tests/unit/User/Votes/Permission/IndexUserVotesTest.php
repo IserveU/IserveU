@@ -28,7 +28,7 @@ class IndexUserVotesTest extends UserVotesTests
       'agreement_accepted_date',
       'api_token',
       'deleted_at',
-      'remember_token',
+      'tokens',
       'created_at',
       'updated_at',
       'government_identification_id',
