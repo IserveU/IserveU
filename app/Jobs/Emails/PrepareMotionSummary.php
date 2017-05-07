@@ -4,6 +4,7 @@ namespace App\Jobs\Emails;
 
 use App\Mail\MotionSummary;
 use App\Motion;
+use App\OneTimeToken;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -39,7 +40,7 @@ class PrepareMotionSummary implements ShouldQueue
         //Get users who want a daily summary on this day and hour
         $users = User::preference('motion.notify.user.summary.on', 1)->preference("motion.notify.user.summary.times.$day", $hour)->get();
 
-        $motions;
+        $motions = [];
 
         // Get latest or new motion
         $latestLaunchedMotions = Motion::status('published')->publishedAfter(Carbon::now()->subHours(24))->get();
@@ -61,6 +62,14 @@ class PrepareMotionSummary implements ShouldQueue
             return true;
         }
 
-        Mail::to($users)->send(new MotionSummary($motions));
+        foreach ($users as $user) {
+            $token = null;
+
+            if (!$user->password) {
+                $token = OneTimeToken::generateFor($user);
+            }
+
+            Mail::to($user)->send(new MotionSummary($motions, $token));
+        }
     }
 }

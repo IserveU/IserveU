@@ -78,6 +78,11 @@ class SetDefaultSettings
             ]);
 
         Setting::ifNotSetThenSet('theme', [
+                'customTheme' => 1,
+                'predefined'  => [
+                    'primary' => 'purple',
+                    'accent'  => 'green',
+                ],
                 'colors' => [
                     'primary'           => ['50'   => '61d3d8', '100'  => '61d3d8', '200'  => '61d3d8', '300'  => '61d3d8', '400'  => '00acb1',
                         '500'                      => '00acb1', '600'  => '00acb1', '700'  => '006e73', '800'  => '006e73', '900'  => '006e73', 'A100' => 'ff0000',

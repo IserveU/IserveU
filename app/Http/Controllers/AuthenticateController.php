@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Authentication\UserLoginSucceeded;
 use App\Notifications\Authentication\AccountLocked;
 use App\Notifications\Authentication\PasswordReset;
+use App\OneTimeToken;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -41,34 +43,28 @@ class AuthenticateController extends ApiController
             return  response(['error' => 'Invalid credentials', 'message' => 'Either your username or password are incorrect'], 403);
         }
 
-        //TODO: Setup the password resets table, or just use API token $user->login_token
-        $user->login_attempts = 0;
-        $user->locked_until = null;
-
-        $user->save();
+        event(new UserLoginSucceeded($user));
 
         Auth::setUser($user);
 
         return $user;
     }
 
-    public function noPassword($remember_token)
+    public function noPassword($token)
     {
-        if (empty($remember_token)) {
-            return  response(['error' => 'No password reset code provided', 'message' => 'Account is locked until '.$user->locked_until], 403);
+        if (empty($token)) {
+            return  response(['error' => 'No password reset code provided', 'message' => 'Token required'], 403);
         }
 
-        $user = User::where('remember_token', $remember_token)->first();
+        $token = OneTimeToken::where('token', $token)->first();
 
-        if (!$user) {
+        if (!$token) {
             return  response(['error' => 'Reset Token Invalid', 'message' => 'Reset token invalid or not found'], 404);
         }
 
-        //TODO: Setup some "User login" function tied to a job on the User model (code duplication above)
-        $user->login_attempts = 0;
-        $user->locked_until = null;
+        $user = $token->user;
 
-        $user = $user->fresh();
+        event(new UserLoginSucceeded($user));
 
         Auth::setUser($user);
 

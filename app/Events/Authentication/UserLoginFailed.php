@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Events\User;
+namespace App\Events\Authentication;
 
 use App\Events\Event;
 use App\User;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoginSucceeded extends Event
+class UserLoginFailed extends Event
 {
     use SerializesModels;
 

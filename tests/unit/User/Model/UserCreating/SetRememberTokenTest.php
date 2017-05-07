@@ -12,13 +12,12 @@ class SetRememberTokenTest extends BrowserKitTestCase
     }
 
     /** @test **/
-    public function user_created_has_remembertoken_set()
+    public function standard_user_created_has_not_got_one_time_token_set()
     {
         $user = factory(App\User::class)->create();
 
-        $token = DB::table('users')->where('id', $user->id)->value('remember_token');
-
-        $this->assertNotEquals(null, $token);
-        $this->assertEquals(99, strlen($token));
+        $this->dontSeeInDatabase('one_time_tokens', [
+          'user_id' => $user->id,
+        ]);
     }
 }
