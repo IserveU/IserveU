@@ -84,7 +84,7 @@ angular
 
 		retrieveById: function(id) {
 			for(var i in this._index) {
-				if( id === this._index[i].id )
+				if( id === this._index[i].slug )
 					return this._index[i];
 			}
 
