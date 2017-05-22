@@ -1,0 +1,38 @@
+machine:
+  environment:
+    APP_ENV: "testing"
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+  php:
+    version: "7.1.3"
+  node:
+    version: "6.1.0"
+  services:
+    - redis
+  hosts:
+    testing: 127.0.0.1
+  timezone: America/Yellowknife
+
+general:
+  artifacts:
+    - "tests/Browser/screenshots"
+    - "tests/Browser/console"
+    - "storage/logs"
+
+dependencies:
+  cache_directories:
+    - "vendor"
+    - "node_modules"
+    - "~/.composer/cache"
+    - "~/.cache/yarn"
+
+  override:
+    - cp tests/scripts/.env.circleci .env
+    - composer install --prefer-dist --no-interaction
+    - yarn
+    - npm run dev
+  post:
+    - php artisan setup:initialize admin@iserveu.ca abcd1234 yes yes
+
+test:
+  override:
+    - vendor/bin/phpunit

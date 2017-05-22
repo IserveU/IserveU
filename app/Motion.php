@@ -216,13 +216,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getClosingAtAttribute($attr)
     {
-        $carbon = Carbon::parse($attr);
-
-        return [
-            'diff'          => ($attr) ? $carbon->diffForHumans() : null,
-            'alpha_date'    => ($attr) ? $carbon->format('j F Y') : null,
-            'carbon'        => ($attr) ? $carbon : null,
-        ];
+        return formatIntoReadableDate($attr);
     }
 
     /**
@@ -234,17 +228,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      */
     public function getPublishedAtAttribute($attr)
     {
-        if (!$attr) {
-            return;
-        }
-
-        $carbon = Carbon::parse($attr);
-
-        return [
-            'diff'          => ($attr) ? $carbon->diffForHumans() : null,
-            'alpha_date'    => ($attr) ? $carbon->format('j F Y') : null,
-            'carbon'        => ($attr) ? $carbon : null,
-        ];
+        return formatIntoReadableDate($attr);
     }
 
     public function setClosingAtAttribute($value)
@@ -337,6 +321,21 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
 
       // then return the count directly
       return ($related) ? (int) $related->rank : 0;
+    }
+
+    /**
+     * @return text string for the passing
+     */
+    public function getPassingStatusAttribute()
+    {
+        if ($this->rank > 0) {
+            return 'agree';
+        }
+        if ($this->rank < 0) {
+            return 'disagree';
+        }
+
+        return 'tie';
     }
 
     /**

@@ -48,13 +48,11 @@ class UserController extends ApiController
     public function store(StoreUserRequest $request)
     {
         //Create a new user and fill secure fields
-        $user = User::create($request->except('token'));
+        $user = User::create($request->except('token'))->fresh();
 
         if (Auth::check()) {
-            return $user->skipVisibility();
+            return $user->skipVisibility(['agreement_accepted']); //Shows all attributes and this accessor
         }
-
-        $user = $user->fresh();
 
         if (!Auth::check()) {
             Auth::setUser($user);

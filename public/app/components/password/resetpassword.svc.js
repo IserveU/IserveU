@@ -13,12 +13,13 @@
 			'ToastMessage',
 			'utils',
 			'motionIndex',
+      'localStorageManager',
       'redirectService',
 		resetPasswordService]);
 
 	function resetPasswordService($rootScope, $state, $stateParams,
 																authResource, loginService,
-																ToastMessage, utils, motionIndex, 
+																ToastMessage, utils, motionIndex, localStorageManager,
                                 redirectService) {
 
 		var checkToken = function(){
@@ -26,7 +27,7 @@
 
 				if ($rootScope.userIsLoggedIn === true) {
 					authResource.logout();
-					localStorage.clear();
+					localStorageManager.clear();
 					$rootScope.userIsLoggedIn = false;
 				}
 				postToken($stateParams.token);

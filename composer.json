@@ -37,7 +37,8 @@
     "symfony/dom-crawler": "~3.0",
     "symfony/css-selector": "~3.0",
 		"codeclimate/php-test-reporter": "^0.3.2",
-		"tightenco/mailthief": "master-dev"
+		"tightenco/mailthief": "master-dev",
+		"laravel/dusk": "^1.1"
 	},
 	"autoload": {
 		"classmap": [
@@ -53,13 +54,15 @@
 	},
 	"autoload-dev": {
 		"classmap": [
-        "tests/unit/TestCase.php",
         "tests/unit/BrowserKitTestCase.php"
 		],
 		"files": [
 			"tests/unit/helpers/functions.php",
 			"tests/unit/CacheTest.php"
-		]
+		],
+    "psr-4": {
+        "Tests\\": "tests/"
+    }
 	},
 	"scripts": {
 		"post-install-cmd": [

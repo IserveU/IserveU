@@ -18,9 +18,9 @@
     'alloyeditor',
     'hc.marked'
   ]).run(['$rootScope', '$window', '$location', '$timeout', '$globalProvider', '$stateParams',
-    '$state', '$mdDialog', 'motionResource',
+    '$state', '$mdDialog', 'motionResource','localStorageManager',
     function($rootScope, $window, $location, $timeout, $globalProvider, $stateParams,
-      $state, $mdDialog, motionResource) {
+      $state, $mdDialog, motionResource, localStorageManager) {
 
       $rootScope.preventStateChange = false;
 
@@ -85,10 +85,13 @@
 
       $globalProvider.init();
 
+      /* Runs on page refreshes too */
       $window.onbeforeunload = function(e) {
-        var publicComputer = localStorage.getItem('public_computer');
-        if (JSON.parse(publicComputer) === true)
-          return localStorage.clear();
+        
+        if (!localStorageManager.get('remember_me')){
+          return localStorageManager.logout();
+        }
+          
       };
     }]);
 

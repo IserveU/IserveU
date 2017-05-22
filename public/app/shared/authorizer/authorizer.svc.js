@@ -14,10 +14,10 @@
     this.canAccess = function(requirePermissions) {
 
       var user = $rootScope.authenticatedUser;
-
+      
       if (!user || angular.isUndefined(requirePermissions))
         return false;
-
+        
       if (!angular.isArray(requirePermissions)) {
         requirePermissions = [requirePermissions];
       }

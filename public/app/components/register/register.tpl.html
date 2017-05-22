@@ -1,18 +1,18 @@
-<form name="registerform" terms-and-conditions ng-submit="registerform.$valid && terms.showContract($event)" layout="column" novalidate>
-
+<form name="registerform" layout="column" novalidate>
+ 
   <md-input-container flex>
     <label>First Name</label>
-    <input type="name" name="firstname" ng-model="login.service.newUser.first_name" required>
+    <input type="name" name="firstname" ng-model="register.values.first_name" required>
   </md-input-container>
 
   <md-input-container flex>
     <label>Last Name</label>
-    <input type="name" name="lastname" ng-model="login.service.newUser.last_name" required>
+    <input type="name" name="lastname" ng-model="register.values.last_name" required>
   </md-input-container>
 
   <md-input-container flex>
     <label>Which community do you reside in?</label>
-    <md-select class="select_input__communities" ng-model="login.service.newUser.community_id" required>
+    <md-select class="select_input__communities" ng-model="register.values.community_id" required>
         <md-option ng-repeat="c in register.communityIndex" ng-value="c.id" required>{{c.name}}</md-option>
     </md-select>
     <div ng-messages="registerform.community.$error">
@@ -21,28 +21,28 @@
   </md-input-container>
 
   <md-input-container flex ng-if="settingsGlobal.security.ask_for_birthday_on_create">
-    <label>Which community do you reside in?</label>
-    <md-datepicker ng-model="login.service.newUser.date_of_birth" name="birthday" required></md-datepicker>
+    <label>What is your date of birth?</label>
+    <md-datepicker ng-model="register.values.date_of_birth" name="birthday" required></md-datepicker>
     <div ng-messages="registerform.birthday.$error">
       <div ng-message="required">Your birthdate is required.</div>
     </div>
   </md-input-container>
 
   <md-input-container flex>
-    <label>Email</label>
-    <input type="email" name="newemail" ng-model="login.service.newUser.email" ng-init="login.service.newUser.email = login.service.credentials.email" required>
-    <div ng-messages="login.service.errors.emailNotValid">
-      <div ng-if="login.service.errors.emailNotValid" class="md-caption">This email is already being used on the site.</div>
+    <label>Email</label> <!-- ng-init="register.values.email = login.service.credentials.email" -->
+    <input type="email" name="newemail" ng-model="register.values.email"  required>
+    <div ng-messages="register.service.errors.email">
+      <div ng-if="register.service.errors.email === 'validation.unique'" class="md-caption">This email is already being used on the site.</div>
     </div>
     <div ng-messages="registerform.newemail.$error" ng-if="registerform.newemail.$dirty">
       <div ng-message="email">Example: yourname@example.ca</div>
-      <div ng-message="required">An email is required to register.</div>
+      <div ng-message="required">An email is required to register.values.</div>
     </div>
   </md-input-container>
 
   <md-input-container flex>
     <label>Confirm Email</label>
-    <input type="email" name="confirmemail" ng-model="login.confirm_email" compare-to="login.service.newUser.email" required>
+    <input type="email" name="confirmemail" ng-model="register.confirm_email" compare-to="register.values.email" required>
     <div ng-messages="registerform.confirmemail.$error">
       <div ng-message="required" ng-if="registerform.newemail.$touched">Please confirm your email.</div>
       <div ng-message="compareTo">Your email does not match.</div>
@@ -51,21 +51,19 @@
 
   <md-input-container flex>
     <label>Password</label>
-    <input ng-minlength="8" type="password" name="newpassword" ng-model="login.service.newUser.password" required>
+    <input ng-minlength="8" type="password" name="newpassword" ng-model="register.values.password" required>
     <div ng-messages="registerform.newpassword.$error">
       <div ng-message="minlength">Password must be more than 8 characters long.</div>
     </div>
   </md-input-container>
 
   <div layout="row" layout-align="center center" layout-padding>
+ 
+    <spinner form-name="registerform" name="'Create'" ng-click="register.service.createUser()" on-hide="register.service.processing"></spinner> 
 
-    <spinner form-name="registerform" name="'Create'" on-hide="login.service.creating"></spinner>
     <md-button ng-click="login.extendRegisterForm();">Cancel</md-button>
 
   </div>
 
-  <div layout-padding>
-    <md-checkbox style="margin:0px" class="md-secondary" ng-model="login.service.publicComputer" aria-label="Switch" ng-true-value="true" ng-false-value="false">Public Computer</md-checkbox>
-  </div>
 
 </form>

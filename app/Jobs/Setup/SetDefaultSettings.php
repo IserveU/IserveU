@@ -35,7 +35,10 @@ class SetDefaultSettings
 
         Setting::ifNotSetThenSet('site', [
             'name'          => 'IserveU - eDemocracy',
-            'terms'         => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
+            'terms'         => [
+                'force'       => 1,
+                'text'        => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
+            ],
             'slogan'        => 'Conceived &amp; Forged In Yellowknife, Canada',
             'address'       => 'http://iserveu.ca',
             'twitter'       => 'http://twitter.com/iserveu_org',

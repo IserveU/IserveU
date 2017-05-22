@@ -16,7 +16,7 @@ abstract class FileApi extends BrowserKitTestCase
     public function setUp()
     {
         parent::setUp();
-
+        ini_set('memory_limit', '-1');
         $this->parent = factory(App\Motion::class)->create();
 
         $this->route = '/api/motion/'.$this->parent->slug.'/file/';

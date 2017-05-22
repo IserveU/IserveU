@@ -29,7 +29,7 @@
       }).error(function(error) {
         return error;
       });
-    };
+    }
 
     var rememberToken = function(rememberToken) {
       return $http.get('authenticate/' + rememberToken).success(function(user) {

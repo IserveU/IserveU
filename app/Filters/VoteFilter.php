@@ -15,6 +15,10 @@ class VoteFilter extends QueryFilter
     /* A status or an array of statuses */
     public function user($user = null)
     {
+        if (!$user && !Auth::check()) {
+            return $this->query;
+        }
+
         if (!$user) {
             $user = Auth::user()->id;
         }

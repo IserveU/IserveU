@@ -17,6 +17,7 @@ class CreateAndLoginNewUserTest extends BrowserKitTestCase
             ->assertResponseStatus(200)
             ->seeJsonStructure([
                 'permissions',
+                'agreement_accepted', //THe mutator
                 'api_token',
             ]);
 

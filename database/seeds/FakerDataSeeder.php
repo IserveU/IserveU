@@ -32,6 +32,29 @@ class FakerDataSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
+        // Default users
+        $user = factory(App\User::class, 'unverified')->create([
+            'first_name'  => 'MrsUnverified',
+            'email'       => 'user@iserveu.ca',
+            'password'    => 'abcd1234',
+        ]);
+
+        $citizen = factory(App\User::class, 'verified')->create([
+            'first_name'  => 'MrsVerified',
+            'email'       => 'citizen@iserveu.ca',
+            'password'    => 'abcd1234',
+        ]);
+
+        $citizen->addRole('citizen');
+
+        $representative = factory(App\User::class, 'verified')->create([
+            'first_name'  => 'MrsRepresentative',
+            'email'       => 'representative@iserveu.ca',
+            'password'    => 'abcd1234',
+        ]);
+
+        $representative->addRole('representative');
+
         $publishedMotions = factory(App\Motion::class, 'published', 20)->create();
 
         foreach ($publishedMotions as $publishedMotion) {
@@ -67,28 +90,6 @@ class FakerDataSeeder extends Seeder
         ]);
 
         $this->for($closedMotion)->giveRegularVotes()->giveCommentsWithCommentVotes();
-
-        $user = factory(App\User::class, 'unverified')->create([
-            'first_name'  => 'MrsUnverified',
-            'email'       => 'user@iserveu.ca',
-            'password'    => 'abcd1234',
-        ]);
-
-        $citizen = factory(App\User::class, 'verified')->create([
-            'first_name'  => 'MrsVerified',
-            'email'       => 'citizen@iserveu.ca',
-            'password'    => 'abcd1234',
-        ]);
-
-        $citizen->addRole('citizen');
-
-        $representative = factory(App\User::class, 'verified')->create([
-            'first_name'  => 'MrsRepresentative',
-            'email'       => 'representative@iserveu.ca',
-            'password'    => 'abcd1234',
-        ]);
-
-        $representative->addRole('representative');
 
         //Create a published motion
         $topMotion = factory(App\Motion::class, 'published')->create([

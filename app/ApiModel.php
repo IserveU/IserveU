@@ -23,7 +23,7 @@ class ApiModel extends Model
 
         return [
             'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
+            'alpha_date'    => $carbon->format('F j, Y'),
             'carbon'        => $carbon,
         ];
     }
@@ -34,7 +34,7 @@ class ApiModel extends Model
 
         return [
             'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
+            'alpha_date'    => $carbon->format('F j, Y'),
             'carbon'        => $carbon,
         ];
     }

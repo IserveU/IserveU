@@ -74,7 +74,7 @@
               try {
                 var user = JSON.parse(localStorage.getItem('user'));
               } catch (e) {
-                 // alert('invalid json');
+                 console.log('invalid json in local storage');
               }
 
               if (user && !angular.isUndefined(user)) {
