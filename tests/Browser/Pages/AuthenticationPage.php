@@ -25,7 +25,7 @@ class AuthenticationPage extends Page
      */
     public function assert(Browser $browser)
     {
-        //
+        $browser->resize(1280, 800);
     }
 
     /**

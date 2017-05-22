@@ -7,7 +7,7 @@
       <p class="md-body-2" translate="{{'NAME'}}" flex="25"></p>
       <p class="md-body-2" translate="{{'IDENTITY'}}" flex="25"></p>
       <p class="md-body-2" translate="{{'ROLES'}}" flex="25"></p>
-      <p class="md-body-2" flex="25">Pending verification</p>
+      <p class="md-body-2" translate="{{'ADDRESS'}}" flex="25"></p>
     </div>
 
     <md-list style="padding:0;">
@@ -15,7 +15,7 @@
         <p class="md-body-1" flex="25">{{::name.first_name}} {{::name.middle_name}} {{::name.last_name}}</p>
         <p class="md-body-1" flex="25">{{::name.identity_verified ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
         <p class="md-body-1" flex="25">{{ name.roles }}</p>
-        <p class="md-body-1" flex="25">False<!-- spacer --></p>
+        <p class="md-body-1" flex="25">{{::name.address_verified_until ? ('VERIFIED' | translate) : ('UNVERIFIED' | translate)}}</p>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
     </md-list>

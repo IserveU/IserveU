@@ -55,6 +55,7 @@ abstract class TestCase extends BaseTestCase
 
       // notice, strict:
       \PHPUnit_Framework_Error_Notice::$enabled = false;
+
       //Any global things
     }
 
