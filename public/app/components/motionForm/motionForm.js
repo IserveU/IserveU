@@ -133,7 +133,7 @@
 			link: motionFormLink,
 			controller: ['$scope', motionFormController],
 			controllerAs: 'form',
-			templateUrl: 'app/components/motionForm/motionForm.tpl.html'
+			template: 'app/components/motionForm/motionForm.tpl.html'
 		}
 
 
