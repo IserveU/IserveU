@@ -7,6 +7,7 @@ user-comment, motion-votes, comment-list{
  
 motion{
   @include frame;
+  flex-wrap: wrap;
 }
 
 @import 'motion_usercomment';

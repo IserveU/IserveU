@@ -3,6 +3,13 @@
 	bottom: 20px;
 	right: 20px;
   z-index: 1000;
+
+  @media screen and (max-width: $xs) {
+    position: relative;
+    margin-left: auto;
+    margin-top: 20px;
+  }
+ 
 }
 
 @mixin md-card{

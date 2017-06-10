@@ -1,11 +1,5 @@
 <div class="user-profile" ng-cloak flex>
 
-  <floating-button has-permission="administrate-user"
-    init-buttons="['create', 'edit', 'delete']"
-    on-create="display.create()"
-    on-edit="display.edit()"
-    on-delete="display.destroy()">
-  </floating-button>
 
   <md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;">
     <profile-toolbar></profile-toolbar>
@@ -59,5 +53,11 @@
 
     </md-card-content>
   </md-card>
+  <floating-button has-permission="administrate-user"
+    init-buttons="['create', 'edit', 'delete']"
+    on-create="display.create()"
+    on-edit="display.edit()"
+    on-delete="display.destroy()">
+  </floating-button>
 
 </div>
