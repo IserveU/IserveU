@@ -60,10 +60,10 @@
 						</div>
 					</md-input-container>
 
-					<md-input-container has-permission="administrate-motion" flex>
-						<md-select name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
+					<md-input-container flex>
+						<md-select has-permission="administrate-motion" name="status" ng-model="form.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
 							<md-option class="select-option__draft" value="draft">Draft</md-option>
-							<md-option class="select-option__review" value="review">In review</md-option>
+							<md-option class="select-option__review" value="review">In Review</md-option>
 							<md-option class="select-option__publish" value="published">Publish</md-option>
 						</md-select>
 
@@ -86,6 +86,8 @@
 						 form-name="" name="'Save'" on-hide="form.processing"
 						 secondary-btn="{control: form.cancel, name: 'Cancel'}">
 				</spinner>
+
+				<md-button has-permission="!administrate-motion" ng-show="form.motion.status=='draft'" ng-click="form.submitForReview()">Submit For Review</md-button>
 			</div>
 		</form>
 
