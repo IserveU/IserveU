@@ -18,11 +18,13 @@
         <script src="{{mix('/js/app.js')}}"></script>
 
         <script>
+
             window.onload = function () {
-              if({{config('sentry.public_dsn')?'true':'false'}}){
-                Raven.config({{config('sentry.public_dsn')}}).install();
-              }
-              angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+              <?php if (Config::get('sentry.public_dsn')): ?>
+                   Raven.config("{{config('sentry.public_dsn')}}").install();
+              <?php endif; ?>
+
+                angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
             }
         </script>
 
