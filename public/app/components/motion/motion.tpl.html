@@ -1,11 +1,6 @@
 <motion ng-class="{ 'loading' : !motion }" >
 
-  <floating-button md-direction="up" ng-if="isThisUsers(motion.user_id)" class="motion_fab"
-    init-buttons="['create', 'edit', 'delete']"
-    on-create="create()"
-    on-edit="edit()"
-    on-delete="destroy()">
-  </floating-button>
+
 
   <div id="centered_content">
 		<md-card>
@@ -61,6 +56,12 @@
 		</comment-section>
 
 	</div>
-
+  
+	<floating-button ng-if="isThisUsers(motion.user_id)" class="motion_fab"
+		init-buttons="['create', 'edit', 'delete']"
+		on-create="create()"
+		on-edit="edit()"
+		on-delete="destroy()">
+	</floating-button>
 
 </motion>
