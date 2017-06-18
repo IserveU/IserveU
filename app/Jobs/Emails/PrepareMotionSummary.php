@@ -11,8 +11,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log; 
 
 class PrepareMotionSummary implements ShouldQueue
 {
@@ -39,7 +39,7 @@ class PrepareMotionSummary implements ShouldQueue
         $users = static::getTargetUsers();
 
         Log::info('Sending motion summary');
-       
+
         $motions = [];
 
         // Get latest or new motion
@@ -76,13 +76,15 @@ class PrepareMotionSummary implements ShouldQueue
     }
 
     /**
-     * Gets the users who have said they want to get a summary, and get it on this hour of this day
+     * Gets the users who have said they want to get a summary, and get it on this hour of this day.
      *
      * @return Collection users
      */
-    public static function getTargetUsers(){
+    public static function getTargetUsers()
+    {
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
+
         return User::preference('motion.notify.user.summary.on', 1)->preference("motion.notify.user.summary.times.$day", $hour)->get();
     }
 }
