@@ -32,6 +32,7 @@ class PrepareAdminSummary implements ShouldQueue
     public function handle()
     {
         $this->prepareNewUserSummary();
+        $this->prepareSubmittedMotionSummary();
     }
 
     public function prepareNewUserSummary()
