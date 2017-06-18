@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        
         $schedule->call(function () {
             dispatch(new PrepareAdminSummary());
         })->daily();
