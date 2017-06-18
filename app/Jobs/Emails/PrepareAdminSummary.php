@@ -37,8 +37,6 @@ class PrepareAdminSummary implements ShouldQueue
 
     public function prepareNewUserSummary()
     {
-        Log::info('Sending motion summary');
-
         $newUsers = User::with('roles')->where('created_at', '>=', Carbon::now()->subHours(24))
                     ->doesntHaveRoles(['administrator'])->get();
 
@@ -49,7 +47,7 @@ class PrepareAdminSummary implements ShouldQueue
         $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.summary.on', 1)->get();
 
         foreach ($admins as $admin) {
-            Log::info('Sending admin summary to user: '.$user->id);
+            Log::info('Sending admin summary to user: '.$admin->id);
 
             $admin->notify(new AdminDailyUserSummary($newUsers, $admin));
         }

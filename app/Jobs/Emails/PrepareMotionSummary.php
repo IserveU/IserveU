@@ -38,8 +38,6 @@ class PrepareMotionSummary implements ShouldQueue
         //Get users who want a daily summary on this day and hour
         $users = static::getTargetUsers();
 
-        Log::info('Sending motion summary');
-
         $motions = [];
 
         // Get latest or new motion
