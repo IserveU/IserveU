@@ -32,6 +32,28 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
     // Positive Tests
 
     /**
+     * Users that are both wanting summaries, and wanting them this hour.
+     *
+     * @test
+     **/
+    public function motion_summary_function_gets_correct_users()
+    {
+        $userA = $this->getUserWithPreferenceTimeForNow();
+
+        $userB = factory(User::class)->create();
+        $userB->setPreference('motion.notify.user.summary.on', 1)->save();
+
+        $userC = $this->getUserWithPreferenceTimeForNow();
+        $userC->setPreference('motion.notify.user.summary.on', 0)->save();
+
+        $functionUser = PrepareMotionSummary::getTargetUsers()->first(); //->first();
+
+        $this->assertNotEquals($functionUser->id, $userB->id);
+        $this->assertNotEquals($functionUser->id, $userC->id);
+        $this->assertEquals($functionUser->id, $userA->id);
+    }
+
+    /**
      * Because when Mail::fake is turned on it won't render it, this should at least turn up 500 errors.
      *
      * @test

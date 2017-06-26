@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class PrepareAdminSummary implements ShouldQueue
 {
@@ -46,6 +47,8 @@ class PrepareAdminSummary implements ShouldQueue
         $admins = User::hasPermissions(['show-user'])->preference('authentication.notify.admin.summary.on', 1)->get();
 
         foreach ($admins as $admin) {
+            Log::info('Sending admin summary to user: '.$admin->id);
+
             $admin->notify(new AdminDailyUserSummary($newUsers, $admin));
         }
     }
