@@ -4,7 +4,7 @@
 
 ## Demo
 
-Try out the demo of the current master branch [View the demo](demo.iserveu.ca). You can login as:
+Try out the demo of the current master branch [View the demo](https://demo.iserveu.ca/). You can login as:
 - **Admin** *admin@iserveu.ca* | *abcd1234*
 - **Citizen** *citizen@iserveu.ca* | *abcd1234*
 - **Representative** *representative@iserveu.ca* | *abcd1234*
