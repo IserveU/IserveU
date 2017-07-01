@@ -12,11 +12,6 @@
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
 
-        <script src="/alloyeditor/alloy-editor-all-min.js"></script>
-
-        <script src="{{mix('/js/dependencies.js')}}"></script>
-        <script src="{{mix('/js/app.js')}}"></script>
-
         <script>
 
             window.onload = function () {
@@ -27,6 +22,11 @@
                 angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
             }
         </script>
+        
+        <script src="/alloyeditor/alloy-editor-all-min.js"></script>
+
+        <script src="{{mix('/js/dependencies.js')}}"></script>
+        <script src="{{mix('/js/app.js')}}"></script>
 
         <script>
             (function (i, s, o, g, r, a, m) {
