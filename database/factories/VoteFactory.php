@@ -21,3 +21,10 @@ $factory->defineAs(App\Vote::class, 'agree', function ($faker) use ($factory) {
 
     return array_merge($vote, ['position'=>1]);
 });
+
+$factory->defineAs(App\Vote::class, 'on_closed', function ($faker) use ($factory) {
+    $vote = $factory->raw(App\Vote::class);
+    $closedMotion = factory(App\Motion::class, 'closed')->create();
+
+    return array_merge($vote, ['motion_id'=> $closedMotion->id]);
+});

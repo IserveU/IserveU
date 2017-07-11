@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; // Disabled currently
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Motion extends NewApiModel implements CachedModel, VisibilityModel
 {

@@ -20,10 +20,10 @@ class VoteFilter extends QueryFilter
         }
 
         if (!$user) {
-            $user = Auth::user()->id;
+            $user = Auth::user();
         }
 
-        return $this->query->user($user);
+        return $this->query->byUser($user);
     }
 
     /**

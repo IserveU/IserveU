@@ -3,6 +3,7 @@
 namespace App\Listeners\User\Deleted;
 
 use App\Events\User\UserDeleted;
+use App\Vote;
 use DB;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -29,7 +30,8 @@ class HardDeleteEmptyUser implements ShouldQueue
     {
         $user = $event->user;
 
-        $votes = $user->votes;
+        $votes = Vote::byUser($user)->withTrashed()->get();
+
         $motions = $user->motions;
 
         if ($votes->isEmpty() && $motions->isEmpty()) {

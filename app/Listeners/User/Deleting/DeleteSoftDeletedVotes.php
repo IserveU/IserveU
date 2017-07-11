@@ -5,7 +5,7 @@ namespace App\Listeners\User\Deleting;
 use App\Events\User\UserDeleting;
 use App\Vote;
 
-class DeleteVotesOnNonclosedMotions
+class DeleteSoftDeletedVotes
 {
     /**
      * Create the event listener.
@@ -18,8 +18,7 @@ class DeleteVotesOnNonclosedMotions
     }
 
     /**
-     * We need to keep a record of the votes that ended up counting,
-     * but we can remove users who never did anything (never got approved etc).
+     * Handle the event.
      *
      * @param UserDeleting $event
      *
@@ -29,10 +28,10 @@ class DeleteVotesOnNonclosedMotions
     {
         $user = $event->user;
 
-        $activeMotionVotes = Vote::motionStatus(['draft', 'review', 'published'])->byUser($user)->get();
+        $deletedVotes = Vote::onlyTrashed()->byUser($user)->get();
 
-        foreach ($activeMotionVotes as $activeMotionVote) {
-            $activeMotionVote->forceDelete();
+        foreach ($deletedVotes as $deletedVote) {
+            $deletedVote->forceDelete();
         }
     }
 }

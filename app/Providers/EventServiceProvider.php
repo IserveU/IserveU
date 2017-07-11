@@ -25,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\User\Deleted\HardDeleteEmptyUser', // Tested
         ],
         'App\Events\User\UserDeleting' => [
+            'App\Listeners\User\Deleting\DeleteSoftDeletedVotes', //Tested
             'App\Listeners\User\Deleting\DeleteVotesOnNonclosedMotions', //Tested
             'App\Listeners\User\Deleting\DeleteNonclosedMotions', //Tested
         ],
@@ -48,6 +49,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Motion\MotionDeleted' => [
             'App\Listeners\Motion\Deleted\HardDeleteUnvotedMotion', //Tested
+            'App\Listeners\Motion\Deleted\SoftDeleteMotionVotes',  //Tested
         ],
         'App\Events\Vote\VoteUpdated' => [
             'App\Listeners\Vote\Updated\CheckCommentVotes',

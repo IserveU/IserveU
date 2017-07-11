@@ -8,9 +8,12 @@ use App\Repositories\Caching\CachedModel;
 use Auth;
 use Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vote extends NewApiModel implements CachedModel
 {
+    use SoftDeletes;
+
     /**
      * The name of the table for this model, also for the permissions set for this model.
      *
@@ -143,7 +146,11 @@ class Vote extends NewApiModel implements CachedModel
 
     public function getMotionTitleAttribute()
     {
-        return $this->motion->title;
+        if ($this->motion) {
+            return $this->motion->title;
+        }
+
+        return 'Abandoned Motion';
     }
 
     /************************************* Casts & Accesors *****************************************/
@@ -185,9 +192,13 @@ class Vote extends NewApiModel implements CachedModel
         return $query->whereNotNull('position');
     }
 
-    public function scopeUser($query, $user)
+    public function scopeByUser($query, $user)
     {
-        return $query->where('user_id', $user);
+        if (is_int($user)) {
+            return $query->where('user_id', $user);
+        }
+
+        return $query->where('user_id', $user->id);
     }
 
     /**
