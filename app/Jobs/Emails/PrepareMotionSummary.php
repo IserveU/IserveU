@@ -56,7 +56,7 @@ class PrepareMotionSummary implements ShouldQueue
             $motions['Closing Soon'] = $closingSoonMotions;
         }
 
-        if (!isset($motions) || $users->isEmpty()) { //No updates today
+        if (!isset($motions) || empty($motions) || $users->isEmpty()) { //No updates today
             return true;
         }
 
