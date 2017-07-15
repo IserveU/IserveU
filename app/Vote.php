@@ -47,7 +47,7 @@ class Vote extends NewApiModel implements CachedModel
      *
      * @var array
      */
-    protected $appends = ['_motion_title','_motion_slug'];
+    protected $appends = ['_motion_title', '_motion_slug'];
 
     /**************************************** Standard Methods *****************************************/
     public static function boot()
@@ -153,7 +153,7 @@ class Vote extends NewApiModel implements CachedModel
         return 'Abandoned Motion';
     }
 
-      public function getMotionSlugAttribute()
+    public function getMotionSlugAttribute()
     {
         if ($this->motion) {
             return $this->motion->slug;
