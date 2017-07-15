@@ -23,12 +23,10 @@ dependencies:
     - "vendor"
     - "node_modules"
     - "~/.composer/cache"
-    - "~/.cache/yarn"
 
   override:
     - cp tests/scripts/.env.circleci .env
     - composer install --prefer-dist --no-interaction
-    - yarn
     - npm run dev
   post:
     - php artisan setup:initialize admin@iserveu.ca abcd1234 yes yes
