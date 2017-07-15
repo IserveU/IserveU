@@ -15,6 +15,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.5",
     "alloyeditor": "^1.4.1",
     "angular": "^1.6.5",
     "angular-alloyeditor": "0.0.4",
@@ -29,7 +30,6 @@
     "angular-sanitize": "^1.6.5",
     "angular-translate": "^2.13.1",
     "angular-translate-storage-local": "^2.15.1",
-    "angular-ui-router": "^0.4.0",
     "bootstrap-css-only": "^3.3.7",
     "cross-env": "^5.0.1",
     "font-awesome": "^4.7.0",

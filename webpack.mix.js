@@ -23,7 +23,7 @@ mix.combine([
     'node_modules/angular-translate/dist/angular-translate.min.js',
     'node_modules/angular-translate/dist/angular-translate-storage-local/angular-translate-storage-local.min.js',
     'node_modules/angular-translate/dist/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
-    'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+    'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
     'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js',
     'node_modules/tinycolor2/dist/tinycolor-min.js',
     'node_modules/md-color-picker/dist/mdColorPicker.min.js',

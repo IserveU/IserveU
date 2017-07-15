@@ -132,6 +132,8 @@
     }
 
     function getUserCommentVotes (id) {
+      if (id === undefined) return [];
+
       return $http({
         method: 'GET',
         url: 'api/user/' + $rootScope.authenticatedUser.id + '/comment_vote',
