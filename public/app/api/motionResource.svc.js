@@ -1,6 +1,5 @@
 'use strict';
-(function(window, angular, undefined) {
-
+(function (window, angular, undefined) {
   angular
     .module('iserveu')
     .factory('motionResource', [
@@ -9,10 +8,9 @@
       '$q',
       '$http',
       motionResource
-    ]);
+    ])
 
-  function motionResource($rootScope, $resource, $q, $http) {
-
+  function motionResource ($rootScope, $resource, $q, $http) {
     var customQuery = {
       query: {
         method: 'GET',
@@ -21,7 +19,7 @@
         ignoreLoadingBar: true,
         transformRequest: angular.identity
       }
-    };
+    }
 
     /****************************************************************
      *
@@ -33,11 +31,11 @@
       'update': {
         method: 'PUT'
       }
-    });
-    var MotionComments = $resource('api/motion/:id/comment', {}, customQuery);
+    })
+    var MotionComments = $resource('api/motion/:id/comment', {}, customQuery)
 
     var MotionFiles = $resource('api/motion/:motion_id/motionfile/', {},
-      customQuery);
+      customQuery)
 
     var MotionIndex = $resource('api/motion', {
       page: '@pnext_page'
@@ -47,9 +45,9 @@
         ignoreLoadingBar: true,
         cancellable: true
       }
-    });
+    })
 
-    var MotionRestore = $resource('api/motion/:id/restore');
+    var MotionRestore = $resource('api/motion/:id/restore')
 
     // @deprecated
     // var MotionVotes = $resource('api/motion/:id/vote');
@@ -71,17 +69,17 @@
      *
      ******************************************************************/
 
-    function getMotion(id) {
+    function getMotion (id) {
       return Motion.get({
         id: id
-      }).$promise.then(function(success) {
-        return success;
-      }, function(error) {
-        return $q.reject(error);
-      });
+      }).$promise.then(function (success) {
+        return success
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function getDrafts(status) {
+    function getDrafts (status) {
       return $http({
         method: 'GET',
         url: '/api/motion',
@@ -89,36 +87,36 @@
           'status[]': ['draft', 'review']
         },
         ignoreLoadingBar: true
-      }).then(function(success) {
-        return success;
-      }, function(error) {
-        return error;
-      });
+      }).then(function (success) {
+        return success
+      }, function (error) {
+        return error
+      })
     }
 
-    function getMotionComments(id) {
-      //id = slug here.
+    function getMotionComments (id) {
+      // id = slug here.
       return MotionComments.get({
         id: id
-      }).$promise.then(function(success) {
-        return success;
-      }, function(error) {
-        return $q.reject(error);
-      });
+      }).$promise.then(function (success) {
+        return success
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function getMotionFiles(id) {
+    function getMotionFiles (id) {
       return MotionFiles.query({
-          motion_id: id
+        motion_id: id
+      })
+        .$promise.then(function (success) {
+          return success
+        }, function (error) {
+          return $q.reject(error)
         })
-        .$promise.then(function(success) {
-          return success;
-        }, function(error) {
-          return $q.reject(error);
-        });
     }
 
-    function getMotionVotes(id) {
+    function getMotionVotes (id) {
       return $http.get('api/motion/' + id + '/vote', {
         withCredentials: true,
         headers: {
@@ -126,15 +124,14 @@
         },
         ignoreLoadingBar: true,
         transformRequest: angular.identity
-      }).success(function(success) {
-        return success;
-      }).error(function(error) {
-        return error;
-      });
+      }).then(function (success) {
+        return success
+      }, function (error) {
+        return error
+      })
     }
 
-    function getUserCommentVotes(id) {
-
+    function getUserCommentVotes (id) {
       return $http({
         method: 'GET',
         url: 'api/user/' + $rootScope.authenticatedUser.id + '/comment_vote',
@@ -142,14 +139,14 @@
           'motion_id': id,
           ignoreLoadingBar: true
         }
-      }).success(function(results) {
-        return results;
-      }).error(function(error) {
-        return error.data || error;
-      });
+      }).then(function (results) {
+        return results
+      }, function (error) {
+        return error.data || error
+      })
     }
 
-    function getMyMotions() {
+    function getMyMotions () {
       return $http({
         method: 'GET',
         url: '/api/motion',
@@ -158,72 +155,70 @@
           user_id: $rootScope.authenticatedUser.id
         },
         ignoreLoadingBar: true
-      }).then(function(success) {
-        return success;
-      }, function(error) {
-        return error;
-      });
+      }).then(function (success) {
+        return success
+      }, function (error) {
+        return error
+      })
     }
 
-    function getMotions(data) {
-      return Motion.get(data).$promise.then(function(succcess) {
-        return succcess;
-      }, function(error) {
-        return $q.reject(error);
-      });
+    function getMotions (data) {
+      return Motion.get(data).$promise.then(function (succcess) {
+        return succcess
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function getMotionsIndex(next_page) {
+    function getMotionsIndex (next_page) {
       return MotionIndex.query({
-          page: next_page
+        page: next_page
+      })
+        .$promise.then(function (success) {
+          return success
+        }, function (error) {
+          return $q.reject(error)
         })
-        .$promise.then(function(success) {
-          return success;
-        }, function(error) {
-          return $q.reject(error);
-        });
     }
 
-    function restoreMotion(id) {
+    function restoreMotion (id) {
       return MotionRestore.get({
         id: id
-      }).$promise.then(function(success) {
-        return success;
-      }, function(error) {
-        return $q.reject(error);
-      });
+      }).$promise.then(function (success) {
+        return success
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function createMotion(data) {
-      return Motion.save(data).$promise.then(function(success) {
-        return success;
-      }, function(error) {
-        return $q.reject(error);
-      });
+    function createMotion (data) {
+      return Motion.save(data).$promise.then(function (success) {
+        return success
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function deleteMotion(id) {
-
+    function deleteMotion (id) {
       return Motion.delete({
         id: id
-      }).$promise.then(function(success) {
-        return success;
-      }, function(error) {
-        return $q.reject(error);
-      });
+      }).$promise.then(function (success) {
+        return success
+      }, function (error) {
+        return $q.reject(error)
+      })
     }
 
-    function updateMotion(data) {
+    function updateMotion (data) {
       return Motion.update({
-          id: data.id
-        }, data)
-        .$promise.then(function(success) {
-          return success;
-        }, function(error) {
-          return $q.reject(error);
-        });
+        id: data.id
+      }, data)
+        .$promise.then(function (success) {
+          return success
+        }, function (error) {
+          return $q.reject(error)
+        })
     }
-
 
     return {
       // GET
@@ -241,6 +236,6 @@
       createMotion: createMotion,
       deleteMotion: deleteMotion,
       updateMotion: updateMotion
-    };
+    }
   }
-})(window, window.angular);
+})(window, window.angular)

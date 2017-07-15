@@ -1,6 +1,5 @@
 'use strict';
-(function(window, angular, undefined) {
-
+(function (window, angular, undefined) {
   angular
     .module('iserveu')
     .factory('homeResource', [
@@ -8,10 +7,9 @@
       '$rootScope',
       '$q',
       'utils',
-      homeResource]);
+      homeResource])
 
-  function homeResource($http, $rootScope, $q, utils) {
-
+  function homeResource ($http, $rootScope, $q, utils) {
     /****************************************************************
     *
     * Resource setters @deprecated Angular's internal ngResource.
@@ -19,37 +17,37 @@
     *****************************************************************/
 
     var _api = {
-      myComments:  '/api/user/:id/comment',
-      myVotes:     '/api/user/:id/vote',
+      myComments: '/api/user/:id/comment',
+      myVotes: '/api/user/:id/vote',
       topComments: '/api/comment',
-      topMotion:   '/api/motion'
-    };
+      topMotion: '/api/motion'
+    }
 
     var cacheData = {
       myComments: {},
       myVotes: {},
       topComments: {},
       topMotion: {}
+    }
+
+    var getMyComments = function () {
+      return query(regexReplace(_api.myComments), 'myComments')
     };
 
-    var getMyComments = function() {
-      return query(regexReplace(_api.myComments), 'myComments');
+    var getMyVotes = function () {
+      return query(regexReplace(_api.myVotes), 'myVotes')
     };
 
-    var getMyVotes = function() {
-      return query(regexReplace(_api.myVotes), 'myVotes');
-    };
-
-    var getTopComments = function() {
+    var getTopComments = function () {
       return query(_api.topComments, 'topComments', {
-          'orderBy[commentRank]': "desc"
-      });
+        'orderBy[commentRank]': 'desc'
+      })
     };
 
-    var getTopMotion = function() {
-      return query(_api.topMotion, 'topMotion',  {
-          'orderBy[_rank]': "desc"
-      });
+    var getTopMotion = function () {
+      return query(_api.topMotion, 'topMotion', {
+        'orderBy[_rank]': 'desc'
+      })
     };
 
       /*****************************************************************
@@ -59,15 +57,14 @@
       ******************************************************************/
 
     // TODO: make this more functional, but at the moment just hardcoded.
-    function regexReplace(string, regex) {
-      var id = $rootScope.authenticatedUser.id;
-      return string.replace(':id', id);
+    function regexReplace (string, regex) {
+      var id = $rootScope.authenticatedUser.id
+      return string.replace(':id', id)
     }
 
-    function query(_endpoint, key, data) {
-
+    function query (_endpoint, key, data) {
       if (!utils.objectIsEmpty(cacheData[key])) {
-        return $q.when({data: cacheData[key]});
+        return $q.when({data: cacheData[key]})
       }
 
       return $http({
@@ -75,14 +72,14 @@
         isArray: true,
         url: _endpoint,
         data: data || {}, /* Why is this here, what is it doing? */
-        params : data,
+        params: data,
         ignoreLoadingBar: true
-      }).success(function(results) {
-        cacheData[key] = results;
-        return results;
-      }).error(function(error) {
-        return error;
-      });
+      }).then(function (results) {
+        cacheData[key] = results
+        return results
+      }, function (error) {
+        return error
+      })
     }
 
     return {
@@ -90,6 +87,6 @@
       getMyVotes: getMyVotes,
       getTopComments: getTopComments,
       getTopMotion: getTopMotion
-    };
+    }
   }
-}(window, window.angular));
+}(window, window.angular))

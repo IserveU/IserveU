@@ -1,26 +1,25 @@
 'use strict';
-(function(window, angular, undefined) {
-
+(function (window, angular, undefined) {
   angular
     .module('iserveu')
-    .factory('ethnicOriginResource', ['$http', ethnicOriginResource]);
+    .factory('ethnicOriginResource', ['$http', ethnicOriginResource])
 
   /**
    * Delegates and contains API CRUD interactions to server-side.
    * @param  {Service} $http
    * @return {promise} Server-side promise
    */
-  function ethnicOriginResource($http) {
+  function ethnicOriginResource ($http) {
     /**
      * Index query
      * @return {promise} promise
      */
-    function getEthnicOrigins() {
-      return $http.get('api/ethnic_origin/').success(function(results) {
-        return results;
-      }).error(function(error) {
-        return error;
-      });
+    function getEthnicOrigins () {
+      return $http.get('api/ethnic_origin/').then(function (results) {
+        return results
+      }, function (error) {
+        return error
+      })
     }
 
     /**
@@ -28,13 +27,13 @@
      * @param  {number} id
      * @return {promise}    promise
      */
-    function getEthnicOrigin(id) {
+    function getEthnicOrigin (id) {
       // remove body to pass test
     }
 
     return {
       getEthnicOrigins: getEthnicOrigins,
       getEthnicOrigin: getEthnicOrigin
-    };
+    }
   }
-}(window, window.angular));
+}(window, window.angular))
