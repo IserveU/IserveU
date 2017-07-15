@@ -6,7 +6,7 @@
 <div class="widget_content--list" ng-if="myVotes.voteList.length > 0">
     <md-list>
 
-      <md-list-item class="md-2-line"  ui-sref-active="active" ui-sref="motion({id:vote.motion_id})"
+      <md-list-item class="md-2-line"  ui-sref-active="active" ui-sref="motion({id:vote._motion_slug})"
       ng-switch="{{ vote.position }}"  ng-repeat="vote in myVotes.voteList | limitTo: 5">
         <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
         <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
@@ -17,7 +17,7 @@
           <p>{{ vote.updated_at['diff'] }}</p>
         </div>
         <div class="md-secondary-container">
-          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote.motion_id})">
+          <md-button class="md-icon-button"  aria-label="yourVoteRedirect" ui-sref="motion({id:vote._motion_slug})">
            <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
           </md-button>
         </div>

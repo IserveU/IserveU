@@ -5,7 +5,7 @@
 
 <div class="widget_content--list" ng-if="myComments.commentList">
   <md-list>
-    <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})"
+    <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionSlug})"
       ng-repeat="comment in myComments.commentList | limitTo: 5">
       <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
       <div class="md-list-item-text">
@@ -13,7 +13,7 @@
         <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
       </div>
       <div class="md-secondary-container">
-        <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionId})">
+        <md-button class="md-icon-button"  aria-label="topCommentRedirect" ui-sref="motion({id:comment.motionSlug})">
           <md-icon class="mdi" md-font-icon="mdi-arrow-right-bold-circle-outline"></md-icon>
         </md-button>
       </div>

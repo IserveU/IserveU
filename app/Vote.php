@@ -47,7 +47,7 @@ class Vote extends NewApiModel implements CachedModel
      *
      * @var array
      */
-    protected $appends = ['_motion_title'];
+    protected $appends = ['_motion_title','_motion_slug'];
 
     /**************************************** Standard Methods *****************************************/
     public static function boot()
@@ -109,12 +109,12 @@ class Vote extends NewApiModel implements CachedModel
     public function setVisibility()
     {
         if ($this->user->publiclyVisible) {
-            $this->addVisible(['id', 'position', 'motion_id', 'id', 'deferred_to_id', '_motion_title']);
+            $this->addVisible(['id', 'position', 'motion_id', 'id', 'deferred_to_id', '_motion_slug']);
         }
 
         //If self or show-other-private-user
         if (Auth::check() && Auth::user()->id == $this->user_id) {
-            $this->addVisible(['id', 'position', 'motion_id', 'user_id', 'deferred_to_id', 'visited', 'updated_at', '_motion_title']);
+            $this->addVisible(['id', 'position', 'motion_id', 'user_id', 'deferred_to_id', 'visited', 'updated_at', '_motion_title', '_motion_slug']);
         }
 
         return $this;
@@ -148,6 +148,15 @@ class Vote extends NewApiModel implements CachedModel
     {
         if ($this->motion) {
             return $this->motion->title;
+        }
+
+        return 'Abandoned Motion';
+    }
+
+      public function getMotionSlugAttribute()
+    {
+        if ($this->motion) {
+            return $this->motion->slug;
         }
 
         return 'Abandoned Motion';
