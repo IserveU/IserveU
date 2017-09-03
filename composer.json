@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.4.*",
+		"laravel/framework": "5.5.*",
 		"league/csv": "~7.0",
 		"zizaco/entrust": "dev-master",
 		"guzzlehttp/guzzle" : ">=4.0|<7.0",
@@ -13,7 +13,7 @@
 		"fzaninotto/faker": "^1.5",
 		"pda/pheanstalk": "~3.0",
 		"intervention/image": "dev-master",
-		"spatie/laravel-backup": "^4.6.0",
+		"spatie/laravel-backup": "5.*",
 		"flow/jsonpath": "~0.3",
 		"anlutro/l4-settings": "^0.4.7",
 		"predis/predis": "^1.1",
@@ -25,21 +25,22 @@
 		"barryvdh/laravel-debugbar": "^2.3",
 		"coop182/laravel-cron-validator": "0.*",
 		"maatwebsite/excel": "~2.1.0",
-		"laravel/browser-kit-testing": "^1.0",
+		"laravel/browser-kit-testing": "dev-master",
 		"sentry/sentry": "^1.6",
 		"sentry/sentry-laravel": "^0.7.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^5.7",
+		"phpunit/phpunit": "6.*",
 		"phpspec/phpspec": "~3.0",
 		"laracasts/generators": "~1.1",
-    "mockery/mockery": "0.9.*",
-    "symfony/dom-crawler": "~3.0",
-    "symfony/css-selector": "~3.0",
+    	"mockery/mockery": "0.9.*",
+    	"symfony/dom-crawler": "~3.0",
+    	"symfony/css-selector": "~3.0",
 		"codeclimate/php-test-reporter": "^0.3.2",
 		"tightenco/mailthief": "master-dev",
-		"laravel/dusk": "^1.1"
+		"laravel/dusk": "2.*"
 	},
+	"minimum-stability":"dev",
 	"autoload": {
 		"classmap": [
 			"database",
@@ -83,7 +84,7 @@
 		]
 	},
 	"config": {
-		"preferred-install": "dist"
+		"preferred-install": "dev"
 	},
   "repositories": [
     {
