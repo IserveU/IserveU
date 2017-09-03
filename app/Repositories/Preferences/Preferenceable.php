@@ -8,42 +8,42 @@ namespace App\Repositories\Preferences;
 trait Preferenceable
 {
     /**
-       * Sets a preference in the preferences array.
-       *
-       * @param string         $key   Key in the dot notation
-       * @param String/Integer $value The value to set the key to be
-       */
-      public function setPreference($key, $value)
-      {
-          (new PreferenceManager($this))->setPreference($key, $value)
+     * Sets a preference in the preferences array.
+     *
+     * @param string         $key   Key in the dot notation
+     * @param String/Integer $value The value to set the key to be
+     */
+    public function setPreference($key, $value)
+    {
+        (new PreferenceManager($this))->setPreference($key, $value)
                                         ->stagePreferences();
 
-          return $this;
-      }
+        return $this;
+    }
 
-        /**
-         * Sets a preference in the preferences array.
-         *
-         * @param string         $key   Key in the dot notation
-         * @param String/Integer $value The value to set the key to be
-         */
-        public function createPreference($key, $value, $force = false)
-        {
-            (new PreferenceManager($this))->createPreference($key, $value, $force)
+    /**
+     * Sets a preference in the preferences array.
+     *
+     * @param string         $key   Key in the dot notation
+     * @param String/Integer $value The value to set the key to be
+     */
+    public function createPreference($key, $value, $force = false)
+    {
+        (new PreferenceManager($this))->createPreference($key, $value, $force)
                                           ->stagePreferences();
 
-            return $this;
-        }
+        return $this;
+    }
 
-      /**
-       * Gets a preference in the preferences array of this model.
-       *
-       * @param string $key Key in the dot notation
-       *
-       * @return Value of the preference
-       */
-      public function getPreference($key)
-      {
-          return (new PreferenceManager($this))->getPreference($key);
-      }
+    /**
+     * Gets a preference in the preferences array of this model.
+     *
+     * @param string $key Key in the dot notation
+     *
+     * @return Value of the preference
+     */
+    public function getPreference($key)
+    {
+        return (new PreferenceManager($this))->getPreference($key);
+    }
 }

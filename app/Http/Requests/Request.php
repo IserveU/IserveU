@@ -11,25 +11,25 @@ use Illuminate\Http\Response;
 abstract class Request extends FormRequest
 {
     /**
-   * Reverses the order of the parent trait to first validate the input then do auth.
-   * This is because a lot of filter auth was checking inputs and they were being submitted invalid.
-   *
-   * @return void
-   */
-  public function validateThenAuth($instance = null)
-  {
-      $this->prepareForValidation();
+     * Reverses the order of the parent trait to first validate the input then do auth.
+     * This is because a lot of filter auth was checking inputs and they were being submitted invalid.
+     *
+     * @return void
+     */
+    public function validateThenAuth($instance = null)
+    {
+        $this->prepareForValidation();
 
-      if (!$instance) {
-          $instance = $this->getValidatorInstance();
-      }
+        if (!$instance) {
+            $instance = $this->getValidatorInstance();
+        }
 
-      if (!$instance->passes()) {
-          $this->failedValidation($instance);
-      } elseif (!$this->passesAuthorization()) {
-          $this->failedAuthorization();
-      }
-  }
+        if (!$instance->passes()) {
+            $this->failedValidation($instance);
+        } elseif (!$this->passesAuthorization()) {
+            $this->failedAuthorization();
+        }
+    }
 
     /**
      * Determine if the user is authorized to make this request.
@@ -49,7 +49,7 @@ abstract class Request extends FormRequest
     public function response(array $errors)
     {
         //Might need to just apply errors to the specific methods
-         return new JsonResponse($errors, 400);
+        return new JsonResponse($errors, 400);
     }
 
     // OPTIONAL OVERRIDE

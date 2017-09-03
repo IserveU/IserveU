@@ -50,13 +50,13 @@ abstract class TestCase extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
-      // Warning:
-      \PHPUnit_Framework_Error_Warning::$enabled = false;
+        // Warning:
+        \PHPUnit_Framework_Error_Warning::$enabled = false;
 
-      // notice, strict:
-      \PHPUnit_Framework_Error_Notice::$enabled = false;
+        // notice, strict:
+        \PHPUnit_Framework_Error_Notice::$enabled = false;
 
-      //Any global things
+        //Any global things
     }
 
     /**

@@ -11,7 +11,7 @@ class AddUserModificationEntryTest extends BrowserKitTestCase
         parent::setUp();
     }
 
-// WILL FAIL AS THE FIELDS ATTRIBUTE IS BLANK IN DB
+    // WILL FAIL AS THE FIELDS ATTRIBUTE IS BLANK IN DB
 
     /** @test **/
     public function user_attribute_update_get_recorded_in_modification_table()

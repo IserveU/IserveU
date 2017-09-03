@@ -26,7 +26,7 @@ class VotePolicy
         }
 
         if (!$motion->motionOpenForVoting) { //Motion has closed/expired
-             abort(403, 'Motion isnt not open for voting');
+            abort(403, 'Motion isnt not open for voting');
         }
 
         if (array_key_exists('user_id', $inputs) && $inputs['user_id'] != Auth::user()->id) {
