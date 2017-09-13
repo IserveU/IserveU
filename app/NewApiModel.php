@@ -27,7 +27,7 @@ class NewApiModel extends Model
 
         return [
             'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
+            'alpha_date'    => $carbon->format('F j, Y'),
             'carbon'        => $carbon,
         ];
     }
@@ -45,7 +45,7 @@ class NewApiModel extends Model
 
         return [
             'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
+            'alpha_date'    => $carbon->format('F j, Y'),
             'carbon'        => $carbon,
         ];
     }
@@ -90,9 +90,10 @@ class NewApiModel extends Model
      *
      * @return null
      */
-    public function skipVisibility()
+    public function skipVisibility($accessors = [])
     {
-        $this->setVisible(array_keys($this->attributes));
+        $this->setVisible(array_merge(array_keys($this->attributes), $accessors));
+
         $this->skipVisibility = true;
 
         return $this;

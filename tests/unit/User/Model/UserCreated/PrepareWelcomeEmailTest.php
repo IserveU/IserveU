@@ -40,7 +40,7 @@ class PrepareWelcomeEmailTest extends BrowserKitTestCase
         $message = $this->getLastMessageFor($user->email);
 
         $this->assertEquals($message->subject, 'Welcome');
-        $this->assertTrue($message->contains($user->remember_token));
+        $this->assertTrue($message->contains($user->tokens->first()->token));
         $this->assertTrue($message->contains('Get Started'));
     }
 

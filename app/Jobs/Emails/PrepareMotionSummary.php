@@ -4,12 +4,14 @@ namespace App\Jobs\Emails;
 
 use App\Mail\MotionSummary;
 use App\Motion;
+use App\OneTimeToken;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PrepareMotionSummary implements ShouldQueue
@@ -33,13 +35,10 @@ class PrepareMotionSummary implements ShouldQueue
      */
     public function handle()
     {
-        $hour = Carbon::now()->hour;
-        $day = strtolower(Carbon::now()->format('l'));
-
         //Get users who want a daily summary on this day and hour
-        $users = User::preference('motion.notify.user.summary.on', 1)->preference("motion.notify.user.summary.times.$day", $hour)->get();
+        $users = static::getTargetUsers();
 
-        $motions;
+        $motions = [];
 
         // Get latest or new motion
         $latestLaunchedMotions = Motion::status('published')->publishedAfter(Carbon::now()->subHours(24))->get();
@@ -57,10 +56,33 @@ class PrepareMotionSummary implements ShouldQueue
             $motions['Closing Soon'] = $closingSoonMotions;
         }
 
-        if (!isset($motions) || $users->isEmpty()) { //No updates today
+        if (!isset($motions) || empty($motions) || $users->isEmpty()) { //No updates today
             return true;
         }
 
-        Mail::to($users)->send(new MotionSummary($motions));
+        foreach ($users as $user) {
+            Log::info('Sending motion summary to user: '.$user->id);
+
+            $token = null;
+
+            if (!$user->password) {
+                $token = OneTimeToken::generateFor($user);
+            }
+
+            Mail::to($user)->send(new MotionSummary($motions, $token));
+        }
+    }
+
+    /**
+     * Gets the users who have said they want to get a summary, and get it on this hour of this day.
+     *
+     * @return Collection users
+     */
+    public static function getTargetUsers()
+    {
+        $hour = Carbon::now()->hour;
+        $day = strtolower(Carbon::now()->format('l'));
+
+        return User::preference('motion.notify.user.summary.on', 1)->preference("motion.notify.user.summary.times.$day", $hour)->get();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\OneTimeToken;
 use App\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -17,16 +18,18 @@ class MotionSummary extends Mailable
 
     public $child = 'summary';
 
+    public $token;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(array $motions)
+    public function __construct(array $motions, OneTimeToken $token = null)
     {
         $this->sections = $motions;
-
         $this->greeting = 'A summary of the latest '.Setting::get('jargon.en.motions').' openings, closing and closed on '.config('app.name');
+        $this->token = $token;
     }
 
     /**
@@ -37,7 +40,6 @@ class MotionSummary extends Mailable
     public function build()
     {
         return $this->view('emails.layout')
-                    ->cc('psaunders@sosnewmedia.com')
                     ->subject(Setting::get('jargon.en.motion').' Summary');
     }
 }

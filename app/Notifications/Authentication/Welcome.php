@@ -2,6 +2,8 @@
 
 namespace App\Notifications\Authentication;
 
+use App\OneTimeToken;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -11,22 +13,30 @@ class Welcome extends Notification
 {
     use Queueable;
 
-    public $createdByOther = false;
+    public $createdByOther;
 
     public $text;
 
     public $footer;
+
+    public $token;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct(User $user, $createdByOther = false)
     {
         $this->text = Setting::get('emails.welcome.text');
         $this->footer = Setting::get('emails.footer');
         $this->user = $user;
+
+        if (!$user->password) {
+            $this->token = OneTimeToken::generateFor($user);
+        }
+
+        $this->createdByOther;
     }
 
     /**
@@ -64,7 +74,7 @@ class Welcome extends Notification
         }
 
         if (!$this->user->password) {
-            $mailMessage->action('Get Started', url('/#/reset-password/'.$this->user->remember_token));
+            $mailMessage->action('Get Started', url('/#/reset-password/'.$this->token->token));
         }
 
         return $mailMessage;

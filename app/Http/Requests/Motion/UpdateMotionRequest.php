@@ -48,7 +48,7 @@ class UpdateMotionRequest extends Request
 
       //Cant set another user as the creator of a motion if you're just a regular citizen
       if ($this->has('user_id')) {
-          if (!Auth::user()->can('administrate-motion') && Auth::user()->id != $inputs['user_id']) {
+          if (!Auth::user()->can('administrate-motion') && Auth::user()->id != $this->user_id) {
               return false;
           }
       }

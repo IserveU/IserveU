@@ -4,14 +4,10 @@
 
   <md-list>
 
-      <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})"
-          ng-repeat="comment in topComments.commentList | limitTo: 5">
+      <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionId})" ng-repeat="comment in topComments.commentList | limitTo: 5">
         <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
         <div class="md-list-item-text">
-          <h3>
-            <span ng-show="comment.commentWriter.status == 'public'">{{'BY' | translate}}{{comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name}}</span>
-            <span ng-hide="comment.commentWriter.status == 'public'">{{'BY_A' | translate}} {{comment.commentWriter.community.adjective }}</span>
-          </h3>
+          <h3 ng-bind="comment.commentWriter.first_name ? comment.commentWriter.first_name + ' ' + comment.commentWriter.last_name : comment.commentWriter.community.adjective"></h3>
           <p marked="(comment.text | limitTo: 120) + (comment.text.length > 120 ? '...' : '')" class="md-body-1"></p>
         </div>
         <div class="md-secondary-container">

@@ -32,6 +32,28 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
     // Positive Tests
 
     /**
+     * Users that are both wanting summaries, and wanting them this hour.
+     *
+     * @test
+     **/
+    public function motion_summary_function_gets_correct_users()
+    {
+        $userA = $this->getUserWithPreferenceTimeForNow();
+
+        $userB = factory(User::class)->create();
+        $userB->setPreference('motion.notify.user.summary.on', 1)->save();
+
+        $userC = $this->getUserWithPreferenceTimeForNow();
+        $userC->setPreference('motion.notify.user.summary.on', 0)->save();
+
+        $functionUser = PrepareMotionSummary::getTargetUsers()->first(); //->first();
+
+        $this->assertNotEquals($functionUser->id, $userB->id);
+        $this->assertNotEquals($functionUser->id, $userC->id);
+        $this->assertEquals($functionUser->id, $userA->id);
+    }
+
+    /**
      * Because when Mail::fake is turned on it won't render it, this should at least turn up 500 errors.
      *
      * @test
@@ -59,6 +81,47 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         dispatch(new PrepareMotionSummary());
     }
 
+    /**
+     * @test
+     */
+    public function motion_summary_sends_password_reset_for_users_who_havent_set_a_password()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+
+        DB::table('users')->where('id', $user->id)->update(['password'=>null]);
+        $user = $user->fresh();
+
+        factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+
+        factory(App\Motion::class, 'closed')->create([
+            'closing_at'    => Carbon::now()->subHours(12),
+            'user_id'       => $user->id, //Create and see a summary of their own motion to speed up the test
+
+        ]);
+
+        $motion = factory(App\Motion::class, 'published')->create([
+            'user_id' => $user->id, //Create and see a summary of their own motion to speed up the test
+        ]);
+        //Model does not allow editing of this field
+        DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        $this->seeInDatabase('one_time_tokens', ['user_id'=>$user->id]);
+
+        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+            //TODO: Check that password resets are contained in the email
+
+            $this->assertTrue(!empty($mail->buildViewData()['token']));
+
+            return true;
+        });
+    }
+
     /** @test */
     public function motion_summary_email_contains_new_motions_based_on_published_at_field()
     {
@@ -78,7 +141,6 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
             if (!$mail->sections['Latest Launched']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
-
             // TODO: Check subject. Currently mailable mocks do not really support this because the var is protected
 
             // TODO: Check motion URL. Currently mailable mocks do not really support this because you can't get a rendered view (it doesn't actually send)
@@ -121,6 +183,8 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         $motion = factory(App\Motion::class, 'published')->create();
 
         DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
+
+        DB::table('motions')->where(['id' => $motion->id])->update(['published_at' => Carbon::now()->subDays(8)->format('Y-m-d H:i:s')]);
 
         Mail::fake();
 
@@ -259,7 +323,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertNotSent($user, MotionSummary::class);
+        Mail::assertNotSent(MotionSummary::class);
     }
 
     /** @test */
@@ -268,7 +332,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         $user = $this->getUserWithPreferenceTimeForNow();
         $hour = Carbon::now()->hour;
         $day = strtolower(Carbon::now()->format('l'));
-        $user->setPreference("motion.notify.user.summary.times.$day", $hour++)->save();
+        $user->setPreference("motion.notify.user.summary.times.$day", ++$hour)->save();
 
         $motionB = factory(App\Motion::class, 'closed')->create();
         $motionA = factory(App\Motion::class, 'published')->create();
@@ -277,7 +341,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertNotSent($user, MotionSummary::class);
+        Mail::assertNotSent(MotionSummary::class);
     }
 
     /** @test */
@@ -295,6 +359,21 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertNotSent($user, MotionSummary::class);
+        Mail::assertNotSent(MotionSummary::class);
+    }
+
+    /** @test */
+    public function motion_summary_email_does_not_get_sent_when_no_content_is_in_them()
+    {
+        $user = $this->getUserWithPreferenceTimeForNow();
+
+        DB::table('motions')->update(['closing_at' => Carbon::now()->subDays(300)->format('Y-m-d H:i:s')]); // To avoid issues with seeded data
+        DB::table('motions')->update(['published_at' => Carbon::now()->subDays(300)->format('Y-m-d H:i:s')]);  // To avoid issues with seeded data
+
+        Mail::fake();
+
+        dispatch(new PrepareMotionSummary());
+
+        Mail::assertNotSent(MotionSummary::class);
     }
 }

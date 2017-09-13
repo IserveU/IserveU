@@ -44,10 +44,12 @@ class InitializeApp extends Command
      */
     public function handle()
     {
-        \Artisan::call('migrate:refresh');
-
+        $this->info('Setting runtime settings for seed');
         \Config::set('mail.driver', 'log'); // The mail singleton will initialize with this and then can't be changed easily once the singleton exists
         \Config::set('queue.driver', 'sync'); // Run without queue
+
+        $this->info('Refreshing database');
+        \Artisan::call('migrate:refresh');
 
         // Settings
         if (\File::exists('storage/settings.json')) {
@@ -58,9 +60,11 @@ class InitializeApp extends Command
                 $this->info('Using settings in storage/setting.json');
             }
         }
+
+        $this->info('Setting default settings');
         dispatch(new SetDefaultSettings());
 
-        // Defaults
+        $this->info('Setting default permissions');
         dispatch(new SetDefaultPermissions());
 
         $email = $this->argument('email');

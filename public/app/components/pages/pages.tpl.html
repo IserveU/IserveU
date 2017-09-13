@@ -1,11 +1,4 @@
 
-<floating-button md-direction="up" has-permission="administrate-motion" class="motion_fab"
-    init-buttons="['create', 'edit', 'delete']"
-    on-create="page.create()"
-    on-edit="page.edit()"
-    on-delete="page.destroy()">
-</floating-button>
-
 <section layout-margin>
 	<md-card ng-class="page.service.pageLoading ? page.loading : none " flex>
 		<md-card-content layout-padding>
@@ -13,3 +6,11 @@
 		</md-card-content>
 	</md-card>
 </section>
+
+
+<floating-button  has-permission="administrate-motion" class="motion_fab"
+    init-buttons="['create', 'edit', 'delete']"
+    on-create="page.create()"
+    on-edit="page.edit()"
+    on-delete="page.destroy()">
+</floating-button>

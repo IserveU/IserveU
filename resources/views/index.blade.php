@@ -5,20 +5,29 @@
         <title>{{Setting::get('site.name')}}</title>
         <meta name="viewport" content="initial-scale=1" />
 
+        <script src="https://cdn.ravenjs.com/3.14.2/raven.min.js"></script>
+
         <link rel="stylesheet" href="{{mix('/css/dependencies.css')}}">
         <link rel="stylesheet" href="{{mix('/css/app.css')}}">
         <link rel="icon shortcut" type="image/png" href="/api/page/1/file/{{Setting::get('theme.symbol','set-symbol-slug')}}/resize/100">
 
 
+        <script>
+
+            window.onload = function () {
+              <?php if (Config::get('sentry.public_dsn')): ?>
+                   Raven.config("{{config('sentry.public_dsn')}}").install();
+              <?php endif; ?>
+
+                angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+            }
+        </script>
+        
         <script src="/alloyeditor/alloy-editor-all-min.js"></script>
 
         <script src="{{mix('/js/dependencies.js')}}"></script>
         <script src="{{mix('/js/app.js')}}"></script>
-      
-        <script>
-              angular.module("iserveu").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
-        </script>
-        
+
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -52,13 +61,9 @@
                 <show-footer flex-order="2" layout-margin flex="noshrink"></show-footer>
             </div>
         </div>
+
+        <?php if (Config::get('app.livereload')): ?>
+          <script src="http://localhost:35729/livereload.js"></script>
+        <?php endif; ?>
     </body>
-
-
-    <?php if (Config::get('app.livereload')): ?>
-        <script type="text/javascript">
-            document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>');
-        </script>
-    <?php endif; ?>
-
 </html>

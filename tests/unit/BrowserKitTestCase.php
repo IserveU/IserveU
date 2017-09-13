@@ -1,11 +1,15 @@
 <?php
 
-include_once 'PolishedTest.php';
+use App\Motion;
+use App\User;
+use App\Vote;
 use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
+use Tests\CreatesApplication;
+use Tests\PolishedTest;
 
 abstract class BrowserKitTestCase extends BaseTestCase
 {
-    use PolishedTest;
+    use CreatesApplication, PolishedTest;
 
     protected $contentToPost;
 
@@ -20,22 +24,6 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     public static $aNormalMotion;
     public static $votingUser;
-
-    /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
-    {
-        ini_set('memory_limit', '1028M');
-
-        $app = require __DIR__.'/../../bootstrap/app.php';
-
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
-        return $app;
-    }
 
     /**
      * To speed up tests so there is one motion that can be used to check
@@ -62,9 +50,9 @@ abstract class BrowserKitTestCase extends BaseTestCase
     public function getVotingUser()
     {
         if (is_null(static::$votingUser)) {
-            static::$votingUser = factory(App\User::class)->create();
+            static::$votingUser = factory(User::class)->create();
 
-            $votes = factory(App\Vote::class, 10)->create([
+            $votes = factory(Vote::class, 10)->create([
                 'user_id'   => static::$votingUser->id,
             ]);
             \DB::commit(); //If triggered from a loction that uses database transactions

@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Authentication;
 
+use App\OneTimeToken;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,6 +14,8 @@ class PasswordReset extends Notification
 
     protected $user;
 
+    protected $token;
+
     /**
      * Create a new notification instance.
      *
@@ -21,6 +24,7 @@ class PasswordReset extends Notification
     public function __construct(User $user)
     {
         $this->user = $user;
+        $this->token = OneTimeToken::generateFor($user);
     }
 
     /**
@@ -47,7 +51,7 @@ class PasswordReset extends Notification
         return (new MailMessage())
             ->subject('Trouble logging in?')
             ->line('We recieved a request to reset your password. Just hit the button below')
-            ->action('Reset Password', url('/').'/#/reset-password/'.$this->user->remember_token)
+            ->action('Reset Password', url('/').'/#/reset-password/'.$this->token->token)
             ->line("If you didn't request this reset someone is trying to use your email address on the site. If this happens regularly it's a good idea to make sure your password is very secure");
     }
 

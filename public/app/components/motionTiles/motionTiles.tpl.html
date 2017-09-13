@@ -1,22 +1,22 @@
 <md-list flex>
-	<md-list-item class="md-2-line">
+	<md-list-item class="md-2-line motion_tiles__department">
 		<md-icon id="department_icon" md-svg-icon="{{ ::motion.department.icon }}"></md-icon>
 
-        <div class="md-list-item-text">
+        <div class="md-list-item-text ">
 			    <h3>{{ motion.department.name }}</h3>
         	<p>Department</p>
         </div>
 	</md-list-item>
 
-  <md-list-item class="md-2-line" id="closing_tile" ng-if="settingsGlobal.motion.allow_closing">
+  <md-list-item class="md-2-line motion_tiles__closing" id="closing_tile" ng-if="settingsGlobal.motion.allow_closing">
     <md-icon ng-if="!motion._motionOpenForVoting" md-svg-icon="calendar-remove"></md-icon>
-        <div ng-if="!motion._motionOpenForVoting" class="md-list-item-text">
+        <div ng-if="!motion._motionOpenForVoting" class="md-list-item-text ">
           <h3>{{'CLOSED' | translate}}</h3>
           <p>{{ 'CLOSES_ON' | translate }}</p>
         </div>
 
 	    <md-icon ng-if="motion._motionOpenForVoting" md-svg-icon="calendar-clock"></md-icon>
-        <div ng-if="motion._motionOpenForVoting && motion.closing_at.alpha_date" class="md-list-item-text">
+        <div ng-if="motion._motionOpenForVoting && motion.closing_at.alpha_date" class="md-list-item-text ">
           <h3>{{ motion.closing_at.alpha_date | customLongDate }}</h3>
           <p>{{ 'CLOSES_ON' | translate }}</p>
         </div>
@@ -28,7 +28,7 @@
 	</md-list-item>
 
 
-	<md-list-item class="md-2-line">
+	<md-list-item class="md-2-line motion_tiles__passing-status">
 	  	<md-icon id="passing_status_icon" md-svg-src="{{ motion.rankTile.icon || 'loading' }}"></md-icon>
         <div class="md-list-item-text" >
           <h3>{{ motion.rankTile.message }}</h3>

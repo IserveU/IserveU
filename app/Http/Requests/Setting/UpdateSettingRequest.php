@@ -18,14 +18,12 @@ class UpdateSettingRequest extends Request
      */
     public function authorize()
     {
-
-        // done in the middleware
         return true;
     }
 
     public function rules()
     {
-        //workaround to conver numeric value to int
+        //workaround for beta message value.
         if (is_numeric($this['value'])) {
             $this['value'] = (int) $this['value'];
         }

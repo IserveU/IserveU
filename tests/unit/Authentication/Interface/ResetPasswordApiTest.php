@@ -2,6 +2,7 @@
 
 include_once 'AuthenticateApi.php';
 
+use App\OneTimeToken;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ResetPasswordApiTest extends AuthenticateApi
@@ -25,11 +26,13 @@ class ResetPasswordApiTest extends AuthenticateApi
     }
 
     /** @test **/
-    public function submit_remember_token_and_reset_password()
+    public function submit_one_time_token_and_reset_password()
     {
         $user = factory(App\User::class)->create();
 
-        $this->get('/authenticate/'.$user->remember_token)
+        $token = OneTimeToken::generateFor($user);
+
+        $this->get('/authenticate/'.$token->token)
             ->assertResponseStatus(200)
             ->see($user->email)
             ->see($user->api_token);

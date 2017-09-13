@@ -8,7 +8,8 @@
       '$resource',
       '$q',
       '$http',
-      motionResource]);
+      motionResource
+    ]);
 
   function motionResource($rootScope, $resource, $q, $http) {
 
@@ -23,21 +24,24 @@
     };
 
     /****************************************************************
-    *
-    * Resource setters using Angular's internal ngResource.
-    *
-    *****************************************************************/
+     *
+     * Resource setters using Angular's internal ngResource.
+     *
+     *****************************************************************/
 
     var Motion = $resource('api/motion/:id', {}, {
-      'update': { method: 'PUT' }
+      'update': {
+        method: 'PUT'
+      }
     });
-
     var MotionComments = $resource('api/motion/:id/comment', {}, customQuery);
 
     var MotionFiles = $resource('api/motion/:motion_id/motionfile/', {},
       customQuery);
 
-    var MotionIndex = $resource('api/motion', {page: '@pnext_page'}, {
+    var MotionIndex = $resource('api/motion', {
+      page: '@pnext_page'
+    }, {
       query: {
         method: 'GET',
         ignoreLoadingBar: true,
@@ -61,14 +65,16 @@
     //   }
     // });
 
-      /*****************************************************************
-      *
-      * Server-side functions.
-      *
-      ******************************************************************/
+    /*****************************************************************
+     *
+     * Server-side functions.
+     *
+     ******************************************************************/
 
     function getMotion(id) {
-      return Motion.get({id: id}).$promise.then(function(success) {
+      return Motion.get({
+        id: id
+      }).$promise.then(function(success) {
         return success;
       }, function(error) {
         return $q.reject(error);
@@ -89,9 +95,12 @@
         return error;
       });
     }
+
     function getMotionComments(id) {
       //id = slug here.
-      return MotionComments.get({id: id}).$promise.then(function(success) {
+      return MotionComments.get({
+        id: id
+      }).$promise.then(function(success) {
         return success;
       }, function(error) {
         return $q.reject(error);
@@ -99,18 +108,22 @@
     }
 
     function getMotionFiles(id) {
-      return MotionFiles.query({motion_id: id})
+      return MotionFiles.query({
+          motion_id: id
+        })
         .$promise.then(function(success) {
           return success;
         }, function(error) {
           return $q.reject(error);
         });
     }
+
     function getMotionVotes(id) {
-      //id here = slug
       return $http.get('api/motion/' + id + '/vote', {
         withCredentials: true,
-        headers: {'Content-Type': undefined },
+        headers: {
+          'Content-Type': undefined
+        },
         ignoreLoadingBar: true,
         transformRequest: angular.identity
       }).success(function(success) {
@@ -119,9 +132,24 @@
         return error;
       });
     }
-    
+
+    function getUserCommentVotes(id) {
+
+      return $http({
+        method: 'GET',
+        url: 'api/user/' + $rootScope.authenticatedUser.id + '/comment_vote',
+        params: {
+          'motion_id': id,
+          ignoreLoadingBar: true
+        }
+      }).success(function(results) {
+        return results;
+      }).error(function(error) {
+        return error.data || error;
+      });
+    }
+
     function getMyMotions() {
-      // user_id is correct here.
       return $http({
         method: 'GET',
         url: '/api/motion',
@@ -146,7 +174,9 @@
     }
 
     function getMotionsIndex(next_page) {
-      return MotionIndex.query({page: next_page})
+      return MotionIndex.query({
+          page: next_page
+        })
         .$promise.then(function(success) {
           return success;
         }, function(error) {
@@ -155,7 +185,9 @@
     }
 
     function restoreMotion(id) {
-      return MotionRestore.get({id: id}).$promise.then(function(success) {
+      return MotionRestore.get({
+        id: id
+      }).$promise.then(function(success) {
         return success;
       }, function(error) {
         return $q.reject(error);
@@ -172,7 +204,9 @@
 
     function deleteMotion(id) {
 
-      return Motion.delete({id: id}).$promise.then(function(success) {
+      return Motion.delete({
+        id: id
+      }).$promise.then(function(success) {
         return success;
       }, function(error) {
         return $q.reject(error);
@@ -180,7 +214,9 @@
     }
 
     function updateMotion(data) {
-      return Motion.update({id: data.id}, data)
+      return Motion.update({
+          id: data.id
+        }, data)
         .$promise.then(function(success) {
           return success;
         }, function(error) {
@@ -200,6 +236,7 @@
       getMotionsIndex: getMotionsIndex,
       getMyMotions: getMyMotions,
       restoreMotion: restoreMotion,
+      getUserCommentVotes: getUserCommentVotes,
       // POST
       createMotion: createMotion,
       deleteMotion: deleteMotion,

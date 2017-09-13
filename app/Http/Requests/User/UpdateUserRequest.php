@@ -23,7 +23,6 @@ class UpdateUserRequest extends Request
         'status'                        => 'string|valid_status',
         'login_attempts'                => 'integer',
         'identity_verified'             => 'boolean',
-        'remember_token'                => 'unique:users,remember_token',
         'postal_code'                   => 'string|max:10',
         'phone'                         => 'numeric|digits_between:8,15|unique:users,phone',
         'street_name'                   => 'string',
@@ -74,7 +73,6 @@ class UpdateUserRequest extends Request
         $user = $this->route()->parameter('user');
 
         $this->rules['email'] = $this->rules['email'].','.$user->id;
-        $this->rules['remember_token'] = $this->rules['email'].','.$user->id;
         $this->rules['phone'] = $this->rules['phone'].','.$user->id;
 
         return $this->rules;

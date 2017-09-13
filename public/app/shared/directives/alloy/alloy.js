@@ -1,6 +1,5 @@
 'use strict';
-(function(window, angular, undefined) {
-
+(function (window, angular, undefined) {
   angular
     .module('iserveu')
     .directive('alloyEditor', [
@@ -12,25 +11,22 @@
       'regexService',
       'debouncer',
       'CSRF_TOKEN',
-      alloyEditor]);
+      alloyEditor])
 
-  function alloyEditor($rootScope, $timeout, $state, $stateParams,
+  function alloyEditor ($rootScope, $timeout, $state, $stateParams,
     alloyService, regexService, debouncer, CSRF_TOKEN) {
+    function alloyLink (scope, el, attrs, ngModel) {
+      scope.uploader = {}
 
-    function alloyLink(scope, el, attrs, ngModel) {
-
-      scope.uploader = {};
-
-      function initAlloy() {
-
+      function initAlloy () {
         var alloyEditor = AlloyEditor.editable(attrs.id,
-            alloyService.getToolbar(attrs.alloyToolbar));
+            alloyService.getToolbar(attrs.alloyToolbar))
 
         if (!ngModel) {
-          return false;
+          return false
         }
 
-        var nativeEditor = alloyEditor.get('nativeEditor');
+        var nativeEditor = alloyEditor.get('nativeEditor')
 
         /* ===========================================================
         |
@@ -41,62 +37,62 @@
         |   a little hack.
         |
         | ===========================================================*/
-        function refreshView(content) {
-          nativeEditor.setData('', function() {
-            nativeEditor.focus();
-            nativeEditor.insertHtml(content);
-          });
+        function refreshView (content) {
+          nativeEditor.setData('', function () {
+            nativeEditor.focus()
+            nativeEditor.insertHtml(content)
+          })
         }
 
-        nativeEditor.on('pasteState', function() {
-          var content = nativeEditor.getData(), transformedHtml;
+        nativeEditor.on('pasteState', function () {
+          var content = nativeEditor.getData(), transformedHtml
 
           if (typeof content !== undefined) {
-            transformedHtml = regexService.replaceContent(content);
+            transformedHtml = regexService.replaceContent(content)
           }
 
-          content = transformedHtml.html;
-          ngModel.$setViewValue(content);
+          content = transformedHtml.html
+          ngModel.$setViewValue(content)
 
           if (transformedHtml.transformed) {
-            var debounce = new debouncer.Debounce();
-            debounce.Invoke(function() {
-              refreshView(content);
-            }, 20, false);
+            var debounce = new debouncer.Debounce()
+            debounce.Invoke(function () {
+              refreshView(content)
+            }, 20, false)
           }
-        });
+        })
 
-        nativeEditor.on('imageAdd', function(event) {
-          var item_id = $stateParams.slug || $stateParams.id;
-          var parent_name = $state.current.name;
+        nativeEditor.on('imageAdd', function (event) {
+          var item_id = $stateParams.slug || $stateParams.id
+          var parent_name = $state.current.name
 
-          parent_name = parent_name.split('-')[1];
+          parent_name = parent_name.split('-')[1]
 
           if (parent_name === 'home')
-            parent_name = 'page';
+            {parent_name = 'page';}
 
-          var endpoint = '/api/' + parent_name + '/' + item_id + '/file/';
+          var endpoint = '/api/' + parent_name + '/' + item_id + '/file/'
 
-          scope.$flow.opts.target = endpoint;
+          scope.$flow.opts.target = endpoint
 
           scope.$flow.opts.headers = {
             'X-CSRF-TOKEN': CSRF_TOKEN,
             'Authorization': 'Bearer ' + localStorage.getItem('api_token')
-          };
-          scope.$flow.opts.testChunks = false;
-          scope.$flow.addFile(event.data.file, event);
-          scope.$flow.upload();
+          }
+          scope.$flow.opts.testChunks = false
+          scope.$flow.addFile(event.data.file, event)
+          scope.$flow.upload()
 
-          scope.$flow.on('fileSuccess', function(file, message) {
-            var data = JSON.parse(message);
+          scope.$flow.on('fileSuccess', function (file, message) {
+            var data = JSON.parse(message)
             event.data.el.setAttribute('src',
-              endpoint + data.slug + '/resize/1920');
-          });
+              endpoint + data.slug + '/resize/1920')
+          })
 
-          scope.$flow.on('fileError', function(file, message) {
-            event.data.el.remove();
-          });
-        });
+          scope.$flow.on('fileError', function (file, message) {
+            event.data.el.remove()
+          })
+        })
 
         /* ==========================================================
         |
@@ -109,14 +105,13 @@
         |
         | ========================================================= */
 
-        ngModel.$render = function(value) {
-          var model = ngModel.$viewValue;
-          nativeEditor.setData(model, function() {
-            nativeEditor.focus();
-          });
+        ngModel.$render = function (value) {
+          var model = ngModel.$viewValue
+          nativeEditor.setData(model, function () {
+            nativeEditor.focus()
+          })
         };
       }
-
 
     /* ==========================================================
     |
@@ -125,9 +120,9 @@
     |   it is attached to, so must offset very slightly.
     |
     | ========================================================= */
-      $timeout(function() {
-        initAlloy();
-      }, 20);
+      $timeout(function () {
+        initAlloy()
+      }, 20)
     }
 
     return {
@@ -135,7 +130,6 @@
       restrict: 'EA',
       require: 'ngModel',
       scope: true
-    };
+    }
   }
-
-})(window, window.angular);
+})(window, window.angular)

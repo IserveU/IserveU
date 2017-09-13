@@ -75,7 +75,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      *
      * @var array
      */
-    protected $unique = ['email', 'remember_token'];
+    protected $unique = ['email'];
 
     /**
      * The fields that are dates/times.
@@ -207,7 +207,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         //If self or show-other-private-user
         if (Auth::check() && (Auth::user()->id == $this->id || Auth::user()->hasRole('administrator'))) {
-            $this->addVisible(['id', 'email', 'slug', 'first_name', 'middle_name', 'last_name', 'postal_code', 'street_name', 'street_number', 'unit_number', 'community_id', 'status', 'ethnic_origin_id', 'date_of_birth', 'address_verified_until', 'agreement_accepted', 'identity_verified', 'preferences', 'login_attempts', 'locked_until', 'agreement_accepted_date', 'deleted_at', 'remember_token', 'created_at', 'updated_at', 'government_identification_id', 'avatar_id', 'api_token', 'permissions', 'phone']);
+            $this->addVisible(['id', 'email', 'slug', 'first_name', 'middle_name', 'last_name', 'postal_code', 'street_name', 'street_number', 'unit_number', 'community_id', 'status', 'ethnic_origin_id', 'date_of_birth', 'address_verified_until', 'agreement_accepted', 'identity_verified', 'preferences', 'login_attempts', 'locked_until', 'agreement_accepted_date', 'deleted_at', 'created_at', 'updated_at', 'government_identification_id', 'avatar_id', 'api_token', 'permissions', 'phone']);
         }
 
         if ($this->publiclyVisible) {
@@ -354,7 +354,7 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
 
         return [
             'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('j F Y'),
+            'alpha_date'    => $carbon->format('F j, Y'),
             'carbon'        => $carbon,
         ];
     }
@@ -637,5 +637,11 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     public function community()
     {
         return $this->belongsTo('App\Community');
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany('App\OneTimeToken')
+                    ->orderBy('created_at', 'desc');
     }
 }

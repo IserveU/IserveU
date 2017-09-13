@@ -35,7 +35,10 @@ class SetDefaultSettings
 
         Setting::ifNotSetThenSet('site', [
             'name'          => 'IserveU - eDemocracy',
-            'terms'         => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
+            'terms'         => [
+                'force'       => 1,
+                'text'        => 'This system is built and maintained by volunteers, we can not be held liable for events beyond our reasonable  control. The software will be updated periodically to improve the user experience and performance.',
+            ],
             'slogan'        => 'Conceived &amp; Forged In Yellowknife, Canada',
             'address'       => 'http://iserveu.ca',
             'twitter'       => 'http://twitter.com/iserveu_org',
@@ -78,6 +81,11 @@ class SetDefaultSettings
             ]);
 
         Setting::ifNotSetThenSet('theme', [
+                'customTheme' => 1,
+                'predefined'  => [
+                    'primary' => 'purple',
+                    'accent'  => 'green',
+                ],
                 'colors' => [
                     'primary'           => ['50'   => '61d3d8', '100'  => '61d3d8', '200'  => '61d3d8', '300'  => '61d3d8', '400'  => '00acb1',
                         '500'                      => '00acb1', '600'  => '00acb1', '700'  => '006e73', '800'  => '006e73', '900'  => '006e73', 'A100' => 'ff0000',

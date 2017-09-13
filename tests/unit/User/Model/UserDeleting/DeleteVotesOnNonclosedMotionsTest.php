@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteActiveVotesTest extends BrowserKitTestCase
+class DeleteVotesOnNonclosedMotionsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -16,7 +16,7 @@ class DeleteActiveVotesTest extends BrowserKitTestCase
     }
 
     /** @test **/
-    public function deleted_user_will_have_votes_on_non_closed_motions_deleted()
+    public function deleted_user_will_have_votes_on_non_closed_motions_permanently_deleted()
     {
         $nonClosedMotionVotes = factory(App\Vote::class, 5)->create();
         foreach ($nonClosedMotionVotes as $vote) {

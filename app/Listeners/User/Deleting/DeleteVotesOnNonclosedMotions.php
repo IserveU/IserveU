@@ -29,10 +29,10 @@ class DeleteVotesOnNonclosedMotions
     {
         $user = $event->user;
 
-        $activeMotionVotes = Vote::motionStatus(['draft', 'review', 'published'])->where('user_id', $user->id)->get();
+        $activeMotionVotes = Vote::motionStatus(['draft', 'review', 'published'])->byUser($user)->get();
 
         foreach ($activeMotionVotes as $activeMotionVote) {
-            $activeMotionVote->delete();
+            $activeMotionVote->forceDelete();
         }
     }
 }
