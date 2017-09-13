@@ -8,59 +8,50 @@
   </floating-button>
 
   <div id="centered_content">
-		<md-card>
-			<md-card-content flex>
+    <md-card>
+      <md-card-content flex>
 
-			<article class="layout-row layout-wrap">
+      <article class="layout-row layout-wrap">
 
-				<header class="motion_header">
-					<h1 class="motion_header__title">{{ ::motion.title }}</h1>
-					<p class="md-subhead motion_header__summary">{{motion.summary}}</p>
-				</header>
-				
-				<motion-tiles class=motion_tiles></motion-tiles>
+        <header class="motion_header">
+          <h1 class="motion_header__title">{{ ::motion.title }}</h1>
+          <p class="md-subhead motion_header__summary">{{motion.summary}}</p>
+        </header>
+        <motion-tiles class=motion_tiles></motion-tiles>
 
+        <section class="motion_details">
+          <h2 ng-if="motion.text">Details</h2>
+          <div class="md-body-1" ng-bind-html="::motion.text | trustAsHtml"></div>
+        </section>
 
-				<section class="motion_details">
-		
-					<h2 ng-if="motion.text">Details</h2>
+        <section class="motion_files" ng-if="motion.motionFiles">
+          <h2>Resources</h2>
+          <md-list>
+            <md-list-item class="md-3-line" ng-repeat="file in motion.motionFiles">
+              <md-icon class="mdi md-avatar-icon mdi-file-{{file.type}}"></md-icon>
+                <div class="md-list-item-text">
+                  <h3><a ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download">{{file.title}}</a></h3>
+                  <h4>{{file.type}}</h4>
+                  <p>{{ file.title ? file.description : file.slug}}</p>
+                </div>
+              <md-button class="md-secondary md-icon-button" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" aria-label="download">
+                <md-icon class="mdi mdi-download"></md-icon>
+              </md-button
+            </md-list-item>
+          </md-list>
+        </section>
+      </article>
+    </md-card-content>
+  </md-card>
 
-					<div class="md-body-1" ng-bind-html="::motion.text | trustAsHtml"></div>
+    <motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on && motion.status !== 'draft' "></motion-votes>
 
-				</section>
+    <comment-section ng-if="settingsGlobal.comment.on  && motion.status !== 'draft'">
+      <user-comment ng-if="userIsLoggedIn && motion._userVote"></user-comment>
+      <comment-list></comment-list>
+    </comment-section>
 
-				<section class="motion_files" ng-if="motion.motionFiles">
-					<h2>Resources</h2>
-
-					<md-list>
-						<md-list-item class="md-3-line" ng-repeat="file in motion.motionFiles">
-							<md-icon class="mdi md-avatar-icon mdi-file-{{file.type}}"></md-icon>
-
-					        <div class="md-list-item-text">
-					            <h3><a ng-href="href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download">{{file.title}}</a></h3>
-					            <h4>{{file.type}}</h4>
-					            <p>{{ file.title ? file.description : file.slug}}</p>
-					        </div>
-  							<md-button class="md-secondary md-icon-button" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" aria-label="download">
-					        	<md-icon class="mdi mdi-download"></md-icon>
-          					</md-button
-				        </md-list-item>
-			        </md-list>
-
-				</section>
-
-			</article>
-			</md-card-content>
-		</md-card>
-
-		<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on && motion.status !== 'draft' "></motion-votes>
-
-		<comment-section ng-if="settingsGlobal.comment.on  && motion.status !== 'draft'">
-			<user-comment ng-if="userIsLoggedIn && motion._userVote"></user-comment>
-			<comment-list></comment-list>
-		</comment-section>
-
-	</div>
+  </div>
 
 
 </motion>
