@@ -49,8 +49,8 @@ class MotionSummary extends Notification
     {
         $mailMessage = (new MailMessage())
                     ->subject('Summary of Latest Motions');
-                    // ->greeting('greeting')
-                    // ->line('heres');
+        // ->greeting('greeting')
+        // ->line('heres');
 
         if (!$this->latestLaunchedMotions->isEmpty()) {
             //  var_dump($this->latestLaunchedMotions);

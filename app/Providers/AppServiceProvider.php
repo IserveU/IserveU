@@ -60,20 +60,20 @@ class AppServiceProvider extends ServiceProvider
 
             $published_at = $data['published_at'];
 
-                //Get the date
-                if (!($published_at instanceof \Carbon\Carbon)) {
-                    $published_at = new \Carbon\Carbon($published_at);
-                }
+            //Get the date
+            if (!($published_at instanceof \Carbon\Carbon)) {
+                $published_at = new \Carbon\Carbon($published_at);
+            }
 
-                // You cant set something as "published" and set the published date in the future
-                if ($status == 'published' && $published_at > \Carbon\Carbon::now()) {
-                    return false;
-                }
+            // You cant set something as "published" and set the published date in the future
+            if ($status == 'published' && $published_at > \Carbon\Carbon::now()) {
+                return false;
+            }
 
-                // You can set something as "scheduled" and have the published date in the past
-                if ($status == 'scheduled' && $published_at < \Carbon\Carbon::now()) {
-                    return false;
-                }
+            // You can set something as "scheduled" and have the published date in the past
+            if ($status == 'scheduled' && $published_at < \Carbon\Carbon::now()) {
+                return false;
+            }
 
             return true;
         });

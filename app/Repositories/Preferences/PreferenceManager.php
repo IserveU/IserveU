@@ -168,11 +168,11 @@ class PreferenceManager
 
       // $this->preferences = array_merge_recursive($this->defaults,$this->preferences); // For practicality it's way easier to read dot notation
 
-      foreach ($this->defaults as $key => $value) {
-          if (!array_has($this->preferences, $key)) {
-              $this->createPreference($key, $value, false);
-          }
-      }
+        foreach ($this->defaults as $key => $value) {
+            if (!array_has($this->preferences, $key)) {
+                $this->createPreference($key, $value, false);
+            }
+        }
 
         $this->stagePreferences();
 

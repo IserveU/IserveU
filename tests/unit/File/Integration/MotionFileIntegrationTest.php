@@ -41,7 +41,7 @@ class MotionFileIntegrationTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
-          //Can download
+        //Can download
         $this->get('/api/motion/'.$motion->slug.'/file/'.$file->slug.'/download')
             ->assertResponseStatus(200);
     }
@@ -74,7 +74,7 @@ class MotionFileIntegrationTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
-         //Can patch
+        //Can patch
         $this->patch('/api/motion/'.$motion->slug.'/file/'.$file->slug, $filePost)
             ->assertResponseStatus(200)
             ->seeJsonStructure([

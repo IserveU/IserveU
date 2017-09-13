@@ -130,7 +130,7 @@ class MotionFilterPermissionTest extends BrowserKitTestCase
         );
         $this->assertResponseStatus(200);
 
-       //Filter to see my drafts
+        //Filter to see my drafts
         filterCheck(
                 $this,
                 [

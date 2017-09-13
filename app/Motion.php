@@ -169,7 +169,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
         Cache::tags(['motion.filters'])->flush();
         Cache::tags(['motion', 'motion.model'])->forget($this->slug);
         Cache::tags(['motion', 'motion.model'])->forget($this->id);
-      //  Cache::forget('motion'.$this->slug.'_comments');
+        //  Cache::forget('motion'.$this->slug.'_comments');
     }
 
     /**
@@ -329,14 +329,14 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     public function getRankAttribute()
     {
         // if relation is not loaded already, let's do it first
-      if (!array_key_exists('rankRelation', $this->relations)) {
-          $this->load('rankRelation');
-      }
+        if (!array_key_exists('rankRelation', $this->relations)) {
+            $this->load('rankRelation');
+        }
 
         $related = $this->getRelation('rankRelation');
 
-      // then return the count directly
-      return ($related) ? (int) $related->rank : 0;
+        // then return the count directly
+        return ($related) ? (int) $related->rank : 0;
     }
 
     /**

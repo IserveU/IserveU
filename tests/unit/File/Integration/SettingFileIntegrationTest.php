@@ -25,8 +25,8 @@ class SettingFileIntegrationTest extends BrowserKitTestCase
         $homePage = Page::find(1);
         $logoFile = File::findBySlug('logo-png');
 
-       //Can patch
-      $this->patch('/api/page/'.$homePage->slug.'/file/logo-png', $filePost)
+        //Can patch
+        $this->patch('/api/page/'.$homePage->slug.'/file/logo-png', $filePost)
           ->assertResponseStatus(200)
           ->seeInDatabase('files', ['slug' => 'logo-png', 'replacement_id'=>null])
           ->dontSeeInDatabase('files', ['slug' => 'logo-png', 'filename'=>$logoFile->filename])
@@ -43,8 +43,8 @@ class SettingFileIntegrationTest extends BrowserKitTestCase
         $homePage = Page::find(1);
         $symbolFile = File::findBySlug('symbol-png');
 
-       //Can patch
-      $this->patch('/api/page/'.$homePage->slug.'/file/symbol-png', $filePost)
+        //Can patch
+        $this->patch('/api/page/'.$homePage->slug.'/file/symbol-png', $filePost)
           ->assertResponseStatus(200)
           ->seeInDatabase('files', ['slug' => 'symbol-png', 'replacement_id'=>null])
           ->dontSeeInDatabase('files', ['slug' => 'symbol-png', 'filename'=>$symbolFile->filename])

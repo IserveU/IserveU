@@ -4,7 +4,7 @@
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     // This base test case is used for laravel 5.4 update tests
-// Further test will be using TestCase.
+    // Further test will be using TestCase.
 
     /**
      * The base URL to use while testing the application.

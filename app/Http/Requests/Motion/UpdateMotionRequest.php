@@ -17,7 +17,7 @@ class UpdateMotionRequest extends Request
         $motion = $this->route()->parameter('motion');
 
         if ($motion->status == 'closed') { //Motion has closed/expired
-           return false;
+            return false;
         }
 
         if (!Auth::check()) {
@@ -32,26 +32,26 @@ class UpdateMotionRequest extends Request
             return false;
         }
 
-      //Can't change the closing date if it has been voted on
-      if ($this->has('closing_at')) {
-          if (!$motion->votes->isEmpty() && ($motion->closing_at['carbon'] != null)) {
-              return false;
-          }
-      }
+        //Can't change the closing date if it has been voted on
+        if ($this->has('closing_at')) {
+            if (!$motion->votes->isEmpty() && ($motion->closing_at['carbon'] != null)) {
+                return false;
+            }
+        }
 
-      //Can't change the status over 1 if not an admin
-      if ($this->has('status')) {
-          if (!Auth::user()->can('administrate-motion') && ($this->status == 'published' || $this->status == 'closed')) {
-              return false;
-          }
-      }
+        //Can't change the status over 1 if not an admin
+        if ($this->has('status')) {
+            if (!Auth::user()->can('administrate-motion') && ($this->status == 'published' || $this->status == 'closed')) {
+                return false;
+            }
+        }
 
-      //Cant set another user as the creator of a motion if you're just a regular citizen
-      if ($this->has('user_id')) {
-          if (!Auth::user()->can('administrate-motion') && Auth::user()->id != $inputs['user_id']) {
-              return false;
-          }
-      }
+        //Cant set another user as the creator of a motion if you're just a regular citizen
+        if ($this->has('user_id')) {
+            if (!Auth::user()->can('administrate-motion') && Auth::user()->id != $inputs['user_id']) {
+                return false;
+            }
+        }
 
         return true;
     }

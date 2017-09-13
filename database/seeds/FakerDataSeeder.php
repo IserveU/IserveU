@@ -143,7 +143,7 @@ class FakerDataSeeder extends Seeder
         //Because if it's random. Need to trigger position time
         for ($i = 1; $i <= $number; $i++) {
             //New voters
-          $votes = factory(App\Vote::class)->create([
+            $votes = factory(App\Vote::class)->create([
               'motion_id' => $this->motion->id,
               'position'  => static::getPosition($position),
           ]);
@@ -155,13 +155,13 @@ class FakerDataSeeder extends Seeder
     public function giveRegularVotes($position = 'rand')
     {
         //People who vote but don't comment
-      foreach ($this->regularVoters as $regularVoter) {
-          factory(App\Vote::class)->create([
+        foreach ($this->regularVoters as $regularVoter) {
+            factory(App\Vote::class)->create([
             'user_id'   => $regularVoter->id,
             'motion_id' => $this->motion->id,
             'position'  => static::getPosition($position),
         ]);
-      }
+        }
 
         return $this;
     }
