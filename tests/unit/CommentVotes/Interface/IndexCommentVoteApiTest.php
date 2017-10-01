@@ -20,11 +20,8 @@ class IndexCommentVoteApiTest extends CommentVoteApi
     {
         $this->signInAsRole('administrator');
 
-
         $this->get($this->route)
             ->assertResponseStatus(200);
-
-
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES
