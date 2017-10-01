@@ -188,7 +188,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         Mail::fake();
 
-        dispatch(new PrepareMotionSummary());
+        dispatch_now(new PrepareMotionSummary());
 
         Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             if (!$mail->sections['Closing Soon']->contains($motion) || !$mail->hasTo($user->email)) {

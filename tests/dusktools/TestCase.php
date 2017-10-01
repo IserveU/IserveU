@@ -52,10 +52,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         // Warning:
-      //  \PHPUnit_Framework_Error_Warning::$enabled = false;
+        \PHPUnit_Framework_Error_Warning::$enabled = false;
 
         // notice, strict:
-      //  \PHPUnit_Framework_Error_Notice::$enabled = false;
+        \PHPUnit_Framework_Error_Notice::$enabled = false;
 
         //Any global things
     }

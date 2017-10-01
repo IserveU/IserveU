@@ -7,8 +7,9 @@ use App\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MotionSummary extends Mailable
+class MotionSummary extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

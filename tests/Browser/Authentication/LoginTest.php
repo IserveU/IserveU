@@ -87,7 +87,11 @@ class LoginTest extends DuskTestCase
                       ->typeBetter('@password', 'abcd1234')
 
                       ->press('@login')
+<<<<<<< HEAD
                       ->waitForLocationContains('/#/home');
+=======
+                      ->waitForLocation('/#/home');
+>>>>>>> 271718783d4a1c3676a7200b9022d54be0618675
         });
     }
 }
