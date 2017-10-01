@@ -15,17 +15,18 @@ use Auth;
 class CommentVoteController extends ApiController
 {
     /**
-     * Display a listing of the comment votes for this user.
+     * Display a listing of the comment votes for all
      *
      * @return Response
      */
     public function index(IndexCommentVoteRequest $request)
     {
+
         if (Auth::user()->can('view-comment_vote')) { //Administrator able to see any comment vote
             return CommentVote::all();
         }
 
-        return CommentVote::where('user_id', Auth::user()->id)->select('comment_id', 'position')->get(); //Get standard users comment votes
+        return CommentVote::byUser(Auth::user()->id)->select('comment_id', 'position')->get(); //Get standard users comment votes
     }
 
     /**

@@ -4,7 +4,7 @@ include_once 'CommentVoteApi.php';
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class IndexCommentVoteApiTest extends BrowserKitTestCase
+class IndexCommentVoteApiTest extends CommentVoteApi
 {
     use DatabaseTransactions;
 
@@ -16,8 +16,15 @@ class IndexCommentVoteApiTest extends BrowserKitTestCase
     ///////////////////////////////////////////////////////////CORRECT RESPONSES
 
     /** @test */
-    public function filter_commentvote_by()
+    public function can_get_own_comment_votes()
     {
+        $this->signInAsRole('administrator');
+
+
+        $this->get($this->route)
+            ->assertResponseStatus(200);
+
+
     }
 
     /////////////////////////////////////////////////////////// INCORRECT RESPONSES

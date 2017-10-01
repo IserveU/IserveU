@@ -22,7 +22,6 @@ dependencies:
   pre:
     - node --version
     - npm --version
-    - npm install -g cross-env
   cache_directories:
     - "vendor"
     - "node_modules"
