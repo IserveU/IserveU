@@ -32,6 +32,6 @@ class FileEventsTest extends BrowserKitTestCase
             'folder' => "$wordA $wordB $wordC",
         ]);
 
-        $this->assertTrue(file_exists(storage_path('app/'.strtolower($wordA)."_".strtolower($wordB).'_'.strtolower($wordC))));
+        $this->assertTrue(file_exists(storage_path('app/'.strtolower($wordA).'_'.strtolower($wordB).'_'.strtolower($wordC))));
     }
 }

@@ -81,14 +81,11 @@ class CheckUserRolesTest extends BrowserKitTestCase
         Notification::assertSentTo(
             $user,
             App\Notifications\Authentication\RoleGranted::class,
-            function($notification, $channels){
-
+            function ($notification, $channels) {
                 return $notification->role->name == 'citizen';
-
             }
 
         );
-
     }
 
     /** @test **/
@@ -103,7 +100,6 @@ class CheckUserRolesTest extends BrowserKitTestCase
 
         $user->addRole('citizen');
         $user->touch();
-
 
         Notification::assertNotSentTo(
             $user,
@@ -125,7 +121,6 @@ class CheckUserRolesTest extends BrowserKitTestCase
 
         $user->addRole('citizen');
         $user->touch();
-
 
         Notification::assertNotSentTo(
             $user,
