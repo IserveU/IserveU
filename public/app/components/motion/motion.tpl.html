@@ -12,12 +12,12 @@
 					<h1 class="motion_header__title">{{ ::motion.title }}</h1>
 					<p class="md-subhead motion_header__summary">{{motion.summary}}</p>
 				</header>
-				
+
 				<motion-tiles class=motion_tiles></motion-tiles>
 
 
 				<section class="motion_details">
-		
+
 					<h2 ng-if="motion.text">Details</h2>
 
 					<div class="md-body-1 motion_details__text" ng-bind-html="::motion.text | trustAsHtml"></div>
@@ -28,7 +28,7 @@
 					<h2>Resources</h2>
 
 					<md-list>
-						<md-list-item class="md-3-line" ng-repeat="file in motion.motionFiles">
+						<md-list-item class="md-3-line" ng-repeat="file in motion.motionFiles" ng-if="file.title !== null">
 							<md-icon class="mdi md-avatar-icon mdi-file-{{file.type}}"></md-icon>
 
 					        <div class="md-list-item-text">
@@ -38,10 +38,9 @@
 					        </div>
   							<md-button class="md-secondary md-icon-button" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" aria-label="download">
 					        	<md-icon class="mdi mdi-download"></md-icon>
-          					</md-button
+                  </md-button>
 				        </md-list-item>
 			        </md-list>
-
 				</section>
 
 			</article>
@@ -56,7 +55,7 @@
 		</comment-section>
 
 	</div>
-  
+
 	<floating-button ng-if="isThisUsers(motion.user_id)" class="motion_fab"
 		init-buttons="['create', 'edit', 'delete']"
 		on-create="create()"
