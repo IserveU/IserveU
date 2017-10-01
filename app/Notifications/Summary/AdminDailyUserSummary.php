@@ -3,13 +3,11 @@
 namespace App\Notifications\Summary;
 
 use App\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
-
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 
 class AdminDailyUserSummary extends Notification implements ShouldQueue
 {
@@ -24,7 +22,7 @@ class AdminDailyUserSummary extends Notification implements ShouldQueue
      */
     public function __construct(Collection $newUsers, User $user)
     {
-       // dd("BULLSHIT");
+        // dd("BULLSHIT");
         $this->newUsers = $newUsers;
         $this->user = $user;
     }

@@ -1,20 +1,20 @@
 <?php
 
 use App\Jobs\Emails\PrepareAdminSummary;
+use App\Notifications\Summary\AdminDailyUserSummary;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
-use App\Notifications\Summary\AdminDailyUserSummary;
 
 class PrepareAdminSummaryTest extends BrowserKitTestCase
 {
     //use DatabaseTransactions;
-   // use InteractsWithMail;
+    // use InteractsWithMail;
 
     public function setUp()
     {
         parent::setUp();
 
-     //   $this->mailerInstance = $this->getMailer();
+        //   $this->mailerInstance = $this->getMailer();
     }
 
     // Positive Tests
@@ -80,7 +80,6 @@ class PrepareAdminSummaryTest extends BrowserKitTestCase
 
         dispatch_now(new PrepareAdminSummary());
 
-
         Notification::assertSentTo(
             $adminUser,
             AdminDailyUserSummary::class,
@@ -89,6 +88,5 @@ class PrepareAdminSummaryTest extends BrowserKitTestCase
                         && $notification->newUsers->contains($regularUser);
             }
         );
-
     }
 }

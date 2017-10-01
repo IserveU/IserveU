@@ -43,11 +43,9 @@ class PrepareWelcomeEmailTest extends BrowserKitTestCase
             $user,
             Welcome::class,
             function ($notification, $channels) use ($user) {
-                return ($notification->token != false);
+                return $notification->token != false;
             }
         );
-
-
     }
 
     /** @test **/
@@ -63,9 +61,8 @@ class PrepareWelcomeEmailTest extends BrowserKitTestCase
             $user,
             Welcome::class,
             function ($notification, $channels) use ($user) {
-                return ($notification->token == false);
+                return $notification->token == false;
             }
         );
-
     }
 }

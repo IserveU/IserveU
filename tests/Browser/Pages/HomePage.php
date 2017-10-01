@@ -26,7 +26,6 @@ class HomePage extends Page
     public function assert(Browser $browser)
     {
         parent::assert($browser);
-
     }
 
     /**

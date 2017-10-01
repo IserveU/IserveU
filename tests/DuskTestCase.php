@@ -2,15 +2,14 @@
 
 namespace Tests;
 
+use Config;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Tests\DuskTools\TestCase as BaseTestCase;
-use Config;
 
 abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication, PolishedTest;
-
 
     public function setUp()
     {

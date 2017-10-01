@@ -26,7 +26,6 @@ class SidebarSection extends Page
     public function assert(Browser $browser)
     {
         parent::assert($browser);
-
     }
 
     //md-select.select_input__communities

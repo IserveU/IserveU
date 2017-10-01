@@ -175,7 +175,7 @@ class Browser extends DuskBrowser
     /**
      * Overrides base class
      * Wait for the given selector to be visible but also accepts something that is
-     * a selector already
+     * a selector already.
      *
      * @param string|object $selector
      * @param int           $seconds
@@ -192,7 +192,6 @@ class Browser extends DuskBrowser
             return $this->resolver->resolveBetter($selector)->isDisplayed();
         }, "Waited {$seconds} seconds for selector");
     }
-
 
     /**
      * While waiting for the visibility of something perform an action.
@@ -238,7 +237,7 @@ class Browser extends DuskBrowser
     /**
      * Extended over base class
      * Accepts an array if you are looking for muliple things on the
-     * page
+     * page.
      *
      * @param array $text
      * @param int   $seconds
@@ -324,6 +323,7 @@ class Browser extends DuskBrowser
             $this->driver->executeScript("localStorage.setItem('user', JSON.stringify(".json_encode($user->skipVisibility(['permissions'])->toArray()).'));');
             $this->driver->executeScript("localStorage.setItem('remember_me', 'true');");
             $this->driver->executeScript("localStorage.setItem('agreement_accepted', 'true');");
+
             return $this;
         }
 

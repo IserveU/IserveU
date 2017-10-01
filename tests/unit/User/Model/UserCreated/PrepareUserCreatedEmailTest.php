@@ -1,8 +1,8 @@
 +<?php
 
+use App\Notifications\Authentication\UserCreated as UserCreatedNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
-use App\Notifications\Authentication\UserCreated as UserCreatedNotification;
 
 class PrepareUserCreatedEmailTest extends BrowserKitTestCase
 {
@@ -25,8 +25,6 @@ class PrepareUserCreatedEmailTest extends BrowserKitTestCase
 
         $user = factory(App\User::class, 'public')->create();
 
-
-
         Notification::assertSentTo(
             $admin,
             UserCreatedNotification::class,
@@ -34,8 +32,6 @@ class PrepareUserCreatedEmailTest extends BrowserKitTestCase
                 return $notification->user->id == $user->id;
             }
         );
-
-
     }
 
     /** @test **/
@@ -48,12 +44,10 @@ class PrepareUserCreatedEmailTest extends BrowserKitTestCase
 
         $user = factory(App\User::class, 'public')->create();
 
-
         Notification::assertNotSentTo(
             $admin,
             UserCreatedNotification::class
         );
-
     }
 
     /** @test **/
@@ -72,7 +66,5 @@ class PrepareUserCreatedEmailTest extends BrowserKitTestCase
             $admin,
             UserCreatedNotification::class
         );
-
-
     }
 }

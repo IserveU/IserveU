@@ -37,6 +37,7 @@ class Welcome extends Notification
         }
 
         $this->createdByOther = $createdByOther;
+
         return $this;
     }
 

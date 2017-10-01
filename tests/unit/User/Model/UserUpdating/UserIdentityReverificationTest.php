@@ -1,9 +1,9 @@
 <?php
 
+use App\Notifications\App\Notifications\IdentityReverification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
-use App\Notifications\App\Notifications\IdentityReverification;
 
 class UserIdentityReverificationTest extends BrowserKitTestCase
 {
@@ -13,7 +13,7 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
     public function setUp()
     {
         parent::setUp();
-      //  $this->mailerInstance = $this->getMailer();
+        //  $this->mailerInstance = $this->getMailer();
     }
 
     /* For some reason this breaks the mailer if in setup */
@@ -66,14 +66,12 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
     /** @test **/
     public function verified_user_get_reverification_email_of_changed_credentials()
     {
-
         $user = $this->createVerifiedUser();
 
         Notification::fake();
 
         $user->last_name = 'My Last Name';
         $user->save();
-
 
         Notification::assertSentTo(
             [$user],
@@ -133,11 +131,9 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
 
         $user->update(['first_name' => 'Mike Westwick']);
 
-
         Notification::assertNotSentTo(
             $user,
             IdentityReverification::class
         );
-
     }
 }

@@ -17,7 +17,6 @@ class IdentityReverification extends Notification
      */
     public function __construct()
     {
-
     }
 
     /**

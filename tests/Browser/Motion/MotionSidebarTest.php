@@ -34,7 +34,7 @@ class MotionSidebarTest extends DuskTestCase
                     ->waitFor('@motionStatusFilterSelect');
 
             $this->markTestSkipped('Cannot select md-option for some reason');
-                   // ->jsSelectList('@motionStatusFilterSelect','Closed');
+            // ->jsSelectList('@motionStatusFilterSelect','Closed');
 
             $closedOption = $browser->findTagContainingText('md-option', 'Closed');
 
