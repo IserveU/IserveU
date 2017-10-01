@@ -12,26 +12,18 @@
 	  Upload Files
   </md-button>
 
-  <div ng-show="existingFiles" ng-repeat="file in existingFiles" layout-padding>
+  <div ng-repeat="file in existingFiles" ng-if="file.title !== null" layout-padding>
       <md-input-container style="width: 100%; margin-bottom: 0; padding-bottom: 0;">
         <label>Title</label>
-        <input type="text" ng-model="file.title" ng-change="changeProp(file, {title: file.title})" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
+        <input type="text" ng-model="file.title" ng-change="changeProp(file, {title: file.title})" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }" required/>
       </md-input-container>
       <md-input-container style="width: 100%; margin-top: 0; margin-bottom: 0; padding-bottom: 0;">
         <label>Description</label>
         <input type="text" ng-model="file.description" ng-change="changeProp(file, {description: file.description})" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"/>
       </md-input-container>
-      <!-- <div style="display:inline-block;float:right;"> -->
-        <md-icon class="mdi mdi-delete" ng-click="cancel(file.slug)"></md-icon>
-        <md-icon class="mdi mdi-download" ></md-icon>
-      <!-- </div> -->
       <md-button ng-click="cancel(file.id)">
         <md-icon class="mdi mdi-delete"></md-icon>
         Delete File
-      </md-button>
-      <md-button flow-btn ng-if="false">
-        <md-icon class="mdi mdi-upload"></md-icon>
-        Upload Revision
       </md-button>
   </div>
 
