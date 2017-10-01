@@ -7,14 +7,14 @@ use Tests\DuskTools\Browser;
 class SidebarSection extends Page
 {
     /**
-   * Get the URL for the page.
-   *
-   * @return string
-   */
-  public function url()
-  {
-      return '/#/home';
-  }
+     * Get the URL for the page.
+     *
+     * @return string
+     */
+    public function url()
+    {
+        return '/#/home';
+    }
 
     /**
      * Assert that the browser is on the page.
@@ -28,7 +28,7 @@ class SidebarSection extends Page
         $browser->resize(1280, 800);
     }
 
-//md-select.select_input__communities
+    //md-select.select_input__communities
 
     /**
      * Get the element shortcuts for the page.

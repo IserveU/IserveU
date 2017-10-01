@@ -14,7 +14,7 @@ class CheckUserRolesTest extends BrowserKitTestCase
         parent::setUp();
     }
 
-            //POSITVE TESTS
+    //POSITVE TESTS
 
     /** @test **/
     public function user_with_verified_identity_and_address_will_be_given_citizen_role()

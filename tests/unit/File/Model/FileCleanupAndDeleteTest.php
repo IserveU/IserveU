@@ -22,7 +22,7 @@ class FileCleanupAndDeleteTest extends BrowserKitTestCase
         parent::tearDown();
     }
 
-//*********** CRUD Own Draft Article *******************************/
+    //*********** CRUD Own Draft Article *******************************/
 
     /** @test **/
     public function deleting_file_removes_from_storage()

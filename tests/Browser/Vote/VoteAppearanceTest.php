@@ -74,8 +74,8 @@ class VoteAppearanceTest extends DuskTestCase
     {
         $this->motion = factory(Motion::class, 'published')->create();
 
-      //Two people for
-      factory(Vote::class)->create([
+        //Two people for
+        factory(Vote::class)->create([
         'motion_id' => $this->motion->id,
         'position'  => 1,
       ]);
@@ -85,14 +85,14 @@ class VoteAppearanceTest extends DuskTestCase
         'position'  => 1,
       ]);
 
-      //One abstain
-      factory(Vote::class)->create([
+        //One abstain
+        factory(Vote::class)->create([
         'motion_id' => $this->motion->id,
         'position'  => 0,
       ]);
 
-      //One against
-      factory(Vote::class)->create([
+        //One against
+        factory(Vote::class)->create([
         'motion_id' => $this->motion->id,
         'position'  => -1,
       ]);
@@ -134,7 +134,7 @@ class VoteAppearanceTest extends DuskTestCase
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug))
                   ->waitForText('Closed')
                   ->waitFor('@buttonDisabled');
-                   //TODO (Issue #771)
+            //TODO (Issue #771)
                   // ->pressBetter("@buttonDisabled")
                   // ->waitForText("Closed for voting")
                   // ->assertSeeInBetter("@passingStatus","Majority disagree");
