@@ -29,7 +29,7 @@ class LoginTest extends DuskTestCase
                     ->typeBetter('@email', 'admin@iserveu.ca')
                     ->typeBetter('@password', 'abcd1234')
                     ->press('@login')
-                    ->waitForLocation('/#/home');
+                    ->waitForLocationContains('/#/home');
         });
     }
 
@@ -68,7 +68,7 @@ class LoginTest extends DuskTestCase
                       ->typeBetter('@email', 'user@iserveu.ca')
                       ->typeBetter('@password', 'abcd1234')
                       ->press('@login')
-                      ->waitForLocation('/#/home');
+                      ->waitForLocationContains('/#/home');
         });
     }
 
@@ -87,7 +87,7 @@ class LoginTest extends DuskTestCase
                       ->typeBetter('@password', 'abcd1234')
 
                       ->press('@login')
-                      ->waitForLocation('/#/home');
+                      ->waitForLocationContains('/#/home');
         });
     }
 }

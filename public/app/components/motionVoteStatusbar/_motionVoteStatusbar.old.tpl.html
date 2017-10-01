@@ -1,4 +1,4 @@
-<div class="statusbar motion__votes--statusbar" layout="row" layout-align="center center" flex> 
+<div class="statusbar motion__votes--statusbar" layout="row" layout-align="center center" flex>
 
     <md-button ng-if="motion.motionVotes['1'] && motion.motionVotes['1'].active" style="width:{{ motion.motionVotes['1'].active.percent }}%; margin:0" class="agree md-raised md-primary motion__votes--statusbar-agree" aria-label="Number in agreement">
       <md-tooltip>{{ motion.motionVotes['1'].active.number }} {{motion._motionOpenForVoting ? ('AGREE' | translate) : ('AGREED' | translate) }} </md-tooltip>

@@ -42,6 +42,7 @@ abstract class TestCase extends BaseTestCase
     protected function newBrowser($driver)
     {
         return new Browser($driver);
+        // Done in page object assertion  ->resize(1920,1080);
     }
 
     /**

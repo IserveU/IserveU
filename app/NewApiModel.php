@@ -168,7 +168,7 @@ class NewApiModel extends Model
      *
      * @return Model
      */
-    public static function findBySlug($slug)
+    public static function findBySlug(string $slug, array $columns = [])
     {
         return static::where('slug', $slug)->first();
     }

@@ -34,7 +34,8 @@ abstract class Page
      */
     public function assert(Browser $browser)
     {
-        $browser->resize(1280, 800);
+        // Page object bootstrap assertion
+        $browser->resize(1920, 1080);
     }
 
     /**

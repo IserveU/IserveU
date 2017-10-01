@@ -174,10 +174,11 @@ class Browser extends DuskBrowser
 
     /**
      * Overrides base class
-     * Wait for the given selector to be visible but also accepts an.
+     * Wait for the given selector to be visible but also accepts something that is
+     * a selector already.
      *
-     * @param string $selector
-     * @param int    $seconds
+     * @param string|object $selector
+     * @param int           $seconds
      *
      * @return $this
      */
@@ -235,7 +236,8 @@ class Browser extends DuskBrowser
 
     /**
      * Extended over base class
-     * Accepts an array if you are looking for either response.
+     * Accepts an array if you are looking for muliple things on the
+     * page.
      *
      * @param array $text
      * @param int   $seconds
@@ -245,9 +247,9 @@ class Browser extends DuskBrowser
     public function waitForText($text, $seconds = 5)
     {
         if (is_array($text)) {
-            $string = implode($text, ' |OR| ');
+            $stringIfError = implode($text, ' |OR| ');
         } else {
-            $string = $text;
+            $stringIfError = $text;
             $text = [$text];
         }
 
@@ -260,7 +262,7 @@ class Browser extends DuskBrowser
             }
 
             return false;
-        }, "Waited {$seconds} seconds for the text {$string} to show");
+        }, "Waited {$seconds} seconds for the text {$stringIfError} to show");
     }
 
     /**
@@ -271,7 +273,7 @@ class Browser extends DuskBrowser
      *
      * @return $this
      */
-    public function waitForLocation($path, $seconds = 5)
+    public function waitForLocationContains($path, $seconds = 5)
     {
         return $this->waitUntil("window.location.href.indexOf('{$path}') > -1", $seconds);
     }
@@ -307,17 +309,18 @@ class Browser extends DuskBrowser
      * Overrides base class
      * Log into the application by setting up local storage with the users variables.
      *
-     * @param string $guard
+     * @param User $user
+     * @param
      *
      * @return $this
      */
-    public function loginAs($userId, $guard = null)
+    public function loginAs($user, $guard = null)
     {
-        if (is_object($userId) && !empty($userId->api_token)) {
+        if (is_object($user) && !empty($user->api_token)) {
             $this->visit('/')->pause(500);
-            $userId = $userId->fresh();
-            $this->driver->executeScript("localStorage.setItem('api_token', '$userId->api_token');");
-            $this->driver->executeScript("localStorage.setItem('user', JSON.stringify(".json_encode($userId->skipVisibility(['permissions'])->toArray()).'));');
+            $user = $user->fresh(); // Some details generated after insert, need to fetch copy
+            $this->driver->executeScript("localStorage.setItem('api_token', '$user->api_token');");
+            $this->driver->executeScript("localStorage.setItem('user', JSON.stringify(".json_encode($user->skipVisibility(['permissions'])->toArray()).'));');
             $this->driver->executeScript("localStorage.setItem('remember_me', 'true');");
             $this->driver->executeScript("localStorage.setItem('agreement_accepted', 'true');");
 

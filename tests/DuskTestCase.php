@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Config;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Tests\DuskTools\TestCase as BaseTestCase;
@@ -9,6 +10,15 @@ use Tests\DuskTools\TestCase as BaseTestCase;
 abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication, PolishedTest;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->setSettings(['betaMessage.on'=>0]);
+
+        Config::set('mail.driver', 'log');
+    }
 
     /**
      * Prepare for Dusk test execution.

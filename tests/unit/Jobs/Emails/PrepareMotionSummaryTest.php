@@ -113,7 +113,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         $this->seeInDatabase('one_time_tokens', ['user_id'=>$user->id]);
 
-        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+        Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             //TODO: Check that password resets are contained in the email
 
             $this->assertTrue(!empty($mail->buildViewData()['token']));
@@ -137,7 +137,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+        Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             if (!$mail->sections['Latest Launched']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
@@ -162,7 +162,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+        Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             if (!$mail->sections['Recently Closed']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }
@@ -188,9 +188,9 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         Mail::fake();
 
-        dispatch(new PrepareMotionSummary());
+        dispatch_now(new PrepareMotionSummary());
 
-        Mail::assertSent(MotionSummary::class, function ($mail) use ($user, $motion) {
+        Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             if (!$mail->sections['Closing Soon']->contains($motion) || !$mail->hasTo($user->email)) {
                 return false;
             }

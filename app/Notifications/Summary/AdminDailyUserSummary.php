@@ -4,15 +4,16 @@ namespace App\Notifications\Summary;
 
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class AdminDailyUserSummary extends Notification
+class AdminDailyUserSummary extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $newUsers;
+    public $newUsers;
 
     /**
      * Create a new notification instance.
@@ -21,6 +22,7 @@ class AdminDailyUserSummary extends Notification
      */
     public function __construct(Collection $newUsers, User $user)
     {
+        // dd("BULLSHIT");
         $this->newUsers = $newUsers;
         $this->user = $user;
     }

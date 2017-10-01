@@ -103,12 +103,12 @@ class VoteAppearanceTest extends DuskTestCase
             $browser->loginAs($this->user, 'api')
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug))
                   ->waitFor('@voteStatusbarAgree')
-                  ->assertElementAttributeIs('@voteStatusbarAgree', 'aria-label', '2 agreed')
-                  ->assertElementAttributeIs('@voteStatusbarAbstain', 'aria-label', '1 abstained')
-                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', '1 disagreed')
+                  ->assertElementAttributeIs('@voteStatusbarAgree', 'aria-label', 'Number in Agreement (2)')
+                  ->assertElementAttributeIs('@voteStatusbarAbstain', 'aria-label', 'Number Abstaining (1)')
+                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', 'Number in Disagreement (1)')
                   ->pressBetter('@buttonDisagree')
                   ->waitForText('Majority tie')
-                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', '2 disagreed');
+                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', 'Number in Disagreement (2)');
         });
     }
 

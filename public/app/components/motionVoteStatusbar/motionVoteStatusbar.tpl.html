@@ -1,15 +1,15 @@
 <div class="motion_vote_statusbar" layout="row" layout-align="center center" flex>
 
-    <div ng-if="$ctrl.statusbar.agree" style="flex-basis:{{ $ctrl.statusbar.agree.percent }}%" class="md-button md-raised md-primary motion_vote_statusbar__bar--agree" aria-label="Number in agreement">
-      <md-tooltip>{{ $ctrl.statusbar.agree.number }} agreed</md-tooltip>
+    <div ng-if="$ctrl.statusbar.agree" style="flex-basis:{{ $ctrl.statusbar.agree.percent }}%" class="md-button md-raised md-primary motion_vote_statusbar__bar--agree" aria-label="Number in Agreement ({{ $ctrl.statusbar.agree.number }})">
+      <md-tooltip>{{ $ctrl.statusbar.agree.number }} Agreed</md-tooltip>
     </div>
 
-    <div ng-if="settingsGlobal.voting.abstain && $ctrl.statusbar.abstain" style="flex-basis:{{ $ctrl.statusbar.abstain.percent }}%" class="md-button md-raised md-grey motion_vote_statusbar__bar--abstain" aria-label="Number abstaining">
-      <md-tooltip>{{ $ctrl.statusbar.abstain.number  }} abstained</md-tooltip>
+    <div ng-if="settingsGlobal.voting.abstain && $ctrl.statusbar.abstain" style="flex-basis:{{ $ctrl.statusbar.abstain.percent }}%" class="md-button md-raised md-grey motion_vote_statusbar__bar--abstain" aria-label="Number Abstaining ({{ $ctrl.statusbar.abstain.number }})">
+      <md-tooltip>{{ $ctrl.statusbar.abstain.number  }} Abstained</md-tooltip>
     </div>
 
-    <div ng-if="$ctrl.statusbar.disagree" style="flex-basis:{{ $ctrl.statusbar.disagree.percent }}%" class="md-button md-raised md-accent motion_vote_statusbar__bar--disagree" aria-label="Number in disagreement">
-      <md-tooltip>{{ $ctrl.statusbar.disagree.number }} disagreed</md-tooltip>
+    <div ng-if="$ctrl.statusbar.disagree" style="flex-basis:{{ $ctrl.statusbar.disagree.percent }}%" class="md-button md-raised md-accent motion_vote_statusbar__bar--disagree" aria-label="Number in Disagreement ({{ $ctrl.statusbar.disagree.number }})">
+      <md-tooltip>{{ $ctrl.statusbar.disagree.number }} Disagreed</md-tooltip>
     </div>
 
 </div>

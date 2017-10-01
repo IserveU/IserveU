@@ -3,6 +3,7 @@
 namespace App\Http\Requests\CommentVote;
 
 use App\Http\Requests\Request;
+use Auth;
 
 class IndexCommentVoteRequest extends Request
 {
@@ -13,7 +14,7 @@ class IndexCommentVoteRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**

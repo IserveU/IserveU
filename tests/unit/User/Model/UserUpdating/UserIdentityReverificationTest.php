@@ -1,18 +1,19 @@
 <?php
 
+use App\Notifications\Authentication\IdentityReverification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
 use MailThief\Testing\InteractsWithMail;
 
 class UserIdentityReverificationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
-    use InteractsWithMail;
+    //  use InteractsWithMail;
 
     public function setUp()
     {
         parent::setUp();
-        $this->mailerInstance = $this->getMailer();
     }
 
     /* For some reason this breaks the mailer if in setup */
@@ -66,13 +67,16 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
     public function verified_user_get_reverification_email_of_changed_credentials()
     {
         $user = $this->createVerifiedUser();
+
+        Notification::fake();
+
         $user->last_name = 'My Last Name';
         $user->save();
 
-        $message = $this->getLastMessageFor($user->email);
-
-        $this->assertTrue($message->contains('Due to you recent changes to your profile'));
-        $this->assertEquals($message->subject, 'Identification Required');
+        Notification::assertSentTo(
+            [$user],
+            IdentityReverification::class
+        );
     }
 
     //NEGATIVE TESTS
@@ -80,6 +84,8 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
     /** @test **/
     public function admin_does_not_trigger_identity_reverification()
     {
+        Notification::fake();
+
         $user = $this->createVerifiedUser();
 
         $this->signInAsPermissionedUser('administrate-user');
@@ -89,14 +95,17 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
         $this->assertEquals($user->identity_verified, 1);
         $this->assertEquals($user->hasRole('citizen'), true);
 
-        $message = $this->getLastMessageFor($user->email);
-        $this->assertFalse($message->contains('changes'));
-        $this->assertNotEquals($message->subject, 'Identification');
+        Notification::assertNotSentTo(
+            $user,
+            IdentityReverification::class
+        );
     }
 
     /** @test **/
     public function verified_user_does_not_get_reverification_email_if_change_is_not_credentials()
     {
+        Notification::fake();
+
         $user = $this->createVerifiedUser();
 
         //Mock settings that don't matter
@@ -107,17 +116,24 @@ class UserIdentityReverificationTest extends BrowserKitTestCase
 
         $this->assertEquals($user->identity_verified, 1);
         $this->assertEquals($user->hasRole('citizen'), true);
+
+        Notification::assertNotSentTo(
+            $user,
+            IdentityReverification::class
+        );
     }
 
     /** @test **/
     public function unverified_user_does_not_get_revervification_email_of_changed_profile()
     {
+        Notification::fake();
         $user = factory(App\User::class, 'unverified')->create();
 
         $user->update(['first_name' => 'Mike Westwick']);
 
-        $message = $this->getLastMessageFor($user->email);
-        $this->assertFalse($message->contains('changes'));
-        $this->assertNotEquals($message->subject, 'Identification');
+        Notification::assertNotSentTo(
+            $user,
+            IdentityReverification::class
+        );
     }
 }

@@ -1,19 +1,20 @@
 <?php
 
 use App\Jobs\Emails\PrepareAdminSummary;
+use App\Notifications\Summary\AdminDailyUserSummary;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use MailThief\Testing\InteractsWithMail;
 
-class AdminSummaryTest extends BrowserKitTestCase
+class PrepareAdminSummaryTest extends BrowserKitTestCase
 {
-    use DatabaseTransactions;
-    use InteractsWithMail;
+    //use DatabaseTransactions;
+    // use InteractsWithMail;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->mailerInstance = $this->getMailer();
+        //   $this->mailerInstance = $this->getMailer();
     }
 
     // Positive Tests
@@ -21,18 +22,26 @@ class AdminSummaryTest extends BrowserKitTestCase
     /** @test */
     public function user_summary_email_contains_new_users()
     {
+        Notification::fake();
+
         $adminUser = static::getPermissionedUser('show-user');
         $adminUser->setPreference('authentication.notify.admin.summary.on', 1)->save();
 
         $user = factory(App\User::class)->create();
 
-        dispatch(new PrepareAdminSummary());
+        dispatch_now(new PrepareAdminSummary());
 
-        $message = $this->getLastMessageFor($adminUser->email);
+        Notification::assertSentTo(
+            $adminUser,
+            AdminDailyUserSummary::class,
+            function ($notification, $channels) use ($user) {
+                return $notification->newUsers->contains($user);
+            }
+        );
 
-        // This failed once
-        $this->assertTrue($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
-        $this->assertEquals($message->subject, 'Daily User Summary');
+        Notification::assertNotSentTo(
+            [$user], AdminDailyUserSummary::class
+        );
     }
 
     /// Negative Tests
@@ -40,22 +49,25 @@ class AdminSummaryTest extends BrowserKitTestCase
     /** @test */
     public function user_summary_email_does_not_send_when_preference_off()
     {
+        Notification::fake();
+
         $adminUser = static::getPermissionedUser('show-user');
         $adminUser->setPreference('authentication.notify.admin.summary.on', 0)->save();
 
         $user = factory(App\User::class)->create();
 
-        dispatch(new PrepareAdminSummary());
+        dispatch_now(new PrepareAdminSummary());
 
-        $message = $this->getLastMessageFor($adminUser->email);
-
-        $this->assertFalse($message->contains($user->first_name.' '.$user->last_name.' ('.$user->email.')'));
-        $this->assertNotEquals($message->subject, 'Daily Admin Summary');
+        Notification::assertNotSentTo(
+            [$adminUser], AdminDailyUserSummary::class
+        );
     }
 
     /** @test */
     public function user_summary_email_does_not_contain_an_administrator_user()
     {
+        Notification::fake();
+
         $adminUser = static::getPermissionedUser('show-user');
         $adminUser->setPreference('authentication.notify.admin.summary.on', 1)->save();
 
@@ -66,13 +78,15 @@ class AdminSummaryTest extends BrowserKitTestCase
           'first_name'  => "O'Dickhead",
         ]);
 
-        dispatch(new PrepareAdminSummary());
+        dispatch_now(new PrepareAdminSummary());
 
-        $message = $this->getLastMessageFor($adminUser->email);
-
-        $this->assertEquals($message->subject, 'Daily User Summary');
-
-        $this->assertFalse($message->contains($siteAdministrator->first_name.' '.$siteAdministrator->last_name.' ('.$siteAdministrator->email.')'));
-        $this->assertTrue($message->contains($regularUser->first_name.' '.$regularUser->last_name.' ('.$regularUser->email.')'));
+        Notification::assertSentTo(
+            $adminUser,
+            AdminDailyUserSummary::class,
+            function ($notification, $channels) use ($siteAdministrator, $regularUser) {
+                return (!$notification->newUsers->contains($siteAdministrator))
+                        && $notification->newUsers->contains($regularUser);
+            }
+        );
     }
 }
