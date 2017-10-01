@@ -74,7 +74,7 @@ class ShowCommentPermissionTest extends CommentPermission
               $comment->user->skipVisibility()->setVisible($this->publicVisibleUserVariables)->toArray(),
             ]);
 
-            // ->dontSeeInResponse(
+        // ->dontSeeInResponse(
             //   array_merge(
             //     $comment->user->skipVisibility()->setVisible([])->setVisible($this->alwaysHiddenUserVariables)->toArray(),
             //     $this->alwaysHiddenUserVariables
