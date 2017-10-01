@@ -29,31 +29,43 @@ class PrepareWelcomeEmailTest extends BrowserKitTestCase
     }
 
     /** @test **/
-    public function user_with_no_password_has_set_password_button()
+    public function user_with_no_password_has_one_time_token()
     {
+        Notification::fake();
+
         $this->mailerInstance = $this->getMailer();
 
         $user = factory(App\User::class, 'public')->create([
             'password'  => '',
         ]);
 
-        $message = $this->getLastMessageFor($user->email);
+        Notification::assertSentTo(
+            $user,
+            Welcome::class,
+            function ($notification, $channels) use ($user) {
+                return ($notification->token != false);
+            }
+        );
 
-        $this->assertEquals($message->subject, 'Welcome');
-        $this->assertTrue($message->contains($user->tokens->first()->token));
-        $this->assertTrue($message->contains('Get Started'));
+
     }
 
     /** @test **/
     public function user_with_password_do_not_get_set_password_button()
     {
+        Notification::fake();
+
         $this->mailerInstance = $this->getMailer();
 
         $user = factory(App\User::class, 'public')->create();
 
-        $message = $this->getLastMessageFor($user->email);
+        Notification::assertSentTo(
+            $user,
+            Welcome::class,
+            function ($notification, $channels) use ($user) {
+                return ($notification->token == false);
+            }
+        );
 
-        $this->assertEquals($message->subject, 'Welcome');
-        $this->assertFalse($message->contains('Set Password'));
     }
 }

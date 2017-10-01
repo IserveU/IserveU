@@ -35,11 +35,11 @@ class RegisterTest extends DuskTestCase
                   ->typeBetter('@lastName', $user->last_name)
                   ->typeBetter('@newEmail', $user->email)
                   ->typeBetter('@confirmEmail', $user->email)
-                  ->typeBetter('@newPassword', 'abcdfsadf!!!!sdf')
+                  ->typeBetter('@newPassword', 'abcdfsadf!!!!sdf');
 
-                  ->press('@submitCreate')
+                  $browser->press('@submitCreate')
 
-                  ->waitForLocation('/#/home', 15);
+                  ->waitForLocationContains('/#/home', 15);
         });
     }
 

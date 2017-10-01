@@ -37,7 +37,7 @@
     	"symfony/dom-crawler": "~3.0",
     	"symfony/css-selector": "~3.0",
 		"codeclimate/php-test-reporter": "^0.3.2",
-		"tightenco/mailthief": "master-dev",
+		"tightenco/mailthief": "dev-master",
 		"laravel/dusk": "2.*"
 	},
 	"minimum-stability":"dev",
@@ -67,12 +67,10 @@
 	},
 	"scripts": {
 		"post-install-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
+			"php artisan clear-compiled"
 		],
 		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
+			"php artisan clear-compiled"
 		],
 		"post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\"",
@@ -85,11 +83,5 @@
 	},
 	"config": {
 		"preferred-install": "dev"
-	},
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/korygorsky/mailthief"
-    }
-  ]
+	}
 }

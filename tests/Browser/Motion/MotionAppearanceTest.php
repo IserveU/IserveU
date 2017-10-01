@@ -46,7 +46,7 @@ class MotionAppearanceTest extends DuskTestCase
                     ->assertSeeInBetter('@title', $this->motion->title)
                     ->assertSeeInBetter('@summary ', $this->motion->summary)
                     ->assertSeeInBetter('@department', $this->motion->department->name)
-                    ->assertSeeInBetter('@closing ', $this->motion->closing_at['alpha_date'])
+                    ->assertSeeInBetter('@closing ', $this->motion->closing_at['carbon']->format('M j, Y'))
                     ->assertSeeInBetter('@passingStatus ', $this->motion->passing_status)
                     ->assertSeeInBetter('@motionFiles ', $this->file->title)
                     ->assertSeeInBetter('@motionFiles ', $this->file->description)

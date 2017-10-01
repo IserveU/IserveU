@@ -19,7 +19,7 @@ class Welcome extends Notification
 
     public $footer;
 
-    public $token;
+    public $token = false;
 
     /**
      * Create a new notification instance.
@@ -36,7 +36,8 @@ class Welcome extends Notification
             $this->token = OneTimeToken::generateFor($user);
         }
 
-        $this->createdByOther;
+        $this->createdByOther = $createdByOther;
+        return $this;
     }
 
     /**

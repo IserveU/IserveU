@@ -40,7 +40,7 @@ class MotionAdministrateTest extends DuskTestCase
                         $browser->typeBetter('@motionText', $motion->text);
                     })
                     ->press('@save')
-                    ->waitForLocation('/#/motion')
+                    ->waitForLocationContains('/#/motion')
                     ->on(new MotionPage())
                     ->assertSeeInBetter('@title', $motion->title);
         });
@@ -65,7 +65,7 @@ class MotionAdministrateTest extends DuskTestCase
                     ->visit(new MotionAdministratePage('/#/edit-motion/'.$motion->slug))
                     ->typeBetter('@title', $motion->title.' updated')
                     ->press('@save')
-                    ->waitForLocation('/#/motion')
+                    ->waitForLocationContains('/#/motion')
                     ->on(new MotionPage())
                     ->assertSeeInBetter('@title', $motion->title.' updated');
         });

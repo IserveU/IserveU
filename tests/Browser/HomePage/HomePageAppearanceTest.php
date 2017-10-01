@@ -33,7 +33,7 @@ class HomePageAppearanceTest extends DuskTestCase
             $browser->loginAs($this->user, 'api')
                     ->visit(new HomePage())
                     ->waitFor('@topComments')
-                    ->waitFor('@topMotions')->pause(4000)
+                    ->waitFor('@topMotions')
                     ->assertSeeInBetter('@topMotions', 'A Top Motion')
                     ->assertSeeInBetter('@topComments', 'The Top Agree Comment Text')
                     ->assertSeeInBetter('@yourVotes', "You haven't voted, yet.")
