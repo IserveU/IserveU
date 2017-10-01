@@ -27,6 +27,7 @@ class IdentityReverification
      */
     public function handle($event)
     {
+
         if (Auth::check() && Auth::user()->can('administrate-user')) { //Admins don't need to
             return true;
         }
