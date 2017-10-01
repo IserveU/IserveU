@@ -11,7 +11,7 @@ class RoleGranted extends Notification
 {
     use Queueable;
 
-    protected $role;
+    public $role;
 
     /**
      * Create a new notification instance.

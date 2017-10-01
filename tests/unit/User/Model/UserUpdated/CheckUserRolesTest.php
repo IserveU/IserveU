@@ -71,31 +71,44 @@ class CheckUserRolesTest extends BrowserKitTestCase
     /** @test **/
     public function user_with_preference_will_be_notifed_of_role_change()
     {
-        $this->mailerInstance = $this->getMailer();
+        Notification::fake();
 
         $user = factory(App\User::class, 'verified')->create();
         $user->setPreference('authentication.notify.user.onrolechange.on', 1)->save();
         $user->addRole('citizen');
         $user->touch();
 
-        $message = $this->getLastMessageFor($user->email);
-        $this->assertEquals($message->subject, 'Account Approved & Upgraded');
+        Notification::assertSentTo(
+            $user,
+            App\Notifications\Authentication\RoleGranted::class,
+            function($notification, $channels){
+
+                return $notification->role->name == 'citizen';
+
+            }
+
+        );
+
     }
 
     /** @test **/
-    public function user_with_no_password_will_not_be_notifed_of_role_change() //new users created by admin/csv
+    public function user_with_no_password_will_not_be_notifed_of_role_change_even_if_they_have_preference_on() //new users created by admin/csv
     {
-        $this->mailerInstance = $this->getMailer();
-
         $user = factory(App\User::class, 'verified')->create([
             'password'                  => null,
         ]);
         $user->setPreference('authentication.notify.user.onrolechange.on', 1)->save();
+
+        Notification::fake();
+
         $user->addRole('citizen');
         $user->touch();
 
-        $message = $this->getLastMessageFor($user->email);
-        $this->assertNotEquals($message->subject, 'Account Approved & Upgraded');
+
+        Notification::assertNotSentTo(
+            $user,
+            App\Notifications\Authentication\RoleGranted::class
+        );
     }
 
     /** @test **/
@@ -107,10 +120,16 @@ class CheckUserRolesTest extends BrowserKitTestCase
           'address_verified_until'    => Carbon::yesterday(),
       ]);
         $user->setPreference('authentication.notify.user.onrolechange.on', 0)->save();
+
+        Notification::fake();
+
         $user->addRole('citizen');
         $user->touch();
 
-        $message = $this->getLastMessageFor($user->email);
-        $this->assertNotEquals($message->subject, 'Account Approved & Upgraded');
+
+        Notification::assertNotSentTo(
+            $user,
+            App\Notifications\Authentication\RoleGranted::class
+        );
     }
 }
