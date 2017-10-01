@@ -4,11 +4,11 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
-		.factory('userRoleFactory', ['userRoleResource', userRoleFactory]);
+		.module('app.user')
+		.factory('userRoleFactory', ['UserRoleResource', userRoleFactory]);
 
   	 /** @ngInject */
-	function userRoleFactory(userRoleResource){
+	function userRoleFactory(UserRoleResource){
 
 		var UserRole = {
 			list: {},
@@ -31,7 +31,7 @@
 			},
 
 			getAllRoles: function() {
-				userRoleResource.getRoles().then(function(results){
+				UserRoleResource.getRoles().then(function(results){
 					UserRole.list = results.data;
 				});
 			},
@@ -66,13 +66,13 @@
 			},
 
 			grant: function (data){
-				userRoleResource
+				UserRoleResource
 					.grantRole(data)
 					.then(successHandler);
 			},
 
 			remove: function (data){
-				userRoleResource
+				UserRoleResource
 					.deleteUserRole(data)
 					.then(successHandler);
 			}

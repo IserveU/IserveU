@@ -2,22 +2,21 @@
 (function(window, angular, undefined) {
 
 	angular
-		.module('iserveu')
+		.module('app.admin.dash')
 		.directive('contentManager', [
-			'$rootScope',
-			'settings',
+			'Settings',
 			'Palette',
-			'pageService',
+			'Page',
 			'$timeout',
 			contentManager
 		]);
 
-	function contentManager($rootScope, settings, Palette, pageService, $timeout) {
+	function contentManager(Settings, Palette, Page, $timeout) {
 
 		function contentController() {
 
-			this.palette = new Palette($rootScope.theme.colors);
-			this.service = settings;
+			this.palette = new Palette(Settings.get('theme.colors'));
+			this.service = Settings;
 			this.materialPalette = false;
 			this.customPalette = false;
 
@@ -35,21 +34,19 @@
 			this.showTheme = false;
 
 			this.backgroundFiles = [];
-			this.pageService = pageService;
+			this.pageService = Page;
 
 			var self = this;
 			this.saveBackground = function(url) {
 				if (!url) {
-					var file = '/api/page/' + pageService.index[0].slug + '/file/' + this.backgroundFiles.pop() + '/resize/1920';
+					var file = '/api/page/' + Page.index[0].slug + '/file/' + this.backgroundFiles.pop() + '/resize/1920';
 
 					self.service.saveTypeOf('theme.background', file);
-					$rootScope.settingsGlobal.theme.background = file;
 				}
 
 				$timeout(function() {
 					self.toggleBackground();
-					document.body.style.backgroundImage = (('url(' +
-						$rootScope.settingsGlobal.theme.background + ')') || '#FBFBFB');
+					document.body.style.backgroundImage = (('url(' + file + ')') || '#FBFBFB');
 				}, 500);
 			};
 
@@ -81,9 +78,9 @@
 			this.saveSocialMedia = function() {
 
 				var socialMedia = {
-					address: $rootScope.settingsGlobal.site.address,
-					twitter: $rootScope.settingsGlobal.site.twitter,
-					facebook: $rootScope.settingsGlobal.site.facebook
+					address: Settings.get('site.address'),
+					twitter: Settings.get('site.twitter'),
+					facebook: Settings.get('site.facebook')
 				};
 
 				this.service.saveTypeOf('site', socialMedia);

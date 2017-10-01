@@ -1,18 +1,16 @@
 (function() {
 
 	angular
-		.module('iserveu')
+		.module('app.admin.dash')
 		.factory('departmentManagerService',
-			['$state', '$timeout', 'motionDepartments','motionDepartmentResource', 'ToastMessage',
+			['$state', '$timeout', 'MotionDepartmentResource', 'ToastMessage',
 			departmentManagerService]);
 
     /** @ngInject */
-	function departmentManagerService($state, $timeout, motionDepartments, department, ToastMessage) {
-
-		motionDepartments.loadAll();
+	function departmentManagerService($state, $timeout, MotionDepartmentResource, ToastMessage) {
 
 		var factory = {
-			list: motionDepartments,
+			list: {},
 			success: {},
 			disabled: {},
 			edit: function(id) {
@@ -24,7 +22,7 @@
 			},
 			save: function(name, id) {
 				this.success[id] = true;
-            	department.updateDepartment({
+            	MotionDepartmentResource.updateDepartment({
             		id: id,
             		name: name
             	}).then(function(r) {
@@ -36,7 +34,7 @@
 			destroy: function(name, id) {
 				ToastMessage.destroyThis("department",
 					function(){
-						department.deleteDepartment(id);
+						MotionDepartmentResource.deleteDepartment(id);
 						for (var i in factory.list.index) {
 							if (id === factory.list.index[i].id) {
 								delete factory.list.index[i];
@@ -45,7 +43,7 @@
 				});
 			},
 			create: function(name) {
-				department.addDepartment({
+				MotionDepartmentResource.addDepartment({
 					name: name,
 					active: 1
 				}).then(function(r) {
@@ -70,6 +68,10 @@
 				this.edit('promise');
 			}
 		}
+
+    MotionDepartmentResource.getDepartments().then(function (success) {
+      factory.list = success.data
+    });
 
 		return factory;
 	}

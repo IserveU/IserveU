@@ -3,13 +3,13 @@
 'use strict';
 
 angular
-	.module('iserveu')
+	.module('app.user')
 	.factory('userIndex',
 		['$http',
-     'utils',
-		 'userResource',
+     'Utils',
+		 'UserResource',
 
-	function($http, utils, userResource) {
+	function($http, Utils, UserResource) {
 
 	var userIndex = {
 
@@ -30,7 +30,7 @@ angular
 
 			self._paginating = true;
 
-			userResource.getUsersIndex(this._current_page).then(function(results) {
+			UserResource.getUsersIndex(this._current_page).then(function(results) {
 
 				self._next_page = self.nextPage(results.next_page_url);
 				self._index = results.data;
@@ -65,7 +65,7 @@ angular
 
 			self._paginating = true;
 
-			userResource.getUsersIndex(self._next_page).then(function(results) {
+			UserResource.getUsersIndex(self._next_page).then(function(results) {
       
           
 				self._next_page = self.nextPage(results.next_page_url);
@@ -80,7 +80,7 @@ angular
 		},
 
 		nextPage: function(url) {
-			return url ? utils.getUrlParameter('page',url) : null;
+			return url ? Utils.getUrlParameter('page',url) : null;
 		},
 
 		retrieveById: function(id) {

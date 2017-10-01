@@ -5,7 +5,7 @@
       <h3 class="title-header">{{ 'DEPARTMENTS' | translate}}</h3>
   </div>
 
-  <div ng-repeat="d in department.list.index" layout-padding>
+  <div ng-repeat="d in department.list" layout-padding>
 
       <md-input-container style="display: inline-block; width:87%; margin: 0">
         <input aria-label="{{d.name}}" type="text" ng-model="d.name" ng-disabled="department.disabled[d.slug]"/>

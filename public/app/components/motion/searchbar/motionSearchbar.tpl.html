@@ -1,0 +1,35 @@
+<div class="md-toolbar-tools sidebar-toolbar motion-search" ng-if="$ctrl.showMotionView" layout="row"  flex>
+
+    <input md-colors="{'border-bottom-color': 'accent-50'}" class="sidebar-search-input toolbar" placeholder="Search" type="text" ng-model="$ctrl.search.text" ng-keyup="$ctrl.search.searchAll($event)" ng-class="{'sidebar-search-input':$ctrl.search.isOpen}"  style="color: black;" flex/>
+
+    <div ng-class="$ctrl.search.isOpen?'':'action-buttons'" layout-align="end end">
+
+      <md-icon class="mdi mdi-magnify search-icon" ng-click="$ctrl.search.show()" ng-class="{'search-icon':$ctrl.search.isOpen}"></md-icon>
+
+      <md-menu md-offset="27 32">
+        <md-icon class="mdi mdi-dots-vertical" ng-click="$mdMenu.open()"></md-icon>
+        <md-menu-content width="4" class="md-body-1">
+
+
+          <md-select placeholder="Filter by Departments" ng-model="$ctrl.search._department.filter" ng-change="$ctrl.search.searchSpecific()" aria-label="filter motions by department" layout-padding>
+            <md-option ng-repeat="department in $ctrl.search._department.index" ng-value="department.id">{{::department.name}}</md-option>
+          </md-select>
+          
+            <md-select placeholder="Filter by Status" ng-model="$ctrl.search._status.filter" ng-change="$ctrl.search.searchSpecific()" aria-label="filter motions by status" layout-padding>
+              <md-option ng-value="$ctrl.search._status.filters[0].query">{{$ctrl.search._status.filters[0].name}}</md-option>
+              <md-option ng-value="$ctrl.search._status.filters[1].query">{{$ctrl.search._status.filters[1].name}}</md-option>
+              <md-option has-permission="show-motion" ng-value="$ctrl.search._status.filters[2].query">{{$ctrl.search._status.filters[2].name}}</md-option>
+              
+            </md-select>                        
+            <md-select ng-model="$ctrl.search._orderBy.filter" ng-change="$ctrl.search.searchSpecific()" placeholder="Order by:" aria-label="filter motions by properties" layout-padding>
+              <md-option ng-repeat="filter in $ctrl.search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+            </md-select>
+          <md-menu-button class="action-btns" layout="row" layout-align="end end">
+              <md-button class="md-accent md-raised" ng-click="$ctrl.search.all()">Clear filters</md-button>
+          </md-menu-button>
+
+        </md-menu-content>
+      </md-menu>
+    </div>
+
+</div>

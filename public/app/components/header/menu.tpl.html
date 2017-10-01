@@ -1,0 +1,95 @@
+<div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
+  <md-menu class="nav__menu" md-position-mode="target-right target">
+      <md-button aria-label="User Menu" id="setting_cog" class="md-icon-button" ng-click="$mdMenu.open()">
+          <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme cog" md-menu-origin md-font-icon="mdi-settings" ng-if="$ctrl.$mdMedia('gt-sm')"></md-icon>
+          <md-icon class="mdi ng-scope ng-isolate-scope md-default-theme" md-menu-origin md-font-icon="mdi-menu" ng-if="!$ctrl.$mdMedia('gt-sm')"></md-icon>
+      </md-button>
+      <md-menu-content width="4">
+
+          <span hide-gt-sm>
+              <p class="md-body-2 userbar__menu-header" layout-padding>Site Menu</p>
+              <md-menu-item ng-repeat="page in $ctrl.pageService.index">
+                <md-button aria-label="link to page"  ui-sref="pages({id:page.slug})">
+                      <div layout="row">
+                          <p flex>{{ ::page.title }}</p>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+              <md-divider></md-divider>
+          </span>
+
+          <span ng-show="$root.userIsLoggedIn">
+
+              <md-menu-item class="menu__button-dashboard" has-permission="administrate-permission, administrate-user, administrate-department" ui-sref="dashboard">
+                  <md-button aria-label="go to admin dashboard">
+                      <div layout="row">
+                          <p flex>Site Admin</p>
+                          <md-icon class="mdi mdi-view-dashboard"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+
+              <md-menu-item class="menu__button-dashboard" has-permission="administrate-permission, administrate-user, administrate-department" ui-sref="user-manager">
+                  <md-button aria-label="Go to the user manager">
+                      <div layout="row">
+                          <p flex>User Manager</p>
+                          <md-icon class="mdi mdi-account-multiple"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+
+              <md-divider has-permission="administrate-permission, administrate-user, administrate-department"></md-divider>
+
+              <md-menu-item class="menu__button-create-motion" has-permission="create-motion" ng-if="$ctrl.showMotionView" ui-sref="create-motion">
+                  <md-button aria-label="go to create-motion form">
+                      <div layout="row">
+                          <p flex>Submit a {{'MOTION' | translate}}</p>
+                          <md-icon class="mdi mdi-file-document-box"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+
+              <md-menu-item class="menu__button-my-motions" has-permission="create-motion" ng-if="$ctrl.showMotionView" ui-sref="my-motions">
+                  <md-button aria-label="go to create-motion form">
+                      <div layout="row">
+                          <p flex>My {{'MOTIONS' | translate}}</p>
+                          <md-icon class="mdi mdi-newspaper"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+
+              <md-divider has-permission="create-motion"></md-divider>
+
+              <md-menu-item class="menu__button-user" ui-sref="edit-user({id:$root.authenticatedUser.slug})">
+                  <md-button aria-label="go to your profile">
+                      <div layout="row">
+                          <p flex>Preferences / Profile</p>
+                          <md-icon class="mdi mdi-account-circle"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+
+              <md-menu-item>
+                  <md-button class="menu__button-logout" class="logout__button" aria-label="logout" ng-click="$ctrl.logout()">
+                      <div layout="row">
+                          <p flex>{{ 'LOGOUT' | translate}} {{::$root.authenticatedUser.first_name}}</p>
+                          <md-icon class="mdi mdi-logout"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+          </span>
+
+          <span ng-hide="$root.userIsLoggedIn">
+              <md-menu-item class="menu__button-login" ui-sref="login">
+                  <md-button aria-label="go to login">
+                      <div layout="row">
+                          <p flex>Login</p>
+                          <md-icon class="mdi mdi-login"></md-icon>
+                      </div>
+                  </md-button>
+              </md-menu-item>
+          </span>
+
+      </md-menu-content>
+  </md-menu>
+</div>

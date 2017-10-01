@@ -1,0 +1,28 @@
+<md-toolbar id="userbar" class="md-whiteframe-z2 site-content-toolbar nav__header" layout="row" layout-align="center center" md-scroll-shrink>
+
+    <md-toolbar-filler class="nav__header-filler_container" ng-class="$ctrl.showMotionView?'motion-enabled flex':''" hide-xs hide-sm>
+        <sidebar-search-component></sidebar-search-component>
+    </md-toolbar-filler>
+
+    <div class="nav__header-button_container" hide-gt-lg hide-lg hide-gt-md hide-md>
+        <md-button class="md-icon-button nav__header-button home-button" aria-label="Home Button">
+          <symbol-all-white-png resize-width="24" class="nav__header-button_icon" ui-sref="home"></symbol-all-white-png>
+        </md-button>
+
+        <button class="main-nav-button md-button md-ink-ripple nav__header-button" ng-mousedown="$ctrl.toggleSidebar('left'); $ctrl.switchMenuButton()" aria-label="Toggle Sidebar">
+            {{ 'MOTIONS' | translate}}
+            <md-icon class="nav__header-button_icon toggle-sidebar" ng-class="$ctrl.showMenuButton?'mdi mdi-menu-up':'mdi mdi-menu-up go-up'"></md-icon>
+        </button>
+    </div>
+
+    <div ng-repeat="page in $ctrl.pages.index" hide-sm hide-xs>
+        <button class="main-nav-button md-button md-ink-ripple" aria-label="Open new page" ui-sref="pages({id:page.slug})">
+          {{ ::page.title }}
+        </button>
+    </div>
+
+  <span flex></span>
+
+  <menu-component></menu-component>
+
+</md-toolbar>

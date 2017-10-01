@@ -3,33 +3,34 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
-		.directive('editUser',
-			['communityResource',
-			 'editUserFormService',
-			 'userResource',
-       		'userPreferenceResource',
-       		'userPreferenceFactory',
-			 'userRoleResource',
-			 'userRoleFactory',
-			 'Authorizer',
-			 'ToastMessage',
-			 'utils',
+		.module('app.user')
+		.directive('editUser', [
+      'CommunityResource',
+			'editUserFormService',
+			'UserResource',
+   		'UserPreferenceResource',
+   		'userPreferenceFactory',
+			'UserRoleResource',
+			'userRoleFactory',
+			'Authorizer',
+			'ToastMessage',
 		editUser]);
 
 	/** @ngInject */
-	function editUser(communityResource, editUserFormService, userResource, userPreferenceResource, userPreferenceFactory, userRoleResource, userRoleFactory, Authorizer, ToastMessage,utils) {
+	function editUser(CommunityResource, editUserFormService, UserResource, UserPreferenceResource, userPreferenceFactory, UserRoleResource, userRoleFactory, Authorizer, ToastMessage) {
 
 		function editUserController($scope) {
+
+      var self = this;
 
 			function destroy() {
 				ToastMessage.destroyThis("user", function(){
 				// we will change to slug later, so this need to be changed as well.
-				userResource.deleteUser($scope.profile.id);
+				UserResource.deleteUser($scope.profile.id);
 				});
 	        }
 			function fetchCommunities() {
-				communityResource.getCommunities().then(function(results) {
+				CommunityResource.getCommunities().then(function(results) {
 					$scope.communities = results.data.data;
 				});
 			}
@@ -42,7 +43,7 @@
 				var slug = $scope.profile.slug;
 				$scope.profile.roles = [];
 
-				userRoleResource.getUserRole(slug).then(transformRoles, function(error) {
+				UserRoleResource.getUserRole(slug).then(transformRoles, function(error) {
 					throw new Error('Unable to get this user\'s roles.');
 				});
 
@@ -58,7 +59,7 @@
         var slug = $scope.profile.slug;
         $scope.profile.preferences = [];
         $scope.preferencesFactory = userPreferenceFactory;
-        userPreferenceResource.getUserPreferences(slug).then(function(results) {
+        UserPreferenceResource.getUserPreferences(slug).then(function(results) {
           $scope.preferencesFactory.initPreferences(results);
         });
       }
@@ -69,7 +70,7 @@
 				var id   = $scope.profile.id;
 				var slug = $scope.profile.slug;
 
-				userResource.updateUser(slug, data).then(function(results) {
+				UserResource.updateUser(slug, data).then(function(results) {
           toggleItem(item);
 					setUserProfile();
 				}, function(error) {
@@ -91,13 +92,6 @@
         return $scope.profile.permissions.indexOf(perm) > -1 ? true : false;
       }
 
-			(function init() {
-				fetchCommunities();
-				fetchUserRoles();
-        fetchUserPreferences();
-				setUserProfile();
-			})();
-
 			(function exposeScopeMethods() {
 				$scope.communities = {};
 				$scope.roles       = {};
@@ -107,10 +101,25 @@
 				$scope.fetchUserRoles = fetchUserRoles;
 				$scope.destroy 	   = destroy;
 				$scope.hasPermission      = hasPermission;
-							})();
+        $scope.profile = self.profile;
+        console.log('selfuser');
+        console.log(self.profile);
+			})();
+
+      // (function init() {
+      //   fetchCommunities();
+      //   fetchUserRoles();
+      //   fetchUserPreferences();
+      //   setUserProfile();
+      // })();
+
 		}
 
+
 		return {
+      bindings: {
+        profile: '<'
+      },
 			controller: ['$scope', editUserController],
 			controllerAs: 'editUser',
 			templateUrl: 'app/components/user/editUser/editUser.tpl.html'

@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
+		.module('app.user')
 		.directive('profileToolbar', ['userToolbarService', profileToolbar]);
 
 	/** @ngInject */

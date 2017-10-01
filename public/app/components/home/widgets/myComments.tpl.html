@@ -3,10 +3,10 @@
   Your Comments
 </h3>
 
-<div class="widget_content--list" ng-if="myComments.commentList">
+<div class="widget_content--list" ng-if="$ctrl.commentList">
   <md-list>
     <md-list-item class="md-2-line" ui-sref-active="active" ui-sref="motion({id:comment.motionSlug})"
-      ng-repeat="comment in myComments.commentList | limitTo: 5">
+      ng-repeat="comment in $ctrl.commentList | limitTo: 5">
       <md-icon class="mdi" md-font-icon="mdi-account-circle"></md-icon>
       <div class="md-list-item-text">
         <h3>{{ comment.motionTitle }}</h3>
@@ -21,10 +21,10 @@
   </md-list>
 </div>
 
-<div class="widget_content--text" ng-if="myComments.commentList.length <= 0">
+<div class="widget_content--text" ng-if="$ctrl.commentList.length <= 0">
     <p>You haven't commented, yet.</p>
 </div>
 
-<div class="widget_content--text"  ng-if="myComments.loading">
+<div class="widget_content--text"  ng-if="$ctrl.loading">
   <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

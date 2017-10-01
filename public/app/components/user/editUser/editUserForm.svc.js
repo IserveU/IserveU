@@ -2,16 +2,15 @@
 (function(window, angular, undefined) {
 
   angular
-    .module('iserveu')
-    .factory('editUserFormService', ['$http',
+    .module('app.user')
+    .factory('editUserFormService', [
+      '$http',
       '$filter',
-      'communityResource',
-      'utils',
+      'Utils',
       editUserFormServiceFactory
     ]);
 
-  function editUserFormServiceFactory($http, $filter,
-    communityResource, utils) {
+  function editUserFormServiceFactory($http, $filter, Utils) {
 
     var personalInformation = [{
       label: 'Name',
@@ -105,7 +104,7 @@
           //user date of birth is empty,it need to be combined from 3 values.
           user.date_of_birth = new Date(user.date_of_birth.year, user.date_of_birth.month.value, user.date_of_birth.day);
           data = {
-            date_of_birth: utils.date.stringify(user.date_of_birth)
+            date_of_birth: Utils.date.stringify(user.date_of_birth)
           };
           break;
         case 'email':
@@ -180,16 +179,16 @@
             if (!user.street_name)
               return;
             else if (!user.unit_number && !user.street_number)
-              el.data = utils.toTitleCase(user.street_name);
+              el.data = Utils.toTitleCase(user.street_name);
             else if (!user.unit_number)
               el.data = user.street_number + ' ' +
-              utils.toTitleCase(user.street_name);
+              Utils.toTitleCase(user.street_name);
             else if (!user.street_number)
               el.data = 'Unit #' + user.unit_number + ' ' +
-              utils.toTitleCase(user.street_name);
+              Utils.toTitleCase(user.street_name);
             else
               el.data = user.unit_number + '-' + user.street_number + ' ' +
-              utils.toTitleCase(user.street_name) +
+              Utils.toTitleCase(user.street_name) +
               (user.postal_code ? ', ' + user.postal_code : '');
             break;
         }

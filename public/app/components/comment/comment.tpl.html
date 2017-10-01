@@ -1,0 +1,51 @@
+<section ng-show="$ctrl.motion.motionComments" flex>
+  <div flex layout="row">
+
+  <md-card class="comment-list__container" flex>
+    <md-card-content flex>
+
+        <md-tabs md-dynamic-height md-border-bottom md-swipe-content md-stretch-tabs="always" flex layout-align="center center" md-selected="$ctrl.selectedIndex">
+            <md-tab>
+                <md-tab-label>
+                    <md-tooltip>See comments that agree with this motion</md-tooltip>
+                    <md-icon md-svg-src="thumb-up"></md-icon>
+                </md-tab-label>
+                <md-tab-body>
+                  <comment-list-agree class="motion_commentlist"></comment-list-agree>
+                </md-tab-body>
+            </md-tab>
+            <md-tab ng-if="settingsGlobal.voting.abstain">
+              <md-tab-label>
+                <md-tooltip>See comments that abstained from this motion</md-tooltip>
+                  <md-icon md-svg-src="thumbs-up-down"></md-icon>
+              </md-tab-label>
+              <md-tab-body>
+                <comment-list-abstain class="motion_commentlist"></comment-list-abstain>
+              </md-tab-body>
+            </md-tab>
+            <md-tab>
+              <md-tab-label>
+                  <md-tooltip>See comments that disagree with this motion</md-tooltip>
+                  <md-icon md-svg-src="thumb-down"></md-icon>
+              </md-tab-label>
+              <md-tab-body>
+                <comment-list-disagree class="motion_commentlist"></comment-list-disagree>
+              </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </md-card-content>
+  </div>
+</section>
+
+<section ng-hide="$ctrl.motion.motionComments" flex>
+  <md-card>
+    <md-card-content>
+
+      <div style="margin: 3px 0 0 8px;">
+        <md-icon class="mdi mdi-microphone-off title-icon"></md-icon>
+        <h1 class="md-subhead title-header">No comments, yet.</h1>
+      </div>
+
+    </md-card-content>
+  </md-card>
+</section>

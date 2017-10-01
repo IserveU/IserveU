@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
+		.module('app.user')
 		.service('userToolbarService', [
 			'$state',
 			'$timeout',

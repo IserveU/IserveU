@@ -1,0 +1,53 @@
+<div  class="md-toolbar-tools sidebar-toolbar" ng-class="$ctrl.showMotionView?'motion-enabled flex':''">
+
+  <md-button class="md-icon-button" aria-label="Home Button" href="#/home" ng-show="!$ctrl.search.isOpen">
+    <symbol-all-white-png resize-width="24" ng-href="#/home"></symbol-all-white-png>
+  </md-button>
+
+  <md-button class="md-icon-button" aria-label="Stop Search Button" ng-show="$ctrl.search.isOpen" ng-click="$ctrl.search.show()">
+    <md-icon class="mdi mdi-arrow-left"</md-icon>
+  </md-button>
+
+    <div ng-if="$ctrl.showMotionView" layout="row" flex>
+
+      <h2 ng-if="!$ctrl.search.isOpen" translate="{{'MOTIONS'}}" flex></h2>
+
+      <input class="sidebar-search-input" type='text' placeholder="Search ..." ng-show="$ctrl.search.isOpen" ng-model='$ctrl.search.text' ng-class="{'sidebar-search-input':$ctrl.search.isOpen}" ng-keyup="$ctrl.search.searchAll($event)" focus-input="$ctrl.search.isOpen" flex/>
+
+
+      <div ng-class="$ctrl.search.isOpen?'':'action-buttons'" layout-align="end end">
+        <md-icon class="mdi mdi-magnify search-icon" ng-click="$ctrl.search.show()" ng-class="{'search-icon':$ctrl.search.isOpen}"></md-icon>
+
+        <md-menu md-offset="27 32">
+          <md-icon class="mdi mdi-dots-vertical motion-filters__button" ng-click="$mdMenu.open()"></md-icon>
+          <md-menu-content width="4" class="md-body-1">
+            <md-select placeholder="Filter by Departments" ng-model="$ctrl.search._department.filter" ng-change="$ctrl.search.searchSpecific()" aria-label="filter motions by department" 
+            class="motion-filters__filter--department"
+            layout-padding>
+              <md-option ng-repeat="department in $ctrl.search._department.index" ng-value="department.id">{{::department.name}}</md-option>
+            </md-select>
+
+            <md-select placeholder="Filter by Status" ng-model="$ctrl.search._status.filter" ng-change="$ctrl.search.searchSpecific()" 
+            aria-label="filter motions by status"
+            class="motion-filters__filter--status" 
+            layout-padding>
+              <md-option ng-value="$ctrl.search._status.filters[0].query">{{$ctrl.search._status.filters[0].name}}</md-option>
+              <md-option ng-value="$ctrl.search._status.filters[1].query">{{$ctrl.search._status.filters[1].name}}</md-option>
+              <md-option has-permission="show-motion" ng-value="$ctrl.search._status.filters[2].query">{{$ctrl.search._status.filters[2].name}}</md-option>
+              
+            </md-select>
+                                    
+            <md-select ng-model="$ctrl.search._orderBy.filter" ng-change="$ctrl.search.searchSpecific()" placeholder="Order by:" aria-label="filter motions by properties" layout-padding
+            class="motion-filters__filter--order">
+              <md-option ng-repeat="filter in $ctrl.search._orderBy.filters" ng-value="filter.query">{{::filter.name}}</md-option>
+            </md-select>
+
+            <md-menu-button class="action-buttons" layout="row" layout-align="end end">
+              <md-button class="md-accent md-raised" ng-click="$ctrl.search.all()">Clear filters</md-button>
+            </md-menu-button>
+
+          </md-menu-content>
+        </md-menu>
+      </div>
+
+</div>

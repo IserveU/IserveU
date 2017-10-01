@@ -2,10 +2,10 @@
 <h3 class="widget_title"> <md-icon class="mdi mdi-chart-areaspline title-icon"></md-icon>
  Top {{ 'MOTIONS' | translate }}</h3>
 
-<div class="widget_content--list" ng-if="topMotions.motionList.length > 0">
+<div class="widget_content--list" ng-if="$ctrl.motionList.length > 0">
   <md-list>
-    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.slug})" class="md-with-secondary" ng-if="topMotions.motionList"
-        ng-repeat="motion in topMotions.motionList | limitTo: 5">
+    <md-list-item ui-sref-active="active" ui-sref="motion({id:motion.slug})" class="md-with-secondary" ng-if="$ctrl.motionList"
+        ng-repeat="motion in $ctrl.motionList | limitTo: 5">
       <div class="md-list-item-text" ui-sref="motion({id:motion.slug})">{{motion.title}}</div>
 
       <div class="md-secondary-container">
@@ -18,10 +18,10 @@
   </md-list>
 </div>
 
-<div class="widget_content--text" ng-if="!topMotions.motionList.length">
+<div class="widget_content--text" ng-if="!$ctrl.motionList.length">
     <p>There are no motions right now.</p>
 </div>
 
-<div class="widget_content--text"  ng-if="topMotions.loading">
+<div class="widget_content--text"  ng-if="$ctrl.loading">
   <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

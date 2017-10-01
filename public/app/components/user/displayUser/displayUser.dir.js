@@ -3,16 +3,16 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
+		.module('app.user')
 		.directive('displayProfile',
 			['$state',
 			 '$stateParams',
 			 'userToolbarService',
-			 'userResource',
-			 'voteResource',
+			 'UserResource',
+			 'VoteResource',
 		displayProfile]);
 
-	function displayProfile($state, $stateParams, userToolbarService, userResource, voteResource) {
+	function displayProfile($state, $stateParams, userToolbarService, UserResource, VoteResource) {
 
 		function displayProfileController() {
 
@@ -45,12 +45,12 @@
 
 	        function destroy() {
 				ToastMessage.destroyThis("user", function(){
-					userResource.deleteUser($stateParams.id);
+					UserResource.deleteUser($stateParams.id);
 				});
 	        }
 
 	        function fetchUserVotes() {
-	            voteResource.getMyVotes($stateParams.id, {limit:5})
+	            VoteResource.getMyVotes($stateParams.id, {limit:5})
 	            	.then(function(results){
 						self.retrieving = false;
 		                if( results.total !== 0 )

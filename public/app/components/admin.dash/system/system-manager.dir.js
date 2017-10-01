@@ -3,27 +3,27 @@
   'use strict';
 
   angular
-    .module('iserveu')
-    .directive('systemManager', ['settings', 'departmentManagerService', systemManager]);
+    .module('app.admin.dash')
+    .directive('systemManager', ['Settings', 'departmentManagerService', systemManager]);
 
-  function systemManager(settings, departmentManagerService) {
+  function systemManager(Settings, departmentManagerService) {
 
     function systemManagerController() {
 
       this.department = departmentManagerService;
-      this.service = settings;
+      this.service = Settings;
       this.showDepartment = false;
       this.showMotion = false;
       this.showSecurity = false;
       this.showVoting = false;
       this.showBetaMessage = false;
       this.saveAll = function(type){
-        settings.saveTypeOf(type);
+        Settings.saveTypeOf(type);
       }
       this.save = function(type,key,value) {
         var data = new Array();
         data[key.toString()] = value;
-        settings.saveTypeOf(type,data);
+        Settings.saveTypeOf(type,data);
       };
 
       this.toggleDepartment = function() {

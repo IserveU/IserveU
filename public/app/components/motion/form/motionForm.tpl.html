@@ -1,0 +1,98 @@
+<md-card flex-gt-xs="100" flex-md="70" flex-lg="70" flex-gt-lg="60" layout="column" style="margin:auto;" ng-cloak="">
+	<md-card-content>
+
+		<form name="motionForm" ng-submit="motionForm.$valid && $ctrl.saveMotion($ctrl.motion)" layout="column" layout-padding
+		 	  isu-section-init="{autopost: false}"
+		 	  isu-section-object="$ctrl.motion">
+
+			<div layout="column" flex layout-padding>
+
+				<div>
+					<h3 class="title-header">{{ 'MOTION' | translate }} Title</h3>
+					<div layout="column" flex>
+						<md-input-container style="margin-top: 0; margin-bottom: 0;">
+							<input name="title" type="text" ng-model="$ctrl.motion.title" minlength="8" required/>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div>
+					<!-- <md-icon class="mdi mdi-subject title-icon" ></md-icon> -->
+					<h3 class="title-header">Summary</h3>
+					<div layout="column" flex>
+						<md-input-container style="margin-top: 0; margin-bottom: 0;">
+							<input name="summary" type="text" ng-model="$ctrl.motion.summary" minlength="8" required/>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-file-document title-icon" ></md-icon>
+					<h3  class="title-header">Body</h3>
+					<textarea name="body" alloy-editor flow-init class="md-body-1" id="motion-form-editor" ng-model="$ctrl.motion.text" layout-padding></textarea>
+				</div>
+
+				<div has-permission="create-motion">
+					<md-icon class="mdi mdi-chart-bar title-icon"></md-icon>
+						<h3 class="title-header">Resources</h3>
+
+						<isu-file-upload
+							isu-bind-endpoint="/api/motion/{{$ctrl.motion.slug}}/file"
+							isu-bind-files="$ctrl.motionFiles"
+							isu-existing-files="{{$ctrl.existingMotionFiles}}">
+						</isu-file-upload>
+						<p class="md-caption">pdf, doc, docx, etc.</p>
+				</div>
+
+				<div>
+					<md-icon class="mdi mdi-view-list title-icon"></md-icon>
+						<h3 class="title-header">Options</h3>
+				</div>
+
+				<div layout="column" flex>
+					<md-input-container flex>
+						<md-select name="department" ng-model="$ctrl.motion.department.id" placeholder="{{ 'DEPARTMENT' | translate }}" aria-label="select department" > <!-- TODO:  rewuird-->
+							<md-option ng-repeat="department in $ctrl.departments.data" ng-value="department.id">{{department.name}}</md-option>
+							<!-- <md-option>Create new {{ 'DEPARTMENT' | translate | lowercase}}</md-option> -->
+						</md-select>
+						<div ng-messages="motionForm.department.$error" role="alert">
+							<div ng-message="required">Please choose a {{ 'DEPARTMENT' | translate | lowercase }}.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container flex>
+						<md-select has-permission="administrate-motion" name="status" ng-model="$ctrl.motion.status" placeholder="{{ 'MOTION' | translate}} Status" required>
+							<md-option class="select-option__draft" value="draft">Draft</md-option>
+							<md-option class="select-option__review" value="review">In Review</md-option>
+							<md-option class="select-option__publish" value="published">Publish</md-option>
+						</md-select>
+
+						<div ng-messages="motionForm.status.$error" role="alert">
+							<div ng-message-exp="['required']">Please choose a status.</div>
+						</div>
+					</md-input-container>
+
+
+					<div ng-if="$ctrl.motion.status == 'published' && $ctrl.allowClosing">
+						<div>
+							<h3 class="title-header">Closing Date</h3>
+						</div>
+						<md-datepicker ng-model="$ctrl.motion.closing_at" md-placeholder="Closing Date" ng-disabled="$ctrl.motion._rank && $ctrl.motion.closing_at.carbon" format-closing="$ctrl.motion.closing_at.carbon" flex>
+            </md-datepicker>
+					</div>
+				</div>
+
+				<spinner class="create-motion__button" layout layout-align="center end"
+						 form-name="" name="'Save'" on-hide="$ctrl.processing"
+						 secondary-btn="{control: $ctrl.cancel, name: 'Cancel'}">
+				</spinner>
+
+				<md-button has-permission="!administrate-motion" ng-show="$ctrl.motion.status=='draft'" ng-click="$ctrl.submitForReview()">Submit For Review</md-button>
+			</div>
+		</form>
+
+
+
+
+	</md-card-content>
+</md-card>

@@ -3,15 +3,15 @@
     'use strict';
 
     angular
-        .module('iserveu')
-        .factory('contentManagerService', ['settings', 'SETTINGS_JSON', contentManagerServiceFactory]);
+        .module('app.admin.dash')
+        .factory('contentManagerService', ['Settings', contentManagerServiceFactory]);
 
-    function contentManagerServiceFactory(settings, SETTINGS_JSON) {
+    function contentManagerServiceFactory(Settings) {
 
         var ContentSettings = {
             sitename: {
                 header: 'Site Name',
-                text: SETTINGS_JSON.sitename,
+                text: Settings.get('sitename'),
                 caption: '*Name of your site. Displays at the top of the browser name.'
             },
             social: {

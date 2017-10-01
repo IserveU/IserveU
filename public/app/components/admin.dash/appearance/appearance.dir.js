@@ -2,16 +2,16 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
-		.directive('appearanceManager', ['settings', 'Palette', 'ToastMessage', appearance]);
+		.module('app.admin.dash')
+		.directive('appearanceManager', ['Settings', 'Palette', 'ToastMessage', appearance]);
 
 	/** @ngInject */
-	function appearance(settings, Palette, ToastMessage) {
+	function appearance(Settings, Palette, ToastMessage) {
 
 		function appearanceController($scope) {
 
-			this.service  = settings;
-			this.palette  = new Palette(settings.data.theme.colors);
+			this.service  = Settings;
+			this.palette  = new Palette(Settings.data.theme.colors);
 
 			$scope.$watch(
 				'appearance.service.data.saving',

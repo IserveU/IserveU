@@ -1,7 +1,4 @@
-<motion ng-class="{ 'loading' : !motion }" >
-
-
-
+<motion ng-class="{ 'loading' : !$ctrl.motion }" >
   <div id="centered_content">
 		<md-card>
 			<md-card-content flex>
@@ -9,34 +6,30 @@
 			<article class="layout-row layout-wrap">
 
 				<header class="motion_header">
-					<h1 class="motion_header__title">{{ ::motion.title }}</h1>
-					<p class="md-subhead motion_header__summary">{{motion.summary}}</p>
+					<h1 class="motion_header__title">{{ ::$ctrl.motion.title }}</h1>
+					<p class="md-subhead motion_header__summary">{{$ctrl.motion.summary}}</p>
 				</header>
-				
-				<motion-tiles class=motion_tiles></motion-tiles>
 
+				<motion-tiles-component class=motion_tiles></motion-tiles-component>
 
 				<section class="motion_details">
-		
-					<h2 ng-if="motion.text">Details</h2>
-
-					<div class="md-body-1 motion_details__text" ng-bind-html="::motion.text | trustAsHtml"></div>
-
+					<h2 ng-if="$ctrl.motion.text">Details</h2>
+					<div class="md-body-1 motion_details__text" ng-bind-html="::$ctrl.motion.text | trustAsHtml"></div>
 				</section>
 
-				<section class="motion_files" ng-if="motion.motionFiles">
+				<section class="motion_files" ng-if="$ctrl.motion.motionFiles">
 					<h2>Resources</h2>
 
 					<md-list>
-						<md-list-item class="md-3-line" ng-repeat="file in motion.motionFiles">
+						<md-list-item class="md-3-line" ng-repeat="file in $ctrl.motion.motionFiles">
 							<md-icon class="mdi md-avatar-icon mdi-file-{{file.type}}"></md-icon>
 
 					        <div class="md-list-item-text">
-					            <h3><a ng-href="href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download">{{file.title}}</a></h3>
+					            <h3><a ng-href="href="/api/motion/{{::$ctrl.motion.slug}}/file/{{::file.slug}}/download">{{file.title}}</a></h3>
 					            <h4>{{file.type}}</h4>
 					            <p>{{ file.title ? file.description : file.slug}}</p>
 					        </div>
-  							<md-button class="md-secondary md-icon-button" ng-href="/api/motion/{{::motion.slug}}/file/{{::file.slug}}/download" aria-label="download">
+  							<md-button class="md-secondary md-icon-button" ng-href="/api/motion/{{::$ctrl.motion.slug}}/file/{{::file.slug}}/download" aria-label="download">
 					        	<md-icon class="mdi mdi-download"></md-icon>
           					</md-button
 				        </md-list-item>
@@ -48,20 +41,21 @@
 			</md-card-content>
 		</md-card>
 
-		<motion-votes class="motionVotes" ng-if="motion.motionVotes && settingsGlobal.voting.on && motion.status !== 'draft' "></motion-votes>
+   <!-- TODO:  ng-if="$ctrl.motion.motionVotes && $ctrl.showVoteView && $ctrl.motion.status !== 'draft' " -->
+		<motion-votes-component motion="$ctrl.motion" class="motionVotes"></motion-votes-component>
 
-		<comment-section ng-if="settingsGlobal.comment.on  && motion.status !== 'draft'">
-			<user-comment ng-if="userIsLoggedIn && motion._userVote"></user-comment>
-			<comment-list></comment-list>
+		<comment-section ng-if="$ctrl.showCommentView && $ctrl.motion.status !== 'draft'">
+			<user-comment ng-if="$root.userIsLoggedIn && $ctrl.motion._userVote"></user-comment>
+			<comment-list motion="$ctrl.motion"></comment-list>
 		</comment-section>
 
 	</div>
   
-	<floating-button ng-if="isThisUsers(motion.user_id)" class="motion_fab"
+	<floating-button ng-if="$ctrl.isThisUsers($ctrl.motion.user_id)" class="motion_fab"
 		init-buttons="['create', 'edit', 'delete']"
-		on-create="create()"
-		on-edit="edit()"
-		on-delete="destroy()">
+		on-create="$ctrl.create()"
+		on-edit="$ctrl.edit()"
+		on-delete="$ctrl.destroy()">
 	</floating-button>
 
 </motion>

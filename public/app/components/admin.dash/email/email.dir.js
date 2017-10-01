@@ -2,16 +2,16 @@
 (function(window, angular, undefined) {
 
   angular
-    .module('iserveu')
+    .module('app.admin.dash')
     .directive('emailManager', [
-      'settings',
+      'Settings',
       emailManager]);
 
-  function emailManager(settings) {
+  function emailManager(Settings) {
 
     function emailManagerController() {
-      this.service = settings;
-      this.settings = settings.getData();
+      this.service = Settings;
+      this.settings = Settings.getData();
       this.showWelcome = false;
 
       this.toggleWelcome = function() {

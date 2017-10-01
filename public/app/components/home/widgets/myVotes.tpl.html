@@ -3,11 +3,11 @@
   Your Votes
 </h3>
 
-<div class="widget_content--list" ng-if="myVotes.voteList.length > 0">
+<div class="widget_content--list" ng-if="$ctrl.voteList.length > 0">
     <md-list>
 
       <md-list-item class="md-2-line"  ui-sref-active="active" ui-sref="motion({id:vote._motion_slug})"
-      ng-switch="{{ vote.position }}"  ng-repeat="vote in myVotes.voteList | limitTo: 5">
+      ng-switch="{{ vote.position }}"  ng-repeat="vote in $ctrl.voteList | limitTo: 5">
         <md-icon ng-switch-when="1" class="md-primary" md-svg-src="thumb-up"></md-icon>
         <md-icon ng-switch-when="-1" class="md-accent" md-svg-src="thumb-down"></md-icon>
         <md-icon ng-switch-when="0" md-svg-src="thumbs-up-down"></md-icon>
@@ -26,10 +26,10 @@
     </md-list>
 </div>
 
-<div class="widget_content--text" ng-if="myVotes.voteList.length <= 0">
+<div class="widget_content--text" ng-if="$ctrl.voteList.length <= 0">
     <p>You haven't voted, yet.</p>
 </div>
 
-<div class="widget_content--text"  ng-if="myVotes.loading">
+<div class="widget_content--text"  ng-if="$ctrl.loading">
   <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>

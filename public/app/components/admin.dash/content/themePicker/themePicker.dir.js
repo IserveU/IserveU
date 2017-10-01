@@ -2,7 +2,7 @@
 (function(window, angular, undefined) {
 
   angular
-    .module('iserveu')
+    .module('app.admin.dash')
     .controller('ThemeDemoCtrl', ['$rootScope', '$scope', '$mdColorPalette', function($rootScope, $scope, $mdColorPalette) {
       $scope.colors = Object.keys($mdColorPalette);
       $scope.primary = $rootScope.settingsGlobal.theme.predefined.primary;

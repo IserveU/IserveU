@@ -1,0 +1,31 @@
+<md-dialog class="terms-and-conditions" aria-label="Terms and Conditions" ng-cloak>
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Terms and Conditions</h2>
+      <span flex></span>
+      <md-button ng-if="notAccepted" class="md-icon-button" ng-click="cancel()">
+        <md-icon class="mdi mdi-window-close" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content style="max-width:800px; max-height:810px;" flex-order="0">
+    <div class="md-dialog-content">
+      <h2>By using our website, you accept these terms and conditions in full</h2>
+      <p>Accordingly, if you disagree with these terms and conditions or any part of these terms and conditions, you must not use our website.</p>
+      
+      <p class="md-body-1" ng-bind-html="terms.text | trustAsHtml"></p>
+
+    </div>
+
+    <div layout="row" flex-order="1">
+      <span flex></span>
+
+      <md-button class="md-raised md-accent terms_conditions__button" ng-click="answer('agree')">
+        {{ !userIsLoggedIn || notAccepted ? 'I Agree' : 'Close' }}
+      </md-button>
+    </div>
+  </md-dialog-content>
+
+</md-dialog>

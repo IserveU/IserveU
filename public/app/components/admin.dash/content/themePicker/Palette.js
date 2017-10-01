@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
+		.module('app.admin.dash')
 		.service('Palette', ['$mdColorUtil', Palette]);
 
 	/** @ngInject */

@@ -1,7 +1,7 @@
 (function() {
 	
 	angular
-		.module('iserveu')
+		.module('app.admin.dash')
 		.directive('departmentManager', ['departmentManagerService', departmentManager]);
 
 	function departmentManager(departmentManagerService) {

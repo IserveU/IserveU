@@ -4,11 +4,11 @@
 	'use strict';
 
 	angular
-		.module('iserveu')
-		.factory('userPreferenceFactory', ['userPreferenceResource', userPreferenceFactory]);
+		.module('app.user')
+		.factory('userPreferenceFactory', ['UserPreferenceResource', userPreferenceFactory]);
 
   	 /** @ngInject */
-	function userPreferenceFactory(userPreferenceResource){
+	function userPreferenceFactory(UserPreferenceResource){
 
 		var userPreference = {
 			sections: {},
@@ -89,7 +89,7 @@
       },
 
       getUserPreferences: function(user) {
-        userPreferenceResource.getUserPreferences(user).then(function(results){
+        UserPreferenceResource.getUserPreferences(user).then(function(results){
           this.data = results;
         });
       },
@@ -103,7 +103,7 @@
 			update: function(slug, pref) {
         this.saving = true;
 
-        userPreferenceResource.setUserPreference({slug: slug, key: pref.key,
+        UserPreferenceResource.setUserPreference({slug: slug, key: pref.key,
           value: pref.value ? 1 : 0}).then(successHandler);
 			}
 		}

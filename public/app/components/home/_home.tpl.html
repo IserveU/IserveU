@@ -1,0 +1,15 @@
+<page class="home layout-row layout-wrap flex" ng-cloak>
+  <div id="centered_content">
+    <home-introduction class="widget"></home-introduction>
+    <my-votes class="widget" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.voting.on"></my-votes>
+    <top-motions class="widget" ng-if="settingsGlobal.motion.on && settingsGlobal.home.widgets.top_motions"></top-motions>
+    <my-comments class="widget" ng-if="userIsLoggedIn && authenticatedUser && settingsGlobal.comment.on"></my-comments>  
+    <top-comments class="widget"  ng-if="settingsGlobal.comment.on"></top-comments>
+  </div>
+
+  <floating-button  md-direction="left" has-permission="administrate-motion"  class="motion_fab"
+    init-buttons="['edit']"
+    on-edit="$ctrl.edit(home)">
+  </floating-button>
+</page>
+
