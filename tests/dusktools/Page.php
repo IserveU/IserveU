@@ -36,7 +36,6 @@ abstract class Page
     {
         // Page object bootstrap assertion
         $browser->resize(1920, 1080);
-
     }
 
     /**
