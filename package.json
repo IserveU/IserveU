@@ -5,6 +5,7 @@
     "eslint": "^3.19.0",
     "laravel-mix": "^0.11.0",
     "lodash": "^4.14.0",
+    "cross-env": "^5.0.1",
     "webpack-livereload-plugin": "^0.11.0"
   },
   "scripts": {
@@ -31,7 +32,6 @@
     "angular-translate-storage-local": "2.15.1",
     "angular-ui-router": "0.4.0",
     "bootstrap-css-only": "3.3.7",
-    "cross-env": "5.0.1",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
     "marked": "0.3.6",
