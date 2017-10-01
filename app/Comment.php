@@ -78,7 +78,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
         static::creating(function ($model) {
             event(new CommentCreated($model));
-        //    $model->flushCache();
+            //    $model->flushCache();
 
             return true;
         });
@@ -167,14 +167,14 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
         }
 
         // if relation is not loaded already, let's do it first
-      if (!array_key_exists('commentRankRelation', $this->relations)) {
-          $this->load('commentRankRelation');
-      }
+        if (!array_key_exists('commentRankRelation', $this->relations)) {
+            $this->load('commentRankRelation');
+        }
 
         $related = $this->getRelation('commentRankRelation');
 
-      // then return the count directly
-      return ($related) ? (int) $related->rank : 0;
+        // then return the count directly
+        return ($related) ? (int) $related->rank : 0;
     }
 
     /************************************* Casts & Accesors *****************************************/
@@ -210,15 +210,15 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
         $data['community'] = $this->user->community ?? ['name'=>'Unknown Community', 'adjective'=>'Unknown Community'];
         $data['status'] = $this->user->status; // A little easier to spot issues
 
-      if ($this->publiclyVisible) {
-          $data['first_name'] = $this->user->first_name;
-          $data['last_name'] = $this->user->last_name;
+        if ($this->publiclyVisible) {
+            $data['first_name'] = $this->user->first_name;
+            $data['last_name'] = $this->user->last_name;
 
-        //Can we also visit the user's profile
-        if ($this->user->publiclyVisible) {
-            $data['slug'] = $this->user->slug;
+            //Can we also visit the user's profile
+            if ($this->user->publiclyVisible) {
+                $data['slug'] = $this->user->slug;
+            }
         }
-      }
 
         return $data;
     }

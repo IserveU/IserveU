@@ -23,7 +23,7 @@ class FileResizingTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
-          //Can download
+        //Can download
         $this->get('/api/motion/'.$motion->slug.'/file/'.$file->slug.'/resize')
             ->assertResponseStatus(200);
     }
@@ -37,7 +37,7 @@ class FileResizingTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $motion->files()->save($file);
 
-          //Can download
+        //Can download
         $this->get('/api/motion/'.$motion->slug.'/file/'.$file->slug.'/resize/100/100')
             ->assertResponseStatus(200);
     }

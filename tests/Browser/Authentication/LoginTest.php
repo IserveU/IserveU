@@ -53,41 +53,41 @@ class LoginTest extends DuskTestCase
         });
     }
 
-      /**
-       * Interactions for an unverified user with no roles
-       * Should be able to login as unverified user.
-       *
-       * @return void
-       * @test
-       **/
-      public function login_as_unverified_user()
-      {
-          $this->browse(function (Browser $browser) {
-              $browser->logout()
+    /**
+     * Interactions for an unverified user with no roles
+     * Should be able to login as unverified user.
+     *
+     * @return void
+     * @test
+     **/
+    public function login_as_unverified_user()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->logout()
                       ->visit(new AuthenticationPage())->pause(3000)
                       ->typeBetter('@email', 'user@iserveu.ca')
                       ->typeBetter('@password', 'abcd1234')
                       ->press('@login')
                       ->waitForLocation('/#/home');
-          });
-      }
+        });
+    }
 
-      /**
-       * Interactions for a verified user with citizen roles.
-       *
-       * @return void
-       * @test
-       **/
-      public function login_as_citizen()
-      {
-          $this->browse(function (Browser $browser) {
-              $browser->logout()
+    /**
+     * Interactions for a verified user with citizen roles.
+     *
+     * @return void
+     * @test
+     **/
+    public function login_as_citizen()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->logout()
                       ->visit(new AuthenticationPage())->pause(3000)
                       ->typeBetter('@email', 'citizen@iserveu.ca')
                       ->typeBetter('@password', 'abcd1234')
 
                       ->press('@login')
                       ->waitForLocation('/#/home');
-          });
-      }
+        });
+    }
 }

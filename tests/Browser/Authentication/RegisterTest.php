@@ -43,28 +43,28 @@ class RegisterTest extends DuskTestCase
         });
     }
 
-        /*
+    /*
       	// it('', function() {
-        //     let email     = faker.internet.email();
-        //     page.clickCreateButton();
-        //
+    //     let email     = faker.internet.email();
+    //     page.clickCreateButton();
+    //
       	// 	  let formHelper = new FormHelper(
-        //       page.getCreateButton(),
-        //       new Map([
-        //         ["newemail",email],
-        //         ['confirmemail', email],
-        //         ['firstname', faker.name.firstName()],
-        //         ['lastname', faker.name.lastName()],
-        //         ['newpassword', faker.internet.password()]
-        //       ])
-        //     );
-        //
+    //       page.getCreateButton(),
+    //       new Map([
+    //         ["newemail",email],
+    //         ['confirmemail', email],
+    //         ['firstname', faker.name.firstName()],
+    //         ['lastname', faker.name.lastName()],
+    //         ['newpassword', faker.internet.password()]
+    //       ])
+    //     );
+    //
        // 		  formHelper.selectBox('register.values.community_id',"Yellowknife");
-        //
-        //  		formHelper.submit();
-        //
+    //
+    //  		formHelper.submit();
+    //
     		// 		//Failed on January the 17 (URL did not match)
-        //  		browser.wait(EC.urlContains('home'), 12000,"Url did not match");
-        //
+    //  		browser.wait(EC.urlContains('home'), 12000,"Url did not match");
+    //
       	// }); */
 }
