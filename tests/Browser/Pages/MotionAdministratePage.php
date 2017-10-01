@@ -18,7 +18,7 @@ class MotionAdministratePage extends Page
         $browser->resize(1280, 800);
     }
 
-//md-select.select_input__communities
+    //md-select.select_input__communities
 
     /**
      * Get the element shortcuts for the page.

@@ -44,7 +44,7 @@ class PageFileIntegrationTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $page->files()->save($file);
 
-          //Can download
+        //Can download
         $this->get('/api/page/'.$page->slug.'/file/'.$file->slug.'/download')
             ->assertResponseStatus(200);
     }
@@ -77,7 +77,7 @@ class PageFileIntegrationTest extends BrowserKitTestCase
         $file = factory(App\File::class)->create();
         $page->files()->save($file);
 
-         //Can patch
+        //Can patch
         $this->patch('/api/page/'.$page->slug.'/file/'.$file->slug, $filePost)
             ->assertResponseStatus(200)
             ->seeJsonStructure([

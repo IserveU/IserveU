@@ -70,7 +70,7 @@ class ProcessCSV extends Command
             if ($filter->signup_type) {
                 return false;
             } //Seems to be the org field
-          return true;
+            return true;
         });
     }
 
