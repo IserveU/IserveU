@@ -106,7 +106,7 @@
             <form layout="column">
               <div ng-repeat="obj in item.list" ng-if="hasPermission(obj.permission) || !obj.permission">
                 <md-switch ng-model="obj.value" ariaLabel="{{obj.tooltip}}"
-                  ng-change="preferencesFactory.update(profile.slug, obj)">
+                  ng-change="preferencesFactory.change(obj)">
                   {{obj.label}}
                   <md-tooltip md-direction="right">
                     {{obj.tooltip}}
@@ -120,7 +120,11 @@
             <md-icon class="mdi mdi-pencil"></md-icon>
           </md-button>
 
-          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit">Close</md-button>
+          <md-button class="md-secondary" ng-show="item.edit" type="submit" ng-click="preferencesFactory.save(profile.slug, item); item.saving = true">
+            <span ng-hide="item.saving">Save</span>
+            <md-icon md-svg-src="loading" ng-show="item.saving"></md-icon>
+          </md-button>
+          <md-button class="md-secondary" ng-show="item.edit" ng-click="item.edit = !item.edit; preferencesFactory.edited = []">Close</md-button>
 
       </md-list-item>
 
@@ -180,5 +184,5 @@
     init-buttons="['delete']"
     on-delete="destroy()">
   </floating-button>
-  
+
 </user>
