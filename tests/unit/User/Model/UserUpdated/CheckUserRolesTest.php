@@ -60,7 +60,7 @@ class CheckUserRolesTest extends BrowserKitTestCase
     public function citizen_with_expired_address_will_have_citizen_role_stripped()
     {
         $user = factory(App\User::class, 'verified')->create([
-            'address_verified_until'    => Carbon::yesterday(),
+            'address_verified_until' => Carbon::yesterday(),
         ]);
         $user->addRole('citizen');
         $user->touch();
@@ -92,7 +92,7 @@ class CheckUserRolesTest extends BrowserKitTestCase
     public function user_with_no_password_will_not_be_notifed_of_role_change_even_if_they_have_preference_on() //new users created by admin/csv
     {
         $user = factory(App\User::class, 'verified')->create([
-            'password'                  => null,
+            'password' => null,
         ]);
         $user->setPreference('authentication.notify.user.onrolechange.on', 1)->save();
 
@@ -113,7 +113,7 @@ class CheckUserRolesTest extends BrowserKitTestCase
         $this->mailerInstance = $this->getMailer();
 
         $user = factory(App\User::class, 'verified')->create([
-          'address_verified_until'    => Carbon::yesterday(),
+          'address_verified_until' => Carbon::yesterday(),
       ]);
         $user->setPreference('authentication.notify.user.onrolechange.on', 0)->save();
 

@@ -19,14 +19,14 @@ $factory->define(App\Motion::class, function ($faker) use ($factory) {
         'summary'       => $faker->sentence($nbWords = 15),
         'department_id' => $department->id,
       // The only thing that sets the published at field is the status field
-        'user_id'       => function () {
+        'user_id' => function () {
             return factory(App\User::class, 'verified')->create()->id;
         },
-        'closing_at'       => Carbon\Carbon::now()->addDays(rand(1, 5)),
-        'text'             => $faker->paragraph($nbSentences = 10),
-        'created_at'       => Carbon\Carbon::now()->subDays(rand(5, 30)),
-        'implementation'   => $implementation,
-        'status'           => $status,
+        'closing_at'     => Carbon\Carbon::now()->addDays(rand(1, 5)),
+        'text'           => $faker->paragraph($nbSentences = 10),
+        'created_at'     => Carbon\Carbon::now()->subDays(rand(5, 30)),
+        'implementation' => $implementation,
+        'status'         => $status,
     ];
 });
 
@@ -52,8 +52,8 @@ $factory->defineAs(App\Motion::class, 'published', function (Faker\Generator $fa
     $motion = $factory->raw(App\Motion::class);
 
     return array_merge($motion, array_merge(createClosingDate(), [
-                  'status'    => 'published',
-                  'title'     => $faker->sentence($nbWords = 4).' Published',
+                  'status' => 'published',
+                  'title'  => $faker->sentence($nbWords = 4).' Published',
                 ]));
 });
 
@@ -62,9 +62,9 @@ $factory->defineAs(App\Motion::class, 'closed', function (Faker\Generator $faker
 
     $date = \Carbon\Carbon::now();
 
-    return array_merge($motion, ['status'      => 'closed',
-                                'closing_at'   => Carbon\Carbon::now()->subDays(rand(1, 5)),
-                                'title'        => $faker->sentence($nbWords = 4).' Closed',
+    return array_merge($motion, ['status'    => 'closed',
+                                'closing_at' => Carbon\Carbon::now()->subDays(rand(1, 5)),
+                                'title'      => $faker->sentence($nbWords = 4).' Closed',
                               ]
                     );
 });

@@ -29,7 +29,7 @@ class IndexCommentApiTest extends CommentApi
                             'prev_page_url',
                             'from',
                             'to',
-                            'data'  => [
+                            'data' => [
                                 '*' => [
                                     'id',
                                     'text',
@@ -53,7 +53,7 @@ class IndexCommentApiTest extends CommentApi
     /** @test */
     public function comment_filter_by_comment_rank_ascending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'asc']])
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank' => 'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInField('asc', 'commentRank');
     }
@@ -61,7 +61,7 @@ class IndexCommentApiTest extends CommentApi
     /** @test */
     public function comment_filter_by_comment_rank_descending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['commentRank'=>'desc']])
+        $this->json('GET', $this->route, ['orderBy' => ['commentRank' => 'desc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInField('desc', 'commentRank');
     }

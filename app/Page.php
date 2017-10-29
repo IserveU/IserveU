@@ -62,8 +62,8 @@ class Page extends NewApiModel
     {
         return [
             'slug' => [
-                'source'    => ['title'],
-                'onUpdate'  => true,
+                'source'   => ['title'],
+                'onUpdate' => true,
             ],
         ];
     }
@@ -74,8 +74,8 @@ class Page extends NewApiModel
      * @var array
      */
     protected $attributes = [
-        'title'     => 'New Page',
-        'content'   => '{"text": ""}',
+        'title'   => 'New Page',
+        'content' => '{"text": ""}',
     ];
 
     /**
@@ -84,7 +84,7 @@ class Page extends NewApiModel
      * @var array
      */
     protected $casts = [
-        'content'   => 'array',
+        'content' => 'array',
     ];
 
     /**************************************** Data Mutators ****************************************/

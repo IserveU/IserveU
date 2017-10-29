@@ -14,7 +14,7 @@ class VoteFeaturesTest extends DuskTestCase
     {
         parent::setUp();
 
-        $this->setSettings(['site.terms.force'=>0]);
+        $this->setSettings(['site.terms.force' => 0]);
     }
 
     /**

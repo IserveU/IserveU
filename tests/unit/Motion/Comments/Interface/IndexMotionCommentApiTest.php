@@ -25,9 +25,9 @@ class IndexMotionCommentApiTest extends BrowserKitTestCase
             //Each commenter likes a random comment
             foreach ($comments as $comment) {
                 \App\CommentVote::create([
-                    'comment_id'    => $comments->random()->id,
-                    'vote_id'       => $comment->vote_id,
-                    'position'      => rand(-1, 1),
+                    'comment_id' => $comments->random()->id,
+                    'vote_id'    => $comment->vote_id,
+                    'position'   => rand(-1, 1),
                 ]);
             }
         }

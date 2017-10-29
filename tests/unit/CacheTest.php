@@ -6,7 +6,7 @@ trait CacheTest
 {
     public function updateInDB($model)
     {
-        DB::table($this->table)->where(['id'=>$model->id])->update($this->update);
+        DB::table($this->table)->where(['id' => $model->id])->update($this->update);
     }
 
     public function update($model)

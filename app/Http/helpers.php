@@ -54,9 +54,9 @@
         $carbon = \Carbon\Carbon::parse($date);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 

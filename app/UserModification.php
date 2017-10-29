@@ -71,10 +71,10 @@ class UserModification extends ApiModel
      * @var array
      */
     protected $rules = [
-        'id'                       => 'integer',
-        'modification_to_id'       => 'integer|exists:users,id',
-        'modification_by_id'       => 'integer|exists:users,id',
-        'fields'                   => 'min:1',
+        'id'                 => 'integer',
+        'modification_to_id' => 'integer|exists:users,id',
+        'modification_by_id' => 'integer|exists:users,id',
+        'fields'             => 'min:1',
     ];
 
     /**

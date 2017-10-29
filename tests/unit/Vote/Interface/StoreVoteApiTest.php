@@ -34,8 +34,8 @@ class StoreVoteApiTest extends VoteApi
     {
         $motion = factory(App\Motion::class)->create();
         $this->storeContentGetSee([
-            'position'      => -1,
-            'motion_id'     => $motion->id,
+            'position'  => -1,
+            'motion_id' => $motion->id,
         ], 400);
     }
 
@@ -43,8 +43,8 @@ class StoreVoteApiTest extends VoteApi
     public function store_vote_with_user_id_fails()
     {
         $this->storeContentGetSee([
-            'position'    => -1,
-            'user_id'     => $this->user->id,
+            'position' => -1,
+            'user_id'  => $this->user->id,
         ], 400);  //It would also get a 403
     }
 
@@ -52,11 +52,11 @@ class StoreVoteApiTest extends VoteApi
     public function store_vote_with_empty_position_fails()
     {
         $this->storeContentGetSee([
-            'position'     => '',
+            'position' => '',
         ], 400);
 
         $this->storeContentGetSee([
-            'position'     => null,
+            'position' => null,
         ], 400);
     }
 }

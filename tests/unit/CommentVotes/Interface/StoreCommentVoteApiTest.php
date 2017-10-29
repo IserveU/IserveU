@@ -34,8 +34,8 @@ class StoreCommentVoteApiTest extends CommentVoteApi
     {
         $motion = factory(App\Motion::class)->create();
         $this->storeContentGetSee([
-            'position'      => 1,
-            'motion_id'     => $motion->id,
+            'position'  => 1,
+            'motion_id' => $motion->id,
         ], 400);
     }
 
@@ -43,8 +43,8 @@ class StoreCommentVoteApiTest extends CommentVoteApi
     public function store_commentvote_with_vote_id_fails()
     {
         $this->storeFieldsGetSee([
-            'position'      => -1,
-            'vote_id'       => $this->vote->id,
+            'position' => -1,
+            'vote_id'  => $this->vote->id,
         ], 400);
     }
 
@@ -52,11 +52,11 @@ class StoreCommentVoteApiTest extends CommentVoteApi
     public function store_commentvote_with_no_position_fails()
     {
         $this->storeContentGetSee([
-            'position'      => '',
+            'position' => '',
         ], 400);
 
         $this->storeContentGetSee([
-            'position'      => null,
+            'position' => null,
         ], 400);
     }
 }

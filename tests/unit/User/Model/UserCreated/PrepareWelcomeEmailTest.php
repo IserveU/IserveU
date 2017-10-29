@@ -36,7 +36,7 @@ class PrepareWelcomeEmailTest extends BrowserKitTestCase
         $this->mailerInstance = $this->getMailer();
 
         $user = factory(App\User::class, 'public')->create([
-            'password'  => '',
+            'password' => '',
         ]);
 
         Notification::assertSentTo(

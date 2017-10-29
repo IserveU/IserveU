@@ -28,9 +28,9 @@ class SettingFileIntegrationTest extends BrowserKitTestCase
         //Can patch
         $this->patch('/api/page/'.$homePage->slug.'/file/logo-png', $filePost)
           ->assertResponseStatus(200)
-          ->seeInDatabase('files', ['slug' => 'logo-png', 'replacement_id'=>null])
-          ->dontSeeInDatabase('files', ['slug' => 'logo-png', 'filename'=>$logoFile->filename])
-          ->seeInDatabase('files', ['filename'=>$logoFile->filename]);
+          ->seeInDatabase('files', ['slug' => 'logo-png', 'replacement_id' => null])
+          ->dontSeeInDatabase('files', ['slug' => 'logo-png', 'filename' => $logoFile->filename])
+          ->seeInDatabase('files', ['filename' => $logoFile->filename]);
     }
 
     /**
@@ -46,8 +46,8 @@ class SettingFileIntegrationTest extends BrowserKitTestCase
         //Can patch
         $this->patch('/api/page/'.$homePage->slug.'/file/symbol-png', $filePost)
           ->assertResponseStatus(200)
-          ->seeInDatabase('files', ['slug' => 'symbol-png', 'replacement_id'=>null])
-          ->dontSeeInDatabase('files', ['slug' => 'symbol-png', 'filename'=>$symbolFile->filename])
-          ->seeInDatabase('files', ['filename'=>$symbolFile->filename]);
+          ->seeInDatabase('files', ['slug' => 'symbol-png', 'replacement_id' => null])
+          ->dontSeeInDatabase('files', ['slug' => 'symbol-png', 'filename' => $symbolFile->filename])
+          ->seeInDatabase('files', ['filename' => $symbolFile->filename]);
     }
 }

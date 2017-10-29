@@ -6,8 +6,8 @@ class MotionFilter extends QueryFilter
 {
     //Done unless otherwise specified, very important for security
     protected $defaultsUnlessOverridden = [
-        'status'                => ['published', 'closed'],
-        'orderBy'               => ['published_at' => 'desc'],
+        'status'  => ['published', 'closed'],
+        'orderBy' => ['published_at' => 'desc'],
     ];
 
     /* A status or an array of statuses */

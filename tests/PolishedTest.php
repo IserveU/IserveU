@@ -20,20 +20,20 @@ trait PolishedTest
 
     protected $files = [
         'test.png' => [
-                'name'          => 'test.png',
-                'type'          => 'image/png',
+                'name' => 'test.png',
+                'type' => 'image/png',
             ],
         'test_a.jpg' => [
-                'name'          => 'test_a.jpg',
-                'type'          => 'image/jpeg',
+                'name' => 'test_a.jpg',
+                'type' => 'image/jpeg',
             ],
         'test_b.jpg' => [
-                'name'          => 'test_b.jpg',
-                'type'          => 'image/jpeg',
+                'name' => 'test_b.jpg',
+                'type' => 'image/jpeg',
             ],
         'test_b.pdf' => [
-                'name'          => 'test_b.pdf',
-                'type'          => 'application/pdf',
+                'name' => 'test_b.pdf',
+                'type' => 'application/pdf',
             ],
     ];
 
@@ -65,7 +65,7 @@ trait PolishedTest
     {
         foreach ($temporaryEnv as $key => $value) {
             //config(['app.timezone' => 'America/Chicago']);
-            config([$key  =>  $value]);
+            config([$key => $value]);
             $this->env[$key] = getenv($key); //Getting the before value
         }
     }
@@ -73,7 +73,7 @@ trait PolishedTest
     public function restoreEnv()
     {
         foreach ($this->env as $key => $value) {
-            config([$key  =>  $value]);
+            config([$key => $value]);
         }
         $this->env = [];
     }
@@ -131,7 +131,7 @@ trait PolishedTest
         }
 
         $role = Role::create([
-               'name'  => random_int(1000, 9999).'role_can_'.$permissionName[0],
+               'name' => random_int(1000, 9999).'role_can_'.$permissionName[0],
         ]);
 
         foreach ($permissionName as $value) {
@@ -321,7 +321,7 @@ trait PolishedTest
         if ($expectedCode == 200) {
             $this->checkDatabaseFor(
                 array_merge(
-                    ['id'    =>  $this->modelToUpdate->id],
+                    ['id' => $this->modelToUpdate->id],
                     $this->contentToPost
                 ),
                 $jsonFields

@@ -29,8 +29,8 @@ class UpdateUserRoleRequest extends Request
     public function rules()
     {
         return [
-            'role'  => 'reject',   // name in URL
-            'user'  => 'reject',    // slug in URL
+            'role' => 'reject',   // name in URL
+            'user' => 'reject',    // slug in URL
         ];
     }
 

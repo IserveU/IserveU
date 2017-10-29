@@ -12,10 +12,10 @@ class StoreCommunityRequest extends Request
      * @var array
      */
     protected $rules = [
-        'name'              => 'string|filled|required|unique:communities,name',
-        'adjective'         => 'string|filled|unique:communities,adjective',
-        'active'            => 'boolean',
-        'slug'              => 'reject',
+        'name'      => 'string|filled|required|unique:communities,name',
+        'adjective' => 'string|filled|unique:communities,adjective',
+        'active'    => 'boolean',
+        'slug'      => 'reject',
     ];
 
     /**

@@ -15,7 +15,7 @@ class HomePageAppearanceTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->setSettings(['site.terms.force'=>0]);
+        $this->setSettings(['site.terms.force' => 0]);
     }
 
     /**

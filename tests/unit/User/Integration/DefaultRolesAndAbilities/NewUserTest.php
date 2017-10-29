@@ -87,16 +87,16 @@ class NewUserTest extends BrowserKitTestCase
         $this->user;
 
         $updateData = [
-            'first_name'     => 'Ufirst',
-            'last_name'      => 'Ulast',
+            'first_name' => 'Ufirst',
+            'last_name'  => 'Ulast',
         ];
 
         $this->patch('/api/user/'.$this->user->slug, $updateData);
 
         $this->assertResponseOk();
         $this->seeInDatabase('users', array_merge(['id' => $this->user->id], [
-            'first_name'     => 'Ufirst',
-            'last_name'      => 'Ulast',
+            'first_name' => 'Ufirst',
+            'last_name'  => 'Ulast',
         ]));
     }
 }

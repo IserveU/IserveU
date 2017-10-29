@@ -22,15 +22,15 @@ class SetDefaultPreferancesTest extends BrowserKitTestCase
                 'notify' => [
                     'admin' => [
                         'oncreate' => [
-                            'on'  => 1,
+                            'on' => 1,
                         ],
-                        'summary'  => [
-                            'on'  => 1,
+                        'summary' => [
+                            'on' => 1,
                         ],
                     ],
                     'user' => [
                         'onrolechange' => [
-                            'on'  => 1,
+                            'on' => 1,
                         ],
                     ],
                 ],
@@ -39,16 +39,16 @@ class SetDefaultPreferancesTest extends BrowserKitTestCase
                 'notify' => [
                     'admin' => [
                         'summary' => [
-                            'on'  => 1,
+                            'on' => 1,
                         ],
                     ],
                     'user' => [
                         'onchange' => [
-                            'on'  => 0,
+                            'on' => 0,
                         ],
-                        'summary'  => [
-                            'on'        => 1,
-                            'times'     => [
+                        'summary' => [
+                            'on'    => 1,
+                            'times' => [
                               'friday'    => null,
                               'monday'    => null,
                               'saturday'  => null,

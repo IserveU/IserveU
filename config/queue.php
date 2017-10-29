@@ -67,10 +67,10 @@ return [
         ],
 
         'redis' => [
-            'driver'         => 'redis',
-            'connection'     => 'default',
-            'queue'          => env('QUEUE_NAME', 'default'),
-            'retry_after'    => 90,
+            'driver'      => 'redis',
+            'connection'  => 'default',
+            'queue'       => env('QUEUE_NAME', 'default'),
+            'retry_after' => 90,
         ],
 
     ],

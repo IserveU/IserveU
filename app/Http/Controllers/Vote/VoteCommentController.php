@@ -17,7 +17,7 @@ class VoteCommentController extends ApiController
     public function store(Vote $vote, StoreCommentRequest $request)
     {
         $comment = Comment::updateOrCreate([
-            'vote_id'   => $vote->id,
+            'vote_id' => $vote->id,
         ],
               $request->all()
         );

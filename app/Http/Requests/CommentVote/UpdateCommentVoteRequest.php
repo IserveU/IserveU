@@ -43,9 +43,9 @@ class UpdateCommentVoteRequest extends Request
     public function rules()
     {
         return [
-            'comment_id'    => 'reject',
-            'position'      => 'integer|min:-1|max:1|required|filled',
-            'vote_id'       => 'reject',
+            'comment_id' => 'reject',
+            'position'   => 'integer|min:-1|max:1|required|filled',
+            'vote_id'    => 'reject',
         ];
     }
 }

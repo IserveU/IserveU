@@ -14,9 +14,9 @@
 
 $factory->define(App\Comment::class, function ($faker) use ($factory) {
     return [
-        'text'      => $faker->sentence($nbWords = 10),
-        'status'    => 'public',
-        'vote_id'   => function () {
+        'text'    => $faker->sentence($nbWords = 10),
+        'status'  => 'public',
+        'vote_id' => function () {
             return factory(App\Vote::class)->create()->id;
         },
     ];
@@ -33,9 +33,9 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
     ]);
 
     return [
-        'position'      => $faker->numberBetween($min = -1, $max = 1),
-        'comment_id'    => $comment->id,
-        'vote_id'       => $vote->id,
+        'position'   => $faker->numberBetween($min = -1, $max = 1),
+        'comment_id' => $comment->id,
+        'vote_id'    => $vote->id,
     ];
 });
 
@@ -43,15 +43,15 @@ $factory->define(App\CommentVote::class, function ($faker) use ($factory) {
 
 $factory->define(App\Page::class, function ($faker) use ($factory) {
     return [
-        'title'         => $faker->sentence($nbWords = 6),
-        'text'          => $faker->sentences(4, true),
+        'title' => $faker->sentence($nbWords = 6),
+        'text'  => $faker->sentences(4, true),
     ];
 });
 
 $factory->define(App\Department::class, function ($faker) use ($factory) {
     return [
-        'name'          => $faker->word.rand(0, 100).' '.$faker->word.rand(0, 9),
-        'active'        => 1,
+        'name'   => $faker->word.rand(0, 100).' '.$faker->word.rand(0, 9),
+        'active' => 1,
     ];
 });
 
@@ -61,8 +61,8 @@ $factory->define(App\Community::class, function ($faker) use ($factory) {
     $town = $faker->city;
 
     return [
-        'name'          => $town,
-        'active'        => 1,
-        'adjective'     => "Person from $town",
+        'name'      => $town,
+        'active'    => 1,
+        'adjective' => "Person from $town",
     ];
 });

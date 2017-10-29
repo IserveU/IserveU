@@ -31,13 +31,13 @@ class EthnicOrigin extends ApiModel
     protected $visible = ['region', 'description', 'id'];
 
     protected $rules = [
-        'region'                 => 'string|unique:ethnic_origins',
-        'description'            => 'string|unique:ethnic_origins',
+        'region'      => 'string|unique:ethnic_origins',
+        'description' => 'string|unique:ethnic_origins',
     ];
 
     public $fields = [
-        'region'                     => ['tag' => 'input', 'type' => 'input', 'label' => 'Region', 'placeholder' => 'The region from'],
-        'description'                => ['tag' => 'input', 'type' => 'input', 'label' => 'Password', 'placeholder' => 'Description of the region'],
+        'region'      => ['tag' => 'input', 'type' => 'input', 'label' => 'Region', 'placeholder' => 'The region from'],
+        'description' => ['tag' => 'input', 'type' => 'input', 'label' => 'Password', 'placeholder' => 'Description of the region'],
 
     ];
 

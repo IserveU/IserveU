@@ -33,10 +33,10 @@ class StoreUpdatePageRequest extends Request
     public function rules()
     {
         return [
-            'title'             => 'filled|string',
-            'text'              => 'string|filled',
-            'slug'              => 'reject',
-            'content'           => 'reject',
+            'title'   => 'filled|string',
+            'text'    => 'string|filled',
+            'slug'    => 'reject',
+            'content' => 'reject',
         ];
     }
 }

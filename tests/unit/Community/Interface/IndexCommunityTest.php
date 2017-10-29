@@ -29,7 +29,7 @@ class IndexCommunityApiTest extends CommunityApi
                 'prev_page_url',
                 'from',
                 'to',
-                'data'  => [
+                'data' => [
                     '*' => [
                         'id',
                         'name',

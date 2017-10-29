@@ -36,11 +36,11 @@ class HomePage extends Page
     public function elements()
     {
         return [
-              '@homeIntroduction'  => 'home-introduction',
-              '@topMotions'        => 'top-motions',
-              '@topComments'       => 'top-comments',
-          '@yourVotes'             => 'my-votes',
-          '@yourComments'          => 'my-comments',
+              '@homeIntroduction' => 'home-introduction',
+              '@topMotions'       => 'top-motions',
+              '@topComments'      => 'top-comments',
+          '@yourVotes'            => 'my-votes',
+          '@yourComments'         => 'my-comments',
         ];
     }
 }

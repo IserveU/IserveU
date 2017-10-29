@@ -14,7 +14,7 @@ class UpdateVoteApiTest extends VoteApi
         $this->signInAsRole('administrator');
 
         $this->modelToUpdate = factory(App\Vote::class)->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]);
 
         $this->route = '/api/vote/';
@@ -34,8 +34,8 @@ class UpdateVoteApiTest extends VoteApi
         $motion = factory(App\Motion::class)->create();
 
         $this->updateContentGetSee([
-            'position'      => -1,
-            'motion_id'     => $motion->id,
+            'position'  => -1,
+            'motion_id' => $motion->id,
         ], 400);
     }
 
@@ -43,8 +43,8 @@ class UpdateVoteApiTest extends VoteApi
     public function update_vote_with_user_id_fails()
     {
         $this->updateContentGetSee([
-            'position'    => -1,
-            'user_id'     => $this->user->id,
+            'position' => -1,
+            'user_id'  => $this->user->id,
         ], 400);
     }
 
@@ -52,11 +52,11 @@ class UpdateVoteApiTest extends VoteApi
     public function update_vote_with_invalid_position_values_fails()
     {
         $this->updateContentGetSee([
-            'position'     => 2,
+            'position' => 2,
         ], 400);
 
         $this->updateContentGetSee([
-            'position'     => -2,
+            'position' => -2,
         ], 400);
     }
 
@@ -64,11 +64,11 @@ class UpdateVoteApiTest extends VoteApi
     public function update_vote_with_non_numeric_position_fails()
     {
         $this->updateContentGetSee([
-            'position'     => 'yes',
+            'position' => 'yes',
         ], 400);
 
         $this->updateContentGetSee([
-            'position'     => [1],
+            'position' => [1],
         ], 400);
     }
 
@@ -76,11 +76,11 @@ class UpdateVoteApiTest extends VoteApi
     public function update_vote_with_empty_position_fails()
     {
         $this->updateContentGetSee([
-            'position'     => '',
+            'position' => '',
         ], 400);
 
         $this->updateContentGetSee([
-            'position'     => null,
+            'position' => null,
         ], 400);
     }
 }

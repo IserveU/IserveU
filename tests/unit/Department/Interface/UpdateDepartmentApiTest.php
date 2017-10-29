@@ -35,7 +35,7 @@ class UpdateDepartmentApiTest extends DepartmentApi
     public function update_department_with_empty_name_fails()
     {
         $this->updateContentGetSee([
-            'name'     => '',
+            'name' => '',
         ], 400);
     }
 
@@ -43,15 +43,15 @@ class UpdateDepartmentApiTest extends DepartmentApi
     public function update_department_with_nonboolean_active_fails()
     {
         $this->updateContentGetSee([
-            'active'     => 'Hyperdrive Maximum',
+            'active' => 'Hyperdrive Maximum',
         ], 400);
 
         $this->updateContentGetSee([
-            'active'     => 'true',
+            'active' => 'true',
         ], 400);
 
         $this->updateContentGetSee([
-            'active'     => 9001,
+            'active' => 9001,
         ], 400);
     }
 
@@ -59,7 +59,7 @@ class UpdateDepartmentApiTest extends DepartmentApi
     public function update_department_slug_fails()
     {
         $this->updateContentGetSee([
-            'slug'     => 'overriderstrider',
+            'slug' => 'overriderstrider',
         ], 400);
     }
 }

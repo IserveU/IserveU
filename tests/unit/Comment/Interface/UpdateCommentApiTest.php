@@ -39,8 +39,8 @@ class UpdateCommentApiTest extends commentApi
         $motion = factory(App\Motion::class)->create();
 
         $this->updateContentGetSee([
-            'text'          => 'You cant store on a motion directly',
-            'motion_id'     => $motion->id,
+            'text'      => 'You cant store on a motion directly',
+            'motion_id' => $motion->id,
         ], 400);
     }
 
@@ -48,8 +48,8 @@ class UpdateCommentApiTest extends commentApi
     public function update_comment_with_vote_id_fails()
     {
         $this->updateContentGetSee([
-            'text'          => 'The routes sets the vote',
-            'vote_id'       => $this->modelToUpdate->vote->id,
+            'text'    => 'The routes sets the vote',
+            'vote_id' => $this->modelToUpdate->vote->id,
         ], 400);
     }
 
@@ -57,7 +57,7 @@ class UpdateCommentApiTest extends commentApi
     public function update_comment_with_no_text_fails()
     {
         $this->updateContentGetSee([
-            'text'          => '',
+            'text' => '',
         ], 400);
     }
 }

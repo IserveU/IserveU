@@ -67,8 +67,8 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         ]);
 
         factory(App\Motion::class, 'closed')->create([
-            'closing_at'    => Carbon::now()->subHours(12),
-            'user_id'       => $user->id, //Create and see a summary of their own motion to speed up the test
+            'closing_at' => Carbon::now()->subHours(12),
+            'user_id'    => $user->id, //Create and see a summary of their own motion to speed up the test
 
         ]);
 
@@ -88,7 +88,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
     {
         $user = $this->getUserWithPreferenceTimeForNow();
 
-        DB::table('users')->where('id', $user->id)->update(['password'=>null]);
+        DB::table('users')->where('id', $user->id)->update(['password' => null]);
         $user = $user->fresh();
 
         factory(App\Motion::class, 'published')->create([
@@ -96,8 +96,8 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         ]);
 
         factory(App\Motion::class, 'closed')->create([
-            'closing_at'    => Carbon::now()->subHours(12),
-            'user_id'       => $user->id, //Create and see a summary of their own motion to speed up the test
+            'closing_at' => Carbon::now()->subHours(12),
+            'user_id'    => $user->id, //Create and see a summary of their own motion to speed up the test
 
         ]);
 
@@ -111,7 +111,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
 
         dispatch(new PrepareMotionSummary());
 
-        $this->seeInDatabase('one_time_tokens', ['user_id'=>$user->id]);
+        $this->seeInDatabase('one_time_tokens', ['user_id' => $user->id]);
 
         Mail::assertQueued(MotionSummary::class, function ($mail) use ($user, $motion) {
             //TODO: Check that password resets are contained in the email
@@ -155,7 +155,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'closed')->create([
-            'closing_at'    => Carbon::now()->subHours(12),
+            'closing_at' => Carbon::now()->subHours(12),
         ]);
 
         Mail::fake();
@@ -261,7 +261,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'closed')->create([
-            'closing_at'    => Carbon::now()->subDays(8),
+            'closing_at' => Carbon::now()->subDays(8),
         ]);
 
         Mail::fake();
@@ -287,7 +287,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         $user = $this->getUserWithPreferenceTimeForNow();
 
         $motion = factory(App\Motion::class, 'published')->create([
-            'closing_at'    => Carbon::now()->addDays(8),
+            'closing_at' => Carbon::now()->addDays(8),
         ]);
 
         $motion->published_at = Carbon::now()->subDays(8); //Not mass assignable

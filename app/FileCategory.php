@@ -61,8 +61,8 @@ class FileCategory extends ApiModel
      * @var array
      */
     protected $rules = [
-        'name'            => 'min:1|unique:file_categories,name',
-        'id'              => 'integer',
+        'name' => 'min:1|unique:file_categories,name',
+        'id'   => 'integer',
     ];
 
     /**
@@ -92,7 +92,7 @@ class FileCategory extends ApiModel
      * @var array
      */
     protected $fields = [
-        'name'        => ['tag' => 'md-switch', 'type' => 'X', 'label' => 'Attribute Name', 'placeholder' => ''],
+        'name' => ['tag' => 'md-switch', 'type' => 'X', 'label' => 'Attribute Name', 'placeholder' => ''],
     ];
 
     /**

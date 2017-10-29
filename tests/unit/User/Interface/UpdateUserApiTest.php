@@ -121,7 +121,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_email_fails()
     {
         $this->updateContentGetSee([
-            'email'     => 'notareal.com',
+            'email' => 'notareal.com',
         ], 400);
     }
 
@@ -129,11 +129,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_password_fails()
     {
         $this->updateContentGetSee([
-            'password'     => 'a',
+            'password' => 'a',
         ], 400);
 
         $this->updateContentGetSee([
-            'password'     => '12345AA',
+            'password' => '12345AA',
         ], 400);
     }
 
@@ -141,11 +141,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_phone_fails()
     {
         $this->updateContentGetSee([
-            'phone'     => '867-445-9436',
+            'phone' => '867-445-9436',
         ], 400);
 
         $this->updateContentGetSee([
-            'phone'     => 'landline',
+            'phone' => 'landline',
         ], 400);
     }
 
@@ -153,7 +153,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_empty_first_name_fails()
     {
         $this->updateContentGetSee([
-            'first_name'     => '',
+            'first_name' => '',
         ], 400);
     }
 
@@ -161,7 +161,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_empty_last_name_fails()
     {
         $this->updateContentGetSee([
-            'last_name'     => '',
+            'last_name' => '',
         ], 400);
     }
 
@@ -169,7 +169,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_postal_code_fails()
     {
         $this->updateContentGetSee([
-            'postal_code'     => 'no way this is a postal code',
+            'postal_code' => 'no way this is a postal code',
         ], 400);
     }
 
@@ -177,7 +177,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_non_numeric_street_number_fails()
     {
         $this->updateContentGetSee([
-            'street_number'     => 'notnumber',
+            'street_number' => 'notnumber',
         ], 400);
     }
 
@@ -185,15 +185,15 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_community_fails()
     {
         $this->updateContentGetSee([
-            'community_id'     => 0,
+            'community_id' => 0,
         ], 400);
 
         $this->updateContentGetSee([
-            'community_id'     => 9999999999999,
+            'community_id' => 9999999999999,
         ], 400);
 
         $this->updateContentGetSee([
-            'community_id'     => 'Yellowknife',
+            'community_id' => 'Yellowknife',
         ], 400);
     }
 
@@ -201,11 +201,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_status_fails()
     { // Need to change this to text
         $this->updateContentGetSee([
-            'status'     => 'notastatus',
+            'status' => 'notastatus',
         ], 400);
 
         $this->updateContentGetSee([
-            'status'     => 2,
+            'status' => 2,
         ], 400);
     }
 
@@ -213,11 +213,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_ethnic_origin_id()
     { // May need to change this to text
         $this->updateContentGetSee([
-            'ethnic_origin_id'     => 'notpossible',
+            'ethnic_origin_id' => 'notpossible',
         ], 400);
 
         $this->updateContentGetSee([
-            'ethnic_origin_id'     => 2000,
+            'ethnic_origin_id' => 2000,
         ], 400);
     }
 
@@ -225,11 +225,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_invalid_date_of_birth_fails()
     {
         $this->updateContentGetSee([
-            'date_of_birth'     => 'sdfsdf',
+            'date_of_birth' => 'sdfsdf',
         ], 400);
 
         $this->updateContentGetSee([
-            'date_of_birth'     => 9000,
+            'date_of_birth' => 9000,
         ], 400);
     }
 
@@ -237,11 +237,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_date_of_birth_in_future_fails()
     {
         $this->updateContentGetSee([
-            'date_of_birth'     => \Carbon\Carbon::tomorrow(),
+            'date_of_birth' => \Carbon\Carbon::tomorrow(),
         ], 400);
 
         $this->updateContentGetSee([
-            'date_of_birth'     => \Carbon\Carbon::tomorrow()->toDateString(),
+            'date_of_birth' => \Carbon\Carbon::tomorrow()->toDateString(),
         ], 400);
     }
 
@@ -249,11 +249,11 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_address_verified_until_in_past_fails()
     {
         $this->updateContentGetSee([
-            'address_verified'     => \Carbon\Carbon::yesterday(),
+            'address_verified' => \Carbon\Carbon::yesterday(),
         ], 400);
 
         $this->updateContentGetSee([
-            'address_verified'     => \Carbon\Carbon::yesterday()->toDateString(),
+            'address_verified' => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
     }
 
@@ -261,7 +261,7 @@ class UpdateUserApiTest extends UserApi
     public function update_user_with_agreement_accepted_date_fails()
     {
         $this->updateContentGetSee([
-            'agreement_accepted'     => \Carbon\Carbon::yesterday()->toDateString(),
+            'agreement_accepted' => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
     }
 

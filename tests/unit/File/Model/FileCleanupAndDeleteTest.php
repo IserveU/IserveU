@@ -46,7 +46,7 @@ class FileCleanupAndDeleteTest extends BrowserKitTestCase
         $fileA = factory(App\File::class)->create();
 
         $fileB = factory(App\File::class)->create([
-            'replacement_id'    => $fileA->id,
+            'replacement_id' => $fileA->id,
         ]);
 
         $fileA->delete();

@@ -83,7 +83,7 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_empty_title_fails()
     {
         $this->updateContentGetSee([
-            'title'     => '',
+            'title' => '',
         ], 400);
     }
 
@@ -91,11 +91,11 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_content_directly_fails()
     {
         $this->updateContentGetSee([
-            'content'     => "Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat",
+            'content' => "Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat",
         ], 400);
 
         $this->updateContentGetSee([
-            'content'     => ['text' => "Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat"],
+            'content' => ['text' => "Jeremy Flatt, he's Jeremy Flatt, his mum's got 5 cats and a bandana's his hat"],
         ], 400);
     }
 
@@ -103,11 +103,11 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_invalid_department_fails()
     {
         $this->updateContentGetSee([
-            'department_id'     => 'An apartment ID',
+            'department_id' => 'An apartment ID',
         ], 400);
 
         $this->updateContentGetSee([
-            'department_id'     => 9000,
+            'department_id' => 9000,
         ], 400);
     }
 
@@ -115,11 +115,11 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_closing_in_past_fails()
     {
         $this->updateContentGetSee([
-            'closing_at'     => \Carbon\Carbon::yesterday(),
+            'closing_at' => \Carbon\Carbon::yesterday(),
         ], 400);
 
         $this->updateContentGetSee([
-            'closing_at'     => \Carbon\Carbon::yesterday()->toDateString(),
+            'closing_at' => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
     }
 
@@ -127,11 +127,11 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_invalid_user_fails()
     {
         $this->updateContentGetSee([
-            'user_id'     => 99999999,
+            'user_id' => 99999999,
         ], 400);
 
         $this->updateContentGetSee([
-            'user_id'     => 'Jessica Tran 9000!',
+            'user_id' => 'Jessica Tran 9000!',
         ], 400);
     }
 
@@ -139,11 +139,11 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_invalid_status_fails()
     {
         $this->updateContentGetSee([
-            'status'     => 99999999,
+            'status' => 99999999,
         ], 400);
 
         $this->updateContentGetSee([
-            'status'     => 'Open',
+            'status' => 'Open',
         ], 400);
     }
 
@@ -151,7 +151,7 @@ class UpdateMotionApiTest extends MotionApi
     public function update_motion_with_empty_implementation_fails()
     {
         $this->updateContentGetSee([
-            'implementation'     => '',
+            'implementation' => '',
         ], 400);
     }
 }

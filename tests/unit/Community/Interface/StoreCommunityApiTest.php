@@ -38,7 +38,7 @@ class StoreCommunityApiTest extends CommunityApi
     public function store_community_with_no_name_fails()
     {
         $this->storeContentGetSee([
-            'name'     => '',
+            'name' => '',
         ], 400);
     }
 
@@ -46,7 +46,7 @@ class StoreCommunityApiTest extends CommunityApi
     public function store_community_name_with_an_array_fails()
     {
         $this->storeContentGetSee([
-            'name'     => ['titles'],
+            'name' => ['titles'],
         ], 400);
     }
 
@@ -54,13 +54,13 @@ class StoreCommunityApiTest extends CommunityApi
     public function store_community_active_as_nonboolean_fails()
     {
         $this->storeContentGetSee([
-            'name'      => 'Name',
-            'active'    => 'yes',
+            'name'   => 'Name',
+            'active' => 'yes',
         ], 400);
 
         $this->storeContentGetSee([
-            'name'      => 'Name',
-            'active'    => 'true',
+            'name'   => 'Name',
+            'active' => 'true',
         ], 400);
     }
 
@@ -68,8 +68,8 @@ class StoreCommunityApiTest extends CommunityApi
     public function store_community_slug_fails()
     {
         $this->storeContentGetSee([
-            'name'     => 'Montreal',
-            'slug'     => 'montreyall',
+            'name' => 'Montreal',
+            'slug' => 'montreyall',
         ], 400);
     }
 }

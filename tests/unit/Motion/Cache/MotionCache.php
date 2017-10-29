@@ -11,5 +11,5 @@ abstract class MotionCache extends BrowserKitTestCase
     protected $table = 'motions';
     protected $otherModel;
     protected $thisModel;
-    protected $update = ['summary'=>'Whatever. I do what I want'];
+    protected $update = ['summary' => 'Whatever. I do what I want'];
 }

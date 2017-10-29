@@ -27,7 +27,7 @@ class MotionCommentApiTest extends BrowserKitTestCase
         $this->get('/api/motion/'.$comment->vote->motion_id.'/comment')
              ->assertResponseStatus(200)
              ->dontSeeJson([
-                'user_id'   => $comment->vote->user_id,
+                'user_id' => $comment->vote->user_id,
             ]);
     }
 
@@ -105,7 +105,7 @@ class MotionCommentApiTest extends BrowserKitTestCase
         ]);
 
         $positiveComment = factory(App\Comment::class)->create([
-            'vote_id'   => $positiveVote->id,
+            'vote_id' => $positiveVote->id,
         ]);
 
         $negativeVote = factory(App\Vote::class)->create([
@@ -114,7 +114,7 @@ class MotionCommentApiTest extends BrowserKitTestCase
         ]);
 
         $negativeComment = factory(App\Comment::class)->create([
-            'vote_id'   => $negativeVote->id,
+            'vote_id' => $negativeVote->id,
         ]);
 
         $abstainVote = factory(App\Vote::class)->create([
@@ -123,7 +123,7 @@ class MotionCommentApiTest extends BrowserKitTestCase
         ]);
 
         $abstainComment = factory(App\Comment::class)->create([
-            'vote_id'   => $abstainVote->id,
+            'vote_id' => $abstainVote->id,
         ]);
 
         $this->get('/api/motion/'.$motion->id.'/comment');
@@ -147,12 +147,12 @@ class MotionCommentApiTest extends BrowserKitTestCase
     public function changing_vote_shows_changed_comments()
     {
         $vote = factory(App\Vote::class)->create([
-            'user_id'   => $this->user->id,
-            'position'  => 1,
+            'user_id'  => $this->user->id,
+            'position' => 1,
         ]);
 
         $comment = factory(App\Comment::class)->create([
-            'vote_id'   => $vote->id,
+            'vote_id' => $vote->id,
         ]);
 
         $this->get('/api/motion/'.$vote->motion_id.'/comment')

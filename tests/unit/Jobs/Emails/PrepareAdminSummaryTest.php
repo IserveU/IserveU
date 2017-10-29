@@ -75,7 +75,7 @@ class PrepareAdminSummaryTest extends BrowserKitTestCase
         $siteAdministrator->addRole('administrator');
 
         $regularUser = factory(App\User::class)->create([
-          'first_name'  => "O'Dickhead",
+          'first_name' => "O'Dickhead",
         ]);
 
         dispatch_now(new PrepareAdminSummary());

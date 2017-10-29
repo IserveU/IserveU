@@ -52,9 +52,9 @@ class Permission extends EntrustPermission
 
         foreach ($permissions as $permission) {
             $permissionRecords[$permission['name']] = static::updateOrCreate(['name' => $permission['name']], [
-                'name'          => $permission['name'],
-                'display_name'  => $permission['display_name'],
-                'description'   => $permission['description'],
+                'name'         => $permission['name'],
+                'display_name' => $permission['display_name'],
+                'description'  => $permission['description'],
             ]);
         }
 
@@ -84,15 +84,15 @@ class Permission extends EntrustPermission
     {
         if ($for) {
             return [
-                'name'          => strtolower($action).'-'.strtolower($for).'-'.strtolower($status).'-'.strtolower($resource),
-                'display_name'  => "$action $resource",
-                'description'   => "Able to $action ".$resource.'s under '.$for.' name',
+                'name'         => strtolower($action).'-'.strtolower($for).'-'.strtolower($status).'-'.strtolower($resource),
+                'display_name' => "$action $resource",
+                'description'  => "Able to $action ".$resource.'s under '.$for.' name',
             ];
         } else {
             return [
-                'name'          => strtolower($action).'-'.strtolower($status).'-'.strtolower($resource),
-                'display_name'  => "$action $resource",
-                'description'   => 'Able to Store '.$resource.'s under '.$for.' name',
+                'name'         => strtolower($action).'-'.strtolower($status).'-'.strtolower($resource),
+                'display_name' => "$action $resource",
+                'description'  => 'Able to Store '.$resource.'s under '.$for.' name',
             ];
         }
     }

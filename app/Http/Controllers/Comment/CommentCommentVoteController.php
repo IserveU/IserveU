@@ -21,12 +21,12 @@ class CommentCommentVoteController extends ApiController
         $usersVote = Vote::where('user_id', Auth::user()->id)->where('motion_id', $comment->vote->motion_id)->first();
 
         $commentVote = CommentVote::updateOrCreate([
-            'comment_id'   => $comment->id,
-            'vote_id'      => $usersVote->id,
+            'comment_id' => $comment->id,
+            'vote_id'    => $usersVote->id,
         ], [
-            'comment_id'   => $comment->id,
-            'vote_id'      => $usersVote->id,
-            'position'     => $request->position,
+            'comment_id' => $comment->id,
+            'vote_id'    => $usersVote->id,
+            'position'   => $request->position,
         ]);
 
         return $commentVote;

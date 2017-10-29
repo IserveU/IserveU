@@ -60,7 +60,7 @@ class IndexUserVotesTest extends UserVotesTests
     /** @test */
     public function cannot_show_public_user_votes_ever()
     {
-        $publicUser = static::getPermissionedUser('create-vote', ['status'=>'public']);
+        $publicUser = static::getPermissionedUser('create-vote', ['status' => 'public']);
 
         $vote = $this->createModel($publicUser);
 
@@ -75,7 +75,7 @@ class IndexUserVotesTest extends UserVotesTests
     /** @test */
     public function cannot_show_private_user_votes_ever()
     {
-        $privateUser = static::getPermissionedUser('create-vote', ['status'=>'private']);
+        $privateUser = static::getPermissionedUser('create-vote', ['status' => 'private']);
 
         $vote = $this->createModel($privateUser);
 

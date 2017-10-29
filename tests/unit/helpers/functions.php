@@ -13,7 +13,7 @@
         }
 
         $motion = factory(App\Motion::class)->make([
-            'user_id'    => $self->user->id,
+            'user_id' => $self->user->id,
         ])->setVisible(['title', 'summary'])->toArray();
 
         $attributes = array_merge($attributes, createClosingDate());
@@ -58,7 +58,7 @@
         }
 
         $vote = factory(App\Vote::class)->create([
-            'user_id'    => $self->user->id,
+            'user_id' => $self->user->id,
         ]);
 
         // Make a comment
@@ -143,20 +143,20 @@
 
         $motions['motionDraft'] = factory(App\Motion::class, 'draft')->create();
         $motions['motionMyDraft'] = factory(App\Motion::class, 'draft')->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $motions['motionReview'] = factory(App\Motion::class, 'review')->create();
         $motions['motionMyReview'] = factory(App\Motion::class, 'review')->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
         $motions['motionPublished'] = factory(App\Motion::class, 'published')->create();
         $motions['motionMyPublished'] = factory(App\Motion::class, 'published')->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
         $motions['motionClosed'] = factory(App\Motion::class, 'closed')->create();
         $motions['motionMyClosed'] = factory(App\Motion::class, 'closed')->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
 
         return $motions;
@@ -185,22 +185,22 @@
         $motion = factory(App\Motion::class, $status)->create();
 
         $votes = factory(App\Vote::class, 16)->create([
-            'motion_id'    => $motion->id,
+            'motion_id' => $motion->id,
         ]);
 
         $commentingVotes = $votes->nth(3);
         foreach ($commentingVotes as $commentingVote) {
             factory(App\Comment::class)->create([
-                'vote_id'    => $commentingVote->id,
+                'vote_id' => $commentingVote->id,
             ]);
         }
 
         //Each commenter likes a random comment
         foreach ($votes as $vote) {
             \App\CommentVote::create([
-                'comment_id'    => $motion->comments->random()->id,
-                'vote_id'       => $vote->id,
-                'position'      => rand(-1, 1),
+                'comment_id' => $motion->comments->random()->id,
+                'vote_id'    => $vote->id,
+                'position'   => rand(-1, 1),
             ]);
         }
 

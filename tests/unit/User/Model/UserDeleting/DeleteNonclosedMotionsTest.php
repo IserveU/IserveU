@@ -35,7 +35,7 @@ class DeleteNonclosedMotionsTest extends BrowserKitTestCase
         $user = factory(App\User::class)->create();
 
         $closedMotion = factory(App\Motion::class, 'closed')->create([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $user->delete();

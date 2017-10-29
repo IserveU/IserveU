@@ -25,7 +25,7 @@ class TermsAndConditionsTest extends DuskTestCase
         $faker = Factory::create();
 
         $sentence = $faker->sentence();
-        $this->setSettings(['site.terms.force'=>1, 'site.terms.text'=>$sentence]);
+        $this->setSettings(['site.terms.force' => 1, 'site.terms.text' => $sentence]);
 
         $this->browse(function (Browser $browser) use ($sentence) {
             $browser->visit(new AuthenticationPage())
@@ -44,7 +44,7 @@ class TermsAndConditionsTest extends DuskTestCase
         $faker = Factory::create();
 
         $sentence = $faker->sentence();
-        $this->setSettings(['site.terms.force'=>0]);
+        $this->setSettings(['site.terms.force' => 0]);
 
         $this->browse(function (Browser $browser) use ($sentence) {
             $browser->visit(new AuthenticationPage())

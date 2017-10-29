@@ -21,7 +21,7 @@ class CommentModelTest extends TestCase
 
         $comment->update(['text' => 'new text']);
 
-        $this->assertDatabaseHas('comments', ['id'=>$comment->id, 'text'=>$comment->text]);
+        $this->assertDatabaseHas('comments', ['id' => $comment->id, 'text' => $comment->text]);
     }
 
     /** @test **/
@@ -34,6 +34,6 @@ class CommentModelTest extends TestCase
 
         $comment->delete();
 
-        $this->assertDatabaseMissing('comments', ['id'=>$comment->id]);
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
     }
 }

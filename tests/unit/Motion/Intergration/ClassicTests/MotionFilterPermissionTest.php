@@ -144,7 +144,7 @@ class MotionFilterPermissionTest extends BrowserKitTestCase
                     $motions['motionDraft'],
                     $motions['motionReview'],
                 ],
-                ['status' => ['draft', 'review'], 'user_id'=>$this->user->id]
+                ['status' => ['draft', 'review'], 'user_id' => $this->user->id]
         );
         $this->assertResponseStatus(200);
 
@@ -162,7 +162,7 @@ class MotionFilterPermissionTest extends BrowserKitTestCase
                     $motions['motionDraft'],
                     $motions['motionReview'],
                 ],
-                ['status' => ['draft'], 'user_id'=>$this->user->id]
+                ['status' => ['draft'], 'user_id' => $this->user->id]
         );
         $this->assertResponseStatus(200);
     }

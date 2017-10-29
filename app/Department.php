@@ -46,8 +46,8 @@ class Department extends NewApiModel
     {
         return [
             'slug' => [
-                'source'      => ['name'],
-                'onUpdate'    => true,
+                'source'   => ['name'],
+                'onUpdate' => true,
             ],
         ];
     }

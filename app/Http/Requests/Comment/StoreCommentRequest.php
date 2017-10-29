@@ -41,10 +41,10 @@ class StoreCommentRequest extends Request
     public function rules()
     {
         return [
-            'text'          => 'filled|required|string',
-            'vote_id'       => 'reject',
-            'id'            => 'reject',
-            'status'        => 'valid_status|filled',
+            'text'    => 'filled|required|string',
+            'vote_id' => 'reject',
+            'id'      => 'reject',
+            'status'  => 'valid_status|filled',
         ];
     }
 }

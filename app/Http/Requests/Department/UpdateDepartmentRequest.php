@@ -24,11 +24,11 @@ class UpdateDepartmentRequest extends Request
     public function rules()
     {
         return [
-            'name'              => 'string|filled',
-            'icon'              => 'string|filled',
-            'slug'              => 'reject',
-            'active'            => 'boolean',
-            'id'                => 'integer',
+            'name'   => 'string|filled',
+            'icon'   => 'string|filled',
+            'slug'   => 'reject',
+            'active' => 'boolean',
+            'id'     => 'integer',
         ];
     }
 }

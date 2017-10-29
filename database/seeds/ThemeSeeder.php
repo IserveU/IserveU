@@ -21,11 +21,11 @@ class ThemeSeeder extends Seeder
         $homePage = Page::first();
 
         $logo = File::create([
-            'filename'          => 'logo.png',
-            'folder'            => 'logo',
-            'type'              => 'image',
-            'user_id'           => $adminUser->id,
-            'title'             => 'Default site logo',
+            'filename' => 'logo.png',
+            'folder'   => 'logo',
+            'type'     => 'image',
+            'user_id'  => $adminUser->id,
+            'title'    => 'Default site logo',
         ]);
 
         $homePage->files()->save($logo);
@@ -33,11 +33,11 @@ class ThemeSeeder extends Seeder
         Setting::set('theme.logo', $logo->slug);
 
         $logoMono = File::create([
-            'filename'          => 'logo_allwhite.png',
-            'folder'            => 'logo',
-            'type'              => 'image',
-            'user_id'           => $adminUser->id,
-            'title'             => 'Default monochrome site logo',
+            'filename' => 'logo_allwhite.png',
+            'folder'   => 'logo',
+            'type'     => 'image',
+            'user_id'  => $adminUser->id,
+            'title'    => 'Default monochrome site logo',
         ]);
 
         Setting::set('theme.logo_mono', $logoMono->slug);
@@ -45,11 +45,11 @@ class ThemeSeeder extends Seeder
         $homePage->files()->save($logoMono);
 
         $symbol = File::create([
-            'filename'          => 'symbol.png',
-            'folder'            => 'logo',
-            'type'              => 'image',
-            'user_id'           => $adminUser->id,
-            'title'             => 'Default site symbol',
+            'filename' => 'symbol.png',
+            'folder'   => 'logo',
+            'type'     => 'image',
+            'user_id'  => $adminUser->id,
+            'title'    => 'Default site symbol',
         ]);
 
         Setting::set('theme.symbol', $symbol->slug);
@@ -57,11 +57,11 @@ class ThemeSeeder extends Seeder
         $homePage->files()->save($symbol);
 
         $symbolMono = File::create([
-            'filename'          => 'symbol_allwhite.png',
-            'folder'            => 'logo',
-            'type'              => 'image',
-            'user_id'           => $adminUser->id,
-            'title'             => 'Default monochrome site symbol',
+            'filename' => 'symbol_allwhite.png',
+            'folder'   => 'logo',
+            'type'     => 'image',
+            'user_id'  => $adminUser->id,
+            'title'    => 'Default monochrome site symbol',
         ]);
 
         Setting::set('theme.symbol_mono', $symbolMono->slug);

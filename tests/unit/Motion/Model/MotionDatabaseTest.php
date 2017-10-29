@@ -54,10 +54,10 @@ class MotionDatabaseTest extends BrowserKitTestCase
         $motionDraft = factory(App\Motion::class, 'draft')->create();
 
         $newDetails = [
-            'title'         => $faker->word,
-            'summary'       => $faker->sentence,
-            'text'          => '<p>'.$faker->sentence.'</p>',
-            'closing_at'    => \Carbon\Carbon::now()->addDays(14),
+            'title'      => $faker->word,
+            'summary'    => $faker->sentence,
+            'text'       => '<p>'.$faker->sentence.'</p>',
+            'closing_at' => \Carbon\Carbon::now()->addDays(14),
         ];
 
         $motionDraft->update($newDetails);
@@ -76,10 +76,10 @@ class MotionDatabaseTest extends BrowserKitTestCase
         $motion = factory(App\Motion::class, 'published')->create();
 
         $newDetails = [
-            'title'         => $faker->word,
-            'summary'       => $faker->sentence,
-            'text'          => '<p>'.$faker->sentence.'</p>',
-            'closing_at'    => \Carbon\Carbon::now()->addDays(14),
+            'title'      => $faker->word,
+            'summary'    => $faker->sentence,
+            'text'       => '<p>'.$faker->sentence.'</p>',
+            'closing_at' => \Carbon\Carbon::now()->addDays(14),
         ];
 
         $motion->update($newDetails);

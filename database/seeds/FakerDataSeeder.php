@@ -34,23 +34,23 @@ class FakerDataSeeder extends Seeder
 
         // Default users
         $user = factory(App\User::class, 'unverified')->create([
-            'first_name'  => 'MrsUnverified',
-            'email'       => 'user@iserveu.ca',
-            'password'    => 'abcd1234',
+            'first_name' => 'MrsUnverified',
+            'email'      => 'user@iserveu.ca',
+            'password'   => 'abcd1234',
         ]);
 
         $citizen = factory(App\User::class, 'verified')->create([
-            'first_name'  => 'MrsVerified',
-            'email'       => 'citizen@iserveu.ca',
-            'password'    => 'abcd1234',
+            'first_name' => 'MrsVerified',
+            'email'      => 'citizen@iserveu.ca',
+            'password'   => 'abcd1234',
         ]);
 
         $citizen->addRole('citizen');
 
         $representative = factory(App\User::class, 'verified')->create([
-            'first_name'  => 'MrsRepresentative',
-            'email'       => 'representative@iserveu.ca',
-            'password'    => 'abcd1234',
+            'first_name' => 'MrsRepresentative',
+            'email'      => 'representative@iserveu.ca',
+            'password'   => 'abcd1234',
         ]);
 
         $representative->addRole('representative');
@@ -93,39 +93,39 @@ class FakerDataSeeder extends Seeder
 
         //Create a published motion
         $topMotion = factory(App\Motion::class, 'published')->create([
-            'title'         => 'A Top Motion',
-            'summary'       => 'The summary of the published top motion',
-            'text'          => '<p>Content of the published top motion</p>',
+            'title'   => 'A Top Motion',
+            'summary' => 'The summary of the published top motion',
+            'text'    => '<p>Content of the published top motion</p>',
         ]);
 
         $this->for($topMotion)->giveRegularVotes(1)->giveVotes(5, 1);
 
         //Create a published motion
         $bottomMotion = factory(App\Motion::class, 'published')->create([
-            'title'         => 'A Bottom Motion',
-            'summary'       => 'The summary of the published bottom motion',
-            'text'          => '<p>Content of the published bottom motion</p>',
+            'title'   => 'A Bottom Motion',
+            'summary' => 'The summary of the published bottom motion',
+            'text'    => '<p>Content of the published bottom motion</p>',
         ]);
 
         $this->for($bottomMotion)->giveRegularVotes(-1)->giveVotes(5, -1);
 
         //Create a comment on motion
         $commentedMotion = factory(App\Motion::class, 'published')->create([
-            'title'         => 'A Commented On Motion',
-            'summary'       => 'A motion which has widely liked and disliked comments, on both sides',
-            'text'          => '<p>A motion with widely liked and disliked comments</p>',
+            'title'   => 'A Commented On Motion',
+            'summary' => 'A motion which has widely liked and disliked comments, on both sides',
+            'text'    => '<p>A motion with widely liked and disliked comments</p>',
         ]);
         $this->for($commentedMotion)->giveRegularVotes()->giveCommentsWithCommentVotes($commentedMotion)->giveVotes(20);
 
         $topAgreeComment = factory(App\Comment::class)->create([
-            'text'      => 'The Top Agree Comment Text',
-            'vote_id'   => factory(App\Vote::class, 'agree')->create(['motion_id'=>$commentedMotion->id])->id,
+            'text'    => 'The Top Agree Comment Text',
+            'vote_id' => factory(App\Vote::class, 'agree')->create(['motion_id' => $commentedMotion->id])->id,
         ]);
         static::giveCommentVotes($topAgreeComment, 1);
 
         $bottomAgreeComment = factory(App\Comment::class)->create([
-            'text'      => 'The Bottom Agree Comment Text',
-            'vote_id'   => factory(App\Vote::class, 'agree')->create(['motion_id'=>$commentedMotion->id])->id,
+            'text'    => 'The Bottom Agree Comment Text',
+            'vote_id' => factory(App\Vote::class, 'agree')->create(['motion_id' => $commentedMotion->id])->id,
         ]);
 
         static::giveCommentVotes($bottomAgreeComment, -1);
@@ -181,7 +181,7 @@ class FakerDataSeeder extends Seeder
 
         foreach ($votes as $vote) {
             $comment = factory(App\Comment::class)->create([
-                'vote_id'   => $vote->id,
+                'vote_id' => $vote->id,
             ]);
 
             static::giveCommentVotes($comment, $position);
@@ -198,9 +198,9 @@ class FakerDataSeeder extends Seeder
 
         foreach ($votesOnSide as $voteOnSide) {
             \App\CommentVote::create([
-                'comment_id'    => $comment->id,
-                'vote_id'       => $voteOnSide->id,
-                'position'      => static::getPosition($position),
+                'comment_id' => $comment->id,
+                'vote_id'    => $voteOnSide->id,
+                'position'   => static::getPosition($position),
             ]);
         }
     }

@@ -6,7 +6,7 @@ class CommentFilter extends QueryFilter
 {
     //Done unless otherwise specified, very important for security
     protected $defaultsUnlessOverridden = [
-        'orderBy'               => ['commentRank'=>'desc', 'created_at' => 'desc'],
+        'orderBy' => ['commentRank' => 'desc', 'created_at' => 'desc'],
     ];
 
     public function createdBefore($date)
