@@ -40,8 +40,8 @@ class UpdateCommentRequest extends Request
     public function rules()
     {
         return [
-            'text'          => 'filled|string',
-            'status'        => 'valid_status|filled',
+            'text'   => 'filled|string',
+            'status' => 'valid_status|filled',
         ];
     }
 }

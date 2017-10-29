@@ -23,7 +23,7 @@ class AuthenticateApiTest extends AuthenticateApi
         $password = $faker->password;
 
         $user = factory(App\User::class)->create([
-            'password'    => $password,
+            'password' => $password,
         ]);
 
         $this->post('/authenticate', ['email' => $user->email, 'password' => $password])
@@ -39,14 +39,14 @@ class AuthenticateApiTest extends AuthenticateApi
         $this->setSettings(['security.verify_citizens' => 0]);
 
         $user = factory(App\User::class)->create([
-            'password'  => 'abcd1234',
+            'password' => 'abcd1234',
         ]);
 
         $this->post('authenticate', array_merge($user->skipVisibility()->setVisible(['email'])->toArray(), ['password' => 'abcd1234']))
             ->assertResponseStatus(200)
             ->seeJson([
-                'api_token'     => $user->api_token,
-                'first_name'    => $user->first_name,
+                'api_token'  => $user->api_token,
+                'first_name' => $user->first_name,
             ])->see('permissions');
     }
 
@@ -54,7 +54,7 @@ class AuthenticateApiTest extends AuthenticateApi
     public function login_as_minimal_specs_new_user()
     {
         $user = factory(App\User::class)->create([
-            'password'  => 'abcd1234!',
+            'password' => 'abcd1234!',
         ]);
 
         $this->post('/authenticate', ['email' => $user->email, 'password' => 'abcd1234!'])
@@ -84,8 +84,8 @@ class AuthenticateApiTest extends AuthenticateApi
         $this->post('/authenticate', ['email' => $user->email, 'password' => 'wrongpassword'])
              ->assertResponseStatus(403)
              ->seeJson([
-                'error'     => 'Invalid credentials',
-                'message'   => 'Either your username or password are incorrect',
+                'error'   => 'Invalid credentials',
+                'message' => 'Either your username or password are incorrect',
             ]);
     }
 
@@ -95,8 +95,8 @@ class AuthenticateApiTest extends AuthenticateApi
         $this->post('/authenticate', ['password' => 'abcd1234', 'email' => 'notarealpersonatallhere@iserveu.ca'])
              ->assertResponseStatus(401)
              ->seeJson([
-                'error'     => 'Invalid credentials',
-                'message'   => 'This user does not exist',
+                'error'   => 'Invalid credentials',
+                'message' => 'This user does not exist',
             ]);
     }
 }

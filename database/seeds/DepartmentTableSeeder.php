@@ -25,9 +25,9 @@ class DepartmentTableSeeder extends Seeder
 
         foreach ($departments as $name) {
             Department::create([
-                'active'    => true,
-                'name'      => $name,
-                'icon'      => '/icons/'.str_slug($name).'.svg',
+                'active' => true,
+                'name'   => $name,
+                'icon'   => '/icons/'.str_slug($name).'.svg',
             ]);
         }
     }

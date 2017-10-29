@@ -32,7 +32,7 @@ class IndexDepartmentApiTest extends DepartmentApi
                 'prev_page_url',
                 'from',
                 'to',
-                'data'  => [
+                'data' => [
                     '*' => [
                         'id',
                         'name',

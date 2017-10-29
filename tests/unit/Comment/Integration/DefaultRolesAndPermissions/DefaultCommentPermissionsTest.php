@@ -53,7 +53,7 @@ class DefaultCommentPermissionTest extends BrowserKitTestCase
         $comment = postComment($this);
 
         $this->seeInDatabase('comments', [
-            'text'  => $comment->text,
+            'text' => $comment->text,
         ]);
     }
 

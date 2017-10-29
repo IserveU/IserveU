@@ -64,18 +64,18 @@ class UpdateMotionRequest extends Request
     public function rules()
     {
         return [
-            'title'             => 'filled|min:1,title|string',
-            'summary'           => 'string',
-            'text'              => 'nullable',
-            'status'            => 'string|valid_status',
-            'content'           => 'reject',
-            'department_id'     => 'integer|exists:departments,id',
-            'published_at'      => 'reject', //This field is set by the status being changed to status
-            'implementation'    => 'string|filled|in:binding,non-binding',
-            'closing_at'        => 'date|after:today',
-            'user_id'           => 'integer|exists:users,id',
-            'rank'              => 'integer',
-            'id'                => 'integer',
+            'title'          => 'filled|min:1,title|string',
+            'summary'        => 'string',
+            'text'           => 'nullable',
+            'status'         => 'string|valid_status',
+            'content'        => 'reject',
+            'department_id'  => 'integer|exists:departments,id',
+            'published_at'   => 'reject', //This field is set by the status being changed to status
+            'implementation' => 'string|filled|in:binding,non-binding',
+            'closing_at'     => 'date|after:today',
+            'user_id'        => 'integer|exists:users,id',
+            'rank'           => 'integer',
+            'id'             => 'integer',
         ];
     }
 }

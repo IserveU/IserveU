@@ -24,27 +24,27 @@ class StoreUpdateFileRequest extends Request
     public function rules()
     {
         return [
-            'title'                     => 'string',
-            'description'               => 'string',
-            'user_id'                   => 'reject', //Detected and set by code
-            'replacement_id'            => 'reject', //Detected and set by code
-            'fileable_id'               => 'reject', //Detected and set by code
-            'fileable_type'             => 'reject', //Detected and set by code
-            'slug'                      => 'reject', //Detected and set by code
-            'filename'                  => 'reject', //Detected and set by code
-            'type'                      => 'reject', //Detected and set by code
-            'mime'                      => 'reject', //Detected and set by code
-            'created_at'                => 'reject', //Detected and set by code
-            'updated_at'                => 'reject', //Detected and set by code
-            'file'                      => 'file',
-            'flowChunkNumber'           => 'string',
-            'flowChunkSize'             => 'string',
-            'flowCurrentChunkSize'      => 'string',
-            'flowTotalSize'             => 'string',
-            'flowIdentifier'            => 'string',
-            'flowFilename'              => 'string',
-            'flowRelativePath'          => 'string',
-            'flowTotalChunks'           => 'string',
+            'title'                => 'string',
+            'description'          => 'string',
+            'user_id'              => 'reject', //Detected and set by code
+            'replacement_id'       => 'reject', //Detected and set by code
+            'fileable_id'          => 'reject', //Detected and set by code
+            'fileable_type'        => 'reject', //Detected and set by code
+            'slug'                 => 'reject', //Detected and set by code
+            'filename'             => 'reject', //Detected and set by code
+            'type'                 => 'reject', //Detected and set by code
+            'mime'                 => 'reject', //Detected and set by code
+            'created_at'           => 'reject', //Detected and set by code
+            'updated_at'           => 'reject', //Detected and set by code
+            'file'                 => 'file',
+            'flowChunkNumber'      => 'string',
+            'flowChunkSize'        => 'string',
+            'flowCurrentChunkSize' => 'string',
+            'flowTotalSize'        => 'string',
+            'flowIdentifier'       => 'string',
+            'flowFilename'         => 'string',
+            'flowRelativePath'     => 'string',
+            'flowTotalChunks'      => 'string',
         ];
     }
 }

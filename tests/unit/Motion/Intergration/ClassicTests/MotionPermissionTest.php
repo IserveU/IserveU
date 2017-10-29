@@ -118,7 +118,7 @@ class MotionPermissionTest extends BrowserKitTestCase
         $this->signInAsPermissionedUser('create-motion');
 
         $motion = factory(App\Motion::class, 'draft')->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ])->skipVisibility()->setVisible(['title', 'id'])->toArray();
 
         $motion['status'] = 'published'; //Publish it
@@ -134,7 +134,7 @@ class MotionPermissionTest extends BrowserKitTestCase
         $this->signInAsPermissionedUser('create-motion');
 
         $motion = factory(App\Motion::class, 'review')->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ])->skipVisibility()->setVisible(['title', 'id'])->toArray();
 
         $motion['status'] = 'published';
@@ -150,7 +150,7 @@ class MotionPermissionTest extends BrowserKitTestCase
         $this->signInAsPermissionedUser('create-motion');
 
         $motion = factory(App\Motion::class, 'draft')->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]);
 
         $motionPatch['status'] = 'review';
@@ -166,7 +166,7 @@ class MotionPermissionTest extends BrowserKitTestCase
         $this->signIn();
 
         $motion = factory(App\Motion::class, 'draft')->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]);
 
         $this->get('/api/motion/'.$motion->slug);

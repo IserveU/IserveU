@@ -32,11 +32,11 @@ class DeleteCommentApiTest extends BrowserKitTestCase
         $this->signIn();
 
         $vote = factory(App\Vote::class)->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]);
 
         $comment = factory(App\Comment::class)->create([
-            'vote_id'   => $vote->id,
+            'vote_id' => $vote->id,
         ]);
 
         $this->delete('/api/comment/'.$comment->id)

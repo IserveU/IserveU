@@ -32,7 +32,7 @@ class StorePageApiTest extends PageApi
     public function store_page_with_empty_title_fails()
     {
         $this->storeContentGetSee([
-            'title'     => '',
+            'title' => '',
         ], 400);
     }
 
@@ -40,7 +40,7 @@ class StorePageApiTest extends PageApi
     public function store_page_title_with_an_array_fails()
     {
         $this->storeContentGetSee([
-            'title'     => ['titles'],
+            'title' => ['titles'],
         ], 400);
     }
 
@@ -48,7 +48,7 @@ class StorePageApiTest extends PageApi
     public function store_page_content_as_array_fails()
     {
         $this->storeContentGetSee([
-            'title'     => ['titles'],
+            'title' => ['titles'],
         ], 400);
     }
 
@@ -56,7 +56,7 @@ class StorePageApiTest extends PageApi
     public function store_page_slug_fails()
     {
         $this->storeContentGetSee([
-            'slug'     => 'cant-set-it-yourself',
+            'slug' => 'cant-set-it-yourself',
         ], 400);
     }
 }

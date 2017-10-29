@@ -34,7 +34,7 @@ class DeleteVotesOnNonclosedMotionsTest extends BrowserKitTestCase
     {
         $closedMotion = factory(App\Motion::class, 'closed')->create();
         $vote = factory(App\Vote::class)->create([
-            'motion_id'   => $closedMotion->id,
+            'motion_id' => $closedMotion->id,
         ]);
 
         $user = $vote->user;

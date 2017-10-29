@@ -13,7 +13,7 @@ abstract class CommentPermission extends BrowserKitTestCase
     public function createModel($status, $owner = null)
     {
         $this->modelToUpdate = factory(App\Comment::class)->create([
-            'status'  => $status,
+            'status' => $status,
         ]);
 
         if ($owner) {

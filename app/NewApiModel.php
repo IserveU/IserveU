@@ -26,9 +26,9 @@ class NewApiModel extends Model
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 
@@ -44,9 +44,9 @@ class NewApiModel extends Model
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 

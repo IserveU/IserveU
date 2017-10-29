@@ -37,7 +37,7 @@ class VotePermissionTest extends BrowserKitTestCase
         $this->signInAsPermissionedUser('create-vote');
 
         $this->modelToUpdate = factory(App\Vote::class)->create([
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]);
 
         $this->updateFieldsGetSee(['position'], 200);
@@ -50,8 +50,8 @@ class VotePermissionTest extends BrowserKitTestCase
         $this->signInAsPermissionedUser('create-vote');
 
         $vote = factory(App\Vote::class)->create([
-            'user_id'   => \Auth::user()->id,
-            'position'  => 1,
+            'user_id'  => \Auth::user()->id,
+            'position' => 1,
         ]);
 
         // Delete Vote

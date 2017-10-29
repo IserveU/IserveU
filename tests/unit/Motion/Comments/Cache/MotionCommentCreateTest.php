@@ -18,7 +18,7 @@ class MotionCommentCreateTest extends BrowserKitTestCase
         ]);
 
         $comment = factory(App\Comment::class)->create([
-            'vote_id'   => $vote->id,
+            'vote_id' => $vote->id,
         ]);
 
         $this->get('/api/motion/'.$motion->slug.'/comment')->see($comment->text);

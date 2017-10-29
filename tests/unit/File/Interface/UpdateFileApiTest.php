@@ -39,7 +39,7 @@ class UpdateFileApiTest extends FileApi
     public function update_file_with_slug_fails()
     {
         $this->updateContentGetSee([
-            'slug'     => 'the-slug',
+            'slug' => 'the-slug',
         ], 400);
     }
 
@@ -47,7 +47,7 @@ class UpdateFileApiTest extends FileApi
     public function update_file_with_user_id_fails()
     {
         $this->updateContentGetSee([
-            'user_id'     => \Auth::user()->id,
+            'user_id' => \Auth::user()->id,
         ], 400);
     }
 
@@ -56,7 +56,7 @@ class UpdateFileApiTest extends FileApi
     {
         $file = factory(App\File::class)->create();
         $this->updateContentGetSee([
-            'replacement_id'     => $file->id,
+            'replacement_id' => $file->id,
         ], 400);
     }
 
@@ -64,11 +64,11 @@ class UpdateFileApiTest extends FileApi
     public function update_file_with_type_fails()
     {
         $this->updateContentGetSee([
-            'type'     => 'porkchop',
+            'type' => 'porkchop',
         ], 400);
 
         $this->updateContentGetSee([
-            'type'     => 'image',
+            'type' => 'image',
         ], 400);
     }
 
@@ -76,11 +76,11 @@ class UpdateFileApiTest extends FileApi
     public function update_file_with_mime_fails()
     {
         $this->updateContentGetSee([
-            'mime'     => 'french',
+            'mime' => 'french',
         ], 400);
 
         $this->updateContentGetSee([
-            'mime'     => 'jpg',
+            'mime' => 'jpg',
         ], 400);
     }
 
@@ -88,7 +88,7 @@ class UpdateFileApiTest extends FileApi
     public function update_fileable_type_fails()
     {
         $this->updateContentGetSee([
-            'fileable_type'     => "App\Motion",
+            'fileable_type' => "App\Motion",
         ], 400);
     }
 
@@ -96,7 +96,7 @@ class UpdateFileApiTest extends FileApi
     public function update_fileable_id_fails()
     {
         $this->updateContentGetSee([
-            'fileable_id'     => 99,
+            'fileable_id' => 99,
         ], 400);
     }
 
@@ -104,7 +104,7 @@ class UpdateFileApiTest extends FileApi
     public function update_created_at_fails()
     {
         $this->updateContentGetSee([
-            'created_at'     => \Carbon\Carbon::now(),
+            'created_at' => \Carbon\Carbon::now(),
         ], 400);
     }
 
@@ -112,7 +112,7 @@ class UpdateFileApiTest extends FileApi
     public function update_updated_at_fails()
     {
         $this->updateContentGetSee([
-            'updated_at'     => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
         ], 400);
     }
 }

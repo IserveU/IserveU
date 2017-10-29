@@ -32,8 +32,8 @@ class UpdateCommentVoteApiTest extends commentvoteApi
     public function update_commentvote_with_motion_id_fails()
     {
         $this->updateContentGetSee([
-            'position'      => 1,
-            'motion_id'     => $this->modelToUpdate->vote->motion_id,
+            'position'  => 1,
+            'motion_id' => $this->modelToUpdate->vote->motion_id,
         ], 400);
     }
 
@@ -41,8 +41,8 @@ class UpdateCommentVoteApiTest extends commentvoteApi
     public function update_commentvote_with_vote_id_fails()
     {
         $this->updateContentGetSee([
-            'position'      => -1,
-            'vote_id'       => $this->modelToUpdate->vote->id,
+            'position' => -1,
+            'vote_id'  => $this->modelToUpdate->vote->id,
         ], 400);
     }
 
@@ -50,11 +50,11 @@ class UpdateCommentVoteApiTest extends commentvoteApi
     public function update_commentvote_with_no_text_fails()
     {
         $this->updateContentGetSee([
-            'position'      => '',
+            'position' => '',
         ], 400);
 
         $this->updateContentGetSee([
-            'position'      => null,
+            'position' => null,
         ], 400);
     }
 }

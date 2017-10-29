@@ -36,13 +36,13 @@ class DeleteCommentVoteApiTest extends BrowserKitTestCase
 
         // User has also voted on this motion
         $vote = factory(App\Vote::class)->create([
-            'user_id'       => $this->user->id,
-            'motion_id'     => $comment->vote->motion_id,
+            'user_id'   => $this->user->id,
+            'motion_id' => $comment->vote->motion_id,
         ]);
 
         //And voted on a comment
         $commentvote = factory(App\CommentVote::class)->create([
-            'vote_id'   => $vote->id,
+            'vote_id' => $vote->id,
         ]);
 
         $this->delete('/api/comment_vote/'.$commentvote->id)

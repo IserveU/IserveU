@@ -12,10 +12,10 @@ class UpdateCommunityRequest extends Request
      * @var array
      */
     protected $rules = [
-        'name'              => 'string|filled|unique:communities,name',
-        'adjective'         => 'string|filled|unique:communities,adjective',
-        'active'            => 'boolean',
-        'slug'              => 'reject',
+        'name'      => 'string|filled|unique:communities,name',
+        'adjective' => 'string|filled|unique:communities,adjective',
+        'active'    => 'boolean',
+        'slug'      => 'reject',
     ];
 
     /**

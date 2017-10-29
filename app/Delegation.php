@@ -68,9 +68,9 @@ class Delegation extends ApiModel
      * @var array
      */
     protected $rules = [
-        'delegate_to_id'           => 'integer|exists:users,id',
-        'delegate_from_id'         => 'integer|exists:users,id|unique_with:delegations,department_id',
-        'department_id'            => 'integer|exists:departments,id|unique_with:delegations,delegate_from_id',
+        'delegate_to_id'   => 'integer|exists:users,id',
+        'delegate_from_id' => 'integer|exists:users,id|unique_with:delegations,department_id',
+        'department_id'    => 'integer|exists:departments,id|unique_with:delegations,delegate_from_id',
     ];
 
     /**
@@ -100,9 +100,9 @@ class Delegation extends ApiModel
      * @var array
      */
     protected $fields = [
-        'delegate_to_id'                      => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
-        'delegate_from_id'                    => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
-        'department_id'                       => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
+        'delegate_to_id'   => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
+        'delegate_from_id' => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
+        'department_id'    => ['tag' => 'input', 'type' => 'email', 'label' => 'x', 'placeholder' => 'x'],
     ];
 
     /**

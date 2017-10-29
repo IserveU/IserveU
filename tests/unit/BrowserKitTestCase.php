@@ -53,7 +53,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
             static::$votingUser = factory(User::class)->create();
 
             $votes = factory(Vote::class, 10)->create([
-                'user_id'   => static::$votingUser->id,
+                'user_id' => static::$votingUser->id,
             ]);
             \DB::commit(); //If triggered from a loction that uses database transactions
         }

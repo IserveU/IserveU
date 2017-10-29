@@ -29,15 +29,15 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\User\Deleting\DeleteVotesOnNonclosedMotions', //Tested
             'App\Listeners\User\Deleting\DeleteNonclosedMotions', //Tested
         ],
-        'App\Events\User\UserUpdated'    => [
+        'App\Events\User\UserUpdated' => [
             'App\Listeners\User\Updated\DeleteUnattachedFiles', //Tested
             'App\Listeners\User\Updated\CheckUserRoles', //Tested
         ],
-        'App\Events\User\UserUpdating'    => [
+        'App\Events\User\UserUpdating' => [
             'App\Listeners\User\Updating\AddUserModificationEntry', //Tested
             'App\Listeners\User\Updating\IdentityReverification',  //Tested
         ],
-        'App\Events\Authentication\UserLoginSucceeded'    => [
+        'App\Events\Authentication\UserLoginSucceeded' => [
             'App\Listeners\Authentication\ClearAnyLocks',
             'App\Listeners\Authentication\DeleteAnyTokens',
         ],

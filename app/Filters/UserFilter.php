@@ -6,8 +6,8 @@ class UserFilter extends QueryFilter
 {
     //Done unless otherwise specified, very important for security
     protected $defaultsUnlessOverridden = [
-        'status'                => ['public', 'private'],
-        'orderBy'               => ['id' => 'desc'],
+        'status'  => ['public', 'private'],
+        'orderBy' => ['id' => 'desc'],
     ];
 
     /* A status or an array of statuses */

@@ -34,7 +34,7 @@ class UpdateFileTest extends BrowserKitTestCase
                 'id',
                 'type',
             ])
-            ->seeInDatabase('files', ['fileable_id' => $page->id, 'fileable_type' => 'App\\Page', 'title' => 'Replacement Title', 'replacement_id'=>null])
-            ->seeInDatabase('files', ['fileable_id' => $page->id, 'fileable_type' => 'App\\Page', 'title' => $existing->title, 'replacement_id'=>$existing->id++]);
+            ->seeInDatabase('files', ['fileable_id' => $page->id, 'fileable_type' => 'App\\Page', 'title' => 'Replacement Title', 'replacement_id' => null])
+            ->seeInDatabase('files', ['fileable_id' => $page->id, 'fileable_type' => 'App\\Page', 'title' => $existing->title, 'replacement_id' => $existing->id++]);
     }
 }

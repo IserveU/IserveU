@@ -58,7 +58,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
     protected $dates = ['created_at', 'updated_at'];
 
     protected $attributes = [
-        'status'    => 'private',
+        'status' => 'private',
     ];
 
     /**
@@ -67,8 +67,8 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
      * @var array
      */
     public static $statuses = [
-        'private'    => 'hidden',
-        'public'     => 'visible',
+        'private' => 'hidden',
+        'public'  => 'visible',
     ];
 
     /**************************************** Standard Methods **************************************** */
@@ -207,7 +207,7 @@ class Comment extends NewApiModel implements CachedModel, VisibilityModel
 
     public function getCommentWriterAttribute()
     {
-        $data['community'] = $this->user->community ?? ['name'=>'Unknown Community', 'adjective'=>'Unknown Community'];
+        $data['community'] = $this->user->community ?? ['name' => 'Unknown Community', 'adjective' => 'Unknown Community'];
         $data['status'] = $this->user->status; // A little easier to spot issues
 
         if ($this->publiclyVisible) {

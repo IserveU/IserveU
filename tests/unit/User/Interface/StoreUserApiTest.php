@@ -109,7 +109,7 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_no_email_fails()
     {
         $this->storeContentGetSee([
-            'email'     => '',
+            'email' => '',
         ], 400);
     }
 
@@ -117,7 +117,7 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_email_fails()
     {
         $this->storeContentGetSee([
-            'email'     => 'notareal.com',
+            'email' => 'notareal.com',
         ], 400);
     }
 
@@ -125,11 +125,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_non_numeric_phone_number_fails()
     {
         $this->storeContentGetSee([
-            'phone'     => 'bellcanada',
+            'phone' => 'bellcanada',
         ], 400);
 
         $this->storeContentGetSee([
-            'phone'     => '867-775-1234',
+            'phone' => '867-775-1234',
         ], 400);
     }
 
@@ -137,11 +137,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_no_password_fails()
     {
         $this->storeContentGetSee([
-            'password'     => null,
+            'password' => null,
         ], 400);
 
         $this->storeContentGetSee([
-            'password'     => '',
+            'password' => '',
         ], 400);
     }
 
@@ -149,11 +149,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_password_fails()
     {
         $this->storeContentGetSee([
-            'password'     => 'a',
+            'password' => 'a',
         ], 400);
 
         $this->storeContentGetSee([
-            'password'     => '12345AA',
+            'password' => '12345AA',
         ], 400);
     }
 
@@ -161,11 +161,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_empty_first_name_fails()
     {
         $this->storeContentGetSee([
-            'first_name'     => null,
+            'first_name' => null,
         ], 400);
 
         $this->storeContentGetSee([
-            'first_name'     => '',
+            'first_name' => '',
         ], 400);
     }
 
@@ -173,11 +173,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_empty_last_name_fails()
     {
         $this->storeContentGetSee([
-            'last_name'     => null,
+            'last_name' => null,
         ], 400);
 
         $this->storeContentGetSee([
-            'last_name'     => '',
+            'last_name' => '',
         ], 400);
     }
 
@@ -185,7 +185,7 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_postal_code_fails()
     {
         $this->storeContentGetSee([
-            'postal_code'     => 'no way this is a postal code',
+            'postal_code' => 'no way this is a postal code',
         ], 400);
     }
 
@@ -193,7 +193,7 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_non_numeric_street_number_fails()
     {
         $this->storeContentGetSee([
-            'street_number'     => 'notnumber',
+            'street_number' => 'notnumber',
         ], 400);
     }
 
@@ -201,15 +201,15 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_community_fails()
     {
         $this->storeContentGetSee([
-            'community_id'     => 0,
+            'community_id' => 0,
         ], 400);
 
         $this->storeContentGetSee([
-            'community_id'     => 9999999999999,
+            'community_id' => 9999999999999,
         ], 400);
 
         $this->storeContentGetSee([
-            'community_id'     => 'Yellowknife',
+            'community_id' => 'Yellowknife',
         ], 400);
     }
 
@@ -217,11 +217,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_status_fails()
     { // Need to change this to text
         $this->storeContentGetSee([
-            'status'     => 'notastatus',
+            'status' => 'notastatus',
         ], 400);
 
         $this->storeContentGetSee([
-            'status'     => 2,
+            'status' => 2,
         ], 400);
     }
 
@@ -229,11 +229,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_ethnic_origin_id()
     { // May need to change this to text
         $this->storeContentGetSee([
-            'ethnic_origin_id'     => 'notpossible',
+            'ethnic_origin_id' => 'notpossible',
         ], 400);
 
         $this->storeContentGetSee([
-            'ethnic_origin_id'     => 2000,
+            'ethnic_origin_id' => 2000,
         ], 400);
     }
 
@@ -241,11 +241,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_invalid_date_of_birth_fails()
     {
         $this->storeContentGetSee([
-            'date_of_birth'     => 'sdfsdf',
+            'date_of_birth' => 'sdfsdf',
         ], 400);
 
         $this->storeContentGetSee([
-            'date_of_birth'     => 9000,
+            'date_of_birth' => 9000,
         ], 400);
     }
 
@@ -255,7 +255,7 @@ class StoreUserApiTest extends UserApi
         $this->setSettings(['security.ask_for_birthday_on_create' => 1]);
 
         $this->storeContentGetSee([
-            'date_of_birth'     => null,
+            'date_of_birth' => null,
         ], 400);
     }
 
@@ -263,11 +263,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_date_of_birth_in_future_fails()
     {
         $this->storeContentGetSee([
-            'date_of_birth'     => \Carbon\Carbon::tomorrow(),
+            'date_of_birth' => \Carbon\Carbon::tomorrow(),
         ], 400);
 
         $this->storeContentGetSee([
-            'date_of_birth'     => \Carbon\Carbon::tomorrow()->toDateString(),
+            'date_of_birth' => \Carbon\Carbon::tomorrow()->toDateString(),
         ], 400);
     }
 
@@ -275,11 +275,11 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_address_verified_until_in_past_fails()
     {
         $this->storeContentGetSee([
-            'address_verified'     => \Carbon\Carbon::yesterday(),
+            'address_verified' => \Carbon\Carbon::yesterday(),
         ], 400);
 
         $this->storeContentGetSee([
-            'address_verified'     => \Carbon\Carbon::yesterday()->toDateString(),
+            'address_verified' => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
     }
 
@@ -287,7 +287,7 @@ class StoreUserApiTest extends UserApi
     public function store_user_with_agreement_accepted_as_date_fails()
     {
         $this->storeContentGetSee([
-            'agreement_accepted'     => \Carbon\Carbon::now(),
+            'agreement_accepted' => \Carbon\Carbon::now(),
         ], 400);
     }
 }

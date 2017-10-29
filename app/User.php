@@ -104,8 +104,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
     {
         return [
             'slug' => [
-                'source'      => ['first_name', 'last_name'],
-                'onUpdate'    => true,
+                'source'   => ['first_name', 'last_name'],
+                'onUpdate' => true,
             ],
         ];
     }
@@ -116,8 +116,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      * @var array
      */
     protected $attributes = [
-        'status'        => 'private',
-        'preferences'   => '[]',
+        'status'      => 'private',
+        'preferences' => '[]',
     ];
 
     /**
@@ -126,8 +126,8 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
      * @var array
      */
     public static $statuses = [
-        'private'    => 'hidden',
-        'public'     => 'visible',
+        'private' => 'hidden',
+        'public'  => 'visible',
     ];
 
     /**************************************** Overrides **************************************** */
@@ -353,9 +353,9 @@ class User extends NewApiModel implements AuthorizableContract, CanResetPassword
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 

@@ -20,13 +20,13 @@ class RenamePreferences extends Migration
 
             $preferenceManager->renamePreferences(
                               [
-                                'authentication.notify.admin.oncreate'     => 'authentication.notify.admin.oncreate.on',
-                                'authentication.notify.admin.summary'      => 'authentication.notify.admin.summary.on',
-                                'authentication.notify.user.onrolechange'  => 'authentication.notify.user.onrolechange.on',
+                                'authentication.notify.admin.oncreate'    => 'authentication.notify.admin.oncreate.on',
+                                'authentication.notify.admin.summary'     => 'authentication.notify.admin.summary.on',
+                                'authentication.notify.user.onrolechange' => 'authentication.notify.user.onrolechange.on',
 
-                                'motion.notify.user.onchange'              => 'motion.notify.user.onchange.on',
-                                'motion.notify.user.summary'               => 'motion.notify.user.summary.on',
-                                'motion.notify.admin.summary'              => 'motion.notify.admin.summary.on',
+                                'motion.notify.user.onchange' => 'motion.notify.user.onchange.on',
+                                'motion.notify.user.summary'  => 'motion.notify.user.summary.on',
+                                'motion.notify.admin.summary' => 'motion.notify.admin.summary.on',
                               ]
                             )
                             ->setDefaults()

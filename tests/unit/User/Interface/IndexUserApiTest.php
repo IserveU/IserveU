@@ -33,7 +33,7 @@ class IndexUserApiTest extends UserApi
                 'prev_page_url',
                 'from',
                 'to',
-                'data'  => [
+                'data' => [
                     '*' => [
                         'id',
                         'status',
@@ -53,7 +53,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_created_at_ascending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['created_at'=>'asc']])
+        $this->json('GET', $this->route, ['orderBy' => ['created_at' => 'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('asc', 'created_at');
     }
@@ -61,7 +61,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_created_at_descending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['created_at'=>'desc']])
+        $this->json('GET', $this->route, ['orderBy' => ['created_at' => 'desc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInTimeField('desc', 'created_at');
     }
@@ -69,7 +69,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_id_descending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['id'=>'desc']])
+        $this->json('GET', $this->route, ['orderBy' => ['id' => 'desc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInField('desc', 'id');
     }
@@ -77,7 +77,7 @@ class IndexUserApiTest extends UserApi
     /** @test */
     public function user_filter_by_id_ascending()
     {
-        $this->json('GET', $this->route, ['orderBy' => ['id'=>'asc']])
+        $this->json('GET', $this->route, ['orderBy' => ['id' => 'asc']])
                 ->assertResponseStatus(200)
                 ->seeOrderInField('asc', 'id');
     }
@@ -195,9 +195,9 @@ class IndexUserApiTest extends UserApi
         $this->json('GET', $this->route, ['allNames' => $name])
                 ->assertResponseStatus(200)
                 ->seeJson(['total' => 3])
-                ->seeJson(['last_name'      => $userA->last_name,
-                           'last_name'      => $userB->last_name,
-                           'first_name'     => $userC->first_name, ]);
+                ->seeJson(['last_name'  => $userA->last_name,
+                           'last_name'  => $userB->last_name,
+                           'first_name' => $userC->first_name, ]);
     }
 
     /** @test */
@@ -219,9 +219,9 @@ class IndexUserApiTest extends UserApi
                 ->assertResponseStatus(200)
                 ->seeJson(['slug' => $citizen->slug])
                 ->dontSeeJson([
-                    'slug'  => $participant->slug,
-                    'slug'  => $noRoles->slug,
-                    'slug'  => $admin->slug,
+                    'slug' => $participant->slug,
+                    'slug' => $noRoles->slug,
+                    'slug' => $admin->slug,
                   ]);
 
         //Admin
@@ -229,9 +229,9 @@ class IndexUserApiTest extends UserApi
                 ->assertResponseStatus(200)
                 ->seeJson(['slug' => $admin->slug])
                 ->dontSeeJson([
-                    'slug'  => $participant->slug,
-                    'slug'  => $noRoles->slug,
-                    'slug'  => $citizen->slug,
+                    'slug' => $participant->slug,
+                    'slug' => $noRoles->slug,
+                    'slug' => $citizen->slug,
                   ]);
 
         //No role users
@@ -239,9 +239,9 @@ class IndexUserApiTest extends UserApi
                 ->assertResponseStatus(200)
                 ->seeJson(['slug' => $noRoles->slug])
                 ->dontSeeJson([
-                    'slug'  => $participant->slug,
-                    'slug'  => $admin->slug,
-                    'slug'  => $citizen->slug,
+                    'slug' => $participant->slug,
+                    'slug' => $admin->slug,
+                    'slug' => $citizen->slug,
                   ]);
     }
 

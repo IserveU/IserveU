@@ -12,27 +12,27 @@ class PreferenceManager
     public $preferences;
 
     protected $rules = [
-      '*'                                           => 'array',
-      '*.*'                                         => 'array',
-      '*.*.*'                                       => 'array',
-      '*.*.*.*'                                     => 'array',
-      'authentication.notify.admin.oncreate.on'     => 'boolean',
-      'authentication.notify.admin.summary.on'      => 'boolean',
-      'authentication.notify.user.onrolechange.on'  => 'boolean',
-      'motion.notify.user.onchange.on'              => 'boolean',
-      'motion.notify.user.summary.on'               => 'boolean',
-      'motion.notify.user.summary.times.*'          => 'integer|nullable|between:0,23',
-      'motion.notify.admin.summary.on'              => 'boolean',
+      '*'                                          => 'array',
+      '*.*'                                        => 'array',
+      '*.*.*'                                      => 'array',
+      '*.*.*.*'                                    => 'array',
+      'authentication.notify.admin.oncreate.on'    => 'boolean',
+      'authentication.notify.admin.summary.on'     => 'boolean',
+      'authentication.notify.user.onrolechange.on' => 'boolean',
+      'motion.notify.user.onchange.on'             => 'boolean',
+      'motion.notify.user.summary.on'              => 'boolean',
+      'motion.notify.user.summary.times.*'         => 'integer|nullable|between:0,23',
+      'motion.notify.admin.summary.on'             => 'boolean',
     ];
 
     protected $defaults = [
-      'authentication.notify.admin.oncreate.on'     => 1, // Send admins emails when people sign up
-      'authentication.notify.admin.summary.on'      => 1, // Send admins a summary of users each day
-      'authentication.notify.user.onrolechange.on'  => 1, // Send this user an email if their role has changed
-      'motion.notify.user.onchange.on'              => 0, // Send this user an email when a motion they voted on changes
-      'motion.notify.user.summary.on'               => 1, // Send this user a summary of the motions on the site
-      'motion.notify.user.summary.times'            => ['sunday'=>17, 'monday'=>null, 'tuesday'=>null, 'wednesday'=>null, 'thursday'=>null, 'friday'=>null, 'saturday'=>null],
-      'motion.notify.admin.summary.on'              => 1, // Send this user (if admin) an email summarizing the motions
+      'authentication.notify.admin.oncreate.on'    => 1, // Send admins emails when people sign up
+      'authentication.notify.admin.summary.on'     => 1, // Send admins a summary of users each day
+      'authentication.notify.user.onrolechange.on' => 1, // Send this user an email if their role has changed
+      'motion.notify.user.onchange.on'             => 0, // Send this user an email when a motion they voted on changes
+      'motion.notify.user.summary.on'              => 1, // Send this user a summary of the motions on the site
+      'motion.notify.user.summary.times'           => ['sunday' => 17, 'monday' => null, 'tuesday' => null, 'wednesday' => null, 'thursday' => null, 'friday' => null, 'saturday' => null],
+      'motion.notify.admin.summary.on'             => 1, // Send this user (if admin) an email summarizing the motions
     ];
 
     /**

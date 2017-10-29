@@ -11,5 +11,5 @@ abstract class CommentCache extends BrowserKitTestCase
     protected $table = 'comments';
     protected $otherModel;
     protected $thisModel;
-    protected $update = ['text'=>'Whatever. I do what I want'];
+    protected $update = ['text' => 'Whatever. I do what I want'];
 }

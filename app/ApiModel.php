@@ -22,9 +22,9 @@ class ApiModel extends Model
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 
@@ -33,9 +33,9 @@ class ApiModel extends Model
         $carbon = Carbon::parse($attr);
 
         return [
-            'diff'          => $carbon->diffForHumans(),
-            'alpha_date'    => $carbon->format('F j, Y'),
-            'carbon'        => $carbon,
+            'diff'       => $carbon->diffForHumans(),
+            'alpha_date' => $carbon->format('F j, Y'),
+            'carbon'     => $carbon,
         ];
     }
 
@@ -60,13 +60,13 @@ class ApiModel extends Model
         foreach ($this->getFillableAttribute() as $key) {
             if (!empty($this->fields[$key])) {
                 $field = [
-                    'key'               => $key,
-                    'type'              => $this->fields[$key]['type'],
-                    'templateOptions'   => [
-                        'valueProp'         => isset($values[$key]) ? $values[$key] : null,
-                        'required'          => (strpos('required', $this->rules[$key])) ? true : false,
-                        'label'             => $this->fields[$key]['label'],
-                        'rules'             => $this->rules[$key],
+                    'key'             => $key,
+                    'type'            => $this->fields[$key]['type'],
+                    'templateOptions' => [
+                        'valueProp' => isset($values[$key]) ? $values[$key] : null,
+                        'required'  => (strpos('required', $this->rules[$key])) ? true : false,
+                        'label'     => $this->fields[$key]['label'],
+                        'rules'     => $this->rules[$key],
                     ],
                 ];
                 $result[] = $field;

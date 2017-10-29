@@ -21,9 +21,9 @@ class IndexUserCommentVoteApiTest extends BrowserKitTestCase
 
             foreach ($motion->comments as $comment) {
                 \App\CommentVote::create([
-                    'comment_id'    => $comment->id,
-                    'vote_id'       => $vote->id,
-                    'position'      => rand(-1, 1),
+                    'comment_id' => $comment->id,
+                    'vote_id'    => $vote->id,
+                    'position'   => rand(-1, 1),
                 ]);
             }
 

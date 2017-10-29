@@ -8,8 +8,8 @@ class VoteFilter extends QueryFilter
 {
     //Done unless otherwise specified, very important for security
     protected $defaultsUnlessOverridden = [
-        'orderBy'          => ['updated_at' => 'desc'],
-        'user'             => null,
+        'orderBy' => ['updated_at' => 'desc'],
+        'user'    => null,
     ];
 
     /* A status or an array of statuses */

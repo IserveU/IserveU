@@ -33,9 +33,9 @@ class StoreUpdateVoteRequest extends Request
     public function rules()
     {
         return [
-            'motion_id'     => 'reject',
-            'position'      => 'integer|min:-1|max:1|required|filled',
-            'user_id'       => 'reject',
+            'motion_id' => 'reject',
+            'position'  => 'integer|min:-1|max:1|required|filled',
+            'user_id'   => 'reject',
         ];
     }
 }

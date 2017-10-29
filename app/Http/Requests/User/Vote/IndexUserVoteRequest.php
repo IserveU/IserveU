@@ -39,7 +39,7 @@ class IndexUserVoteRequest extends Request
     public function rules()
     {
         return [
-          'orderBy.updated_at'      => ['regex:(desc|asc)'],
+          'orderBy.updated_at' => ['regex:(desc|asc)'],
         ];
     }
 }

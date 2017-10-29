@@ -63,7 +63,7 @@ class VoteController extends ApiController
     public function update(Vote $vote, StoreUpdateVoteRequest $request)
     {
         $vote->update([
-            'position'    => $request->input('position'),
+            'position' => $request->input('position'),
         ]);
 
         return $vote;

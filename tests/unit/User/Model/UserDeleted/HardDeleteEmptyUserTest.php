@@ -27,8 +27,8 @@ class HardDeleteEmptyUserTest extends BrowserKitTestCase
         $motion = factory(App\Motion::class, 'closed')->create();
 
         factory(App\Vote::class)->create([
-            'user_id'       => $user->id,
-            'motion_id'     => $motion->id,
+            'user_id'   => $user->id,
+            'motion_id' => $motion->id,
         ]);
 
         $user->delete();
@@ -40,7 +40,7 @@ class HardDeleteEmptyUserTest extends BrowserKitTestCase
     {
         $user = factory(App\User::class)->create();
         $motion = factory(App\Motion::class, 'closed')->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $motion->delete();

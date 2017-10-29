@@ -15,7 +15,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->setSettings(['betaMessage.on'=>0]);
+        $this->setSettings(['betaMessage.on' => 0]);
 
         Config::set('mail.driver', 'log');
     }

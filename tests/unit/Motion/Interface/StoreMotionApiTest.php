@@ -74,7 +74,7 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_empty_title_fails()
     {
         $this->storeContentGetSee([
-            'title'     => '',
+            'title' => '',
         ], 400);
     }
 
@@ -82,7 +82,7 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_title_with_an_array_fails()
     {
         $this->storeContentGetSee([
-            'title'     => ['titles'],
+            'title' => ['titles'],
         ], 400);
     }
 
@@ -90,11 +90,11 @@ class StoreMotionApiTest extends MotionApi
     public function store_content_directly_fails()
     {
         $this->storeContentGetSee([
-            'content'     => 'text texty',
+            'content' => 'text texty',
         ], 400);
 
         $this->storeContentGetSee([
-            'content'     => ['text' => 'What is a progressofascist? I assume it will fail?'],
+            'content' => ['text' => 'What is a progressofascist? I assume it will fail?'],
         ], 400);
     }
 
@@ -102,7 +102,7 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_summary_with_an_array_fails()
     {
         $this->storeContentGetSee([
-            'summary'     => ['the summary'],
+            'summary' => ['the summary'],
         ], 400);
     }
 
@@ -110,11 +110,11 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_invalid_department_fails()
     {
         $this->storeContentGetSee([
-            'department_id'     => 'An apartment ID',
+            'department_id' => 'An apartment ID',
         ], 400);
 
         $this->storeContentGetSee([
-            'department_id'     => 9000,
+            'department_id' => 9000,
         ], 400);
     }
 
@@ -122,11 +122,11 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_closing_in_past_fails()
     {
         $this->storeContentGetSee([
-            'closing_at'     => \Carbon\Carbon::yesterday(),
+            'closing_at' => \Carbon\Carbon::yesterday(),
         ], 400);
 
         $this->storeContentGetSee([
-            'closing_at'     => \Carbon\Carbon::yesterday()->toDateString(),
+            'closing_at' => \Carbon\Carbon::yesterday()->toDateString(),
         ], 400);
     }
 
@@ -134,11 +134,11 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_invalid_user_fails()
     {
         $this->storeContentGetSee([
-            'user_id'     => 99999999,
+            'user_id' => 99999999,
         ], 400);
 
         $this->storeContentGetSee([
-            'user_id'     => 'Jessica Tran 9000!',
+            'user_id' => 'Jessica Tran 9000!',
         ], 400);
     }
 
@@ -146,11 +146,11 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_invalid_status_fails()
     {
         $this->storeContentGetSee([
-            'status'     => 99999999,
+            'status' => 99999999,
         ], 400);
 
         $this->storeContentGetSee([
-            'status'     => 'Open',
+            'status' => 'Open',
         ], 400);
     }
 
@@ -158,7 +158,7 @@ class StoreMotionApiTest extends MotionApi
     public function store_motion_with_empty_implementation_fails()
     {
         $this->storeContentGetSee([
-            'implementation'     => '',
+            'implementation' => '',
         ], 400);
     }
 }

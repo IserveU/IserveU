@@ -32,7 +32,7 @@ class IndexFileApiTest extends FileApi
                 ->assertResponseStatus(200)
                 ->seeJsonStructure([
                     '*' => [
-                        'previous_version'  => [
+                        'previous_version' => [
 
                         ],
                     ],

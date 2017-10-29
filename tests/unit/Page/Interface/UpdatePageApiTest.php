@@ -35,7 +35,7 @@ class UpdatePageApiTest extends PageApi
     public function update_page_with_empty_title_fails()
     {
         $this->updateContentGetSee([
-            'title'     => '',
+            'title' => '',
         ], 400);
     }
 }

@@ -81,15 +81,15 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
     {
         return [
             'slug' => [
-                'source'       => ['title'],
-                 'onUpdate'    => true,
+                'source'    => ['title'],
+                 'onUpdate' => true,
             ],
         ];
     }
 
     protected $attributes = [
-        'status'    => 'draft',
-        'content'   => '{"text": ""}',
+        'status'  => 'draft',
+        'content' => '{"text": ""}',
     ];
 
     /**
@@ -98,7 +98,7 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      * @var array
      */
     protected $casts = [
-        'content'   => 'array',
+        'content' => 'array',
     ];
 
     /**
@@ -107,10 +107,10 @@ class Motion extends NewApiModel implements CachedModel, VisibilityModel
      * @var array
      */
     public static $statuses = [
-        'draft'        => 'hidden',
-        'review'       => 'hidden',
-        'published'    => 'visible',
-        'closed'       => 'visible',
+        'draft'     => 'hidden',
+        'review'    => 'hidden',
+        'published' => 'visible',
+        'closed'    => 'visible',
     ];
 
     /**************************************** Standard Methods **************************************** */

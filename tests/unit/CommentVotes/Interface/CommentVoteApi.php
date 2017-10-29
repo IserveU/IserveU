@@ -21,8 +21,8 @@ abstract class CommentVoteApi extends BrowserKitTestCase
         // Some other persons comment
         $comment = factory(App\Comment::class)->create();
         $vote = factory(App\Vote::class)->create([
-                        'motion_id'        => $comment->vote->motion_id,
-                        'user_id'          => $this->user->id,
+                        'motion_id' => $comment->vote->motion_id,
+                        'user_id'   => $this->user->id,
                     ]);
 
         return $vote;

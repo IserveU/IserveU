@@ -78,7 +78,7 @@ class InitializeApp extends Command
         }
 
         $user = User::updateOrCreate([
-            'email'         => $email,
+            'email' => $email,
             ], [
             'email'              => $email,
             'password'           => $password,
