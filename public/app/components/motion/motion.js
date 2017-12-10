@@ -28,8 +28,9 @@
        */
       $scope.motion = Motion.get($stateParams.id);
       //fetch userCommentVote for the associated partials with motion to use.
-      $scope.userCommentVote = motionResource.getUserCommentVotes($scope.motion.id);
-
+      if ($rootScope.userIsLoggedIn) {
+        $scope.userCommentVote = motionResource.getUserCommentVotes($scope.motion.id);
+      }
       function create() {
         $state.go('create-motion');
       }

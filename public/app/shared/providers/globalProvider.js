@@ -33,8 +33,7 @@
               var $rootScope = $injector.get('$rootScope');
               var $state = $injector.get('$state');
 
-              // this is a string in the settings.json
-              if ($rootScope.settingsGlobal.authentication.required === '0'){
+              if ($rootScope.settingsGlobal.authentication.required === 0) {
                 return true;
 
               } else if (!$rootScope.userIsLoggedIn && requireLogin) {
