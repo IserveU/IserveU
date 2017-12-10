@@ -69,7 +69,7 @@
           parent_name = parent_name.split('-')[1]
 
           if (parent_name === 'home')
-            {parent_name = 'page';}
+            {parent_name = 'page'}
 
           var endpoint = '/api/' + parent_name + '/' + item_id + '/file/'
 
@@ -84,6 +84,9 @@
           scope.$flow.upload()
 
           scope.$flow.on('fileSuccess', function (file, message) {
+            if (~event.data.el.getAttribute('src').indexOf('/api/motion/')) {
+              return
+            }
             var data = JSON.parse(message)
             event.data.el.setAttribute('src',
               endpoint + data.slug + '/resize/1920')
