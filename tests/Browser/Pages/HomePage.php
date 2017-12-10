@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Pages;
 
-use Tests\DuskTools\Browser;
+use Laravel\Dusk\Browser;
 
 class HomePage extends Page
 {
@@ -36,11 +36,11 @@ class HomePage extends Page
     public function elements()
     {
         return [
-              '@homeIntroduction' => 'home-introduction',
-              '@topMotions'       => 'top-motions',
-              '@topComments'      => 'top-comments',
-          '@yourVotes'            => 'my-votes',
-          '@yourComments'         => 'my-comments',
+            '@homeIntroduction'     => 'home-introduction',
+            '@topMotions'           => 'top-motions',
+            '@topComments'          => 'top-comments',
+            '@yourVotes'            => 'my-votes',
+            '@yourComments'         => 'my-comments',
         ];
     }
 }

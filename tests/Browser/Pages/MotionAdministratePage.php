@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Pages;
 
-use Tests\DuskTools\Browser;
+use Laravel\Dusk\Browser;
 
 class MotionAdministratePage extends Page
 {

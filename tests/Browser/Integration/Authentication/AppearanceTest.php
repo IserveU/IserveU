@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Integration\Authentication;
 
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\AuthenticationPage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class AppearanceTest extends DuskTestCase
 {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Filters\MotionFilter;
+use Illuminate\Database\Eloquent\Model;
 
 trait CacheTest
 {
@@ -54,15 +55,22 @@ trait CacheTest
 
     public function getOtherCache()
     {
-        return $this->getCache($this->otherModel);
+        return $this->getModelCache($this->otherModel);
     }
 
     public function getThisCache()
     {
-        return $this->getCache($this->thisModel);
+        return $this->getModelCache($this->thisModel);
     }
 
-    private function getCache($model)
+    /**
+     * Gets the model cache for a model (as opposed to API/croute).
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    private function getModelCache(Model $model)
     {
         $slug = $model->slug ?? $model->id;
 

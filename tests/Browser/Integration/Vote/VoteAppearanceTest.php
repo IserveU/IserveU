@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\Motion;
+namespace Tests\Browser\Integration\Vote;
 
 use App\Motion;
 use App\User;
 use App\Vote;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\MotionPage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class VoteAppearanceTest extends DuskTestCase
 {
@@ -103,12 +103,12 @@ class VoteAppearanceTest extends DuskTestCase
             $browser->loginAs($this->user, 'api')
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug))
                   ->waitFor('@voteStatusbarAgree')
-                  ->assertElementAttributeIs('@voteStatusbarAgree', 'aria-label', 'Number in Agreement (2)')
-                  ->assertElementAttributeIs('@voteStatusbarAbstain', 'aria-label', 'Number Abstaining (1)')
-                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', 'Number in Disagreement (1)')
-                  ->pressBetter('@buttonDisagree')
+                  ->assertElementAttributeIs('@voteStatusbarAgree', 'aria-label', '2 Agreed')
+                  ->assertElementAttributeIs('@voteStatusbarAbstain', 'aria-label', '1 Abstained')
+                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', '1 Disagreed')
+                  ->press('@buttonDisagree')
                   ->waitForText('Majority tie')
-                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', 'Number in Disagreement (2)');
+                  ->assertElementAttributeIs('@voteStatusbarDisagree', 'aria-label', '2 Disagreed');
         });
     }
 
@@ -133,11 +133,10 @@ class VoteAppearanceTest extends DuskTestCase
             $browser->loginAs($this->user, 'api')
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug))
                   ->waitForText('Closed')
-                  ->waitFor('@buttonDisabled');
-            //TODO (Issue #771)
-                  // ->pressBetter("@buttonDisabled")
-                  // ->waitForText("Closed for voting")
-                  // ->assertSeeInBetter("@passingStatus","Majority disagree");
+                  ->waitFor('@buttonDisabled')
+                  ->press('@buttonDisabled')
+                  ->waitForText('Closed for voting')
+                  ->assertSeeIn('@passingStatus', 'Majority disagree');
         });
     }
 }

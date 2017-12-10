@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Browser\Motion;
+namespace Tests\Browser\Integration\Vote;
 
 use App\Motion;
 use App\Vote;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\MotionPage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class VoteFeaturesTest extends DuskTestCase
 {
@@ -33,6 +33,7 @@ class VoteFeaturesTest extends DuskTestCase
             $browser->loginAs($this->user, 'api')
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug.'/vote/agree'))
                   ->waitForText('Majority agree')
+                  ->assertSeeIn('@passingStatus', 'Majority agree')
                   ->visit(new MotionPage('/#/motion/'.$this->motion->slug.'/vote/disagree'))
                   ->waitForText('Majority disagree');
         });

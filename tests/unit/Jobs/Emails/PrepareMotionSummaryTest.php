@@ -78,7 +78,7 @@ class PrepareMotionSummaryTest extends BrowserKitTestCase
         //Model does not allow editing of this field
         DB::table('motions')->where(['id' => $motion->id])->update(['closing_at' => Carbon::now()->addHours(20)->format('Y-m-d H:i:s')]);
 
-        dispatch(new PrepareMotionSummary());
+        $this->assertNotNull(dispatch(new PrepareMotionSummary()));
     }
 
     /**

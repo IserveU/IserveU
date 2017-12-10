@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Integration\Settings;
 
 use Faker\Factory;
+use Laravel\Dusk\Browser;
+use Tests\Browser\Components\LoginBox;
 use Tests\Browser\Pages\AuthenticationPage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class TermsAndConditionsTest extends DuskTestCase
 {
@@ -29,7 +30,8 @@ class TermsAndConditionsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($sentence) {
             $browser->visit(new AuthenticationPage())
-                    ->assertSeeInBetter('@termsAndConditions', $sentence);
+                    ->waitFor('@termsAndConditions')
+                    ->assertSeeIn('@termsAndConditions', $sentence);
         });
     }
 
@@ -48,7 +50,10 @@ class TermsAndConditionsTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($sentence) {
             $browser->visit(new AuthenticationPage())
-                    ->waitFor('@login')
+                    ->within(new LoginBox(), function ($browser) {
+                        $browser->loginWith('admin@iserveu.ca', 'abcd1234');
+                    })
+
                     ->assertMissing('@termsAndConditions');
         });
     }

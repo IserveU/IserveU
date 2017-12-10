@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Browser\Motion;
+namespace Tests\Browser\Integration\Comment;
 
 use App\Comment;
 use App\Motion;
 use App\User;
 use App\Vote;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\MotionPage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class CommentSmokeTest extends DuskTestCase
 {
@@ -36,19 +36,21 @@ class CommentSmokeTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $comment = factory(Comment::class)->make();
-
-            $browser->loginAs($this->user, 'api')
+            $browser->loginAs($this->user)
                 ->visit(new MotionPage('/#/motion/'.$this->motion->slug))
-                ->clickBetter('@buttonAgree')
-                ->assertSeeInBetter('@userCommentTitle', 'Why Did You Agree?')
-                ->typeBetter('@userComment', $comment->text)
-                ->pressBetter('@userCommentSave')
+                ->waitFor('@buttonAgree')
+                ->click('@buttonAgree')
+                ->assertSeeIn('@userCommentTitle', 'Why Did You Agree?')
+                ->waitFor('@toast')
+                ->waitUntilMissing('@toast') // Prevents clicking on save when in the way
+                ->type('@userComment', $comment->text)
+                ->press('@userCommentSave')
                 ->waitForText($comment->text)
-                ->assertSeeInBetter('@commentsAgree', $comment->text)
-                ->clickBetter('@buttonDisagree')
-                ->clickBetter('@commentListDisagreeButton')
+                ->assertSeeIn('@commentsAgree', $comment->text)
+                ->click('@buttonDisagree')
+                ->click('@commentListDisagreeButton')
                 ->waitForText($comment->text)
-                ->assertSeeInBetter('@commentsDisagree', $comment->text);
+                ->assertSeeIn('@commentsDisagree', $comment->text);
         });
     }
 }

@@ -2,14 +2,14 @@
   position: fixed;
 	bottom: 20px;
 	right: 20px;
-  z-index: 1000;
+  z-index: 5;
 
   @media screen and (max-width: $xs) {
     position: relative;
     margin-left: auto;
     margin-top: 20px;
   }
- 
+
 }
 
 @mixin md-card{

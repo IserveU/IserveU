@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MotionCacheDeleteTest extends MotionCache
 {
-    use DatabaseTransactions;
+    // use DatabaseTransactions;
 
     public function setup()
     {
@@ -53,5 +53,34 @@ class MotionCacheDeleteTest extends MotionCache
         $this->thisModel->delete();
 
         $this->assertNotNull($this->getOtherCache());
+    }
+
+    /** @test  ******************/
+    public function delete_motion_clears_motioncomments_on_motion()
+    {
+        $comment = factory(App\Comment::class)->create();
+
+        $this->get('/api/motion/'.$comment->motion->slug.'/comment');
+
+        $this->assertNotNull(Cache::tags(['motion', 'comment'])->get($comment->motion->id));
+
+        $this->delete('/api/motion/'.$comment->motion->slug)
+            ->assertResponseStatus(200);
+
+        $this->assertNull(Cache::tags(['motion', 'comment'])->get($comment->motion->id));
+    }
+
+    /**
+     * Gets the model cache for a model (as opposed to API/croute).
+     *
+     * @param Model $model
+     *
+     * @return void
+     */
+    private function getModelCache(Model $model)
+    {
+        $slug = $model->slug ?? $model->id;
+
+        return Cache::tags([str_singular($this->table),  str_singular($this->table).'.model'])->get($slug);
     }
 }

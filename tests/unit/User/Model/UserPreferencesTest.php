@@ -25,10 +25,10 @@ class UserPreferencesTest extends BrowserKitTestCase
     {
         $user = factory(App\User::class)->create();
         $user->createPreference('not.a.preference.here.buddy', 'Not');
-        $user->save();
+        $this->assertTrue($user->save());
 
         $user->createPreference('not.a.preference.here.buddy', 'OVER WRITE', true);
-        $user->save();
+        $this->assertTrue($user->save());
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Browser\HomePage;
+namespace Tests\Browser\Integration\HomePage;
 
 use App\Comment;
 use App\Motion;
 use App\User;
 use App\Vote;
+use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\HomePage;
 use Tests\DuskTestCase;
-use Tests\DuskTools\Browser;
 
 class HomePageAppearanceTest extends DuskTestCase
 {
@@ -30,14 +30,15 @@ class HomePageAppearanceTest extends DuskTestCase
         $this->user = factory(User::class, 'verified')->create();
 
         $this->browse(function (Browser $browser) {
-            $browser->loginAs($this->user, 'api')
+            $browser->loginAs($this->user)
                     ->visit(new HomePage())
                     ->waitFor('@topComments')
                     ->waitFor('@topMotions')
-                    ->assertSeeInBetter('@topMotions', 'A Top Motion')
-                    ->assertSeeInBetter('@topComments', 'The Top Agree Comment Text')
-                    ->assertSeeInBetter('@yourVotes', "You haven't voted, yet.")
-                    ->assertSeeInBetter('@yourComments', "You haven't commented, yet.");
+                    ->waitForText('A Top Motion')
+                    ->assertSeeIn('@topMotions', 'A Top Motion')
+                    ->assertSeeIn('@topComments', 'The Top Agree Comment Text')
+                    ->assertSeeIn('@yourVotes', "You haven't voted, yet.")
+                    ->assertSeeIn('@yourComments', "You haven't commented, yet.");
         });
     }
 
@@ -61,10 +62,11 @@ class HomePageAppearanceTest extends DuskTestCase
         ]);
 
         $this->browse(function (Browser $browser) {
-            $browser->loginAs($this->user, 'api')
+            $browser->loginAs($this->user)
                     ->visit(new HomePage())
                     ->waitFor('@yourVotes')
                     ->waitFor('@yourComments')
+                    ->waitForText($this->vote->motion->title) //Put in because line below failed
                     ->assertSeeIn('@yourVotes', $this->vote->motion->title)
                     ->assertSeeIn('@yourComments', $this->comment->text);
         });
@@ -81,10 +83,12 @@ class HomePageAppearanceTest extends DuskTestCase
     public function can_see_correct_home_page_for_non_logged_in_user()
     {
         $this->browse(function (Browser $browser) {
-            $browser->logout()
-                    ->visit(new HomePage())
+            $browser->visit(new HomePage())
+                    ->logout()
                     ->waitForText('Top Comments')
                     ->waitForText('Top Motions')
+                    ->waitUntilMissing('@yourVotes')
+                    ->waitUntilMissing('@yourComments')
                     ->assertMissing('@yourVotes')
                     ->assertMissing('@yourComments');
         });

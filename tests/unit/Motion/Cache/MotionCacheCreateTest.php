@@ -34,7 +34,7 @@ class MotionCacheCreateTest extends MotionCache
         $this->triggerOtherRoute()
              ->assertNotNull($this->getOtherCache());
 
-        factory($this->class)->create();
+        $newModel = factory($this->class)->create();
 
         $this->assertNotNull($this->getOtherCache());
     }
