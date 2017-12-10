@@ -87,11 +87,11 @@ class MotionAdministrateTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($motion) {
             $browser->loginAs($this->user, 'api')
-                    ->visit(new MotionAdministratePage('/#/motion/'.$motion->slug));
-            //  ->clickAndSelect('@fab', '#delete_this_motion');
-                  //  ->pressBetter("Yes")
-                  //  ->visit("/#/motion/".$motion->slug))
-                  //  ->assertNotSee($motion->title);
+                    ->visit(new MotionAdministratePage('/#/motion/'.$motion->slug))
+                    ->clickAndSelect('@fab', '#delete_this_motion')
+                    ->pressBetter('Yes')
+                    ->visit('/#/motion/'.$motion->slug)
+                    ->assertNotSee($motion->title);
         });
     }
 }
