@@ -82,7 +82,7 @@ abstract class Request extends FormRequest
             }
 
             $this->validateThenAuth($validator);
-            //
+        //
             // // stolen from the parent validation method
             // if (!parent::passesAuthorization()) {
             //     parent::failedAuthorization();
